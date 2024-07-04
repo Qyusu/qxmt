@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "quantum-kernel-manager"
+version = "0.0.0"  # using poetry-dynamic-versioning
+description = ""
+authors = ["kenya-sk"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/kenya-sk/quantum-kernel-manager"
+packages = [
+    { include = "qk_manager" }
+]
+
+[tool.poetry-dynamic-versioning]
+enable = true
+style = "pep440"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = "^2.8.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^5.0.0"
+black = "^24.4.2"
+isort = "^5.13.2"
+mypy = "^1.10.1"
+flake8 = "^7.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
