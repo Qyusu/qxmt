@@ -17,8 +17,6 @@ style = "pep440"
 [tool.poetry.dependencies]
 python = "^3.11"
 pydantic = "^2.8.2"
-pandera = "^0.20.1"
-pandas = "^2.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
