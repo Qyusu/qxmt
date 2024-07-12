@@ -1,10 +1,16 @@
+from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import pandas as pd
 from pydantic import ValidationError
 
-from qk_manager.constants import DEFAULT_EXP_DIRC
+from qk_manager.constants import (
+    DEFAULT_EXP_DB_FILE,
+    DEFAULT_EXP_DIRC,
+    DEFAULT_RUN_DB_FILE,
+)
 from qk_manager.experiment.schema import ExperimentDB, ExperimentRecord, RunRecord
 
 
@@ -56,7 +62,7 @@ class Experiment:
                 experiment_info=ExperimentRecord(
                     name=self.name,
                     desc=self.desc,
-                    experiment_dirc=str(self.experiment_dirc),
+                    experiment_dirc=self.experiment_dirc,
                 ),
                 run_info=[],
             )
@@ -68,3 +74,12 @@ class Experiment:
         self.current_run_id += 1
         current_run_record = RunRecord(run_id=self.current_run_id)
         self.exp_db.run_info.append(current_run_record)
+
+    def save_results(self) -> None:
+        """Save the results of the experiment."""
+        exp_db_df = pd.DataFrame([asdict(self.exp_db.experiment_info)])
+        exp_db_df.to_csv(self.experiment_dirc / DEFAULT_EXP_DB_FILE, index=False)
+
+        run_data = [asdict(run) for run in self.exp_db.run_info]
+        run_db_df = pd.DataFrame(run_data)
+        run_db_df.to_csv(self.experiment_dirc / DEFAULT_RUN_DB_FILE, index=False)

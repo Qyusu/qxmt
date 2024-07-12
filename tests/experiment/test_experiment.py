@@ -1,6 +1,9 @@
 from pathlib import Path
 
+import pandas as pd
+
 from qk_manager import Experiment
+from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_RUN_DB_FILE
 
 
 class TestExperimentSettings:
@@ -29,7 +32,7 @@ class TestExperimentInit:
 
         assert exp_db.experiment_info.name == "valid_test_exp"
         assert exp_db.experiment_info.desc == "valid test experiment"
-        assert exp_db.experiment_info.experiment_dirc == str(tmp_path / "valid_test_exp")
+        assert exp_db.experiment_info.experiment_dirc == tmp_path / "valid_test_exp"
 
 
 class TestExperimentRun:
@@ -45,3 +48,21 @@ class TestExperimentRun:
         base_experiment.run()
         assert base_experiment.current_run_id == 3
         assert len(base_experiment.exp_db.run_info) == 3
+
+
+class TestExperimentResults:
+    def test_save_results(self, base_experiment: Experiment) -> None:
+        base_experiment.run()
+        base_experiment.run()
+        base_experiment.save_results()
+
+        assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
+        assert (base_experiment.experiment_dirc / DEFAULT_RUN_DB_FILE).exists()
+
+        exp_df = pd.read_csv(base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE)
+        assert len(exp_df) == 1
+        assert len(exp_df.columns) == 3
+
+        run_df = pd.read_csv(base_experiment.experiment_dirc / DEFAULT_RUN_DB_FILE)
+        assert len(run_df) == 2
+        assert len(run_df.columns) == 1

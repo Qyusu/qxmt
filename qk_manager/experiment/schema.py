@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic.dataclasses import dataclass
 
 
@@ -5,7 +7,7 @@ from pydantic.dataclasses import dataclass
 class ExperimentRecord:
     name: str
     desc: str
-    experiment_dirc: str
+    experiment_dirc: Path
 
 
 @dataclass(frozen=True)
