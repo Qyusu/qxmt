@@ -32,7 +32,7 @@ class TestExperimentInit:
 
         assert exp_db.experiment_info.name == "valid_test_exp"
         assert exp_db.experiment_info.desc == "valid test experiment"
-        assert exp_db.experiment_info.experiment_dirc == str(tmp_path / "valid_test_exp")
+        assert exp_db.experiment_info.experiment_dirc == tmp_path / "valid_test_exp"
 
 
 class TestExperimentRun:
