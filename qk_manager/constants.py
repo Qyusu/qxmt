@@ -4,3 +4,5 @@ MODULE_HOME: Path = Path(__file__).resolve().parents[1]
 MODULE_SRC: Path = Path(__file__).resolve().parents[0]
 
 DEFAULT_EXP_DIRC: Path = MODULE_HOME / "experiments"
+DEFAULT_EXP_DB_FILE: Path = Path("experiment.csv")
+DEFAULT_RUN_DB_FILE: Path = Path("runs.csv")
