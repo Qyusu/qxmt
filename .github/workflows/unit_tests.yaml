@@ -31,4 +31,4 @@ jobs:
       - name: Run tests
         env:
           PYTHONPATH: ./qk_manager
-        run: pytest tests
+        run: poetry run pytest tests
