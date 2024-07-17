@@ -38,10 +38,6 @@ class TestEvaluation:
         for metric in base_evaluation.default_metrics:
             assert round(metric.score, 2) == acutal_scores[metric.name]
 
-    def test_plot(self, base_evaluation) -> None:
-        with pytest.raises(NotImplementedError):
-            base_evaluation.plot()
-
     def test_to_dataframe(self, base_evaluation) -> None:
         with pytest.raises(ValueError):
             base_evaluation.to_dataframe()

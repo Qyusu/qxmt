@@ -63,9 +63,6 @@ class Evaluation:
         self.evaluate_default_metrics()
         # self.evaluate_custom_metrics()
 
-    def plot(self) -> None:
-        raise NotImplementedError
-
     def to_dataframe(self) -> pd.DataFrame:
         """Convert evaluation metrics to DataFrame.
 
