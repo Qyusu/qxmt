@@ -18,6 +18,7 @@ style = "pep440"
 python = "^3.11"
 pydantic = "^2.8.2"
 pandas = "^2.2.2"
+scikit-learn = "^1.5.1"
 
 
 [tool.poetry.group.dev.dependencies]
