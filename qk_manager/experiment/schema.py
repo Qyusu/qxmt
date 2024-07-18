@@ -13,6 +13,7 @@ class ExperimentRecord:
 @dataclass(frozen=True)
 class RunRecord:
     run_id: int
+    evaluation: dict[str, float]
 
 
 @dataclass(frozen=False)

@@ -25,21 +25,23 @@ NAME2METRIC = {
 class Evaluation:
     def __init__(
         self,
-        run_id: int,
         actual: np.ndarray,
         predicted: np.ndarray,
         kernel_matrix: Optional[np.ndarray] = None,
-        id_columns_name: str = "run_id",
         default_metrics_name: list[str] = DEFAULT_METRICS_NAME,
     ) -> None:
-        self.run_id: int = run_id
         self.actual: np.ndarray = actual
         self.predicted: np.ndarray = predicted
         self.kernel_matrix: Optional[np.ndarray] = kernel_matrix
-        self.id_columns_name: str = id_columns_name
         self.default_metrics_name: list[str] = default_metrics_name
         self.default_metrics: list[BaseMetric] = []
         self.custom_metrics: list[BaseMetric] = []
+
+    def __repr__(self):
+        return (
+            f"Evaluation(actual={self.actual.tolist()}, "
+            f"predicted={self.predicted.tolist()}, default_metrics_name={self.default_metrics_name})"
+        )
 
     def evaluate_default_metrics(self) -> None:
         """Evaluate default metrics.
@@ -63,18 +65,40 @@ class Evaluation:
         self.evaluate_default_metrics()
         # self.evaluate_custom_metrics()
 
-    def to_dataframe(self) -> pd.DataFrame:
-        """Convert evaluation metrics to DataFrame.
+    def to_dict(self) -> dict:
+        """Convert evaluation metrics to dictionary.
+
+        Raises:
+            ValueError: if the metrics are not evaluated yet
 
         Returns:
-            pd.DataFrame: DataFrame of evaluation metrics
+            dict: dictionary of evaluation metrics
         """
         metrics = self.default_metrics + self.custom_metrics
         if len(metrics) == 0:
             raise ValueError("Metrics are not evaluated yet.")
 
         data = {metric.name: metric.score for metric in metrics}
+
+        return data
+
+    def to_dataframe(
+        self,
+        id: Optional[str] = None,
+        id_columns_name: Optional[str] = None,
+    ) -> pd.DataFrame:
+        """Convert evaluation metrics to DataFrame.
+
+        Args:
+            id (Optional[str], optional): id of the evaluation (ex: run_id). Defaults to None.
+            id_columns_name (Optional[str], optional): name of the id column. Defaults to None.
+
+        Returns:
+            pd.DataFrame: DataFrame of evaluation metrics
+        """
+        data = self.to_dict()
         df = pd.DataFrame(data, index=[0])
-        df.insert(0, self.id_columns_name, self.run_id)
+        if (id is not None) and (id_columns_name is not None):
+            df.insert(0, id_columns_name, id)
 
         return df
