@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
+import numpy as np
 import pandas as pd
 from pydantic import ValidationError
 
@@ -11,6 +12,7 @@ from qk_manager.constants import (
     DEFAULT_EXP_DIRC,
     DEFAULT_RUN_DB_FILE,
 )
+from qk_manager.evaluation.evaluation import Evaluation
 from qk_manager.experiment.schema import ExperimentDB, ExperimentRecord, RunRecord
 
 
@@ -72,14 +74,48 @@ class Experiment:
     def run(self) -> None:
         """Start a new run for the experiment."""
         self.current_run_id += 1
-        current_run_record = RunRecord(run_id=self.current_run_id)
+
+        # [TODO]: replace this dummy data with actual data
+        dummy_actual = np.array([0, 1, 1, 0, 1])
+        dummy_predicted = np.array([0, 1, 1, 1, 1])
+
+        current_run_record = RunRecord(
+            run_id=self.current_run_id,
+            evaluation=self._run_evaluation(dummy_actual, dummy_predicted),
+        )
+
         self.exp_db.run_info.append(current_run_record)
+
+    def _run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
+        """Run evaluation for the current run.
+
+        Args:
+            actual (np.ndarray): array of actual values
+            predicted (np.ndarray): array of predicted values
+
+        Returns:
+            Evaluation: evaluation result
+        """
+        evaluation = Evaluation(
+            actual=actual,
+            predicted=predicted,
+        )
+        evaluation.evaluate()
+
+        return evaluation.to_dict()
+
+    def _run_to_dataframe(self) -> pd.DataFrame:
+        run_data = [asdict(run) for run in self.exp_db.run_info]
+        run_data = [
+            {"run_id": run_record_dict["run_id"], **run_record_dict["evaluation"]} for run_record_dict in run_data
+        ]
+
+        return pd.DataFrame(run_data)
 
     def save_results(self) -> None:
         """Save the results of the experiment."""
         exp_db_df = pd.DataFrame([asdict(self.exp_db.experiment_info)])
         exp_db_df.to_csv(self.experiment_dirc / DEFAULT_EXP_DB_FILE, index=False)
 
-        run_data = [asdict(run) for run in self.exp_db.run_info]
-        run_db_df = pd.DataFrame(run_data)
+        run_db_df = self._run_to_dataframe()
         run_db_df.to_csv(self.experiment_dirc / DEFAULT_RUN_DB_FILE, index=False)

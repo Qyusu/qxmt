@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from qk_manager import Experiment
@@ -49,6 +50,15 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 3
         assert len(base_experiment.exp_db.run_info) == 3
 
+    def test__run_evaluation(self, base_experiment: Experiment) -> None:
+        actual = np.array([0, 1, 1, 0, 1])
+        predicted = np.array([0, 1, 0, 1, 0])
+        evaluation = base_experiment._run_evaluation(actual, predicted)
+        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
+        assert len(evaluation) == 4
+        for key, value in acutal_result.items():
+            assert round(evaluation[key], 2) == value
+
 
 class TestExperimentResults:
     def test_save_results(self, base_experiment: Experiment) -> None:
@@ -65,4 +75,4 @@ class TestExperimentResults:
 
         run_df = pd.read_csv(base_experiment.experiment_dirc / DEFAULT_RUN_DB_FILE)
         assert len(run_df) == 2
-        assert len(run_df.columns) == 1
+        assert len(run_df.columns) == 5
