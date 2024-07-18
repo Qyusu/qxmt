@@ -76,8 +76,8 @@ class Experiment:
         self.current_run_id += 1
 
         # [TODO]: replace this dummy data with actual data
-        dummy_actual = np.array([0, 1, 1, 0, 1])
-        dummy_predicted = np.array([0, 1, 1, 1, 1])
+        dummy_actual = np.random.randint(2, size=100)
+        dummy_predicted = np.random.randint(2, size=100)
 
         current_run_record = RunRecord(
             run_id=self.current_run_id,
