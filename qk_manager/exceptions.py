@@ -4,3 +4,7 @@ class InvalidFileExtensionError(Exception):
 
 class JsonEncodingError(Exception):
     pass
+
+
+class ExperimentNotInitializedError(Exception):
+    pass
