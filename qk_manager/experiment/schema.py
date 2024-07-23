@@ -1,22 +1,16 @@
 from pathlib import Path
 
-from pydantic.dataclasses import dataclass
+from pydantic import BaseModel
 
 
-@dataclass(frozen=True)
-class ExperimentRecord:
-    name: str
-    desc: str
-    experiment_dirc: Path
-
-
-@dataclass(frozen=True)
-class RunRecord:
+class RunRecord(BaseModel):
     run_id: int
+    desc: str
     evaluation: dict[str, float]
 
 
-@dataclass(frozen=False)
-class ExperimentDB:
-    experiment_info: ExperimentRecord
-    run_info: list[RunRecord]
+class ExperimentDB(BaseModel):
+    name: str
+    desc: str
+    experiment_dirc: Path
+    runs: list[RunRecord]
