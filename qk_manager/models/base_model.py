@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 
 
-class BaseKernelModel(ABC):
+class BaseModel(ABC):
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> None:
         """Fit the model with given data.
@@ -60,5 +60,19 @@ class BaseKernelModel(ABC):
 
         Args:
             params (dict): dictionary of parameters
+        """
+        pass
+
+
+class BaseKernelModel(BaseModel):
+    @abstractmethod
+    def get_kernel_matrix(self, X: np.ndarray) -> np.ndarray:
+        """Get the kernel matrix of the given data.
+
+        Args:
+            X (np.ndarray): array of features
+
+        Returns:
+            np.ndarray: kernel matrix
         """
         pass
