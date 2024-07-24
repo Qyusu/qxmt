@@ -1,1 +1,1 @@
-# QuRI: Quantum Reserch Inspector
+# QuRI: Quantum Research Inspector
