@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.svm import SVC
 
-from qk_manager.models.base_kernel_model import BaseKernelModel
+from qk_manager.models.base_model import BaseKernelModel
 
 
 class QSVM(BaseKernelModel):
@@ -28,3 +28,6 @@ class QSVM(BaseKernelModel):
 
     def set_params(self, params: dict) -> None:
         self.model.set_params(**params)
+
+    def get_kernel_matrix(self, X: np.ndarray) -> np.ndarray:
+        raise NotImplementedError

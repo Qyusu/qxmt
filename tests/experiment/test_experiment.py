@@ -8,8 +8,9 @@ from pandas.testing import assert_frame_equal
 
 from qk_manager import Experiment
 from qk_manager.constants import DEFAULT_EXP_DB_FILE
+from qk_manager.datasets.schema import Dataset
 from qk_manager.exceptions import ExperimentNotInitializedError
-from qk_manager.models.base_kernel_model import BaseKernelModel
+from qk_manager.models.base_model import BaseModel
 
 
 class TestExperimentSettings:
@@ -112,19 +113,19 @@ class TestExperimentRun:
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
 
-    def test_run(self, base_experiment: Experiment, base_model: BaseKernelModel) -> None:
+    def test_run(self, base_experiment: Experiment, dataset: Dataset, base_model: BaseModel) -> None:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(model=base_model)
+            base_experiment.run(dataset=dataset, model=base_model)
 
         base_experiment.init()
-        base_experiment.run(model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
 
-        base_experiment.run(model=base_model)
-        base_experiment.run(model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
 
@@ -146,10 +147,10 @@ class TestExperimentResults:
 
     #     assert_frame_equal(df, expected_df)
 
-    def test_save_experiment(self, base_experiment: Experiment, base_model: BaseKernelModel) -> None:
+    def test_save_experiment(self, base_experiment: Experiment, dataset: Dataset, base_model: BaseModel) -> None:
         base_experiment.init()
-        base_experiment.run(model=base_model)
-        base_experiment.run(model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
