@@ -55,6 +55,7 @@ class TestLoadExperiment:
                 {
                     "run_id": 1,
                     "desc": "",
+                    "execution_time": "2024-07-24 17:33:55.305025 JST+0900",
                     "evaluation": {
                         "accuracy": 0.65,
                         "precision": 0.69,
@@ -65,6 +66,7 @@ class TestLoadExperiment:
                 {
                     "run_id": 2,
                     "desc": "",
+                    "execution_time": "2024-07-24 17:34:01.932990 JST+0900",
                     "evaluation": {
                         "accuracy": 0.5,
                         "precision": 0.47,
@@ -92,21 +94,13 @@ class TestLoadExperiment:
 
 
 class TestExperimentRun:
-    def test_run(self, base_experiment: Experiment) -> None:
+    def test__run_setup(self, base_experiment: Experiment) -> None:
         assert base_experiment.current_run_id == 0
-        assert base_experiment.exp_db is None
-        with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run()
+        assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
 
-        base_experiment.init()
-        base_experiment.run()
+        base_experiment._run_setup()
         assert base_experiment.current_run_id == 1
-        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
-
-        base_experiment.run()
-        base_experiment.run()
-        assert base_experiment.current_run_id == 3
-        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_1").exists()
 
     def test__run_evaluation(self, base_experiment: Experiment) -> None:
         actual = np.array([0, 1, 1, 0, 1])
@@ -116,6 +110,20 @@ class TestExperimentRun:
         assert len(evaluation) == 4
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
+
+    def test_run(self, base_experiment: Experiment) -> None:
+        assert base_experiment.current_run_id == 0
+        assert base_experiment.exp_db is None
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment.run()
+
+        base_experiment.init()
+        base_experiment.run()
+        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
+
+        base_experiment.run()
+        base_experiment.run()
+        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
 
 class TestExperimentResults:
