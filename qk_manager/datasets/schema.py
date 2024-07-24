@@ -9,4 +9,4 @@ class Dataset:
     y_train: np.ndarray
     x_test: np.ndarray
     y_test: np.ndarray
-    feature_cols: list[str]
+    features: list[str]

@@ -36,8 +36,8 @@ def plot_predicted_result(
             label="Predicted",
         )
 
-    plt.xlabel(f"{dataset.feature_cols[axis[0]]}")
-    plt.ylabel(f"{dataset.feature_cols[axis[1]]}")
+    plt.xlabel(f"{dataset.features[axis[0]]}")
+    plt.ylabel(f"{dataset.features[axis[1]]}")
     plt.legend(loc="upper right", bbox_to_anchor=(1.35, 1))
     plt.title('"Groud Truth" VS "Predicted"')
 
@@ -85,8 +85,8 @@ def plot_decisionon_boundaries(
     pos_subset = dataset.x_test[np.where(dataset.y_test == 1)]
     plt.scatter(pos_subset[:, 0], pos_subset[:, 1], marker="x", color="black")
 
-    plt.xlabel(f"{dataset.feature_cols[0]}")
-    plt.ylabel(f"{dataset.feature_cols[1]}")
+    plt.xlabel(f"{dataset.features[0]}")
+    plt.ylabel(f"{dataset.features[1]}")
 
     if save_path is not None:
         plt.savefig(save_path)
