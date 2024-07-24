@@ -10,6 +10,7 @@ from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
 from qk_manager.evaluation.evaluation import Evaluation
 from qk_manager.exceptions import ExperimentNotInitializedError, JsonEncodingError
 from qk_manager.experiment.schema import ExperimentDB, RunRecord
+from qk_manager.models.base_kernel_model import BaseKernelModel
 from qk_manager.utils import check_json_extension
 
 
@@ -99,11 +100,13 @@ class Experiment:
                 "Experiment is not initialized. Please call init() or load_experiment() method first."
             )
 
-    def _run_setup(self) -> None:
+    def _run_setup(self) -> Path:
         """Setup for the current run."""
         self.current_run_id += 1
         current_run_dirc = self.experiment_dirc / f"run_{self.current_run_id}"
         current_run_dirc.mkdir(parents=True)
+
+        return current_run_dirc
 
     def _run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
         """Run evaluation for the current run.
@@ -123,20 +126,25 @@ class Experiment:
 
         return evaluation.to_dict()
 
-    def run(self) -> None:
+    def run(self, model: BaseKernelModel, desc: str = "") -> None:
         """Start a new run for the experiment."""
         self._is_initialized()
-        self._run_setup()
+        current_run_dirc = self._run_setup()
 
         # [TODO]: replace this dummy data with actual data
-        dummy_actual = np.random.randint(2, size=100)
-        dummy_predicted = np.random.randint(2, size=100)
+        dummy_train_kernel = np.random.rand(10, 10)
+        dummy_train_y = np.random.randint(2, size=10)
+        dummy_test_kerel = np.random.rand(10, 10)
+        dummy_test_y = np.random.randint(2, size=10)
+        model.fit(dummy_train_kernel, dummy_train_y)
+        model.save(current_run_dirc / "model.pkl")
+        predicted = model.predict(dummy_test_kerel)
 
         current_run_record = RunRecord(
             run_id=self.current_run_id,
-            desc="",  # [TODO]: add description
+            desc=desc,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            evaluation=self._run_evaluation(dummy_actual, dummy_predicted),
+            evaluation=self._run_evaluation(dummy_test_y, predicted),
         )
 
         self.exp_db.runs.append(current_run_record)  # type: ignore
