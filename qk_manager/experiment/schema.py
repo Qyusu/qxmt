@@ -6,6 +6,7 @@ from pydantic import BaseModel
 class RunRecord(BaseModel):
     run_id: int
     desc: str
+    execution_time: str
     evaluation: dict[str, float]
 
 

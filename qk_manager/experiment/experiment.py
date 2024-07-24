@@ -6,7 +6,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC
+from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
 from qk_manager.evaluation.evaluation import Evaluation
 from qk_manager.exceptions import ExperimentNotInitializedError, JsonEncodingError
 from qk_manager.experiment.schema import ExperimentDB, RunRecord
@@ -35,7 +35,7 @@ class Experiment:
         Returns:
             str: generated default name
         """
-        return datetime.now().strftime("%Y%m%d%H%M%S%f")
+        return datetime.now(TZ).strftime("%Y%m%d%H%M%S%f")
 
     def _init_db(self) -> None:
         """Initialize the experiment database.
@@ -99,6 +99,12 @@ class Experiment:
                 "Experiment is not initialized. Please call init() or load_experiment() method first."
             )
 
+    def _run_setup(self) -> None:
+        """Setup for the current run."""
+        self.current_run_id += 1
+        current_run_dirc = self.experiment_dirc / f"run_{self.current_run_id}"
+        current_run_dirc.mkdir(parents=True)
+
     def _run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
         """Run evaluation for the current run.
 
@@ -120,7 +126,7 @@ class Experiment:
     def run(self) -> None:
         """Start a new run for the experiment."""
         self._is_initialized()
-        self.current_run_id += 1
+        self._run_setup()
 
         # [TODO]: replace this dummy data with actual data
         dummy_actual = np.random.randint(2, size=100)
@@ -129,6 +135,7 @@ class Experiment:
         current_run_record = RunRecord(
             run_id=self.current_run_id,
             desc="",  # [TODO]: add description
+            execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             evaluation=self._run_evaluation(dummy_actual, dummy_predicted),
         )
 
