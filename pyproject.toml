@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "quantum-kernel-manager"
+name = "quantum-research-inspector"
 version = "0.0.0"  # using poetry-dynamic-versioning
 description = ""
 authors = ["kenya-sk"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/kenya-sk/quantum-kernel-manager"
+repository = "https://github.com/kenya-sk/quantum-research-inspector"
 packages = [
-    { include = "qk_manager" }
+    { include = "quri" }
 ]
 
 [tool.poetry-dynamic-versioning]
@@ -20,6 +20,7 @@ pydantic = "^2.8.2"
 pandas = "^2.2.2"
 scikit-learn = "^1.5.1"
 matplotlib = "^3.9.1"
+numpy = "^2.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

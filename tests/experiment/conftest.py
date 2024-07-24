@@ -3,10 +3,10 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from qk_manager import Experiment
-from qk_manager.datasets.schema import Dataset
-from qk_manager.models.base_model import BaseModel
-from qk_manager.models.qsvm import QSVM
+from quri import Experiment
+from quri.datasets.schema import Dataset
+from quri.models.base_model import BaseModel
+from quri.models.qsvm import QSVM
 
 
 @pytest.fixture(scope="function")

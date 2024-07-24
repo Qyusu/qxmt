@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from qk_manager.evaluation.base_metric import BaseMetric
+from quri.evaluation.base_metric import BaseMetric
 
 
 class Accuracy(BaseMetric):

@@ -6,13 +6,13 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
-from qk_manager.datasets.schema import Dataset
-from qk_manager.evaluation.evaluation import Evaluation
-from qk_manager.exceptions import ExperimentNotInitializedError, JsonEncodingError
-from qk_manager.experiment.schema import ExperimentDB, RunRecord
-from qk_manager.models.base_model import BaseModel
-from qk_manager.utils import check_json_extension
+from quri.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
+from quri.datasets.schema import Dataset
+from quri.evaluation.evaluation import Evaluation
+from quri.exceptions import ExperimentNotInitializedError, JsonEncodingError
+from quri.experiment.schema import ExperimentDB, RunRecord
+from quri.models.base_model import BaseModel
+from quri.utils import check_json_extension
 
 
 class Experiment:
@@ -25,7 +25,8 @@ class Experiment:
         self.name: str = name or self._generate_default_name()
         self.desc: str = desc
         self.current_run_id: int = 0
-        self.experiment_dirc = root_experiment_dirc / self.name
+        self.root_experiment_dirc: Path = root_experiment_dirc
+        self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
 
     @staticmethod
@@ -58,6 +59,7 @@ class Experiment:
         Returns:
             Experiment: initialized experiment
         """
+        self.experiment_dirc = self.root_experiment_dirc / self.name
         self.experiment_dirc.mkdir(parents=True)
         self._init_db()
 
@@ -85,7 +87,8 @@ class Experiment:
         self.exp_db = ExperimentDB(**exp_data)
         self.name = self.exp_db.name
         self.desc = self.exp_db.desc
-        self.experiment_dirc = self.exp_db.experiment_dirc
+        self.experiment_dirc = self.root_experiment_dirc / self.name
+        self.exp_db.experiment_dirc = self.experiment_dirc
         self.current_run_id = len(self.exp_db.runs)
 
         return self

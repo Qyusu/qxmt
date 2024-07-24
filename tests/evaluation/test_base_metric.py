@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from qk_manager.evaluation.base_metric import BaseMetric
+from quri.evaluation.base_metric import BaseMetric
 
 
 class DummyMetric(BaseMetric):

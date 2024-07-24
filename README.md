@@ -1,1 +1,1 @@
-# quantum-kernel-manager
+# QuRI: Quantum Reserch Inspector

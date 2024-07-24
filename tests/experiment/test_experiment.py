@@ -6,11 +6,11 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from qk_manager import Experiment
-from qk_manager.constants import DEFAULT_EXP_DB_FILE
-from qk_manager.datasets.schema import Dataset
-from qk_manager.exceptions import ExperimentNotInitializedError
-from qk_manager.models.base_model import BaseModel
+from quri import Experiment
+from quri.constants import DEFAULT_EXP_DB_FILE
+from quri.datasets.schema import Dataset
+from quri.exceptions import ExperimentNotInitializedError
+from quri.models.base_model import BaseModel
 
 
 class TestExperimentSettings:
@@ -97,6 +97,7 @@ class TestLoadExperiment:
 
 class TestExperimentRun:
     def test__run_setup(self, base_experiment: Experiment) -> None:
+        base_experiment.init()
         assert base_experiment.current_run_id == 0
         assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
 

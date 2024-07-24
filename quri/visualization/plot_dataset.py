@@ -3,7 +3,7 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import numpy as np
 
-from qk_manager.datasets.schema import Dataset
+from quri.datasets.schema import Dataset
 
 
 def plot_dataset(
