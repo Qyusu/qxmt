@@ -97,6 +97,7 @@ class TestLoadExperiment:
 
 class TestExperimentRun:
     def test__run_setup(self, base_experiment: Experiment) -> None:
+        base_experiment.init()
         assert base_experiment.current_run_id == 0
         assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
 
