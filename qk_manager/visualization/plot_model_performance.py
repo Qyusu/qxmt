@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from qk_manager.datasets.schema import Dataset
-from qk_manager.models.svm import QSVM
+from qk_manager.models.base_kernel_model import BaseKernelModel
 
 
 def plot_predicted_result(
@@ -46,7 +46,7 @@ def plot_predicted_result(
 
 
 def plot_decisionon_boundaries(
-    model: QSVM,
+    model: BaseKernelModel,
     dataset: Dataset,
     # kernel_params: Optional[KernelParams] = None,
     step_size: float = 0.1,

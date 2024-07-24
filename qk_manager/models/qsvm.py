@@ -9,8 +9,7 @@ from qk_manager.models.base_kernel_model import BaseKernelModel
 
 class QSVM(BaseKernelModel):
     def __init__(self, **kwargs) -> None:
-        # [TODO]: switch to use precomputed kernel or calculate kernel in the model
-        self.model = SVC(kernel="precomputed", **kwargs)
+        self.model = SVC(**kwargs)
 
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> None:
         self.model.fit(X, y, **kwargs)
