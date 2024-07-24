@@ -6,13 +6,13 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from qk_manager.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
-from qk_manager.datasets.schema import Dataset
-from qk_manager.evaluation.evaluation import Evaluation
-from qk_manager.exceptions import ExperimentNotInitializedError, JsonEncodingError
-from qk_manager.experiment.schema import ExperimentDB, RunRecord
-from qk_manager.models.base_model import BaseModel
-from qk_manager.utils import check_json_extension
+from quri.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
+from quri.datasets.schema import Dataset
+from quri.evaluation.evaluation import Evaluation
+from quri.exceptions import ExperimentNotInitializedError, JsonEncodingError
+from quri.experiment.schema import ExperimentDB, RunRecord
+from quri.models.base_model import BaseModel
+from quri.utils import check_json_extension
 
 
 class Experiment:

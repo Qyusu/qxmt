@@ -3,9 +3,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from qk_manager.constants import DEFAULT_METRICS_NAME
-from qk_manager.evaluation.base_metric import BaseMetric
-from qk_manager.evaluation.default_metrics import (
+from quri.constants import DEFAULT_METRICS_NAME
+from quri.evaluation.base_metric import BaseMetric
+from quri.evaluation.default_metrics import (
     Accuracy,
     F1Score,
     Precision,

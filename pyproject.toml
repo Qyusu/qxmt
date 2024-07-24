@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "quantum-kernel-manager"
+name = "quantum-research-inspector"
 version = "0.0.0"  # using poetry-dynamic-versioning
 description = ""
 authors = ["kenya-sk"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/kenya-sk/quantum-kernel-manager"
+repository = "https://github.com/kenya-sk/quantum-research-inspector"
 packages = [
-    { include = "qk_manager" }
+    { include = "quri" }
 ]
 
 [tool.poetry-dynamic-versioning]
