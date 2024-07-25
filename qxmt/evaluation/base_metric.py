@@ -11,24 +11,26 @@ class BaseMetric(ABC):
 
     @staticmethod
     @abstractmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: dict) -> float:
         """define evaluation method for each metric.
 
         Args:
             actual (np.ndarray): array of actual value
             predicted (np.ndarray): array of predicted value
+            **kwargs (dict): additional arguments
 
         Returns:
             float: evaluated score
         """
         pass
 
-    def set_score(self, actual: np.ndarray, predicted: np.ndarray, **kwargs) -> None:
+    def set_score(self, actual: np.ndarray, predicted: np.ndarray, **kwargs: dict) -> None:
         """Evaluated the score and set it to the score attribute.
 
         Args:
             actual (np.ndarray): array of actual value
             predicted (np.ndarray): array of predicted value
+            **kwargs (dict): additional arguments
         """
         self.score = self.evaluate(actual, predicted, **kwargs)
 
