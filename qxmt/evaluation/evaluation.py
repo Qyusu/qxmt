@@ -5,7 +5,7 @@ import pandas as pd
 
 from qxmt.constants import DEFAULT_METRICS_NAME
 from qxmt.evaluation.base import BaseMetric
-from qxmt.evaluation.default_metrics import (
+from qxmt.evaluation.defaults import (
     Accuracy,
     F1Score,
     Precision,
