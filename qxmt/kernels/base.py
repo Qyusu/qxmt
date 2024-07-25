@@ -8,8 +8,9 @@ from qxmt.feature_maps.base import BaseFeatureMap
 
 class BaseKernel(ABC):
     def __init__(self, device: qml.Device, feature_map: BaseFeatureMap) -> None:
-        self.device = device
-        self.feature_map = feature_map
+        self.device: qml.Device = device
+        self.feature_map: BaseFeatureMap = feature_map
+        self.n_qubits: int = len(self.device.wires)
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:

@@ -4,15 +4,15 @@ from pathlib import Path
 import numpy as np
 from sklearn.svm import SVC
 
-from qxmt.models.base_model import BaseKernelModel
+from qxmt.models.base import BaseKernelModel
 
 
 class QSVM(BaseKernelModel):
-    def __init__(self, **kwargs) -> None:
-        self.model = SVC(**kwargs)
+    def __init__(self, **kwargs: dict) -> None:
+        self.model = SVC(**kwargs)  # type: ignore
 
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> None:
-        self.model.fit(X, y, **kwargs)
+    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
+        self.model.fit(X, y, **kwargs)  # type: ignore
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.model.predict(X)

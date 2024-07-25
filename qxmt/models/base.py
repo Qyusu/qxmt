@@ -6,7 +6,7 @@ import numpy as np
 
 class BaseModel(ABC):
     @abstractmethod
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
         """Fit the model with given data.
 
         Args:

@@ -5,7 +5,7 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.datasets.schema import Dataset
-from qxmt.models.base_model import BaseModel
+from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
 
 

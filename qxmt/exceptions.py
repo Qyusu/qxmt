@@ -8,3 +8,7 @@ class JsonEncodingError(Exception):
 
 class ExperimentNotInitializedError(Exception):
     pass
+
+
+class InputShapeError(Exception):
+    pass
