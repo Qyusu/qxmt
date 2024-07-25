@@ -9,7 +9,7 @@ class DummyMetric(BaseMetric):
         super().__init__("dummy")
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
         return np.sum(actual + predicted)
 
 
