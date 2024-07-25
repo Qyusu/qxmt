@@ -1,7 +1,9 @@
+from typing import Any
+
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from qxmt.evaluation.base_metric import BaseMetric
+from qxmt.evaluation.base import BaseMetric
 
 
 class Accuracy(BaseMetric):
@@ -9,7 +11,7 @@ class Accuracy(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         score = accuracy_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -20,7 +22,7 @@ class Recall(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         score = recall_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -31,7 +33,7 @@ class Precision(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         score = precision_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -42,7 +44,7 @@ class F1Score(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         score = f1_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -53,5 +55,5 @@ class TargetAlignmet(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         raise NotImplementedError

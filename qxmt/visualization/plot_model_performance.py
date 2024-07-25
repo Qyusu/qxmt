@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from qxmt.datasets.schema import Dataset
-from qxmt.models.base_model import BaseKernelModel
+from qxmt.models.base import BaseKernelModel
 
 
 def plot_predicted_result(
@@ -51,7 +51,7 @@ def plot_decisionon_boundaries(
     # kernel_params: Optional[KernelParams] = None,
     step_size: float = 0.1,
     save_path: Optional[str] = None,
-):
+) -> None:
     x_min, x_max = (
         dataset.x_test[:, 0].min() - step_size,
         dataset.x_test[:, 0].max() + step_size,

@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 from qxmt.constants import DEFAULT_METRICS_NAME
-from qxmt.evaluation.base_metric import BaseMetric
-from qxmt.evaluation.default_metrics import (
+from qxmt.evaluation.base import BaseMetric
+from qxmt.evaluation.defaults import (
     Accuracy,
     F1Score,
     Precision,
@@ -37,7 +37,7 @@ class Evaluation:
         self.default_metrics: list[BaseMetric] = []
         self.custom_metrics: list[BaseMetric] = []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return (
             f"Evaluation(actual={self.actual.tolist()}, "
             f"predicted={self.predicted.tolist()}, default_metrics_name={self.default_metrics_name})"

@@ -10,7 +10,7 @@ from qxmt import Experiment
 from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.datasets.schema import Dataset
 from qxmt.exceptions import ExperimentNotInitializedError
-from qxmt.models.base_model import BaseModel
+from qxmt.models.base import BaseModel
 
 
 class TestExperimentSettings:

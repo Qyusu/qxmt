@@ -11,7 +11,7 @@ from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import ExperimentNotInitializedError, JsonEncodingError
 from qxmt.experiment.schema import ExperimentDB, RunRecord
-from qxmt.models.base_model import BaseModel
+from qxmt.models.base import BaseModel
 from qxmt.utils import check_json_extension
 
 
