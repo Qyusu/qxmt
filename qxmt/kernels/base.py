@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 import numpy as np
 import pennylane as qml
 
-from qxmt.feature_maps.base_feature_map import BaseFeatureMap
+from qxmt.feature_maps.base import BaseFeatureMap
 
 
 class BaseKernel(ABC):

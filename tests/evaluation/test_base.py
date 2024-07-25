@@ -1,7 +1,10 @@
+from typing import Any
+
 import numpy as np
 import pytest
+from _pytest.capture import CaptureFixture
 
-from qxmt.evaluation.base_metric import BaseMetric
+from qxmt.evaluation.base import BaseMetric
 
 
 class DummyMetric(BaseMetric):
@@ -9,8 +12,8 @@ class DummyMetric(BaseMetric):
         super().__init__("dummy")
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
-        return np.sum(actual + predicted)
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+        return np.sum(np.add(actual, predicted))
 
 
 @pytest.fixture(scope="module")
@@ -25,13 +28,13 @@ class TestBaseMetric:
         assert metric.name == "dummy"
         assert metric.score is None
 
-    def test_set_score(self, dummy_values) -> None:
+    def test_set_score(self, dummy_values: tuple[np.ndarray, np.ndarray]) -> None:
         metric = DummyMetric()
         metric.set_score(dummy_values[0], dummy_values[1])
 
         assert metric.score == 5.0
 
-    def test_print_score(self, dummy_values, capsys) -> None:
+    def test_print_score(self, dummy_values: tuple[np.ndarray, np.ndarray], capsys: CaptureFixture) -> None:
         metric = DummyMetric()
 
         with pytest.raises(ValueError):

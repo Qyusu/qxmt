@@ -1,8 +1,8 @@
 import numpy as np
 import pennylane as qml
 
-from qxmt.feature_maps.base_feature_map import BaseFeatureMap
-from qxmt.kernels.base_kernel import BaseKernel
+from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.kernels.base import BaseKernel
 
 
 class FidelityKernel(BaseKernel):
