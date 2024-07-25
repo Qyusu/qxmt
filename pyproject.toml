@@ -20,7 +20,7 @@ pydantic = "^2.8.2"
 pandas = "^2.2.2"
 scikit-learn = "^1.5.1"
 matplotlib = "^3.9.1"
-numpy = "^2.0.1"
+pennylane = "^0.37.0"
 
 
 [tool.poetry.group.dev.dependencies]
