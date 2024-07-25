@@ -6,13 +6,13 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from quri.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
-from quri.datasets.schema import Dataset
-from quri.evaluation.evaluation import Evaluation
-from quri.exceptions import ExperimentNotInitializedError, JsonEncodingError
-from quri.experiment.schema import ExperimentDB, RunRecord
-from quri.models.base_model import BaseModel
-from quri.utils import check_json_extension
+from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
+from qxmt.datasets.schema import Dataset
+from qxmt.evaluation.evaluation import Evaluation
+from qxmt.exceptions import ExperimentNotInitializedError, JsonEncodingError
+from qxmt.experiment.schema import ExperimentDB, RunRecord
+from qxmt.models.base_model import BaseModel
+from qxmt.utils import check_json_extension
 
 
 class Experiment:

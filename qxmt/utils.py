@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from quri.exceptions import InvalidFileExtensionError
+from qxmt.exceptions import InvalidFileExtensionError
 
 
 def check_json_extension(file_path: str | Path) -> None:

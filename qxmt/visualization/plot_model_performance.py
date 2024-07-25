@@ -3,8 +3,8 @@ from typing import Optional
 import matplotlib.pyplot as plt
 import numpy as np
 
-from quri.datasets.schema import Dataset
-from quri.models.base_model import BaseKernelModel
+from qxmt.datasets.schema import Dataset
+from qxmt.models.base_model import BaseKernelModel
 
 
 def plot_predicted_result(

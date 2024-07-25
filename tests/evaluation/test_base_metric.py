@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from quri.evaluation.base_metric import BaseMetric
+from qxmt.evaluation.base_metric import BaseMetric
 
 
 class DummyMetric(BaseMetric):
@@ -9,7 +9,7 @@ class DummyMetric(BaseMetric):
         super().__init__("dummy")
 
     @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs) -> float:
         return np.sum(actual + predicted)
 
 

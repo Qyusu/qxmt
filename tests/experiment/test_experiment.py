@@ -6,11 +6,11 @@ import pandas as pd
 import pytest
 from pandas.testing import assert_frame_equal
 
-from quri import Experiment
-from quri.constants import DEFAULT_EXP_DB_FILE
-from quri.datasets.schema import Dataset
-from quri.exceptions import ExperimentNotInitializedError
-from quri.models.base_model import BaseModel
+from qxmt import Experiment
+from qxmt.constants import DEFAULT_EXP_DB_FILE
+from qxmt.datasets.schema import Dataset
+from qxmt.exceptions import ExperimentNotInitializedError
+from qxmt.models.base_model import BaseModel
 
 
 class TestExperimentSettings:

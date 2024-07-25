@@ -4,7 +4,7 @@ from pathlib import Path
 import numpy as np
 from sklearn.svm import SVC
 
-from quri.models.base_model import BaseKernelModel
+from qxmt.models.base_model import BaseKernelModel
 
 
 class QSVM(BaseKernelModel):
