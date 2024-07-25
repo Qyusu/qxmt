@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "quantum-research-inspector"
+name = "qxmt"
 version = "0.0.0"  # using poetry-dynamic-versioning
 description = ""
 authors = ["kenya-sk"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/kenya-sk/quantum-research-inspector"
+repository = "https://github.com/kenya-sk/qxmt"
 packages = [
-    { include = "quri" }
+    { include = "qxmt" }
 ]
 
 [tool.poetry-dynamic-versioning]

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from quri import Evaluation
+from qxmt import Evaluation
 
 
 class TestEvaluation:

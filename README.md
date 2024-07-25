@@ -1,1 +1,1 @@
-# QuRI: Quantum Research Inspector
+# QXMT: Quantum Experiment Management Tool

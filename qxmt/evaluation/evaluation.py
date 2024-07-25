@@ -3,9 +3,9 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 
-from quri.constants import DEFAULT_METRICS_NAME
-from quri.evaluation.base_metric import BaseMetric
-from quri.evaluation.default_metrics import (
+from qxmt.constants import DEFAULT_METRICS_NAME
+from qxmt.evaluation.base_metric import BaseMetric
+from qxmt.evaluation.default_metrics import (
     Accuracy,
     F1Score,
     Precision,

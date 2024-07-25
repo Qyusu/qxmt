@@ -1,6 +1,6 @@
 import numpy as np
 
-from quri import Accuracy, F1Score, Precision, Recall
+from qxmt import Accuracy, F1Score, Precision, Recall
 
 
 class TestAccuracy:
