@@ -1,7 +1,7 @@
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
@@ -165,7 +165,7 @@ class Experiment:
                 name of the file to save the experiment data.Defaults to DEFAULT_EXP_DB_FILE.
         """
 
-        def custom_encoder(obj):
+        def custom_encoder(obj: Any) -> str:
             if isinstance(obj, Path):
                 return str(obj)
             raise JsonEncodingError(f"Object of type {type(obj).__name__} is not JSON serializable")
