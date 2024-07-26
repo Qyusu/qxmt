@@ -12,3 +12,7 @@ class ExperimentNotInitializedError(Exception):
 
 class InputShapeError(Exception):
     pass
+
+
+class ModelSettingError(Exception):
+    pass

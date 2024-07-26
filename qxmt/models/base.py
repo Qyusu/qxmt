@@ -3,6 +3,8 @@ from pathlib import Path
 
 import numpy as np
 
+from qxmt.kernels.base import BaseKernel
+
 
 class BaseModel(ABC):
     @abstractmethod
@@ -65,14 +67,39 @@ class BaseModel(ABC):
 
 
 class BaseKernelModel(BaseModel):
-    @abstractmethod
-    def get_kernel_matrix(self, X: np.ndarray) -> np.ndarray:
+    def __init__(self, kernel: BaseKernel) -> None:
+        super().__init__()
+        self.kernel = kernel
+
+    def get_kernel_matrix(self, x_array_1: np.ndarray, x_array_2: np.ndarray) -> np.ndarray:
         """Get the kernel matrix of the given data.
+        This method is alias of kernel.compute_matrix().
 
         Args:
-            X (np.ndarray): array of features
+            x_array_1 (np.ndarray): array of samples (ex: training data)
+            x_array_2 (np.ndarray): array of samples (ex: test data)
 
         Returns:
             np.ndarray: kernel matrix
         """
-        pass
+        return self.kernel.compute_matrix(x_array_1, x_array_2)
+
+    def plot_kernel_matrix(self, x_array_1: np.ndarray, x_array_2: np.ndarray) -> None:
+        """Plot the kernel matrix of the given data.
+        This method is alias of kernel.plot_matrix().
+
+        Args:
+            x_array_1 (np.ndarray): array of samples (ex: training data)
+            x_array_2 (np.ndarray): array of samples (ex: test data)
+        """
+        self.kernel.plot_matrix(x_array_1, x_array_2)
+
+    def plot_train_test_kernel_matrix(self, x_train: np.ndarray, x_test: np.ndarray) -> None:
+        """Plot the kernel matrix of training and testing data.
+        This method is alias of kernel.plot_train_test_matrix().
+
+        Args:
+            x_train (np.ndarray): array of training samples
+            x_test (np.ndarray): array of testing samples
+        """
+        self.kernel.plot_train_test_matrix(x_train, x_test)

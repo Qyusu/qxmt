@@ -2,6 +2,7 @@ import numpy as np
 import pennylane as qml
 from pennylane.measurements.probs import ProbabilityMP
 
+from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 
@@ -12,6 +13,9 @@ class FidelityKernel(BaseKernel):
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
         def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP:
+            if self.feature_map is None:
+                raise ModelSettingError("Feature map must be provided for FidelityKernel.")
+
             self.feature_map(x1)
             qml.adjoint(self.feature_map)(x2)  # type: ignore
 
