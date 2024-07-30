@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -78,7 +79,8 @@ class TestLoadExperiment:
                 },
             ],
         }
-        exp_json_path = Path(dummy_experiment_dict["experiment_dirc"]) / "experiment.json"
+
+        exp_json_path = Path(f"{dummy_experiment_dict['experiment_dirc']}/experiment.json")
         exp_json_path.parent.mkdir(parents=True, exist_ok=True)
         with open(exp_json_path, "w") as json_file:
             json.dump(dummy_experiment_dict, json_file, indent=4)
@@ -114,7 +116,9 @@ class TestExperimentRun:
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
 
-    def test_run(self, base_experiment: Experiment, dataset: Dataset, base_model: BaseModel) -> None:
+    def test_run(self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel) -> None:
+        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
@@ -148,7 +152,11 @@ class TestExperimentResults:
 
     #     assert_frame_equal(df, expected_df)
 
-    def test_save_experiment(self, base_experiment: Experiment, dataset: Dataset, base_model: BaseModel) -> None:
+    def test_save_experiment(
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+    ) -> None:
+        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+
         base_experiment.init()
         base_experiment.run(dataset=dataset, model=base_model)
         base_experiment.run(dataset=dataset, model=base_model)
