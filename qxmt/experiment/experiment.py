@@ -9,10 +9,13 @@ import pandas as pd
 from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
-from qxmt.exceptions import ExperimentNotInitializedError, JsonEncodingError
+from qxmt.exceptions import (
+    ExperimentNotInitializedError,
+    InvalidFileExtensionError,
+    JsonEncodingError,
+)
 from qxmt.experiment.schema import ExperimentDB, RunRecord
 from qxmt.models.base import BaseModel
-from qxmt.utils import check_json_extension
 
 
 class Experiment:
@@ -39,6 +42,11 @@ class Experiment:
             str: generated default name
         """
         return datetime.now(TZ).strftime("%Y%m%d%H%M%S%f")
+
+    @staticmethod
+    def _check_json_extension(file_path: str | Path) -> None:
+        if Path(file_path).suffix.lower() != ".json":
+            raise InvalidFileExtensionError(f"File '{file_path}' does not have a '.json' extension.")
 
     def _init_db(self) -> None:
         """Initialize the experiment database.
@@ -80,7 +88,7 @@ class Experiment:
         if not Path(exp_file).exists():
             raise FileNotFoundError(f"{exp_file} does not exist.")
 
-        check_json_extension(exp_file)
+        self._check_json_extension(exp_file)
         with open(exp_file, "r") as json_file:
             exp_data = json.load(json_file)
 
@@ -172,7 +180,7 @@ class Experiment:
 
         self._is_initialized()
         save_path = self.experiment_dirc / exp_file
-        check_json_extension(save_path)
+        self._check_json_extension(save_path)
         exp_data = json.loads(self.exp_db.model_dump_json())  # type: ignore
         with open(save_path, "w") as json_file:
             json.dump(exp_data, json_file, indent=4, default=custom_encoder)
