@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import Callable
 
 import numpy as np
 import pennylane as qml
@@ -6,7 +7,6 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.datasets.schema import Dataset
-from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
@@ -38,11 +38,14 @@ def base_model() -> BaseModel:
 
 
 @pytest.fixture(scope="function")
-def dataset() -> Dataset:
-    return Dataset(
-        x_train=np.random.rand(10, 10),
-        y_train=np.random.randint(2, size=10),
-        x_test=np.random.rand(10, 10),
-        y_test=np.random.randint(2, size=10),
-        features=["feature_1", "feature_2"],
-    )
+def create_random_dataset() -> Callable:
+    def _create_random_dataset(data_num: int, feature_num: int, class_num: int) -> Dataset:
+        return Dataset(
+            x_train=np.random.rand(data_num, feature_num),
+            y_train=np.random.randint(class_num, size=data_num),
+            x_test=np.random.rand(data_num, feature_num),
+            y_test=np.random.randint(class_num, size=data_num),
+            features=[f"feature_{i+1}" for i in range(feature_num)],
+        )
+
+    return _create_random_dataset
