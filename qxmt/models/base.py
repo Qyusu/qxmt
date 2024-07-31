@@ -39,7 +39,7 @@ class BaseModel(ABC):
         pass
 
     @abstractmethod
-    def load(self, path: str | Path) -> None:
+    def load(self, path: str | Path) -> "BaseModel":
         """Load the model from the given path.
 
         Args:

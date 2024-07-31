@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -11,10 +11,36 @@ from qxmt.feature_maps.base import BaseFeatureMap
 
 
 class BaseKernel(ABC):
-    def __init__(self, device: qml.Device, feature_map: Optional[BaseFeatureMap] = None) -> None:
+    def __init__(
+        self,
+        device: qml.Device,
+        feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
+    ) -> None:
         self.device: qml.Device = device
-        self.feature_map: Optional[BaseFeatureMap] = feature_map
         self.n_qubits: int = len(self.device.wires)
+        if callable(feature_map):
+            feature_map = self._to_fm_instance(feature_map)
+        self.feature_map = feature_map
+
+    def _to_fm_instance(self, feature_map: Callable[[np.ndarray], None]) -> BaseFeatureMap:
+        """Convert a feature map function to a BaseFeatureMap instance.
+
+        Args:
+            feature_map (Callable[[np.ndarray], None]): function that defines the feature map circuit
+
+        Returns:
+            BaseFeatureMap: instance of BaseFeatureMap
+        """
+
+        class CustomFeatureMap(BaseFeatureMap):
+            def __init__(self, n_qubits: int) -> None:
+                super().__init__(n_qubits)
+
+            def feature_map(self, x: np.ndarray) -> None:
+                self.check_input_shape(x)
+                feature_map(x)
+
+        return CustomFeatureMap(self.n_qubits)
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:

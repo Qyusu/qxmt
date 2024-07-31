@@ -113,7 +113,12 @@ class TestExperimentRun:
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
 
-    def test_run(self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel) -> None:
+    def test_run(
+        self,
+        base_experiment: Experiment,
+        create_random_dataset: Callable,
+        base_model: BaseModel,
+    ) -> None:
         dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
 
         assert base_experiment.current_run_id == 0

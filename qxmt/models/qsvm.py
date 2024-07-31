@@ -1,6 +1,6 @@
-import pickle
 from pathlib import Path
 
+import dill
 import numpy as np
 from sklearn.svm import SVC
 
@@ -20,10 +20,13 @@ class QSVM(BaseKernelModel):
         return self.model.predict(X)
 
     def save(self, path: str | Path) -> None:
-        pickle.dump(self.model, open(path, "wb"))
+        # [TODO] Use pickle of joblib
+        # AttributeError: Can't pickle local object 'BaseKernel._to_fm_instance.<locals>.CustomFeatureMap'
+        dill.dump(self.model, open(path, "wb"))
 
-    def load(self, path: str | Path) -> None:
-        pickle.load(open(path, "rb"))
+    def load(self, path: str | Path) -> "QSVM":
+        # [TODO] Use pickle of joblib
+        return dill.load(open(path, "rb"))
 
     def get_params(self) -> dict:
         return self.model.get_params()
