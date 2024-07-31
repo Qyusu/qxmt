@@ -7,7 +7,6 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.datasets.schema import Dataset
-from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
@@ -28,18 +27,18 @@ class TestKernel(BaseKernel):
 
 
 @pytest.fixture(scope="function")
+def base_model() -> BaseModel:
+    kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
+    return QSVM(kernel=kernel)
+
+
+@pytest.fixture(scope="function")
 def base_experiment(tmp_path: Path) -> Experiment:
     return Experiment(
         name="test_exp",
         desc="test experiment",
         root_experiment_dirc=tmp_path,
     )
-
-
-@pytest.fixture(scope="function")
-def base_model() -> BaseModel:
-    kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
-    return QSVM(kernel=kernel)
 
 
 @pytest.fixture(scope="function")
