@@ -17,25 +17,27 @@ class TestEvaluation:
             default_metrics_name=default_metrics_name,
         )
 
-    def test_evaluate_default_metrics(self, base_evaluation) -> None:
+    def test_evaluate_default_metrics(self, base_evaluation: Evaluation) -> None:
         base_evaluation.evaluate_default_metrics()
         acutal_scores = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(base_evaluation.default_metrics) == 4
         for metric in base_evaluation.default_metrics:
+            assert metric.score is not None
             assert round(metric.score, 2) == acutal_scores[metric.name]
 
-    def test_evaluate_custom_metrics(self, base_evaluation) -> None:
+    def test_evaluate_custom_metrics(self, base_evaluation: Evaluation) -> None:
         with pytest.raises(NotImplementedError):
             base_evaluation.evaluate_custom_metrics()
 
-    def test_evaluate(self, base_evaluation) -> None:
+    def test_evaluate(self, base_evaluation: Evaluation) -> None:
         base_evaluation.evaluate()
         acutal_scores = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(base_evaluation.default_metrics) == 4
         for metric in base_evaluation.default_metrics:
+            assert metric.score is not None
             assert round(metric.score, 2) == acutal_scores[metric.name]
 
-    def test_to_dict(self, base_evaluation) -> None:
+    def test_to_dict(self, base_evaluation: Evaluation) -> None:
         with pytest.raises(ValueError):
             base_evaluation.to_dict()
 
@@ -46,7 +48,7 @@ class TestEvaluation:
         for key, value in result.items():
             assert round(value, 2) == actual_dict[key]
 
-    def test_to_dataframe(self, base_evaluation) -> None:
+    def test_to_dataframe(self, base_evaluation: Evaluation) -> None:
         base_evaluation.evaluate()
         df = base_evaluation.to_dataframe(id="0", id_columns_name="run_id")
         assert len(df) == 1
