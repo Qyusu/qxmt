@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-deploy:
@@ -27,7 +30,7 @@ jobs:
         run: poetry install --with dev
 
       - name: Build Sphinx documentation
-        run: poetry run sphinx-build -b html ./docs ./docs/_build
+        run: poetry run sphinx-build -b html ./docs/source ./docs/_build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
