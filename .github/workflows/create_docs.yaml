@@ -1,16 +1,14 @@
-name: Run unit tests
+name: Create docs by Sphinx
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  test:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,7 +26,11 @@ jobs:
       - name: Install dependencies
         run: poetry install --with dev
 
-      - name: Run tests
-        env:
-          PYTHONPATH: ./qk_manager
-        run: poetry run pytest tests
+      - name: Build Sphinx documentation
+        run: poetry run sphinx-build -b html ./docs ./docs/_build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/_build
