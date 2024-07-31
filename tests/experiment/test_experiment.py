@@ -3,13 +3,10 @@ from pathlib import Path
 from typing import Callable
 
 import numpy as np
-import pandas as pd
 import pytest
-from pandas.testing import assert_frame_equal
 
 from qxmt import Experiment
 from qxmt.constants import DEFAULT_EXP_DB_FILE
-from qxmt.datasets.schema import Dataset
 from qxmt.exceptions import ExperimentNotInitializedError
 from qxmt.models.base import BaseModel
 
@@ -135,22 +132,20 @@ class TestExperimentRun:
 
 
 class TestExperimentResults:
-    # def test_runs_to_dataframe(self, base_experiment: Experiment) -> None:
-    #     base_experiment.run()
-    #     base_experiment.run()
-    #     df = base_experiment.runs_to_dataframe()
+    def test_runs_to_dataframe(
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+    ) -> None:
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment._is_initialized()
 
-    #     expected_df = pd.DataFrame(
-    #         {
-    #             "run_id": [1, 2],
-    #             "accuracy": [],
-    #             "precision": [],
-    #             "recall": [],
-    #             "f1_score": [],
-    #         }
-    #     )
+        base_experiment.init()
+        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        base_experiment.run(dataset=dataset, model=base_model)
+        base_experiment.run(dataset=dataset, model=base_model)
+        df = base_experiment.runs_to_dataframe()
 
-    #     assert_frame_equal(df, expected_df)
+        assert len(df.columns) == 5
+        assert len(df) == 2
 
     def test_save_experiment(
         self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
