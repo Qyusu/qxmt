@@ -143,9 +143,9 @@ class Experiment:
         self._is_initialized()
         current_run_dirc = self._run_setup()
 
-        model.fit(dataset.x_train, dataset.y_train)
+        model.fit(dataset.X_train, dataset.y_train)
         model.save(current_run_dirc / "model.pkl")
-        predicted = model.predict(dataset.x_test)
+        predicted = model.predict(dataset.X_test)
 
         current_run_record = RunRecord(
             run_id=self.current_run_id,
