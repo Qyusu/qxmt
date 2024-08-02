@@ -6,7 +6,7 @@ import pennylane as qml
 import pytest
 
 from qxmt import Experiment
-from qxmt.datasets.schema import Dataset
+from qxmt.datasets.schema import Dataset, DatasetConfig
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
@@ -44,12 +44,13 @@ def base_experiment(tmp_path: Path) -> Experiment:
 @pytest.fixture(scope="function")
 def create_random_dataset() -> Callable:
     def _create_random_dataset(data_num: int, feature_num: int, class_num: int) -> Dataset:
+        # [TODO]: fix to use builer method
         return Dataset(
-            x_train=np.random.rand(data_num, feature_num),
+            X_train=np.random.rand(data_num, feature_num),
             y_train=np.random.randint(class_num, size=data_num),
-            x_test=np.random.rand(data_num, feature_num),
+            X_test=np.random.rand(data_num, feature_num),
             y_test=np.random.randint(class_num, size=data_num),
-            features=[f"feature_{i+1}" for i in range(feature_num)],
+            config=DatasetConfig(dataset_path="test", random_state=42, test_size=0.2),
         )
 
     return _create_random_dataset

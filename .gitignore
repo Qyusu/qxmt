@@ -169,3 +169,6 @@ cython_debug/
 
 # experiment results
 experiments/
+
+# raw data
+data/
