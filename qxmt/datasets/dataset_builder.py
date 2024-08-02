@@ -72,6 +72,3 @@ class DatasetBuilder(ABC):
             y_test=y_test_trs,
             config=self.config,
         )
-
-    def visualize(self) -> None:
-        pass
