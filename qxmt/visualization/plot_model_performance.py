@@ -3,9 +3,10 @@ from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
+from sklearn.inspection import DecisionBoundaryDisplay
 
 from qxmt.datasets.schema import Dataset
-from qxmt.models.base import BaseKernelModel
+from qxmt.models.qsvm import QSVM
 from qxmt.visualization.utils import _create_class_labels, _create_colors
 
 
@@ -67,51 +68,75 @@ def plot_2d_predicted_result(
     if save_path is not None:
         plt.savefig(save_path)
 
+    plt.show()
+
 
 def plot_2d_decisionon_boundaries(
-    model: BaseKernelModel,
+    model: QSVM,
     dataset: Dataset,
-    axis: list[int] = [0, 1],
-    step_size: float = 0.1,
+    grid_resolution: int = 10,
+    support_vectors: bool = True,
     save_path: Optional[str | Path] = None,
 ) -> None:
+    """Plot decision boundaries of QSVM on 2D plane.
+
+    Args:
+        model (QSVM): QSVM model.
+        dataset (Dataset): Dataset object. It contains train data.
+        grid_resolution (int, optional): resolution of grid. Defaults to 10.
+        support_vectors (bool, optional): plot support vectors or not. Defaults to True.
+        save_path (Optional[str  |  Path], optional): save path of graph. Defaults to None.
+    """
+    X, y = dataset.X_train, dataset.y_train
+
+    if X.shape[1] != 2:
+        raise ValueError("This function only supports 2D dataset.")
+
     if dataset.config.features is not None:
         feature_cols = dataset.config.features
     else:
-        feature_cols = [f"feature_{i}" for i in range(max(axis) + 1)]
+        feature_cols = ["feature_0", "feature_1"]
 
-    x_min, x_max = (
-        dataset.X_test[:, axis[0]].min() - step_size,
-        dataset.X_test[:, axis[0]].max() + step_size,
+    _, ax = plt.subplots(figsize=(6, 5), tight_layout=True)
+    x_min, x_max, y_min, y_max = X[:, 0].min(), X[:, 0].max(), X[:, 1].min(), X[:, 1].max()
+    ax.set(xlim=(x_min, x_max), ylim=(y_min, y_max))
+
+    # Plot decision boundary and margins
+    common_params = {"estimator": model.model, "X": X, "grid_resolution": grid_resolution, "ax": ax}
+    DecisionBoundaryDisplay.from_estimator(
+        **common_params,
+        response_method="predict",
+        plot_method="pcolormesh",
+        alpha=0.3,
     )
-    y_min, y_max = (
-        dataset.X_test[:, axis[1]].min() - step_size,
-        dataset.X_test[:, axis[1]].max() + step_size,
+
+    DecisionBoundaryDisplay.from_estimator(
+        **common_params,
+        response_method="decision_function",
+        plot_method="contour",
+        levels=[-1, 0, 1],
+        colors=["k", "k", "k"],
+        linestyles=["--", "-", "--"],
     )
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, step_size), np.arange(y_min, y_max, step_size))
 
-    # calculate kernel matrix for mesh points
-    mesh_points = np.c_[xx.ravel(), yy.ravel()]
-    Z = model.predict(mesh_points)
+    if support_vectors:
+        # Plot bigger circles around samples that serve as support vectors
+        ax.scatter(
+            X[model.model.support_, 0],
+            X[model.model.support_, 1],
+            s=150,
+            facecolors="none",
+            edgecolors="k",
+        )
 
-    # print(f"Calculating Kernel Matrix for {len(mesh_points)} mesh points")
-    # K_mesh = model.get_kernel_matrix(mesh_points, dataset.X_train)
-    # Z = model.predict(K_mesh)
-
-    Z = Z.reshape(xx.shape)
-
-    plt.figure(figsize=(6, 6))
-    if np.isnan(Z).any() or np.isinf(Z).any():
-        Z = np.nan_to_num(Z, nan=0.0, posinf=1.0, neginf=-1.0)
-    plt.contourf(xx, yy, Z, cmap="coolwarm", alpha=0.5, levels=[-1, 0, 1])
-
-    neg_subset = dataset.X_test[np.where(dataset.y_test == -1)]
-    plt.scatter(neg_subset[:, 0], neg_subset[:, 1], marker="o", color="black")
-    pos_subset = dataset.X_test[np.where(dataset.y_test == 1)]
-    plt.scatter(pos_subset[:, 0], pos_subset[:, 1], marker="x", color="black")
-
+    # Plot samples by color and add legend
+    scatter = ax.scatter(X[:, 0], X[:, 1], c=y, s=30, edgecolors="k")
     plt.xlabel(f"{feature_cols[0]}")
     plt.ylabel(f"{feature_cols[1]}")
+    ax.legend(*scatter.legend_elements(), loc="upper right", title="Classes", bbox_to_anchor=(1.2, 1))
+    ax.set_title("Decision boundaries of QSVC")
 
     if save_path is not None:
         plt.savefig(save_path)
+
+    plt.show()
