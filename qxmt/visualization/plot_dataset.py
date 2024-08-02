@@ -43,8 +43,8 @@ def plot_2d_dataset(
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors[class_value],
-            label=class_labels[class_value],
+            c=colors.get(class_value),
+            label=class_labels.get(class_value),
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
@@ -57,8 +57,8 @@ def plot_2d_dataset(
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors[class_value],
-            label=class_labels[class_value],
+            c=colors.get(class_value),
+            label=class_labels.get(class_value),
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")

@@ -13,6 +13,7 @@ def plot_2d_predicted_result(
     dataset: Dataset,
     y_pred: np.ndarray,
     axis: list[int] = [0, 1],
+    class_labels: Optional[dict[int, str]] = None,
     colors: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
 ) -> None:
@@ -22,6 +23,7 @@ def plot_2d_predicted_result(
         dataset (Dataset): Dataset object. It contains test data.
         y_pred (np.ndarray): predicted labels.
         axis (list[int], optional): axis to plot (target feature col index). Defaults to [0, 1].
+        class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
         save_path (Optional[str], optional): save path of graph. Defaults to None.
     """
@@ -33,16 +35,19 @@ def plot_2d_predicted_result(
     if colors is None:
         colors = _create_colors(dataset.y_test)
 
-    plt.figure(figsize=(7, 5), tight_layout=True)
+    if class_labels is None:
+        class_labels = _create_class_labels(dataset.y_test)
+
+    plt.figure(figsize=(7.5, 5), tight_layout=True)
     for class_value in np.unique(dataset.y_test):
         groud_subset = dataset.X_test[np.where(dataset.y_test == class_value)]
         plt.scatter(
             groud_subset[:, axis[0]],
             groud_subset[:, axis[1]],
-            edgecolor=colors[class_value],
+            edgecolor=colors.get(class_value),
             facecolor="none",
             s=100,
-            label="Groud Truth",
+            label=f"Groud Truth (label={class_labels.get(class_value)})",
         )
 
         predicted_subset = dataset.X_test[np.where(y_pred == class_value)]
@@ -50,13 +55,13 @@ def plot_2d_predicted_result(
             predicted_subset[:, axis[0]],
             predicted_subset[:, axis[1]],
             marker="x",
-            c=colors[class_value],
-            label="Predicted",
+            c=colors.get(class_value),
+            label=f"Predicted (label={class_labels.get(class_value)})",
         )
 
     plt.xlabel(f"{feature_cols[axis[0]]}")
     plt.ylabel(f"{feature_cols[axis[1]]}")
-    plt.legend(loc="upper right", bbox_to_anchor=(1.35, 1))
+    plt.legend(loc="upper right", bbox_to_anchor=(1.5, 1))
     plt.title('"Groud Truth" VS "Predicted"')
 
     if save_path is not None:
