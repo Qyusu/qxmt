@@ -23,6 +23,9 @@ class Recall(BaseMetric):
 
     @staticmethod
     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+        if kwargs.get("average") is None:
+            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            kwargs["average"] = average
         score = recall_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -34,6 +37,9 @@ class Precision(BaseMetric):
 
     @staticmethod
     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+        if kwargs.get("average") is None:
+            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            kwargs["average"] = average
         score = precision_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -45,6 +51,9 @@ class F1Score(BaseMetric):
 
     @staticmethod
     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+        if kwargs.get("average") is None:
+            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            kwargs["average"] = average
         score = f1_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)

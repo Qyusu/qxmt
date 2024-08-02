@@ -1,43 +1,67 @@
+from pathlib import Path
 from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from qxmt.datasets.schema import Dataset
+from qxmt.visualization.utils import _create_class_labels, _create_colors
+
+DEFAULT_FEATURE_COLS = ["feature_1", "feature_2"]
 
 
-def plot_dataset(
+def plot_2d_dataset(
     dataset: Dataset,
-    colors: dict[int, str] = {-1: "red", 1: "green"},
-    class_labels: dict[int, str] = {-1: "-1", 1: "1"},
-    save_path: Optional[str] = None,
+    colors: Optional[dict[int, str]] = None,
+    class_labels: Optional[dict[int, str]] = None,
+    save_path: Optional[str | Path] = None,
 ) -> None:
+    """Ploat dataset on 2D plane.
+
+    Args:
+        dataset (Dataset): Dataset object. It contains train and test data.
+        colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
+        class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
+        save_path (Optional[str], optional): save path of graph. Defaults to None.
+    """
+    if dataset.config.features is not None:
+        feature_cols = dataset.config.features
+    else:
+        feature_cols = DEFAULT_FEATURE_COLS
+
+    y_all = np.concatenate([dataset.y_train, dataset.y_test])
+    if colors is None:
+        colors = _create_colors(y_all)
+
+    if class_labels is None:
+        class_labels = _create_class_labels(y_all)
+
     plt.figure(figsize=(10, 5), tight_layout=True)
     plt.subplot(1, 2, 1)
     for class_value in np.unique(dataset.y_train):
-        subset = dataset.x_train[np.where(dataset.y_train == class_value)]
+        subset = dataset.X_train[np.where(dataset.y_train == class_value)]
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors[class_value],
-            label=class_labels[class_value],
+            c=colors.get(class_value),
+            label=class_labels.get(class_value),
         )
-        plt.xlabel(f"{dataset.feature_cols[0]}")
-        plt.ylabel(f"{dataset.feature_cols[1]}")
+        plt.xlabel(f"{feature_cols[0]}")
+        plt.ylabel(f"{feature_cols[1]}")
         plt.legend()
         plt.title("Train Dataset")
 
     plt.subplot(1, 2, 2)
     for class_value in np.unique(dataset.y_test):
-        subset = dataset.x_test[np.where(dataset.y_test == class_value)]
+        subset = dataset.X_test[np.where(dataset.y_test == class_value)]
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors[class_value],
-            label=class_labels[class_value],
+            c=colors.get(class_value),
+            label=class_labels.get(class_value),
         )
-        plt.xlabel(f"{dataset.feature_cols[0]}")
-        plt.ylabel(f"{dataset.feature_cols[1]}")
+        plt.xlabel(f"{feature_cols[0]}")
+        plt.ylabel(f"{feature_cols[1]}")
         plt.legend()
         plt.title("Test Dataset")
 
