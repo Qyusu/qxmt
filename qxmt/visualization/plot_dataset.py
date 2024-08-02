@@ -1,26 +1,20 @@
+from pathlib import Path
 from typing import Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 from qxmt.datasets.schema import Dataset
+from qxmt.visualization.utils import _create_class_labels, _create_colors
 
 DEFAULT_FEATURE_COLS = ["feature_1", "feature_2"]
-
-
-def _create_colors(y: np.ndarray) -> dict[int, str]:
-    return {class_value: f"C{i}" for i, class_value in enumerate(np.unique(y))}
-
-
-def _create_class_labels(y: np.ndarray) -> dict[int, str]:
-    return {class_value: str(class_value) for class_value in np.unique(y)}
 
 
 def plot_2d_dataset(
     dataset: Dataset,
     colors: Optional[dict[int, str]] = None,
     class_labels: Optional[dict[int, str]] = None,
-    save_path: Optional[str] = None,
+    save_path: Optional[str | Path] = None,
 ) -> None:
     """Ploat dataset on 2D plane.
 
