@@ -16,3 +16,7 @@ class InputShapeError(Exception):
 
 class ModelSettingError(Exception):
     pass
+
+
+class InvalidPlatformError(Exception):
+    pass
