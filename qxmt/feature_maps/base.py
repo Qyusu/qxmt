@@ -2,10 +2,10 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 import numpy as np
-import pennylane as qml
 
 from qxmt.constants import SUPPORTED_PLATFORMS
 from qxmt.exceptions import InputShapeError, InvalidPlatformError
+from qxmt.feature_maps.pennylane.utils import print_pennylane_circuit
 
 
 class BaseFeatureMap(ABC):
@@ -52,20 +52,11 @@ class BaseFeatureMap(ABC):
         Raises:
             NotImplementedError: not supported platform
         """
-        if self.platform == "pennylane":
-            self._print_pennylane_circuit(x)
-        else:
-            raise NotImplementedError(f"Printing circuit is not supported in {self.platform}.")
-
-    def _print_pennylane_circuit(self, x: Optional[np.ndarray] = None) -> None:
-        """Print the circuit using PennyLane's draw function.
-        if x is None, random input data is used for printing the circuit.
-
-        Args:
-            x (Optional[np.ndarray], optional): input example data for printing the circuit. Defaults to None.
-        """
         if x is None:
             x = np.random.rand(1, self.n_qubits)
-
         self.check_input_shape(x)
-        print(qml.draw(self.feature_map)(x))
+
+        if self.platform == "pennylane":
+            print_pennylane_circuit(self.feature_map, x)
+        else:
+            raise NotImplementedError(f"Printing circuit is not supported in {self.platform}.")

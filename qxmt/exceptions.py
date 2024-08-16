@@ -20,3 +20,7 @@ class ModelSettingError(Exception):
 
 class InvalidPlatformError(Exception):
     pass
+
+
+class InvalidQunatumDeviceError(Exception):
+    pass

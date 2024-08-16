@@ -4,20 +4,22 @@ from typing import Callable, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pennylane as qml
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.kernels.utils import get_number_of_qubits, get_platform_from_device
+from qxmt.types import QuantumDeviceType
 
 
 class BaseKernel(ABC):
     def __init__(
         self,
-        device: qml.Device,
+        device: QuantumDeviceType,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
-        self.device: qml.Device = device
-        self.n_qubits: int = len(self.device.wires)
+        self.device: QuantumDeviceType = device
+        self.plagform: str = get_platform_from_device(self.device)
+        self.n_qubits: int = get_number_of_qubits(self.device)
         if callable(feature_map):
             feature_map = self._to_fm_instance(feature_map)
         self.feature_map = feature_map
@@ -33,14 +35,14 @@ class BaseKernel(ABC):
         """
 
         class CustomFeatureMap(BaseFeatureMap):
-            def __init__(self, n_qubits: int) -> None:
-                super().__init__(n_qubits)
+            def __init__(self, platform: str, n_qubits: int) -> None:
+                super().__init__(platform, n_qubits)
 
             def feature_map(self, x: np.ndarray) -> None:
                 self.check_input_shape(x)
                 feature_map(x)
 
-        return CustomFeatureMap(self.n_qubits)
+        return CustomFeatureMap(self.plagform, self.n_qubits)
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
