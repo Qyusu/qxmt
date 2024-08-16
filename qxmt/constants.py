@@ -17,4 +17,4 @@ DEFAULT_MODEL_NAME: str = "model.pkl"
 
 DEFAULT_METRICS_NAME: list[str] = ["accuracy", "precision", "recall", "f1_score"]
 
-TZ = pytz.timezone("Asia/Tokyo")
+TZ: pytz.BaseTzInfo = pytz.timezone("Asia/Tokyo")
