@@ -3,10 +3,12 @@ import pennylane as qml
 
 from qxmt.feature_maps.base import BaseFeatureMap
 
+PENNYLANE_PLATFORM: str = "pennylane"
+
 
 class RotationFeatureMap(BaseFeatureMap):
     def __init__(self, n_qubits: int, reps: int, rotation_axis: list[str]) -> None:
-        super().__init__(n_qubits)
+        super().__init__(PENNYLANE_PLATFORM, n_qubits)
         self.reps: int = reps
         self.rotation_axis: list[str] = rotation_axis
 
@@ -22,7 +24,7 @@ class RotationFeatureMap(BaseFeatureMap):
 
 class HRotationFeatureMap(BaseFeatureMap):
     def __init__(self, n_qubits: int, reps: int, rotation_axis: list[str]) -> None:
-        super().__init__(n_qubits)
+        super().__init__(PENNYLANE_PLATFORM, n_qubits)
         self.reps: int = reps
         self.rotation_axis: list[str] = rotation_axis
 
@@ -37,7 +39,7 @@ class HRotationFeatureMap(BaseFeatureMap):
 
 class XXFeatureMap(BaseFeatureMap):
     def __init__(self, n_qubits: int, reps: int) -> None:
-        super().__init__(n_qubits)
+        super().__init__(PENNYLANE_PLATFORM, n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:
@@ -51,7 +53,7 @@ class XXFeatureMap(BaseFeatureMap):
 
 class YYFeatureMap(BaseFeatureMap):
     def __init__(self, n_qubits: int, reps: int) -> None:
-        super().__init__(n_qubits)
+        super().__init__(PENNYLANE_PLATFORM, n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:
@@ -66,7 +68,7 @@ class YYFeatureMap(BaseFeatureMap):
 
 class ZZFeatureMap(BaseFeatureMap):
     def __init__(self, n_qubits: int, reps: int) -> None:
-        super().__init__(n_qubits)
+        super().__init__(PENNYLANE_PLATFORM, n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:

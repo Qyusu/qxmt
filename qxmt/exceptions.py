@@ -16,3 +16,11 @@ class InputShapeError(Exception):
 
 class ModelSettingError(Exception):
     pass
+
+
+class InvalidPlatformError(Exception):
+    pass
+
+
+class InvalidQunatumDeviceError(Exception):
+    pass
