@@ -1,6 +1,14 @@
 qxmt.kernels package
 ====================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   qxmt.kernels.pennylane
+
 Submodules
 ----------
 
@@ -12,10 +20,10 @@ qxmt.kernels.base module
    :undoc-members:
    :show-inheritance:
 
-qxmt.kernels.fidelity\_kernel module
-------------------------------------
+qxmt.kernels.utils module
+-------------------------
 
-.. automodule:: qxmt.kernels.fidelity_kernel
+.. automodule:: qxmt.kernels.utils
    :members:
    :undoc-members:
    :show-inheritance:
