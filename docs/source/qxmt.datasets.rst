@@ -4,6 +4,14 @@ qxmt.datasets package
 Submodules
 ----------
 
+qxmt.datasets.dataset\_builder module
+-------------------------------------
+
+.. automodule:: qxmt.datasets.dataset_builder
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qxmt.datasets.schema module
 ---------------------------
 

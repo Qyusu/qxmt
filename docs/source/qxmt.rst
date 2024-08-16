@@ -34,6 +34,14 @@ qxmt.exceptions module
    :undoc-members:
    :show-inheritance:
 
+qxmt.types module
+-----------------
+
+.. automodule:: qxmt.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

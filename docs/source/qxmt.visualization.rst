@@ -28,6 +28,14 @@ qxmt.visualization.plot\_model\_performance module
    :undoc-members:
    :show-inheritance:
 
+qxmt.visualization.utils module
+-------------------------------
+
+.. automodule:: qxmt.visualization.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 
