@@ -50,12 +50,14 @@ class TestLoadExperiment:
         dummy_experiment_dict = {
             "name": "load_exp",
             "desc": "load experiment",
+            "working_dirc": str(experiment_dirc),
             "experiment_dirc": str(experiment_dirc / "load_exp"),
             "runs": [
                 {
                     "run_id": 1,
                     "desc": "",
                     "execution_time": "2024-07-24 17:33:55.305025 JST+0900",
+                    "commit_id": "commit_1",
                     "evaluation": {
                         "accuracy": 0.65,
                         "precision": 0.69,
@@ -67,6 +69,7 @@ class TestLoadExperiment:
                     "run_id": 2,
                     "desc": "",
                     "execution_time": "2024-07-24 17:34:01.932990 JST+0900",
+                    "commit_id": "commit_2",
                     "evaluation": {
                         "accuracy": 0.5,
                         "precision": 0.47,
@@ -84,14 +87,28 @@ class TestLoadExperiment:
 
         return exp_json_path
 
-    def test_load_experiment(self, base_experiment: Experiment, tmp_path: Path) -> None:
+    def test_load_experiment(self, tmp_path: Path) -> None:
         exp_json_path = self.set_dummy_experiment_data(tmp_path)
-        base_experiment.load_experiment(exp_json_path)
-        assert base_experiment.name == "load_exp"
-        assert base_experiment.desc == "load experiment"
-        assert base_experiment.experiment_dirc == tmp_path / "load_exp"
-        assert base_experiment.current_run_id == 2
-        assert len(base_experiment.exp_db.runs) == 2  # type: ignore
+
+        # Default pattern
+        loaded_exp = Experiment(root_experiment_dirc=tmp_path).load_experiment(exp_json_path)
+        assert loaded_exp.name == "load_exp"
+        assert loaded_exp.desc == "load experiment"
+        assert loaded_exp.root_experiment_dirc == tmp_path
+        assert loaded_exp.experiment_dirc == tmp_path / "load_exp"
+        assert loaded_exp.current_run_id == 2
+        assert len(loaded_exp.exp_db.runs) == 2  # type: ignore
+
+        # Update Setting Pattern
+        updated_exp = Experiment(
+            name="update_exp", desc="update experiment", root_experiment_dirc=tmp_path
+        ).load_experiment(exp_json_path)
+        assert updated_exp.name == "update_exp"
+        assert updated_exp.desc == "update experiment"
+        assert updated_exp.root_experiment_dirc == tmp_path
+        assert updated_exp.experiment_dirc == tmp_path / "update_exp"
+        assert updated_exp.current_run_id == 2
+        assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
 
 class TestExperimentRun:

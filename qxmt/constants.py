@@ -13,6 +13,8 @@ DEFAULT_EXP_DB_FILE: Path = Path("experiment.json")
 SUPPORTED_PLATFORMS: list[str] = ["pennylane"]
 PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.Device, qml.QubitDevice)
 
+DEFAULT_MODEL_NAME: str = "model.pkl"
+
 DEFAULT_METRICS_NAME: list[str] = ["accuracy", "precision", "recall", "f1_score"]
 
 TZ = pytz.timezone("Asia/Tokyo")

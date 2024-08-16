@@ -1,4 +1,5 @@
 import json
+import subprocess
 from datetime import datetime
 from pathlib import Path
 from typing import Any, Optional
@@ -6,7 +7,7 @@ from typing import Any, Optional
 import numpy as np
 import pandas as pd
 
-from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, TZ
+from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, DEFAULT_MODEL_NAME, TZ
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
@@ -22,11 +23,11 @@ class Experiment:
     def __init__(
         self,
         name: Optional[str] = None,
-        desc: str = "",
+        desc: Optional[str] = None,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
     ) -> None:
-        self.name: str = name or self._generate_default_name()
-        self.desc: str = desc
+        self.name: Optional[str] = name
+        self.desc: Optional[str] = desc
         self.current_run_id: int = 0
         self.root_experiment_dirc: Path = root_experiment_dirc
         self.experiment_dirc: Path
@@ -48,18 +49,20 @@ class Experiment:
         if Path(file_path).suffix.lower() != ".json":
             raise InvalidFileExtensionError(f"File '{file_path}' does not have a '.json' extension.")
 
-    def _init_db(self) -> None:
-        """Initialize the experiment database.
+    @staticmethod
+    def _get_commit_id() -> str:
+        """Get the commit ID of the current git repository.
+        if the current directory is not a git repository, return an empty string.
 
-        Raises:
-            ValidationError: if the experiment database is not valid
+        Returns:
+            str: git commit ID
         """
-        self.exp_db = ExperimentDB(
-            name=self.name,
-            desc=self.desc,
-            experiment_dirc=self.experiment_dirc,
-            runs=[],
-        )
+        try:
+            commit_id = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode("utf-8")
+            return commit_id
+        except subprocess.CalledProcessError as e:
+            print("Error executing git command:", e)
+            return ""
 
     def init(self) -> "Experiment":
         """Initialize the experiment directory and DB.
@@ -67,9 +70,20 @@ class Experiment:
         Returns:
             Experiment: initialized experiment
         """
+        if self.name is None:
+            self.name = self._generate_default_name()
+        if self.desc is None:
+            self.desc = ""
         self.experiment_dirc = self.root_experiment_dirc / self.name
         self.experiment_dirc.mkdir(parents=True)
-        self._init_db()
+
+        self.exp_db = ExperimentDB(
+            name=self.name,
+            desc=self.desc,
+            working_dirc=Path.cwd(),
+            experiment_dirc=self.experiment_dirc,
+            runs=[],
+        )
 
         return self
 
@@ -93,10 +107,28 @@ class Experiment:
             exp_data = json.load(json_file)
 
         self.exp_db = ExperimentDB(**exp_data)
-        self.name = self.exp_db.name
-        self.desc = self.exp_db.desc
-        self.experiment_dirc = self.root_experiment_dirc / self.name
-        self.exp_db.experiment_dirc = self.experiment_dirc
+        if (self.name is not None) and (self.name != self.exp_db.name):
+            self.exp_db.name = self.name
+            print(f'Name is changed from "{self.exp_db.name}" to "{self.name}".')
+        else:
+            self.name = self.exp_db.name
+
+        if (self.desc is not None) and (self.desc != self.exp_db.desc):
+            self.exp_db.desc = self.desc
+            print(f'Description is changed from "{self.exp_db.desc}" to "{self.desc}".')
+        else:
+            self.desc = self.exp_db.desc
+
+        working_dirc = Path.cwd()
+        if working_dirc != self.exp_db.working_dirc:
+            print(f'Working directory is changed from "{self.exp_db.working_dirc}" to "{working_dirc}".')
+            self.exp_db.working_dirc = working_dirc
+
+        self.experiment_dirc = self.root_experiment_dirc / str(self.name)
+        if self.experiment_dirc != self.exp_db.experiment_dirc:
+            print(f'Experiment directory is changed from "{self.exp_db.experiment_dirc}" to "{self.experiment_dirc}".')
+            self.exp_db.experiment_dirc = self.experiment_dirc
+
         self.current_run_id = len(self.exp_db.runs)
 
         return self
@@ -142,14 +174,16 @@ class Experiment:
         """Start a new run for the experiment."""
         self._is_initialized()
         current_run_dirc = self._run_setup()
+        commit_id = self._get_commit_id()
 
         model.fit(dataset.X_train, dataset.y_train)
-        model.save(current_run_dirc / "model.pkl")
+        model.save(current_run_dirc / DEFAULT_MODEL_NAME)
         predicted = model.predict(dataset.X_test)
 
         current_run_record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
+            commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             evaluation=self._run_evaluation(dataset.y_test, predicted),
         )
