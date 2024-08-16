@@ -1,7 +1,12 @@
 from abc import ABC, abstractmethod
+from logging import Logger
 from typing import Optional
 
 import numpy as np
+
+from qxmt.logger import set_default_logger
+
+LOGGER = set_default_logger(__name__)
 
 
 class BaseMetric(ABC):
@@ -34,8 +39,11 @@ class BaseMetric(ABC):
         """
         self.score = self.evaluate(actual, predicted, **kwargs)
 
-    def print_score(self) -> None:
-        """Print the evaluated score on standard output.
+    def output_score(self, logger: Logger = LOGGER) -> None:
+        """Output the evaluated score on standard output.
+
+        Args:
+            logger (Logger, optional): logger object. Defaults to LOGGER.
 
         Raises:
             ValueError: if the score is not evaluated yet
@@ -43,4 +51,4 @@ class BaseMetric(ABC):
         if self.score is None:
             raise ValueError("Score is not evaluated yet.")
 
-        print(f"{self.name}: {self.score:.2f}")
+        logger.info(f"{self.name}: {self.score:.2f}")

@@ -1,11 +1,15 @@
 from abc import ABC, abstractmethod
+from logging import Logger
 from typing import Optional
 
 import numpy as np
 
 from qxmt.constants import SUPPORTED_PLATFORMS
 from qxmt.exceptions import InputShapeError, InvalidPlatformError
-from qxmt.feature_maps.pennylane.utils import print_pennylane_circuit
+from qxmt.feature_maps.pennylane.utils import output_pennylane_circuit
+from qxmt.logger import set_default_logger
+
+LOGGER = set_default_logger(__name__)
 
 
 class BaseFeatureMap(ABC):
@@ -43,11 +47,12 @@ class BaseFeatureMap(ABC):
         if x.shape[idx] != self.n_qubits:
             raise InputShapeError("Input data shape does not match the number of qubits.")
 
-    def print_circuit(self, x: Optional[np.ndarray] = None) -> None:
-        """Print the circuit using the platform's draw function.
+    def output_circuit(self, x: Optional[np.ndarray] = None, logger: Logger = LOGGER) -> None:
+        """Output the circuit using the platform's draw function.
 
         Args:
-            x (Optional[np.ndarray], optional): input example data for printing the circuit. Defaults to None.
+            x (Optional[np.ndarray], optional): input example data for output the circuit. Defaults to None.
+            logger (Logger, optional): logger object. Defaults to LOGGER.
 
         Raises:
             NotImplementedError: not supported platform
@@ -57,6 +62,6 @@ class BaseFeatureMap(ABC):
         self.check_input_shape(x)
 
         if self.platform == "pennylane":
-            print_pennylane_circuit(self.feature_map, x)
+            output_pennylane_circuit(self.feature_map, x, logger)
         else:
-            raise NotImplementedError(f"Printing circuit is not supported in {self.platform}.")
+            raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')

@@ -1,8 +1,9 @@
+from logging import INFO
 from typing import Any
 
 import numpy as np
 import pytest
-from _pytest.capture import CaptureFixture
+from _pytest.logging import LogCaptureFixture
 
 from qxmt.evaluation.base import BaseMetric
 
@@ -34,13 +35,13 @@ class TestBaseMetric:
 
         assert metric.score == 5.0
 
-    def test_print_score(self, dummy_values: tuple[np.ndarray, np.ndarray], capsys: CaptureFixture) -> None:
+    def test_output_score(self, dummy_values: tuple[np.ndarray, np.ndarray], caplog: LogCaptureFixture) -> None:
         metric = DummyMetric()
 
         with pytest.raises(ValueError):
-            metric.print_score()
+            metric.output_score()
 
         metric.set_score(dummy_values[0], dummy_values[1])
-        metric.print_score()
-        captured = capsys.readouterr()
-        assert captured.out == "dummy: 5.00\n"
+        with caplog.at_level(INFO):
+            metric.output_score()
+        assert "dummy: 5.00\n" in caplog.text

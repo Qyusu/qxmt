@@ -33,9 +33,9 @@ class TestBaseFeatureMap:
         with pytest.raises(InputShapeError):
             base_feature_map.check_input_shape(x)
 
-    def test_print_circuit(self, base_feature_map: BaseFeatureMap) -> None:
-        base_feature_map.print_circuit()
+    def test_output_circuit(self, base_feature_map: BaseFeatureMap) -> None:
+        base_feature_map.output_circuit()
 
         with pytest.raises(NotImplementedError):
             base_feature_map.platform = "unsupported"
-            base_feature_map.print_circuit()
+            base_feature_map.output_circuit()

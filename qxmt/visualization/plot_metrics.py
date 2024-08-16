@@ -1,24 +1,47 @@
+from logging import Logger
 from pathlib import Path
 from typing import Optional
 
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from qxmt.logger import set_default_logger
 
-def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str]) -> list[str]:
+LOGGER = set_default_logger(__name__)
+
+
+def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Logger = LOGGER) -> list[str]:
+    """Check if the target metrics exist in the DataFrame columns.
+
+    Args:
+        df (pd.DataFrame): dataframe that contains the calculated metrics
+        metrics (list[str]): target metric names
+        logger (Logger, optional): logger object. Defaults to LOGGER.
+
+    Returns:
+        list[str]: valid metric names
+    """
     valid_metrics = []
     for metric in metrics:
         if metric not in df.columns:
             # raise ValueError(f"{metric} is not in the DataFrame columns.")
-            print(f"{metric} is not in the DataFrame columns. skip this metric.")
+            logger.warning(f'"{metric}" is not in the DataFrame columns. skip this metric.')
         else:
             valid_metrics.append(metric)
 
     return valid_metrics
 
 
-def plot_metric(df: pd.DataFrame, metric: str, save_path: Optional[Path] = None) -> None:
-    valid_metric = _check_existence_of_metrics(df, [metric])[0]
+def plot_metric(df: pd.DataFrame, metric: str, save_path: Optional[Path] = None, logger: Logger = LOGGER) -> None:
+    """Plot bar chart of the target metric. x-axis is run_id.
+
+    Args:
+        df (pd.DataFrame): dataframe that contains the calculated metrics
+        metric (str): target metric name
+        save_path (Optional[Path], optional): save path for the plot. Defaults to None.
+        logger (Logger, optional): logger object. Defaults to LOGGER.
+    """
+    valid_metric = _check_existence_of_metrics(df, [metric], logger)[0]
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
     plt.bar(x, df[valid_metric])
@@ -34,8 +57,18 @@ def plot_metric(df: pd.DataFrame, metric: str, save_path: Optional[Path] = None)
     plt.show()
 
 
-def plot_metrics_side_by_side(df: pd.DataFrame, metrics: list[str], save_path: Optional[Path] = None) -> None:
-    valid_metrics = _check_existence_of_metrics(df, metrics)
+def plot_metrics_side_by_side(
+    df: pd.DataFrame, metrics: list[str], save_path: Optional[Path] = None, logger: Logger = LOGGER
+) -> None:
+    """Plot bar chart of the target metrics side by side. x-axis is run_id.
+
+    Args:
+        df (pd.DataFrame): dataframe that contains the calculated metrics
+        metrics (list[str]): target metric names
+        save_path (Optional[Path], optional): save path for the plot. Defaults to None.
+        logger (Logger, optional): logger object. Defaults to LOGGER.
+    """
+    valid_metrics = _check_existence_of_metrics(df, metrics, logger)
 
     plt.figure(figsize=(10, 6), tight_layout=True)
     width = 1.0 / (len(valid_metrics) + 1)

@@ -1,6 +1,7 @@
 import json
 import subprocess
 from datetime import datetime
+from logging import Logger
 from pathlib import Path
 from typing import Any, Optional
 
@@ -16,7 +17,10 @@ from qxmt.exceptions import (
     JsonEncodingError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunRecord
+from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseModel
+
+LOGGER = set_default_logger(__name__)
 
 
 class Experiment:
@@ -25,6 +29,7 @@ class Experiment:
         name: Optional[str] = None,
         desc: Optional[str] = None,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
+        logger: Logger = LOGGER,
     ) -> None:
         self.name: Optional[str] = name
         self.desc: Optional[str] = desc
@@ -32,6 +37,7 @@ class Experiment:
         self.root_experiment_dirc: Path = root_experiment_dirc
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
+        self.logger: Logger = logger
 
     @staticmethod
     def _generate_default_name() -> str:
@@ -50,7 +56,7 @@ class Experiment:
             raise InvalidFileExtensionError(f"File '{file_path}' does not have a '.json' extension.")
 
     @staticmethod
-    def _get_commit_id() -> str:
+    def _get_commit_id(logger: Logger) -> str:
         """Get the commit ID of the current git repository.
         if the current directory is not a git repository, return an empty string.
 
@@ -61,7 +67,7 @@ class Experiment:
             commit_id = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode("utf-8")
             return commit_id
         except subprocess.CalledProcessError as e:
-            print("Error executing git command:", e)
+            logger.warning("Error executing git command:", e)
             return ""
 
     def init(self) -> "Experiment":
@@ -109,24 +115,26 @@ class Experiment:
         self.exp_db = ExperimentDB(**exp_data)
         if (self.name is not None) and (self.name != self.exp_db.name):
             self.exp_db.name = self.name
-            print(f'Name is changed from "{self.exp_db.name}" to "{self.name}".')
+            self.logger.info(f'Name is changed from "{self.exp_db.name}" to "{self.name}".')
         else:
             self.name = self.exp_db.name
 
         if (self.desc is not None) and (self.desc != self.exp_db.desc):
             self.exp_db.desc = self.desc
-            print(f'Description is changed from "{self.exp_db.desc}" to "{self.desc}".')
+            self.logger.info(f'Description is changed from "{self.exp_db.desc}" to "{self.desc}".')
         else:
             self.desc = self.exp_db.desc
 
         working_dirc = Path.cwd()
         if working_dirc != self.exp_db.working_dirc:
-            print(f'Working directory is changed from "{self.exp_db.working_dirc}" to "{working_dirc}".')
+            self.logger.info(f'Working directory is changed from "{self.exp_db.working_dirc}" to "{working_dirc}".')
             self.exp_db.working_dirc = working_dirc
 
         self.experiment_dirc = self.root_experiment_dirc / str(self.name)
         if self.experiment_dirc != self.exp_db.experiment_dirc:
-            print(f'Experiment directory is changed from "{self.exp_db.experiment_dirc}" to "{self.experiment_dirc}".')
+            self.logger.info(
+                f'Experiment directory is changed from "{self.exp_db.experiment_dirc}" to "{self.experiment_dirc}".'
+            )
             self.exp_db.experiment_dirc = self.experiment_dirc
 
         self.current_run_id = len(self.exp_db.runs)
@@ -174,7 +182,7 @@ class Experiment:
         """Start a new run for the experiment."""
         self._is_initialized()
         current_run_dirc = self._run_setup()
-        commit_id = self._get_commit_id()
+        commit_id = self._get_commit_id(self.logger)
 
         model.fit(dataset.X_train, dataset.y_train)
         model.save(current_run_dirc / DEFAULT_MODEL_NAME)
