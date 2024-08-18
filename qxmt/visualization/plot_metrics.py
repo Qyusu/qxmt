@@ -8,6 +8,7 @@ import pandas as pd
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
+RUN_ID_COL = "run_id"
 
 
 def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Logger = LOGGER) -> list[str]:
@@ -32,20 +33,30 @@ def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Lo
     return valid_metrics
 
 
-def plot_metric(df: pd.DataFrame, metric: str, save_path: Optional[Path] = None, logger: Logger = LOGGER) -> None:
+def plot_metric(
+    df: pd.DataFrame,
+    metric: str,
+    run_ids: Optional[list[int]] = None,
+    save_path: Optional[Path] = None,
+    logger: Logger = LOGGER,
+) -> None:
     """Plot bar chart of the target metric. x-axis is run_id.
 
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metric (str): target metric name
+        run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
     """
+    if run_ids is not None:
+        df = df[df[RUN_ID_COL].isin(run_ids)]
+
     valid_metric = _check_existence_of_metrics(df, [metric], logger)[0]
+
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
     plt.bar(x, df[valid_metric])
-
     plt.ylim(0, 1.05)
     plt.ylabel(f'"{valid_metric}" score')
     plt.xlabel("run_id")
@@ -58,16 +69,24 @@ def plot_metric(df: pd.DataFrame, metric: str, save_path: Optional[Path] = None,
 
 
 def plot_metrics_side_by_side(
-    df: pd.DataFrame, metrics: list[str], save_path: Optional[Path] = None, logger: Logger = LOGGER
+    df: pd.DataFrame,
+    metrics: list[str],
+    run_ids: Optional[list[int]] = None,
+    save_path: Optional[Path] = None,
+    logger: Logger = LOGGER,
 ) -> None:
     """Plot bar chart of the target metrics side by side. x-axis is run_id.
 
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metrics (list[str]): target metric names
+        run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
     """
+    if run_ids is not None:
+        df = df[df[RUN_ID_COL].isin(run_ids)]
+
     valid_metrics = _check_existence_of_metrics(df, metrics, logger)
 
     plt.figure(figsize=(10, 6), tight_layout=True)
