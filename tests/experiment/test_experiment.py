@@ -58,6 +58,7 @@ class TestLoadExperiment:
                     "desc": "",
                     "execution_time": "2024-07-24 17:33:55.305025 JST+0900",
                     "commit_id": "commit_1",
+                    "config_path": "config_1.yaml",
                     "evaluation": {
                         "accuracy": 0.65,
                         "precision": 0.69,
@@ -70,6 +71,7 @@ class TestLoadExperiment:
                     "desc": "",
                     "execution_time": "2024-07-24 17:34:01.932990 JST+0900",
                     "commit_id": "commit_2",
+                    "config_path": "",
                     "evaluation": {
                         "accuracy": 0.5,
                         "precision": 0.47,
@@ -121,10 +123,10 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 1
         assert base_experiment.experiment_dirc.joinpath("run_1").exists()
 
-    def test__run_evaluation(self, base_experiment: Experiment) -> None:
+    def test_run_evaluation(self, base_experiment: Experiment) -> None:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
-        evaluation = base_experiment._run_evaluation(actual, predicted)
+        evaluation = base_experiment.run_evaluation(actual, predicted)
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(evaluation) == 4
         for key, value in acutal_result.items():
@@ -143,6 +145,7 @@ class TestExperimentRun:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.run(dataset=dataset, model=base_model)
 
+        # run from dataset and model instance
         base_experiment.init()
         base_experiment.run(dataset=dataset, model=base_model)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
@@ -151,6 +154,8 @@ class TestExperimentRun:
         base_experiment.run(dataset=dataset, model=base_model)
         base_experiment.run(dataset=dataset, model=base_model)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+
+        # [TODO]: run from config file
 
 
 class TestExperimentResults:

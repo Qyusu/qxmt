@@ -27,12 +27,10 @@ class Evaluation:
         self,
         actual: np.ndarray,
         predicted: np.ndarray,
-        kernel_matrix: Optional[np.ndarray] = None,
         default_metrics_name: list[str] = DEFAULT_METRICS_NAME,
     ) -> None:
         self.actual: np.ndarray = actual
         self.predicted: np.ndarray = predicted
-        self.kernel_matrix: Optional[np.ndarray] = kernel_matrix
         self.default_metrics_name: list[str] = default_metrics_name
         self.default_metrics: list[BaseMetric] = []
         self.custom_metrics: list[BaseMetric] = []

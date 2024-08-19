@@ -7,12 +7,15 @@ from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
+import yaml
 
 from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, DEFAULT_MODEL_NAME, TZ
+from qxmt.datasets.dataset_builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
+    ExperimentRunSettingError,
     InvalidFileExtensionError,
     JsonEncodingError,
 )
@@ -160,7 +163,7 @@ class Experiment:
 
         return current_run_dirc
 
-    def _run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
+    def run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
         """Run evaluation for the current run.
 
         Args:
@@ -178,28 +181,129 @@ class Experiment:
 
         return evaluation.to_dict()
 
-    def run(self, dataset: Dataset, model: BaseModel, desc: str = "") -> None:
-        """Start a new run for the experiment."""
-        self._is_initialized()
-        current_run_dirc = self._run_setup()
-        commit_id = self._get_commit_id(self.logger)
+    def _run_from_config(self, config_path: str | Path, commit_id: str, run_dirc: str | Path) -> RunRecord:
+        """Run the experiment from the config file.
 
+        Args:
+            config_path (str | Path): path to the config file
+            commit_id (str): commit ID of the current git repository
+            run_dirc (str | Path): path to the run directory
+
+        Returns:
+            RunRecord: run record of the current run
+        """
+        with open(config_path, "r") as yml:
+            config = yaml.safe_load(yml)
+
+        # [TODO]: handle raw_preprocess_logic and transform_logic
+        dataset = DatasetBuilder(config["dataset"], raw_preprocess_logic=None, transform_logic=None).build()
+        # [TODO]: implement ModelBuilder
+        # model = ModelBuilder(config["model"]).build()
+        model = BaseModel()  # type: ignore
+        save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
+        record = self._run_from_instance(
+            dataset,
+            model,
+            save_model_path=save_model_path,
+            desc=config.get("description", ""),
+            commit_id=commit_id,
+            config_path=config_path,
+        )
+
+        return record
+
+    def _run_from_instance(
+        self,
+        dataset: Dataset,
+        model: BaseModel,
+        save_model_path: str | Path,
+        desc: str,
+        commit_id: str,
+        config_path: str | Path = "",
+    ) -> RunRecord:
+        """Run the experiment from the dataset and model instance.
+
+        Args:
+            dataset (Dataset): dataset object
+            model (BaseModel): model object
+            save_model_path (str | Path): path to save the model
+            desc (str, optional): description of the run.
+            commit_id (str): commit ID of the current git repository
+            config_path (str | Path, optional): path to the config file. Defaults to "".
+
+        Returns:
+            RunRecord: run record of the current run
+        """
         model.fit(dataset.X_train, dataset.y_train)
-        model.save(current_run_dirc / DEFAULT_MODEL_NAME)
+        model.save(save_model_path)
         predicted = model.predict(dataset.X_test)
 
-        current_run_record = RunRecord(
+        record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
             commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            evaluation=self._run_evaluation(dataset.y_test, predicted),
+            config_path=config_path,
+            evaluation=self.run_evaluation(dataset.y_test, predicted),
         )
 
-        self.exp_db.runs.append(current_run_record)  # type: ignore
+        return record
+
+    def run(
+        self,
+        dataset: Optional[Dataset] = None,
+        model: Optional[BaseModel] = None,
+        config_path: Optional[str | Path] = None,
+        desc: str = "",
+        add_record: bool = True,
+    ) -> RunRecord:
+        """Start a new run for the experiment.
+        run() method can be called two ways:
+        1. Provide dataset and model instance
+            This method is directory provided dataset and model instance. It is easy to use but less flexible.
+            This method "NOT" track the experiment settings.
+        2. Provide config_path
+            This method is provided the path to the config file. It is more flexible but requires a config file.
+
+        Args:
+            dataset (Dataset): dataset object
+            model (BaseModel): model object
+            config_path (str | Path, optional): path to the config file. Defaults to None.
+            desc (str, optional): description of the run. Defaults to "".
+            add_record (bool, optional): whether to add the run record to the experiment. Defaults to True.
+
+        Returns:
+            RunRecord: run record of the current run
+
+        Raises:
+            ExperimentNotInitializedError: if the experiment is not initialized
+        """
+        self._is_initialized()
+        current_run_dirc = self._run_setup()
+        commit_id = self._get_commit_id(self.logger)
+
+        if (dataset is not None) and (model is not None) and (config_path is None):
+            save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
+            record = self._run_from_instance(dataset, model, save_model_path, desc, commit_id)
+        elif config_path is not None:
+            record = self._run_from_config(config_path, commit_id, run_dirc=current_run_dirc)
+        else:
+            raise ExperimentRunSettingError("Either dataset and model or config_path must be provided.")
+
+        if add_record:
+            self.exp_db.runs.append(record)  # type: ignore
+
+        return record
 
     def runs_to_dataframe(self) -> pd.DataFrame:
-        """Convert the run data to a pandas DataFrame."""
+        """Convert the run data to a pandas DataFrame.
+
+        Returns:
+            pd.DataFrame: DataFrame of run data
+
+        Raises:
+            ExperimentNotInitializedError: if the experiment is not initialized
+        """
         self._is_initialized()
         run_data = [run.model_dump() for run in self.exp_db.runs]  # type: ignore
         run_data = [
@@ -213,6 +317,9 @@ class Experiment:
         Args:
             exp_file (str | Path, optional):
                 name of the file to save the experiment data.Defaults to DEFAULT_EXP_DB_FILE.
+
+        Raises:
+            ExperimentNotInitializedError: if the experiment is not initialized
         """
 
         def custom_encoder(obj: Any) -> str:
@@ -226,3 +333,66 @@ class Experiment:
         exp_data = json.loads(self.exp_db.model_dump_json())  # type: ignore
         with open(save_path, "w") as json_file:
             json.dump(exp_data, json_file, indent=4, default=custom_encoder)
+
+    def get_run_record(self, runs: list[RunRecord], run_id: int) -> RunRecord:
+        """Get the run record of the target run_id.
+
+        Args:
+            run_id (int): target run_id
+
+        Raises:
+            ValueError: if the run record does not exist
+
+        Returns:
+            RunRecord: target run record
+        """
+        self._is_initialized()
+        for run_record in runs:
+            if run_record.run_id == run_id:
+                return run_record
+
+        # if the target run_id does not exist
+        raise ValueError(f"Run record of run_id={run_id} does not exist.")
+
+    def _validate_evaluation(
+        self, logging_evaluation: dict[str, float], reproduction_evaluation: dict[str, float]
+    ) -> None:
+        """Validate the evaluation results of logging and reproduction.
+
+        Args:
+            logging_evaluation (dict[str, float]): evaluation result of logging
+            reproduction_evaluation (dict[str, float]): evaluation result of reproduction
+
+        Raises:
+            ValueError: if the evaluation results are different
+        """
+        invalid_dict: dict[str, str] = {}
+        for key, value in logging_evaluation.items():
+            reproduction_value = reproduction_evaluation.get(key, None)
+            if value != reproduction_value:
+                invalid_dict[key] = f"{value} -> {reproduction_value}"
+
+        if len(invalid_dict) > 0:
+            raise ValueError(
+                f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
+            )
+
+    def reproduction(self, run_id: int) -> RunRecord:
+        """Reproduction of the target run.
+
+        Args:
+            run_id (int): target run_id
+
+        Returns:
+            RunRecord: run record of the reproduction run
+        """
+        self._is_initialized()
+        run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
+        config_path = run_record.config_path
+        reproduction_result = self.run(config_path=config_path, add_record=False)
+
+        logging_evaluation = run_record.evaluation
+        reproduction_evaluation = reproduction_result.evaluation
+        self._validate_evaluation(logging_evaluation, reproduction_evaluation)
+
+        return reproduction_result

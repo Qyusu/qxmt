@@ -1,3 +1,7 @@
+class ExperimentRunSettingError(Exception):
+    pass
+
+
 class InvalidFileExtensionError(Exception):
     pass
 
