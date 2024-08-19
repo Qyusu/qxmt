@@ -7,7 +7,7 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.constants import DEFAULT_EXP_DB_FILE
-from qxmt.exceptions import ExperimentNotInitializedError
+from qxmt.exceptions import ExperimentNotInitializedError, ExperimentRunSettingError
 from qxmt.models.base import BaseModel
 
 
@@ -156,6 +156,16 @@ class TestExperimentRun:
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # [TODO]: run from config file
+
+        # invalid arguments patterm
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run()
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(dataset=dataset)
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(model=base_model)
 
 
 class TestExperimentResults:
