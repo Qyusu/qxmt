@@ -10,7 +10,7 @@ import pandas as pd
 import yaml
 
 from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, DEFAULT_MODEL_NAME, TZ
-from qxmt.datasets.dataset_builder import DatasetBuilder
+from qxmt.datasets.builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
@@ -282,11 +282,11 @@ class Experiment:
         current_run_dirc = self._run_setup()
         commit_id = self._get_commit_id(self.logger)
 
-        if (dataset is not None) and (model is not None) and (config_path is None):
+        if config_path is not None:
+            record = self._run_from_config(config_path, commit_id, run_dirc=current_run_dirc)
+        elif (dataset is not None) and (model is not None):
             save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
             record = self._run_from_instance(dataset, model, save_model_path, desc, commit_id)
-        elif config_path is not None:
-            record = self._run_from_config(config_path, commit_id, run_dirc=current_run_dirc)
         else:
             raise ExperimentRunSettingError("Either dataset and model or config_path must be provided.")
 

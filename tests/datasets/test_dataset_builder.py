@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from qxmt.datasets.dataset_builder import DatasetBuilder
+from qxmt.datasets.builder import DatasetBuilder
 
 RAW_DATA_TYPE = np.ndarray
 RAW_LABEL_TYPE = np.ndarray
