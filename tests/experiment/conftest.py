@@ -6,7 +6,7 @@ import pennylane as qml
 import pytest
 
 from qxmt import Experiment
-from qxmt.datasets.schema import Dataset, DatasetConfig
+from qxmt.datasets.schema import Dataset, DatasetConfig, PathConfig
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
@@ -50,7 +50,9 @@ def create_random_dataset() -> Callable:
             y_train=np.random.randint(class_num, size=data_num),
             X_test=np.random.rand(data_num, feature_num),
             y_test=np.random.randint(class_num, size=data_num),
-            config=DatasetConfig(dataset_path="test", random_state=42, test_size=0.2),
+            config=DatasetConfig(
+                type="generate", path=PathConfig(data="", label=""), random_seed=42, test_size=0.2, features=None
+            ),
         )
 
     return _create_random_dataset
