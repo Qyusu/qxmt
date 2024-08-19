@@ -1,8 +1,8 @@
 from pathlib import Path
-from typing import Annotated, Any, Optional
+from typing import Annotated, Any, Literal, Optional
 
 import numpy as np
-from pydantic import BaseModel, PlainSerializer, PlainValidator
+from pydantic import BaseModel, Field, PlainSerializer, PlainValidator
 
 
 def validate(v: Any) -> np.ndarray:
@@ -23,10 +23,16 @@ DataArray = Annotated[
 ]
 
 
+class PathConfig(BaseModel):
+    data: Path | str
+    label: Path | str
+
+
 class DatasetConfig(BaseModel):
-    dataset_path: Path | str
-    random_state: int
-    test_size: float
+    type: Literal["file", "generate"]
+    path: PathConfig
+    random_seed: int
+    test_size: float = Field(ge=0.0, le=1.0)
     features: Optional[list[str]] = None
 
 

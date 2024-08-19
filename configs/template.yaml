@@ -1,0 +1,8 @@
+dataset:
+  type: "file"  # "file" or "generate"
+  path: # full path or relative path from the root of the project
+    data: "/Users/kenya/sandbox/qxmt/data/mnist_784/images.npy"
+    label: "/Users/kenya/sandbox/qxmt/data/mnist_784/label.npy"
+  random_seed: 42
+  test_size: 0.2
+  features: null
