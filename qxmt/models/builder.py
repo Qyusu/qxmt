@@ -68,8 +68,7 @@ class ModelBuilder:
     def _set_model(self) -> None:
         """Set quantum model."""
         if self.model_config.model_name == "qsvm":
-            # self.model = QSVM(self.kernel, **self.model_config.model_params)
-            self.model = QSVM(self.kernel)
+            self.model = QSVM(self.kernel, **self.model_config.model_params)
         else:
             raise InvalidModelNameError(f'"{self.model_config.model_name}" is not implemented.')
 
