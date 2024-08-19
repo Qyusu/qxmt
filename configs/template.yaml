@@ -13,11 +13,18 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  shots: 1000
+  # shots: 1000
 
 model:
-  model_name: "QSVM"
+  model_name: "qsvm"
   model_file_name: "model.pkl"
+  model_params:
+    C: 1.0
+    gamma: 0.05
+  feature_map: "ZZFeatureMap"
+  map_params:
+    reps: 2
+  kernel: "fidelity"
 
 evaluation:
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]

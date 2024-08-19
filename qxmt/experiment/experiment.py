@@ -10,7 +10,7 @@ import pandas as pd
 import yaml
 
 from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, DEFAULT_MODEL_NAME, TZ
-from qxmt.datasets.dataset_builder import DatasetBuilder
+from qxmt.datasets.builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
