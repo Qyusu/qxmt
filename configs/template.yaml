@@ -1,3 +1,5 @@
+description: "This is a template configuration file for the QXMT framework."
+
 dataset:
   type: "file"  # "file" or "generate"
   path: # full path or relative path from the root of the project
@@ -6,3 +8,16 @@ dataset:
   random_seed: 42
   test_size: 0.2
   features: null
+
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: 1000
+
+model:
+  model_name: "QSVM"
+  model_file_name: "model.pkl"
+
+evaluation:
+  default_metrics: ["accuracy", "precision", "recall", "f1_score"]

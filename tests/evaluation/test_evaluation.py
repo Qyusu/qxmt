@@ -13,7 +13,6 @@ class TestEvaluation:
         return Evaluation(
             actual=actual,
             predicted=predicted,
-            kernel_matrix=None,
             default_metrics_name=default_metrics_name,
         )
 

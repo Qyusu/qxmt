@@ -8,6 +8,7 @@ class RunRecord(BaseModel):
     desc: str
     execution_time: str
     commit_id: str
+    config_path: Path | str
     evaluation: dict[str, float]
 
 
