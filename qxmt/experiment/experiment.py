@@ -22,6 +22,7 @@ from qxmt.exceptions import (
 from qxmt.experiment.schema import ExperimentDB, RunRecord
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseModel
+from qxmt.models.builder import ModelBuilder
 
 LOGGER = set_default_logger(__name__)
 
@@ -181,7 +182,12 @@ class Experiment:
 
         return evaluation.to_dict()
 
-    def _run_from_config(self, config_path: str | Path, commit_id: str, run_dirc: str | Path) -> RunRecord:
+    def _run_from_config(
+        self,
+        config_path: str | Path,
+        commit_id: str,
+        run_dirc: str | Path,
+    ) -> tuple[BaseModel, RunRecord]:
         """Run the experiment from the config file.
 
         Args:
@@ -190,18 +196,20 @@ class Experiment:
             run_dirc (str | Path): path to the run directory
 
         Returns:
-            RunRecord: run record of the current run
+            tuple[BaseModel, RunRecord]: model and run record of the current run
         """
+        # [TODO]: receive config instance
         with open(config_path, "r") as yml:
             config = yaml.safe_load(yml)
 
         # [TODO]: handle raw_preprocess_logic and transform_logic
-        dataset = DatasetBuilder(config["dataset"], raw_preprocess_logic=None, transform_logic=None).build()
-        # [TODO]: implement ModelBuilder
-        # model = ModelBuilder(config["model"]).build()
-        model = BaseModel()  # type: ignore
+        dataset = DatasetBuilder(
+            config.get("dataset"), raw_preprocess_logic=tmp_raw_preprocess, transform_logic=tmp_transform
+        ).build()
+        model = ModelBuilder(device_config=config.get("device"), model_config=config.get("model")).build()
         save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
-        record = self._run_from_instance(
+
+        model, record = self._run_from_instance(
             dataset,
             model,
             save_model_path=save_model_path,
@@ -210,7 +218,7 @@ class Experiment:
             config_path=config_path,
         )
 
-        return record
+        return model, record
 
     def _run_from_instance(
         self,
@@ -220,7 +228,7 @@ class Experiment:
         desc: str,
         commit_id: str,
         config_path: str | Path = "",
-    ) -> RunRecord:
+    ) -> tuple[BaseModel, RunRecord]:
         """Run the experiment from the dataset and model instance.
 
         Args:
@@ -232,7 +240,7 @@ class Experiment:
             config_path (str | Path, optional): path to the config file. Defaults to "".
 
         Returns:
-            RunRecord: run record of the current run
+            tuple[BaseModel, RunRecord]: model and run record of the current run
         """
         model.fit(dataset.X_train, dataset.y_train)
         model.save(save_model_path)
@@ -247,7 +255,7 @@ class Experiment:
             evaluation=self.run_evaluation(dataset.y_test, predicted),
         )
 
-        return record
+        return model, record
 
     def run(
         self,
@@ -256,7 +264,7 @@ class Experiment:
         config_path: Optional[str | Path] = None,
         desc: str = "",
         add_record: bool = True,
-    ) -> RunRecord:
+    ) -> tuple[BaseModel, RunRecord]:
         """Start a new run for the experiment.
         run() method can be called two ways:
         1. Provide dataset and model instance
@@ -273,7 +281,7 @@ class Experiment:
             add_record (bool, optional): whether to add the run record to the experiment. Defaults to True.
 
         Returns:
-            RunRecord: run record of the current run
+            tuple[BaseModel, RunRecord]: model and run record of the current run
 
         Raises:
             ExperimentNotInitializedError: if the experiment is not initialized
@@ -283,17 +291,17 @@ class Experiment:
         commit_id = self._get_commit_id(self.logger)
 
         if config_path is not None:
-            record = self._run_from_config(config_path, commit_id, run_dirc=current_run_dirc)
+            model, record = self._run_from_config(config_path, commit_id, run_dirc=current_run_dirc)
         elif (dataset is not None) and (model is not None):
             save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
-            record = self._run_from_instance(dataset, model, save_model_path, desc, commit_id)
+            model, record = self._run_from_instance(dataset, model, save_model_path, desc, commit_id)
         else:
             raise ExperimentRunSettingError("Either dataset and model or config_path must be provided.")
 
         if add_record:
             self.exp_db.runs.append(record)  # type: ignore
 
-        return record
+        return model, record
 
     def runs_to_dataframe(self) -> pd.DataFrame:
         """Convert the run data to a pandas DataFrame.
@@ -377,22 +385,56 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduction(self, run_id: int) -> RunRecord:
+    def reproduction(self, run_id: int) -> tuple[BaseModel, RunRecord]:
         """Reproduction of the target run.
 
         Args:
             run_id (int): target run_id
 
         Returns:
-            RunRecord: run record of the reproduction run
+            tuple[BaseModel, RunRecord]: model and run record of the current run
         """
         self._is_initialized()
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
         config_path = run_record.config_path
-        reproduction_result = self.run(config_path=config_path, add_record=False)
+        reproduction_model, reproduction_result = self.run(config_path=config_path, add_record=False)
 
         logging_evaluation = run_record.evaluation
         reproduction_evaluation = reproduction_result.evaluation
         self._validate_evaluation(logging_evaluation, reproduction_evaluation)
 
-        return reproduction_result
+        return reproduction_model, reproduction_result
+
+
+# [TODO]: Load from config file
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+from qxmt.datasets.builder import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
+
+
+def tmp_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
+    y = np.array([int(label) for label in y])
+    indices = np.where(np.isin(y, [0, 1]))[0]
+    X, y = X[indices][:100], y[indices][:100]
+
+    return X, y
+
+
+def tmp_transform(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+) -> PROCESSCED_DATASET_TYPE:
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    x_train_scaled = scaler.transform(X_train)
+    x_test_scaled = scaler.transform(X_test)
+
+    pca = PCA(n_components=2)
+    pca.fit(x_train_scaled)
+    X_train_pca = pca.transform(x_train_scaled)
+    X_test_pca = pca.transform(x_test_scaled)
+
+    return X_train_pca, y_train, X_test_pca, y_test
