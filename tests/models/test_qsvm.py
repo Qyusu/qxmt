@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from qxmt.models.qsvm import QSVM
+from qxmt.models import QSVM
 
 SVM_PARAMS = [
     "kernel",

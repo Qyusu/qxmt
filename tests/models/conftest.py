@@ -4,8 +4,8 @@ import numpy as np
 import pennylane as qml
 import pytest
 
-from qxmt.kernels.base import BaseKernel
-from qxmt.models.qsvm import QSVM
+from qxmt.kernels import BaseKernel
+from qxmt.models import QSVM
 
 DEVICE = qml.device("default.qubit", wires=2)
 

@@ -4,21 +4,13 @@ import numpy as np
 import pandas as pd
 
 from qxmt.constants import DEFAULT_METRICS_NAME
-from qxmt.evaluation.base import BaseMetric
-from qxmt.evaluation.defaults import (
-    Accuracy,
-    F1Score,
-    Precision,
-    Recall,
-    TargetAlignmet,
-)
+from qxmt.evaluation.defaults import Accuracy, BaseMetric, F1Score, Precision, Recall
 
 NAME2METRIC = {
     "accuracy": Accuracy,
     "precision": Precision,
     "recall": Recall,
     "f1_score": F1Score,
-    "target_alignmet": TargetAlignmet,
 }
 
 

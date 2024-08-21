@@ -1,6 +1,6 @@
 import numpy as np
 
-from qxmt.datasets.dummy.linear import generate_linear_separable_data
+from qxmt.datasets.dummy import generate_linear_separable_data
 
 
 def test_generate_linear_separable_data() -> None:

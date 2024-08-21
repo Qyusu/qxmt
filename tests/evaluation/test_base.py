@@ -5,7 +5,7 @@ import numpy as np
 import pytest
 from _pytest.logging import LogCaptureFixture
 
-from qxmt.evaluation.base import BaseMetric
+from qxmt.evaluation import BaseMetric
 
 
 class DummyMetric(BaseMetric):

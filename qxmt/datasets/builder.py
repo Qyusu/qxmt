@@ -3,7 +3,7 @@ from typing import Callable, Optional, get_type_hints
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from qxmt.datasets.dummy.linear import generate_linear_separable_data
+from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
 
 RAW_DATA_TYPE = np.ndarray

@@ -6,10 +6,9 @@ import pennylane as qml
 import pytest
 
 from qxmt import Experiment
-from qxmt.datasets.schema import Dataset, DatasetConfig, PathConfig
-from qxmt.kernels.base import BaseKernel
-from qxmt.models.base import BaseModel
-from qxmt.models.qsvm import QSVM
+from qxmt.datasets import Dataset, DatasetConfig, PathConfig
+from qxmt.kernels import BaseKernel
+from qxmt.models import QSVM, BaseModel
 
 DEVICE = qml.device("default.qubit", wires=2)
 
