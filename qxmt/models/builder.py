@@ -6,9 +6,8 @@ from qxmt.exceptions import (
 )
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
-from qxmt.models.base import BaseModel
 from qxmt.models.qsvm import QSVM
-from qxmt.models.schema import DeviceConfig, ModelConfig
+from qxmt.models.schema import BaseModel, DeviceConfig, ModelConfig
 
 
 class ModelBuilder:

@@ -3,7 +3,7 @@ import pennylane as qml
 import pytest
 
 from qxmt.exceptions import InputShapeError
-from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.feature_maps import BaseFeatureMap
 
 
 class EmptyFeatureMap(BaseFeatureMap):

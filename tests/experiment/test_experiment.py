@@ -12,7 +12,7 @@ from qxmt.exceptions import (
     ExperimentRunSettingError,
     ReproductinoError,
 )
-from qxmt.models.base import BaseModel
+from qxmt.models import BaseModel
 
 
 class TestExperimentSettings:

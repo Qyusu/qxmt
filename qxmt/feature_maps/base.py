@@ -6,7 +6,6 @@ import numpy as np
 
 from qxmt.constants import SUPPORTED_PLATFORMS
 from qxmt.exceptions import InputShapeError, InvalidPlatformError
-from qxmt.feature_maps.pennylane.utils import output_pennylane_circuit
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
@@ -62,6 +61,8 @@ class BaseFeatureMap(ABC):
         self.check_input_shape(x)
 
         if self.platform == "pennylane":
-            output_pennylane_circuit(self.feature_map, x, logger)
+            import pennylane as qml
+
+            logger.info(qml.draw(self.feature_map)(x))
         else:
             raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')
