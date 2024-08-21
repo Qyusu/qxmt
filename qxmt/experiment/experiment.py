@@ -157,10 +157,25 @@ class Experiment:
             )
 
     def _run_setup(self) -> Path:
-        """Setup for the current run."""
-        self.current_run_id += 1
-        current_run_dirc = self.experiment_dirc / f"run_{self.current_run_id}"
-        current_run_dirc.mkdir(parents=True)
+        """Setup for the current run.
+        Create a new run directory and update the current run ID.
+        If the run directory already exists, raise an error and not update the current run ID.
+
+        Returns:
+            Path: path to the current run directory
+
+        Raises:
+            Exception: if error occurs while creating the run directory
+        """
+        current_run_id = self.current_run_id + 1
+        try:
+            current_run_dirc = self.experiment_dirc / f"run_{current_run_id}"
+            current_run_dirc.mkdir(parents=True)
+        except Exception as e:
+            self.logger.error(f"Error creating run directory: {e}")
+            raise
+
+        self.current_run_id = current_run_id
 
         return current_run_dirc
 
@@ -172,7 +187,7 @@ class Experiment:
             predicted (np.ndarray): array of predicted values
 
         Returns:
-            Evaluation: evaluation result
+            dict: evaluation result
         """
         evaluation = Evaluation(
             actual=actual,

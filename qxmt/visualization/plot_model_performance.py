@@ -6,6 +6,7 @@ import numpy as np
 from sklearn.inspection import DecisionBoundaryDisplay
 
 from qxmt.datasets.schema import Dataset
+from qxmt.decorators import notify_long_running
 from qxmt.models.qsvm import QSVM
 from qxmt.visualization.utils import _create_class_labels, _create_colors
 
@@ -71,6 +72,7 @@ def plot_2d_predicted_result(
     plt.show()
 
 
+@notify_long_running
 def plot_2d_decisionon_boundaries(
     model: QSVM,
     dataset: Dataset,
