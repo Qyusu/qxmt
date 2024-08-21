@@ -7,7 +7,11 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.constants import DEFAULT_EXP_DB_FILE
-from qxmt.exceptions import ExperimentNotInitializedError, ExperimentRunSettingError
+from qxmt.exceptions import (
+    ExperimentNotInitializedError,
+    ExperimentRunSettingError,
+    ReproductinoError,
+)
 from qxmt.models.base import BaseModel
 
 
@@ -173,7 +177,7 @@ class TestExperimentResults:
         self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment._is_initialized()
+            base_experiment.runs_to_dataframe()
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
@@ -195,3 +199,26 @@ class TestExperimentResults:
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
+
+
+class TestExperimentReproduce:
+    def test_reproduce(
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+    ) -> None:
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment.reproduce(run_id=1)
+
+        base_experiment.init()
+        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        base_experiment.run(dataset=dataset, model=base_model)
+
+        # run_id=1 executed from dataset and model instance.
+        # this run not exist config file.
+        with pytest.raises(ReproductinoError):
+            base_experiment.reproduce(run_id=1)
+
+        # run_id=2 is not exist in the experiment.
+        with pytest.raises(ValueError):
+            base_experiment.reproduce(run_id=2)
+
+        # [TODO]: reproduce method not update experiment db and run_id.

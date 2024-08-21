@@ -14,6 +14,10 @@ class ExperimentNotInitializedError(Exception):
     pass
 
 
+class ReproductinoError(Exception):
+    pass
+
+
 class InputShapeError(Exception):
     pass
 

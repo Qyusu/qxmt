@@ -18,6 +18,7 @@ from qxmt.exceptions import (
     ExperimentRunSettingError,
     InvalidFileExtensionError,
     JsonEncodingError,
+    ReproductinoError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunRecord
 from qxmt.logger import set_default_logger
@@ -415,26 +416,36 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduction(self, run_id: int) -> BaseModel:
-        """Reproduction of the target run.
+    def reproduce(self, run_id: int) -> BaseModel:
+        """Reproduce the target run_id model from config file.
+        If the target run_id does not have a config file path, raise an error.
+        Reoroduce method not supported for the run executed from the instance.
 
         Args:
             run_id (int): target run_id
 
         Returns:
-            tuple[BaseModel, RunRecord]: model and run record of the current run
+            BaseModel: reproduced model
+
+        Raises:
+            ReproductinoError: if the run_id does not have a config file path
         """
         self._is_initialized()
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
         config_path = run_record.config_path
-        reproduction_model, reproduction_result = self.run(config_path=config_path, add_results=False)
+        if config_path == "":
+            raise ReproductinoError(
+                f"run_id={run_id} does not have a config file path. This run executed from instance."
+            )
+
+        reproduced_model, reproduced_result = self.run(config_path=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
-        reproduction_evaluation = reproduction_result.evaluation
-        self._validate_evaluation(logging_evaluation, reproduction_evaluation)
-        self.logger.info(f"Reproduction is successful. Evaluation results are the same run_id={run_id}.")
+        reproduced_evaluation = reproduced_result.evaluation
+        self._validate_evaluation(logging_evaluation, reproduced_evaluation)
+        self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
 
-        return reproduction_model
+        return reproduced_model
 
 
 # [TODO]: Load from config file
