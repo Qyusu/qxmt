@@ -4,8 +4,10 @@ from typing import Callable, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
+from joblib import Parallel, delayed
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
+from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.utils import get_number_of_qubits, get_platform_from_device
 from qxmt.types import QuantumDeviceType
@@ -57,23 +59,31 @@ class BaseKernel(ABC):
         """
         pass
 
-    def compute_matrix(self, x_array_1: np.ndarray, x_array_2: np.ndarray) -> np.ndarray:
+    def compute_matrix(self, x_array_1: np.ndarray, x_array_2: np.ndarray, n_jobs: int = DEFAULT_N_JOBS) -> np.ndarray:
         """Default implementation of kernel matrix computation.
 
         Args:
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
+            n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
 
         Returns:
             np.ndarray: computed kernel matrix
         """
+
+        def _compute_entry(i: int, j: int) -> tuple[int, int, float]:
+            return i, j, self.compute(x_array_1[i], x_array_2[j])
+
+        # compute each entry of the kernel matrix in parallel
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
-        kernel_matrix = np.zeros((n_samples_1, n_samples_2))
+        results = Parallel(n_jobs=n_jobs)(
+            delayed(_compute_entry)(i, j) for i in range(n_samples_1) for j in range(n_samples_2)
+        )
 
-        for i in range(n_samples_1):
-            for j in range(n_samples_2):
-                kernel_matrix[i, j] = self.compute(x_array_1[i], x_array_2[j])
+        kernel_matrix = np.zeros((n_samples_1, n_samples_2))
+        for i, j, value in results:  # type: ignore
+            kernel_matrix[i, j] = value
 
         return kernel_matrix
 
@@ -82,15 +92,18 @@ class BaseKernel(ABC):
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
         save_path: Optional[str | Path] = None,
+        n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
         """Plot kernel matrix.
 
         Args:
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
+            save_path (Optional[str | Path], optional): save path for the plot. Defaults to None.
+            n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
         """
 
-        kernel_matrix = self.compute_matrix(x_array_1, x_array_2)
+        kernel_matrix = self.compute_matrix(x_array_1, x_array_2, n_jobs=n_jobs)
         plt.imshow(np.asmatrix(kernel_matrix), interpolation="nearest", origin="upper", cmap="viridis")
         plt.colorbar()
         plt.title("Kernel matrix")
@@ -104,15 +117,18 @@ class BaseKernel(ABC):
         x_train: np.ndarray,
         x_test: np.ndarray,
         save_path: Optional[str | Path] = None,
+        n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
         """Plot kernel matrix for training and testing data.
 
         Args:
             x_train (np.ndarray): array of training samples
             x_test (np.ndarray): array of testing samples
+            save_path (Optional[str | Path], optional): save path for the plot. Defaults to None.
+            n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
         """
-        train_kernel = self.compute_matrix(x_train, x_train)
-        test_kernel = self.compute_matrix(x_test, x_train)
+        train_kernel = self.compute_matrix(x_train, x_train, n_jobs=n_jobs)
+        test_kernel = self.compute_matrix(x_test, x_train, n_jobs=n_jobs)
 
         fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
