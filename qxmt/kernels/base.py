@@ -20,7 +20,7 @@ class BaseKernel(ABC):
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
         self.device: QuantumDeviceType = device
-        self.plagform: str = get_platform_from_device(self.device)
+        self.platform: str = get_platform_from_device(self.device)
         self.n_qubits: int = get_number_of_qubits(self.device)
         if callable(feature_map):
             feature_map = self._to_fm_instance(feature_map)
@@ -44,7 +44,7 @@ class BaseKernel(ABC):
                 self.check_input_shape(x)
                 feature_map(x)
 
-        return CustomFeatureMap(self.plagform, self.n_qubits)
+        return CustomFeatureMap(self.platform, self.n_qubits)
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
