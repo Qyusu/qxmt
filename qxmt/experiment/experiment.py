@@ -157,7 +157,7 @@ class Experiment:
                 "Experiment is not initialized. Please call init() or load_experiment() method first."
             )
 
-    def _run_setup(self, add_results: bool = True) -> Path:
+    def _run_setup(self) -> Path:
         """Setup for the current run.
         Create a new run directory and update the current run ID.
         If the run directory already exists, raise an error and not update the current run ID.
@@ -168,9 +168,6 @@ class Experiment:
         Raises:
             Exception: if error occurs while creating the run directory
         """
-        if not add_results:
-            return self.experiment_dirc / "tmp"
-
         current_run_id = self.current_run_id + 1
         try:
             current_run_dirc = self.experiment_dirc / f"run_{current_run_id}"
@@ -313,8 +310,13 @@ class Experiment:
             ExperimentNotInitializedError: if the experiment is not initialized
         """
         self._is_initialized()
-        current_run_dirc = self._run_setup(add_results)
-        commit_id = self._get_commit_id(self.logger)
+
+        if add_results:
+            current_run_dirc = self._run_setup()
+            commit_id = self._get_commit_id(self.logger)
+        else:
+            current_run_dirc = Path("")
+            commit_id = ""
 
         if config_path is not None:
             model, record = self._run_from_config(
