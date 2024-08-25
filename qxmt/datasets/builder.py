@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
+from qxmt.exceptions import InvalidConfigError
 
 RAW_DATA_TYPE = np.ndarray
 RAW_LABEL_TYPE = np.ndarray
@@ -15,11 +16,12 @@ PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 class DatasetBuilder:
     def __init__(
         self,
-        config: dict,
+        raw_config: dict,
         raw_preprocess_logic: Optional[Callable] = None,
         transform_logic: Optional[Callable] = None,
     ) -> None:
-        self.config: DatasetConfig = DatasetConfig(**config)
+        self.raw_config: dict = raw_config
+        self.config: DatasetConfig = self._get_dataset_config()
 
         if raw_preprocess_logic is not None:
             self._validate_raw_preprocess_logic(raw_preprocess_logic)
@@ -32,6 +34,20 @@ class DatasetBuilder:
             self.custom_transform: Optional[Callable] = transform_logic
         else:
             self.custom_transform = None
+
+    def _get_dataset_config(self, key: str = "dataset") -> DatasetConfig:
+        """Get dataset configurations.
+
+        Args:
+            key (str, optional): key for device configuration. Defaults to "dataset".
+
+        Raises:
+            InvalidConfigError: key is not in the configuration file.
+        """
+        if key not in self.raw_config:
+            raise InvalidConfigError(f"Key '{key}' is not in the configuration file.")
+
+        return DatasetConfig(**self.raw_config[key])
 
     @staticmethod
     def _validate_raw_preprocess_logic(raw_preprocess_logic: Callable) -> None:

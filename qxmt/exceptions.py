@@ -14,7 +14,7 @@ class ExperimentNotInitializedError(Exception):
     pass
 
 
-class ReproductinoError(Exception):
+class ReproductionError(Exception):
     pass
 
 
@@ -43,4 +43,8 @@ class InvalidKernelError(Exception):
 
 
 class InvalidModelNameError(Exception):
+    pass
+
+
+class InvalidConfigError(Exception):
     pass

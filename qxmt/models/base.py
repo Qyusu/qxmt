@@ -7,7 +7,7 @@ from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels.base import BaseKernel
 
 
-class BaseModel(ABC):
+class BaseMLModel(ABC):
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
         """Fit the model with given data.
@@ -40,7 +40,7 @@ class BaseModel(ABC):
         pass
 
     @abstractmethod
-    def load(self, path: str | Path) -> "BaseModel":
+    def load(self, path: str | Path) -> "BaseMLModel":
         """Load the model from the given path.
 
         Args:
@@ -67,7 +67,7 @@ class BaseModel(ABC):
         pass
 
 
-class BaseKernelModel(BaseModel):
+class BaseKernelModel(BaseMLModel):
     def __init__(self, kernel: BaseKernel) -> None:
         super().__init__()
         self.kernel = kernel

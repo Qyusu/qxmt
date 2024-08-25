@@ -10,9 +10,9 @@ from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
-    ReproductinoError,
+    ReproductionError,
 )
-from qxmt.models import BaseModel
+from qxmt.models import BaseMLModel
 
 
 class TestExperimentSettings:
@@ -140,7 +140,7 @@ class TestExperimentRun:
         self,
         base_experiment: Experiment,
         create_random_dataset: Callable,
-        base_model: BaseModel,
+        base_model: BaseMLModel,
     ) -> None:
         dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
 
@@ -174,7 +174,7 @@ class TestExperimentRun:
 
 class TestExperimentResults:
     def test_runs_to_dataframe(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.runs_to_dataframe()
@@ -189,7 +189,7 @@ class TestExperimentResults:
         assert len(df) == 2
 
     def test_save_experiment(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
     ) -> None:
         dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
 
@@ -203,7 +203,7 @@ class TestExperimentResults:
 
 class TestExperimentReproduce:
     def test_reproduce(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.reproduce(run_id=1)
@@ -214,7 +214,7 @@ class TestExperimentReproduce:
 
         # run_id=1 executed from dataset and model instance.
         # this run not exist config file.
-        with pytest.raises(ReproductinoError):
+        with pytest.raises(ReproductionError):
             base_experiment.reproduce(run_id=1)
 
         # run_id=2 is not exist in the experiment.

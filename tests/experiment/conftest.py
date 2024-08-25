@@ -8,7 +8,7 @@ import pytest
 from qxmt import Experiment
 from qxmt.datasets import Dataset, DatasetConfig, PathConfig
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVM, BaseModel
+from qxmt.models import QSVM, BaseMLModel
 
 DEVICE = qml.device("default.qubit", wires=2)
 
@@ -26,7 +26,7 @@ class TestKernel(BaseKernel):
 
 
 @pytest.fixture(scope="function")
-def base_model() -> BaseModel:
+def base_model() -> BaseMLModel:
     kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
     return QSVM(kernel=kernel)
 

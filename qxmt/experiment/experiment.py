@@ -18,11 +18,11 @@ from qxmt.exceptions import (
     ExperimentRunSettingError,
     InvalidFileExtensionError,
     JsonEncodingError,
-    ReproductinoError,
+    ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunRecord
 from qxmt.logger import set_default_logger
-from qxmt.models.base import BaseModel
+from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
 
 LOGGER = set_default_logger(__name__)
@@ -204,7 +204,7 @@ class Experiment:
         commit_id: str,
         run_dirc: str | Path,
         add_results: bool = True,
-    ) -> tuple[BaseModel, RunRecord]:
+    ) -> tuple[BaseMLModel, RunRecord]:
         """Run the experiment from the config file.
 
         Args:
@@ -214,7 +214,7 @@ class Experiment:
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
-            tuple[BaseModel, RunRecord]: model and run record of the current run
+            tuple[BaseMLModel, RunRecord]: model and run record of the current run
         """
         # [TODO]: receive config instance
         with open(config_path, "r") as yml:
@@ -222,10 +222,10 @@ class Experiment:
 
         # [TODO]: handle raw_preprocess_logic and transform_logic
         dataset = DatasetBuilder(
-            config.get("dataset"), raw_preprocess_logic=tmp_raw_preprocess, transform_logic=tmp_transform
+            raw_config=config, raw_preprocess_logic=tmp_raw_preprocess, transform_logic=tmp_transform
         ).build()
 
-        model = ModelBuilder(device_config=config.get("device"), model_config=config.get("model")).build()
+        model = ModelBuilder(raw_config=config).build()
         save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
 
         model, record = self._run_from_instance(
@@ -243,18 +243,18 @@ class Experiment:
     def _run_from_instance(
         self,
         dataset: Dataset,
-        model: BaseModel,
+        model: BaseMLModel,
         save_model_path: str | Path,
         desc: str,
         commit_id: str,
         config_path: str | Path = "",
         add_results: bool = True,
-    ) -> tuple[BaseModel, RunRecord]:
+    ) -> tuple[BaseMLModel, RunRecord]:
         """Run the experiment from the dataset and model instance.
 
         Args:
             dataset (Dataset): dataset object
-            model (BaseModel): model object
+            model (BaseMLModel): model object
             save_model_path (str | Path): path to save the model
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
@@ -262,7 +262,7 @@ class Experiment:
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
-            tuple[BaseModel, RunRecord]: model and run record of the current run
+            tuple[BaseMLModel, RunRecord]: model and run record of the current run
         """
         model.fit(dataset.X_train, dataset.y_train)
         predicted = model.predict(dataset.X_test)
@@ -283,11 +283,11 @@ class Experiment:
     def run(
         self,
         dataset: Optional[Dataset] = None,
-        model: Optional[BaseModel] = None,
+        model: Optional[BaseMLModel] = None,
         config_path: Optional[str | Path] = None,
         desc: str = "",
         add_results: bool = True,
-    ) -> tuple[BaseModel, RunRecord]:
+    ) -> tuple[BaseMLModel, RunRecord]:
         """Start a new run for the experiment.
         run() method can be called two ways:
         1. Provide dataset and model instance
@@ -298,13 +298,13 @@ class Experiment:
 
         Args:
             dataset (Dataset): dataset object
-            model (BaseModel): model object
+            model (BaseMLModel): model object
             config_path (str | Path, optional): path to the config file. Defaults to None.
             desc (str, optional): description of the run. Defaults to "".
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
 
         Returns:
-            tuple[BaseModel, RunRecord]: model and run record of the current run
+            tuple[BaseMLModel, RunRecord]: model and run record of the current run
 
         Raises:
             ExperimentNotInitializedError: if the experiment is not initialized
@@ -418,7 +418,7 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduce(self, run_id: int) -> BaseModel:
+    def reproduce(self, run_id: int) -> BaseMLModel:
         """Reproduce the target run_id model from config file.
         If the target run_id does not have a config file path, raise an error.
         Reoroduce method not supported for the run executed from the instance.
@@ -427,7 +427,7 @@ class Experiment:
             run_id (int): target run_id
 
         Returns:
-            BaseModel: reproduced model
+            BaseMLModel: reproduced model
 
         Raises:
             ReproductinoError: if the run_id does not have a config file path
@@ -436,7 +436,7 @@ class Experiment:
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
         config_path = run_record.config_path
         if config_path == "":
-            raise ReproductinoError(
+            raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
             )
 

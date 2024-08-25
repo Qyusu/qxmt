@@ -1,7 +1,7 @@
 from qxmt.models import __all__
 
 EXPECTED_ALL = [
-    "BaseModel",
+    "BaseMLModel",
     "BaseKernelModel",
     "ModelBuilder",
     "QSVM",

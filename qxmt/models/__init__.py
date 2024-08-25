@@ -1,10 +1,10 @@
-from qxmt.models.base import BaseKernelModel, BaseModel
+from qxmt.models.base import BaseKernelModel, BaseMLModel
 from qxmt.models.builder import ModelBuilder
 from qxmt.models.qsvm import QSVM
 from qxmt.models.schema import DeviceConfig, ModelConfig
 
 __all__ = [
-    "BaseModel",
+    "BaseMLModel",
     "BaseKernelModel",
     "ModelBuilder",
     "QSVM",
