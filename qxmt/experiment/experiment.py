@@ -1,5 +1,4 @@
 import json
-import subprocess
 from datetime import datetime
 from logging import Logger
 from pathlib import Path
@@ -21,9 +20,11 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunRecord
+from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
+from qxmt.utils import get_commit_id, get_git_add_code, get_git_rm_code
 
 LOGGER = set_default_logger(__name__)
 
@@ -33,16 +34,22 @@ class Experiment:
         self,
         name: Optional[str] = None,
         desc: Optional[str] = None,
+        auto_gen_mode: bool = False,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
         logger: Logger = LOGGER,
     ) -> None:
         self.name: Optional[str] = name
         self.desc: Optional[str] = desc
+        self.auto_gen_mode: bool = auto_gen_mode
         self.current_run_id: int = 0
         self.root_experiment_dirc: Path = root_experiment_dirc
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
+
+        if self.auto_gen_mode:
+            # [TODO]: switch to another llm model
+            self.desc_generator = DescriptionGenerator()
 
     @staticmethod
     def _generate_default_name() -> str:
@@ -59,21 +66,6 @@ class Experiment:
     def _check_json_extension(file_path: str | Path) -> None:
         if Path(file_path).suffix.lower() != ".json":
             raise InvalidFileExtensionError(f"File '{file_path}' does not have a '.json' extension.")
-
-    @staticmethod
-    def _get_commit_id(logger: Logger) -> str:
-        """Get the commit ID of the current git repository.
-        if the current directory is not a git repository, return an empty string.
-
-        Returns:
-            str: git commit ID
-        """
-        try:
-            commit_id = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip().decode("utf-8")
-            return commit_id
-        except subprocess.CalledProcessError as e:
-            logger.warning("Error executing git command:", e)
-            return ""
 
     def init(self) -> "Experiment":
         """Initialize the experiment directory and DB.
@@ -269,6 +261,12 @@ class Experiment:
         if add_results:
             model.save(save_model_path)
 
+        if self.auto_gen_mode and (desc == ""):
+            desc = self.desc_generator.generate(
+                add_code=get_git_add_code(logger=self.logger),
+                remove_code=get_git_rm_code(logger=self.logger),
+            )
+
         record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
@@ -313,7 +311,7 @@ class Experiment:
 
         if add_results:
             current_run_dirc = self._run_setup()
-            commit_id = self._get_commit_id(self.logger)
+            commit_id = get_commit_id(self.logger)
         else:
             current_run_dirc = Path("")
             commit_id = ""

@@ -9,8 +9,8 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.feature_maps.base import BaseFeatureMap
-from qxmt.kernels.utils import get_number_of_qubits, get_platform_from_device
 from qxmt.types import QuantumDeviceType
+from qxmt.utils import get_number_of_qubits, get_platform_from_device
 
 
 class BaseKernel(ABC):
