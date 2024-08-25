@@ -1,5 +1,3 @@
-from pennylane import qml
-
 from qxmt.constants import PENNYLANE_DEVICES
 from qxmt.exceptions import InvalidQunatumDeviceError
 from qxmt.types import QuantumDeviceType
