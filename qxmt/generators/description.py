@@ -7,9 +7,9 @@ LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 
 class DescriptionGenerator:
-    def __init__(self) -> None:
-        self.tokenizer = AutoTokenizer.from_pretrained(LLM_MODEL_PATH)
-        self.model = AutoModelForCausalLM.from_pretrained(LLM_MODEL_PATH)
+    def __init__(self, model_path: str = LLM_MODEL_PATH) -> None:
+        self.tokenizer = AutoTokenizer.from_pretrained(model_path)
+        self.model = AutoModelForCausalLM.from_pretrained(model_path)
 
     def _create_message(self, system_prompt: str, user_prompt: str) -> list[dict]:
         """Create a message for the model input.

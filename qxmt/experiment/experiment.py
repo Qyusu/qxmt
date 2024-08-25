@@ -20,10 +20,11 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunRecord
+from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
-from qxmt.utils import get_commit_id
+from qxmt.utils import get_commit_id, get_git_add_code, get_git_rm_code
 
 LOGGER = set_default_logger(__name__)
 
@@ -33,16 +34,22 @@ class Experiment:
         self,
         name: Optional[str] = None,
         desc: Optional[str] = None,
+        auto_gen_mode: bool = False,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
         logger: Logger = LOGGER,
     ) -> None:
         self.name: Optional[str] = name
         self.desc: Optional[str] = desc
+        self.auto_gen_mode: bool = auto_gen_mode
         self.current_run_id: int = 0
         self.root_experiment_dirc: Path = root_experiment_dirc
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
+
+        if self.auto_gen_mode:
+            # [TODO]: switch to another llm model
+            self.desc_generator = DescriptionGenerator()
 
     @staticmethod
     def _generate_default_name() -> str:
@@ -253,6 +260,12 @@ class Experiment:
         predicted = model.predict(dataset.X_test)
         if add_results:
             model.save(save_model_path)
+
+        if self.auto_gen_mode and (desc == ""):
+            desc = self.desc_generator.generate(
+                add_code=get_git_add_code(logger=self.logger),
+                remove_code=get_git_rm_code(logger=self.logger),
+            )
 
         record = RunRecord(
             run_id=self.current_run_id,

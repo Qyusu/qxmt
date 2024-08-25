@@ -5,6 +5,7 @@ EXPECTED_ALL = [
     "get_number_of_qubits",
     "get_git_diff",
     "get_git_add_code",
+    "get_git_rm_code",
     "get_platform_from_device",
 ]
 
