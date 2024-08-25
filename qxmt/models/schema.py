@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel
 
@@ -10,10 +10,19 @@ class DeviceConfig(BaseModel):
     # shots: int
 
 
+class FeatureMapConfig(BaseModel):
+    name: str
+    params: dict[str, Any]
+
+
+class KernelConfig(BaseModel):
+    name: str
+    params: dict[str, Any]
+
+
 class ModelConfig(BaseModel):
-    model_name: str
-    model_file_name: str
-    model_params: dict
-    feature_map: Optional[str] = None
-    map_params: dict
-    kernel: Optional[str] = None
+    name: str
+    file_name: str
+    params: dict[str, Any]
+    feature_map: Optional[FeatureMapConfig] = None
+    kernel: Optional[KernelConfig] = None

@@ -1,6 +1,18 @@
 from qxmt import __all__
 
 EXPECTED_ALL = [
+    "ExperimentNotInitializedError",
+    "ExperimentRunSettingError",
+    "InputShapeError",
+    "InvalidFeatureMapError",
+    "InvalidFileExtensionError",
+    "InvalidKernelError",
+    "InvalidModelNameError",
+    "InvalidPlatformError",
+    "InvalidQunatumDeviceError",
+    "JsonEncodingError",
+    "ModelSettingError",
+    "ReproductionError",
     "Experiment",
 ]
 

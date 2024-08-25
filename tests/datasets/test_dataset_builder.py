@@ -85,17 +85,19 @@ class TestValidationLogic:
 
 
 GEN_DATA_CONFIG = {
-    "type": "generate",
-    "path": {"data": "", "label": ""},
-    "random_seed": 42,
-    "test_size": 0.2,
-    "features": None,
+    "dataset": {
+        "type": "generate",
+        "path": {"data": "", "label": ""},
+        "random_seed": 42,
+        "test_size": 0.2,
+        "features": None,
+    }
 }
 
 
 @pytest.fixture(scope="function")
 def default_gen_builder() -> DatasetBuilder:
-    return DatasetBuilder(config=GEN_DATA_CONFIG)
+    return DatasetBuilder(raw_config=GEN_DATA_CONFIG)
 
 
 @pytest.fixture(scope="function")
@@ -116,7 +118,7 @@ def custom_builder() -> DatasetBuilder:
         return X_train, y_train, X_test, y_test
 
     return DatasetBuilder(
-        config=GEN_DATA_CONFIG, raw_preprocess_logic=custom_raw_preprocess, transform_logic=custom_transform
+        raw_config=GEN_DATA_CONFIG, raw_preprocess_logic=custom_raw_preprocess, transform_logic=custom_transform
     )
 
 
