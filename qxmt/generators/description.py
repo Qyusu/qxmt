@@ -1,5 +1,8 @@
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+import sys
+
+if "llm" in sys.modules:
+    import torch
+    from transformers import AutoModelForCausalLM, AutoTokenizer
 
 from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
 
