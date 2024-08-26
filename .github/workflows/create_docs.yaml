@@ -24,7 +24,7 @@ jobs:
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
-        run: poetry install --with dev
+        run: poetry install --with dev docs
 
       - name: Build Sphinx documentation
         run: poetry run sphinx-build -b html ./docs/source ./docs/_build

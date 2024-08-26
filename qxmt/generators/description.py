@@ -1,10 +1,11 @@
 import sys
 
-if "llm" in sys.modules:
+from qxmt.constants import POETRY_USE_LLM_FLAG
+from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
+
+if POETRY_USE_LLM_FLAG in sys.modules:
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-
-from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
 
 LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 

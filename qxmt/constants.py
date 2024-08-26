@@ -7,6 +7,8 @@ import pytz
 MODULE_HOME: Path = Path(__file__).resolve().parents[1]
 MODULE_SRC: Path = Path(__file__).resolve().parents[0]
 
+POETRY_USE_LLM_FLAG: str = "llm"
+
 DEFAULT_N_JOBS = 3
 
 DEFAULT_EXP_DIRC: Path = MODULE_HOME / "experiments"
