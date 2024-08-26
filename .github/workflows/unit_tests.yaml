@@ -25,7 +25,7 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies
+      - name: Install dependencies (no llm)
         run: poetry install --with dev
 
       - name: Run tests
