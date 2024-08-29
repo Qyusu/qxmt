@@ -1,3 +1,5 @@
+from typing import Callable
+
 import numpy as np
 import pennylane as qml
 from pennylane.measurements.probs import ProbabilityMP
@@ -8,7 +10,11 @@ from qxmt.kernels.base import BaseKernel
 
 
 class FidelityKernel(BaseKernel):
-    def __init__(self, device: qml.Device, feature_map: BaseFeatureMap) -> None:
+    def __init__(
+        self,
+        device: qml.Device,
+        feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
+    ) -> None:
         super().__init__(device, feature_map)
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
