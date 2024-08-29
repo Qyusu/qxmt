@@ -1,9 +1,8 @@
-import sys
+import os
 
-from qxmt.constants import POETRY_USE_LLM_FLAG
 from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
 
-if POETRY_USE_LLM_FLAG in sys.modules:
+if os.getenv("USE_LLM", "FALSE").lower() == "true":
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
 

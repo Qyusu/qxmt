@@ -11,6 +11,11 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        use_llm: TRUE
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,8 +30,11 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies (no llm)
-        run: poetry install --with dev
+      - name: Set environment variable
+        run: echo "USE_LLM=${{ matrix.use_llm }}" >> $GITHUB_ENV
+
+      - name: Install dependencies (with llm)
+        run: poetry install --with dev --extras llm
 
       - name: Run tests
         env:

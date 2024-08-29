@@ -1,0 +1,42 @@
+name: Run unit tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        use_llm: FALSE
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "${HOME}/.local/bin" >> $GITHUB_PATH
+
+      - name: Set environment variable
+        run: echo "USE_LLM=${{ matrix.use_llm }}" >> $GITHUB_ENV
+
+      - name: Install dependencies (no llm)
+        run: poetry install --with dev
+
+      - name: Run tests
+        env:
+          PYTHONPATH: ./qk_manager
+        run: poetry run pytest tests
