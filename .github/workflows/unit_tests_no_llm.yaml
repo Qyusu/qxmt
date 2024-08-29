@@ -7,14 +7,12 @@ on:
   pull_request:
     branches:
       - main
+env:
+  USE_LLM: FALSE
 
 jobs:
   test:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        use_llm: FALSE
 
     steps:
       - name: Checkout code
@@ -29,9 +27,6 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
-
-      - name: Set environment variable
-        run: echo "USE_LLM=${{ matrix.use_llm }}" >> $GITHUB_ENV
 
       - name: Install dependencies (no llm)
         run: poetry install --with dev
