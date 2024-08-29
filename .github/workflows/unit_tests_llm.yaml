@@ -1,4 +1,4 @@
-name: Run unit tests
+name: Run unit tests with LLM
 
 on:
   push:
@@ -8,9 +8,13 @@ on:
     branches:
       - main
 
+env:
+  USE_LLM: FALSE
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,8 +29,8 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies (no llm)
-        run: poetry install --with dev
+      - name: Install dependencies (with llm)
+        run: poetry install --with dev --extras llm
 
       - name: Run tests
         env:
