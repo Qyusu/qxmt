@@ -20,7 +20,7 @@ def get_commit_id(logger: Logger = LOGGER) -> str:
         return commit_id
     except subprocess.CalledProcessError as e:
         command_str = " ".join(command)
-        logger.warning(f'Error executing "{command_str}" command:', e)
+        logger.warning(f'Error executing "{command_str}" command: {e}')
         return ""
 
 
@@ -37,7 +37,7 @@ def get_git_diff(logger: Logger = LOGGER) -> str:
         return diff
     except subprocess.CalledProcessError as e:
         command_str = " ".join(command)
-        logger.warning(f'Error executing "{command_str}" command:', e)
+        logger.warning(f'Error executing "{command_str}" command: {e}')
         return ""
 
 
