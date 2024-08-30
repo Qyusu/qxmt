@@ -48,6 +48,9 @@ class DescriptionGenerator:
         Returns:
             str: generated description
         """
+        if add_code == "" and remove_code == "":
+            return "No code changes detected on local git repository."
+
         user_prompt = user_prompt.format(add_code=add_code, remove_code=remove_code)
         message = self._create_message(system_prompt, user_prompt)
         prompt = self.tokenizer.apply_chat_template(message, tokenize=False, add_generation_prompt=True)
