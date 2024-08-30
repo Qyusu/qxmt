@@ -19,4 +19,6 @@ DEFAULT_MODEL_NAME: str = "model.pkl"
 
 DEFAULT_METRICS_NAME: list[str] = ["accuracy", "precision", "recall", "f1_score"]
 
+LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
+
 TZ: pytz.BaseTzInfo = pytz.timezone("Asia/Tokyo")

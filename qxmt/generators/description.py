@@ -1,12 +1,11 @@
 import os
 
+from qxmt.constants import LLM_MODEL_PATH
 from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
 
 if os.getenv("USE_LLM", "FALSE").lower() == "true":
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-
-LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 
 class DescriptionGenerator:

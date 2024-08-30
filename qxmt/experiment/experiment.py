@@ -8,7 +8,13 @@ import numpy as np
 import pandas as pd
 import yaml
 
-from qxmt.constants import DEFAULT_EXP_DB_FILE, DEFAULT_EXP_DIRC, DEFAULT_MODEL_NAME, TZ
+from qxmt.constants import (
+    DEFAULT_EXP_DB_FILE,
+    DEFAULT_EXP_DIRC,
+    DEFAULT_MODEL_NAME,
+    LLM_MODEL_PATH,
+    TZ,
+)
 from qxmt.datasets.builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
 from qxmt.evaluation.evaluation import Evaluation
@@ -36,6 +42,7 @@ class Experiment:
         desc: Optional[str] = None,
         auto_gen_mode: bool = False,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
+        llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
     ) -> None:
         self.name: Optional[str] = name
@@ -48,8 +55,7 @@ class Experiment:
         self.logger: Logger = logger
 
         if self.auto_gen_mode:
-            # [TODO]: switch to another llm model
-            self.desc_generator = DescriptionGenerator()
+            self.desc_generator = DescriptionGenerator(llm_model_path)
 
     @staticmethod
     def _generate_default_name() -> str:
