@@ -1,12 +1,11 @@
 import os
 
+from qxmt.constants import LLM_MODEL_PATH
 from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
 
 if os.getenv("USE_LLM", "FALSE").lower() == "true":
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
-
-LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 
 class DescriptionGenerator:
@@ -48,6 +47,9 @@ class DescriptionGenerator:
         Returns:
             str: generated description
         """
+        if add_code == "" and remove_code == "":
+            return "No code changes detected on local git repository."
+
         user_prompt = user_prompt.format(add_code=add_code, remove_code=remove_code)
         message = self._create_message(system_prompt, user_prompt)
         prompt = self.tokenizer.apply_chat_template(message, tokenize=False, add_generation_prompt=True)

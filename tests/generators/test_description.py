@@ -33,3 +33,10 @@ class TestDescriptionGenerator:
         output = generator.generate(add_code=add_code, remove_code=remove_code)
 
         assert isinstance(output, str)
+
+    def test_generate_no_code_changes(self) -> None:
+        add_code = ""
+        remove_code = ""
+        output = generator.generate(add_code=add_code, remove_code=remove_code)
+
+        assert output == "No code changes detected on local git repository."
