@@ -7,7 +7,7 @@ class DeviceConfig(BaseModel):
     platform: str
     name: str
     n_qubits: int
-    # shots: int
+    shots: Optional[int] = None
 
 
 class FeatureMapConfig(BaseModel):

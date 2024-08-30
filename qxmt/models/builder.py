@@ -65,7 +65,11 @@ class ModelBuilder:
         if self.device_config.platform == "pennylane":
             from pennylane import qml
 
-            self.device = qml.device(self.device_config.name, wires=self.device_config.n_qubits)
+            self.device = qml.device(
+                name=self.device_config.name,
+                wires=self.device_config.n_qubits,
+                shots=self.device_config.shots,
+            )
         else:
             raise InvalidPlatformError(f'"{self.device_config.platform}" is not implemented.')
 
