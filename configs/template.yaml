@@ -13,7 +13,7 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  # shots: 1000
+  shots: null
 
 model:
   name: "qsvm"

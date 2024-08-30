@@ -29,6 +29,9 @@ class FidelityKernel(BaseKernel):
 
         qnode = qml.QNode(circuit, self.device)
         probs = qnode(x1, x2)
-        kernel_value = probs.numpy()[0]  # get |00> state probability
+        if isinstance(probs, qml.operation.Tensor):
+            probs = probs.numpy()
+
+        kernel_value = probs[0]  # get |00> state probability
 
         return kernel_value
