@@ -1,3 +1,5 @@
+import inspect
+from logging import Logger
 from typing import Callable, Optional, get_type_hints
 
 import numpy as np
@@ -6,6 +8,7 @@ from sklearn.model_selection import train_test_split
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
 from qxmt.exceptions import InvalidConfigError
+from qxmt.logger import set_default_logger
 from qxmt.utils import load_function_from_yaml
 
 RAW_DATA_TYPE = np.ndarray
@@ -13,22 +16,25 @@ RAW_LABEL_TYPE = np.ndarray
 RAW_DATASET_TYPE = tuple[RAW_DATA_TYPE, RAW_LABEL_TYPE]
 PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 
+LOGGER = set_default_logger(__name__)
+
 
 class DatasetBuilder:
-    def __init__(self, raw_config: dict) -> None:
+    def __init__(self, raw_config: dict, logger: Logger = LOGGER) -> None:
         self.raw_config: dict = raw_config
+        self.logger: Logger = logger
         self.config: DatasetConfig = self._get_dataset_config()
 
         if self.config.raw_preprocess_logic is not None:
             raw_preprocess_logic = load_function_from_yaml(self.config.raw_preprocess_logic)
-            self._validate_raw_preprocess_logic(raw_preprocess_logic)
+            self._validate_raw_preprocess_logic(raw_preprocess_logic, self.logger)
             self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
         else:
             self.custom_raw_preprocess = None
 
         if self.config.transform_logic is not None:
             transform_logic = load_function_from_yaml(self.config.transform_logic)
-            self._validate_transform_logic(transform_logic)
+            self._validate_transform_logic(transform_logic, self.logger)
             self.custom_transform: Optional[Callable] = transform_logic
         else:
             self.custom_transform = None
@@ -48,21 +54,29 @@ class DatasetBuilder:
         return DatasetConfig(**self.raw_config[key])
 
     @staticmethod
-    def _validate_raw_preprocess_logic(raw_preprocess_logic: Callable) -> None:
+    def _validate_raw_preprocess_logic(raw_preprocess_logic: Callable, logger: Logger) -> None:
         """Validate the custom raw preprocess function.
-        [TODO]: Handle the case when type hint is not defined.
 
         Args:
             raw_preprocess_logic (Callable): custom raw preprocess function
+            logger (Logger): logger for output messages
 
         Raises:
-            ValueError: argment lenght of the custom raw preprocess function is not 2
+            ValueError: argment lenght of the custom raw preprocess function is less than 2
             ValueError: return type of the custom raw preprocess function is not a tuple of numpy arrays
             ValueError: argument type of the custom raw preprocess function is not numpy array
         """
         type_hint_dict = get_type_hints(raw_preprocess_logic)
+        parameter_dict = inspect.signature(raw_preprocess_logic).parameters
+
         # check argment length. -1 means return type
-        if len(type_hint_dict) - 1 < 2:
+        if len(type_hint_dict) - 1 != len(parameter_dict):
+            logger.warning(
+                "All arguments of the custom raw preprocess function assigned to the type hint."
+                "Input and return type validation will be skipped."
+            )
+            return
+        elif len(type_hint_dict) - 1 < 2:
             raise ValueError("The custom raw preprocess function must have at least 2 arguments (X, y).")
 
         # check argument type and return type
@@ -76,22 +90,30 @@ class DatasetBuilder:
             #     raise ValueError(f'The arguments of the custom raw preprocess function must be "{RAW_DATA_TYPE}".')
 
     @staticmethod
-    def _validate_transform_logic(transform_logic: Callable) -> None:
+    def _validate_transform_logic(transform_logic: Callable, logger: Logger) -> None:
         """Validate the custom transform function.
-        [TODO]: Handle the case when type hint is not defined.
 
         Args:
             transform_logic (Callable): custom transform function
+            logger (Logger): logger for output messages
 
         Raises:
-            ValueError: argment lenght of the custom transform function is not 4
+            ValueError: argment lenght of the custom transform function is less than 4
             ValueError: return type of the custom transform function is not a tuple of numpy arrays
             ValueError: argument type of the custom transform function is not numpy array
 
         """
         type_hint_dict = get_type_hints(transform_logic)
+        parameter_dict = inspect.signature(transform_logic).parameters
+
         # check argment length. -1 means return type
-        if len(type_hint_dict) - 1 < 4:
+        if len(type_hint_dict) - 1 != len(parameter_dict):
+            logger.warning(
+                "All arguments of the custom raw preprocess function assigned to the type hint."
+                "Input and return type validation will be skipped."
+            )
+            return
+        elif len(type_hint_dict) - 1 < 4:
             raise ValueError(
                 "The custom transform function must have at least 4 arguments (X_train, y_train, X_test, y_test)."
             )

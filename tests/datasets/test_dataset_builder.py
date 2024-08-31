@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from pytest_mock import MockFixture
 
 from qxmt.datasets import DatasetBuilder
 
@@ -10,18 +11,40 @@ PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 
 
 class TestValidationPreprocessLogic:
-    def test__validate_raw_preprocess_logic_valid(self) -> None:
+    def test__validate_raw_preprocess_logic_valid(self, mocker: MockFixture) -> None:
         def valid_raw_preprocess_logic(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
             return X, y
 
-        DatasetBuilder._validate_raw_preprocess_logic(valid_raw_preprocess_logic)
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_raw_preprocess_logic(
+            valid_raw_preprocess_logic,
+            logger=mock_logger,  # type: ignore
+        )
 
-    def test__validate_raw_preprocess_logic_invalid(self) -> None:
-        def invalid_args_raw_preprocess_logic(X: np.ndarray) -> RAW_DATASET_TYPE:
+    def test__validate_raw_preprocess_logic_valid_no_typehint(self, mocker: MockFixture) -> None:
+        def valid_raw_preprocess_logic_no_typehint(X, y):  # type: ignore
             return X, y
 
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_raw_preprocess_logic(
+            valid_raw_preprocess_logic_no_typehint,
+            logger=mock_logger,  # type: ignore
+        )
+        mock_logger.warning.assert_called_with(
+            "All arguments of the custom raw preprocess function assigned to the type hint."
+            "Input and return type validation will be skipped."
+        )
+
+    def test__validate_raw_preprocess_logic_invalid(self, mocker: MockFixture) -> None:
+        def invalid_args_raw_preprocess_logic(X: np.ndarray) -> RAW_DATASET_TYPE:
+            return X, X
+
+        mock_logger = mocker.MagicMock()
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_args_raw_preprocess_logic)
+            DatasetBuilder._validate_raw_preprocess_logic(
+                invalid_args_raw_preprocess_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         def invalid_return_raw_preprocess_logic(
             X: np.ndarray, y: np.ndarray
@@ -29,7 +52,10 @@ class TestValidationPreprocessLogic:
             return X, y, y
 
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_return_raw_preprocess_logic)
+            DatasetBuilder._validate_raw_preprocess_logic(
+                invalid_return_raw_preprocess_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         # def invalid_arg_type_raw_preprocess_logic(X: list, y: np.ndarray) -> RAW_DATASET_TYPE:
         #     return np.array(X), y
@@ -39,7 +65,7 @@ class TestValidationPreprocessLogic:
 
 
 class TestValidationTransformLogic:
-    def test__validate_transform_logic_valid(self) -> None:
+    def test__validate_transform_logic_valid(self, mocker: MockFixture) -> None:
         def valid_transform_logic(
             X_train: np.ndarray,
             y_train: np.ndarray,
@@ -48,9 +74,32 @@ class TestValidationTransformLogic:
         ) -> PROCESSCED_DATASET_TYPE:
             return X_train, y_train, X_test, y_test
 
-        DatasetBuilder._validate_transform_logic(valid_transform_logic)
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_transform_logic(
+            valid_transform_logic,
+            logger=mock_logger,  # type: ignore
+        )
 
-    def test__validate_transform_logic_invalid(self) -> None:
+    def test__validate_transform_logic_valid_no_typehint(self, mocker: MockFixture) -> None:
+        def valid_transform_logic_no_typehint(  # type: ignore
+            X_train,
+            y_train,
+            X_test,
+            y_test,
+        ):
+            return X_train, y_train, X_test, y_test
+
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_transform_logic(
+            valid_transform_logic_no_typehint,
+            logger=mock_logger,  # type: ignore
+        )
+        mock_logger.warning.assert_called_with(
+            "All arguments of the custom raw preprocess function assigned to the type hint."
+            "Input and return type validation will be skipped."
+        )
+
+    def test__validate_transform_logic_invalid(self, mocker: MockFixture) -> None:
         def invalid_args_transform_logic(
             X_train: np.ndarray,
             y_train: np.ndarray,
@@ -58,8 +107,12 @@ class TestValidationTransformLogic:
         ) -> PROCESSCED_DATASET_TYPE:
             return X_train, y_train, X_test, y_train
 
+        mock_logger = mocker.MagicMock()
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_transform_logic(invalid_args_transform_logic)
+            DatasetBuilder._validate_transform_logic(
+                invalid_args_transform_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         def invalid_return_transform_logic(
             X_train: np.ndarray,
@@ -70,7 +123,10 @@ class TestValidationTransformLogic:
             return X_train, y_train
 
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_transform_logic(invalid_return_transform_logic)
+            DatasetBuilder._validate_transform_logic(
+                invalid_return_transform_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         # def invalid_arg_type_transform_logic(
         #     X_train: list,

@@ -6,7 +6,6 @@ from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
-import yaml
 
 from qxmt.constants import (
     DEFAULT_EXP_DB_FILE,
@@ -21,7 +20,6 @@ from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
-    InvalidConfigError,
     InvalidFileExtensionError,
     JsonEncodingError,
     ReproductionError,
@@ -35,7 +33,6 @@ from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
     get_git_rm_code,
-    load_function_from_yaml,
     load_yaml_config,
 )
 
