@@ -9,17 +9,20 @@ from qxmt.logger import set_default_logger
 LOGGER = set_default_logger(__name__)
 
 
-def get_commit_id(repo_path: Path | str = MODULE_HOME, logger: Logger = LOGGER) -> str:
+def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
     """Get the commit ID of the current git repository.
     if the current directory is not a git repository, return an empty string.
 
     Args:
-        repo_path (Path | str): git repository path. Defaults to MODULE_HOME.
+        repo_path (Optional[Path | str]): git repository path. Defaults to None.
         logger (Logger): logger. Defaults to LOGGER.
 
     Returns:
         str: git commit ID
     """
+    if repo_path is None:
+        repo_path = MODULE_HOME
+
     command = ["git", "-C", str(repo_path), "rev-parse", "HEAD"]
     try:
         commit_id = subprocess.check_output(command).strip().decode("utf-8")
@@ -30,17 +33,20 @@ def get_commit_id(repo_path: Path | str = MODULE_HOME, logger: Logger = LOGGER) 
         return ""
 
 
-def get_git_diff(repo_path: Path | str = MODULE_HOME, logger: Logger = LOGGER) -> str:
+def get_git_diff(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
     """Get the git diff of the current git repository.
     if the current directory is not a git repository, return an empty string.
 
     Args:
-        repo_path (Path | str): git repository path. Defaults to MODULE_HOME.
+        repo_path (Optional[Path | str]): git repository path. Defaults to None.
         logger (Logger): logger. Defaults to LOGGER.
 
     Returns:
         str: git diff
     """
+    if repo_path is None:
+        repo_path = MODULE_HOME
+
     command = ["git", "-C", str(repo_path), "diff"]
     try:
         diff = subprocess.check_output(command).strip().decode("utf-8")
@@ -53,19 +59,22 @@ def get_git_diff(repo_path: Path | str = MODULE_HOME, logger: Logger = LOGGER) -
 
 def get_git_add_code(
     diff: Optional[str] = None,
-    repo_path: Path | str = MODULE_HOME,
+    repo_path: Optional[Path | str] = None,
     logger: Logger = LOGGER,
 ) -> str:
     """Get the added code from the git diff.
 
     Args:
         diff (Optional[str]): string of git diff
-        repo_path (Path | str): git repository path. Defaults to MODULE_HOME.
+        repo_path (Optional[Path | str]): git repository path. Defaults to None.
         logger (Logger): logger. Defaults to LOGGER.
 
     Returns:
         str: added code
     """
+    if repo_path is None:
+        repo_path = MODULE_HOME
+
     if diff is None:
         diff = get_git_diff(repo_path=repo_path, logger=logger)
 
@@ -80,19 +89,22 @@ def get_git_add_code(
 
 def get_git_rm_code(
     diff: Optional[str] = None,
-    repo_path: Path | str = MODULE_HOME,
+    repo_path: Optional[Path | str] = None,
     logger: Logger = LOGGER,
 ) -> str:
     """Get the removed code from the git diff.
 
     Args:
         diff (Optional[str]): string of git diff
-        repo_path (Path | str): git repository path. Defaults to MODULE_HOME.
+        repo_path (Optional[Path | str]): git repository path. Defaults to None.
         logger (Logger): logger. Defaults to LOGGER.
 
     Returns:
         str: removed code
     """
+    if repo_path is None:
+        repo_path = MODULE_HOME
+
     if diff is None:
         diff = get_git_diff(repo_path=repo_path, logger=logger)
 
