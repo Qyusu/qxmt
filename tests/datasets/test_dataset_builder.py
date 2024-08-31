@@ -100,26 +100,39 @@ def default_gen_builder() -> DatasetBuilder:
     return DatasetBuilder(raw_config=GEN_DATA_CONFIG)
 
 
+CUSTOM_CONFIG = {
+    "dataset": {
+        "type": "generate",
+        "path": {"data": "", "label": ""},
+        "random_seed": 42,
+        "test_size": 0.2,
+        "features": None,
+        "raw_preprocess_logic": {"module_name": __name__, "function_name": "custom_raw_preprocess", "params": {}},
+        "transform_logic": {"module_name": __name__, "function_name": "custom_transform", "params": {}},
+    }
+}
+
+
+def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
+    # extract first 50 samples
+    return X[:50], y[:50]
+
+
+def custom_transform(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+) -> PROCESSCED_DATASET_TYPE:
+    # all lable change to 1
+    y_train = np.ones_like(y_train)
+    y_test = np.ones_like(y_test)
+    return X_train, y_train, X_test, y_test
+
+
 @pytest.fixture(scope="function")
 def custom_builder() -> DatasetBuilder:
-    def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-        # extract first 50 samples
-        return X[:50], y[:50]
-
-    def custom_transform(
-        X_train: np.ndarray,
-        y_train: np.ndarray,
-        X_test: np.ndarray,
-        y_test: np.ndarray,
-    ) -> PROCESSCED_DATASET_TYPE:
-        # all lable change to 1
-        y_train = np.ones_like(y_train)
-        y_test = np.ones_like(y_test)
-        return X_train, y_train, X_test, y_test
-
-    return DatasetBuilder(
-        raw_config=GEN_DATA_CONFIG, raw_preprocess_logic=custom_raw_preprocess, transform_logic=custom_transform
-    )
+    return DatasetBuilder(raw_config=CUSTOM_CONFIG)
 
 
 class TestBuilder:

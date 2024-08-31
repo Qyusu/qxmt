@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
 from qxmt.exceptions import InvalidConfigError
+from qxmt.utils import extract_function_from_yaml
 
 RAW_DATA_TYPE = np.ndarray
 RAW_LABEL_TYPE = np.ndarray
@@ -14,22 +15,19 @@ PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 
 
 class DatasetBuilder:
-    def __init__(
-        self,
-        raw_config: dict,
-        raw_preprocess_logic: Optional[Callable] = None,
-        transform_logic: Optional[Callable] = None,
-    ) -> None:
+    def __init__(self, raw_config: dict) -> None:
         self.raw_config: dict = raw_config
         self.config: DatasetConfig = self._get_dataset_config()
 
-        if raw_preprocess_logic is not None:
+        if self.config.raw_preprocess_logic is not None:
+            raw_preprocess_logic = extract_function_from_yaml(self.config.raw_preprocess_logic)
             self._validate_raw_preprocess_logic(raw_preprocess_logic)
             self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
         else:
             self.custom_raw_preprocess = None
 
-        if transform_logic is not None:
+        if self.config.transform_logic is not None:
+            transform_logic = extract_function_from_yaml(self.config.transform_logic)
             self._validate_transform_logic(transform_logic)
             self.custom_transform: Optional[Callable] = transform_logic
         else:

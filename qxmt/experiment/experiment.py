@@ -227,14 +227,7 @@ class Experiment:
         config = load_yaml_config(config_path)
 
         # create dataset instance from pre defined raw_preprocess_logic and transform_logic
-        dataset_config = config.get("dataset", None)
-        if dataset_config is None:
-            raise InvalidConfigError("Key 'dataset' is not in the configuration file.")
-        raw_preprocess_logic = extract_function_from_yaml(dataset_config.get("raw_preprocess_logic", None))
-        transform_logic = extract_function_from_yaml(dataset_config.get("transform_logic", None))
-        dataset = DatasetBuilder(
-            raw_config=config, raw_preprocess_logic=raw_preprocess_logic, transform_logic=transform_logic
-        ).build()
+        dataset = DatasetBuilder(raw_config=config).build()
 
         # create model instance from the config
         model = ModelBuilder(raw_config=config).build()
