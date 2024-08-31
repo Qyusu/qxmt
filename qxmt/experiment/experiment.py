@@ -21,6 +21,7 @@ from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
+    InvalidConfigError,
     InvalidFileExtensionError,
     JsonEncodingError,
     ReproductionError,
@@ -30,7 +31,13 @@ from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
-from qxmt.utils import get_commit_id, get_git_add_code, get_git_rm_code
+from qxmt.utils import (
+    extract_function_from_yaml,
+    get_commit_id,
+    get_git_add_code,
+    get_git_rm_code,
+    load_yaml_config,
+)
 
 LOGGER = set_default_logger(__name__)
 
@@ -217,14 +224,19 @@ class Experiment:
             tuple[BaseMLModel, RunRecord]: model and run record of the current run
         """
         # [TODO]: receive config instance
-        with open(config_path, "r") as yml:
-            config = yaml.safe_load(yml)
+        config = load_yaml_config(config_path)
 
-        # [TODO]: handle raw_preprocess_logic and transform_logic
+        # create dataset instance from pre defined raw_preprocess_logic and transform_logic
+        dataset_config = config.get("dataset", None)
+        if dataset_config is None:
+            raise InvalidConfigError("Key 'dataset' is not in the configuration file.")
+        raw_preprocess_logic = extract_function_from_yaml(dataset_config.get("raw_preprocess_logic", None))
+        transform_logic = extract_function_from_yaml(dataset_config.get("transform_logic", None))
         dataset = DatasetBuilder(
-            raw_config=config, raw_preprocess_logic=tmp_raw_preprocess, transform_logic=tmp_transform
+            raw_config=config, raw_preprocess_logic=raw_preprocess_logic, transform_logic=transform_logic
         ).build()
 
+        # create model instance from the config
         model = ModelBuilder(raw_config=config).build()
         save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
 
@@ -468,37 +480,3 @@ class Experiment:
         self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
 
         return reproduced_model
-
-
-# [TODO]: Load from config file
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-
-from qxmt.datasets.builder import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
-
-
-def tmp_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-    y = np.array([int(label) for label in y])
-    indices = np.where(np.isin(y, [0, 1]))[0]
-    X, y = X[indices][:100], y[indices][:100]
-
-    return X, y
-
-
-def tmp_transform(
-    X_train: np.ndarray,
-    y_train: np.ndarray,
-    X_test: np.ndarray,
-    y_test: np.ndarray,
-) -> PROCESSCED_DATASET_TYPE:
-    scaler = StandardScaler()
-    scaler.fit(X_train)
-    x_train_scaled = scaler.transform(X_train)
-    x_test_scaled = scaler.transform(X_test)
-
-    pca = PCA(n_components=2)
-    pca.fit(x_train_scaled)
-    X_train_pca = pca.transform(x_train_scaled)
-    X_test_pca = pca.transform(x_test_scaled)
-
-    return X_train_pca, y_train, X_test_pca, y_test
