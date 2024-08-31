@@ -32,10 +32,10 @@ from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
 from qxmt.utils import (
-    extract_function_from_yaml,
     get_commit_id,
     get_git_add_code,
     get_git_rm_code,
+    load_function_from_yaml,
     load_yaml_config,
 )
 

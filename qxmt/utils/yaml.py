@@ -1,6 +1,6 @@
 import importlib
 from pathlib import Path
-from typing import Callable
+from typing import Any, Callable
 
 import yaml
 
@@ -26,7 +26,7 @@ def load_yaml_config(file_path: str | Path) -> dict:
     return config
 
 
-def extract_function_from_yaml(config: dict) -> Callable:
+def load_function_from_yaml(config: dict) -> Callable:
     """Extract function from yaml configuration
 
     Args:
@@ -37,7 +37,7 @@ def extract_function_from_yaml(config: dict) -> Callable:
         AttributeError: function not found in the module
 
     Returns:
-        Callable: extracted function
+        Callable[..., Any]: A function with parameters ready to be called.
     """
     module_name = config["module_name"]
     function_name = config["function_name"]
@@ -51,4 +51,16 @@ def extract_function_from_yaml(config: dict) -> Callable:
     except AttributeError:
         raise AttributeError(f"Function '{function_name}' not found in module '{module_name}'.")
 
-    return func
+    def callable_func(*args: Any, **kwargs: Any) -> Callable:
+        """Wrapper function that applies the params to the extracted function."""
+        if params is not None:
+            combined_params = {**params, **kwargs}  # Merge YAML params with any additional kwargs
+            return func(*args, **combined_params)
+        else:
+            return func(*args, **kwargs)
+
+    # Set type hints for the wrapper function
+    if hasattr(func, "__annotations__"):
+        callable_func.__annotations__ = func.__annotations__
+
+    return callable_func

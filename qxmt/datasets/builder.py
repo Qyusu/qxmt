@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
 from qxmt.exceptions import InvalidConfigError
-from qxmt.utils import extract_function_from_yaml
+from qxmt.utils import load_function_from_yaml
 
 RAW_DATA_TYPE = np.ndarray
 RAW_LABEL_TYPE = np.ndarray
@@ -20,14 +20,14 @@ class DatasetBuilder:
         self.config: DatasetConfig = self._get_dataset_config()
 
         if self.config.raw_preprocess_logic is not None:
-            raw_preprocess_logic = extract_function_from_yaml(self.config.raw_preprocess_logic)
+            raw_preprocess_logic = load_function_from_yaml(self.config.raw_preprocess_logic)
             self._validate_raw_preprocess_logic(raw_preprocess_logic)
             self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
         else:
             self.custom_raw_preprocess = None
 
         if self.config.transform_logic is not None:
-            transform_logic = extract_function_from_yaml(self.config.transform_logic)
+            transform_logic = load_function_from_yaml(self.config.transform_logic)
             self._validate_transform_logic(transform_logic)
             self.custom_transform: Optional[Callable] = transform_logic
         else:
@@ -62,8 +62,8 @@ class DatasetBuilder:
         """
         type_hint_dict = get_type_hints(raw_preprocess_logic)
         # check argment length. -1 means return type
-        if len(type_hint_dict) - 1 != 2:
-            raise ValueError("The custom raw preprocess function must have exactly 2 arguments (X, y).")
+        if len(type_hint_dict) - 1 < 2:
+            raise ValueError("The custom raw preprocess function must have at least 2 arguments (X, y).")
 
         # check argument type and return type
         for arg_name, arg_type in type_hint_dict.items():
@@ -71,9 +71,9 @@ class DatasetBuilder:
                 raise ValueError(
                     "The return type of the custom raw preprocess function must be a tuple of numpy arrays."
                 )
-            # [TODO]: Handle athor data types
-            elif (arg_name != "return") and (arg_type != RAW_DATA_TYPE):
-                raise ValueError(f'The arguments of the custom raw preprocess function must be "{RAW_DATA_TYPE}".')
+            # [TODO]: Handle anthor data types
+            # elif (arg_name != "return") and (arg_type != RAW_DATA_TYPE):
+            #     raise ValueError(f'The arguments of the custom raw preprocess function must be "{RAW_DATA_TYPE}".')
 
     @staticmethod
     def _validate_transform_logic(transform_logic: Callable) -> None:
@@ -91,18 +91,18 @@ class DatasetBuilder:
         """
         type_hint_dict = get_type_hints(transform_logic)
         # check argment length. -1 means return type
-        if len(type_hint_dict) - 1 != 4:
+        if len(type_hint_dict) - 1 < 4:
             raise ValueError(
-                "The custom transform function must have exactly 4 arguments (X_train, y_train, X_test, y_test)."
+                "The custom transform function must have at least 4 arguments (X_train, y_train, X_test, y_test)."
             )
 
         # check argument type and return type
         for arg_name, arg_type in type_hint_dict.items():
             if (arg_name == "return") and (arg_type != PROCESSCED_DATASET_TYPE):
                 raise ValueError("The return type of the custom transform function must be a tuple of numpy arrays.")
-            # [TODO]: Handle athor data types
-            elif (arg_name != "return") and (arg_type != RAW_DATA_TYPE):
-                raise ValueError(f'The arguments of the custom transform function must be "{RAW_DATA_TYPE}".')
+            # # [TODO]: Handle athor data types
+            # elif (arg_name != "return") and (arg_type != RAW_DATA_TYPE):
+            #     raise ValueError(f'The arguments of the custom transform function must be "{RAW_DATA_TYPE}".')
 
     def load(self) -> RAW_DATASET_TYPE:
         """Load the dataset from the path defined in config.

@@ -10,6 +10,7 @@ def dimension_reduction_by_pca(
     y_train: np.ndarray,
     X_test: np.ndarray,
     y_test: np.ndarray,
+    n_components: int,
 ) -> PROCESSCED_DATASET_TYPE:
     """Dimension reduction by PCA
 
@@ -28,7 +29,7 @@ def dimension_reduction_by_pca(
     x_train_scaled = scaler.transform(X_train)
     x_test_scaled = scaler.transform(X_test)
 
-    pca = PCA(n_components=2)
+    pca = PCA(n_components=n_components)
     pca.fit(x_train_scaled)
     X_train_pca = pca.transform(x_train_scaled)
     X_test_pca = pca.transform(x_test_scaled)

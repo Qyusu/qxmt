@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from qxmt.utils import extract_function_from_yaml, load_yaml_config
+from qxmt.utils import load_function_from_yaml, load_yaml_config
 
 
 class TestLoadYamlConfig:
@@ -31,15 +31,15 @@ class TestLoadYamlConfig:
             load_yaml_config(config_file)
 
 
-class TestExtractFunctionFromYaml:
-    def test_extract_function_from_yaml(self) -> None:
+class TestLoadFunctionFromYaml:
+    def test_laod_function_from_yaml(self) -> None:
         config = {
             "module_name": "math",
             "function_name": "sqrt",
-            "params": [4],
+            "params": None,
         }
-        func = extract_function_from_yaml(config)
-        assert func(*config["params"]) == 2
+        func = load_function_from_yaml(config)
+        assert func(4) == 2
 
     def test_extract_function_from_yaml_module_not_found(self) -> None:
         config = {
@@ -48,7 +48,7 @@ class TestExtractFunctionFromYaml:
             "params": [4],
         }
         with pytest.raises(ImportError):
-            extract_function_from_yaml(config)
+            load_function_from_yaml(config)
 
     def test_extract_function_from_yaml_function_not_found(self) -> None:
         config = {
@@ -57,4 +57,4 @@ class TestExtractFunctionFromYaml:
             "params": [4],
         }
         with pytest.raises(AttributeError):
-            extract_function_from_yaml(config)
+            load_function_from_yaml(config)
