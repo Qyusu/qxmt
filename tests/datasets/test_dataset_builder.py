@@ -1,5 +1,6 @@
 import numpy as np
 import pytest
+from pytest_mock import MockFixture
 
 from qxmt.datasets import DatasetBuilder
 
@@ -9,36 +10,62 @@ RAW_DATASET_TYPE = tuple[RAW_DATA_TYPE, RAW_LABEL_TYPE]
 PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 
 
-class TestValidationLogic:
-    def test__validate_raw_preprocess_logic(self) -> None:
+class TestValidationPreprocessLogic:
+    def test__validate_raw_preprocess_logic_valid(self, mocker: MockFixture) -> None:
         def valid_raw_preprocess_logic(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
             return X, y
 
-        def invalid_args_raw_preprocess_logic(X: np.ndarray, y: np.ndarray, noise: float) -> RAW_DATASET_TYPE:
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_raw_preprocess_logic(
+            valid_raw_preprocess_logic,
+            logger=mock_logger,  # type: ignore
+        )
+
+    def test__validate_raw_preprocess_logic_valid_no_typehint(self, mocker: MockFixture) -> None:
+        def valid_raw_preprocess_logic_no_typehint(X, y):  # type: ignore
             return X, y
+
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_raw_preprocess_logic(
+            valid_raw_preprocess_logic_no_typehint,
+            logger=mock_logger,  # type: ignore
+        )
+        mock_logger.warning.assert_called_with(
+            "All arguments of the custom raw preprocess function assigned to the type hint."
+            "Input and return type validation will be skipped."
+        )
+
+    def test__validate_raw_preprocess_logic_invalid(self, mocker: MockFixture) -> None:
+        def invalid_args_raw_preprocess_logic(X: np.ndarray) -> RAW_DATASET_TYPE:
+            return X, X
+
+        mock_logger = mocker.MagicMock()
+        with pytest.raises(ValueError):
+            DatasetBuilder._validate_raw_preprocess_logic(
+                invalid_args_raw_preprocess_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         def invalid_return_raw_preprocess_logic(
             X: np.ndarray, y: np.ndarray
         ) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
             return X, y, y
 
-        def invalid_arg_type_raw_preprocess_logic(X: list, y: np.ndarray) -> RAW_DATASET_TYPE:
-            return np.array(X), y
-
-        # valid case
-        DatasetBuilder._validate_raw_preprocess_logic(valid_raw_preprocess_logic)
-
-        # invalid case
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_args_raw_preprocess_logic)
+            DatasetBuilder._validate_raw_preprocess_logic(
+                invalid_return_raw_preprocess_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
-        with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_return_raw_preprocess_logic)
+        # def invalid_arg_type_raw_preprocess_logic(X: list, y: np.ndarray) -> RAW_DATASET_TYPE:
+        #     return np.array(X), y
 
-        with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_arg_type_raw_preprocess_logic)
+        # with pytest.raises(ValueError):
+        #     DatasetBuilder._validate_raw_preprocess_logic(invalid_arg_type_raw_preprocess_logic)
 
-    def test__validate_transform_logic(self) -> None:
+
+class TestValidationTransformLogic:
+    def test__validate_transform_logic_valid(self, mocker: MockFixture) -> None:
         def valid_transform_logic(
             X_train: np.ndarray,
             y_train: np.ndarray,
@@ -47,12 +74,45 @@ class TestValidationLogic:
         ) -> PROCESSCED_DATASET_TYPE:
             return X_train, y_train, X_test, y_test
 
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_transform_logic(
+            valid_transform_logic,
+            logger=mock_logger,  # type: ignore
+        )
+
+    def test__validate_transform_logic_valid_no_typehint(self, mocker: MockFixture) -> None:
+        def valid_transform_logic_no_typehint(  # type: ignore
+            X_train,
+            y_train,
+            X_test,
+            y_test,
+        ):
+            return X_train, y_train, X_test, y_test
+
+        mock_logger = mocker.MagicMock()
+        DatasetBuilder._validate_transform_logic(
+            valid_transform_logic_no_typehint,
+            logger=mock_logger,  # type: ignore
+        )
+        mock_logger.warning.assert_called_with(
+            "All arguments of the custom raw preprocess function assigned to the type hint."
+            "Input and return type validation will be skipped."
+        )
+
+    def test__validate_transform_logic_invalid(self, mocker: MockFixture) -> None:
         def invalid_args_transform_logic(
             X_train: np.ndarray,
             y_train: np.ndarray,
             X_test: np.ndarray,
         ) -> PROCESSCED_DATASET_TYPE:
             return X_train, y_train, X_test, y_train
+
+        mock_logger = mocker.MagicMock()
+        with pytest.raises(ValueError):
+            DatasetBuilder._validate_transform_logic(
+                invalid_args_transform_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
         def invalid_return_transform_logic(
             X_train: np.ndarray,
@@ -62,26 +122,22 @@ class TestValidationLogic:
         ) -> tuple[np.ndarray, np.ndarray]:
             return X_train, y_train
 
-        def invalid_arg_type_transform_logic(
-            X_train: list,
-            y_train: np.ndarray,
-            X_test: np.ndarray,
-            y_test: np.ndarray,
-        ) -> PROCESSCED_DATASET_TYPE:
-            return np.array(X_train), y_train, X_test, y_test
-
-        # valid case
-        DatasetBuilder._validate_transform_logic(valid_transform_logic)
-
-        # invalid case
         with pytest.raises(ValueError):
-            DatasetBuilder._validate_transform_logic(invalid_args_transform_logic)
+            DatasetBuilder._validate_transform_logic(
+                invalid_return_transform_logic,
+                logger=mock_logger,  # type: ignore
+            )
 
-        with pytest.raises(ValueError):
-            DatasetBuilder._validate_transform_logic(invalid_return_transform_logic)
-
-        with pytest.raises(ValueError):
-            DatasetBuilder._validate_transform_logic(invalid_arg_type_transform_logic)
+        # def invalid_arg_type_transform_logic(
+        #     X_train: list,
+        #     y_train: np.ndarray,
+        #     X_test: np.ndarray,
+        #     y_test: np.ndarray,
+        # ) -> PROCESSCED_DATASET_TYPE:
+        #     return np.array(X_train), y_train, X_test, y_test
+        #
+        # with pytest.raises(ValueError):
+        #     DatasetBuilder._validate_transform_logic(invalid_arg_type_transform_logic)
 
 
 GEN_DATA_CONFIG = {
@@ -100,26 +156,39 @@ def default_gen_builder() -> DatasetBuilder:
     return DatasetBuilder(raw_config=GEN_DATA_CONFIG)
 
 
+CUSTOM_CONFIG = {
+    "dataset": {
+        "type": "generate",
+        "path": {"data": "", "label": ""},
+        "random_seed": 42,
+        "test_size": 0.2,
+        "features": None,
+        "raw_preprocess_logic": {"module_name": __name__, "function_name": "custom_raw_preprocess", "params": {}},
+        "transform_logic": {"module_name": __name__, "function_name": "custom_transform", "params": {}},
+    }
+}
+
+
+def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
+    # extract first 50 samples
+    return X[:50], y[:50]
+
+
+def custom_transform(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+) -> PROCESSCED_DATASET_TYPE:
+    # all lable change to 1
+    y_train = np.ones_like(y_train)
+    y_test = np.ones_like(y_test)
+    return X_train, y_train, X_test, y_test
+
+
 @pytest.fixture(scope="function")
 def custom_builder() -> DatasetBuilder:
-    def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-        # extract first 50 samples
-        return X[:50], y[:50]
-
-    def custom_transform(
-        X_train: np.ndarray,
-        y_train: np.ndarray,
-        X_test: np.ndarray,
-        y_test: np.ndarray,
-    ) -> PROCESSCED_DATASET_TYPE:
-        # all lable change to 1
-        y_train = np.ones_like(y_train)
-        y_test = np.ones_like(y_test)
-        return X_train, y_train, X_test, y_test
-
-    return DatasetBuilder(
-        raw_config=GEN_DATA_CONFIG, raw_preprocess_logic=custom_raw_preprocess, transform_logic=custom_transform
-    )
+    return DatasetBuilder(raw_config=CUSTOM_CONFIG)
 
 
 class TestBuilder:

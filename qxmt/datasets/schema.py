@@ -43,6 +43,8 @@ class DatasetConfig(BaseModel):
     random_seed: int
     test_size: float = Field(ge=0.0, le=1.0)
     features: Optional[list[str]] = None
+    raw_preprocess_logic: Optional[dict[str, Any]] = None
+    transform_logic: Optional[dict[str, Any]] = None
 
 
 class Dataset(BaseModel):

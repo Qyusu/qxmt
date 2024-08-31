@@ -7,6 +7,8 @@ EXPECTED_ALL = [
     "get_git_add_code",
     "get_git_rm_code",
     "get_platform_from_device",
+    "load_yaml_config",
+    "load_function_from_yaml",
 ]
 
 

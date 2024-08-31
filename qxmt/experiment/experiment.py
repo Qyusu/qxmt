@@ -6,7 +6,6 @@ from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
-import yaml
 
 from qxmt.constants import (
     DEFAULT_EXP_DB_FILE,
@@ -30,7 +29,12 @@ from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
-from qxmt.utils import get_commit_id, get_git_add_code, get_git_rm_code
+from qxmt.utils import (
+    get_commit_id,
+    get_git_add_code,
+    get_git_rm_code,
+    load_yaml_config,
+)
 
 LOGGER = set_default_logger(__name__)
 
@@ -201,6 +205,7 @@ class Experiment:
         config_path: str | Path,
         commit_id: str,
         run_dirc: str | Path,
+        repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[BaseMLModel, RunRecord]:
         """Run the experiment from the config file.
@@ -209,30 +214,30 @@ class Experiment:
             config_path (str | Path): path to the config file
             commit_id (str): commit ID of the current git repository
             run_dirc (str | Path): path to the run directory
+            repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
             tuple[BaseMLModel, RunRecord]: model and run record of the current run
         """
         # [TODO]: receive config instance
-        with open(config_path, "r") as yml:
-            config = yaml.safe_load(yml)
+        config = load_yaml_config(config_path)
 
-        # [TODO]: handle raw_preprocess_logic and transform_logic
-        dataset = DatasetBuilder(
-            raw_config=config, raw_preprocess_logic=tmp_raw_preprocess, transform_logic=tmp_transform
-        ).build()
+        # create dataset instance from pre defined raw_preprocess_logic and transform_logic
+        dataset = DatasetBuilder(raw_config=config).build()
 
+        # create model instance from the config
         model = ModelBuilder(raw_config=config).build()
         save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
 
         model, record = self._run_from_instance(
-            dataset,
-            model,
+            dataset=dataset,
+            model=model,
             save_model_path=save_model_path,
             desc=config.get("description", ""),
             commit_id=commit_id,
             config_path=config_path,
+            repo_path=repo_path,
             add_results=add_results,
         )
 
@@ -246,6 +251,7 @@ class Experiment:
         desc: str,
         commit_id: str,
         config_path: str | Path = "",
+        repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[BaseMLModel, RunRecord]:
         """Run the experiment from the dataset and model instance.
@@ -257,6 +263,7 @@ class Experiment:
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
             config_path (str | Path, optional): path to the config file. Defaults to "".
+            repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
@@ -269,8 +276,8 @@ class Experiment:
 
         if self.auto_gen_mode and (desc == ""):
             desc = self.desc_generator.generate(
-                add_code=get_git_add_code(logger=self.logger),
-                remove_code=get_git_rm_code(logger=self.logger),
+                add_code=get_git_add_code(repo_path=repo_path, logger=self.logger),
+                remove_code=get_git_rm_code(repo_path=repo_path, logger=self.logger),
             )
 
         record = RunRecord(
@@ -290,6 +297,7 @@ class Experiment:
         model: Optional[BaseMLModel] = None,
         config_path: Optional[str | Path] = None,
         desc: str = "",
+        repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[BaseMLModel, RunRecord]:
         """Start a new run for the experiment.
@@ -305,6 +313,7 @@ class Experiment:
             model (BaseMLModel): model object
             config_path (str | Path, optional): path to the config file. Defaults to None.
             desc (str, optional): description of the run. Defaults to "".
+            repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
 
         Returns:
@@ -317,19 +326,28 @@ class Experiment:
 
         if add_results:
             current_run_dirc = self._run_setup()
-            commit_id = get_commit_id(self.logger)
+            commit_id = get_commit_id(repo_path=repo_path, logger=self.logger)
         else:
             current_run_dirc = Path("")
             commit_id = ""
 
         if config_path is not None:
             model, record = self._run_from_config(
-                config_path, commit_id, run_dirc=current_run_dirc, add_results=add_results
+                config_path=config_path,
+                commit_id=commit_id,
+                run_dirc=current_run_dirc,
+                add_results=add_results,
             )
         elif (dataset is not None) and (model is not None):
             save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
             model, record = self._run_from_instance(
-                dataset, model, save_model_path, desc, commit_id, add_results=add_results
+                dataset=dataset,
+                model=model,
+                save_model_path=save_model_path,
+                desc=desc,
+                commit_id=commit_id,
+                repo_path=repo_path,
+                add_results=add_results,
             )
         else:
             raise ExperimentRunSettingError("Either dataset and model or config_path must be provided.")
@@ -452,37 +470,3 @@ class Experiment:
         self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
 
         return reproduced_model
-
-
-# [TODO]: Load from config file
-from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-
-from qxmt.datasets.builder import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
-
-
-def tmp_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-    y = np.array([int(label) for label in y])
-    indices = np.where(np.isin(y, [0, 1]))[0]
-    X, y = X[indices][:100], y[indices][:100]
-
-    return X, y
-
-
-def tmp_transform(
-    X_train: np.ndarray,
-    y_train: np.ndarray,
-    X_test: np.ndarray,
-    y_test: np.ndarray,
-) -> PROCESSCED_DATASET_TYPE:
-    scaler = StandardScaler()
-    scaler.fit(X_train)
-    x_train_scaled = scaler.transform(X_train)
-    x_test_scaled = scaler.transform(X_test)
-
-    pca = PCA(n_components=2)
-    pca.fit(x_train_scaled)
-    X_train_pca = pca.transform(x_train_scaled)
-    X_test_pca = pca.transform(x_test_scaled)
-
-    return X_train_pca, y_train, X_test_pca, y_test
