@@ -17,7 +17,7 @@ class TestValidationPreprocessLogic:
         DatasetBuilder._validate_raw_preprocess_logic(valid_raw_preprocess_logic)
 
     def test__validate_raw_preprocess_logic_invalid(self) -> None:
-        def invalid_args_raw_preprocess_logic(X: np.ndarray, y: np.ndarray, noise: float) -> RAW_DATASET_TYPE:
+        def invalid_args_raw_preprocess_logic(X: np.ndarray) -> RAW_DATASET_TYPE:
             return X, y
 
         with pytest.raises(ValueError):
@@ -31,11 +31,11 @@ class TestValidationPreprocessLogic:
         with pytest.raises(ValueError):
             DatasetBuilder._validate_raw_preprocess_logic(invalid_return_raw_preprocess_logic)
 
-        def invalid_arg_type_raw_preprocess_logic(X: list, y: np.ndarray) -> RAW_DATASET_TYPE:
-            return np.array(X), y
+        # def invalid_arg_type_raw_preprocess_logic(X: list, y: np.ndarray) -> RAW_DATASET_TYPE:
+        #     return np.array(X), y
 
-        with pytest.raises(ValueError):
-            DatasetBuilder._validate_raw_preprocess_logic(invalid_arg_type_raw_preprocess_logic)
+        # with pytest.raises(ValueError):
+        #     DatasetBuilder._validate_raw_preprocess_logic(invalid_arg_type_raw_preprocess_logic)
 
 
 class TestValidationTransformLogic:

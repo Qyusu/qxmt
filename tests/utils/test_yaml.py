@@ -31,30 +31,43 @@ class TestLoadYamlConfig:
             load_yaml_config(config_file)
 
 
+def simple_function(x: int, y: int) -> int:
+    return x + y
+
+
 class TestLoadFunctionFromYaml:
-    def test_laod_function_from_yaml(self) -> None:
+    def test_laod_function_from_yaml_no_params(self) -> None:
         config = {
-            "module_name": "math",
-            "function_name": "sqrt",
+            "module_name": __name__,
+            "function_name": "simple_function",
             "params": None,
         }
         func = load_function_from_yaml(config)
-        assert func(4) == 2
+        assert func(x=1, y=1) == 2
 
-    def test_extract_function_from_yaml_module_not_found(self) -> None:
+    def test_load_function_from_yaml_with_params(self) -> None:
         config = {
-            "module_name": "mathh",
-            "function_name": "sqrt",
-            "params": [4],
+            "module_name": __name__,
+            "function_name": "simple_function",
+            "params": {"x": 1},
+        }
+        func = load_function_from_yaml(config)
+        assert func(y=1) == 2
+
+    def test_load_function_from_yaml_module_not_found(self) -> None:
+        config = {
+            "module_name": "not_exist",
+            "function_name": "simple_function",
+            "params": None,
         }
         with pytest.raises(ImportError):
             load_function_from_yaml(config)
 
-    def test_extract_function_from_yaml_function_not_found(self) -> None:
+    def test_load_function_from_yaml_function_not_found(self) -> None:
         config = {
-            "module_name": "math",
-            "function_name": "sqrtt",
-            "params": [4],
+            "module_name": __name__,
+            "function_name": "not_exist",
+            "params": None,
         }
         with pytest.raises(AttributeError):
             load_function_from_yaml(config)
