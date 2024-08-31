@@ -1,8 +1,8 @@
 import subprocess
 
-import pytest
 from pytest_mock import MockerFixture
 
+from qxmt.constants import MODULE_HOME
 from qxmt.logger import set_default_logger
 from qxmt.utils.github import (
     get_commit_id,
@@ -20,16 +20,16 @@ class TestGetCommitId:
         mock_check_output = mocker.patch("subprocess.check_output")
         mock_check_output.return_value = b"dummy_commit_id\n"
 
-        commit_id = get_commit_id()
+        commit_id = get_commit_id(repo_path=MODULE_HOME)
 
         assert commit_id == "dummy_commit_id"
-        mock_check_output.assert_called_once_with(["git", "rev-parse", "HEAD"])
+        mock_check_output.assert_called_once_with(["git", "-C", str(MODULE_HOME), "rev-parse", "HEAD"])
 
     # failure to get commit id
     def test_get_commit_id_not_git_repo(self, mocker: MockerFixture) -> None:
         mocker.patch("subprocess.check_output", side_effect=subprocess.CalledProcessError(1, "git"))
 
-        commit_id = get_commit_id()
+        commit_id = get_commit_id(repo_path=MODULE_HOME)
         assert commit_id == ""
 
 
@@ -39,16 +39,16 @@ class TestGetGitDiff:
         mock_check_output = mocker.patch("subprocess.check_output")
         mock_check_output.return_value = b"dummy_diff_output\n"
 
-        diff = get_git_diff()
+        diff = get_git_diff(repo_path=MODULE_HOME)
 
         assert diff == "dummy_diff_output"
-        mock_check_output.assert_called_once_with(["git", "diff"])
+        mock_check_output.assert_called_once_with(["git", "-C", str(MODULE_HOME), "diff"])
 
     # failure to get git diff
     def test_get_git_diff_not_git_repo(self, mocker: MockerFixture) -> None:
         mocker.patch("subprocess.check_output", side_effect=subprocess.CalledProcessError(1, "git"))
 
-        diff = get_git_diff()
+        diff = get_git_diff(repo_path=MODULE_HOME)
         assert diff == ""
 
 
