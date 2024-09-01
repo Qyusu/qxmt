@@ -24,7 +24,7 @@ from qxmt.exceptions import (
     JsonEncodingError,
     ReproductionError,
 )
-from qxmt.experiment.schema import ExperimentDB, RunRecord
+from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord
 from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
@@ -207,7 +207,7 @@ class Experiment:
         run_dirc: str | Path,
         repo_path: Optional[str] = None,
         add_results: bool = True,
-    ) -> tuple[BaseMLModel, RunRecord]:
+    ) -> tuple[RunArtifact, RunRecord]:
         """Run the experiment from the config file.
 
         Args:
@@ -218,7 +218,7 @@ class Experiment:
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
-            tuple[BaseMLModel, RunRecord]: model and run record of the current run
+            tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
         # [TODO]: receive config instance
         config = load_yaml_config(config_path)
@@ -230,7 +230,7 @@ class Experiment:
         model = ModelBuilder(raw_config=config).build()
         save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
 
-        model, record = self._run_from_instance(
+        artifact, record = self._run_from_instance(
             dataset=dataset,
             model=model,
             save_model_path=save_model_path,
@@ -241,7 +241,7 @@ class Experiment:
             add_results=add_results,
         )
 
-        return model, record
+        return artifact, record
 
     def _run_from_instance(
         self,
@@ -253,7 +253,7 @@ class Experiment:
         config_path: str | Path = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
-    ) -> tuple[BaseMLModel, RunRecord]:
+    ) -> tuple[RunArtifact, RunRecord]:
         """Run the experiment from the dataset and model instance.
 
         Args:
@@ -267,7 +267,7 @@ class Experiment:
             add_results (bool, optional): whether to save the model. Defaults to True.
 
         Returns:
-            tuple[BaseMLModel, RunRecord]: model and run record of the current run
+            tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
         model.fit(dataset.X_train, dataset.y_train)
         predicted = model.predict(dataset.X_test)
@@ -280,6 +280,12 @@ class Experiment:
                 remove_code=get_git_rm_code(repo_path=repo_path, logger=self.logger),
             )
 
+        artifact = RunArtifact(
+            run_id=self.current_run_id,
+            dataset=dataset,
+            model=model,
+        )
+
         record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
@@ -289,7 +295,7 @@ class Experiment:
             evaluation=self.run_evaluation(dataset.y_test, predicted),
         )
 
-        return model, record
+        return artifact, record
 
     def run(
         self,
@@ -299,7 +305,7 @@ class Experiment:
         desc: str = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
-    ) -> tuple[BaseMLModel, RunRecord]:
+    ) -> tuple[RunArtifact, RunRecord]:
         """Start a new run for the experiment.
         run() method can be called two ways:
         1. Provide dataset and model instance
@@ -317,7 +323,7 @@ class Experiment:
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
 
         Returns:
-            tuple[BaseMLModel, RunRecord]: model and run record of the current run
+            tuple[RunArtifact, RunRecord]: artifact and run record of the current run_id
 
         Raises:
             ExperimentNotInitializedError: if the experiment is not initialized
@@ -332,7 +338,7 @@ class Experiment:
             commit_id = ""
 
         if config_path is not None:
-            model, record = self._run_from_config(
+            artifact, record = self._run_from_config(
                 config_path=config_path,
                 commit_id=commit_id,
                 run_dirc=current_run_dirc,
@@ -340,7 +346,7 @@ class Experiment:
             )
         elif (dataset is not None) and (model is not None):
             save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
-            model, record = self._run_from_instance(
+            artifact, record = self._run_from_instance(
                 dataset=dataset,
                 model=model,
                 save_model_path=save_model_path,
@@ -356,7 +362,7 @@ class Experiment:
             self.exp_db.runs.append(record)  # type: ignore
             self.save_experiment()
 
-        return model, record
+        return artifact, record
 
     def runs_to_dataframe(self) -> pd.DataFrame:
         """Convert the run data to a pandas DataFrame.
@@ -462,11 +468,11 @@ class Experiment:
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
             )
 
-        reproduced_model, reproduced_result = self.run(config_path=config_path, add_results=False)
+        reproduced_artifact, reproduced_result = self.run(config_path=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
         reproduced_evaluation = reproduced_result.evaluation
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
         self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
 
-        return reproduced_model
+        return reproduced_artifact.model
