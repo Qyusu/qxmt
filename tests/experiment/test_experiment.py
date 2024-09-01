@@ -7,6 +7,7 @@ import pytest
 
 from qxmt import Experiment
 from qxmt.constants import DEFAULT_EXP_DB_FILE
+from qxmt.datasets import Dataset
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
@@ -136,7 +137,7 @@ class TestExperimentRun:
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
 
-    def test_run(
+    def test_run_from_instance(
         self,
         base_experiment: Experiment,
         create_random_dataset: Callable,
@@ -151,15 +152,19 @@ class TestExperimentRun:
 
         # run from dataset and model instance
         base_experiment.init()
-        base_experiment.run(dataset=dataset, model=base_model)
+        artifact, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert isinstance(artifact.model, BaseMLModel)
+        assert isinstance(artifact.dataset, Dataset)
 
-        base_experiment.run(dataset=dataset, model=base_model)
-        base_experiment.run(dataset=dataset, model=base_model)
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
-        # [TODO]: run from config file
+        # not add result record
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
+        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # invalid arguments patterm
         with pytest.raises(ExperimentRunSettingError):
@@ -170,6 +175,15 @@ class TestExperimentRun:
 
         with pytest.raises(ExperimentRunSettingError):
             base_experiment.run(model=base_model)
+
+    def test_run_from_config(
+        self,
+        base_experiment: Experiment,
+        create_random_dataset: Callable,
+        base_model: BaseMLModel,
+    ) -> None:
+        # [TODO]: implement test case for run from config
+        pass
 
 
 class TestExperimentResults:

@@ -3,6 +3,7 @@ from qxmt.experiment import __all__
 EXPECTED_ALL = [
     "Experiment",
     "RunRecord",
+    "RunArtifact",
     "ExperimentDB",
 ]
 

@@ -36,6 +36,7 @@ def base_experiment(tmp_path: Path) -> Experiment:
     return Experiment(
         name="test_exp",
         desc="test experiment",
+        auto_gen_mode=False,
         root_experiment_dirc=tmp_path,
     )
 
