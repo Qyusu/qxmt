@@ -1,4 +1,5 @@
 import importlib
+from functools import wraps
 from pathlib import Path
 from typing import Any, Callable
 
@@ -39,9 +40,9 @@ def load_function_from_yaml(config: dict) -> Callable:
     Returns:
         Callable[..., Any]: A function with parameters ready to be called.
     """
-    module_name = config["module_name"]
-    function_name = config["function_name"]
-    params = config["params"]
+    module_name = config.get("module_name", None)
+    function_name = config.get("function_name", None)
+    params = config.get("params", None)
 
     try:
         module = importlib.import_module(module_name)
@@ -51,6 +52,7 @@ def load_function_from_yaml(config: dict) -> Callable:
     except AttributeError:
         raise AttributeError(f"Function '{function_name}' not found in module '{module_name}'.")
 
+    @wraps(func)
     def callable_func(*args: Any, **kwargs: Any) -> Callable:
         """Wrapper function that applies the params to the extracted function."""
         if params is not None:

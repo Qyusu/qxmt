@@ -80,12 +80,21 @@ class ModelBuilder:
             return
         # [TODO]: switch by platform
         elif feature_map.name == "ZZFeatureMap":
-            from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
+            from qxmt.feature_maps.pennylane import ZZFeatureMap
 
             self.feature_map = ZZFeatureMap(
                 n_qubits=self.device_config.n_qubits,
                 reps=feature_map.params.get("reps", 1),
             )
+        elif feature_map.name == "HRotationFeatureMap":
+            from qxmt.feature_maps.pennylane import HRotationFeatureMap
+
+            self.feature_map = HRotationFeatureMap(
+                n_qubits=self.device_config.n_qubits,
+                reps=feature_map.params.get("reps", 1),
+                rotation_axis=feature_map.params.get("rotation_axis", ["X", "Y"]),
+            )
+
         else:
             raise InvalidFeatureMapError(f'"{feature_map.name}" is not implemented.')
 
