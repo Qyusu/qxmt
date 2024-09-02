@@ -143,7 +143,7 @@ class TestExperimentRun:
         create_random_dataset: Callable,
         base_model: BaseMLModel,
     ) -> None:
-        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
@@ -194,7 +194,7 @@ class TestExperimentResults:
             base_experiment.runs_to_dataframe()
 
         base_experiment.init()
-        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         base_experiment.run(dataset=dataset, model=base_model)
         base_experiment.run(dataset=dataset, model=base_model)
         df = base_experiment.runs_to_dataframe()
@@ -205,7 +205,7 @@ class TestExperimentResults:
     def test_save_experiment(
         self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
     ) -> None:
-        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
         base_experiment.run(dataset=dataset, model=base_model)
@@ -223,7 +223,7 @@ class TestExperimentReproduce:
             base_experiment.reproduce(run_id=1)
 
         base_experiment.init()
-        dataset = create_random_dataset(data_num=10, feature_num=5, class_num=2)
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         base_experiment.run(dataset=dataset, model=base_model)
 
         # run_id=1 executed from dataset and model instance.

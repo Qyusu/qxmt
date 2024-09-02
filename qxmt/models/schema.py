@@ -17,7 +17,8 @@ class FeatureMapConfig(BaseModel):
 
 
 class KernelConfig(BaseModel):
-    name: str
+    module_name: str
+    implement_name: str
     params: dict[str, Any]
 
 

@@ -34,14 +34,6 @@ class InvalidQunatumDeviceError(Exception):
     pass
 
 
-class InvalidFeatureMapError(Exception):
-    pass
-
-
-class InvalidKernelError(Exception):
-    pass
-
-
 class InvalidModelNameError(Exception):
     pass
 

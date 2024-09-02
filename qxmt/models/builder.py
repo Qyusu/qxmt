@@ -1,7 +1,5 @@
 from qxmt.exceptions import (
     InvalidConfigError,
-    InvalidFeatureMapError,
-    InvalidKernelError,
     InvalidModelNameError,
     InvalidPlatformError,
 )
@@ -81,21 +79,25 @@ class ModelBuilder:
             return
         else:
             self.feature_map = load_class_from_yaml(
-                feature_map_config.model_dump(), dynamic_params={"n_qubits": self.device_config.n_qubits}
+                config=feature_map_config.model_dump(),
+                dynamic_params={
+                    "n_qubits": self.device_config.n_qubits,
+                },
             )
 
     def _set_kernel(self) -> None:
         """Set quantum kernel."""
-        kernel = self.model_config.kernel
-        if kernel is None:
+        kernel_config = self.model_config.kernel
+        if kernel_config is None:
             return
-        # [TODO]: switch by platform
-        elif kernel.name == "fidelity":
-            from qxmt.kernels.pennylane.fidelity_kernel import FidelityKernel
-
-            self.kernel = FidelityKernel(self.device, self.feature_map)
         else:
-            raise InvalidKernelError(f'"{kernel.name}" is not implemented.')
+            self.kernel = load_class_from_yaml(
+                config=kernel_config.model_dump(),
+                dynamic_params={
+                    "device": self.device,
+                    "feature_map": self.feature_map,
+                },
+            )
 
     def _set_model(self) -> None:
         """Set quantum model."""
