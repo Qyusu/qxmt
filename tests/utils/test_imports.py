@@ -9,6 +9,7 @@ EXPECTED_ALL = [
     "get_platform_from_device",
     "load_yaml_config",
     "load_function_from_yaml",
+    "load_class_from_yaml",
 ]
 
 

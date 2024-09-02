@@ -10,6 +10,7 @@ from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
 from qxmt.models.qsvm import QSVM
 from qxmt.models.schema import DeviceConfig, ModelConfig
+from qxmt.utils.yaml import load_class_from_yaml
 
 
 class ModelBuilder:
@@ -75,28 +76,13 @@ class ModelBuilder:
 
     def _set_feature_map(self) -> None:
         """Set quantum feature map."""
-        feature_map = self.model_config.feature_map
-        if feature_map is None:
+        feature_map_config = self.model_config.feature_map
+        if feature_map_config is None:
             return
-        # [TODO]: switch by platform
-        elif feature_map.name == "ZZFeatureMap":
-            from qxmt.feature_maps.pennylane import ZZFeatureMap
-
-            self.feature_map = ZZFeatureMap(
-                n_qubits=self.device_config.n_qubits,
-                reps=feature_map.params.get("reps", 1),
-            )
-        elif feature_map.name == "HRotationFeatureMap":
-            from qxmt.feature_maps.pennylane import HRotationFeatureMap
-
-            self.feature_map = HRotationFeatureMap(
-                n_qubits=self.device_config.n_qubits,
-                reps=feature_map.params.get("reps", 1),
-                rotation_axis=feature_map.params.get("rotation_axis", ["X", "Y"]),
-            )
-
         else:
-            raise InvalidFeatureMapError(f'"{feature_map.name}" is not implemented.')
+            self.feature_map = load_class_from_yaml(
+                feature_map_config.model_dump(), dynamic_params={"n_qubits": self.device_config.n_qubits}
+            )
 
     def _set_kernel(self) -> None:
         """Set quantum kernel."""

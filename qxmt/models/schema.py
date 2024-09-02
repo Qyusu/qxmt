@@ -11,7 +11,8 @@ class DeviceConfig(BaseModel):
 
 
 class FeatureMapConfig(BaseModel):
-    name: str
+    module_name: str
+    implement_name: str
     params: dict[str, Any]
 
 

@@ -66,3 +66,38 @@ def load_function_from_yaml(config: dict) -> Callable:
         callable_func.__annotations__ = func.__annotations__
 
     return callable_func
+
+
+def load_class_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
+    """Extract class from YAML configuration and instantiate it.
+
+    Args:
+        config (dict): Configuration of the class, including module name, class name, and params.
+
+    Raises:
+        ModuleNotFoundError: If the specified module is not found.
+        AttributeError: If the specified class is not found in the module.
+
+    Returns:
+        Any: An instance of the extracted class.
+    """
+    module_name = config.get("module_name", None)
+    class_name = config.get("implement_name", None)
+    params = config.get("params", {}) | dynamic_params
+
+    try:
+        module = importlib.import_module(module_name)
+        cls = getattr(module, class_name)
+    except ModuleNotFoundError:
+        raise ImportError(f"Module '{module_name}' not found.")
+    except AttributeError:
+        raise AttributeError(f"Class '{class_name}' not found in module '{module_name}'.")
+
+    # Ensure that the extracted object is actually a class
+    if not isinstance(cls, type):
+        raise TypeError(f"'{class_name}' is not a class.")
+
+    # Instantiate the class with the provided parameters
+    instance = cls(**params)
+
+    return instance
