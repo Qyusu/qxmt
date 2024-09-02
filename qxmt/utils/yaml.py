@@ -45,7 +45,11 @@ def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
     """
     module_name = config.get("module_name", None)
     object_name = config.get("implement_name", None)
-    params = config.get("params", {}) | dynamic_params
+    params = config.get("params", {})
+    if params is None:
+        params = dynamic_params
+    else:
+        params = params | dynamic_params
 
     try:
         module = importlib.import_module(module_name)

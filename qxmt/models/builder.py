@@ -1,3 +1,5 @@
+import types
+
 from qxmt.exceptions import (
     InvalidConfigError,
     InvalidModelNameError,
@@ -85,6 +87,9 @@ class ModelBuilder:
                 },
             )
 
+        if not (isinstance(self.feature_map, BaseFeatureMap) or isinstance(self.feature_map, types.FunctionType)):
+            raise TypeError("Feature map must be a BaseFeatureMap instance or a function.")
+
     def _set_kernel(self) -> None:
         """Set quantum kernel."""
         kernel_config = self.model_config.kernel
@@ -98,6 +103,9 @@ class ModelBuilder:
                     "feature_map": self.feature_map,
                 },
             )
+
+        if not isinstance(self.kernel, BaseKernel):
+            raise TypeError("Kernel must be a BaseKernel instance.")
 
     def _set_model(self) -> None:
         """Set quantum model."""
