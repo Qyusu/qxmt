@@ -39,7 +39,8 @@ feature_map:
     reps: 2
 
 kernel:
-  name: "fidelity"
+  module_name: "qxmt.kernels.pennylane"
+  implement_name: "FidelityKernel"
   params: {}
 
 evaluation:
