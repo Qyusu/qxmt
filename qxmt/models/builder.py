@@ -1,3 +1,5 @@
+import types
+
 from qxmt.exceptions import (
     InvalidConfigError,
     InvalidModelNameError,
@@ -8,7 +10,7 @@ from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
 from qxmt.models.qsvm import QSVM
 from qxmt.models.schema import DeviceConfig, ModelConfig
-from qxmt.utils.yaml import load_class_from_yaml
+from qxmt.utils import load_object_from_yaml
 
 
 class ModelBuilder:
@@ -78,12 +80,15 @@ class ModelBuilder:
         if feature_map_config is None:
             return
         else:
-            self.feature_map = load_class_from_yaml(
+            self.feature_map = load_object_from_yaml(
                 config=feature_map_config.model_dump(),
                 dynamic_params={
                     "n_qubits": self.device_config.n_qubits,
                 },
             )
+
+        if not (isinstance(self.feature_map, BaseFeatureMap) or isinstance(self.feature_map, types.FunctionType)):
+            raise TypeError("Feature map must be a BaseFeatureMap instance or a function.")
 
     def _set_kernel(self) -> None:
         """Set quantum kernel."""
@@ -91,13 +96,16 @@ class ModelBuilder:
         if kernel_config is None:
             return
         else:
-            self.kernel = load_class_from_yaml(
+            self.kernel = load_object_from_yaml(
                 config=kernel_config.model_dump(),
                 dynamic_params={
                     "device": self.device,
                     "feature_map": self.feature_map,
                 },
             )
+
+        if not isinstance(self.kernel, BaseKernel):
+            raise TypeError("Kernel must be a BaseKernel instance.")
 
     def _set_model(self) -> None:
         """Set quantum model."""

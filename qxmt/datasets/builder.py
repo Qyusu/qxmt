@@ -9,7 +9,7 @@ from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset, DatasetConfig
 from qxmt.exceptions import InvalidConfigError
 from qxmt.logger import set_default_logger
-from qxmt.utils import load_function_from_yaml
+from qxmt.utils import load_object_from_yaml
 
 RAW_DATA_TYPE = np.ndarray
 RAW_LABEL_TYPE = np.ndarray
@@ -26,14 +26,14 @@ class DatasetBuilder:
         self.config: DatasetConfig = self._get_dataset_config()
 
         if self.config.raw_preprocess_logic is not None:
-            raw_preprocess_logic = load_function_from_yaml(self.config.raw_preprocess_logic)
+            raw_preprocess_logic = load_object_from_yaml(self.config.raw_preprocess_logic)
             self._validate_raw_preprocess_logic(raw_preprocess_logic, self.logger)
             self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
         else:
             self.custom_raw_preprocess = None
 
         if self.config.transform_logic is not None:
-            transform_logic = load_function_from_yaml(self.config.transform_logic)
+            transform_logic = load_object_from_yaml(self.config.transform_logic)
             self._validate_transform_logic(transform_logic, self.logger)
             self.custom_transform: Optional[Callable] = transform_logic
         else:

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from qxmt.utils import load_class_from_yaml, load_function_from_yaml, load_yaml_config
+from qxmt.utils import load_object_from_yaml, load_yaml_config
 
 
 class TestLoadYamlConfig:
@@ -42,7 +42,7 @@ class TestLoadFunctionFromYaml:
             "implement_name": "simple_function",
             "params": None,
         }
-        func = load_function_from_yaml(config)
+        func = load_object_from_yaml(config)
         assert func(x=1, y=1) == 2
 
     def test_with_params(self) -> None:
@@ -51,7 +51,7 @@ class TestLoadFunctionFromYaml:
             "implement_name": "simple_function",
             "params": {"x": 1},
         }
-        func = load_function_from_yaml(config)
+        func = load_object_from_yaml(config)
         assert func(y=1) == 2
 
     def test_module_not_found(self) -> None:
@@ -61,7 +61,7 @@ class TestLoadFunctionFromYaml:
             "params": None,
         }
         with pytest.raises(ImportError):
-            load_function_from_yaml(config)
+            load_object_from_yaml(config)
 
     def test_function_not_found(self) -> None:
         config = {
@@ -70,7 +70,7 @@ class TestLoadFunctionFromYaml:
             "params": None,
         }
         with pytest.raises(AttributeError):
-            load_function_from_yaml(config)
+            load_object_from_yaml(config)
 
 
 class SimpleClass:
@@ -82,6 +82,9 @@ class SimpleClass:
         return self.x + self.y
 
 
+UNSUPORTED_VARIALE = 1
+
+
 class TestLoadClassFromYaml:
     def test_with_yaml(self) -> None:
         config = {
@@ -89,7 +92,7 @@ class TestLoadClassFromYaml:
             "implement_name": "SimpleClass",
             "params": {"x": 1, "y": 1},
         }
-        instance = load_class_from_yaml(config)
+        instance = load_object_from_yaml(config)
         assert instance.x == 1
         assert instance.y == 1
         assert instance.add() == 2
@@ -101,7 +104,7 @@ class TestLoadClassFromYaml:
             "params": {"x": 1},
         }
         dynamic_params = {"y": 1}
-        instance = load_class_from_yaml(config, dynamic_params)
+        instance = load_object_from_yaml(config, dynamic_params)
         assert instance.x == 1
         assert instance.y == 1
         assert instance.add() == 2
@@ -113,7 +116,7 @@ class TestLoadClassFromYaml:
             "params": {"x": 1, "y": 1},
         }
         with pytest.raises(ImportError):
-            load_class_from_yaml(config)
+            load_object_from_yaml(config)
 
     def test_class_not_found(self) -> None:
         config = {
@@ -122,16 +125,7 @@ class TestLoadClassFromYaml:
             "params": {"x": 1, "y": 1},
         }
         with pytest.raises(AttributeError):
-            load_class_from_yaml(config)
-
-    def test_not_class(self) -> None:
-        config = {
-            "module_name": __name__,
-            "implement_name": "simple_function",
-            "params": {"x": 1, "y": 1},
-        }
-        with pytest.raises(TypeError):
-            load_class_from_yaml(config)
+            load_object_from_yaml(config)
 
     def test_over_params(self) -> None:
         config = {
@@ -140,7 +134,7 @@ class TestLoadClassFromYaml:
             "params": {"x": 1, "y": 1, "z": 1},
         }
         with pytest.raises(TypeError):
-            load_class_from_yaml(config)
+            load_object_from_yaml(config)
 
     def test_lack_params(self) -> None:
         config = {
@@ -149,4 +143,13 @@ class TestLoadClassFromYaml:
             "params": {"x": 1},
         }
         with pytest.raises(TypeError):
-            load_class_from_yaml(config)
+            load_object_from_yaml(config)
+
+    def test_unsupported_object(self) -> None:
+        config = {
+            "module_name": __name__,
+            "implement_name": "UNSUPORTED_VARIALE",
+            "params": None,
+        }
+        with pytest.raises(TypeError):
+            load_object_from_yaml(config)

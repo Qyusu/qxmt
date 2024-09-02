@@ -5,11 +5,7 @@ from qxmt.utils.github import (
     get_git_diff,
     get_git_rm_code,
 )
-from qxmt.utils.yaml import (
-    load_class_from_yaml,
-    load_function_from_yaml,
-    load_yaml_config,
-)
+from qxmt.utils.yaml import load_object_from_yaml, load_yaml_config
 
 __all__ = [
     "get_commit_id",
@@ -19,6 +15,5 @@ __all__ = [
     "get_number_of_qubits",
     "get_platform_from_device",
     "load_yaml_config",
-    "load_function_from_yaml",
-    "load_class_from_yaml",
+    "load_object_from_yaml",
 ]
