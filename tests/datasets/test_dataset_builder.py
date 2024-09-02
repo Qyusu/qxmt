@@ -163,8 +163,8 @@ CUSTOM_CONFIG = {
         "random_seed": 42,
         "test_size": 0.2,
         "features": None,
-        "raw_preprocess_logic": {"module_name": __name__, "function_name": "custom_raw_preprocess", "params": {}},
-        "transform_logic": {"module_name": __name__, "function_name": "custom_transform", "params": {}},
+        "raw_preprocess_logic": {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
+        "transform_logic": {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
     }
 }
 

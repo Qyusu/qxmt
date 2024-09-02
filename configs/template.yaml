@@ -9,13 +9,13 @@ dataset:
   test_size: 0.2
   features: null
   raw_preprocess_logic:
-      module_name: "sampling"
-      function_name: "sampling_by_each_class"
+      module_name: "qxmt.datasets.raw_preprocess.sampling"
+      implement_name: "sampling_by_each_class"
       params:
         n_samples: 100
   transform_logic:
-    module_name: "reduction_by_pca"
-    function_name: "dimension_reduction_by_pca"
+    module_name: "qxmt.datasets.transform.reduction_by_pca"
+    implement_name: "dimension_reduction_by_pca"
     params:
       n_components: 2
 
@@ -33,7 +33,8 @@ model:
     gamma: 0.05
 
 feature_map:
-  name: "ZZFeatureMap"
+  module_name: "qxmt.feature_maps.pennylane"
+  implement_name: "ZZFeatureMap"
   params:
     reps: 2
 
