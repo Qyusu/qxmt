@@ -39,7 +39,7 @@ class TestLoadFunctionFromYaml:
     def test_no_params(self) -> None:
         config = {
             "module_name": __name__,
-            "function_name": "simple_function",
+            "implement_name": "simple_function",
             "params": None,
         }
         func = load_function_from_yaml(config)
@@ -48,7 +48,7 @@ class TestLoadFunctionFromYaml:
     def test_with_params(self) -> None:
         config = {
             "module_name": __name__,
-            "function_name": "simple_function",
+            "implement_name": "simple_function",
             "params": {"x": 1},
         }
         func = load_function_from_yaml(config)
@@ -57,7 +57,7 @@ class TestLoadFunctionFromYaml:
     def test_module_not_found(self) -> None:
         config = {
             "module_name": "not_exist",
-            "function_name": "simple_function",
+            "implement_name": "simple_function",
             "params": None,
         }
         with pytest.raises(ImportError):
@@ -66,7 +66,7 @@ class TestLoadFunctionFromYaml:
     def test_function_not_found(self) -> None:
         config = {
             "module_name": __name__,
-            "function_name": "not_exist",
+            "implement_name": "not_exist",
             "params": None,
         }
         with pytest.raises(AttributeError):

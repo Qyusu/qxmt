@@ -41,7 +41,7 @@ def load_function_from_yaml(config: dict) -> Callable:
         Callable[..., Any]: A function with parameters ready to be called.
     """
     module_name = config.get("module_name", None)
-    function_name = config.get("function_name", None)
+    function_name = config.get("implement_name", None)
     params = config.get("params", None)
 
     try:

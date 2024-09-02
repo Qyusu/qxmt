@@ -1,5 +1,3 @@
-n_qubits_value: &n_qubits_anchor 2
-
 description: "This is a template configuration file for the QXMT framework."
 
 dataset:
@@ -12,19 +10,19 @@ dataset:
   features: null
   raw_preprocess_logic:
       module_name: "qxmt.datasets.raw_preprocess.sampling"
-      function_name: "sampling_by_each_class"
+      implement_name: "sampling_by_each_class"
       params:
         n_samples: 100
   transform_logic:
     module_name: "qxmt.datasets.transform.reduction_by_pca"
-    function_name: "dimension_reduction_by_pca"
+    implement_name: "dimension_reduction_by_pca"
     params:
       n_components: 2
 
 device:
   platform: "pennylane"
   name: "default.qubit"
-  n_qubits: *n_qubits_anchor
+  n_qubits: 2
   shots: null
 
 model:
