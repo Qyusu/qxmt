@@ -1,4 +1,5 @@
 import importlib
+import types
 from functools import wraps
 from pathlib import Path
 from typing import Any, Callable
@@ -27,77 +28,48 @@ def load_yaml_config(file_path: str | Path) -> dict:
     return config
 
 
-def load_function_from_yaml(config: dict) -> Callable:
-    """Extract function from yaml configuration
+def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
+    """Extract object from yaml configuration and convert it to a function or class instance.
 
     Args:
-        config (dict): configuration of the function
+        config (dict): configuration of the object
+        dynamic_params (dict, optional): dynamic parameters to be passed to the object. Defaults to {}.
 
     Raises:
         ModuleNotFoundError: module not found in the path
-        AttributeError: function not found in the module
+        AttributeError: object not found in the module
+        TypeError: object is not a class or function
 
     Returns:
-        Callable[..., Any]: A function with parameters ready to be called.
+        Any: function or instance of the extracted object
     """
     module_name = config.get("module_name", None)
-    function_name = config.get("implement_name", None)
-    params = config.get("params", None)
-
-    try:
-        module = importlib.import_module(module_name)
-        func = getattr(module, function_name)
-    except ModuleNotFoundError:
-        raise ImportError(f"Module '{module_name}' not found.")
-    except AttributeError:
-        raise AttributeError(f"Function '{function_name}' not found in module '{module_name}'.")
-
-    @wraps(func)
-    def callable_func(*args: Any, **kwargs: Any) -> Callable:
-        """Wrapper function that applies the params to the extracted function."""
-        if params is not None:
-            combined_params = {**params, **kwargs}  # Merge YAML params with any additional kwargs
-            return func(*args, **combined_params)
-        else:
-            return func(*args, **kwargs)
-
-    # Set type hints for the wrapper function
-    if hasattr(func, "__annotations__"):
-        callable_func.__annotations__ = func.__annotations__
-
-    return callable_func
-
-
-def load_class_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
-    """Extract class from YAML configuration and instantiate it.
-
-    Args:
-        config (dict): Configuration of the class, including module name, class name, and params.
-
-    Raises:
-        ModuleNotFoundError: If the specified module is not found.
-        AttributeError: If the specified class is not found in the module.
-
-    Returns:
-        Any: An instance of the extracted class.
-    """
-    module_name = config.get("module_name", None)
-    class_name = config.get("implement_name", None)
+    object_name = config.get("implement_name", None)
     params = config.get("params", {}) | dynamic_params
 
     try:
         module = importlib.import_module(module_name)
-        cls = getattr(module, class_name)
+        obj = getattr(module, object_name)
     except ModuleNotFoundError:
         raise ImportError(f"Module '{module_name}' not found.")
     except AttributeError:
-        raise AttributeError(f"Class '{class_name}' not found in module '{module_name}'.")
+        raise AttributeError(f"Object '{object_name}' not found in module '{module_name}'.")
 
-    # Ensure that the extracted object is actually a class
-    if not isinstance(cls, type):
-        raise TypeError(f"'{class_name}' is not a class.")
+    if isinstance(obj, types.FunctionType):
+        # Extracted object is a function
+        @wraps(obj)
+        def callable_func(*args: Any, **kwargs: Any) -> Callable:
+            """Wrapper function that applies the params to the extracted function."""
+            combined_params = {**params, **kwargs}  # Merge YAML params with any additional kwargs
+            return obj(*args, **combined_params)
 
-    # Instantiate the class with the provided parameters
-    instance = cls(**params)
+        # Set type hints for the wrapper function
+        if hasattr(obj, "__annotations__"):
+            callable_func.__annotations__ = obj.__annotations__
 
-    return instance
+        return callable_func
+    elif isinstance(obj, type):
+        # Extracted object is a class instance
+        return obj(**params)
+    else:
+        raise TypeError(f"'{object_name}' is not a class or function.")

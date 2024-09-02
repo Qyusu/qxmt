@@ -8,7 +8,7 @@ from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
 from qxmt.models.qsvm import QSVM
 from qxmt.models.schema import DeviceConfig, ModelConfig
-from qxmt.utils.yaml import load_class_from_yaml
+from qxmt.utils import load_object_from_yaml
 
 
 class ModelBuilder:
@@ -78,7 +78,7 @@ class ModelBuilder:
         if feature_map_config is None:
             return
         else:
-            self.feature_map = load_class_from_yaml(
+            self.feature_map = load_object_from_yaml(
                 config=feature_map_config.model_dump(),
                 dynamic_params={
                     "n_qubits": self.device_config.n_qubits,
@@ -91,7 +91,7 @@ class ModelBuilder:
         if kernel_config is None:
             return
         else:
-            self.kernel = load_class_from_yaml(
+            self.kernel = load_object_from_yaml(
                 config=kernel_config.model_dump(),
                 dynamic_params={
                     "device": self.device,
