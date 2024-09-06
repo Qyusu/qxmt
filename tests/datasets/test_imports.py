@@ -2,8 +2,6 @@ from qxmt.datasets import __all__
 
 EXPECTED_ALL = [
     "Dataset",
-    "DatasetConfig",
-    "PathConfig",
     "DatasetBuilder",
 ]
 

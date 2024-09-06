@@ -40,7 +40,8 @@ def plot_2d_predicted_result(
     if class_labels is None:
         class_labels = _create_class_labels(dataset.y_test)
 
-    plt.figure(figsize=(7.5, 5), tight_layout=True)
+    plt.figure(figsize=(7, 5), tight_layout=True)
+    color_labels = []
     for class_value in np.unique(dataset.y_test):
         groud_subset = dataset.X_test[np.where(dataset.y_test == class_value)]
         plt.scatter(
@@ -49,7 +50,6 @@ def plot_2d_predicted_result(
             edgecolor=colors.get(class_value),
             facecolor="none",
             s=100,
-            label=f"Groud Truth (label={class_labels.get(class_value)})",
         )
 
         predicted_subset = dataset.X_test[np.where(y_pred == class_value)]
@@ -58,16 +58,30 @@ def plot_2d_predicted_result(
             predicted_subset[:, axis[1]],
             marker="x",
             c=colors.get(class_value),
-            label=f"Predicted (label={class_labels.get(class_value)})",
         )
+
+        # legend for colors, it is empty because we want to show only labels
+        color_label = plt.scatter(
+            [], [], marker="o", c=colors.get(class_value), label=f"{class_labels.get(class_value)}"
+        )
+        color_labels.append(color_label)
+
+    # legend for markers, it is empty because we want to show only labels
+    truth_label = plt.scatter([], [], label="Ground Truth", marker="o", facecolor="none", color="black")
+    predict_label = plt.scatter([], [], label="Predicted", marker="x", color="black")
+    marker_legend = plt.legend(
+        title="marker type", handles=[truth_label, predict_label], loc="upper right", bbox_to_anchor=(1.4, 1)
+    )
+    _ = plt.legend(title="Class", handles=color_labels, loc="upper right", bbox_to_anchor=(1.4, 0.8))
+
+    plt.gca().add_artist(marker_legend)
 
     plt.xlabel(f"{feature_cols[axis[0]]}")
     plt.ylabel(f"{feature_cols[axis[1]]}")
-    plt.legend(loc="upper right", bbox_to_anchor=(1.5, 1))
     plt.title('"Groud Truth" VS "Predicted"')
 
     if save_path is not None:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
     plt.show()
 
@@ -135,10 +149,10 @@ def plot_2d_decisionon_boundaries(
     scatter = ax.scatter(X[:, 0], X[:, 1], c=y, s=30, edgecolors="k")
     plt.xlabel(f"{feature_cols[0]}")
     plt.ylabel(f"{feature_cols[1]}")
-    ax.legend(*scatter.legend_elements(), loc="upper right", title="Classes", bbox_to_anchor=(1.2, 1))
+    ax.legend(*scatter.legend_elements(), loc="upper right", title="Class", bbox_to_anchor=(1.2, 1))
     ax.set_title("Decision boundaries of QSVC")
 
     if save_path is not None:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
     plt.show()

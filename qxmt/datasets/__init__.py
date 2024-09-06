@@ -1,9 +1,7 @@
 from qxmt.datasets.builder import DatasetBuilder
-from qxmt.datasets.schema import Dataset, DatasetConfig, PathConfig
+from qxmt.datasets.schema import Dataset
 
 __all__ = [
-    "Dataset",
-    "DatasetConfig",
-    "PathConfig",
     "DatasetBuilder",
+    "Dataset",
 ]

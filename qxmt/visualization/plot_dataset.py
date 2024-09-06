@@ -48,7 +48,7 @@ def plot_2d_dataset(
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
-        plt.legend()
+        plt.legend(title="Class")
         plt.title("Train Dataset")
 
     plt.subplot(1, 2, 2)
@@ -62,10 +62,10 @@ def plot_2d_dataset(
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
-        plt.legend()
+        plt.legend(title="Class")
         plt.title("Test Dataset")
 
     if save_path is not None:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
     plt.show()

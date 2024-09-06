@@ -9,6 +9,7 @@ EXPECTED_ALL = [
     "get_platform_from_device",
     "load_yaml_config",
     "load_object_from_yaml",
+    "save_experiment_config_to_yaml",
 ]
 
 

@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
-from qxmt.datasets import Dataset
-from qxmt.models import BaseMLModel
+from qxmt.datasets.schema import Dataset
+from qxmt.models.base import BaseMLModel
 
 
 class RunRecord(BaseModel):
@@ -20,8 +20,7 @@ class RunArtifact(BaseModel):
     dataset: Dataset
     model: BaseMLModel
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class ExperimentDB(BaseModel):

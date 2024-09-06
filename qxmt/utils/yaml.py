@@ -6,6 +6,8 @@ from typing import Any, Callable
 
 import yaml
 
+from qxmt import ExperimentConfig
+
 
 def load_yaml_config(file_path: str | Path) -> dict:
     """Load yaml from configuration file.
@@ -77,3 +79,24 @@ def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
         return obj(**params)
     else:
         raise TypeError(f"'{object_name}' is not a class or function.")
+
+
+def save_experiment_config_to_yaml(
+    config: ExperimentConfig,
+    save_path: str | Path,
+    delete_path: bool = False,
+) -> None:
+    """Save the experiment configuration to a yaml file.
+
+    Args:
+        config (ExperimentConfig): experiment configuration
+        save_path (str | Path): path to save the yaml file
+    """
+    config_dict = config.model_dump()
+    if delete_path:
+        del config_dict["path"]
+    config_dict["dataset"]["path"]["data"] = str(config_dict["dataset"]["path"]["data"])
+    config_dict["dataset"]["path"]["label"] = str(config_dict["dataset"]["path"]["label"])
+
+    with open(save_path, "w") as file:
+        yaml.dump(config_dict, file)
