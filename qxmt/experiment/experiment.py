@@ -1,4 +1,5 @@
 import json
+import shutil
 from datetime import datetime
 from logging import Logger
 from pathlib import Path
@@ -183,6 +184,14 @@ class Experiment:
 
         return current_run_dirc
 
+    def _run_backfill(self) -> None:
+        """Backfill the current run when an error occurs during the run."""
+        run_dirc = self.experiment_dirc / f"run_{self.current_run_id}"
+        if run_dirc.exists():
+            shutil.rmtree(run_dirc)
+
+        self.current_run_id -= 1
+
     def run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
         """Run evaluation for the current run.
 
@@ -337,31 +346,37 @@ class Experiment:
             current_run_dirc = Path("")
             commit_id = ""
 
-        if config_source is not None:
-            if isinstance(config_source, str | Path):
-                config = ExperimentConfig(path=config_source, **load_yaml_config(config_source))
-            else:
-                config = config_source
+        try:
+            if config_source is not None:
+                if isinstance(config_source, str | Path):
+                    config = ExperimentConfig(path=config_source, **load_yaml_config(config_source))
+                else:
+                    config = config_source
 
-            artifact, record = self._run_from_config(
-                config=config,
-                commit_id=commit_id,
-                run_dirc=current_run_dirc,
-                add_results=add_results,
-            )
-        elif (dataset is not None) and (model is not None):
-            save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
-            artifact, record = self._run_from_instance(
-                dataset=dataset,
-                model=model,
-                save_model_path=save_model_path,
-                desc=desc,
-                commit_id=commit_id,
-                repo_path=repo_path,
-                add_results=add_results,
-            )
-        else:
-            raise ExperimentRunSettingError("Either dataset and model or config_path must be provided.")
+                artifact, record = self._run_from_config(
+                    config=config,
+                    commit_id=commit_id,
+                    run_dirc=current_run_dirc,
+                    add_results=add_results,
+                )
+            elif (dataset is not None) and (model is not None):
+                save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
+                artifact, record = self._run_from_instance(
+                    dataset=dataset,
+                    model=model,
+                    save_model_path=save_model_path,
+                    desc=desc,
+                    commit_id=commit_id,
+                    repo_path=repo_path,
+                    add_results=add_results,
+                )
+            else:
+                raise ExperimentRunSettingError("Either dataset and model or config must be provided.")
+        except Exception as e:
+            self.logger.error(f"Error occurred during the run: {e}")
+            if add_results:
+                self._run_backfill()
+            raise e
 
         if add_results:
             self.exp_db.runs.append(record)  # type: ignore
