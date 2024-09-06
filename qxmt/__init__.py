@@ -6,6 +6,7 @@ from qxmt.configs import (
     FeatureMapConfig,
     KernelConfig,
     ModelConfig,
+    PathConfig,
 )
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
@@ -40,4 +41,5 @@ __all__ = [
     "FeatureMapConfig",
     "KernelConfig",
     "ModelConfig",
+    "PathConfig",
 ]

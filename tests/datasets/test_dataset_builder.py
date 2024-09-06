@@ -2,6 +2,7 @@ import numpy as np
 import pytest
 from pytest_mock import MockFixture
 
+from qxmt.configs import DatasetConfig, ExperimentConfig
 from qxmt.datasets import DatasetBuilder
 
 RAW_DATA_TYPE = np.ndarray
@@ -146,14 +147,14 @@ GEN_DATA_CONFIG = {
         "path": {"data": "", "label": ""},
         "random_seed": 42,
         "test_size": 0.2,
-        "features": None,
     }
 }
 
 
 @pytest.fixture(scope="function")
-def default_gen_builder() -> DatasetBuilder:
-    return DatasetBuilder(raw_config=GEN_DATA_CONFIG)
+def default_gen_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+    dataset_config = DatasetConfig(**GEN_DATA_CONFIG["dataset"])
+    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 CUSTOM_CONFIG = {
@@ -187,8 +188,9 @@ def custom_transform(
 
 
 @pytest.fixture(scope="function")
-def custom_builder() -> DatasetBuilder:
-    return DatasetBuilder(raw_config=CUSTOM_CONFIG)
+def custom_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+    dataset_config = DatasetConfig(**CUSTOM_CONFIG["dataset"])
+    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 class TestBuilder:

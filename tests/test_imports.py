@@ -12,6 +12,14 @@ EXPECTED_ALL = [
     "ModelSettingError",
     "ReproductionError",
     "Experiment",
+    "ExperimentConfig",
+    "DatasetConfig",
+    "DeviceConfig",
+    "EvaluationConfig",
+    "FeatureMapConfig",
+    "KernelConfig",
+    "ModelConfig",
+    "PathConfig",
 ]
 
 

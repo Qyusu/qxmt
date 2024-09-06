@@ -5,8 +5,6 @@ EXPECTED_ALL = [
     "BaseKernelModel",
     "ModelBuilder",
     "QSVM",
-    "DeviceConfig",
-    "ModelConfig",
 ]
 
 
