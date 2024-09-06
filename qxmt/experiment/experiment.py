@@ -7,6 +7,7 @@ from typing import Any, Optional
 import numpy as np
 import pandas as pd
 
+from qxmt.configs import ExperimentConfig
 from qxmt.constants import (
     DEFAULT_EXP_DB_FILE,
     DEFAULT_EXP_DIRC,
@@ -202,7 +203,7 @@ class Experiment:
 
     def _run_from_config(
         self,
-        config_path: str | Path,
+        config: ExperimentConfig,
         commit_id: str,
         run_dirc: str | Path,
         repo_path: Optional[str] = None,
@@ -211,7 +212,7 @@ class Experiment:
         """Run the experiment from the config file.
 
         Args:
-            config_path (str | Path): path to the config file
+            config (ExperimentConfig): configuration of the experiment
             commit_id (str): commit ID of the current git repository
             run_dirc (str | Path): path to the run directory
             repo_path (str, optional): path to the git repository. Defaults to None.
@@ -220,23 +221,20 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        # [TODO]: receive config instance
-        config = load_yaml_config(config_path)
-
         # create dataset instance from pre defined raw_preprocess_logic and transform_logic
-        dataset = DatasetBuilder(raw_config=config).build()
+        dataset = DatasetBuilder(config=config).build()
 
         # create model instance from the config
-        model = ModelBuilder(raw_config=config).build()
-        save_model_path = run_dirc / config.get("save_model_path", DEFAULT_MODEL_NAME)
+        model = ModelBuilder(config=config).build()
+        save_model_path = Path(run_dirc) / config.model.file_name
 
         artifact, record = self._run_from_instance(
             dataset=dataset,
             model=model,
             save_model_path=save_model_path,
-            desc=config.get("description", ""),
+            desc=config.description,
             commit_id=commit_id,
-            config_path=config_path,
+            config_path=config.path,
             repo_path=repo_path,
             add_results=add_results,
         )
@@ -338,8 +336,9 @@ class Experiment:
             commit_id = ""
 
         if config_path is not None:
+            config = ExperimentConfig(path=config_path, **load_yaml_config(config_path))
             artifact, record = self._run_from_config(
-                config_path=config_path,
+                config=config,
                 commit_id=commit_id,
                 run_dirc=current_run_dirc,
                 add_results=add_results,

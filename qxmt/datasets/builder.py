@@ -5,9 +5,9 @@ from typing import Callable, Optional, get_type_hints
 import numpy as np
 from sklearn.model_selection import train_test_split
 
+from qxmt.configs import ExperimentConfig
 from qxmt.datasets.dummy import generate_linear_separable_data
-from qxmt.datasets.schema import Dataset, DatasetConfig
-from qxmt.exceptions import InvalidConfigError
+from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
 from qxmt.utils import load_object_from_yaml
 
@@ -20,38 +20,23 @@ LOGGER = set_default_logger(__name__)
 
 
 class DatasetBuilder:
-    def __init__(self, raw_config: dict, logger: Logger = LOGGER) -> None:
-        self.raw_config: dict = raw_config
+    def __init__(self, config: ExperimentConfig, logger: Logger = LOGGER) -> None:
+        self.config: ExperimentConfig = config
         self.logger: Logger = logger
-        self.config: DatasetConfig = self._get_dataset_config()
 
-        if self.config.raw_preprocess_logic is not None:
-            raw_preprocess_logic = load_object_from_yaml(self.config.raw_preprocess_logic)
+        if self.config.dataset.raw_preprocess_logic is not None:
+            raw_preprocess_logic = load_object_from_yaml(self.config.dataset.raw_preprocess_logic)
             self._validate_raw_preprocess_logic(raw_preprocess_logic, self.logger)
             self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
         else:
             self.custom_raw_preprocess = None
 
-        if self.config.transform_logic is not None:
-            transform_logic = load_object_from_yaml(self.config.transform_logic)
+        if self.config.dataset.transform_logic is not None:
+            transform_logic = load_object_from_yaml(self.config.dataset.transform_logic)
             self._validate_transform_logic(transform_logic, self.logger)
             self.custom_transform: Optional[Callable] = transform_logic
         else:
             self.custom_transform = None
-
-    def _get_dataset_config(self, key: str = "dataset") -> DatasetConfig:
-        """Get dataset configurations.
-
-        Args:
-            key (str, optional): key for device configuration. Defaults to "dataset".
-
-        Raises:
-            InvalidConfigError: key is not in the configuration file.
-        """
-        if key not in self.raw_config:
-            raise InvalidConfigError(f"Key '{key}' is not in the configuration file.")
-
-        return DatasetConfig(**self.raw_config[key])
 
     @staticmethod
     def _validate_raw_preprocess_logic(raw_preprocess_logic: Callable, logger: Logger) -> None:
@@ -132,15 +117,15 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
-        if self.config.type == "file":
+        if self.config.dataset.type == "file":
             # [TODO]: Implement other file formats
-            X = np.load(self.config.path.data, allow_pickle=True)
-            y = np.load(self.config.path.label, allow_pickle=True)
-        elif self.config.type == "generate":
+            X = np.load(self.config.dataset.path.data, allow_pickle=True)
+            y = np.load(self.config.dataset.path.label, allow_pickle=True)
+        elif self.config.dataset.type == "generate":
             # [TODO]: Implement other dataset generation methods
             X, y = generate_linear_separable_data()
         else:
-            raise ValueError(f"Invalid dataset type: {self.config.type}")
+            raise ValueError(f"Invalid dataset type: {self.config.dataset.type}")
 
         return X, y
 
@@ -184,7 +169,7 @@ class DatasetBuilder:
             PROCESSCED_DATASET_TYPE: train and test split of dataset (features and labels)
         """
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=self.config.test_size, random_state=self.config.random_seed
+            X, y, test_size=self.config.dataset.test_size, random_state=self.config.dataset.random_seed
         )
 
         return X_train, y_train, X_test, y_test
@@ -244,5 +229,5 @@ class DatasetBuilder:
             y_train=y_train_trs,
             X_test=X_test_trs,
             y_test=y_test_trs,
-            config=self.config,
+            config=self.config.dataset,
         )

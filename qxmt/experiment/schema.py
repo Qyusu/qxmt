@@ -2,8 +2,8 @@ from pathlib import Path
 
 from pydantic import BaseModel
 
-from qxmt.datasets import Dataset
-from qxmt.models import BaseMLModel
+from qxmt.datasets.schema import Dataset
+from qxmt.models.base import BaseMLModel
 
 
 class RunRecord(BaseModel):

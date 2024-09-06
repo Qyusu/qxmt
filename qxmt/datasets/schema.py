@@ -1,9 +1,10 @@
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional
+from typing import Annotated, Any
 
 import numpy as np
-from pydantic import BaseModel, Field, PlainSerializer, PlainValidator
+from pydantic import BaseModel, PlainSerializer, PlainValidator
 
+from qxmt.configs import DatasetConfig
 from qxmt.constants import MODULE_HOME
 
 
@@ -35,16 +36,6 @@ class PathConfig(BaseModel):
 
         if not Path(self.label).is_absolute():
             self.label = MODULE_HOME / self.label
-
-
-class DatasetConfig(BaseModel):
-    type: Literal["file", "generate"]
-    path: PathConfig
-    random_seed: int
-    test_size: float = Field(ge=0.0, le=1.0)
-    features: Optional[list[str]] = None
-    raw_preprocess_logic: Optional[dict[str, Any]] = None
-    transform_logic: Optional[dict[str, Any]] = None
 
 
 class Dataset(BaseModel):
