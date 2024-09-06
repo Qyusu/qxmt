@@ -63,7 +63,7 @@ def plot_metric(
     plt.xticks(x, list(df["run_id"]))
 
     if save_path is not None:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
     plt.show()
 
@@ -103,6 +103,6 @@ def plot_metrics_side_by_side(
     plt.legend(loc="upper right")
 
     if save_path is not None:
-        plt.savefig(save_path)
+        plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
     plt.show()
