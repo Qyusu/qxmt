@@ -132,6 +132,15 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 1
         assert base_experiment.experiment_dirc.joinpath("run_1").exists()
 
+    def test__run_backfill(self, base_experiment: Experiment) -> None:
+        base_experiment.init()
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(dataset=None, model=None)
+
+        assert base_experiment.current_run_id == 0
+        assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
+
     def test_run_evaluation(self, base_experiment: Experiment) -> None:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
