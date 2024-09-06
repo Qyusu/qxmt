@@ -299,7 +299,7 @@ class Experiment:
         self,
         dataset: Optional[Dataset] = None,
         model: Optional[BaseMLModel] = None,
-        config_path: Optional[str | Path] = None,
+        config_source: Optional[ExperimentConfig | str | Path] = None,
         desc: str = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
@@ -315,7 +315,9 @@ class Experiment:
         Args:
             dataset (Dataset): dataset object
             model (BaseMLModel): model object
-            config_path (str | Path, optional): path to the config file. Defaults to None.
+            config_source (ExperimentConfig, str | Path, optional): config source has two options.
+                first is ExperimentConfig instance, second is path to the config file.
+                if set path, it will load and create ExperimentConfig instance. Defaults to None.
             desc (str, optional): description of the run. Defaults to "".
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
@@ -335,8 +337,12 @@ class Experiment:
             current_run_dirc = Path("")
             commit_id = ""
 
-        if config_path is not None:
-            config = ExperimentConfig(path=config_path, **load_yaml_config(config_path))
+        if config_source is not None:
+            if isinstance(config_source, str | Path):
+                config = ExperimentConfig(path=config_source, **load_yaml_config(config_source))
+            else:
+                config = config_source
+
             artifact, record = self._run_from_config(
                 config=config,
                 commit_id=commit_id,
@@ -467,7 +473,7 @@ class Experiment:
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
             )
 
-        reproduced_artifact, reproduced_result = self.run(config_path=config_path, add_results=False)
+        reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
         reproduced_evaluation = reproduced_result.evaluation

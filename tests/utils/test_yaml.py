@@ -1,8 +1,14 @@
 from pathlib import Path
 
 import pytest
+import yaml
 
-from qxmt.utils import load_object_from_yaml, load_yaml_config
+from qxmt import ExperimentConfig
+from qxmt.utils import (
+    load_object_from_yaml,
+    load_yaml_config,
+    save_experiment_config_to_yaml,
+)
 
 
 class TestLoadYamlConfig:
@@ -153,3 +159,46 @@ class TestLoadClassFromYaml:
         }
         with pytest.raises(TypeError):
             load_object_from_yaml(config)
+
+
+class TestSaveExperimentConfigToYaml:
+    def test_save_experiment_config_to_yaml_default(
+        self,
+        tmp_path: Path,
+        experiment_config: ExperimentConfig,
+    ) -> None:
+        config_file = tmp_path / "config.yaml"
+        save_experiment_config_to_yaml(experiment_config, config_file)
+
+        with open(config_file, "r") as file:
+            loaded_config = yaml.safe_load(file)
+        loaded_config = ExperimentConfig(**loaded_config)
+
+        for field in experiment_config.model_dump().keys():
+            if field == "dataset":
+                # [TODO]: handle str or Path type
+                continue
+            assert getattr(loaded_config, field) == getattr(experiment_config, field)
+
+    def test_save_experiment_config_to_yaml_delete_path(
+        self,
+        tmp_path: Path,
+        experiment_config: ExperimentConfig,
+    ) -> None:
+        config_file = tmp_path / "config.yaml"
+        save_experiment_config_to_yaml(experiment_config, config_file, delete_path=True)
+
+        with open(config_file, "r") as file:
+            loaded_config = yaml.safe_load(file)
+
+        assert "path" not in loaded_config
+        loaded_config = ExperimentConfig(path="", **loaded_config)
+
+        for field in experiment_config.model_dump().keys():
+            if field == "dataset":
+                # [TODO]: handle str or Path type
+                continue
+            elif field == "path":
+                assert getattr(loaded_config, field) != getattr(experiment_config, field)
+            else:
+                assert getattr(loaded_config, field) == getattr(experiment_config, field)

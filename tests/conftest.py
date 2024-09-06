@@ -16,7 +16,7 @@ from qxmt import (
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
     type="generate",
-    path=PathConfig(data=Path("data"), label=Path("label")),
+    path=PathConfig(data="data.npy", label="label.npy"),
     random_seed=42,
     test_size=0.2,
     features=None,

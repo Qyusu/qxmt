@@ -4,8 +4,11 @@ from typing import Callable
 
 import numpy as np
 import pytest
+import yaml
+from pytest_mock import MockFixture
 
 from qxmt import Experiment
+from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.datasets import Dataset
 from qxmt.exceptions import (
@@ -14,6 +17,7 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.models import BaseMLModel
+from qxmt.utils import save_experiment_config_to_yaml
 
 
 class TestExperimentSettings:
@@ -145,6 +149,7 @@ class TestExperimentRun:
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
+        # initialization error check
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
@@ -178,12 +183,57 @@ class TestExperimentRun:
 
     def test_run_from_config(
         self,
+        mocker: MockFixture,
+        tmp_path: Path,
         base_experiment: Experiment,
         create_random_dataset: Callable,
         base_model: BaseMLModel,
+        experiment_config: ExperimentConfig,
     ) -> None:
-        # [TODO]: implement test case for run from config
-        pass
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
+        mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
+        mocker.patch("qxmt.models.ModelBuilder.build", return_value=base_model)
+
+        # initialization error check
+        assert base_experiment.current_run_id == 0
+        assert base_experiment.exp_db is None
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment.run(config_source=experiment_config)
+
+        # run from config instance
+        base_experiment.init()
+        artifact, _ = base_experiment.run(config_source=experiment_config)
+        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert isinstance(artifact.model, BaseMLModel)
+        assert isinstance(artifact.dataset, Dataset)
+
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
+        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+
+        # not add result record
+        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
+        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+
+        # run from config instance
+        experiment_config_file = tmp_path / "experiment_config.yaml"
+        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_path=True)
+        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
+        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert isinstance(artifact.model, BaseMLModel)
+        assert isinstance(artifact.dataset, Dataset)
+
+        # invalid arguments patterm
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run()
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(dataset=dataset)
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(model=base_model)
 
 
 class TestExperimentResults:
