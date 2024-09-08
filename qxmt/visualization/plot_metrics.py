@@ -1,6 +1,6 @@
 from logging import Logger
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional, cast
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -39,6 +39,7 @@ def plot_metric(
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
+    **kwargs: dict[str, Any],
 ) -> None:
     """Plot bar chart of the target metric. x-axis is run_id.
 
@@ -48,6 +49,10 @@ def plot_metric(
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
+        **kwargs (dict[str, Any]): additional arguments for plot.
+            xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
+            ylabel (Optional[str], optional): y-axis label. Defaults to f'"{valid_metric}" score'.
+            title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
         df = df[df[RUN_ID_COL].isin(run_ids)]
@@ -57,10 +62,14 @@ def plot_metric(
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
     plt.bar(x, df[valid_metric])
-    plt.ylim(0, 1.05)
-    plt.ylabel(f'"{valid_metric}" score')
-    plt.xlabel("run_id")
+    plt.xlabel(str(kwargs.get("xlabel", "run_id")))
+    plt.ylabel(str(kwargs.get("ylabel", f'"{valid_metric}" score')))
     plt.xticks(x, list(df["run_id"]))
+    plt.ylim(0, 1.05)
+
+    title = cast(str | None, kwargs.get("title", None))
+    if title is not None:
+        plt.title(str(title))
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
@@ -74,6 +83,7 @@ def plot_metrics_side_by_side(
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
+    **kwargs: dict[str, Any],
 ) -> None:
     """Plot bar chart of the target metrics side by side. x-axis is run_id.
 
@@ -83,6 +93,10 @@ def plot_metrics_side_by_side(
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
+        **kwargs (dict[str, Any]): additional arguments for plot.
+            xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
+            ylabel (Optional[str], optional): y-axis label. Defaults to "metrics score".
+            title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
         df = df[df[RUN_ID_COL].isin(run_ids)]
@@ -95,12 +109,16 @@ def plot_metrics_side_by_side(
         x = [j + i * width for j in range(len(df))]
         plt.bar(x, df[metric], width=width, label=metric)
 
-    plt.ylim(0, 1.3)
-    plt.ylabel("metrics score")
-    plt.xlabel("run_id")
+    plt.ylabel(str(kwargs.get("ylabel", "metrics score")))
+    plt.xlabel(str(kwargs.get("xlabel", "run_id")))
     x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
     plt.xticks(x_ticks, list(df["run_id"]))
+    plt.ylim(0, 1.3)
     plt.legend(loc="upper right")
+
+    title = cast(str | None, kwargs.get("title", None))
+    if title is not None:
+        plt.title(str(title))
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
