@@ -18,7 +18,6 @@ def plot_2d_predicted_result(
     class_labels: Optional[dict[int, str]] = None,
     colors: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
-    title: str = '"Groud Truth" VS "Predicted"',
 ) -> None:
     """Plot predicted result on 2D plane.
 
@@ -29,7 +28,6 @@ def plot_2d_predicted_result(
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
         save_path (Optional[str], optional): save path of graph. Defaults to None.
-        title (str, optional): title of the plot. Defaults to '"Groud Truth" VS "Predicted"'.
     """
     if dataset.config.features is not None:
         feature_cols = dataset.config.features
@@ -80,7 +78,7 @@ def plot_2d_predicted_result(
 
     plt.xlabel(f"{feature_cols[axis[0]]}")
     plt.ylabel(f"{feature_cols[axis[1]]}")
-    plt.title(title)
+    plt.title('"Groud Truth" VS "Predicted"')
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
@@ -95,7 +93,6 @@ def plot_2d_decisionon_boundaries(
     grid_resolution: int = 10,
     support_vectors: bool = True,
     save_path: Optional[str | Path] = None,
-    title: str = "Decision boundaries of QSVC",
 ) -> None:
     """Plot decision boundaries of QSVM on 2D plane.
 
@@ -105,7 +102,6 @@ def plot_2d_decisionon_boundaries(
         grid_resolution (int, optional): resolution of grid. Defaults to 10.
         support_vectors (bool, optional): plot support vectors or not. Defaults to True.
         save_path (Optional[str  |  Path], optional): save path of graph. Defaults to None.
-        title (str, optional): title of the plot. Defaults to "Decision boundaries of QSVC".
     """
     X, y = dataset.X_train, dataset.y_train
 
@@ -154,7 +150,7 @@ def plot_2d_decisionon_boundaries(
     plt.xlabel(f"{feature_cols[0]}")
     plt.ylabel(f"{feature_cols[1]}")
     ax.legend(*scatter.legend_elements(), loc="upper right", title="Class", bbox_to_anchor=(1.2, 1))
-    ax.set_title(title)
+    ax.set_title("Decision boundaries of QSVC")
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
