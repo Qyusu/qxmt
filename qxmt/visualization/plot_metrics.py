@@ -38,6 +38,7 @@ def plot_metric(
     metric: str,
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
+    title: Optional[str] = None,
     logger: Logger = LOGGER,
 ) -> None:
     """Plot bar chart of the target metric. x-axis is run_id.
@@ -47,6 +48,7 @@ def plot_metric(
         metric (str): target metric name
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
+        title (Optional[str], optional): title of the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
     """
     if run_ids is not None:
@@ -62,6 +64,9 @@ def plot_metric(
     plt.xlabel("run_id")
     plt.xticks(x, list(df["run_id"]))
 
+    if title is not None:
+        plt.title(title)
+
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
 
@@ -73,6 +78,7 @@ def plot_metrics_side_by_side(
     metrics: list[str],
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
+    title: Optional[str] = None,
     logger: Logger = LOGGER,
 ) -> None:
     """Plot bar chart of the target metrics side by side. x-axis is run_id.
@@ -82,6 +88,7 @@ def plot_metrics_side_by_side(
         metrics (list[str]): target metric names
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
+        title (Optional[str], optional): title of the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
     """
     if run_ids is not None:
@@ -101,6 +108,9 @@ def plot_metrics_side_by_side(
     x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
     plt.xticks(x_ticks, list(df["run_id"]))
     plt.legend(loc="upper right")
+
+    if title is not None:
+        plt.title(title)
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)

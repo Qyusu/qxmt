@@ -15,6 +15,8 @@ def plot_2d_dataset(
     colors: Optional[dict[int, str]] = None,
     class_labels: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
+    train_title: str = "Train Dataset",
+    test_title: str = "Test Dataset",
 ) -> None:
     """Ploat dataset on 2D plane.
 
@@ -23,6 +25,8 @@ def plot_2d_dataset(
         colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         save_path (Optional[str], optional): save path of graph. Defaults to None.
+        train_title (str, optional): title of train dataset. Defaults to "Train Dataset".
+        test_title (str, optional): title of test dataset. Defaults to "Test Dataset".
     """
     if dataset.config.features is not None:
         feature_cols = dataset.config.features
@@ -49,7 +53,7 @@ def plot_2d_dataset(
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
         plt.legend(title="Class")
-        plt.title("Train Dataset")
+        plt.title(train_title)
 
     plt.subplot(1, 2, 2)
     for class_value in np.unique(dataset.y_test):
@@ -63,7 +67,7 @@ def plot_2d_dataset(
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
         plt.legend(title="Class")
-        plt.title("Test Dataset")
+        plt.title(test_title)
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)
