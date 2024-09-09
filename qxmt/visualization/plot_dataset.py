@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 from qxmt.datasets.schema import Dataset
-from qxmt.visualization.utils import _create_class_labels, _create_colors
+from qxmt.visualization.graph_settings import _create_class_labels, _create_colors
 
 DEFAULT_FEATURE_COLS = ["feature_1", "feature_2"]
 

@@ -8,7 +8,7 @@ from sklearn.inspection import DecisionBoundaryDisplay
 from qxmt.datasets.schema import Dataset
 from qxmt.decorators import notify_long_running
 from qxmt.models.qsvm import QSVM
-from qxmt.visualization.utils import _create_class_labels, _create_colors
+from qxmt.visualization.graph_settings import _create_class_labels, _create_colors
 
 
 def plot_2d_predicted_result(
