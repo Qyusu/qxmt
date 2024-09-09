@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Callable
+from typing import Callable, cast
 
 import numpy as np
 import pytest
@@ -165,7 +165,7 @@ class TestExperimentRun:
             assert round(evaluation[key], 2) == value
 
         # default and custom metrics
-        custom_metrics = [self.CustomMetric()]
+        custom_metrics = cast(list[BaseMetric], [self.CustomMetric()])
         evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         assert len(evaluation) == 5
