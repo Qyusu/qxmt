@@ -1,7 +1,9 @@
 import types
 
 from qxmt.configs import ExperimentConfig
-from qxmt.exceptions import InvalidModelNameError, InvalidPlatformError
+from qxmt.devices.base import BaseDevice
+from qxmt.devices.builder import DeviceBuilder
+from qxmt.exceptions import InvalidModelNameError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
@@ -15,6 +17,7 @@ class ModelBuilder:
         config: ExperimentConfig,
     ) -> None:
         self.config: ExperimentConfig = config
+        self.device: BaseDevice
         self.feature_map: BaseFeatureMap
         self.kernel: BaseKernel
         self.model: BaseMLModel
@@ -25,16 +28,8 @@ class ModelBuilder:
         Raises:
             InvalidPlatformError: platform is not implemented.
         """
-        if self.config.device.platform == "pennylane":
-            from pennylane import qml
-
-            self.device = qml.device(
-                name=self.config.device.name,
-                wires=self.config.device.n_qubits,
-                shots=self.config.device.shots,
-            )
-        else:
-            raise InvalidPlatformError(f'"{self.config.device.platform}" is not implemented.')
+        device_config = self.config.device
+        self.device = DeviceBuilder(config=device_config).build()
 
     def _set_feature_map(self) -> None:
         """Set quantum feature map."""

@@ -8,20 +8,19 @@ from joblib import Parallel, delayed
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from qxmt.constants import DEFAULT_N_JOBS
+from qxmt.devices.base import BaseDevice
 from qxmt.feature_maps.base import BaseFeatureMap
-from qxmt.types import QuantumDeviceType
-from qxmt.utils import get_number_of_qubits, get_platform_from_device
 
 
 class BaseKernel(ABC):
     def __init__(
         self,
-        device: QuantumDeviceType,
+        device: BaseDevice,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
-        self.device: QuantumDeviceType = device
-        self.platform: str = get_platform_from_device(self.device)
-        self.n_qubits: int = get_number_of_qubits(self.device)
+        self.device: BaseDevice = device
+        self.platform: str = self.device.platform
+        self.n_qubits: int = self.device.n_qubits
         if callable(feature_map):
             feature_map = self._to_fm_instance(feature_map)
         self.feature_map = feature_map

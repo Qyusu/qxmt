@@ -4,6 +4,7 @@ import numpy as np
 import pennylane as qml
 from pennylane.measurements.probs import ProbabilityMP
 
+from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
@@ -12,7 +13,7 @@ from qxmt.kernels.base import BaseKernel
 class FidelityKernel(BaseKernel):
     def __init__(
         self,
-        device: qml.Device,
+        device: BaseDevice,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
         super().__init__(device, feature_map)
@@ -27,7 +28,7 @@ class FidelityKernel(BaseKernel):
 
             return qml.probs(wires=range(self.n_qubits))
 
-        qnode = qml.QNode(circuit, self.device)
+        qnode = qml.QNode(circuit, self.device())
         probs = qnode(x1, x2)
         if isinstance(probs, qml.operation.Tensor):
             probs = probs.numpy()
