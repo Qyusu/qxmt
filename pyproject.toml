@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "qxmt"
 version = "0.0.0"  # using poetry-dynamic-versioning
-description = ""
+description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
 readme = "README.md"
