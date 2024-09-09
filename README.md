@@ -9,10 +9,10 @@ QXMT is newly released, and the available features are still limited. The quantu
 
 | Quantum Library              | Simulator | Real Machine |
 |---------------------|-----------|--------------|
-| [pennylane](https://github.com/PennyLaneAI/pennylane)     |<p align="center">✅</p>|<p align="center">❌</p>|
-| [Qulacs](https://github.com/qulacs/qulacs)                |<p align="center">❌</p>|<p align="center">❌</p>|
-| [Qiskit](https://github.com/Qiskit/qiskit)                |<p align="center">❌</p>|<p align="center">❌</p>|
-| [Cirq](https://github.com/quantumlib/Cirq)                |<p align="center">❌</p>|<p align="center">❌</p>|
+|<p align="center">[pennylane](https://github.com/PennyLaneAI/pennylane)</p>|<p align="center">✅</p>|<p align="center">❌</p>|
+|<p align="center">[Qulacs](https://github.com/qulacs/qulacs)</p>           |<p align="center">❌</p>|<p align="center">❌</p>|
+|<p align="center">[Qiskit](https://github.com/Qiskit/qiskit)</p>           |<p align="center">❌</p>|<p align="center">❌</p>|
+|<p align="center">[Cirq](https://github.com/quantumlib/Cirq)</p>           |<p align="center">❌</p>|<p align="center">❌</p>|
 
 
 ## Installation
