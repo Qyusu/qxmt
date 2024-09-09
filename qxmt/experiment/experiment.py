@@ -192,12 +192,18 @@ class Experiment:
 
         self.current_run_id -= 1
 
-    def run_evaluation(self, actual: np.ndarray, predicted: np.ndarray) -> dict:
+    def run_evaluation(
+        self,
+        actual: np.ndarray,
+        predicted: np.ndarray,
+        default_metrics_name: Optional[list[str]],
+    ) -> dict:
         """Run evaluation for the current run.
 
         Args:
             actual (np.ndarray): array of actual values
             predicted (np.ndarray): array of predicted values
+            default_metrics_name (Optional[list[str]]): list of default metrics name
 
         Returns:
             dict: evaluation result
@@ -205,6 +211,7 @@ class Experiment:
         evaluation = Evaluation(
             actual=actual,
             predicted=predicted,
+            default_metrics_name=default_metrics_name,
         )
         evaluation.evaluate()
 
@@ -241,6 +248,7 @@ class Experiment:
             dataset=dataset,
             model=model,
             save_model_path=save_model_path,
+            default_metrics_name=config.evaluation.default_metrics,
             desc=config.description,
             commit_id=commit_id,
             config_path=config.path,
@@ -255,6 +263,7 @@ class Experiment:
         dataset: Dataset,
         model: BaseMLModel,
         save_model_path: str | Path,
+        default_metrics_name: Optional[list[str]],
         desc: str,
         commit_id: str,
         config_path: str | Path = "",
@@ -267,6 +276,7 @@ class Experiment:
             dataset (Dataset): dataset object
             model (BaseMLModel): model object
             save_model_path (str | Path): path to save the model
+            default_metrics_name (Optional[list[str]]): list of default metrics name
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
             config_path (str | Path, optional): path to the config file. Defaults to "".
@@ -299,7 +309,7 @@ class Experiment:
             commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             config_path=config_path,
-            evaluation=self.run_evaluation(dataset.y_test, predicted),
+            evaluation=self.run_evaluation(dataset.y_test, predicted, default_metrics_name),
         )
 
         return artifact, record
@@ -309,6 +319,7 @@ class Experiment:
         dataset: Optional[Dataset] = None,
         model: Optional[BaseMLModel] = None,
         config_source: Optional[ExperimentConfig | str | Path] = None,
+        default_metrics_name: Optional[list[str]] = None,
         desc: str = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
@@ -327,6 +338,7 @@ class Experiment:
             config_source (ExperimentConfig, str | Path, optional): config source has two options.
                 first is ExperimentConfig instance, second is path to the config file.
                 if set path, it will load and create ExperimentConfig instance. Defaults to None.
+            default_metrics_name (list[str], optional): list of default metrics name. Defaults to None.
             desc (str, optional): description of the run. Defaults to "".
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
@@ -365,6 +377,7 @@ class Experiment:
                     dataset=dataset,
                     model=model,
                     save_model_path=save_model_path,
+                    default_metrics_name=default_metrics_name,
                     desc=desc,
                     commit_id=commit_id,
                     repo_path=repo_path,
