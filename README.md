@@ -1,4 +1,7 @@
 # QXMT: Quantum Experiment Management Tool
+![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
+[![Run unit tests with LLM](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml)
+
 QXMT is an open-source experiment management tool for quantum machine learning. The development focus is on low-cost experiment management and ensuring reproducibility. For low-cost management, the goal is to minimize the implementation code required for managing experiments, allowing developers and researchers to focus solely on new experimental implementations. To ensure reproducibility, QXMT manages experimental information as configuration file, enabling not only the original developer but also collaborators to reproduce the same experimental results without investing significant time.
 
 QXMT provides several datasets, machine learning models, and visualization methods to facilitate experiment management. By combining these, users can not only avoid developing the entire workflow themselves but also ensure that many people can evaluate their experiments based on the same standards. These default features will be continuously expanded in future development.
