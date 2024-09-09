@@ -2,6 +2,7 @@ import numpy as np
 import pennylane as qml
 import pytest
 
+from qxmt.devices.base import BaseDevice
 from qxmt.kernels.pennylane import FidelityKernel
 
 
@@ -11,7 +12,7 @@ def empty_feature_map(x: np.ndarray) -> None:
 
 @pytest.fixture(scope="function")
 def fidelity_kernel() -> FidelityKernel:
-    device = qml.device("default.qubit", wires=2)
+    device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
     return FidelityKernel(device, feature_map=empty_feature_map)
 
 

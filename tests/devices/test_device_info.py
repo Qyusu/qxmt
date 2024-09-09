@@ -1,11 +1,16 @@
 import pennylane as qml
 import pytest
 
+from qxmt.devices import BaseDevice, get_number_of_qubits, get_platform_from_device
 from qxmt.exceptions import InvalidQunatumDeviceError
-from qxmt.utils import get_number_of_qubits, get_platform_from_device
 
 
 class TestGetPlatformFromDevice:
+    def test_get_platform_from_device_base_device(self) -> None:
+        device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=1, shots=None)
+        platform = get_platform_from_device(device)
+        assert platform == "pennylane"
+
     def test_get_platform_from_device_pennylane(self) -> None:
         qml_device_list = [
             qml.device("default.qubit", wires=1),
@@ -29,6 +34,11 @@ class TestGetPlatformFromDevice:
 
 
 class TestGetNumberOfQubits:
+    def test_get_number_of_qubits_base_device(self) -> None:
+        device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=1, shots=None)
+        n_qubits = get_number_of_qubits(device)
+        assert n_qubits == 1
+
     def test_get_number_of_qubits_pennylane(self) -> None:
         device = qml.device("default.qubit", wires=3)
         n_qubits = get_number_of_qubits(device)

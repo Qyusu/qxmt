@@ -4,10 +4,11 @@ import numpy as np
 import pennylane as qml
 import pytest
 
+from qxmt.devices.base import BaseDevice
 from qxmt.kernels import BaseKernel
 
 N_QUBITS = 2
-DEVICE = qml.device("default.qubit", wires=N_QUBITS)
+DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=N_QUBITS, shots=None)
 
 
 def empty_feature_map(x: np.ndarray) -> None:
@@ -15,7 +16,7 @@ def empty_feature_map(x: np.ndarray) -> None:
 
 
 class TestKernel(BaseKernel):
-    def __init__(self, device: qml.Device, feature_map: Callable[[np.ndarray], None]) -> None:
+    def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
