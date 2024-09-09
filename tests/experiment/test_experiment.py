@@ -1,16 +1,16 @@
 import json
 from pathlib import Path
-from typing import Callable
+from typing import Callable, cast
 
 import numpy as np
 import pytest
-import yaml
 from pytest_mock import MockFixture
 
 from qxmt import Experiment
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.datasets import Dataset
+from qxmt.evaluation import BaseMetric
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
@@ -123,6 +123,16 @@ class TestLoadExperiment:
 
 
 class TestExperimentRun:
+    class CustomMetric(BaseMetric):
+        def __init__(self, name: str = "custom") -> None:
+            super().__init__(name)
+
+        @staticmethod
+        def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+            score = actual[0] + predicted[0]
+
+            return float(score)
+
     def test__run_setup(self, base_experiment: Experiment) -> None:
         base_experiment.init()
         assert base_experiment.current_run_id == 0
@@ -144,9 +154,21 @@ class TestExperimentRun:
     def test_run_evaluation(self, base_experiment: Experiment) -> None:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
-        evaluation = base_experiment.run_evaluation(actual, predicted)
+        default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
+
+        # only default metrics
+        custom_metrics = None
+        evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(evaluation) == 4
+        for key, value in acutal_result.items():
+            assert round(evaluation[key], 2) == value
+
+        # default and custom metrics
+        custom_metrics = cast(list[BaseMetric], [self.CustomMetric()])
+        evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
+        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
+        assert len(evaluation) == 5
         for key, value in acutal_result.items():
             assert round(evaluation[key], 2) == value
 
