@@ -18,6 +18,7 @@ from qxmt.constants import (
 )
 from qxmt.datasets.builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
+from qxmt.evaluation import BaseMetric
 from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
@@ -197,6 +198,7 @@ class Experiment:
         actual: np.ndarray,
         predicted: np.ndarray,
         default_metrics_name: Optional[list[str]],
+        custom_metrics: Optional[list[BaseMetric]],
     ) -> dict:
         """Run evaluation for the current run.
 
@@ -204,6 +206,7 @@ class Experiment:
             actual (np.ndarray): array of actual values
             predicted (np.ndarray): array of predicted values
             default_metrics_name (Optional[list[str]]): list of default metrics name
+            custom_metrics (Optional[list[BaseMetric]]): list of user defined custom metrics
 
         Returns:
             dict: evaluation result
@@ -212,6 +215,7 @@ class Experiment:
             actual=actual,
             predicted=predicted,
             default_metrics_name=default_metrics_name,
+            custom_metrics=custom_metrics,
         )
         evaluation.evaluate()
 
@@ -222,6 +226,7 @@ class Experiment:
         config: ExperimentConfig,
         commit_id: str,
         run_dirc: str | Path,
+        custom_metrics: Optional[list[BaseMetric]],
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
@@ -249,6 +254,7 @@ class Experiment:
             model=model,
             save_model_path=save_model_path,
             default_metrics_name=config.evaluation.default_metrics,
+            custom_metrics=custom_metrics,
             desc=config.description,
             commit_id=commit_id,
             config_path=config.path,
@@ -264,6 +270,7 @@ class Experiment:
         model: BaseMLModel,
         save_model_path: str | Path,
         default_metrics_name: Optional[list[str]],
+        custom_metrics: Optional[list[BaseMetric]],
         desc: str,
         commit_id: str,
         config_path: str | Path = "",
@@ -277,6 +284,7 @@ class Experiment:
             model (BaseMLModel): model object
             save_model_path (str | Path): path to save the model
             default_metrics_name (Optional[list[str]]): list of default metrics name
+            custom_metrics (Optional[list[BaseMetric]]): list of user defined custom metrics.
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
             config_path (str | Path, optional): path to the config file. Defaults to "".
@@ -309,7 +317,12 @@ class Experiment:
             commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             config_path=config_path,
-            evaluation=self.run_evaluation(dataset.y_test, predicted, default_metrics_name),
+            evaluation=self.run_evaluation(
+                actual=dataset.y_test,
+                predicted=predicted,
+                default_metrics_name=default_metrics_name,
+                custom_metrics=custom_metrics,
+            ),
         )
 
         return artifact, record
@@ -320,6 +333,7 @@ class Experiment:
         model: Optional[BaseMLModel] = None,
         config_source: Optional[ExperimentConfig | str | Path] = None,
         default_metrics_name: Optional[list[str]] = None,
+        custom_metrics: Optional[list[BaseMetric]] = None,
         desc: str = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
@@ -339,6 +353,7 @@ class Experiment:
                 first is ExperimentConfig instance, second is path to the config file.
                 if set path, it will load and create ExperimentConfig instance. Defaults to None.
             default_metrics_name (list[str], optional): list of default metrics name. Defaults to None.
+            custom_metrics (list[BaseMetric], optional): list of user defined custom metrics. Defaults to None.
             desc (str, optional): description of the run. Defaults to "".
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
@@ -369,6 +384,7 @@ class Experiment:
                     config=config,
                     commit_id=commit_id,
                     run_dirc=current_run_dirc,
+                    custom_metrics=custom_metrics,  # [TODO] receive from config
                     add_results=add_results,
                 )
             elif (dataset is not None) and (model is not None):
@@ -378,6 +394,7 @@ class Experiment:
                     model=model,
                     save_model_path=save_model_path,
                     default_metrics_name=default_metrics_name,
+                    custom_metrics=custom_metrics,
                     desc=desc,
                     commit_id=commit_id,
                     repo_path=repo_path,
