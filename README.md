@@ -36,6 +36,33 @@ pip install qxmt[llm]
 ```
 
 ## Tool Overview
+QXMT manages experiments in the following folder structure.
+```bash
+<your_project>
+├── data
+├── configs
+│   ├── config_1.yaml
+│   ├──   ⋮
+│   └── config_n.yaml
+└── experiments
+    ├── <your_experiment_1>
+    │   ├── experiment.json
+    │   ├── run_1
+    │   │   └── model.pkl
+    │   ├── run_2
+    │   ├──   ⋮
+    │   └── run_n
+    │   ⋮
+    └── <your_experiment_n>
+
+```
+
+### Keywords
+- **data**: Stores raw data used in experiments
+- **configs**: Stores yaml files related to the configuration of the experiment to be each run
+- **experiments**: Stores experimental results
+    - A folder is automatically created for each name set at the start of the experiment.
+    - Each experiment folder consists of experiment.json and a folder to manage each run.
 
 
 ## Getting Started
