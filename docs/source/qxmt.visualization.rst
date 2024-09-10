@@ -4,6 +4,14 @@ qxmt.visualization package
 Submodules
 ----------
 
+qxmt.visualization.graph\_settings module
+-----------------------------------------
+
+.. automodule:: qxmt.visualization.graph_settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 qxmt.visualization.plot\_dataset module
 ---------------------------------------
 
@@ -24,14 +32,6 @@ qxmt.visualization.plot\_model\_performance module
 --------------------------------------------------
 
 .. automodule:: qxmt.visualization.plot_model_performance
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-qxmt.visualization.utils module
--------------------------------
-
-.. automodule:: qxmt.visualization.utils
    :members:
    :undoc-members:
    :show-inheritance:

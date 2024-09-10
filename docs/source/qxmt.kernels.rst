@@ -20,14 +20,6 @@ qxmt.kernels.base module
    :undoc-members:
    :show-inheritance:
 
-qxmt.kernels.utils module
--------------------------
-
-.. automodule:: qxmt.kernels.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 

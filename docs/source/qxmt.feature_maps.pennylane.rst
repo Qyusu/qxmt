@@ -12,14 +12,6 @@ qxmt.feature\_maps.pennylane.defaults module
    :undoc-members:
    :show-inheritance:
 
-qxmt.feature\_maps.pennylane.utils module
------------------------------------------
-
-.. automodule:: qxmt.feature_maps.pennylane.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 Module contents
 ---------------
 
