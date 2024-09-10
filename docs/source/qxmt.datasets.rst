@@ -1,13 +1,23 @@
 qxmt.datasets package
 =====================
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   qxmt.datasets.dummy
+   qxmt.datasets.raw_preprocess
+   qxmt.datasets.transform
+
 Submodules
 ----------
 
-qxmt.datasets.dataset\_builder module
--------------------------------------
+qxmt.datasets.builder module
+----------------------------
 
-.. automodule:: qxmt.datasets.dataset_builder
+.. automodule:: qxmt.datasets.builder
    :members:
    :undoc-members:
    :show-inheritance:
