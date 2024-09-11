@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qxmt"
-version = "0.0.0"  # using poetry-dynamic-versioning
+version = "0.2.0"  # using poetry-dynamic-versioning
 description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
@@ -12,8 +12,8 @@ packages = [
 
 [tool.poetry-dynamic-versioning]
 enable = true
-vcs = "git"
 style = "pep440"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -37,7 +37,6 @@ mypy = "^1.10.1"
 flake8 = "^7.1.0"
 ipykernel = "^6.29.5"
 pytest-mock = "^3.14.0"
-poetry-dynamic-versioning = "^1.4.0"
 
 
 [tool.poetry.group.docs.dependencies]
@@ -48,5 +47,5 @@ sphinx-book-theme = "^1.1.3"
 llm = ["torch", "transformers"]
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
-build-backend = "poetry_dynamic_versioning.backend"
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
