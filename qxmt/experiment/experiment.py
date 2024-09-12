@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 from datetime import datetime
 from logging import Logger
@@ -28,7 +29,6 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord
-from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
@@ -39,6 +39,10 @@ from qxmt.utils import (
     load_yaml_config,
 )
 
+USE_LLM = os.getenv("USE_LLM", "FALSE").lower() == "true"
+if USE_LLM:
+    from qxmt.generators import DescriptionGenerator
+
 LOGGER = set_default_logger(__name__)
 
 
@@ -47,7 +51,7 @@ class Experiment:
         self,
         name: Optional[str] = None,
         desc: Optional[str] = None,
-        auto_gen_mode: bool = False,
+        auto_gen_mode: bool = USE_LLM,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
         llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
@@ -61,7 +65,13 @@ class Experiment:
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
 
-        if self.auto_gen_mode:
+        if (not USE_LLM) and (self.auto_gen_mode):
+            self.logger.warning(
+                'Global variable "USE_LLM" is set to False. '
+                'DescriptionGenerator is not available. Set "USE_LLM" to True to use DescriptionGenerator.'
+            )
+            self.auto_gen_mode = False
+        elif self.auto_gen_mode:
             self.desc_generator = DescriptionGenerator(llm_model_path)
 
     @staticmethod

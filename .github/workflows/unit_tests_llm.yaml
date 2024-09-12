@@ -9,7 +9,7 @@ on:
       - main
 
 env:
-  USE_LLM: FALSE
+  USE_LLM: TRUE
 
 jobs:
   test:
