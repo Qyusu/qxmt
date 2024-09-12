@@ -1,8 +1,8 @@
-# import os
+import os
 
-# if os.getenv("USE_LLM", "FALSE").lower() == "true":
-import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer
+if os.getenv("USE_LLM", "FALSE").lower() == "true":
+    import torch  # type: ignore
+    from transformers import AutoModelForCausalLM, AutoTokenizer  # type: ignore
 
 from qxmt.constants import LLM_MODEL_PATH
 from qxmt.generators.prompts import diff_desc_system_prompt, diff_desc_user_prompt
