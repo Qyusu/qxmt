@@ -5,7 +5,7 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    qxmt.datasets
    qxmt.devices
@@ -20,6 +20,15 @@ Subpackages
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 1
+
+   qxmt.configs
+   qxmt.constants
+   qxmt.decorators
+   qxmt.exceptions
+   qxmt.logger
+   qxmt.types
 
 qxmt.configs module
 -------------------

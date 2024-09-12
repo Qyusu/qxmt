@@ -7,10 +7,10 @@ Welcome to qxmt's documentation!
 ================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
-   modules
+   qxmt
 
 
 Indices and tables
