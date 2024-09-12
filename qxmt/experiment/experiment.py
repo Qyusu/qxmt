@@ -506,13 +506,14 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduce(self, run_id: int) -> BaseMLModel:
+    def reproduce(self, run_id: int, check_commit_id: bool = False) -> BaseMLModel:
         """Reproduce the target run_id model from config file.
         If the target run_id does not have a config file path, raise an error.
         Reoroduce method not supported for the run executed from the instance.
 
         Args:
             run_id (int): target run_id
+            check_commit_id (bool, optional): whether to check the commit_id. Defaults to False.
 
         Returns:
             BaseMLModel: reproduced model
@@ -522,12 +523,21 @@ class Experiment:
         """
         self._is_initialized()
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
+
+        if check_commit_id:
+            commit_id = get_commit_id(logger=self.logger)
+            if commit_id != run_record.commit_id:
+                self.logger.warning(
+                    f'Current commit_id="{commit_id}" is different from'
+                    f'the run_id={run_id} commit_id="{run_record.commit_id}".'
+                )
+
         config_path = run_record.config_path
         if config_path == "":
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
+                "run from instance mode not supported for reproduction."
             )
-
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
