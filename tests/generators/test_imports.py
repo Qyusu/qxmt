@@ -1,21 +1,12 @@
-import importlib
+import os
 
-import pytest
+from qxmt.generators import __all__
+
+if os.getenv("USE_LLM", "FALSE").lower() == "true":
+    EXPECTED_ALL = ["DescriptionGenerator"]
+else:
+    EXPECTED_ALL = []
 
 
-@pytest.mark.parametrize(
-    "use_llm, expected_all",
-    [
-        ("false", []),
-        ("true", ["DescriptionGenerator"]),
-    ],
-)
-def test_all_imports(monkeypatch: pytest.MonkeyPatch, use_llm: str, expected_all: list[str]) -> None:
-    monkeypatch.setenv("USE_LLM", use_llm)
-
-    import qxmt.generators
-
-    importlib.reload(qxmt.generators)
-    from qxmt.generators import __all__
-
-    assert set(__all__) == set(expected_all)
+def test_all_imports() -> None:
+    assert set(__all__) == set(EXPECTED_ALL)
