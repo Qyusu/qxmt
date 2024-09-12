@@ -1,7 +1,7 @@
 from typing import Annotated, Any
 
 import numpy as np
-from pydantic import BaseModel, PlainSerializer, PlainValidator
+from pydantic import BaseModel, ConfigDict, PlainSerializer, PlainValidator
 
 from qxmt.configs import DatasetConfig
 
@@ -25,6 +25,8 @@ DataArray = Annotated[
 
 
 class Dataset(BaseModel):
+    # model_config = ConfigDict(frozen=True, extra="forbid")
+
     X_train: DataArray
     y_train: DataArray
     X_test: DataArray

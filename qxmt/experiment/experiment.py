@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 from datetime import datetime
 from logging import Logger
@@ -28,7 +29,6 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord
-from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
@@ -39,6 +39,10 @@ from qxmt.utils import (
     load_yaml_config,
 )
 
+USE_LLM = os.getenv("USE_LLM", "FALSE").lower() == "true"
+if USE_LLM:
+    from qxmt.generators import DescriptionGenerator
+
 LOGGER = set_default_logger(__name__)
 
 
@@ -47,7 +51,7 @@ class Experiment:
         self,
         name: Optional[str] = None,
         desc: Optional[str] = None,
-        auto_gen_mode: bool = False,
+        auto_gen_mode: bool = USE_LLM,
         root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
         llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
@@ -61,7 +65,13 @@ class Experiment:
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
 
-        if self.auto_gen_mode:
+        if (not USE_LLM) and (self.auto_gen_mode):
+            self.logger.warning(
+                'Global variable "USE_LLM" is set to False. '
+                'DescriptionGenerator is not available. Set "USE_LLM" to True to use DescriptionGenerator.'
+            )
+            self.auto_gen_mode = False
+        elif self.auto_gen_mode:
             self.desc_generator = DescriptionGenerator(llm_model_path)
 
     @staticmethod
@@ -496,13 +506,14 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduce(self, run_id: int) -> BaseMLModel:
+    def reproduce(self, run_id: int, check_commit_id: bool = False) -> BaseMLModel:
         """Reproduce the target run_id model from config file.
         If the target run_id does not have a config file path, raise an error.
         Reoroduce method not supported for the run executed from the instance.
 
         Args:
             run_id (int): target run_id
+            check_commit_id (bool, optional): whether to check the commit_id. Defaults to False.
 
         Returns:
             BaseMLModel: reproduced model
@@ -512,17 +523,26 @@ class Experiment:
         """
         self._is_initialized()
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
+
+        if check_commit_id:
+            commit_id = get_commit_id(logger=self.logger)
+            if commit_id != run_record.commit_id:
+                self.logger.warning(
+                    f'Current commit_id="{commit_id}" is different from'
+                    f'the run_id={run_id} commit_id="{run_record.commit_id}".'
+                )
+
         config_path = run_record.config_path
         if config_path == "":
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
+                "run from instance mode not supported for reproduction."
             )
-
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
         reproduced_evaluation = reproduced_result.evaluation
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
-        self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
+        self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
 
         return reproduced_artifact.model

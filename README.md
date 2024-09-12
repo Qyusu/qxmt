@@ -86,7 +86,7 @@ artifact, result = exp.run(config_source="configs/baseline.yaml")
 artifact, result = exp.run(dataset=your_dataset, model=your_model)
 
 # get instance of each experiment artifact
-dataset = artufact.dataset
+dataset = artifact.dataset
 model = artifact.model
 
 # output result

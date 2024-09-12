@@ -7,6 +7,8 @@ from qxmt.models.base import BaseMLModel
 
 
 class RunRecord(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     run_id: int
     desc: str
     execution_time: str
@@ -16,14 +18,16 @@ class RunRecord(BaseModel):
 
 
 class RunArtifact(BaseModel):
+    model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True, extra="forbid")
+
     run_id: int
     dataset: Dataset
     model: BaseMLModel
 
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-
 
 class ExperimentDB(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     name: str
     desc: str
     working_dirc: Path
