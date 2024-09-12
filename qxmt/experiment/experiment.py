@@ -523,6 +523,6 @@ class Experiment:
         logging_evaluation = run_record.evaluation
         reproduced_evaluation = reproduced_result.evaluation
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
-        self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
+        self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
 
         return reproduced_artifact.model

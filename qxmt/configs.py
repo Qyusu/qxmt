@@ -1,12 +1,14 @@
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from qxmt.constants import MODULE_HOME
 
 
 class PathConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     data: Path | str
     label: Path | str
 
@@ -19,6 +21,8 @@ class PathConfig(BaseModel):
 
 
 class DatasetConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     type: Literal["file", "generate"]
     path: PathConfig
     random_seed: int
@@ -29,6 +33,8 @@ class DatasetConfig(BaseModel):
 
 
 class DeviceConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
     platform: str
     name: str
     n_qubits: int
@@ -36,18 +42,24 @@ class DeviceConfig(BaseModel):
 
 
 class FeatureMapConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     module_name: str
     implement_name: str
     params: Optional[dict[str, Any]] = None
 
 
 class KernelConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     module_name: str
     implement_name: str
     params: Optional[dict[str, Any]] = None
 
 
 class ModelConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     name: str
     file_name: str
     params: dict[str, Any]
@@ -56,10 +68,14 @@ class ModelConfig(BaseModel):
 
 
 class EvaluationConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     default_metrics: list[str]
 
 
 class ExperimentConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
     path: Path | str = ""
     description: str = ""
     dataset: DatasetConfig
