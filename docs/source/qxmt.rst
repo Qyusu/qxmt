@@ -1,5 +1,6 @@
-qxmt package
-============
+QXMT reference
+==============
+Release: 0.2.0 (Date: September 11,2024)
 
 Subpackages
 -----------

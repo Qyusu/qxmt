@@ -11,6 +11,7 @@ Welcome to qxmt's documentation!
    :caption: Contents:
 
    qxmt
+   tutorials/tutorial_top.md
 
 
 Indices and tables
