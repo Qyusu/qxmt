@@ -1,4 +1,4 @@
-name: Run unit tests with LLM
+name: unit tests
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  USE_LLM: TRUE
+  USE_LLM: FALSE
 
 jobs:
   test:
@@ -30,8 +30,8 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies (with llm)
-        run: poetry install --with dev --extras llm
+      - name: Install dependencies (no llm)
+        run: poetry install --with dev
 
       - name: Run tests
         env:

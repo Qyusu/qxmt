@@ -1,6 +1,6 @@
 # QXMT: Quantum Experiment Management Tool
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
-[![Run unit tests with LLM](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml)
+[![unit tests](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://kenya-sk.github.io/qxmt/)
 
 
