@@ -22,7 +22,7 @@ release = "0.2.1"
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
 
 templates_path = ["_templates"]
-exclude_patterns = ["modules.rst"]
+# exclude_patterns = []
 
 
 # -- Options for HTML output -------------------------------------------------

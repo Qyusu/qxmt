@@ -5,3 +5,4 @@ qxmt.exceptions module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

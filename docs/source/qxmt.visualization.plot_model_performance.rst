@@ -5,3 +5,4 @@ qxmt.visualization.plot\_model\_performance module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

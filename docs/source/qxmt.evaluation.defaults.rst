@@ -5,3 +5,4 @@ qxmt.evaluation.defaults module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

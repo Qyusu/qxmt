@@ -5,3 +5,4 @@ qxmt.visualization.plot\_dataset module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

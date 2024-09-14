@@ -5,3 +5,4 @@ qxmt.utils.yaml module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

@@ -5,3 +5,4 @@ qxmt.kernels.pennylane.fidelity\_kernel module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

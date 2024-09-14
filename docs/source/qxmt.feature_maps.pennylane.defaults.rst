@@ -5,3 +5,4 @@ qxmt.feature\_maps.pennylane.defaults module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

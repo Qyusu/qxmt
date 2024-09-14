@@ -5,3 +5,4 @@ qxmt.datasets.transform.reduction_by_pca module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

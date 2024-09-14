@@ -5,3 +5,4 @@ qxmt.utils.github module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

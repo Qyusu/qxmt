@@ -9,6 +9,9 @@ if "%SPHINXBUILD%" == "" (
 )
 set SOURCEDIR=source
 set BUILDDIR=build
+set APIDOC=sphinx-apidoc
+set MODULEDIR=..\qxmt
+set APIDOCDIR=%SOURCEDIR%
 
 %SPHINXBUILD% >NUL 2>NUL
 if errorlevel 9009 (
@@ -25,7 +28,13 @@ if errorlevel 9009 (
 
 if "%1" == "" goto help
 
+if "%1" == "apidoc" goto apidoc
+
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
+goto end
+
+:apidoc
+%APIDOC% --no-toc -o %APIDOCDIR% --separate %MODULEDIR%
 goto end
 
 :help

@@ -5,3 +5,4 @@ qxmt.generators.prompts module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

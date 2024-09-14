@@ -5,3 +5,4 @@ qxmt.datasets.schema module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

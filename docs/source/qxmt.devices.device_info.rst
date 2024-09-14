@@ -5,3 +5,4 @@ qxmt.devices.device\_info module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

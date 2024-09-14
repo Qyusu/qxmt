@@ -5,3 +5,4 @@ qxmt.generators.description module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

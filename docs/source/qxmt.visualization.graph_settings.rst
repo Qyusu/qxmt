@@ -5,3 +5,4 @@ qxmt.visualization.graph\_settings module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

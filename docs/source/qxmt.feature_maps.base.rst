@@ -5,3 +5,4 @@ qxmt.feature\_maps.base module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

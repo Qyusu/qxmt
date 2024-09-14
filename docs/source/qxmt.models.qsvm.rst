@@ -5,3 +5,4 @@ qxmt.models.qsvm module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
