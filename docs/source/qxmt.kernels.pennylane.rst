@@ -3,6 +3,10 @@ qxmt.kernels.pennylane package
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 2
+
+   qxmt.kernels.pennylane.fidelity_kernel
 
 qxmt.kernels.pennylane.fidelity\_kernel module
 ----------------------------------------------

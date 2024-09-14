@@ -10,6 +10,8 @@ Subpackages
    qxmt.datasets.dummy
    qxmt.datasets.raw_preprocess
    qxmt.datasets.transform
+   qxmt.datasets.builder
+   qxmt.datasets.schema
 
 Submodules
 ----------

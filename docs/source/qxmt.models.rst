@@ -3,6 +3,12 @@ qxmt.models package
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 2
+
+   qxmt.models.base
+   qxmt.models.builder
+   qxmt.models.qsvm
 
 qxmt.models.base module
 -----------------------

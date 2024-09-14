@@ -348,31 +348,35 @@ class Experiment:
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
-        """Start a new run for the experiment.
-        run() method can be called two ways:
-        1. Provide dataset and model instance
-            This method is directory provided dataset and model instance. It is easy to use but less flexible.
-            This method "NOT" track the experiment settings.
-        2. Provide config_path
-            This method is provided the path to the config file. It is more flexible but requires a config file.
+        """
+        Start a new run for the experiment.
+
+        The `run()` method can be called in two ways:
+
+        1. **Provide dataset and model instance**:
+        This method directly accepts dataset and model instances.
+        It is easy to use but less flexible and does "NOT" track the experiment settings.
+
+        2. **Provide config_path**:
+        This method accepts the path to the config file. It is more flexible but requires a config file.
 
         Args:
-            dataset (Dataset): dataset object
-            model (BaseMLModel): model object
-            config_source (ExperimentConfig, str | Path, optional): config source has two options.
-                first is ExperimentConfig instance, second is path to the config file.
-                if set path, it will load and create ExperimentConfig instance. Defaults to None.
-            default_metrics_name (list[str], optional): list of default metrics name. Defaults to None.
-            custom_metrics (list[BaseMetric], optional): list of user defined custom metrics. Defaults to None.
-            desc (str, optional): description of the run. Defaults to "".
-            repo_path (str, optional): path to the git repository. Defaults to None.
-            add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
+            dataset (Dataset): The dataset object.
+            model (BaseMLModel): The model object.
+            config_source (ExperimentConfig, str | Path, optional): Config source can be either an `ExperimentConfig`
+                instance or the path to a config file. If a path is provided, it loads and creates an
+                `ExperimentConfig` instance. Defaults to None.
+            default_metrics_name (list[str], optional): List of default metrics names. Defaults to None.
+            custom_metrics (list[BaseMetric], optional): List of user-defined custom metrics. Defaults to None.
+            desc (str, optional): Description of the run. Defaults to "".
+            repo_path (str, optional): Path to the git repository. Defaults to None.
+            add_results (bool, optional): Whether to add the run record to the experiment. Defaults to True.
 
         Returns:
-            tuple[RunArtifact, RunRecord]: artifact and run record of the current run_id
+            tuple[RunArtifact, RunRecord]: Returns a tuple containing the artifact and run record of the current run_id.
 
         Raises:
-            ExperimentNotInitializedError: if the experiment is not initialized
+            ExperimentNotInitializedError: Raised if the experiment is not initialized.
         """
         self._is_initialized()
 
