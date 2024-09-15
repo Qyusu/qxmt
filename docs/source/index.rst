@@ -10,14 +10,16 @@ QXMT is an open-source experiment management tool for quantum machine learning. 
 
 QXMT provides several datasets, machine learning models, and visualization methods to facilitate experiment management. By combining these, users can not only avoid developing the entire workflow themselves but also ensure that many people can evaluate their experiments based on the same standards. These default features will be continuously expanded in future development.
 
-
-Contents
+Installation
 ==================
-.. toctree::
-   :maxdepth: 1
+To install QXMT package, you can use `pip`, the Python package installer. Run the following command in your terminal:
 
-   qxmt
-   tutorials/tutorial_top.md
+.. code-block:: bash
+
+   pip install qxmt
+
+Make sure you have Python 3.11 or more recent version installed. If you need LLM mode or more detailed instructions, please refer to `the official PyPI page <https://pypi.org/project/qxmt/>`__.
+
 
 Limitation
 ==================
@@ -35,6 +37,13 @@ QXMT is newly released, and the available features are still limited. The quantu
 | `Cirq <https://github.com/quantumlib/Cirq>`_                      |    ❌      |     ❌       |
 +-------------------------------------------------------------------+------------+--------------+
 
+Contents
+==================
+.. toctree::
+   :maxdepth: 1
+
+   qxmt
+   tutorials/tutorial_top.md
 
 Indices and tables
 ==================

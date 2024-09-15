@@ -31,7 +31,7 @@ source_suffix = {
 
 # ignore warnings about references
 suppress_warnings = [
-    "ref.ref",
+    # "ref.ref",
     "ref.python",
 ]
 
