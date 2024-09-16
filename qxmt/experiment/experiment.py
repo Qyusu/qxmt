@@ -52,7 +52,7 @@ class Experiment:
         name: Optional[str] = None,
         desc: Optional[str] = None,
         auto_gen_mode: bool = USE_LLM,
-        root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
+        root_experiment_dirc: str | Path = DEFAULT_EXP_DIRC,
         llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
     ) -> None:
@@ -60,7 +60,7 @@ class Experiment:
         self.desc: Optional[str] = desc
         self.auto_gen_mode: bool = auto_gen_mode
         self.current_run_id: int = 0
-        self.root_experiment_dirc: Path = root_experiment_dirc
+        self.root_experiment_dirc: Path = Path(root_experiment_dirc)
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
