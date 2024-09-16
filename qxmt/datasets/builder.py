@@ -117,7 +117,7 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
-        if self.config.dataset.type == "file":
+        if (self.config.dataset.type == "file") and (self.config.dataset.path is not None):
             # [TODO]: Implement other file formats
             X = np.load(self.config.dataset.path.data, allow_pickle=True)
             y = np.load(self.config.dataset.path.label, allow_pickle=True)

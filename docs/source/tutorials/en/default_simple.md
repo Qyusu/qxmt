@@ -66,9 +66,8 @@ description: "Configuration file for the simple example"
 
 dataset:
   type: "generate"
-  path:
-    data: "data/mnist_784/images.npy"
-    label: "data/mnist_784/label.npy"
+  path: null
+  params: {}
   random_seed: 42
   test_size: 0.2
   features: null

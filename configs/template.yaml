@@ -5,6 +5,7 @@ dataset:
   path: # full path or relative path from the root of the project
     data: "data/mnist_784/images.npy"
     label: "data/mnist_784/label.npy"
+  params: {}
   random_seed: 42
   test_size: 0.2
   features: null

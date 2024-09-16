@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from qxmt.constants import MODULE_HOME
 
@@ -24,12 +24,23 @@ class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     type: Literal["file", "generate"]
-    path: PathConfig
+    path: Optional[PathConfig]
+    params: Optional[dict[str, Any]] = None
     random_seed: int
     test_size: float = Field(ge=0.0, le=1.0)
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[dict[str, Any]] = None
     transform_logic: Optional[dict[str, Any]] = None
+
+    @model_validator(mode="before")
+    def check_path_based_on_type(cls, values: dict[str, str]) -> dict[str, str]:
+        type_ = values.get("type")
+        path = values.get("path")
+
+        if type_ == "file" and path is None:
+            raise ValueError('path must be provided when type is "file".')
+
+        return values
 
 
 class DeviceConfig(BaseModel):
