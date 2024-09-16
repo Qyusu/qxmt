@@ -4,11 +4,13 @@ from typing import Any, Optional, cast
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 RUN_ID_COL = "run_id"
+DEFAULT_COLOR = sns.color_palette("viridis")
 
 
 def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Logger = LOGGER) -> list[str]:
@@ -36,6 +38,7 @@ def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Lo
 def plot_metric(
     df: pd.DataFrame,
     metric: str,
+    run_id_col: str = RUN_ID_COL,
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
@@ -46,6 +49,7 @@ def plot_metric(
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metric (str): target metric name
+        run_id_col (str, optional): column name of run_id. Defaults to RUN_ID_COL.
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
@@ -55,16 +59,17 @@ def plot_metric(
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
-        df = df[df[RUN_ID_COL].isin(run_ids)]
+        df = df[df[run_id_col].isin(run_ids)]
 
     valid_metric = _check_existence_of_metrics(df, [metric], logger)[0]
 
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
-    plt.bar(x, df[valid_metric])
-    plt.xlabel(str(kwargs.get("xlabel", "run_id")))
+    color = kwargs.get("color", DEFAULT_COLOR[0])
+    plt.bar(x, df[valid_metric], color=color)
+    plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     plt.ylabel(str(kwargs.get("ylabel", f'"{valid_metric}" score')))
-    plt.xticks(x, list(df["run_id"]))
+    plt.xticks(x, list(df[run_id_col]))
     plt.ylim(0, 1.05)
 
     title = cast(str | None, kwargs.get("title", None))
@@ -80,6 +85,7 @@ def plot_metric(
 def plot_metrics_side_by_side(
     df: pd.DataFrame,
     metrics: list[str],
+    run_id_col: str = RUN_ID_COL,
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
@@ -90,6 +96,7 @@ def plot_metrics_side_by_side(
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metrics (list[str]): target metric names
+        run_id_col (str, optional): column name of run_id. Defaults to RUN_ID_COL.
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
@@ -99,20 +106,21 @@ def plot_metrics_side_by_side(
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
-        df = df[df[RUN_ID_COL].isin(run_ids)]
+        df = df[df[run_id_col].isin(run_ids)]
 
     valid_metrics = _check_existence_of_metrics(df, metrics, logger)
 
     plt.figure(figsize=(10, 6), tight_layout=True)
     width = 1.0 / (len(valid_metrics) + 1)
+    color: list = cast(list, kwargs.get("color", DEFAULT_COLOR))
     for i, metric in enumerate(valid_metrics):
         x = [j + i * width for j in range(len(df))]
-        plt.bar(x, df[metric], width=width, label=metric)
+        plt.bar(x, df[metric], width=width, label=metric, color=color[i])
 
     plt.ylabel(str(kwargs.get("ylabel", "metrics score")))
-    plt.xlabel(str(kwargs.get("xlabel", "run_id")))
+    plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
-    plt.xticks(x_ticks, list(df["run_id"]))
+    plt.xticks(x_ticks, list(df[run_id_col]))
     plt.ylim(0, 1.3)
     plt.legend(loc="upper right")
 
