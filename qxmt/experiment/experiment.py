@@ -1,4 +1,5 @@
 import json
+import os
 import shutil
 from datetime import datetime
 from logging import Logger
@@ -28,7 +29,6 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord
-from qxmt.generators import DescriptionGenerator
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
@@ -39,6 +39,10 @@ from qxmt.utils import (
     load_yaml_config,
 )
 
+USE_LLM = os.getenv("USE_LLM", "FALSE").lower() == "true"
+if USE_LLM:
+    from qxmt.generators import DescriptionGenerator
+
 LOGGER = set_default_logger(__name__)
 
 
@@ -47,8 +51,8 @@ class Experiment:
         self,
         name: Optional[str] = None,
         desc: Optional[str] = None,
-        auto_gen_mode: bool = False,
-        root_experiment_dirc: Path = DEFAULT_EXP_DIRC,
+        auto_gen_mode: bool = USE_LLM,
+        root_experiment_dirc: str | Path = DEFAULT_EXP_DIRC,
         llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
     ) -> None:
@@ -56,12 +60,18 @@ class Experiment:
         self.desc: Optional[str] = desc
         self.auto_gen_mode: bool = auto_gen_mode
         self.current_run_id: int = 0
-        self.root_experiment_dirc: Path = root_experiment_dirc
+        self.root_experiment_dirc: Path = Path(root_experiment_dirc)
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
 
-        if self.auto_gen_mode:
+        if (not USE_LLM) and (self.auto_gen_mode):
+            self.logger.warning(
+                'Global variable "USE_LLM" is set to False. '
+                'DescriptionGenerator is not available. Set "USE_LLM" to True to use DescriptionGenerator.'
+            )
+            self.auto_gen_mode = False
+        elif self.auto_gen_mode:
             self.desc_generator = DescriptionGenerator(llm_model_path)
 
     @staticmethod
@@ -338,31 +348,35 @@ class Experiment:
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
-        """Start a new run for the experiment.
-        run() method can be called two ways:
-        1. Provide dataset and model instance
-            This method is directory provided dataset and model instance. It is easy to use but less flexible.
-            This method "NOT" track the experiment settings.
-        2. Provide config_path
-            This method is provided the path to the config file. It is more flexible but requires a config file.
+        """
+        Start a new run for the experiment.
+
+        The `run()` method can be called in two ways:
+
+        1. **Provide dataset and model instance**:
+        This method directly accepts dataset and model instances.
+        It is easy to use but less flexible and does "NOT" track the experiment settings.
+
+        2. **Provide config_path**:
+        This method accepts the path to the config file. It is more flexible but requires a config file.
 
         Args:
-            dataset (Dataset): dataset object
-            model (BaseMLModel): model object
-            config_source (ExperimentConfig, str | Path, optional): config source has two options.
-                first is ExperimentConfig instance, second is path to the config file.
-                if set path, it will load and create ExperimentConfig instance. Defaults to None.
-            default_metrics_name (list[str], optional): list of default metrics name. Defaults to None.
-            custom_metrics (list[BaseMetric], optional): list of user defined custom metrics. Defaults to None.
-            desc (str, optional): description of the run. Defaults to "".
-            repo_path (str, optional): path to the git repository. Defaults to None.
-            add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
+            dataset (Dataset): The dataset object.
+            model (BaseMLModel): The model object.
+            config_source (ExperimentConfig, str | Path, optional): Config source can be either an `ExperimentConfig`
+                instance or the path to a config file. If a path is provided, it loads and creates an
+                `ExperimentConfig` instance. Defaults to None.
+            default_metrics_name (list[str], optional): List of default metrics names. Defaults to None.
+            custom_metrics (list[BaseMetric], optional): List of user-defined custom metrics. Defaults to None.
+            desc (str, optional): Description of the run. Defaults to "".
+            repo_path (str, optional): Path to the git repository. Defaults to None.
+            add_results (bool, optional): Whether to add the run record to the experiment. Defaults to True.
 
         Returns:
-            tuple[RunArtifact, RunRecord]: artifact and run record of the current run_id
+            tuple[RunArtifact, RunRecord]: Returns a tuple containing the artifact and run record of the current run_id.
 
         Raises:
-            ExperimentNotInitializedError: if the experiment is not initialized
+            ExperimentNotInitializedError: Raised if the experiment is not initialized.
         """
         self._is_initialized()
 
@@ -496,13 +510,14 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduce(self, run_id: int) -> BaseMLModel:
+    def reproduce(self, run_id: int, check_commit_id: bool = False) -> BaseMLModel:
         """Reproduce the target run_id model from config file.
         If the target run_id does not have a config file path, raise an error.
         Reoroduce method not supported for the run executed from the instance.
 
         Args:
             run_id (int): target run_id
+            check_commit_id (bool, optional): whether to check the commit_id. Defaults to False.
 
         Returns:
             BaseMLModel: reproduced model
@@ -512,17 +527,26 @@ class Experiment:
         """
         self._is_initialized()
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
+
+        if check_commit_id:
+            commit_id = get_commit_id(logger=self.logger)
+            if commit_id != run_record.commit_id:
+                self.logger.warning(
+                    f'Current commit_id="{commit_id}" is different from'
+                    f'the run_id={run_id} commit_id="{run_record.commit_id}".'
+                )
+
         config_path = run_record.config_path
         if config_path == "":
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
+                "run from instance mode not supported for reproduction."
             )
-
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
         reproduced_evaluation = reproduced_result.evaluation
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
-        self.logger.info(f"Reproduce model is successful. Evaluation results are the same run_id={run_id}.")
+        self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
 
         return reproduced_artifact.model

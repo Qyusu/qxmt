@@ -1,8 +1,11 @@
+import os
+
 from qxmt.generators import __all__
 
-EXPECTED_ALL = [
-    "DescriptionGenerator",
-]
+if os.getenv("USE_LLM", "FALSE").lower() == "true":
+    EXPECTED_ALL = ["DescriptionGenerator"]
+else:
+    EXPECTED_ALL = []
 
 
 def test_all_imports() -> None:

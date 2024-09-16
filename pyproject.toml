@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qxmt"
-version = "0.0.0"  # using poetry-dynamic-versioning
+version = "0.2.1"  # using poetry-dynamic-versioning
 description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
@@ -26,6 +26,7 @@ dill = "^0.3.8"
 pyyaml = "^6.0.2"
 torch = {version = "^2.4.0", optional = true}
 transformers = {version = "^4.44.2", optional = true}
+seaborn = "^0.13.2"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -42,6 +43,7 @@ pytest-mock = "^3.14.0"
 [tool.poetry.group.docs.dependencies]
 sphinx = "^8.0.2"
 sphinx-book-theme = "^1.1.3"
+myst-parser = "^4.0.0"
 
 [tool.poetry.extras]
 llm = ["torch", "transformers"]

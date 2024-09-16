@@ -1,7 +1,8 @@
 # QXMT: Quantum Experiment Management Tool
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
-[![Run unit tests with LLM](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests_llm.yaml)
-[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://kenya-sk.github.io/qxmt/)
+[![unit tests](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://qxmt.vercel.app/)
+[![PyPI version](https://img.shields.io/pypi/v/qxmt.svg)](https://pypi.org/project/qxmt/)
 
 
 QXMT is an open-source experiment management tool for quantum machine learning. The development focus is on low-cost experiment management and ensuring reproducibility. For low-cost management, the goal is to minimize the implementation code required for managing experiments, allowing developers and researchers to focus solely on new experimental implementations. To ensure reproducibility, QXMT manages experimental information as configuration file, enabling not only the original developer but also collaborators to reproduce the same experimental results without investing significant time.
@@ -86,7 +87,7 @@ artifact, result = exp.run(config_source="configs/baseline.yaml")
 artifact, result = exp.run(dataset=your_dataset, model=your_model)
 
 # get instance of each experiment artifact
-dataset = artufact.dataset
+dataset = artifact.dataset
 model = artifact.model
 
 # output result

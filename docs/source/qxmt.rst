@@ -1,11 +1,12 @@
-qxmt package
-============
+QXMT reference
+==============
+Release: 0.2.0 (Date: September 11,2024)
 
 Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    qxmt.datasets
    qxmt.devices
@@ -20,6 +21,15 @@ Subpackages
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 1
+
+   qxmt.configs
+   qxmt.constants
+   qxmt.decorators
+   qxmt.exceptions
+   qxmt.logger
+   qxmt.types
 
 qxmt.configs module
 -------------------

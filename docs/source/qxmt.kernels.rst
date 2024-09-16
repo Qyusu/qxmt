@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    qxmt.kernels.pennylane
+   qxmt.kernels.base
 
 Submodules
 ----------

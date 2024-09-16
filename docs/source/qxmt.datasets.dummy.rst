@@ -3,6 +3,10 @@ qxmt.datasets.dummy package
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 2
+
+   qxmt.datasets.dummy.linear
 
 qxmt.datasets.dummy.linear module
 ---------------------------------

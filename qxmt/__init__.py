@@ -43,3 +43,6 @@ __all__ = [
     "ModelConfig",
     "PathConfig",
 ]
+
+
+__version__ = "0.2.1"

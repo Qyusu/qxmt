@@ -2,11 +2,10 @@ name: Pre-commit checks
 
 on:
   push:
-    branches:
-      - main
+    - '*'
   pull_request:
-    branches:
-      - main
+    - '*'
+
 
 jobs:
   pre-commit:

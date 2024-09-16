@@ -14,16 +14,26 @@ sys.path.insert(0, os.path.abspath("../../qxmt"))
 project = "qxmt"
 copyright = "2024, kenya-sk"
 author = "kenya-sk"
-release = "0.0.0"
+release = "0.2.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon"]
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "myst_parser"]
 
 templates_path = ["_templates"]
 # exclude_patterns = []
 
+source_suffix = {
+    ".rst": "restructuredtext",
+    ".md": "markdown",
+}
+
+# ignore warnings about references
+suppress_warnings = [
+    # "ref.ref",
+    "ref.python",
+]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

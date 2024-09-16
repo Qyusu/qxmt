@@ -25,6 +25,8 @@ DataArray = Annotated[
 
 
 class Dataset(BaseModel):
+    # model_config = ConfigDict(frozen=True, extra="forbid")
+
     X_train: DataArray
     y_train: DataArray
     X_test: DataArray
