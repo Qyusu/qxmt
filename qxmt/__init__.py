@@ -45,4 +45,4 @@ __all__ = [
 ]
 
 
-__version__ = "0.2.0.post12.dev0+e4afd1a"
+__version__ = "0.2.1"
