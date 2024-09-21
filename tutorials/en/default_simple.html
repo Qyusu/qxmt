@@ -1,0 +1,703 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Simple case using only the default dataset and model &#8212; qxmt 0.2.1 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=c480a563"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/en/default_simple';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../qxmt.html">QXMT reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.dummy.html">qxmt.datasets.dummy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.datasets.schema.html">qxmt.datasets.schema module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.devices.html">qxmt.devices package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.base.html">qxmt.devices.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.builder.html">qxmt.devices.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.device_info.html">qxmt.devices.device_info module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.evaluation.html">qxmt.evaluation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.evaluation.base.html">qxmt.evaluation.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.evaluation.defaults.html">qxmt.evaluation.defaults module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.experiment.html">qxmt.experiment package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.experiment.html">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.feature_maps.html">qxmt.feature_maps package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.feature_maps.pennylane.html">qxmt.feature_maps.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.feature_maps.pennylane.defaults.html">qxmt.feature_maps.pennylane.defaults module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.feature_maps.base.html">qxmt.feature_maps.base module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.generators.html">qxmt.generators package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.generators.description.html">qxmt.generators.description module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.base.html">qxmt.models.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.builder.html">qxmt.models.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.utils.github.html">qxmt.utils.github module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.utils.yaml.html">qxmt.utils.yaml module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.graph_settings.html">qxmt.visualization.graph_settings module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_model_performance.html">qxmt.visualization.plot_model_performance module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.configs.html">qxmt.configs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.constants.html">qxmt.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.decorators.html">qxmt.decorators module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.exceptions.html">qxmt.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.logger.html">qxmt.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_top.html">Tutorial: Apply the QXMT to your own experiments</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/tutorials/en/default_simple.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Simple case using only the default dataset and model</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">1. Experiment Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-configuration">2. Run Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-run">3. Running the Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-results">4. Visualization of Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-label-distribution-of-the-dataset">4.1 Visualizing the Label Distribution of the Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-evaluation-metrics">4.2 Comparison of Evaluation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-boundary-of-the-model">4.3 Decision Boundary of the Model</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="simple-case-using-only-the-default-dataset-and-model">
+<h1>Simple case using only the default dataset and model<a class="headerlink" href="#simple-case-using-only-the-default-dataset-and-model" title="Link to this heading">#</a></h1>
+<p>In this tutorial, you will experience the workflow of managing experiments in quantum machine learning using the default features of QXMT. QXMT provides commonly used datasets, their preprocessing methods, quantum machine learning models, and evaluation metrics as default functionalities. By utilizing these features, you can efficiently create a baseline in the initial stages of your experiments.</p>
+<p>QXMT manages experiments based on the following directory structure:</p>
+<ul class="simple">
+<li><p><strong>data</strong>: Stores the data used in the experiments.</p></li>
+<li><p><strong>config</strong>: Contains YAML files that manage various experiments.</p></li>
+<li><p><strong>experiments</strong>: Stores the information and results of experiments, which are incrementally saved by the program. Each folder is organized by the name of the Experiment, which will be explained later, and contains the actual execution results under individual “run” folders.</p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;your_project&gt;
+├──<span class="w"> </span>data
+├──<span class="w"> </span>configs
+│<span class="w">   </span>├──<span class="w"> </span>config_1.yaml
+│<span class="w">   </span>├──<span class="w">   </span>⋮
+│<span class="w">   </span>└──<span class="w"> </span>config_n.yaml
+└──<span class="w"> </span>experiments
+<span class="w">    </span>├──<span class="w"> </span>&lt;your_experiment_1&gt;
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>experiment.json
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>run_1
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>model.pkl
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>run_2
+<span class="w">    </span>│<span class="w">   </span>├──<span class="w">   </span>⋮
+<span class="w">    </span>│<span class="w">   </span>└──<span class="w"> </span>run_n
+<span class="w">    </span>│<span class="w">   </span>⋮
+<span class="w">    </span>└──<span class="w"> </span>&lt;your_experiment_n&gt;
+</pre></div>
+</div>
+<section id="experiment-setup">
+<h2>1. Experiment Setup<a class="headerlink" href="#experiment-setup" title="Link to this heading">#</a></h2>
+<p>First, import the packages installed via pip. Then, create an <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> instance to manage the entire experiment and initialize it using the <code class="docutils literal notranslate"><span class="pre">init()</span></code> method. The <code class="docutils literal notranslate"><span class="pre">Experiment</span></code> class allows several member variables to be specified, but for now, we will configure just the basic three. Each has the following roles:</p>
+<ul class="simple">
+<li><p><strong>name</strong>: Sets the name of the experiment. A directory <code class="docutils literal notranslate"><span class="pre">experiments/{name}</span></code> will be created in the Current Directory based on this name.</p></li>
+<li><p><strong>desc</strong>: A free-text field for managing a brief description of the experiment. It is not used in processing, and other than being a string, there are no restrictions, so feel free to document any necessary information for reviewing the experiment later.</p></li>
+<li><p><strong>auto_gen_mode</strong>: A flag to control whether to use the feature for automatically generating descriptions for each run using an LLM (default is <code class="docutils literal notranslate"><span class="pre">False</span></code>). If you wish to use this feature, you need to run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">qxmt[llm]</span></code> when installing the package, and set the environment variable <code class="docutils literal notranslate"><span class="pre">USE_LLM</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
+
+<span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_tutorial&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A simple experiment to check the operation of the QXMT library&quot;</span><span class="p">,</span>
+    <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Up to this point, we have completed the preparations for managing experiments using QXMT.</p>
+</section>
+<section id="run-configuration">
+<h2>2. Run Configuration<a class="headerlink" href="#run-configuration" title="Link to this heading">#</a></h2>
+<p>In QXMT, each experimental trial is managed as a unit called a “Run.” There are two methods to configure a Run: by directly passing instances such as datasets and models to the <code class="docutils literal notranslate"><span class="pre">exp.run()</span></code> method, or by using a YAML config file. While the instance-based method is suitable for ad-hoc validations due to its ease of execution, for more formal experimental management in research, we recommend using the more feature-rich config-based method.</p>
+<p>Here, we will explain the configuration items based on the config file used in this tutorial.</p>
+<ul class="simple">
+<li><p><strong>description</strong>: Provides a description for the Run. The description mentioned in “1. Experiment Configuration” is for the entire experiment, while this description is specific to the Run. If you set this value to an empty string and <code class="docutils literal notranslate"><span class="pre">auto_gen_mode=True</span></code>, a description automatically generated by an LLM will be applied.</p></li>
+<li><p><strong>dataset</strong>: Specifies the dataset to be used for the run. The <code class="docutils literal notranslate"><span class="pre">type</span></code> can be “file” or “generate.” If “file” is specified, the dataset prepared by you will be used; if “generate” is specified, dummy data will be generated. In this tutorial, we will use the “generate” mode, but the “file” mode, which is closer to real-world applications, is introduced in another tutorial.</p></li>
+<li><p><strong>device</strong>: Configures the quantum device for running simulations. Currently, the config-based settings support only pennylane.</p></li>
+<li><p><strong>feature_map</strong>: If using a quantum feature map, specify the module name (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>) and class name (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>) where the feature map is implemented. Required parameters can be specified in <code class="docutils literal notranslate"><span class="pre">params</span></code> as a dictionary. We will use the default feature maps provided.</p></li>
+<li><p><strong>kernel</strong>: If using a kernel-based model, specify the module name (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>) and class name (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>) where the kernel is implemented. Required parameters can be specified in <code class="docutils literal notranslate"><span class="pre">params</span></code> as a dictionary. We will use the default kernel provided.</p></li>
+<li><p><strong>model</strong>: Specifies the machine learning model to be used, its parameters, and the filename for saving. We will use the default SVM model provided.</p></li>
+<li><p><strong>evaluation</strong>: Lists the evaluation metrics to be used from the default set of metrics provided.</p></li>
+</ul>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">example&quot;</span>
+
+<span class="nt">dataset</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;generate&quot;</span>
+<span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">test_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">  </span><span class="nt">features</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">raw_preprocess_logic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">transform_logic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+
+<span class="nt">device</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pennylane&quot;</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;default.qubit&quot;</span>
+<span class="w">  </span><span class="nt">n_qubits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">shots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+
+<span class="nt">feature_map</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">module_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qxmt.feature_maps.pennylane&quot;</span>
+<span class="w">  </span><span class="nt">implement_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;ZZFeatureMap&quot;</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">reps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+
+<span class="nt">kernel</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">module_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qxmt.kernels.pennylane&quot;</span>
+<span class="w">  </span><span class="nt">implement_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;FidelityKernel&quot;</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+
+<span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvm&quot;</span>
+<span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model.pkl&quot;</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">C</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">    </span><span class="nt">gamma</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>
+
+<span class="nt">evaluation</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">default_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;accuracy&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;precision&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recall&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;f1_score&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+</section>
+<section id="running-the-run">
+<h2>3. Running the Run<a class="headerlink" href="#running-the-run" title="Link to this heading">#</a></h2>
+<p>In this step, you will execute the Run configured in Step 2. There are two methods to execute a Run: by passing the config as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../data/configs/simple.yaml&quot;</span>
+
+<span class="c1"># input config file</span>
+<span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When executing a Run, you can specify various additional arguments, but in this case, we are introducing the simplest method by specifying only the config. When a Run is executed, it returns <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and <code class="docutils literal notranslate"><span class="pre">result</span></code>. The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> includes the dataset (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>) and machine learning model (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>) used in the Run. The result contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.</p>
+<p>Next, we will demonstrate how to execute a Run by passing the config as an instance. This method is useful for making on-the-fly adjustments to model parameters and is beneficial when exploring the structure of a model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="c1"># load default config</span>
+<span class="n">update_config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+<span class="c1"># update model paramter</span>
+<span class="n">update_config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}</span>
+
+<span class="c1"># input the updated config instance</span>
+<span class="n">artifact_2</span><span class="p">,</span> <span class="n">result_2</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and <code class="docutils literal notranslate"><span class="pre">result</span></code> obtained as the execution results will be in the same format as those obtained when running from a config file.</p>
+<p>The results of each Run can be retrieved as a DataFrame of the metrics specified in <code class="docutils literal notranslate"><span class="pre">evaluation.default_metrics</span></code> by executing the following code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract the results as a pandas dataframe</span>
+<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+
+<span class="n">metrics_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<span class="c1"># output</span>
+<span class="c1">#       run_id  accuracy  precision  recall  f1_score</span>
+<span class="c1"># 0          1	    0.75       0.66    0.75      0.70</span>
+<span class="c1"># 1          2	    0.55       0.54    0.60      0.57</span>
+</pre></div>
+</div>
+</section>
+<section id="visualization-of-results">
+<h2>4. Visualization of Results<a class="headerlink" href="#visualization-of-results" title="Link to this heading">#</a></h2>
+<p>Several methods for visualizing the results of multiple Runs managed by Experiment are introduced. In addition to the methods introduced here, the library provides various other visualization techniques. Please refer to the API Reference and utilize those that suit your objectives. Additionally, the results of a Run, stored in the <code class="docutils literal notranslate"><span class="pre">result</span></code> from the previous chapter, can also be extracted as a DataFrame, allowing you to perform various analyses and visualizations on your own.</p>
+<section id="visualizing-the-label-distribution-of-the-dataset">
+<h3>4.1 Visualizing the Label Distribution of the Dataset<a class="headerlink" href="#visualizing-the-label-distribution-of-the-dataset" title="Link to this heading">#</a></h3>
+<p>In this section, we visualize the label distribution of the dummy dataset created. This visualization allows you to visually check if there is a significant deviation in distribution between the training and evaluation datasets. In the following example, only the dataset and the save path (<code class="docutils literal notranslate"><span class="pre">save_path</span></code>) are specified as arguments, but other options such as the graph title can also be passed as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>. Additionally, if <code class="docutils literal notranslate"><span class="pre">save_path=None</span></code> is specified, the graph will not be saved.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_dataset</span>
+
+<span class="c1"># extract dataset instance from run artifact</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="n">plot_2d_dataset</span><span class="p">(</span>
+  <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">exp</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/dataset.png&quot;</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_static/images/tutorials/simple/dataset.png" alt="データセットの分布" title="データセットの分布">
+</section>
+<section id="comparison-of-evaluation-metrics">
+<h3>4.2 Comparison of Evaluation Metrics<a class="headerlink" href="#comparison-of-evaluation-metrics" title="Link to this heading">#</a></h3>
+<p>Here, we introduce how to visualize and compare evaluation metrics when multiple Runs are executed by changing parameters or the model structure. Using <code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side</span></code>, you can create bar graphs with each Run on the X-axis by passing a list of the evaluation metric names you want to compare (column names of the DataFrame). Additionally, although not set in this example, if you want to narrow down the comparison to specific Runs, you can do so by setting a list of target run_ids, such as <code class="docutils literal notranslate"><span class="pre">run_ids=[1,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">6]</span></code>, to the argument.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
+
+<span class="c1"># get run result as dataframe</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+
+<span class="n">plot_metrics_side_by_side</span><span class="p">(</span>
+  <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
+  <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">],</span>
+  <span class="n">run_ids</span><span class="o">=</span><span class="n">run_ids</span><span class="p">,</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
+  <span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_static/images/tutorials/simple/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
+</section>
+<section id="decision-boundary-of-the-model">
+<h3>4.3 Decision Boundary of the Model<a class="headerlink" href="#decision-boundary-of-the-model" title="Link to this heading">#</a></h3>
+<p>When using a Quantum Support Vector Machine (QSVM) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the characteristics of the model.</p>
+<p>The model and dataset to be passed as arguments can be obtained from the Run’s <code class="docutils literal notranslate"><span class="pre">artifact</span></code>. The <code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code> parameter allows you to set the resolution of the visualized decision boundary—the higher the value, the smoother the boundary, and individual sample classification results can be examined. However, higher resolution significantly increases computation time, so adjust it according to your needs. The <code class="docutils literal notranslate"><span class="pre">support_vectors</span></code> argument takes a boolean value and controls whether the support vectors are highlighted with circles to improve visibility in the output graph.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decisionon_boundaries</span>
+
+<span class="c1"># extract model and dataset instance from run artifact</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">model</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="n">plot_2d_decisionon_boundaries</span><span class="p">(</span>
+  <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+  <span class="n">dataet</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+  <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+  <span class="n">support_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">exp</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">1. Experiment Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-configuration">2. Run Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-the-run">3. Running the Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-results">4. Visualization of Results</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-label-distribution-of-the-dataset">4.1 Visualizing the Label Distribution of the Dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-evaluation-metrics">4.2 Comparison of Evaluation Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#decision-boundary-of-the-model">4.3 Decision Boundary of the Model</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kenya-sk
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kenya-sk.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

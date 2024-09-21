@@ -1,0 +1,53 @@
+qxmt.visualization package
+==========================
+
+Submodules
+----------
+.. toctree::
+   :maxdepth: 2
+
+   qxmt.visualization.graph_settings
+   qxmt.visualization.plot_dataset
+   qxmt.visualization.plot_metrics
+   qxmt.visualization.plot_model_performance
+
+
+qxmt.visualization.graph\_settings module
+-----------------------------------------
+
+.. automodule:: qxmt.visualization.graph_settings
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qxmt.visualization.plot\_dataset module
+---------------------------------------
+
+.. automodule:: qxmt.visualization.plot_dataset
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qxmt.visualization.plot\_metrics module
+---------------------------------------
+
+.. automodule:: qxmt.visualization.plot_metrics
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qxmt.visualization.plot\_model\_performance module
+--------------------------------------------------
+
+.. automodule:: qxmt.visualization.plot_model_performance
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: qxmt.visualization
+   :members:
+   :undoc-members:
+   :show-inheritance:
