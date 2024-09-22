@@ -5,4 +5,4 @@ If you are first time to use QXMT, we recommend starting with the first tutorial
 
 ## Tutorial List
 1. [Simple case using only the default dataset and model](./en/default_simple.md)
-2. [Practical case with custom functions and MNIST dataset](./en/mnist_costom.md)
+2. [Practical case with custom functions and MNIST dataset](./en/mnist_custom.md)
