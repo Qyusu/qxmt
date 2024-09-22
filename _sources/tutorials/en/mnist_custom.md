@@ -1,0 +1,266 @@
+# Practical case with custom functions and MNIST dataset
+
+In this tutorial, a custom feature using the MNIST dataset is introduced as a more practical example. For those new to QXMT, starting with “Simple case using only the default dataset and model” is recommended to gain an overview.
+
+## 1. Preparing the Dataset
+To begin managing experiments, downloading the MNIST dataset is necessary. Major datasets can be easily downloaded using the `scikit-learn` [fetch_openml](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html) method.
+
+``` python
+import numpy as np
+from sklearn import datasets
+
+# Load MNIST784 dataset
+digits_dataset = datasets.fetch_openml("mnist_784")
+print(f"Dataset Shape: {digits_dataset.data.shape}")
+print(f"Unique Label Number: {len(np.unique(digits_dataset.target))}")
+
+# output
+# Dataset Shape: (70000, 784)
+# Unique Label Number: 10
+
+# convert to numpy array
+X = digits_dataset.data.to_numpy()
+y = digits_dataset.target.to_numpy()
+
+# save dataset on local environment
+np.save("./data/mnist_784/images.npy", X)
+np.save("./data/mnist_784/label.npy", y)
+```
+
+**Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows downloading data within QXMT by integrating with the OpenML API.**
+
+
+## 2. Implementing Custom Features
+
+In QXMT, custom features can be defined in the following five categories:
+
+- **Dataset**: Preprocessing logic (`raw_preprocess_logic`) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (`transform_logic`) for discretization and dimensionality reduction.
+- **Feature Map**: Custom feature maps can be defined as functions or quantum circuits.
+- **Kernel**: Custom kernel functions can be defined.
+- **Model**: Custom quantum machine learning models can be defined.
+- **Evaluation**: Custom evaluation metrics can be defined and managed as logs for each experiment.
+
+This tutorial introduces how to implement and manage experiments in QXMT using three commonly used features: `Dataset`, `Feature Map`, and `Evaluation`. Other features can also be implemented, called, and managed in a similar manner, encouraging exploration of those options.
+
+### 2.1 Custom Definition of Dataset Processing Logic
+For the dataset, two logics can be independently defined: preprocessing logic and transformation logic.
+
+First, the implementation of the preprocessing logic will be addressed. This involves filtering the MNIST dataset to specific labels out of the ten total classes. Additionally, to address the significant computational complexity of quantum kernels, functionality to narrow down the sample size of the data is also added.
+
+``` python
+# File: your_project/custom/raw_preprocess_logic.py
+
+import numpy as np
+
+
+def sampling_by_each_class(
+    X: np.ndarray, y: np.ndarray, n_samples: int, labels: list[int]
+) -> tuple[np.ndarray, np.ndarray]:
+
+    y = np.array([int(label) for label in y])
+    indices = np.where(np.isin(y, labels))[0]
+    X, y = X[indices][:n_samples], y[indices][:n_samples]
+
+    return X, y
+```
+
+Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the size is compressed using the parameter `n_components` to a manageable size for the computing environment being used.
+
+``` python
+# File: your_project/custom/transform_logic.py
+
+import numpy as np
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+
+def dimension_reduction_by_pca(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+    n_components: int,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    scaler = StandardScaler()
+    scaler.fit(X_train)
+    x_train_scaled = scaler.transform(X_train)
+    x_test_scaled = scaler.transform(X_test)
+
+    pca = PCA(n_components=n_components)
+    pca.fit(x_train_scaled)
+    X_train_pca = pca.transform(x_train_scaled)
+    X_test_pca = pca.transform(x_test_scaled)
+
+    return X_train_pca, y_train, X_test_pca, y_test
+```
+
+### 2.2 Custom Definition of Feature Map
+
+QXMT provides basic feature maps, such as those constructed with Rotation Gates and ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, there are often opportunities to utilize more complex feature maps. Therefore, it is possible to implement a custom feature map and call it via the config. This approach facilitates easier experimentation with feature map design.
+
+In this tutorial, a quantum circuit using Pennylane has been implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is essential to inherit from the abstract class `qxmt.feature_maps.BaseFeatureMap` for implementation. This ensures compatibility while utilizing various functionalities within QXMT. If creating a class each time is cumbersome, there is also an option to pass a function that implements the FeatureMap to the Kernel class, so please refer to the API Reference for details.
+
+``` python
+# File: your_project/custom/feature_map.py
+
+import pennylane as qml
+from qxmt.feature_maps import BaseFeatureMap
+
+
+class CustomFeatureMap(BaseFeatureMap):
+    def __init__(self, n_qubits: int, reps: int) -> None:
+        super().__init__("pennylane", n_qubits)
+        self.reps: int = reps
+
+    def feature_map(self, x: np.ndarray) -> None:
+        for _ in range(self.reps):
+            for i in range(self.n_qubits):
+                qml.Hadamard(wires=i)
+                qml.RZ(x[i], wires=i)
+            for i in range(0, self.n_qubits - 1):
+                qml.IsingZZ(2 * (np.pi - x[i]) * (np.pi - x[i + 1]), wires=[i, i + 1])
+
+        for _ in range(self.reps):
+            for i in range(self.n_qubits):
+                qml.RX(x[i], wires=i)
+            for i in range(0, self.n_qubits - 1):
+                qml.IsingXX(2 * (np.pi - x[i]) * (np.pi - x[i + 1]), wires=[i, i + 1])
+```
+
+### 2.3 Custom Definition of Evaluation Metrics
+
+At the end of this section, a custom evaluation metric will be defined. Default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, but additional evaluation metrics are often necessary depending on specific goals. In such cases, experimentation management can be conducted similarly to the default metrics using the method introduced here.
+
+In this tutorial, specificity will be defined as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from `qxmt.evaluation.BaseMetric`, and the logic for calculating the evaluation value should be implemented in the `evaluate` method.
+
+``` python
+# File: your_project/custom/evaluation.py
+
+from typing import Any
+
+import numpy as np
+from qxmt.evaluation import BaseMetric
+from sklearn.metrics import confusion_matrix
+
+
+class CustomMetric(BaseMetric):
+    def __init__(self) -> None:
+        super().__init__("specificity")
+
+    @staticmethod
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+        tn, fp, fn, tp = confusion_matrix(actual, predicted).ravel()
+        return tn / (tn + fp)
+```
+
+The implementation of custom logic related to the dataset, feature map, and evaluation metric has been completed. The implemented logic can accept several parameters, which can be configured through the Run’s config, allowing for easy execution of experiments under different conditions. Details will be introduced in Chapter 3.
+
+## 3. Configuring Run Settings
+
+This section introduces the items that need to be configured in config to utilize the implemented custom methods. Areas that require additional configuration are marked with the `[SETUP]` tag. The main configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under `params`, allowing them to be passed as arguments during execution.
+
+```yaml
+# File: your_project/configs/custom.yaml
+
+description: "Configuration file for the custom MNIST case"
+
+dataset:
+  type: "file"
+  path: # [SETUP] full path or relative path from the root of the project
+    data: "data/mnist_784/images.npy"
+    label: "data/mnist_784/label.npy"
+  params: {}
+  random_seed: 42
+  test_size: 0.2
+  features: null
+  raw_preprocess_logic: # [SETUP] your logic path and parameter
+    module_name: "your_project.custom.raw_preprocess_logic"
+    implement_name: "sampling_by_each_class"
+    params:
+        n_samples: 100
+        labels: [0, 1]
+  transform_logic: # [SETUP] your logic path and parameter
+    module_name: "your_project.custom.transform_logic"
+    implement_name: "dimension_reduction_by_pca"
+    params:
+        n_components: 2
+
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: null
+
+feature_map: # [SETUP] your logic path and parameter
+  module_name: "your_project.custom.feature_map"
+  implement_name: "CustomFeatureMap"
+  params:
+    reps: 2
+
+kernel:
+  module_name: "qxmt.kernels.pennylane"
+  implement_name: "FidelityKernel"
+  params: {}
+
+model:
+  name: "qsvm"
+  file_name: "model.pkl"
+  params:
+    C: 1.0
+    gamma: 0.05
+
+evaluation: # [SETUP] your logic path
+  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  custom_metrics: ["CustomMetric"]
+```
+
+## 4. Executing Experiments and Evaluation
+Finally, an instance of the QXMT experiment management will be generated, and the previously defined config file will be set to execute the Run.
+
+``` python
+import qxmt
+
+# initialize experiment for custom tutorial
+exp = qxmt.Experiment(
+    name="custom_tutorial",
+    desc="A custome experiment for MNIST dataset",
+    auto_gen_mode=False,
+).init()
+
+# execute run of custom method
+config_path = "../configs/custom.yaml"
+artifact, result = exp.run(config_source=config_path)
+
+# check evaluation result
+metrics_df = exp.runs_to_dataframe()
+metrics_df.head()
+# output
+#       run_id  accuracy  precision  recall  f1_score
+#	run_id	accuracy	precision	recall	f1_score	specificity
+# 0	     1	    0.6	         0.66	  0.66	    0.66	       0.5
+```
+
+The results of the experiment, including the custom-defined evaluation metrics, will be visualized.
+
+``` python
+from qxmt.visualization import plot_metrics_side_by_side
+
+# get run result as dataframe
+df = exp.runs_to_dataframe()
+
+# add your custom metrics on metrics list
+plot_metrics_side_by_side(
+  df=df,
+  metrics=["accuracy", "recall", "precision", "f1_score", "specificity"],
+  run_ids=[1],
+  save_path=exp.experiment_dirc / "side_by_side.png"
+  )
+```
+<img src="../../_static/images/tutorials/custom/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
+
+
+### Version Information
+| Environment | Version |
+|----------|----------|
+| document | 2024/09/22 |
+| QXMT| v0.2.1 |
