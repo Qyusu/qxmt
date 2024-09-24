@@ -8,6 +8,13 @@ from qxmt.kernels.base import BaseKernel
 
 
 class BaseMLModel(ABC):
+    """Base class for quantum machine learning models.
+    This class is an abstract class for qunatum machine learning models.
+    If you want to implement a new quantum machine learning model, you should inherit this class.
+    For compatibility with QXMT framework, you should implement some methods such as fit,
+    predict, save, load, get_params, and set_params.
+    """
+
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
         """Fit the model with given data.
@@ -68,7 +75,19 @@ class BaseMLModel(ABC):
 
 
 class BaseKernelModel(BaseMLModel):
+    """Base class for kernel-based quantum machine learning models.
+    This class is an abstract class for kernel-based quantum machine learning models.
+    If you want to implement a new kernel-based quantum machine learning model, you should inherit this class.
+    This class requires a kernel instance of BaseKernel class.
+    The user can use any Feature Map or Kernel to be used, as long as it follows the interface of the BaseKernel class.
+    """
+
     def __init__(self, kernel: BaseKernel) -> None:
+        """Initialize the kernel model.
+
+        Args:
+            kernel (BaseKernel): kernel instance of BaseKernel class
+        """
         super().__init__()
         self.kernel = kernel
 

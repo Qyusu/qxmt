@@ -15,6 +15,24 @@ NAME2METRIC = {
 
 
 class Evaluation:
+    """Evaluation class for model evaluation.
+    This class is used to evaluate the model performance by comparing the actual and predicted values.
+    Evaluation metrics are defined by default and custom metrics.
+    Furthermore, the result can be accessed as a dictionary or DataFrame.
+
+    Examples:
+        >>> from qxmt.evaluation.evaluation import Evaluation
+        >>> actual = np.array([1, 0, 1])
+        >>> predicted = np.array([1, 1, 1])
+        >>> evaluation = Evaluation(actual, predicted)
+        >>> evaluation.evaluate()
+        >>> evaluation.to_dict()
+        {'accuracy': 0.6666666666666666, 'precision': 0.6666666666666666, 'recall': 1.0, 'f1_score': 0.8}
+        >>> evaluation.to_dataframe()
+           accuracy  precision  recall  f1_score
+        0  0.666667   0.666667     1.0       0.8
+    """
+
     def __init__(
         self,
         actual: np.ndarray,
@@ -22,6 +40,16 @@ class Evaluation:
         default_metrics_name: Optional[list[str]] = None,
         custom_metrics: Optional[list[BaseMetric]] = None,
     ) -> None:
+        """Initialize the evaluation class.
+
+        Args:
+            actual (np.ndarray): numpy array of actual values
+            predicted (np.ndarray): numpy array of predicted values
+            default_metrics_name (Optional[list[str]], optional):
+                metrics name list defined by default. Defaults to None.
+            custom_metrics (Optional[list[BaseMetric]], optional):
+                metrics name list defined by user custom. Defaults to None.
+        """
         self.actual: np.ndarray = actual
         self.predicted: np.ndarray = predicted
         self.default_metrics_name: list[str]

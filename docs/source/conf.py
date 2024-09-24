@@ -20,6 +20,8 @@ release = "0.2.1"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "myst_parser"]
+autodoc_typehints = "description"
+napoleon_include_init_with_doc = True
 
 templates_path = ["_templates"]
 # exclude_patterns = []
@@ -41,6 +43,6 @@ suppress_warnings = [
 html_theme = "sphinx_book_theme"
 html_static_path = ["_static"]
 html_theme_options = {
-    "repository_url": "https://github.com/kenya-sk/qxmt",
+    "repository_url": "https://github.com/Qyusu/qxmt",
     "use_repository_button": True,
 }

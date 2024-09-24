@@ -47,6 +47,46 @@ LOGGER = set_default_logger(__name__)
 
 
 class Experiment:
+    """Experiment class for managing the experiment and each run data.
+    The Experiment class provides methods for initializing the experiment,
+    running the experiment, saving the experiment data, and reproducing the model.
+
+    All experiment data is stored in the ExperimentDB instance.
+    It is save in local directory as a json file (root_experiment_dirc/experiments/your_exp_name/experiment.json).
+
+    Experiment can be initialized and strated from scratch by calling the `init()` method.
+    Anthoer way is to load the existing experiment data from the json file (experiment.json)
+    by calling the `load_experiment()` method.
+
+    The Experiment class can be used in two ways:
+    1. **Provide config_path**:
+    This method accepts the path to the config file or config instance.
+    It is more flexible but requires a YAML base config file.
+    This method tracks the experiment settings, result and can reproduce the model.
+    Officially, we recommend using the config file method.
+
+    2. **Directly provide dataset and model instance**:
+    This method directly accepts dataset and model instances.
+    It is easy to use but does "NOT" track the experiment settings.
+    This method is useful for adhoc experiments, quick testing or debugging.
+
+    Examples:
+        >>> import qxmt
+        >>> exp = qxmt.Experiment(
+        ...        name="my_qsvm_algorithm",
+        ...       desc=\"""This is a experiment for new qsvm algorithm.
+        ...        This experiment is applied and evaluated on multiple datasets.
+        ...        \""",
+        ...        auto_gen_mode=True,
+        ...    ).init()
+        >>> config_path = "../configs/template.yaml"
+        >>> artifact, result = exp.run(
+        ...     config_source=config_path)
+        >>> exp.runs_to_dataframe()
+            run_id	accuracy	precision	recall	f1_score
+        0	     1	    0.45	     0.53	  0.66	    0.59
+    """
+
     def __init__(
         self,
         name: Optional[str] = None,
@@ -56,6 +96,32 @@ class Experiment:
         llm_model_path: str = LLM_MODEL_PATH,
         logger: Logger = LOGGER,
     ) -> None:
+        """Initialize the Experiment class.
+        Set the experiment name, description,
+        and other settings such as auto_gen_mode, root_experiment_dirc and logger.
+        auto_gen_mode controls whether to use the DescriptionGenerator by LLM.
+        If use, set environemnt variable "USE_LLM" to True.
+        root_experiment_dirc is the root directory to save the experiment data.
+        Each artifact and result store in the subdirectory of the root directory.
+
+        Args:
+            name (Optional[str], optional):
+                experiment name. If None, generate by execution time. Defaults to None.
+            desc (Optional[str], optional):
+                description of the experiment.
+                The purpose is search, memo, etc not used in the code. Defaults to None.
+            auto_gen_mode (bool, optional):
+                whether to use the DescriptionGenerator
+                for generating the description of each run. Defaults to USE_LLM.
+            root_experiment_dirc (str | Path, optional):
+                root directory to save the experiment data. Defaults to DEFAULT_EXP_DIRC.
+            llm_model_path (str, optional):
+                path to the LLM model. Defaults to LLM_MODEL_PATH.
+            logger (Logger, optional):
+                logger instance for warning or error messages. Defaults to LOGGER.
+
+
+        """
         self.name: Optional[str] = name
         self.desc: Optional[str] = desc
         self.auto_gen_mode: bool = auto_gen_mode
@@ -358,7 +424,8 @@ class Experiment:
         It is easy to use but less flexible and does "NOT" track the experiment settings.
 
         2. **Provide config_path**:
-        This method accepts the path to the config file. It is more flexible but requires a config file.
+        This method accepts the path to the config file or config instance.
+        It is more flexible but requires a config file.
 
         Args:
             dataset (Dataset): The dataset object.
