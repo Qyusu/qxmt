@@ -12,10 +12,24 @@ from qxmt.utils import load_object_from_yaml
 
 
 class ModelBuilder:
-    def __init__(
-        self,
-        config: ExperimentConfig,
-    ) -> None:
+    """Builder class for quantum machine learning models.
+    This class is responsible for building quantum machine learning models.
+    Absorb differences among various platforms, Feature Maps, and Kernels,
+    and build models that can be handled as a common interface within the library.
+
+    Examples:
+        >>> from qxmt.configs import ExperimentConfig
+        >>> from qxmt.models.builder import ModelBuilder
+        >>> config = ExperimentConfig(path="configs/my_run.yaml")
+        >>> model = ModelBuilder(config).build()
+    """
+
+    def __init__(self, config: ExperimentConfig) -> None:
+        """Initialize the model builder.
+
+        Args:
+            config (ExperimentConfig): Configuration for the experiment.
+        """
         self.config: ExperimentConfig = config
         self.device: BaseDevice
         self.feature_map: BaseFeatureMap
@@ -72,7 +86,13 @@ class ModelBuilder:
             raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
 
     def build(self) -> BaseMLModel:
-        """Build quantum model."""
+        """
+        Build quantum model by following steps:
+            1. Set quantum device
+            2. Set quantum feature map
+            3. Set quantum kernel
+            4. Set quantum model
+        """
         self._set_device()
         self._set_feature_map()
         self._set_kernel()

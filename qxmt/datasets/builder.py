@@ -35,7 +35,7 @@ class DatasetBuilder:
         >>> import numpy as np
         >>> from qxmt.configs import ExperimentConfig
         >>> from qxmt.datasets.builder import DatasetBuilder
-        >>> config = ExperimentConfig.load_from_yaml("configs/my_run.yaml")
+        >>> config = ExperimentConfig(path="configs/my_run.yaml")
         >>> dataset = DatasetBuilder(config).build()
         Dataset(
             X_train=array([[15.81324596, -9.07999965], ...]),
