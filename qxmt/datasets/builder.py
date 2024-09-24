@@ -32,6 +32,7 @@ class DatasetBuilder:
     builder ruturns the Dataset object that contains the train and test split of the dataset.
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.configs import ExperimentConfig
         >>> from qxmt.datasets.builder import DatasetBuilder
         >>> config = ExperimentConfig.load_from_yaml("configs/my_run.yaml")

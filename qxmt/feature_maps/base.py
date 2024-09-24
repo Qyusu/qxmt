@@ -19,6 +19,7 @@ class BaseFeatureMap(ABC):
     User can define their own feature map by inheriting this class and defined in the 'feature_map' method.
 
     Examples:
+        >>> import numpy as np
         >>> import pennylane as qml
         >>> from qxmt.feature_maps.base import BaseFeatureMap
         >>> class CustomFeatureMap(BaseFeatureMap):

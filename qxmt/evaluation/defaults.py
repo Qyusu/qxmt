@@ -13,6 +13,7 @@ class Accuracy(BaseMetric):
         BaseMetric (_type_): Base metric class
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.evaluation.defaults import Accuracy
         >>> metric = Accuracy()
         >>> metric.set_score(np.array([1, 0, 1]), np.array([1, 1, 1]))
@@ -51,6 +52,7 @@ class Recall(BaseMetric):
         BaseMetric (_type_): Base metric class
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.evaluation.defaults import Recall
         >>> metric = Recall()
         >>> metric.set_score(np.array([1, 0, 1]), np.array([1, 1, 1]))
@@ -94,6 +96,7 @@ class Precision(BaseMetric):
         BaseMetric (_type_): Base metric class
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.evaluation.defaults import Precision
         >>> metric = Precision()
         >>> metric.set_score(np.array([1, 0, 1]), np.array([1, 1, 1]))
@@ -137,6 +140,7 @@ class F1Score(BaseMetric):
         BaseMetric (_type_): Base metric class
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.evaluation.defaults import F1Score
         >>> metric = F1Score()
         >>> metric.set_score(np.array([1, 0, 1]), np.array([1, 1, 1]))

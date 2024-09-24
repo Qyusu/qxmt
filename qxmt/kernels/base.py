@@ -13,11 +13,53 @@ from qxmt.feature_maps.base import BaseFeatureMap
 
 
 class BaseKernel(ABC):
+    """
+    Base kernel class for quantum kernel computation.
+    This class is used to compute the kernel value between two samples.
+    If defining a custom kernel, inherit this class and implement the `compute()` method.
+    The feature map used to compute the kernel value is defined in the constructor.
+    It is possible to use a feature map instance or a function that defines the feature map circuit.
+
+    Examples:
+        >>> import numpy as np
+        >>> from typing import Callable
+        >>> from qxmt.kernels.base import BaseKernel
+        >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
+        >>> from qxmt.configs import DeviceConfig
+        >>> from qxmt.devices.base import BaseDevice
+        >>> from qxmt.devices.builder import DeviceBuilder
+        >>> config = DeviceConfig(
+        ...     platform="pennylane",
+        ...     name="default.qubit",
+        ...     n_qubits=2,
+        ...     shots=1000,
+        >>> )
+        >>> device = DeviceBuilder(config).build()
+        >>> feature_map = ZZFeatureMap(2, 2)
+        >>> class CustomKernel(BaseKernel):
+        ...     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
+        ...         super().__init__(device, feature_map)
+        ...
+        ...     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
+        ...         return np.dot(x1, x2)
+        >>> kernel = CustomKernel(device, feature_map)
+        >>> x1 = np.random.rand(2)
+        >>> x2 = np.random.rand(2)
+        >>> kernel.compute(x1, x2)
+        0.28
+    """
+
     def __init__(
         self,
         device: BaseDevice,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
+        """Initialize the kernel class.
+
+        Args:
+            device (BaseDevice): device instance for quantum computation
+            feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
+        """
         self.device: BaseDevice = device
         self.platform: str = self.device.platform
         self.n_qubits: int = self.device.n_qubits
@@ -93,7 +135,8 @@ class BaseKernel(ABC):
         save_path: Optional[str | Path] = None,
         n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
-        """Plot kernel matrix.
+        """Plot kernel matrix for given samples.
+        Caluculation of kernel values is performed in parallel.
 
         Args:
             x_array_1 (np.ndarray): array of samples (ex: training data)
@@ -119,6 +162,7 @@ class BaseKernel(ABC):
         n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
         """Plot kernel matrix for training and testing data.
+        Caluculation of kernel values is performed in parallel.
 
         Args:
             x_train (np.ndarray): array of training samples

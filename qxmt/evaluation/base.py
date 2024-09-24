@@ -15,6 +15,7 @@ class BaseMetric(ABC):
     Provide a common interface within the QXMT library by absorbing differences between metrics.
 
     Examples:
+        >>> import numpy as np
         >>> from qxmt.evaluation.base import BaseMetric
         >>> class CustomMetric(BaseMetric):
         ...     def __init__(self, name: str) -> None:
