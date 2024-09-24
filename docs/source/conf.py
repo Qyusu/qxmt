@@ -21,6 +21,7 @@ release = "0.2.1"
 
 extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "myst_parser"]
 autodoc_typehints = "description"
+napoleon_include_init_with_doc = True
 
 templates_path = ["_templates"]
 # exclude_patterns = []

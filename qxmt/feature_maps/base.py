@@ -12,7 +12,36 @@ LOGGER = set_default_logger(__name__)
 
 
 class BaseFeatureMap(ABC):
+    """Base class for feature map.
+    This class is used to define the feature map for quantum machine learning.
+    The feature map defined a quantum circuit that maps input data to quantum states.
+    Provide a common interface within the QXMT library by absorbing differences between multiple platforms.
+    User can define their own feature map by inheriting this class and defined in the 'feature_map' method.
+
+    Examples:
+        >>> import pennylane as qml
+        >>> from qxmt.feature_maps.base import BaseFeatureMap
+        >>> class CustomFeatureMap(BaseFeatureMap):
+        ...     def __init__(self, platform: str, n_qubits: int) -> None:
+        ...         super().__init__(platform, n_qubits)
+        ...
+        ...     def feature_map(self, x: np.ndarray) -> None:
+        ...         self.check_input_shape(x)
+        ...         # define quantum circuit
+        ...         qml.RX(x[0, 0], wires=0)
+        ...
+        >>> feature_map = CustomFeatureMap("pennylane", 2)
+        >>> feature_map(np.random.rand(1, 2))
+    """
+
     def __init__(self, platform: str, n_qubits: int) -> None:
+        """Initialize the feature map class.
+        [NOTE]: currently, only supports 'pennylane' platform. multi-platform support will be added in the future.
+
+        Args:
+            platform (str): name of quantum platform
+            n_qubits (int): number of qubits
+        """
         self.platform: str = platform
         self.n_qubits: int = n_qubits
 
