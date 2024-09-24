@@ -399,6 +399,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.base">qxmt.kernels.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel"><code class="docutils literal notranslate"><span class="pre">BaseKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.compute"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.compute_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.plot_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.plot_matrix()</span></code></a></li>
@@ -409,6 +410,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel"><code class="docutils literal notranslate"><span class="pre">BaseKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.compute"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.compute_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.plot_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.plot_matrix()</span></code></a></li>
@@ -441,6 +443,7 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.kernels.pennylane.html#module-qxmt.kernels.pennylane.fidelity_kernel">qxmt.kernels.pennylane.fidelity_kernel module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
@@ -448,6 +451,7 @@ document.write(`
 </li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.kernels.pennylane.html#module-qxmt.kernels.pennylane">Module contents</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
@@ -468,6 +472,40 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.kernels.base.BaseKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.base.</span></span><span class="sig-name descname"><span class="pre">BaseKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.base.BaseKernel" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base kernel class for quantum kernel computation.
+This class is used to compute the kernel value between two samples.
+If defining a custom kernel, inherit this class and implement the <cite>compute()</cite> method.
+The feature map used to compute the kernel value is defined in the constructor.
+It is possible to use a feature map instance or a function that defines the feature map circuit.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.kernels.base</span> <span class="kn">import</span> <span class="n">BaseKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.configs</span> <span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.base</span> <span class="kn">import</span> <span class="n">BaseDevice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.builder</span> <span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">CustomKernel</span><span class="p">(</span><span class="n">BaseKernel</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">BaseDevice</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">CustomKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.28</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -476,6 +514,23 @@ document.write(`
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.kernels.base.BaseKernel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.base.BaseKernel.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the kernel class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.base.BaseKernel.compute">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.base.BaseKernel.compute" title="Link to this definition">#</a></dt>
@@ -520,7 +575,8 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.base.BaseKernel.plot_matrix">
 <span class="sig-name descname"><span class="pre">plot_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.base.BaseKernel.plot_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Plot kernel matrix.</p>
+<dd><p>Plot kernel matrix for given samples.
+Caluculation of kernel values is performed in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -539,7 +595,8 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.base.BaseKernel.plot_train_test_matrix">
 <span class="sig-name descname"><span class="pre">plot_train_test_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.base.BaseKernel.plot_train_test_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Plot kernel matrix for training and testing data.</p>
+<dd><p>Plot kernel matrix for training and testing data.
+Caluculation of kernel values is performed in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -564,6 +621,40 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.kernels.BaseKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.</span></span><span class="sig-name descname"><span class="pre">BaseKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.BaseKernel" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base kernel class for quantum kernel computation.
+This class is used to compute the kernel value between two samples.
+If defining a custom kernel, inherit this class and implement the <cite>compute()</cite> method.
+The feature map used to compute the kernel value is defined in the constructor.
+It is possible to use a feature map instance or a function that defines the feature map circuit.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.kernels.base</span> <span class="kn">import</span> <span class="n">BaseKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.configs</span> <span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.base</span> <span class="kn">import</span> <span class="n">BaseDevice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.builder</span> <span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">CustomKernel</span><span class="p">(</span><span class="n">BaseKernel</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">BaseDevice</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">CustomKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.28</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -572,6 +663,23 @@ document.write(`
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.kernels.BaseKernel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.BaseKernel.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the kernel class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.BaseKernel.compute">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.BaseKernel.compute" title="Link to this definition">#</a></dt>
@@ -616,7 +724,8 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.BaseKernel.plot_matrix">
 <span class="sig-name descname"><span class="pre">plot_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.BaseKernel.plot_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Plot kernel matrix.</p>
+<dd><p>Plot kernel matrix for given samples.
+Caluculation of kernel values is performed in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -635,7 +744,8 @@ document.write(`
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.kernels.BaseKernel.plot_train_test_matrix">
 <span class="sig-name descname"><span class="pre">plot_train_test_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.BaseKernel.plot_train_test_matrix" title="Link to this definition">#</a></dt>
-<dd><p>Plot kernel matrix for training and testing data.</p>
+<dd><p>Plot kernel matrix for training and testing data.
+Caluculation of kernel values is performed in parallel.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -705,6 +815,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.base">qxmt.kernels.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel"><code class="docutils literal notranslate"><span class="pre">BaseKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.compute"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.compute_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.base.BaseKernel.plot_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.plot_matrix()</span></code></a></li>
@@ -715,6 +826,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel"><code class="docutils literal notranslate"><span class="pre">BaseKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.compute"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.compute_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.compute_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.BaseKernel.plot_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernel.plot_matrix()</span></code></a></li>

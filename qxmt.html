@@ -542,6 +542,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.load_experiment()</span></code></a></li>
@@ -1447,6 +1448,41 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dt class="sig sig-object py" id="qxmt.Experiment">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Experiment class for managing the experiment and each run data.
+The Experiment class provides methods for initializing the experiment,
+running the experiment, saving the experiment data, and reproducing the model.</p>
+<p>All experiment data is stored in the ExperimentDB instance.
+It is save in local directory as a json file (root_experiment_dirc/experiments/your_exp_name/experiment.json).</p>
+<p>Experiment can be initialized and strated from scratch by calling the <cite>init()</cite> method.
+Anthoer way is to load the existing experiment data from the json file (experiment.json)
+by calling the <cite>load_experiment()</cite> method.</p>
+<p>The Experiment class can be used in two ways:
+1. <strong>Provide config_path</strong>:
+This method accepts the path to the config file or config instance.
+It is more flexible but requires a YAML base config file.
+This method tracks the experiment settings, result and can reproduce the model.
+Officially, we recommend using the config file method.</p>
+<p>2. <strong>Directly provide dataset and model instance</strong>:
+This method directly accepts dataset and model instances.
+It is easy to use but does “NOT” track the experiment settings.
+This method is useful for adhoc experiments, quick testing or debugging.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">qxmt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+<span class="gp">... </span>       <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_qsvm_algorithm&quot;</span><span class="p">,</span>
+<span class="gp">... </span>      <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;This is a experiment for new qsvm algorithm.</span>
+<span class="gp">... </span><span class="s2">       This experiment is applied and evaluated on multiple datasets.</span>
+<span class="gp">... </span><span class="s2">       &quot;&quot;&quot;</span><span class="p">,</span>
+<span class="gp">... </span>       <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="gp">... </span>   <span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/template.yaml&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="go">    run_id      accuracy        precision       recall  f1_score</span>
+<span class="go">0            1      0.45             0.53         0.66      0.59</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1459,6 +1495,35 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.Experiment.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the Experiment class.
+Set the experiment name, description,
+and other settings such as auto_gen_mode, root_experiment_dirc and logger.
+auto_gen_mode controls whether to use the DescriptionGenerator by LLM.
+If use, set environemnt variable “USE_LLM” to True.
+root_experiment_dirc is the root directory to save the experiment data.
+Each artifact and result store in the subdirectory of the root directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – experiment name. If None, generate by execution time. Defaults to None.</p></li>
+<li><p><strong>desc</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – description of the experiment.
+The purpose is search, memo, etc not used in the code. Defaults to None.</p></li>
+<li><p><strong>auto_gen_mode</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to use the DescriptionGenerator
+for generating the description of each run. Defaults to USE_LLM.</p></li>
+<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – root directory to save the experiment data. Defaults to DEFAULT_EXP_DIRC.</p></li>
+<li><p><strong>llm_model_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the LLM model. Defaults to LLM_MODEL_PATH.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger instance for warning or error messages. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.Experiment.get_run_record">
 <span class="sig-name descname"><span class="pre">get_run_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.get_run_record" title="Link to this definition">#</a></dt>
@@ -1550,7 +1615,8 @@ Reoroduce method not supported for the run executed from the instance.</p>
 This method directly accepts dataset and model instances.
 It is easy to use but less flexible and does “NOT” track the experiment settings.</p>
 <p>2. <strong>Provide config_path</strong>:
-This method accepts the path to the config file. It is more flexible but requires a config file.</p>
+This method accepts the path to the config file or config instance.
+It is more flexible but requires a config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -2192,6 +2258,7 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.load_experiment()</span></code></a></li>

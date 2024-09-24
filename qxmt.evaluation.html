@@ -398,6 +398,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.base">qxmt.evaluation.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric"><code class="docutils literal notranslate"><span class="pre">BaseMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.__init__"><code class="docutils literal notranslate"><span class="pre">BaseMetric.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseMetric.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.output_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.output_score()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.set_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.set_score()</span></code></a></li>
@@ -407,18 +408,22 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.defaults">qxmt.evaluation.defaults module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy"><code class="docutils literal notranslate"><span class="pre">Accuracy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy.__init__"><code class="docutils literal notranslate"><span class="pre">Accuracy.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy.evaluate"><code class="docutils literal notranslate"><span class="pre">Accuracy.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score.__init__"><code class="docutils literal notranslate"><span class="pre">F1Score.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision"><code class="docutils literal notranslate"><span class="pre">Precision</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision.__init__"><code class="docutils literal notranslate"><span class="pre">Precision.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision.evaluate"><code class="docutils literal notranslate"><span class="pre">Precision.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall"><code class="docutils literal notranslate"><span class="pre">Recall</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall.__init__"><code class="docutils literal notranslate"><span class="pre">Recall.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall.evaluate"><code class="docutils literal notranslate"><span class="pre">Recall.evaluate()</span></code></a></li>
 </ul>
 </li>
@@ -430,6 +435,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.evaluation">qxmt.evaluation.evaluation module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluation.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluation.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.init_custom_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_custom_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.init_default_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_default_metrics()</span></code></a></li>
@@ -442,16 +448,19 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy"><code class="docutils literal notranslate"><span class="pre">Accuracy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy.__init__"><code class="docutils literal notranslate"><span class="pre">Accuracy.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy.evaluate"><code class="docutils literal notranslate"><span class="pre">Accuracy.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric"><code class="docutils literal notranslate"><span class="pre">BaseMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.__init__"><code class="docutils literal notranslate"><span class="pre">BaseMetric.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseMetric.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.output_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.output_score()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.set_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.set_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluation.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluation.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.init_custom_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_custom_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.init_default_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_default_metrics()</span></code></a></li>
@@ -461,14 +470,17 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score.__init__"><code class="docutils literal notranslate"><span class="pre">F1Score.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision"><code class="docutils literal notranslate"><span class="pre">Precision</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision.__init__"><code class="docutils literal notranslate"><span class="pre">Precision.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision.evaluate"><code class="docutils literal notranslate"><span class="pre">Precision.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall"><code class="docutils literal notranslate"><span class="pre">Recall</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall.__init__"><code class="docutils literal notranslate"><span class="pre">Recall.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall.evaluate"><code class="docutils literal notranslate"><span class="pre">Recall.evaluate()</span></code></a></li>
 </ul>
 </li>
@@ -503,11 +515,45 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.base.BaseMetric">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.base.</span></span><span class="sig-name descname"><span class="pre">BaseMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.base.BaseMetric" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for evaluation metric.
+This class is used to define the evaluation metric for the model and visualization.
+Provide a common interface within the QXMT library by absorbing differences between metrics.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.base</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">CustomMetric</span><span class="p">(</span><span class="n">BaseMetric</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@staticmethod</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">actual</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">actual</span> <span class="o">-</span> <span class="n">predicted</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">CustomMetric</span><span class="p">(</span><span class="s2">&quot;mean_absolute_error&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">mean_absolute_error: 0.33</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.base.BaseMetric.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.base.BaseMetric.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Base class for evaluation metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of the metric. It is used for the column name of the output and DataFrame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.base.BaseMetric.evaluate">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.base.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
@@ -573,25 +619,52 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.defaults.Accuracy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.defaults.</span></span><span class="sig-name descname"><span class="pre">Accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'accuracy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Accuracy" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Accuracy.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Accuracy.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Accuracy metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Accuracy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">accuracy: 0.67</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Accuracy.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'accuracy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Accuracy.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the accuracy metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of accuracy metric. Defaults to “accuracy”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Accuracy.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Accuracy.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the accuracy score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>accuracy score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -605,25 +678,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.defaults.F1Score">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.defaults.</span></span><span class="sig-name descname"><span class="pre">F1Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f1_score'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.F1Score" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.defaults.F1Score.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.F1Score.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>F1 score metric</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">F1Score</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">F1Score</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">f1_score: 0.8</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.F1Score.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f1_score'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.F1Score.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the F1 score metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of f1-score metric. Defaults to “f1_score”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.F1Score.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.F1Score.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the F1 score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>F1 score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -637,25 +738,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.defaults.Precision">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.defaults.</span></span><span class="sig-name descname"><span class="pre">Precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precision'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Precision" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Precision.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Precision.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Precision metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Precision</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Precision</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">precision: 0.67</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Precision.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precision'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Precision.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the precision metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of precision metric. Defaults to “precision”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Precision.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Precision.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the precision score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>precision score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -669,25 +798,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.defaults.Recall">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.defaults.</span></span><span class="sig-name descname"><span class="pre">Recall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recall'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Recall" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Recall.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Recall.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Recall metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Recall</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Recall</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">recall: 1.0</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Recall.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recall'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Recall.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the recall metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of recall metric. Defaults to “recall”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.defaults.Recall.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.defaults.Recall.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the recall score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>recall score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -736,6 +893,23 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.evaluation.Evaluation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">Evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.evaluation.Evaluation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Evaluation class for model evaluation.
+This class is used to evaluate the model performance by comparing the actual and predicted values.
+Evaluation metrics are defined by default and custom metrics.
+Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.evaluation</span> <span class="kn">import</span> <span class="n">Evaluation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span> <span class="o">=</span> <span class="n">Evaluation</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="go">{&#39;accuracy&#39;: 0.6666666666666666, &#39;precision&#39;: 0.6666666666666666, &#39;recall&#39;: 1.0, &#39;f1_score&#39;: 0.8}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="go">   accuracy  precision  recall  f1_score</span>
+<span class="go">0  0.666667   0.666667     1.0       0.8</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -746,6 +920,25 @@ document.write(`
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.evaluation.Evaluation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.evaluation.Evaluation.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the evaluation class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by default. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by user custom. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.evaluation.Evaluation.evaluate">
 <span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.evaluation.Evaluation.evaluate" title="Link to this definition">#</a></dt>
@@ -854,25 +1047,52 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.Accuracy">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">Accuracy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'accuracy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Accuracy" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.Accuracy.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Accuracy.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Accuracy metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Accuracy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Accuracy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">accuracy: 0.67</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Accuracy.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'accuracy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Accuracy.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the accuracy metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of accuracy metric. Defaults to “accuracy”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Accuracy.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Accuracy.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the accuracy score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>accuracy score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -886,11 +1106,45 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.BaseMetric">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">BaseMetric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.BaseMetric" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for evaluation metric.
+This class is used to define the evaluation metric for the model and visualization.
+Provide a common interface within the QXMT library by absorbing differences between metrics.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.base</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">CustomMetric</span><span class="p">(</span><span class="n">BaseMetric</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@staticmethod</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">evaluate</span><span class="p">(</span><span class="n">actual</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">predicted</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">actual</span> <span class="o">-</span> <span class="n">predicted</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">CustomMetric</span><span class="p">(</span><span class="s2">&quot;mean_absolute_error&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">mean_absolute_error: 0.33</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.BaseMetric.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.BaseMetric.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Base class for evaluation metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – name of the metric. It is used for the column name of the output and DataFrame.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.BaseMetric.evaluate">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
@@ -953,6 +1207,23 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.Evaluation">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">Evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Evaluation" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Evaluation class for model evaluation.
+This class is used to evaluate the model performance by comparing the actual and predicted values.
+Evaluation metrics are defined by default and custom metrics.
+Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.evaluation</span> <span class="kn">import</span> <span class="n">Evaluation</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span> <span class="o">=</span> <span class="n">Evaluation</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="go">{&#39;accuracy&#39;: 0.6666666666666666, &#39;precision&#39;: 0.6666666666666666, &#39;recall&#39;: 1.0, &#39;f1_score&#39;: 0.8}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="go">   accuracy  precision  recall  f1_score</span>
+<span class="go">0  0.666667   0.666667     1.0       0.8</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -963,6 +1234,25 @@ document.write(`
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Evaluation.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Evaluation.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the evaluation class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by default. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="#qxmt.evaluation.BaseMetric" title="qxmt.evaluation.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by user custom. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.Evaluation.evaluate">
 <span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Evaluation.evaluate" title="Link to this definition">#</a></dt>
@@ -1068,25 +1358,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.F1Score">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">F1Score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f1_score'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.F1Score" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.F1Score.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.F1Score.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>F1 score metric</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">F1Score</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">F1Score</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">f1_score: 0.8</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.F1Score.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f1_score'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.F1Score.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the F1 score metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of f1-score metric. Defaults to “f1_score”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.F1Score.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.F1Score.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the F1 score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>F1 score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1100,25 +1418,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.Precision">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">Precision</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precision'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Precision" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.Precision.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Precision.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Precision metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Precision</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Precision</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">precision: 0.67</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Precision.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'precision'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Precision.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the precision metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of precision metric. Defaults to “precision”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Precision.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Precision.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the precision score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>precision score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1132,25 +1478,53 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.evaluation.Recall">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.</span></span><span class="sig-name descname"><span class="pre">Recall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recall'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Recall" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.evaluation.Recall.evaluate">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Recall.evaluate" title="Link to this definition">#</a></dt>
-<dd><p>define evaluation method for each metric.</p>
+<p>Recall metric class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
+<li><p><strong>BaseMetric</strong> (<em>_type_</em>) – Base metric class</p></li>
+<li><p><strong>name</strong> (<em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.evaluation.defaults</span> <span class="kn">import</span> <span class="n">Recall</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span> <span class="o">=</span> <span class="n">Recall</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">set_score</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">metric</span><span class="o">.</span><span class="n">output_score</span><span class="p">()</span>
+<span class="go">recall: 1.0</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Recall.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'recall'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Recall.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the recall metric.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em><em>, </em><em>optional</em>) – name of recall metric. Defaults to “recall”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.Recall.evaluate">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.Recall.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Evaluate the recall score.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
+<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional keyword arguments. The following options are supported:
+- average (str): define averaging method</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluated score</p>
+<dd class="field-even"><p>recall score</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1211,6 +1585,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.base">qxmt.evaluation.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric"><code class="docutils literal notranslate"><span class="pre">BaseMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.__init__"><code class="docutils literal notranslate"><span class="pre">BaseMetric.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseMetric.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.output_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.output_score()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.base.BaseMetric.set_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.set_score()</span></code></a></li>
@@ -1220,18 +1595,22 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.defaults">qxmt.evaluation.defaults module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy"><code class="docutils literal notranslate"><span class="pre">Accuracy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy.__init__"><code class="docutils literal notranslate"><span class="pre">Accuracy.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Accuracy.evaluate"><code class="docutils literal notranslate"><span class="pre">Accuracy.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score.__init__"><code class="docutils literal notranslate"><span class="pre">F1Score.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision"><code class="docutils literal notranslate"><span class="pre">Precision</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision.__init__"><code class="docutils literal notranslate"><span class="pre">Precision.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Precision.evaluate"><code class="docutils literal notranslate"><span class="pre">Precision.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall"><code class="docutils literal notranslate"><span class="pre">Recall</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall.__init__"><code class="docutils literal notranslate"><span class="pre">Recall.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.defaults.Recall.evaluate"><code class="docutils literal notranslate"><span class="pre">Recall.evaluate()</span></code></a></li>
 </ul>
 </li>
@@ -1243,6 +1622,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation.evaluation">qxmt.evaluation.evaluation module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluation.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluation.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.init_custom_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_custom_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.evaluation.Evaluation.init_default_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_default_metrics()</span></code></a></li>
@@ -1255,16 +1635,19 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.evaluation">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy"><code class="docutils literal notranslate"><span class="pre">Accuracy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy.__init__"><code class="docutils literal notranslate"><span class="pre">Accuracy.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Accuracy.evaluate"><code class="docutils literal notranslate"><span class="pre">Accuracy.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric"><code class="docutils literal notranslate"><span class="pre">BaseMetric</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.__init__"><code class="docutils literal notranslate"><span class="pre">BaseMetric.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.evaluate"><code class="docutils literal notranslate"><span class="pre">BaseMetric.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.output_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.output_score()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.BaseMetric.set_score"><code class="docutils literal notranslate"><span class="pre">BaseMetric.set_score()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation"><code class="docutils literal notranslate"><span class="pre">Evaluation</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.__init__"><code class="docutils literal notranslate"><span class="pre">Evaluation.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.evaluate"><code class="docutils literal notranslate"><span class="pre">Evaluation.evaluate()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.init_custom_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_custom_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Evaluation.init_default_metrics"><code class="docutils literal notranslate"><span class="pre">Evaluation.init_default_metrics()</span></code></a></li>
@@ -1274,14 +1657,17 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score.__init__"><code class="docutils literal notranslate"><span class="pre">F1Score.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision"><code class="docutils literal notranslate"><span class="pre">Precision</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision.__init__"><code class="docutils literal notranslate"><span class="pre">Precision.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Precision.evaluate"><code class="docutils literal notranslate"><span class="pre">Precision.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall"><code class="docutils literal notranslate"><span class="pre">Recall</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall.__init__"><code class="docutils literal notranslate"><span class="pre">Recall.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.Recall.evaluate"><code class="docutils literal notranslate"><span class="pre">Recall.evaluate()</span></code></a></li>
 </ul>
 </li>

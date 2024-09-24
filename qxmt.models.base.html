@@ -403,11 +403,30 @@ document.write(`
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.base.</span></span><span class="sig-name descname"><span class="pre">BaseKernelModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a></p>
+<p>Base class for kernel-based quantum machine learning models.
+This class is an abstract class for kernel-based quantum machine learning models.
+If you want to implement a new kernel-based quantum machine learning model, you should inherit this class.
+This class requires a kernel instance of BaseKernel class.
+The user can use any Feature Map or Kernel to be used, as long as it follows the interface of the BaseKernel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>)</p>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the kernel model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>) – kernel instance of BaseKernel class</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">get_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span></dt>
@@ -474,6 +493,11 @@ This method is alias of kernel.plot_train_test_matrix().</p>
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.base.</span></span><span class="sig-name descname"><span class="pre">BaseMLModel</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base class for quantum machine learning models.
+This class is an abstract class for qunatum machine learning models.
+If you want to implement a new quantum machine learning model, you should inherit this class.
+For compatibility with QXMT framework, you should implement some methods such as fit,
+predict, save, load, get_params, and set_params.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>

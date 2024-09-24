@@ -398,6 +398,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.pennylane.fidelity_kernel">qxmt.kernels.pennylane.fidelity_kernel module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
@@ -405,6 +406,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.pennylane">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
@@ -437,27 +439,68 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.pennylane.fidelity_kernel.</span></span><span class="sig-name descname"><span class="pre">FidelityKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseKernel</span></code></a></p>
+<p>Fidelity kernel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseKernel</strong> (<em>_type_</em>) – base class of kernel</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.kernels.pennylane.fidelity_kernel</span> <span class="kn">import</span> <span class="n">FidelityKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.configs</span> <span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.builder</span> <span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">FidelityKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.14</span>
+</pre></div>
+</div>
 <dl class="py method">
-<dt class="sig sig-object py" id="qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute">
-<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute" title="Link to this definition">#</a></dt>
-<dd><p>Compute kernel value between two samples.</p>
+<dt class="sig sig-object py" id="qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the FidelityKernel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x1</strong> (<em>np.ndarray</em>) – array of one sample</p></li>
-<li><p><strong>x2</strong> (<em>np.ndarray</em>) – array of one sample</p></li>
+<li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute" title="Link to this definition">#</a></dt>
+<dd><p>Compute the fidelity kernel value between two data points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>np.ndarray</em>) – numpy array representing the first data point</p></li>
+<li><p><strong>x2</strong> (<em>np.ndarray</em>) – numpy array representing the second data point</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>computed kernel value</p>
+<dd class="field-even"><p>fidelity kernel value</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -474,27 +517,68 @@ document.write(`
 <dt class="sig sig-object py" id="qxmt.kernels.pennylane.FidelityKernel">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.pennylane.</span></span><span class="sig-name descname"><span class="pre">FidelityKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.FidelityKernel" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseKernel</span></code></a></p>
+<p>Fidelity kernel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseKernel</strong> (<em>_type_</em>) – base class of kernel</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.kernels.pennylane.fidelity_kernel</span> <span class="kn">import</span> <span class="n">FidelityKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.configs</span> <span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.builder</span> <span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">FidelityKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.14</span>
+</pre></div>
+</div>
 <dl class="py method">
-<dt class="sig sig-object py" id="qxmt.kernels.pennylane.FidelityKernel.compute">
-<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.FidelityKernel.compute" title="Link to this definition">#</a></dt>
-<dd><p>Compute kernel value between two samples.</p>
+<dt class="sig sig-object py" id="qxmt.kernels.pennylane.FidelityKernel.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.FidelityKernel.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the FidelityKernel class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>x1</strong> (<em>np.ndarray</em>) – array of one sample</p></li>
-<li><p><strong>x2</strong> (<em>np.ndarray</em>) – array of one sample</p></li>
+<li><p><strong>device</strong> (<a class="reference internal" href="qxmt.devices.html#qxmt.devices.base.BaseDevice" title="qxmt.devices.base.BaseDevice"><em>BaseDevice</em></a>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap"><em>BaseFeatureMap</em></a><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.kernels.pennylane.FidelityKernel.compute">
+<span class="sig-name descname"><span class="pre">compute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.kernels.pennylane.FidelityKernel.compute" title="Link to this definition">#</a></dt>
+<dd><p>Compute the fidelity kernel value between two data points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x1</strong> (<em>np.ndarray</em>) – numpy array representing the first data point</p></li>
+<li><p><strong>x2</strong> (<em>np.ndarray</em>) – numpy array representing the second data point</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>computed kernel value</p>
+<dd class="field-even"><p>fidelity kernel value</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -555,6 +639,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.pennylane.fidelity_kernel">qxmt.kernels.pennylane.fidelity_kernel module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
@@ -562,6 +647,7 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.kernels.pennylane">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel"><code class="docutils literal notranslate"><span class="pre">FidelityKernel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel.__init__"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.kernels.pennylane.FidelityKernel.compute"><code class="docutils literal notranslate"><span class="pre">FidelityKernel.compute()</span></code></a></li>
 </ul>
 </li>
