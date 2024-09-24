@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -396,9 +396,29 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-utils-github-module">qxmt.utils.github module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-utils-yaml-module">qxmt.utils.yaml module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils.github">qxmt.utils.github module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils.yaml">qxmt.utils.yaml module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.load_object_from_yaml"><code class="docutils literal notranslate"><span class="pre">load_object_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.load_yaml_config"><code class="docutils literal notranslate"><span class="pre">load_yaml_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.save_experiment_config_to_yaml"><code class="docutils literal notranslate"><span class="pre">save_experiment_config_to_yaml()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.load_object_from_yaml"><code class="docutils literal notranslate"><span class="pre">load_object_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.load_yaml_config"><code class="docutils literal notranslate"><span class="pre">load_yaml_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.save_experiment_config_to_yaml"><code class="docutils literal notranslate"><span class="pre">save_experiment_config_to_yaml()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -421,14 +441,306 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="qxmt-utils-github-module">
-<h2>qxmt.utils.github module<a class="headerlink" href="#qxmt-utils-github-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.utils.github">
+<span id="qxmt-utils-github-module"></span><h2>qxmt.utils.github module<a class="headerlink" href="#module-qxmt.utils.github" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.github.get_commit_id">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.github.</span></span><span class="sig-name descname"><span class="pre">get_commit_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.github.get_commit_id" title="Link to this definition">#</a></dt>
+<dd><p>Get the commit ID of the current git repository.
+if the current directory is not a git repository, return an empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git commit ID</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.github.get_git_add_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.github.</span></span><span class="sig-name descname"><span class="pre">get_git_add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.github.get_git_add_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the added code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>added code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.github.get_git_diff">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.github.</span></span><span class="sig-name descname"><span class="pre">get_git_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.github.get_git_diff" title="Link to this definition">#</a></dt>
+<dd><p>Get the git diff of the current git repository.
+if the current directory is not a git repository, return an empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git diff</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.github.get_git_rm_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.github.</span></span><span class="sig-name descname"><span class="pre">get_git_rm_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.github.get_git_rm_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the removed code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>removed code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="qxmt-utils-yaml-module">
-<h2>qxmt.utils.yaml module<a class="headerlink" href="#qxmt-utils-yaml-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.utils.yaml">
+<span id="qxmt-utils-yaml-module"></span><h2>qxmt.utils.yaml module<a class="headerlink" href="#module-qxmt.utils.yaml" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.yaml.load_object_from_yaml">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">load_object_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.yaml.load_object_from_yaml" title="Link to this definition">#</a></dt>
+<dd><p>Extract object from yaml configuration and convert it to a function or class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>dict</em>) – configuration of the object</p></li>
+<li><p><strong>dynamic_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dynamic parameters to be passed to the object. Defaults to {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ModuleNotFoundError</strong> – module not found in the path</p></li>
+<li><p><strong>AttributeError</strong> – object not found in the module</p></li>
+<li><p><strong>TypeError</strong> – object is not a class or function</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function or instance of the extracted object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.yaml.load_yaml_config">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">load_yaml_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.yaml.load_yaml_config" title="Link to this definition">#</a></dt>
+<dd><p>Load yaml from configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the configuration file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>configuration</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.yaml.save_experiment_config_to_yaml">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">save_experiment_config_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.yaml.save_experiment_config_to_yaml" title="Link to this definition">#</a></dt>
+<dd><p>Save the experiment configuration to a yaml file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>) – experiment configuration</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the yaml file</p></li>
+<li><p><strong>delete_path</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.utils" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.get_commit_id">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">get_commit_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.get_commit_id" title="Link to this definition">#</a></dt>
+<dd><p>Get the commit ID of the current git repository.
+if the current directory is not a git repository, return an empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git commit ID</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.get_git_add_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">get_git_add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.get_git_add_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the added code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>added code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.get_git_diff">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">get_git_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.get_git_diff" title="Link to this definition">#</a></dt>
+<dd><p>Get the git diff of the current git repository.
+if the current directory is not a git repository, return an empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git diff</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.get_git_rm_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">get_git_rm_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.get_git_rm_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the removed code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>removed code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.load_object_from_yaml">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">load_object_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.load_object_from_yaml" title="Link to this definition">#</a></dt>
+<dd><p>Extract object from yaml configuration and convert it to a function or class instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>dict</em>) – configuration of the object</p></li>
+<li><p><strong>dynamic_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dynamic parameters to be passed to the object. Defaults to {}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ModuleNotFoundError</strong> – module not found in the path</p></li>
+<li><p><strong>AttributeError</strong> – object not found in the module</p></li>
+<li><p><strong>TypeError</strong> – object is not a class or function</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>function or instance of the extracted object</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.load_yaml_config">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">load_yaml_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.load_yaml_config" title="Link to this definition">#</a></dt>
+<dd><p>Load yaml from configuration file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the configuration file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>configuration</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.save_experiment_config_to_yaml">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.</span></span><span class="sig-name descname"><span class="pre">save_experiment_config_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.save_experiment_config_to_yaml" title="Link to this definition">#</a></dt>
+<dd><p>Save the experiment configuration to a yaml file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>) – experiment configuration</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the yaml file</p></li>
+<li><p><strong>delete_path</strong> (<em>bool</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -478,9 +790,29 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-utils-github-module">qxmt.utils.github module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-utils-yaml-module">qxmt.utils.yaml module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils.github">qxmt.utils.github module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.github.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils.yaml">qxmt.utils.yaml module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.load_object_from_yaml"><code class="docutils literal notranslate"><span class="pre">load_object_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.load_yaml_config"><code class="docutils literal notranslate"><span class="pre">load_yaml_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.yaml.save_experiment_config_to_yaml"><code class="docutils literal notranslate"><span class="pre">save_experiment_config_to_yaml()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.utils">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.load_object_from_yaml"><code class="docutils literal notranslate"><span class="pre">load_object_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.load_yaml_config"><code class="docutils literal notranslate"><span class="pre">load_yaml_config()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.save_experiment_config_to_yaml"><code class="docutils literal notranslate"><span class="pre">save_experiment_config_to_yaml()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

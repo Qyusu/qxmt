@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -396,10 +396,74 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-base-module">qxmt.models.base module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-builder-module">qxmt.models.builder module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-qsvm-module">qxmt.models.qsvm module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.base">qxmt.models.base module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel"><code class="docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.get_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.load"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.predict"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.save"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.set_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.builder">qxmt.models.builder module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.builder.ModelBuilder"><code class="docutils literal notranslate"><span class="pre">ModelBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.builder.ModelBuilder.build"><code class="docutils literal notranslate"><span class="pre">ModelBuilder.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.qsvm">qxmt.models.qsvm module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM"><code class="docutils literal notranslate"><span class="pre">QSVM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.fit"><code class="docutils literal notranslate"><span class="pre">QSVM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel"><code class="docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.get_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.load"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.predict"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.save"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.set_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.set_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.ModelBuilder"><code class="docutils literal notranslate"><span class="pre">ModelBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.ModelBuilder.build"><code class="docutils literal notranslate"><span class="pre">ModelBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM"><code class="docutils literal notranslate"><span class="pre">QSVM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.fit"><code class="docutils literal notranslate"><span class="pre">QSVM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -423,17 +487,607 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="qxmt-models-base-module">
-<h2>qxmt.models.base module<a class="headerlink" href="#qxmt-models-base-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.models.base">
+<span id="qxmt-models-base-module"></span><h2>qxmt.models.base module<a class="headerlink" href="#module-qxmt.models.base" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.base.</span></span><span class="sig-name descname"><span class="pre">BaseKernelModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel.get_kernel_matrix">
+<span class="sig-name descname"><span class="pre">get_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Get the kernel matrix of the given data.
+This method is alias of kernel.compute_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel.plot_kernel_matrix">
+<span class="sig-name descname"><span class="pre">plot_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel.plot_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Plot the kernel matrix of the given data.
+This method is alias of kernel.plot_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix">
+<span class="sig-name descname"><span class="pre">plot_train_test_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Plot the kernel matrix of training and testing data.
+This method is alias of kernel.plot_train_test_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – array of training samples</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em>) – array of testing samples</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.base.</span></span><span class="sig-name descname"><span class="pre">BaseMLModel</span></span><a class="headerlink" href="#qxmt.models.base.BaseMLModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.fit">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the model with given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.get_params">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.get_params" title="Link to this definition">#</a></dt>
+<dd><p>Get the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.load">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the model from the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to load the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.predict">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.predict" title="Link to this definition">#</a></dt>
+<dd><p>Predict the target value with given features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array of predicted value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.save">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.save" title="Link to this definition">#</a></dt>
+<dd><p>Save the model to the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseMLModel.set_params">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseMLModel.set_params" title="Link to this definition">#</a></dt>
+<dd><p>Set the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="qxmt-models-builder-module">
-<h2>qxmt.models.builder module<a class="headerlink" href="#qxmt-models-builder-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.models.builder">
+<span id="qxmt-models-builder-module"></span><h2>qxmt.models.builder module<a class="headerlink" href="#module-qxmt.models.builder" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.builder.ModelBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.builder.</span></span><span class="sig-name descname"><span class="pre">ModelBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.builder.ModelBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.builder.ModelBuilder.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.builder.ModelBuilder.build" title="Link to this definition">#</a></dt>
+<dd><p>Build quantum model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="qxmt-models-qsvm-module">
-<h2>qxmt.models.qsvm module<a class="headerlink" href="#qxmt-models-qsvm-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.models.qsvm">
+<span id="qxmt-models-qsvm-module"></span><h2>qxmt.models.qsvm module<a class="headerlink" href="#module-qxmt.models.qsvm" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.qsvm.</span></span><span class="sig-name descname"><span class="pre">QSVM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qxmt.models.base.BaseKernelModel" title="qxmt.models.base.BaseKernelModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the model with given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.get_params" title="Link to this definition">#</a></dt>
+<dd><p>Get the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the model from the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to load the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qxmt.models.qsvm.QSVM" title="qxmt.models.qsvm.QSVM"><em>QSVM</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.predict" title="Link to this definition">#</a></dt>
+<dd><p>Predict the target value with given features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array of predicted value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.save" title="Link to this definition">#</a></dt>
+<dd><p>Save the model to the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.set_params">
+<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.set_params" title="Link to this definition">#</a></dt>
+<dd><p>Set the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.models">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.models" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.BaseKernelModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.</span></span><span class="sig-name descname"><span class="pre">BaseKernelModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseKernelModel.get_kernel_matrix">
+<span class="sig-name descname"><span class="pre">get_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel.get_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Get the kernel matrix of the given data.
+This method is alias of kernel.compute_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>kernel matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseKernelModel.plot_kernel_matrix">
+<span class="sig-name descname"><span class="pre">plot_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel.plot_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Plot the kernel matrix of the given data.
+This method is alias of kernel.plot_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix">
+<span class="sig-name descname"><span class="pre">plot_train_test_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix" title="Link to this definition">#</a></dt>
+<dd><p>Plot the kernel matrix of training and testing data.
+This method is alias of kernel.plot_train_test_matrix().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – array of training samples</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em>) – array of testing samples</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.</span></span><span class="sig-name descname"><span class="pre">BaseMLModel</span></span><a class="headerlink" href="#qxmt.models.BaseMLModel" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.fit">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the model with given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.get_params">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.get_params" title="Link to this definition">#</a></dt>
+<dd><p>Get the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.load">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the model from the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to load the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.predict">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.predict" title="Link to this definition">#</a></dt>
+<dd><p>Predict the target value with given features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array of predicted value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.save">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.save" title="Link to this definition">#</a></dt>
+<dd><p>Save the model to the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseMLModel.set_params">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseMLModel.set_params" title="Link to this definition">#</a></dt>
+<dd><p>Set the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.ModelBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.</span></span><span class="sig-name descname"><span class="pre">ModelBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.ModelBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.ModelBuilder.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.ModelBuilder.build" title="Link to this definition">#</a></dt>
+<dd><p>Build quantum model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.models.QSVM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.</span></span><span class="sig-name descname"><span class="pre">QSVM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">kernel</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#qxmt.models.base.BaseKernelModel" title="qxmt.models.base.BaseKernelModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.kernels.html#qxmt.kernels.base.BaseKernel" title="qxmt.kernels.base.BaseKernel"><em>BaseKernel</em></a>)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.fit" title="Link to this definition">#</a></dt>
+<dd><p>Fit the model with given data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.get_params" title="Link to this definition">#</a></dt>
+<dd><p>Get the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the model from the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to load the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#qxmt.models.qsvm.QSVM" title="qxmt.models.qsvm.QSVM"><em>QSVM</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.predict" title="Link to this definition">#</a></dt>
+<dd><p>Predict the target value with given features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>array of predicted value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.save" title="Link to this definition">#</a></dt>
+<dd><p>Save the model to the given path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the model</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.set_params">
+<span class="sig-name descname"><span class="pre">set_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.set_params" title="Link to this definition">#</a></dt>
+<dd><p>Set the parameters of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>dict</em>) – dictionary of parameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -483,10 +1137,74 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-base-module">qxmt.models.base module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-builder-module">qxmt.models.builder module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-models-qsvm-module">qxmt.models.qsvm module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.base">qxmt.models.base module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel"><code class="docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.get_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.load"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.predict"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.save"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseMLModel.set_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.builder">qxmt.models.builder module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.builder.ModelBuilder"><code class="docutils literal notranslate"><span class="pre">ModelBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.builder.ModelBuilder.build"><code class="docutils literal notranslate"><span class="pre">ModelBuilder.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.qsvm">qxmt.models.qsvm module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM"><code class="docutils literal notranslate"><span class="pre">QSVM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.fit"><code class="docutils literal notranslate"><span class="pre">QSVM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel"><code class="docutils literal notranslate"><span class="pre">BaseMLModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.fit"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.get_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.load"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.predict"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.save"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseMLModel.set_params"><code class="docutils literal notranslate"><span class="pre">BaseMLModel.set_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.ModelBuilder"><code class="docutils literal notranslate"><span class="pre">ModelBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.ModelBuilder.build"><code class="docutils literal notranslate"><span class="pre">ModelBuilder.build()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM"><code class="docutils literal notranslate"><span class="pre">QSVM</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.fit"><code class="docutils literal notranslate"><span class="pre">QSVM.fit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

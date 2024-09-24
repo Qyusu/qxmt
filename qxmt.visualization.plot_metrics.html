@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -399,6 +399,56 @@ document.write(`
                   
   <section id="qxmt-visualization-plot-metrics-module">
 <h1>qxmt.visualization.plot_metrics module<a class="headerlink" href="#qxmt-visualization-plot-metrics-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_metrics.</span></span><span class="sig-name descname"><span class="pre">plot_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot bar chart of the target metric. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metric</strong> (<em>str</em>) – target metric name</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to f’”{valid_metric}” score’.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_metrics.</span></span><span class="sig-name descname"><span class="pre">plot_metrics_side_by_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot bar chart of the target metrics side by side. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – target metric names</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to “metrics score”.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

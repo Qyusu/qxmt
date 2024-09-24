@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -397,9 +397,59 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-builder-module">qxmt.datasets.builder module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-schema-module">qxmt.datasets.schema module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.builder">qxmt.datasets.builder module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.build"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.build()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.default_raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.default_transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.load"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.split"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.split()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.schema">qxmt.datasets.schema module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.X_test"><code class="docutils literal notranslate"><span class="pre">Dataset.X_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.X_train"><code class="docutils literal notranslate"><span class="pre">Dataset.X_train</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.config"><code class="docutils literal notranslate"><span class="pre">Dataset.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_config"><code class="docutils literal notranslate"><span class="pre">Dataset.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.y_test"><code class="docutils literal notranslate"><span class="pre">Dataset.y_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.y_train"><code class="docutils literal notranslate"><span class="pre">Dataset.y_train</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.serialize"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.X_test"><code class="docutils literal notranslate"><span class="pre">Dataset.X_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.X_train"><code class="docutils literal notranslate"><span class="pre">Dataset.X_train</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.config"><code class="docutils literal notranslate"><span class="pre">Dataset.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_config"><code class="docutils literal notranslate"><span class="pre">Dataset.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.y_test"><code class="docutils literal notranslate"><span class="pre">Dataset.y_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.y_train"><code class="docutils literal notranslate"><span class="pre">Dataset.y_train</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.build"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.build()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.default_raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.default_transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.load"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.split"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.split()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -422,8 +472,14 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.dummy.html#qxmt-datasets-dummy-linear-module">qxmt.datasets.dummy.linear module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.dummy.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.dummy.html#module-qxmt.datasets.dummy.linear">qxmt.datasets.dummy.linear module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.dummy.html#qxmt.datasets.dummy.linear.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.dummy.html#module-qxmt.datasets.dummy">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.dummy.html#qxmt.datasets.dummy.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><ul>
@@ -431,8 +487,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html#qxmt-datasets-raw-preprocess-sampling-module">qxmt.datasets.raw_preprocess.sampling module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class"><code class="docutils literal notranslate"><span class="pre">sampling_by_each_class()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html#module-qxmt.datasets.raw_preprocess">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><ul>
@@ -440,8 +499,11 @@ document.write(`
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.transform.html#qxmt-datasets-transform-reduction-by-pca-module">qxmt.datasets.transform.reduction_by_pca module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.transform.html#module-contents">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.transform.html#module-qxmt.datasets.transform.reduction_by_pca">qxmt.datasets.transform.reduction_by_pca module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.transform.html#qxmt.datasets.transform.reduction_by_pca.dimension_reduction_by_pca"><code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.datasets.transform.html#module-qxmt.datasets.transform">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -452,14 +514,454 @@ document.write(`
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 </section>
-<section id="qxmt-datasets-builder-module">
-<h2>qxmt.datasets.builder module<a class="headerlink" href="#qxmt-datasets-builder-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.datasets.builder">
+<span id="qxmt-datasets-builder-module"></span><h2>qxmt.datasets.builder module<a class="headerlink" href="#module-qxmt.datasets.builder" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.builder.</span></span><span class="sig-name descname"><span class="pre">DatasetBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.builder</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>)</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.build" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.default_raw_preprocess">
+<span class="sig-name descname"><span class="pre">default_raw_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.default_raw_preprocess" title="Link to this definition">#</a></dt>
+<dd><p>Default raw preprocess method. This method does not apply any preprocess.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>raw features and labels of the dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.default_transform">
+<span class="sig-name descname"><span class="pre">default_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.default_transform" title="Link to this definition">#</a></dt>
+<dd><p>Default transform method. This method does not apply any transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – raw features of the training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – raw labels of the training data</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – raw features of the test data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – raw labels of the test data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the dataset from the path defined in config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>features and labels of the dataset</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.raw_preprocess">
+<span class="sig-name descname"><span class="pre">raw_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.raw_preprocess" title="Link to this definition">#</a></dt>
+<dd><p>Preprocess the raw dataset. This process executes before splitting the dataset.
+ex) filtering, data sampling, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>preprocessed features and labels of the dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.split">
+<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.split" title="Link to this definition">#</a></dt>
+<dd><p>Split the dataset into train and test sets.
+Test set size is defined in the config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.builder.DatasetBuilder.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.builder.DatasetBuilder.transform" title="Link to this definition">#</a></dt>
+<dd><p>Transform the dataset.
+ex) feature scaling, dimension reduction, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – raw features of the training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – raw labels of the training data</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – raw features of the test data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – raw labels of the test data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>transformed train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="qxmt-datasets-schema-module">
-<h2>qxmt.datasets.schema module<a class="headerlink" href="#qxmt-datasets-schema-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.datasets.schema">
+<span id="qxmt-datasets-schema-module"></span><h2>qxmt.datasets.schema module<a class="headerlink" href="#module-qxmt.datasets.schema" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.schema.Dataset" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>X_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.X_test">
+<span class="sig-name descname"><span class="pre">X_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.X_test" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.X_train">
+<span class="sig-name descname"><span class="pre">X_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.X_train" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.config">
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.model_computed_fields" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'X_test':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'X_train':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'config':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'y_test':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'y_train':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')])}</span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.model_fields" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.y_test">
+<span class="sig-name descname"><span class="pre">y_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.y_test" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.Dataset.y_train">
+<span class="sig-name descname"><span class="pre">y_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.schema.Dataset.y_train" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.serialize">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.schema.serialize" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>ndarray</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.schema.validate">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.schema.validate" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>Any</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.datasets">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.Dataset" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>X_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.X_test">
+<span class="sig-name descname"><span class="pre">X_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.Dataset.X_test" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.X_train">
+<span class="sig-name descname"><span class="pre">X_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.Dataset.X_train" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.config">
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.datasets.Dataset.config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.datasets.Dataset.model_computed_fields" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.datasets.Dataset.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'X_test':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'X_train':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'config':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'y_test':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')]),</span> <span class="pre">'y_train':</span> <span class="pre">FieldInfo(annotation=ndarray,</span> <span class="pre">required=True,</span> <span class="pre">metadata=[PlainValidator(func=&lt;function</span> <span class="pre">validate&gt;,</span> <span class="pre">json_schema_input_type=typing.Any),</span> <span class="pre">PlainSerializer(func=&lt;function</span> <span class="pre">serialize&gt;,</span> <span class="pre">return_type=PydanticUndefined,</span> <span class="pre">when_used='always')])}</span></em><a class="headerlink" href="#qxmt.datasets.Dataset.model_fields" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.y_test">
+<span class="sig-name descname"><span class="pre">y_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.Dataset.y_test" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.datasets.Dataset.y_train">
+<span class="sig-name descname"><span class="pre">y_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.datasets.Dataset.y_train" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.</span></span><span class="sig-name descname"><span class="pre">DatasetBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.builder</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>)</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.build" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.default_raw_preprocess">
+<span class="sig-name descname"><span class="pre">default_raw_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.default_raw_preprocess" title="Link to this definition">#</a></dt>
+<dd><p>Default raw preprocess method. This method does not apply any preprocess.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>raw features and labels of the dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.default_transform">
+<span class="sig-name descname"><span class="pre">default_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.default_transform" title="Link to this definition">#</a></dt>
+<dd><p>Default transform method. This method does not apply any transformation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – raw features of the training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – raw labels of the training data</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – raw features of the test data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – raw labels of the test data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.load" title="Link to this definition">#</a></dt>
+<dd><p>Load the dataset from the path defined in config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>features and labels of the dataset</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.raw_preprocess">
+<span class="sig-name descname"><span class="pre">raw_preprocess</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.raw_preprocess" title="Link to this definition">#</a></dt>
+<dd><p>Preprocess the raw dataset. This process executes before splitting the dataset.
+ex) filtering, data sampling, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>preprocessed features and labels of the dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.split">
+<span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.split" title="Link to this definition">#</a></dt>
+<dd><p>Split the dataset into train and test sets.
+Test set size is defined in the config.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – raw features of the dataset</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – raw labels of the dataset</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.datasets.DatasetBuilder.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.DatasetBuilder.transform" title="Link to this definition">#</a></dt>
+<dd><p>Transform the dataset.
+ex) feature scaling, dimension reduction, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – raw features of the training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – raw labels of the training data</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – raw features of the test data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – raw labels of the test data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>transformed train and test split of dataset (features and labels)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -510,9 +1012,59 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-builder-module">qxmt.datasets.builder module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-schema-module">qxmt.datasets.schema module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.builder">qxmt.datasets.builder module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.build"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.build()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.default_raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.default_transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.load"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.split"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.split()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.builder.DatasetBuilder.transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.schema">qxmt.datasets.schema module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.X_test"><code class="docutils literal notranslate"><span class="pre">Dataset.X_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.X_train"><code class="docutils literal notranslate"><span class="pre">Dataset.X_train</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.config"><code class="docutils literal notranslate"><span class="pre">Dataset.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_config"><code class="docutils literal notranslate"><span class="pre">Dataset.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.model_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.y_test"><code class="docutils literal notranslate"><span class="pre">Dataset.y_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.Dataset.y_train"><code class="docutils literal notranslate"><span class="pre">Dataset.y_train</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.serialize"><code class="docutils literal notranslate"><span class="pre">serialize()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.schema.validate"><code class="docutils literal notranslate"><span class="pre">validate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset"><code class="docutils literal notranslate"><span class="pre">Dataset</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.X_test"><code class="docutils literal notranslate"><span class="pre">Dataset.X_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.X_train"><code class="docutils literal notranslate"><span class="pre">Dataset.X_train</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.config"><code class="docutils literal notranslate"><span class="pre">Dataset.config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_config"><code class="docutils literal notranslate"><span class="pre">Dataset.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.model_fields"><code class="docutils literal notranslate"><span class="pre">Dataset.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.y_test"><code class="docutils literal notranslate"><span class="pre">Dataset.y_test</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.Dataset.y_train"><code class="docutils literal notranslate"><span class="pre">Dataset.y_train</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.build"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.build()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.default_raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.default_transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.default_transform()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.load"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.load()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.raw_preprocess"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.raw_preprocess()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.split"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.split()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.DatasetBuilder.transform"><code class="docutils literal notranslate"><span class="pre">DatasetBuilder.transform()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

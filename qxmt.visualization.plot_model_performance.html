@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -399,6 +399,31 @@ document.write(`
                   
   <section id="qxmt-visualization-plot-model-performance-module">
 <h1>qxmt.visualization.plot_model_performance module<a class="headerlink" href="#qxmt-visualization-plot-model-performance-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_model_performance.</span></span><span class="sig-name descname"><span class="pre">plot_2d_predicted_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot predicted result on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – Dataset object. It contains test data.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
+<li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+truth_label (str, optional): label of ground truth. Defaults to “Ground Truth”.
+pred_label (str, optional): label of predicted. Defaults to “Predicted”.
+title (str, optional): title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.
+colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
+class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

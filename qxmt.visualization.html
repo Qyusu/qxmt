@@ -275,7 +275,7 @@
 <div class="article-header-buttons">
 
 
-<a href="https://github.com/kenya-sk/qxmt" target="_blank"
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
    class="btn btn-sm btn-source-repository-button"
    title="Source repository"
    data-bs-placement="bottom" data-bs-toggle="tooltip"
@@ -396,11 +396,28 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-graph-settings-module">qxmt.visualization.graph_settings module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-dataset-module">qxmt.visualization.plot_dataset module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-metrics-module">qxmt.visualization.plot_metrics module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-model-performance-module">qxmt.visualization.plot_model_performance module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.graph_settings">qxmt.visualization.graph_settings module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_dataset">qxmt.visualization.plot_dataset module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_dataset.plot_2d_dataset"><code class="docutils literal notranslate"><span class="pre">plot_2d_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_metrics">qxmt.visualization.plot_metrics module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics.plot_metric"><code class="docutils literal notranslate"><span class="pre">plot_metric()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics.plot_metrics_side_by_side"><code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_model_performance">qxmt.visualization.plot_model_performance module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_model_performance.plot_2d_predicted_result"><code class="docutils literal notranslate"><span class="pre">plot_2d_predicted_result()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_dataset"><code class="docutils literal notranslate"><span class="pre">plot_2d_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_decisionon_boundaries"><code class="docutils literal notranslate"><span class="pre">plot_2d_decisionon_boundaries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_predicted_result"><code class="docutils literal notranslate"><span class="pre">plot_2d_predicted_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metric"><code class="docutils literal notranslate"><span class="pre">plot_metric()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics_side_by_side"><code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -425,20 +442,230 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="qxmt-visualization-graph-settings-module">
-<h2>qxmt.visualization.graph_settings module<a class="headerlink" href="#qxmt-visualization-graph-settings-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.visualization.graph_settings">
+<span id="qxmt-visualization-graph-settings-module"></span><h2>qxmt.visualization.graph_settings module<a class="headerlink" href="#module-qxmt.visualization.graph_settings" title="Link to this heading">#</a></h2>
 </section>
-<section id="qxmt-visualization-plot-dataset-module">
-<h2>qxmt.visualization.plot_dataset module<a class="headerlink" href="#qxmt-visualization-plot-dataset-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.visualization.plot_dataset">
+<span id="qxmt-visualization-plot-dataset-module"></span><h2>qxmt.visualization.plot_dataset module<a class="headerlink" href="#module-qxmt.visualization.plot_dataset" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_dataset.plot_2d_dataset">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_dataset.</span></span><span class="sig-name descname"><span class="pre">plot_2d_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_dataset.plot_2d_dataset" title="Link to this definition">#</a></dt>
+<dd><p>Ploat dataset on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – Dataset object. It contains train and test data.</p></li>
+<li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
+<li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+train_title (str, optional): title of train dataset. Defaults to “Train Dataset”.
+test_title (str, optional): title of test dataset. Defaults to “Test Dataset”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="qxmt-visualization-plot-metrics-module">
-<h2>qxmt.visualization.plot_metrics module<a class="headerlink" href="#qxmt-visualization-plot-metrics-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.visualization.plot_metrics">
+<span id="qxmt-visualization-plot-metrics-module"></span><h2>qxmt.visualization.plot_metrics module<a class="headerlink" href="#module-qxmt.visualization.plot_metrics" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_metrics.plot_metric">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_metrics.</span></span><span class="sig-name descname"><span class="pre">plot_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_metrics.plot_metric" title="Link to this definition">#</a></dt>
+<dd><p>Plot bar chart of the target metric. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metric</strong> (<em>str</em>) – target metric name</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to f’”{valid_metric}” score’.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_metrics.plot_metrics_side_by_side">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_metrics.</span></span><span class="sig-name descname"><span class="pre">plot_metrics_side_by_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_metrics.plot_metrics_side_by_side" title="Link to this definition">#</a></dt>
+<dd><p>Plot bar chart of the target metrics side by side. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – target metric names</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to “metrics score”.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="qxmt-visualization-plot-model-performance-module">
-<h2>qxmt.visualization.plot_model_performance module<a class="headerlink" href="#qxmt-visualization-plot-model-performance-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.visualization.plot_model_performance">
+<span id="qxmt-visualization-plot-model-performance-module"></span><h2>qxmt.visualization.plot_model_performance module<a class="headerlink" href="#module-qxmt.visualization.plot_model_performance" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_model_performance.plot_2d_predicted_result">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_model_performance.</span></span><span class="sig-name descname"><span class="pre">plot_2d_predicted_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_model_performance.plot_2d_predicted_result" title="Link to this definition">#</a></dt>
+<dd><p>Plot predicted result on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – Dataset object. It contains test data.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
+<li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+truth_label (str, optional): label of ground truth. Defaults to “Ground Truth”.
+pred_label (str, optional): label of predicted. Defaults to “Predicted”.
+title (str, optional): title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.
+colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
+class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.visualization">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.visualization" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_2d_dataset">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_2d_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_2d_dataset" title="Link to this definition">#</a></dt>
+<dd><p>Ploat dataset on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – Dataset object. It contains train and test data.</p></li>
+<li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
+<li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+train_title (str, optional): title of train dataset. Defaults to “Train Dataset”.
+test_title (str, optional): title of test dataset. Defaults to “Test Dataset”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_2d_decisionon_boundaries">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_2d_decisionon_boundaries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_2d_decisionon_boundaries" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<em>dict</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Any</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_2d_predicted_result">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_2d_predicted_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_2d_predicted_result" title="Link to this definition">#</a></dt>
+<dd><p>Plot predicted result on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – Dataset object. It contains test data.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
+<li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+truth_label (str, optional): label of ground truth. Defaults to “Ground Truth”.
+pred_label (str, optional): label of predicted. Defaults to “Predicted”.
+title (str, optional): title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.
+colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
+class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_metric">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_metric</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_metric" title="Link to this definition">#</a></dt>
+<dd><p>Plot bar chart of the target metric. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metric</strong> (<em>str</em>) – target metric name</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to f’”{valid_metric}” score’.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.visualization.plot_metrics_side_by_side">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.</span></span><span class="sig-name descname"><span class="pre">plot_metrics_side_by_side</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id_col='run_id'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_ids=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.visualization.plot_metrics</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.visualization.plot_metrics_side_by_side" title="Link to this definition">#</a></dt>
+<dd><p>Plot bar chart of the target metrics side by side. x-axis is run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pd.DataFrame</em>) – dataframe that contains the calculated metrics</p></li>
+<li><p><strong>metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – target metric names</p></li>
+<li><p><strong>run_id_col</strong> (<em>str</em><em>, </em><em>optional</em>) – column name of run_id. Defaults to RUN_ID_COL.</p></li>
+<li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
+ylabel (Optional[str], optional): y-axis label. Defaults to “metrics score”.
+title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -488,11 +715,28 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-graph-settings-module">qxmt.visualization.graph_settings module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-dataset-module">qxmt.visualization.plot_dataset module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-metrics-module">qxmt.visualization.plot_metrics module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-visualization-plot-model-performance-module">qxmt.visualization.plot_model_performance module</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.graph_settings">qxmt.visualization.graph_settings module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_dataset">qxmt.visualization.plot_dataset module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_dataset.plot_2d_dataset"><code class="docutils literal notranslate"><span class="pre">plot_2d_dataset()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_metrics">qxmt.visualization.plot_metrics module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics.plot_metric"><code class="docutils literal notranslate"><span class="pre">plot_metric()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics.plot_metrics_side_by_side"><code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization.plot_model_performance">qxmt.visualization.plot_model_performance module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_model_performance.plot_2d_predicted_result"><code class="docutils literal notranslate"><span class="pre">plot_2d_predicted_result()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.visualization">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_dataset"><code class="docutils literal notranslate"><span class="pre">plot_2d_dataset()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_decisionon_boundaries"><code class="docutils literal notranslate"><span class="pre">plot_2d_decisionon_boundaries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_2d_predicted_result"><code class="docutils literal notranslate"><span class="pre">plot_2d_predicted_result()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metric"><code class="docutils literal notranslate"><span class="pre">plot_metric()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.visualization.plot_metrics_side_by_side"><code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
