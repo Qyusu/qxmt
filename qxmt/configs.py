@@ -6,6 +6,11 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from qxmt.constants import MODULE_HOME
 
 
+class GlobalSettingsConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+    random_seed: int
+
+
 class PathConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -89,6 +94,7 @@ class ExperimentConfig(BaseModel):
 
     path: Path | str = ""
     description: str = ""
+    global_settings: GlobalSettingsConfig
     dataset: DatasetConfig
     device: DeviceConfig
     feature_map: Optional[FeatureMapConfig] = None

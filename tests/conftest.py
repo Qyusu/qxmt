@@ -9,15 +9,20 @@ from qxmt import (
     EvaluationConfig,
     ExperimentConfig,
     FeatureMapConfig,
+    GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
     PathConfig,
 )
 
+DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
+    random_seed=42,
+)
+
 DEFAULT_DATASET_CONFIG = DatasetConfig(
     type="generate",
     path=PathConfig(data="data.npy", label="label.npy"),
-    random_seed=42,
+    random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     test_size=0.2,
     features=None,
     raw_preprocess_logic=None,
@@ -37,6 +42,7 @@ def experiment_config(**kwargs: dict) -> ExperimentConfig:
     default_values = {
         "path": ".",
         "description": "test",
+        "global_settings": DEFAULT_GLOBAL_SETTINGS,
         "dataset": DEFAULT_DATASET_CONFIG,
         "device": DEFAULT_DEVICE_CONFIG,
         "feature_map": DEFAULT_FEATUREMAP_CONFIG,
