@@ -457,7 +457,7 @@ class Experiment:
         try:
             if config_source is not None:
                 if isinstance(config_source, str | Path):
-                    config = ExperimentConfig(path=config_source, **load_yaml_config(config_source))
+                    config = ExperimentConfig(path=config_source)
                 else:
                     config = config_source
 

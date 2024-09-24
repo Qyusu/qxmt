@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import Any, Literal, Optional
 
+import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from qxmt.constants import MODULE_HOME
@@ -101,3 +102,35 @@ class ExperimentConfig(BaseModel):
     kernel: Optional[KernelConfig] = None
     model: ModelConfig
     evaluation: EvaluationConfig
+
+    def __init__(self, **data: Any) -> None:
+        """Initialize the experiment configuration.
+        Case 1:
+            Load the configuration from a file path.
+            This case the data is a dictionary with a single key "path".
+        Case 2:
+            Load the configuration from a dictionary.
+            This case the data is a dictionary with the configuration data.
+        """
+        if list(data.keys()) == ["path"]:
+            config = self.load_from_path(data.get("path", ""))
+            data.update(config)
+        super().__init__(**data)
+
+    def load_from_path(self, path: str) -> dict[str, Any]:
+        with open(path, "r") as file:
+            config = yaml.safe_load(file)
+
+        if config is None:
+            raise ValueError(f'The configuration file is empty. (path="{path}")')
+
+        return {
+            "description": config.get("description"),
+            "global_settings": config.get("global_settings"),
+            "dataset": config.get("dataset"),
+            "device": config.get("device"),
+            "feature_map": config.get("feature_map"),
+            "kernel": config.get("kernel"),
+            "model": config.get("model"),
+            "evaluation": config.get("evaluation"),
+        }
