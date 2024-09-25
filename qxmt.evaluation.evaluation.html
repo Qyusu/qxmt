@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.evaluation.evaluation module &#8212; qxmt 0.2.1 documentation</title>
+    <title>qxmt.evaluation.evaluation module &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -430,7 +430,7 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <li><p><strong>actual</strong> (<em>ndarray</em>)</p></li>
 <li><p><strong>predicted</strong> (<em>ndarray</em>)</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -444,7 +444,7 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
 <li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by default. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by user custom. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by user custom. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

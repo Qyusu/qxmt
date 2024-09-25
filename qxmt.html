@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>QXMT reference &#8212; qxmt 0.2.1 documentation</title>
+    <title>QXMT reference &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -428,6 +428,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_config"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_config</span></code></a></li>
@@ -435,12 +436,15 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_config</span></code></a></li>
@@ -455,6 +459,13 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.module_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.module_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.params"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.params</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig"><code class="docutils literal notranslate"><span class="pre">KernelConfig</span></code></a><ul class="nav section-nav flex-column">
@@ -539,6 +550,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_config"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_config</span></code></a></li>
@@ -558,12 +570,15 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_config</span></code></a></li>
@@ -580,6 +595,13 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.module_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.module_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.params"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.params</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>
@@ -818,13 +840,21 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">EvaluationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.EvaluationConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">EvaluationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.EvaluationConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig.custom_metrics">
+<span class="sig-name descname"><span class="pre">custom_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.EvaluationConfig.custom_metrics" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig.default_metrics">
 <span class="sig-name descname"><span class="pre">default_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.configs.EvaluationConfig.default_metrics" title="Link to this definition">#</a></dt>
@@ -844,7 +874,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig.model_fields">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'default_metrics':</span> <span class="pre">FieldInfo(annotation=list[str],</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.configs.EvaluationConfig.model_fields" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'custom_metrics':</span> <span class="pre">FieldInfo(annotation=Union[list[dict[str,</span> <span class="pre">Any]],</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'default_metrics':</span> <span class="pre">FieldInfo(annotation=list[str],</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.configs.EvaluationConfig.model_fields" title="Link to this definition">#</a></dt>
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
@@ -854,13 +884,14 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>description</strong> (<em>str</em>)</p></li>
+<li><p><strong>global_settings</strong> (<a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><em>GlobalSettingsConfig</em></a>)</p></li>
 <li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
@@ -870,6 +901,28 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the experiment configuration.</p>
+<dl class="simple">
+<dt>Case 1:</dt><dd><p>Load the configuration from a file path.
+This case the data is a dictionary with a single key “path”.</p>
+</dd>
+<dt>Case 2:</dt><dd><p>Load the configuration from a dictionary.
+This case the data is a dictionary with the configuration data.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.dataset">
 <span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
@@ -896,9 +949,27 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.global_settings">
+<span class="sig-name descname"><span class="pre">global_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><span class="pre">GlobalSettingsConfig</span></a></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.global_settings" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.kernel">
 <span class="sig-name descname"><span class="pre">kernel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><span class="pre">KernelConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.kernel" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.load_from_path">
+<span class="sig-name descname"><span class="pre">load_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig.load_from_path" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.model">
@@ -919,7 +990,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.model_fields">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dataset':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'description':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=False,</span> <span class="pre">default=''),</span> <span class="pre">'device':</span> <span class="pre">FieldInfo(annotation=DeviceConfig,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=EvaluationConfig,</span> <span class="pre">required=True),</span> <span class="pre">'feature_map':</span> <span class="pre">FieldInfo(annotation=Union[FeatureMapConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'kernel':</span> <span class="pre">FieldInfo(annotation=Union[KernelConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'model':</span> <span class="pre">FieldInfo(annotation=ModelConfig,</span> <span class="pre">required=True),</span> <span class="pre">'path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=False,</span> <span class="pre">default='')}</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.model_fields" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dataset':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'description':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=False,</span> <span class="pre">default=''),</span> <span class="pre">'device':</span> <span class="pre">FieldInfo(annotation=DeviceConfig,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=EvaluationConfig,</span> <span class="pre">required=True),</span> <span class="pre">'feature_map':</span> <span class="pre">FieldInfo(annotation=Union[FeatureMapConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'global_settings':</span> <span class="pre">FieldInfo(annotation=GlobalSettingsConfig,</span> <span class="pre">required=True),</span> <span class="pre">'kernel':</span> <span class="pre">FieldInfo(annotation=Union[KernelConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'model':</span> <span class="pre">FieldInfo(annotation=ModelConfig,</span> <span class="pre">required=True),</span> <span class="pre">'path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=False,</span> <span class="pre">default='')}</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.model_fields" title="Link to this definition">#</a></dt>
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
@@ -978,6 +1049,42 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.FeatureMapConfig.params">
 <span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.FeatureMapConfig.params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>random_seed</strong> (<em>int</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.model_computed_fields" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'random_seed':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.model_fields" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.random_seed">
+<span class="sig-name descname"><span class="pre">random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.random_seed" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1414,13 +1521,21 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.EvaluationConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">EvaluationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.EvaluationConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">EvaluationConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.EvaluationConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>default_metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_metrics</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.EvaluationConfig.custom_metrics">
+<span class="sig-name descname"><span class="pre">custom_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.EvaluationConfig.custom_metrics" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.EvaluationConfig.default_metrics">
 <span class="sig-name descname"><span class="pre">default_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.EvaluationConfig.default_metrics" title="Link to this definition">#</a></dt>
@@ -1440,7 +1555,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.EvaluationConfig.model_fields">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'default_metrics':</span> <span class="pre">FieldInfo(annotation=list[str],</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.EvaluationConfig.model_fields" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'custom_metrics':</span> <span class="pre">FieldInfo(annotation=Union[list[dict[str,</span> <span class="pre">Any]],</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'default_metrics':</span> <span class="pre">FieldInfo(annotation=list[str],</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.EvaluationConfig.model_fields" title="Link to this definition">#</a></dt>
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
@@ -1624,16 +1739,16 @@ It is more flexible but requires a config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – The dataset object.</p></li>
-<li><p><strong>model</strong> (<a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a>) – The model object.</p></li>
-<li><p><strong>config_source</strong> (<a class="reference internal" href="#qxmt.ExperimentConfig" title="qxmt.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – Config source can be either an <cite>ExperimentConfig</cite>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – the dataset object.</p></li>
+<li><p><strong>model</strong> (<a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a>) – the model object.</p></li>
+<li><p><strong>config_source</strong> (<a class="reference internal" href="#qxmt.ExperimentConfig" title="qxmt.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – config source can be either an <cite>ExperimentConfig</cite>
 instance or the path to a config file. If a path is provided, it loads and creates an
 <cite>ExperimentConfig</cite> instance. Defaults to None.</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of default metrics names. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>, </em><em>optional</em>) – List of user-defined custom metrics. Defaults to None.</p></li>
-<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – Description of the run. Defaults to “”.</p></li>
-<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the git repository. Defaults to None.</p></li>
-<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to add the run record to the experiment. Defaults to True.</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – list of default metrics names. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – list of user defined custom metric configurations. Defaults to None.</p></li>
+<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – description of the run. Defaults to “”.</p></li>
+<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the git repository. Defaults to None.</p></li>
+<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to add the run record to the experiment. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1658,7 +1773,7 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual values</p></li>
 <li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted values</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – list of default metrics name</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>]</em>) – list of user defined custom metrics</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – list of user defined custom metric configurations</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -1708,13 +1823,14 @@ instance or the path to a config file. If a path is provided, it loads and creat
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>description</strong> (<em>str</em>)</p></li>
+<li><p><strong>global_settings</strong> (<a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><em>GlobalSettingsConfig</em></a>)</p></li>
 <li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
@@ -1724,6 +1840,28 @@ instance or the path to a config file. If a path is provided, it loads and creat
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.ExperimentConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the experiment configuration.</p>
+<dl class="simple">
+<dt>Case 1:</dt><dd><p>Load the configuration from a file path.
+This case the data is a dictionary with a single key “path”.</p>
+</dd>
+<dt>Case 2:</dt><dd><p>Load the configuration from a dictionary.
+This case the data is a dictionary with the configuration data.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>Any</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.dataset">
 <span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
@@ -1750,9 +1888,27 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <dd></dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ExperimentConfig.global_settings">
+<span class="sig-name descname"><span class="pre">global_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><span class="pre">GlobalSettingsConfig</span></a></em><a class="headerlink" href="#qxmt.ExperimentConfig.global_settings" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.kernel">
 <span class="sig-name descname"><span class="pre">kernel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><span class="pre">KernelConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.kernel" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.ExperimentConfig.load_from_path">
+<span class="sig-name descname"><span class="pre">load_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig.load_from_path" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, <em>Any</em>]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.model">
@@ -1773,7 +1929,7 @@ instance or the path to a config file. If a path is provided, it loads and creat
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.model_fields">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dataset':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'description':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=False,</span> <span class="pre">default=''),</span> <span class="pre">'device':</span> <span class="pre">FieldInfo(annotation=DeviceConfig,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=EvaluationConfig,</span> <span class="pre">required=True),</span> <span class="pre">'feature_map':</span> <span class="pre">FieldInfo(annotation=Union[FeatureMapConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'kernel':</span> <span class="pre">FieldInfo(annotation=Union[KernelConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'model':</span> <span class="pre">FieldInfo(annotation=ModelConfig,</span> <span class="pre">required=True),</span> <span class="pre">'path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=False,</span> <span class="pre">default='')}</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.model_fields" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'dataset':</span> <span class="pre">FieldInfo(annotation=DatasetConfig,</span> <span class="pre">required=True),</span> <span class="pre">'description':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=False,</span> <span class="pre">default=''),</span> <span class="pre">'device':</span> <span class="pre">FieldInfo(annotation=DeviceConfig,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=EvaluationConfig,</span> <span class="pre">required=True),</span> <span class="pre">'feature_map':</span> <span class="pre">FieldInfo(annotation=Union[FeatureMapConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'global_settings':</span> <span class="pre">FieldInfo(annotation=GlobalSettingsConfig,</span> <span class="pre">required=True),</span> <span class="pre">'kernel':</span> <span class="pre">FieldInfo(annotation=Union[KernelConfig,</span> <span class="pre">NoneType],</span> <span class="pre">required=False,</span> <span class="pre">default=None),</span> <span class="pre">'model':</span> <span class="pre">FieldInfo(annotation=ModelConfig,</span> <span class="pre">required=True),</span> <span class="pre">'path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=False,</span> <span class="pre">default='')}</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.model_fields" title="Link to this definition">#</a></dt>
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
@@ -1844,6 +2000,42 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.FeatureMapConfig.params">
 <span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.FeatureMapConfig.params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>random_seed</strong> (<em>int</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.model_computed_fields">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.model_computed_fields" title="Link to this definition">#</a></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.model_fields">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'random_seed':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True)}</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.model_fields" title="Link to this definition">#</a></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.random_seed">
+<span class="sig-name descname"><span class="pre">random_seed</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.random_seed" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2144,6 +2336,7 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_config"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_config</span></code></a></li>
@@ -2151,12 +2344,15 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_config</span></code></a></li>
@@ -2171,6 +2367,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.module_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.module_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.FeatureMapConfig.params"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.params</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig"><code class="docutils literal notranslate"><span class="pre">KernelConfig</span></code></a><ul class="nav section-nav flex-column">
@@ -2255,6 +2458,7 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_config"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_config</span></code></a></li>
@@ -2274,12 +2478,15 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model_config</span></code></a></li>
@@ -2296,6 +2503,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.module_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.module_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.params"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.params</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_computed_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.utils.yaml module &#8212; qxmt 0.2.1 documentation</title>
+    <title>qxmt.utils.yaml module &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -449,14 +449,14 @@ document.write(`
 
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">save_experiment_config_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">save_experiment_config_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_source_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Save the experiment configuration to a yaml file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>) – experiment configuration</p></li>
-<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the yaml file</p></li>
-<li><p><strong>delete_path</strong> (<em>bool</em>)</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the configuration file</p></li>
+<li><p><strong>delete_source_path</strong> (<em>bool</em><em>, </em><em>optional</em>) – delete the source path in the configuration. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.models package &#8212; qxmt 0.2.1 documentation</title>
+    <title>qxmt.models package &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -434,6 +434,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict_proba"><code class="docutils literal notranslate"><span class="pre">QSVM.predict_proba()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
 </ul>
@@ -468,6 +469,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict_proba"><code class="docutils literal notranslate"><span class="pre">QSVM.predict_proba()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
 </ul>
@@ -861,6 +863,24 @@ Then, many methods use the same interface as the sklearn.svm.SVC class.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>numpy array of predicted values</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.qsvm.QSVM.predict_proba">
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.qsvm.QSVM.predict_proba" title="Link to this definition">#</a></dt>
+<dd><p>Predict the probability of target value with given features.
+This method is only available for SVC with probability=True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – numpy array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of predicted probabilities</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
@@ -1265,6 +1285,24 @@ Then, many methods use the same interface as the sklearn.svm.SVC class.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.QSVM.predict_proba">
+<span class="sig-name descname"><span class="pre">predict_proba</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.predict_proba" title="Link to this definition">#</a></dt>
+<dd><p>Predict the probability of target value with given features.
+This method is only available for SVC with probability=True.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>np.ndarray</em>) – numpy array of features</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of predicted probabilities</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qxmt.models.QSVM.save">
 <span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.QSVM.save" title="Link to this definition">#</a></dt>
 <dd><p>Save the model to the given path.</p>
@@ -1377,6 +1415,7 @@ Then, many methods use the same interface as the sklearn.svm.SVC class.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.predict_proba"><code class="docutils literal notranslate"><span class="pre">QSVM.predict_proba()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.qsvm.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
 </ul>
@@ -1411,6 +1450,7 @@ Then, many methods use the same interface as the sklearn.svm.SVC class.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.get_params"><code class="docutils literal notranslate"><span class="pre">QSVM.get_params()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.load"><code class="docutils literal notranslate"><span class="pre">QSVM.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict"><code class="docutils literal notranslate"><span class="pre">QSVM.predict()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.predict_proba"><code class="docutils literal notranslate"><span class="pre">QSVM.predict_proba()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.save"><code class="docutils literal notranslate"><span class="pre">QSVM.save()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.QSVM.set_params"><code class="docutils literal notranslate"><span class="pre">QSVM.set_params()</span></code></a></li>
 </ul>

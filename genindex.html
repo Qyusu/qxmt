@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; qxmt 0.2.1 documentation</title>
+    <title>Index &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -35,7 +35,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -131,7 +131,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -387,9 +387,11 @@ document.write(`
 <h2 id="_">_</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qxmt.datasets.html#qxmt.datasets.builder.DatasetBuilder.__init__">__init__() (qxmt.datasets.builder.DatasetBuilder method)</a>
+      <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.__init__">__init__() (qxmt.configs.ExperimentConfig method)</a>
 
       <ul>
+        <li><a href="qxmt.datasets.html#qxmt.datasets.builder.DatasetBuilder.__init__">(qxmt.datasets.builder.DatasetBuilder method)</a>
+</li>
         <li><a href="qxmt.datasets.html#qxmt.datasets.DatasetBuilder.__init__">(qxmt.datasets.DatasetBuilder method)</a>
 </li>
         <li><a href="qxmt.devices.html#qxmt.devices.base.BaseDevice.__init__">(qxmt.devices.base.BaseDevice method)</a>
@@ -429,6 +431,8 @@ document.write(`
         <li><a href="qxmt.experiment.html#qxmt.experiment.Experiment.__init__">(qxmt.experiment.Experiment method)</a>
 </li>
         <li><a href="qxmt.experiment.html#qxmt.experiment.experiment.Experiment.__init__">(qxmt.experiment.experiment.Experiment method)</a>
+</li>
+        <li><a href="qxmt.html#qxmt.ExperimentConfig.__init__">(qxmt.ExperimentConfig method)</a>
 </li>
         <li><a href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap.__init__">(qxmt.feature_maps.base.BaseFeatureMap method)</a>
 </li>
@@ -599,6 +603,12 @@ document.write(`
 
       <ul>
         <li><a href="qxmt.experiment.html#qxmt.experiment.schema.RunRecord.config_path">(qxmt.experiment.schema.RunRecord attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.html#qxmt.configs.EvaluationConfig.custom_metrics">custom_metrics (qxmt.configs.EvaluationConfig attribute)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.EvaluationConfig.custom_metrics">(qxmt.EvaluationConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -921,14 +931,14 @@ document.write(`
         <li><a href="qxmt.models.html#qxmt.models.BaseKernelModel.get_kernel_matrix">(qxmt.models.BaseKernelModel method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.devices.html#qxmt.devices.get_number_of_qubits">get_number_of_qubits() (in module qxmt.devices)</a>
 
       <ul>
         <li><a href="qxmt.devices.html#qxmt.devices.device_info.get_number_of_qubits">(in module qxmt.devices.device_info)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.models.html#qxmt.models.base.BaseMLModel.get_params">get_params() (qxmt.models.base.BaseMLModel method)</a>
 
       <ul>
@@ -951,6 +961,18 @@ document.write(`
         <li><a href="qxmt.experiment.html#qxmt.experiment.Experiment.get_run_record">(qxmt.experiment.Experiment method)</a>
 </li>
         <li><a href="qxmt.experiment.html#qxmt.experiment.experiment.Experiment.get_run_record">(qxmt.experiment.experiment.Experiment method)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.global_settings">global_settings (qxmt.configs.ExperimentConfig attribute)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.ExperimentConfig.global_settings">(qxmt.ExperimentConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.html#qxmt.GlobalSettingsConfig">GlobalSettingsConfig (class in qxmt)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig">(class in qxmt.configs)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1083,6 +1105,12 @@ document.write(`
         <li><a href="qxmt.experiment.html#qxmt.experiment.experiment.Experiment.load_experiment">(qxmt.experiment.experiment.Experiment method)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.load_from_path">load_from_path() (qxmt.configs.ExperimentConfig method)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.ExperimentConfig.load_from_path">(qxmt.ExperimentConfig method)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.utils.html#qxmt.utils.load_object_from_yaml">load_object_from_yaml() (in module qxmt.utils)</a>
 
       <ul>
@@ -1122,6 +1150,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_computed_fields">(qxmt.configs.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_computed_fields">(qxmt.configs.GlobalSettingsConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_computed_fields">(qxmt.configs.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.ModelConfig.model_computed_fields">(qxmt.configs.ModelConfig attribute)</a>
@@ -1154,6 +1184,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_computed_fields">(qxmt.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_computed_fields">(qxmt.GlobalSettingsConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_computed_fields">(qxmt.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ModelConfig.model_computed_fields">(qxmt.ModelConfig attribute)</a>
@@ -1171,6 +1203,8 @@ document.write(`
         <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.model_config">(qxmt.configs.ExperimentConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_config">(qxmt.configs.FeatureMapConfig attribute)</a>
+</li>
+        <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_config">(qxmt.configs.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_config">(qxmt.configs.KernelConfig attribute)</a>
 </li>
@@ -1204,6 +1238,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_config">(qxmt.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_config">(qxmt.GlobalSettingsConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_config">(qxmt.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ModelConfig.model_config">(qxmt.ModelConfig attribute)</a>
@@ -1221,6 +1257,8 @@ document.write(`
         <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.model_fields">(qxmt.configs.ExperimentConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_fields">(qxmt.configs.FeatureMapConfig attribute)</a>
+</li>
+        <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_fields">(qxmt.configs.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_fields">(qxmt.configs.KernelConfig attribute)</a>
 </li>
@@ -1253,6 +1291,8 @@ document.write(`
         <li><a href="qxmt.html#qxmt.ExperimentConfig.model_fields">(qxmt.ExperimentConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_fields">(qxmt.FeatureMapConfig attribute)</a>
+</li>
+        <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_fields">(qxmt.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_fields">(qxmt.KernelConfig attribute)</a>
 </li>
@@ -1502,14 +1542,14 @@ document.write(`
       </ul></li>
       <li><a href="qxmt.visualization.html#qxmt.visualization.plot_2d_decisionon_boundaries">plot_2d_decisionon_boundaries() (in module qxmt.visualization)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.visualization.html#qxmt.visualization.plot_2d_predicted_result">plot_2d_predicted_result() (in module qxmt.visualization)</a>
 
       <ul>
         <li><a href="qxmt.visualization.html#qxmt.visualization.plot_model_performance.plot_2d_predicted_result">(in module qxmt.visualization.plot_model_performance)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.models.html#qxmt.models.base.BaseKernelModel.plot_kernel_matrix">plot_kernel_matrix() (qxmt.models.base.BaseKernelModel method)</a>
 
       <ul>
@@ -1560,6 +1600,12 @@ document.write(`
         <li><a href="qxmt.models.html#qxmt.models.QSVM.predict">(qxmt.models.QSVM method)</a>
 </li>
         <li><a href="qxmt.models.html#qxmt.models.qsvm.QSVM.predict">(qxmt.models.qsvm.QSVM method)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.html#qxmt.models.QSVM.predict_proba">predict_proba() (qxmt.models.QSVM method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.html#qxmt.models.qsvm.QSVM.predict_proba">(qxmt.models.qsvm.QSVM method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1935,7 +1981,11 @@ document.write(`
       <li><a href="qxmt.html#qxmt.configs.DatasetConfig.random_seed">random_seed (qxmt.configs.DatasetConfig attribute)</a>
 
       <ul>
+        <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.random_seed">(qxmt.configs.GlobalSettingsConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.DatasetConfig.random_seed">(qxmt.DatasetConfig attribute)</a>
+</li>
+        <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.random_seed">(qxmt.GlobalSettingsConfig attribute)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.datasets.html#qxmt.datasets.builder.DatasetBuilder.raw_preprocess">raw_preprocess() (qxmt.datasets.builder.DatasetBuilder method)</a>

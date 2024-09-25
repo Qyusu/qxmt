@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.experiment.experiment module &#8212; qxmt 0.2.1 documentation</title>
+    <title>qxmt.experiment.experiment module &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -36,7 +36,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=c480a563"></script>
+    <script src="_static/documentation_options.js?v=d3f42505"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -132,7 +132,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.1 documentation</p>
+    <p class="title logo__title">qxmt 0.2.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -579,16 +579,16 @@ It is more flexible but requires a config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – The dataset object.</p></li>
-<li><p><strong>model</strong> (<a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a>) – The model object.</p></li>
-<li><p><strong>config_source</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – Config source can be either an <cite>ExperimentConfig</cite>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – the dataset object.</p></li>
+<li><p><strong>model</strong> (<a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a>) – the model object.</p></li>
+<li><p><strong>config_source</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – config source can be either an <cite>ExperimentConfig</cite>
 instance or the path to a config file. If a path is provided, it loads and creates an
 <cite>ExperimentConfig</cite> instance. Defaults to None.</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – List of default metrics names. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>, </em><em>optional</em>) – List of user-defined custom metrics. Defaults to None.</p></li>
-<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – Description of the run. Defaults to “”.</p></li>
-<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Path to the git repository. Defaults to None.</p></li>
-<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to add the run record to the experiment. Defaults to True.</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – list of default metrics names. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – list of user defined custom metric configurations. Defaults to None.</p></li>
+<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – description of the run. Defaults to “”.</p></li>
+<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the git repository. Defaults to None.</p></li>
+<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to add the run record to the experiment. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -613,7 +613,7 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual values</p></li>
 <li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted values</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – list of default metrics name</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.html#qxmt.evaluation.base.BaseMetric" title="qxmt.evaluation.base.BaseMetric"><em>BaseMetric</em></a><em>]</em><em>]</em>) – list of user defined custom metrics</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – list of user defined custom metric configurations</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
