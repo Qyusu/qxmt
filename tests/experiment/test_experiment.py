@@ -122,17 +122,18 @@ class TestLoadExperiment:
         assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
 
+class CustomMetric(BaseMetric):
+    def __init__(self, name: str = "custom") -> None:
+        super().__init__(name)
+
+    @staticmethod
+    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+        score = actual[0] + predicted[0]
+
+        return float(score)
+
+
 class TestExperimentRun:
-    class CustomMetric(BaseMetric):
-        def __init__(self, name: str = "custom") -> None:
-            super().__init__(name)
-
-        @staticmethod
-        def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
-            score = actual[0] + predicted[0]
-
-            return float(score)
-
     def test__run_setup(self, base_experiment: Experiment) -> None:
         base_experiment.init()
         assert base_experiment.current_run_id == 0
@@ -165,7 +166,7 @@ class TestExperimentRun:
             assert round(evaluation[key], 2) == value
 
         # default and custom metrics
-        custom_metrics = cast(list[BaseMetric], [self.CustomMetric()])
+        custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
         evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         assert len(evaluation) == 5

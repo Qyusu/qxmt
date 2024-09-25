@@ -88,6 +88,7 @@ class EvaluationConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     default_metrics: list[str]
+    custom_metrics: Optional[list[dict[str, Any]]] = None
 
 
 class ExperimentConfig(BaseModel):

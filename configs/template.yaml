@@ -51,3 +51,10 @@ model:
 
 evaluation:
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  custom_metrics: [
+    {
+      module_name: "custom.evaluation",
+      implement_name: "CustomMetric",
+      params: {}
+    }
+  ]
