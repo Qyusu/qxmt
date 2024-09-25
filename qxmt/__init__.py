@@ -4,6 +4,7 @@ from qxmt.configs import (
     EvaluationConfig,
     ExperimentConfig,
     FeatureMapConfig,
+    GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
     PathConfig,
@@ -35,6 +36,7 @@ __all__ = [
     "ReproductionError",
     "Experiment",
     "ExperimentConfig",
+    "GlobalSettingsConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -45,4 +47,4 @@ __all__ = [
 ]
 
 
-__version__ = "0.2.1"
+__version__ = "0.2.2"

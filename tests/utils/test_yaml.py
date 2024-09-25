@@ -168,7 +168,7 @@ class TestSaveExperimentConfigToYaml:
         experiment_config: ExperimentConfig,
     ) -> None:
         config_file = tmp_path / "config.yaml"
-        save_experiment_config_to_yaml(experiment_config, config_file)
+        save_experiment_config_to_yaml(experiment_config, config_file, delete_source_path=False)
 
         with open(config_file, "r") as file:
             loaded_config = yaml.safe_load(file)
@@ -186,7 +186,7 @@ class TestSaveExperimentConfigToYaml:
         experiment_config: ExperimentConfig,
     ) -> None:
         config_file = tmp_path / "config.yaml"
-        save_experiment_config_to_yaml(experiment_config, config_file, delete_path=True)
+        save_experiment_config_to_yaml(experiment_config, config_file, delete_source_path=True)
 
         with open(config_file, "r") as file:
             loaded_config = yaml.safe_load(file)

@@ -1,10 +1,11 @@
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 import pandas as pd
 
 from qxmt.constants import DEFAULT_METRICS_NAME
 from qxmt.evaluation.defaults import Accuracy, BaseMetric, F1Score, Precision, Recall
+from qxmt.utils import load_object_from_yaml
 
 NAME2METRIC = {
     "accuracy": Accuracy,
@@ -38,7 +39,7 @@ class Evaluation:
         actual: np.ndarray,
         predicted: np.ndarray,
         default_metrics_name: Optional[list[str]] = None,
-        custom_metrics: Optional[list[BaseMetric]] = None,
+        custom_metrics: Optional[list[dict[str, Any]]] = None,
     ) -> None:
         """Initialize the evaluation class.
 
@@ -47,7 +48,7 @@ class Evaluation:
             predicted (np.ndarray): numpy array of predicted values
             default_metrics_name (Optional[list[str]], optional):
                 metrics name list defined by default. Defaults to None.
-            custom_metrics (Optional[list[BaseMetric]], optional):
+            custom_metrics (Optional[list[dict[str, Any]]], optional):
                 metrics name list defined by user custom. Defaults to None.
         """
         self.actual: np.ndarray = actual
@@ -87,7 +88,7 @@ class Evaluation:
             metric = NAME2METRIC[metric_name]()
             self.default_metrics.append(metric)
 
-    def init_custom_metrics(self, custom_metrics: Optional[list[BaseMetric]]) -> None:
+    def init_custom_metrics(self, custom_metrics: Optional[list[dict[str, Any]]]) -> None:
         """Initialize and validate custom metrics.
 
         Args:
@@ -96,13 +97,16 @@ class Evaluation:
         Raises:
             ValueError: if the metric is not subclass of BaseMetric
         """
-        self.custom_metrics = custom_metrics if custom_metrics is not None else []
-
         self.custom_metrics_name = []
-        if len(self.custom_metrics) > 0:
-            for metric in self.custom_metrics:
+        self.custom_metrics = []
+
+        if custom_metrics is not None:
+            for metric_config in custom_metrics:
+                metric = load_object_from_yaml(config=metric_config)
                 if not isinstance(metric, BaseMetric):
                     raise ValueError("Custom metrics must be a subclass of BaseMetric.")
+
+                self.custom_metrics.append(metric)
                 self.custom_metrics_name.append(metric.name)
 
     def set_evaluation_result(self, metrics: list[BaseMetric]) -> None:

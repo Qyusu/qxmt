@@ -63,6 +63,18 @@ class QSVM(BaseKernelModel):
         """
         return self.model.predict(X)
 
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """Predict the probability of target value with given features.
+        This method is only available for SVC with probability=True.
+
+        Args:
+            X (np.ndarray): numpy array of features
+
+        Returns:
+            np.ndarray: numpy array of predicted probabilities
+        """
+        return self.model.predict_proba(X)
+
     def save(self, path: str | Path) -> None:
         """Save the model to the given path.
 

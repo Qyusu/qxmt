@@ -122,17 +122,18 @@ class TestLoadExperiment:
         assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
 
+class CustomMetric(BaseMetric):
+    def __init__(self, name: str = "custom") -> None:
+        super().__init__(name)
+
+    @staticmethod
+    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+        score = actual[0] + predicted[0]
+
+        return float(score)
+
+
 class TestExperimentRun:
-    class CustomMetric(BaseMetric):
-        def __init__(self, name: str = "custom") -> None:
-            super().__init__(name)
-
-        @staticmethod
-        def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
-            score = actual[0] + predicted[0]
-
-            return float(score)
-
     def test__run_setup(self, base_experiment: Experiment) -> None:
         base_experiment.init()
         assert base_experiment.current_run_id == 0
@@ -165,7 +166,7 @@ class TestExperimentRun:
             assert round(evaluation[key], 2) == value
 
         # default and custom metrics
-        custom_metrics = cast(list[BaseMetric], [self.CustomMetric()])
+        custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
         evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         assert len(evaluation) == 5
@@ -236,6 +237,7 @@ class TestExperimentRun:
         artifact, _ = base_experiment.run(config_source=experiment_config)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
@@ -246,13 +248,16 @@ class TestExperimentRun:
         # not add result record
         _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+        assert not base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert not base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
 
         # run from config instance
         experiment_config_file = tmp_path / "experiment_config.yaml"
-        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_path=True)
+        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
         artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 

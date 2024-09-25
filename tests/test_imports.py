@@ -13,6 +13,7 @@ EXPECTED_ALL = [
     "ReproductionError",
     "Experiment",
     "ExperimentConfig",
+    "GlobalSettingsConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
