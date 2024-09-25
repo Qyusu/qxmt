@@ -36,7 +36,7 @@ from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
     get_git_rm_code,
-    load_yaml_config,
+    save_experiment_config_to_yaml,
 )
 
 USE_LLM = os.getenv("USE_LLM", "FALSE").lower() == "true"
@@ -492,6 +492,9 @@ class Experiment:
         if add_results:
             self.exp_db.runs.append(record)  # type: ignore
             self.save_experiment()
+            if config_source is not None:
+                save_experiment_config_to_yaml(config, current_run_dirc / "config.yaml", delete_source_path=True)
+                # [TODO]: convert dataset and model instance to config and store it in the run directory
 
         return artifact, record
 

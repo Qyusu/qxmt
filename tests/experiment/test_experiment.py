@@ -236,6 +236,7 @@ class TestExperimentRun:
         artifact, _ = base_experiment.run(config_source=experiment_config)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
@@ -246,13 +247,16 @@ class TestExperimentRun:
         # not add result record
         _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+        assert not base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert not base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
 
         # run from config instance
         experiment_config_file = tmp_path / "experiment_config.yaml"
-        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_path=True)
+        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
         artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
