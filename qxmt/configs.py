@@ -106,6 +106,7 @@ class ExperimentConfig(BaseModel):
 
     def __init__(self, **data: Any) -> None:
         """Initialize the experiment configuration.
+
         Case 1:
             Load the configuration from a file path.
             This case the data is a dictionary with a single key "path".
