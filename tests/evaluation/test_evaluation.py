@@ -8,6 +8,29 @@ from qxmt.evaluation.defaults import BaseMetric
 DEFAULT_METRICS_NUM = len(DEFAULT_METRICS_NAME)
 
 
+class CustomMetric(BaseMetric):
+    def __init__(self, name: str = "custom") -> None:
+        super().__init__(name)
+
+    @staticmethod
+    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+        score = actual[0] + predicted[0]
+
+        return float(score)
+
+
+class ErrorCustomMetric:
+    # not inherit BaseMetric
+    def __init__(self, name: str = "error_custom") -> None:
+        self.name = name
+
+    @staticmethod
+    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+        score = actual[0] + predicted[0]
+
+        return float(score)
+
+
 class TestEvaluation:
     @pytest.fixture(scope="function")
     def base_evaluation(self) -> Evaluation:
@@ -23,30 +46,15 @@ class TestEvaluation:
         )
 
     @pytest.fixture(scope="function")
-    def custom_metrics(self) -> list[BaseMetric]:
-        class Custom(BaseMetric):
-            def __init__(self, name: str = "custom") -> None:
-                super().__init__(name)
-
-            @staticmethod
-            def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
-                score = actual[0] + predicted[0]
-
-                return float(score)
-
-        return [Custom()]
-
-    @pytest.fixture(scope="function")
-    def custom_evaluation(self, custom_metrics: list[BaseMetric]) -> Evaluation:
+    def custom_evaluation(self) -> Evaluation:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
         default_metrics_name = None
-        custom_metrics = custom_metrics
         return Evaluation(
             actual=actual,
             predicted=predicted,
             default_metrics_name=default_metrics_name,
-            custom_metrics=custom_metrics,
+            custom_metrics=[{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}],
         )
 
     def test_init_default_metrics(self, base_evaluation: Evaluation) -> None:
@@ -77,7 +85,11 @@ class TestEvaluation:
 
         # value error if custom metrics is not BaseMetric instance
         with pytest.raises(ValueError):
-            Evaluation(actual=np.array([0, 1]), predicted=np.array([0, 1]), custom_metrics=[1])  # type: ignore
+            Evaluation(
+                actual=np.array([0, 1]),
+                predicted=np.array([0, 1]),
+                custom_metrics=[{"module_name": __name__, "implement_name": "ErrorCustomMetric", "params": {}}],
+            )
 
     def test_set_evaluation_result(self, base_evaluation: Evaluation) -> None:
         base_evaluation.set_evaluation_result(base_evaluation.default_metrics)

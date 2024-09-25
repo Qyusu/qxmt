@@ -1,3 +1,4 @@
+import copy
 import importlib
 import types
 from functools import wraps
@@ -84,19 +85,24 @@ def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
 def save_experiment_config_to_yaml(
     config: ExperimentConfig,
     save_path: str | Path,
-    delete_path: bool = False,
+    delete_source_path: bool = True,
 ) -> None:
     """Save the experiment configuration to a yaml file.
 
     Args:
         config (ExperimentConfig): experiment configuration
-        save_path (str | Path): path to save the yaml file
+        save_path (str | Path): path to save the configuration file
+        delete_source_path (bool, optional): delete the source path in the configuration. Defaults to True.
     """
-    config_dict = config.model_dump()
-    if delete_path:
+    save_config = copy.deepcopy(config)
+
+    if save_config.dataset.path is not None:
+        save_config.dataset.path.data = str(save_config.dataset.path.data)
+        save_config.dataset.path.label = str(save_config.dataset.path.label)
+
+    config_dict = save_config.model_dump()
+    if delete_source_path:
         del config_dict["path"]
-    config_dict["dataset"]["path"]["data"] = str(config_dict["dataset"]["path"]["data"])
-    config_dict["dataset"]["path"]["label"] = str(config_dict["dataset"]["path"]["label"])
 
     with open(save_path, "w") as file:
-        yaml.dump(config_dict, file)
+        yaml.dump(config_dict, file, sort_keys=False)
