@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Practical case with custom functions and MNIST dataset &#8212; qxmt 0.2.2 documentation</title>
+    <title>Practical Case with Custom Functions and the MNIST Dataset &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/en/mnist_custom';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="Simple case using only the default dataset and model" href="default_simple.html" />
+    <link rel="prev" title="Simple Case Using Only the Default Dataset and Model" href="default_simple.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -230,9 +230,9 @@
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../tutorial_top.html">Tutorial: Apply the QXMT to your own experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="default_simple.html">Simple case using only the default dataset and model</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Practical case with custom functions and MNIST dataset</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 </ul>
 </details></li>
 </ul>
@@ -388,7 +388,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Practical case with custom functions and MNIST dataset</h1>
+    <h1>Practical Case with Custom Functions and the MNIST Dataset</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -421,12 +421,12 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="practical-case-with-custom-functions-and-mnist-dataset">
-<h1>Practical case with custom functions and MNIST dataset<a class="headerlink" href="#practical-case-with-custom-functions-and-mnist-dataset" title="Link to this heading">#</a></h1>
-<p>In this tutorial, a custom feature using the MNIST dataset is introduced as a more practical example. For those new to QXMT, starting with “Simple case using only the default dataset and model” is recommended to gain an overview.</p>
+  <section id="practical-case-with-custom-functions-and-the-mnist-dataset">
+<h1>Practical Case with Custom Functions and the MNIST Dataset<a class="headerlink" href="#practical-case-with-custom-functions-and-the-mnist-dataset" title="Link to this heading">#</a></h1>
+<p>In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you’re new to QXMT, it is recommended to start with the “Simple Case Using Only the Default Dataset and Model” tutorial to gain an overall understanding.</p>
 <section id="preparing-the-dataset">
 <h2>1. Preparing the Dataset<a class="headerlink" href="#preparing-the-dataset" title="Link to this heading">#</a></h2>
-<p>To begin managing experiments, downloading the MNIST dataset is necessary. Major datasets can be easily downloaded using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">fetch_openml</a> method.</p>
+<p>To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> method <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">fetch_openml</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 
@@ -448,23 +448,23 @@ document.write(`
 <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/mnist_784/label.npy&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows downloading data within QXMT by integrating with the OpenML API.</strong></p>
+<p><strong>Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows data to be downloaded directly within QXMT by integrating with the OpenML API.</strong></p>
 </section>
 <section id="implementing-custom-features">
 <h2>2. Implementing Custom Features<a class="headerlink" href="#implementing-custom-features" title="Link to this heading">#</a></h2>
 <p>In QXMT, custom features can be defined in the following five categories:</p>
 <ul class="simple">
-<li><p><strong>Dataset</strong>: Preprocessing logic (<code class="docutils literal notranslate"><span class="pre">raw_preprocess_logic</span></code>) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (<code class="docutils literal notranslate"><span class="pre">transform_logic</span></code>) for discretization and dimensionality reduction.</p></li>
+<li><p><strong>Dataset</strong>: Preprocessing logic (<code class="docutils literal notranslate"><span class="pre">raw_preprocess_logic</span></code>) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (<code class="docutils literal notranslate"><span class="pre">transform_logic</span></code>) for tasks like discretization and dimensionality reduction.</p></li>
 <li><p><strong>Feature Map</strong>: Custom feature maps can be defined as functions or quantum circuits.</p></li>
 <li><p><strong>Kernel</strong>: Custom kernel functions can be defined.</p></li>
 <li><p><strong>Model</strong>: Custom quantum machine learning models can be defined.</p></li>
-<li><p><strong>Evaluation</strong>: Custom evaluation metrics can be defined and managed as logs for each experiment.</p></li>
+<li><p><strong>Evaluation</strong>: Custom evaluation metrics can be defined and tracked as logs for each experiment.</p></li>
 </ul>
-<p>This tutorial introduces how to implement and manage experiments in QXMT using three commonly used features: <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">Feature</span> <span class="pre">Map</span></code>, and <code class="docutils literal notranslate"><span class="pre">Evaluation</span></code>. Other features can also be implemented, called, and managed in a similar manner, encouraging exploration of those options.</p>
+<p>This tutorial demonstrates how to implement and manage experiments in QXMT using three commonly used features: <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">Feature</span> <span class="pre">Map</span></code>, and <code class="docutils literal notranslate"><span class="pre">Evaluation</span></code>. Other features can be similarly implemented, invoked, and managed, allowing for further exploration of those options.</p>
 <section id="custom-definition-of-dataset-processing-logic">
 <h3>2.1 Custom Definition of Dataset Processing Logic<a class="headerlink" href="#custom-definition-of-dataset-processing-logic" title="Link to this heading">#</a></h3>
-<p>For the dataset, two logics can be independently defined: preprocessing logic and transformation logic.</p>
-<p>First, the implementation of the preprocessing logic will be addressed. This involves filtering the MNIST dataset to specific labels out of the ten total classes. Additionally, to address the significant computational complexity of quantum kernels, functionality to narrow down the sample size of the data is also added.</p>
+<p>For the dataset, two types of logic can be independently defined: preprocessing logic and transformation logic.</p>
+<p>We will first address the implementation of the preprocessing logic. This involves filtering the MNIST dataset to focus on specific labels from the ten total classes. Additionally, due to the significant computational complexity of quantum kernels, functionality to reduce the sample size of the data is also included.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/raw_preprocess_logic.py</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -481,7 +481,7 @@ document.write(`
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
 </pre></div>
 </div>
-<p>Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the size is compressed using the parameter <code class="docutils literal notranslate"><span class="pre">n_components</span></code> to a manageable size for the computing environment being used.</p>
+<p>Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the data is compressed using the <code class="docutils literal notranslate"><span class="pre">n_components</span></code> parameter to a manageable size based on the computing environment being used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/transform_logic.py</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -512,8 +512,8 @@ document.write(`
 </section>
 <section id="custom-definition-of-feature-map">
 <h3>2.2 Custom Definition of Feature Map<a class="headerlink" href="#custom-definition-of-feature-map" title="Link to this heading">#</a></h3>
-<p>QXMT provides basic feature maps, such as those constructed with Rotation Gates and ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, there are often opportunities to utilize more complex feature maps. Therefore, it is possible to implement a custom feature map and call it via the config. This approach facilitates easier experimentation with feature map design.</p>
-<p>In this tutorial, a quantum circuit using Pennylane has been implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is essential to inherit from the abstract class <code class="docutils literal notranslate"><span class="pre">qxmt.feature_maps.BaseFeatureMap</span></code> for implementation. This ensures compatibility while utilizing various functionalities within QXMT. If creating a class each time is cumbersome, there is also an option to pass a function that implements the FeatureMap to the Kernel class, so please refer to the API Reference for details.</p>
+<p>QXMT provides basic feature maps, such as those constructed with Rotation Gates and the ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, more complex feature maps are often needed. Therefore, QXMT allows the implementation of custom feature maps that can be invoked via the configuration. This approach makes it easier to experiment with different feature map designs.</p>
+<p>In this tutorial, a quantum circuit using PennyLane is implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is important to inherit from the abstract class <code class="docutils literal notranslate"><span class="pre">qxmt.feature_maps.BaseFeatureMap</span></code> to ensure compatibility and take advantage of QXMT’s various functionalities. If creating a class for each feature map is too cumbersome, you can also pass a function that implements the FeatureMap to the Kernel class. For more details, please refer to the API Reference.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/feature_map.py</span>
 
 <span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
@@ -543,8 +543,8 @@ document.write(`
 </section>
 <section id="custom-definition-of-evaluation-metrics">
 <h3>2.3 Custom Definition of Evaluation Metrics<a class="headerlink" href="#custom-definition-of-evaluation-metrics" title="Link to this heading">#</a></h3>
-<p>At the end of this section, a custom evaluation metric will be defined. Default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, but additional evaluation metrics are often necessary depending on specific goals. In such cases, experimentation management can be conducted similarly to the default metrics using the method introduced here.</p>
-<p>In this tutorial, specificity will be defined as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from <code class="docutils literal notranslate"><span class="pre">qxmt.evaluation.BaseMetric</span></code>, and the logic for calculating the evaluation value should be implemented in the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
+<p>In this section, we will define a custom evaluation metric. While default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, additional evaluation metrics are often required depending on specific goals. In such cases, you can manage experiments in the same way as with the default metrics using the method introduced here.</p>
+<p>In this tutorial, we will define specificity as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from <code class="docutils literal notranslate"><span class="pre">qxmt.evaluation.BaseMetric</span></code>, and the logic for calculating the evaluation value should be implemented in the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/evaluation.py</span>
 
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
@@ -564,12 +564,12 @@ document.write(`
         <span class="k">return</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The implementation of custom logic related to the dataset, feature map, and evaluation metric has been completed. The implemented logic can accept several parameters, which can be configured through the Run’s config, allowing for easy execution of experiments under different conditions. Details will be introduced in Chapter 3.</p>
+<p>The implementation of custom logic for the dataset, feature map, and evaluation metrics has been completed. The implemented logic can accept various parameters, which can be configured through the Run’s configuration, enabling easy execution of experiments under different conditions. More details will be introduced in Chapter 3.</p>
 </section>
 </section>
 <section id="configuring-run-settings">
 <h2>3. Configuring Run Settings<a class="headerlink" href="#configuring-run-settings" title="Link to this heading">#</a></h2>
-<p>This section introduces the items that need to be configured in config to utilize the implemented custom methods. Areas that require additional configuration are marked with the <code class="docutils literal notranslate"><span class="pre">[SETUP]</span></code> tag. The main configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under <code class="docutils literal notranslate"><span class="pre">params</span></code>, allowing them to be passed as arguments during execution.</p>
+<p>This section explains the items that need to be configured in the configuration file to utilize the implemented custom methods. Areas that require additional configuration are marked with the <code class="docutils literal notranslate"><span class="pre">[SETUP]</span></code> tag. The primary configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under <code class="docutils literal notranslate"><span class="pre">params</span></code>, allowing them to be passed as arguments during execution.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/configs/custom.yaml</span>
 
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">custom</span><span class="nv"> </span><span class="s">MNIST</span><span class="nv"> </span><span class="s">case&quot;</span>
@@ -627,7 +627,7 @@ document.write(`
 </section>
 <section id="executing-experiments-and-evaluation">
 <h2>4. Executing Experiments and Evaluation<a class="headerlink" href="#executing-experiments-and-evaluation" title="Link to this heading">#</a></h2>
-<p>Finally, an instance of the QXMT experiment management will be generated, and the previously defined config file will be set to execute the Run.</p>
+<p>Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
 <span class="c1"># initialize experiment for custom tutorial</span>
@@ -705,7 +705,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Simple case using only the default dataset and model</p>
+        <p class="prev-next-title">Simple Case Using Only the Default Dataset and Model</p>
       </div>
     </a>
 </div>
