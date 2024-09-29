@@ -457,7 +457,7 @@ document.write(`
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
-<span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_tutorial&quot;</span><span class="p">,</span>
     <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A simple experiment to check the operation of the QXMT library&quot;</span><span class="p">,</span>
     <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -526,7 +526,7 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../data/configs/simple.yaml&quot;</span>
 
 <span class="c1"># input config file</span>
-<span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+<span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method by specifying only the configuration. When a Run is executed, it returns an <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and a <code class="docutils literal notranslate"><span class="pre">result</span></code>. The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> includes the dataset (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>) and machine learning model (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>) used in the Run. The <code class="docutils literal notranslate"><span class="pre">result</span></code> contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.</p>
@@ -539,13 +539,13 @@ document.write(`
 <span class="n">update_config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}</span>
 
 <span class="c1"># input the updated config instance</span>
-<span class="n">artifact_2</span><span class="p">,</span> <span class="n">result_2</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">artifact_2</span><span class="p">,</span> <span class="n">result_2</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and <code class="docutils literal notranslate"><span class="pre">result</span></code> obtained from the execution will have the same format as those generated when running from a configuration file.</p>
 <p>The results of each Run can be retrieved as a DataFrame containing the metrics specified in <code class="docutils literal notranslate"><span class="pre">evaluation.default_metrics</span></code> by executing the following code:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># extract the results as a pandas dataframe</span>
-<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
 
 <span class="n">metrics_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 <span class="c1"># output</span>
@@ -580,13 +580,13 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
 <span class="c1"># get run result as dataframe</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
 
 <span class="n">plot_metrics_side_by_side</span><span class="p">(</span>
   <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
   <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">],</span>
   <span class="n">run_ids</span><span class="o">=</span><span class="n">run_ids</span><span class="p">,</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
   <span class="p">)</span>
 </pre></div>
 </div>
@@ -607,7 +607,7 @@ document.write(`
   <span class="n">dataet</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
   <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
   <span class="n">support_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">exp</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
@@ -622,7 +622,7 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/09/16</p></td>
+<td><p>2024/09/29</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
 <td><p>v0.2.1</p></td>

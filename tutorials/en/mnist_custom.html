@@ -631,7 +631,7 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
 <span class="c1"># initialize experiment for custom tutorial</span>
-<span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;custom_tutorial&quot;</span><span class="p">,</span>
     <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A custome experiment for MNIST dataset&quot;</span><span class="p">,</span>
     <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -639,10 +639,10 @@ document.write(`
 
 <span class="c1"># execute run of custom method</span>
 <span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/custom.yaml&quot;</span>
-<span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+<span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 
 <span class="c1"># check evaluation result</span>
-<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="n">metrics_df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
 <span class="n">metrics_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 <span class="c1"># output</span>
 <span class="c1">#       run_id  accuracy  precision  recall  f1_score</span>
@@ -654,14 +654,14 @@ document.write(`
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
 <span class="c1"># get run result as dataframe</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
 
 <span class="c1"># add your custom metrics on metrics list</span>
 <span class="n">plot_metrics_side_by_side</span><span class="p">(</span>
   <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
   <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">,</span> <span class="s2">&quot;specificity&quot;</span><span class="p">],</span>
   <span class="n">run_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
   <span class="p">)</span>
 </pre></div>
 </div>
@@ -676,7 +676,7 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/09/22</p></td>
+<td><p>2024/09/29</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
 <td><p>v0.2.1</p></td>

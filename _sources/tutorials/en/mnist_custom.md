@@ -220,7 +220,7 @@ Finally, an instance of the QXMT experiment management system will be created, a
 import qxmt
 
 # initialize experiment for custom tutorial
-exp = qxmt.Experiment(
+experiment = qxmt.Experiment(
     name="custom_tutorial",
     desc="A custome experiment for MNIST dataset",
     auto_gen_mode=False,
@@ -228,10 +228,10 @@ exp = qxmt.Experiment(
 
 # execute run of custom method
 config_path = "../configs/custom.yaml"
-artifact, result = exp.run(config_source=config_path)
+artifact, result = experiment.run(config_source=config_path)
 
 # check evaluation result
-metrics_df = exp.runs_to_dataframe()
+metrics_df = experiment.runs_to_dataframe()
 metrics_df.head()
 # output
 #       run_id  accuracy  precision  recall  f1_score
@@ -245,14 +245,14 @@ The results of the experiment, including the custom-defined evaluation metrics, 
 from qxmt.visualization import plot_metrics_side_by_side
 
 # get run result as dataframe
-df = exp.runs_to_dataframe()
+df = experiment.runs_to_dataframe()
 
 # add your custom metrics on metrics list
 plot_metrics_side_by_side(
   df=df,
   metrics=["accuracy", "recall", "precision", "f1_score", "specificity"],
   run_ids=[1],
-  save_path=exp.experiment_dirc / "side_by_side.png"
+  save_path=experiment.experiment_dirc / "side_by_side.png"
   )
 ```
 <img src="../../_static/images/tutorials/custom/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
@@ -261,5 +261,5 @@ plot_metrics_side_by_side(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/22 |
+| document | 2024/09/29 |
 | QXMT| v0.2.1 |

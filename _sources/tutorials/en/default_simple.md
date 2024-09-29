@@ -39,7 +39,7 @@ First, import the packages installed via pip. Then, create an `Experiment` insta
 ``` python
 import qxmt
 
-exp = qxmt.Experiment(
+experiment = qxmt.Experiment(
     name="simple_tutorial",
     desc="A simple experiment to check the operation of the QXMT library",
     auto_gen_mode=False,
@@ -110,7 +110,7 @@ In this step, you will execute the Run configured in Step 2. There are two metho
 config_path = "../data/configs/simple.yaml"
 
 # input config file
-artifact_1, result_1 = exp.run(config_source=config_path)
+artifact_1, result_1 = experiment.run(config_source=config_path)
 ```
 
 When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method by specifying only the configuration. When a Run is executed, it returns an `artifact` and a `result`. The `artifact` includes the dataset (`artifact.dataset`) and machine learning model (`artifact.model`) used in the Run. The `result` contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.
@@ -126,7 +126,7 @@ update_config = yaml.safe_load(open(config))
 update_config["model"]["params"] = {'C': 0.1, 'gamma': 0.1}
 
 # input the updated config instance
-artifact_2, result_2 = exp.run(config_source=config)
+artifact_2, result_2 = experiment.run(config_source=config)
 ```
 
 The `artifact` and `result` obtained from the execution will have the same format as those generated when running from a configuration file.
@@ -135,7 +135,7 @@ The results of each Run can be retrieved as a DataFrame containing the metrics s
 
 ``` python
 # extract the results as a pandas dataframe
-metrics_df = exp.runs_to_dataframe()
+metrics_df = experiment.runs_to_dataframe()
 
 metrics_df.head()
 # output
@@ -173,13 +173,13 @@ In this section, we explain how to visualize and compare evaluation metrics when
 from qxmt.visualization import plot_metrics_side_by_side
 
 # get run result as dataframe
-df = exp.runs_to_dataframe()
+df = experiment.runs_to_dataframe()
 
 plot_metrics_side_by_side(
   df=df,
   metrics=["accuracy", "recall", "precision", "f1_score"],
   run_ids=run_ids,
-  save_path=exp.experiment_dirc / "side_by_side.png"
+  save_path=experiment.experiment_dirc / "side_by_side.png"
   )
 ```
 
@@ -203,7 +203,7 @@ plot_2d_decisionon_boundaries(
   dataet=dataset,
   grid_resolution=30,
   support_vectors=True,
-  save_path=exp.experiment_dirc / f"run_{exp.current_run_id}/boundary.png")
+  save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/boundary.png")
 ```
 
 <img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
@@ -212,5 +212,5 @@ plot_2d_decisionon_boundaries(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/16 |
+| document | 2024/09/29 |
 | QXMT| v0.2.1 |
