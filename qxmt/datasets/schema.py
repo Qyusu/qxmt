@@ -1,4 +1,4 @@
-from typing import Annotated, Any
+from typing import Annotated, Any, Optional
 
 import numpy as np
 from pydantic import BaseModel, PlainSerializer, PlainValidator
@@ -29,6 +29,8 @@ class Dataset(BaseModel):
 
     X_train: DataArray
     y_train: DataArray
+    X_val: Optional[DataArray]
+    y_val: Optional[DataArray]
     X_test: DataArray
     y_test: DataArray
     config: DatasetConfig

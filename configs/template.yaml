@@ -10,7 +10,11 @@ dataset:
     label: "data/mnist_784/label.npy"
   params: {}
   random_seed: *global_seed
-  test_size: 0.2
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
   features: null
   raw_preprocess_logic:
       module_name: "qxmt.datasets.raw_preprocess.sampling"
