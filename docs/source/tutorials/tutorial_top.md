@@ -1,7 +1,7 @@
-# Tutorial: Apply the QXMT to your own experiments
-Here, we provide tutorials to help you effectively apply QXMT to your project.
+# Tutorial: Applying QXMT to Your Own Experiments
+In this section, we provide tutorials to help you effectively integrate QXMT into your projects.
 
-If you are first time to use QXMT, we recommend starting with the first tutorial (Simple case using only the default dataset and model), which focuses solely on the default features of QXMT. Once you’re familiar with the basics, refer to the subsequent tutorials as needed when applying the tool to your own project.
+If this is your first time using QXMT, we recommend starting with the first tutorial, “Simple Case Using Only the Default Dataset and Model,” which focuses on QXMT’s default features. Once you’re comfortable with the basics, you can move on to the subsequent tutorials, which will guide you through applying the tool to your own experiments.
 
 ## Tutorial List
 ```{toctree}

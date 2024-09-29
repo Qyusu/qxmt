@@ -1,9 +1,9 @@
-# Practical case with custom functions and MNIST dataset
+# Practical Case with Custom Functions and the MNIST Dataset
 
-In this tutorial, a custom feature using the MNIST dataset is introduced as a more practical example. For those new to QXMT, starting with “Simple case using only the default dataset and model” is recommended to gain an overview.
+In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you're new to QXMT, it is recommended to start with the "Simple Case Using Only the Default Dataset and Model" tutorial to gain an overall understanding.
 
 ## 1. Preparing the Dataset
-To begin managing experiments, downloading the MNIST dataset is necessary. Major datasets can be easily downloaded using the `scikit-learn` [fetch_openml](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html) method.
+To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the `scikit-learn` method [fetch_openml](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html).
 
 ``` python
 import numpy as np
@@ -27,25 +27,24 @@ np.save("./data/mnist_784/images.npy", X)
 np.save("./data/mnist_784/label.npy", y)
 ```
 
-**Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows downloading data within QXMT by integrating with the OpenML API.**
-
+**Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows data to be downloaded directly within QXMT by integrating with the OpenML API.**
 
 ## 2. Implementing Custom Features
 
 In QXMT, custom features can be defined in the following five categories:
 
-- **Dataset**: Preprocessing logic (`raw_preprocess_logic`) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (`transform_logic`) for discretization and dimensionality reduction.
+- **Dataset**: Preprocessing logic (`raw_preprocess_logic`) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (`transform_logic`) for tasks like discretization and dimensionality reduction.
 - **Feature Map**: Custom feature maps can be defined as functions or quantum circuits.
 - **Kernel**: Custom kernel functions can be defined.
 - **Model**: Custom quantum machine learning models can be defined.
-- **Evaluation**: Custom evaluation metrics can be defined and managed as logs for each experiment.
+- **Evaluation**: Custom evaluation metrics can be defined and tracked as logs for each experiment.
 
-This tutorial introduces how to implement and manage experiments in QXMT using three commonly used features: `Dataset`, `Feature Map`, and `Evaluation`. Other features can also be implemented, called, and managed in a similar manner, encouraging exploration of those options.
+This tutorial demonstrates how to implement and manage experiments in QXMT using three commonly used features: `Dataset`, `Feature Map`, and `Evaluation`. Other features can be similarly implemented, invoked, and managed, allowing for further exploration of those options.
 
 ### 2.1 Custom Definition of Dataset Processing Logic
-For the dataset, two logics can be independently defined: preprocessing logic and transformation logic.
+For the dataset, two types of logic can be independently defined: preprocessing logic and transformation logic.
 
-First, the implementation of the preprocessing logic will be addressed. This involves filtering the MNIST dataset to specific labels out of the ten total classes. Additionally, to address the significant computational complexity of quantum kernels, functionality to narrow down the sample size of the data is also added.
+We will first address the implementation of the preprocessing logic. This involves filtering the MNIST dataset to focus on specific labels from the ten total classes. Additionally, due to the significant computational complexity of quantum kernels, functionality to reduce the sample size of the data is also included.
 
 ``` python
 # File: your_project/custom/raw_preprocess_logic.py
@@ -64,7 +63,7 @@ def sampling_by_each_class(
     return X, y
 ```
 
-Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the size is compressed using the parameter `n_components` to a manageable size for the computing environment being used.
+Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the data is compressed using the `n_components` parameter to a manageable size based on the computing environment being used.
 
 ``` python
 # File: your_project/custom/transform_logic.py
@@ -96,9 +95,9 @@ def dimension_reduction_by_pca(
 
 ### 2.2 Custom Definition of Feature Map
 
-QXMT provides basic feature maps, such as those constructed with Rotation Gates and ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, there are often opportunities to utilize more complex feature maps. Therefore, it is possible to implement a custom feature map and call it via the config. This approach facilitates easier experimentation with feature map design.
+QXMT provides basic feature maps, such as those constructed with Rotation Gates and the ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, more complex feature maps are often needed. Therefore, QXMT allows the implementation of custom feature maps that can be invoked via the configuration. This approach makes it easier to experiment with different feature map designs.
 
-In this tutorial, a quantum circuit using Pennylane has been implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is essential to inherit from the abstract class `qxmt.feature_maps.BaseFeatureMap` for implementation. This ensures compatibility while utilizing various functionalities within QXMT. If creating a class each time is cumbersome, there is also an option to pass a function that implements the FeatureMap to the Kernel class, so please refer to the API Reference for details.
+In this tutorial, a quantum circuit using PennyLane is implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is important to inherit from the abstract class `qxmt.feature_maps.BaseFeatureMap` to ensure compatibility and take advantage of QXMT's various functionalities. If creating a class for each feature map is too cumbersome, you can also pass a function that implements the FeatureMap to the Kernel class. For more details, please refer to the API Reference.
 
 ``` python
 # File: your_project/custom/feature_map.py
@@ -129,9 +128,9 @@ class CustomFeatureMap(BaseFeatureMap):
 
 ### 2.3 Custom Definition of Evaluation Metrics
 
-At the end of this section, a custom evaluation metric will be defined. Default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, but additional evaluation metrics are often necessary depending on specific goals. In such cases, experimentation management can be conducted similarly to the default metrics using the method introduced here.
+In this section, we will define a custom evaluation metric. While default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, additional evaluation metrics are often required depending on specific goals. In such cases, you can manage experiments in the same way as with the default metrics using the method introduced here.
 
-In this tutorial, specificity will be defined as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from `qxmt.evaluation.BaseMetric`, and the logic for calculating the evaluation value should be implemented in the `evaluate` method.
+In this tutorial, we will define specificity as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from `qxmt.evaluation.BaseMetric`, and the logic for calculating the evaluation value should be implemented in the `evaluate` method.
 
 ``` python
 # File: your_project/custom/evaluation.py
@@ -153,11 +152,11 @@ class CustomMetric(BaseMetric):
         return tn / (tn + fp)
 ```
 
-The implementation of custom logic related to the dataset, feature map, and evaluation metric has been completed. The implemented logic can accept several parameters, which can be configured through the Run’s config, allowing for easy execution of experiments under different conditions. Details will be introduced in Chapter 3.
+The implementation of custom logic for the dataset, feature map, and evaluation metrics has been completed. The implemented logic can accept various parameters, which can be configured through the Run's configuration, enabling easy execution of experiments under different conditions. More details will be introduced in Chapter 3.
 
 ## 3. Configuring Run Settings
 
-This section introduces the items that need to be configured in config to utilize the implemented custom methods. Areas that require additional configuration are marked with the `[SETUP]` tag. The main configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under `params`, allowing them to be passed as arguments during execution.
+This section explains the items that need to be configured in the configuration file to utilize the implemented custom methods. Areas that require additional configuration are marked with the `[SETUP]` tag. The primary configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under `params`, allowing them to be passed as arguments during execution.
 
 ```yaml
 # File: your_project/configs/custom.yaml
@@ -215,13 +214,13 @@ evaluation: # [SETUP] your logic path
 ```
 
 ## 4. Executing Experiments and Evaluation
-Finally, an instance of the QXMT experiment management will be generated, and the previously defined config file will be set to execute the Run.
+Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.
 
 ``` python
 import qxmt
 
 # initialize experiment for custom tutorial
-exp = qxmt.Experiment(
+experiment = qxmt.Experiment(
     name="custom_tutorial",
     desc="A custome experiment for MNIST dataset",
     auto_gen_mode=False,
@@ -229,10 +228,10 @@ exp = qxmt.Experiment(
 
 # execute run of custom method
 config_path = "../configs/custom.yaml"
-artifact, result = exp.run(config_source=config_path)
+artifact, result = experiment.run(config_source=config_path)
 
 # check evaluation result
-metrics_df = exp.runs_to_dataframe()
+metrics_df = experiment.runs_to_dataframe()
 metrics_df.head()
 # output
 #       run_id  accuracy  precision  recall  f1_score
@@ -246,14 +245,14 @@ The results of the experiment, including the custom-defined evaluation metrics, 
 from qxmt.visualization import plot_metrics_side_by_side
 
 # get run result as dataframe
-df = exp.runs_to_dataframe()
+df = experiment.runs_to_dataframe()
 
 # add your custom metrics on metrics list
 plot_metrics_side_by_side(
   df=df,
   metrics=["accuracy", "recall", "precision", "f1_score", "specificity"],
   run_ids=[1],
-  save_path=exp.experiment_dirc / "side_by_side.png"
+  save_path=experiment.experiment_dirc / "side_by_side.png"
   )
 ```
 <img src="../../_static/images/tutorials/custom/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
@@ -262,5 +261,5 @@ plot_metrics_side_by_side(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/22 |
+| document | 2024/09/29 |
 | QXMT| v0.2.1 |
