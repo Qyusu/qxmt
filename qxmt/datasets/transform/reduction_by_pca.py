@@ -4,7 +4,7 @@ import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
-from qxmt.datasets.builder import PROCESSCED_DATASET_TYPE
+from qxmt.types import PROCESSCED_DATASET_TYPE
 
 
 def dimension_reduction_by_pca(

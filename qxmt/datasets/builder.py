@@ -9,14 +9,8 @@ from qxmt.configs import ExperimentConfig
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
+from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
 from qxmt.utils import load_object_from_yaml
-
-RAW_DATA_TYPE = np.ndarray
-RAW_LABEL_TYPE = np.ndarray
-RAW_DATASET_TYPE = tuple[RAW_DATA_TYPE, RAW_LABEL_TYPE]
-PROCESSCED_DATASET_TYPE = tuple[
-    np.ndarray, np.ndarray, Optional[np.ndarray], Optional[np.ndarray], np.ndarray, np.ndarray
-]
 
 LOGGER = set_default_logger(__name__)
 
