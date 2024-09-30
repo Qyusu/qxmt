@@ -37,7 +37,7 @@ DEFAULT_METRICS_NAME: list[str] = ["accuracy", "precision", "recall", "f1_score"
 LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 # set default n_jobs for parallel processing
-# it mainly used in kernel calculation
+# it mainly used in kernel calculation, cross validation
 DEFAULT_N_JOBS = 3
 
 # set default timezone
