@@ -4,7 +4,7 @@ from typing import Any, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from qxmt.constants import DEFAULT_METRICS_NAME, MODULE_HOME
+from qxmt.constants import MODULE_HOME
 
 
 class GlobalSettingsConfig(BaseModel):
@@ -106,13 +106,6 @@ class EvaluationConfig(BaseModel):
 
     default_metrics: list[str]
     custom_metrics: Optional[list[dict[str, Any]]] = None
-
-    @model_validator(mode="after")
-    def check_default_metrics(self) -> "EvaluationConfig":
-        for metric_name in self.default_metrics:
-            if metric_name not in DEFAULT_METRICS_NAME:
-                raise ValueError(f"{metric_name} is not implemented.")
-        return self
 
 
 class ExperimentConfig(BaseModel):

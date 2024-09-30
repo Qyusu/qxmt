@@ -1,18 +1,10 @@
-from typing import Any, Optional
+from typing import Any, Optional, get_args
 
 import numpy as np
 import pandas as pd
 
-from qxmt.constants import DEFAULT_METRICS_NAME
-from qxmt.evaluation.defaults import Accuracy, BaseMetric, F1Score, Precision, Recall
+from qxmt.evaluation.defaults import DEFAULT_METRICS_NAME, NAME2METRIC, BaseMetric
 from qxmt.utils import load_object_from_yaml
-
-NAME2METRIC = {
-    "accuracy": Accuracy,
-    "precision": Precision,
-    "recall": Recall,
-    "f1_score": F1Score,
-}
 
 
 class Evaluation:
@@ -78,7 +70,7 @@ class Evaluation:
         if default_metrics_name is not None:
             self.default_metrics_name = default_metrics_name
         else:
-            self.default_metrics_name = DEFAULT_METRICS_NAME
+            self.default_metrics_name = list(get_args(DEFAULT_METRICS_NAME))
 
         self.default_metrics = []
         for metric_name in self.default_metrics_name:
