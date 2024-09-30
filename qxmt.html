@@ -428,6 +428,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.check_default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.check_default_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
@@ -561,6 +562,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.check_default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.check_default_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
@@ -872,6 +874,16 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig.check_default_metrics">
+<span class="sig-name descname"><span class="pre">check_default_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.EvaluationConfig.check_default_metrics" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.EvaluationConfig" title="qxmt.configs.EvaluationConfig"><em>EvaluationConfig</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.EvaluationConfig.custom_metrics">
 <span class="sig-name descname"><span class="pre">custom_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.EvaluationConfig.custom_metrics" title="Link to this definition">#</a></dt>
@@ -1619,6 +1631,16 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.EvaluationConfig.check_default_metrics">
+<span class="sig-name descname"><span class="pre">check_default_metrics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.EvaluationConfig.check_default_metrics" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.EvaluationConfig" title="qxmt.configs.EvaluationConfig"><em>EvaluationConfig</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.EvaluationConfig.custom_metrics">
 <span class="sig-name descname"><span class="pre">custom_metrics</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.EvaluationConfig.custom_metrics" title="Link to this definition">#</a></dt>
@@ -2490,6 +2512,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.check_default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.check_default_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
@@ -2623,6 +2646,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.check_default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.check_default_metrics()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.custom_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.custom_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.default_metrics"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.default_metrics</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.EvaluationConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">EvaluationConfig.model_computed_fields</span></code></a></li>
