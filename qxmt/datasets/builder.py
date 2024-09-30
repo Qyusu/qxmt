@@ -9,12 +9,8 @@ from qxmt.configs import ExperimentConfig
 from qxmt.datasets.dummy import generate_linear_separable_data
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
+from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
 from qxmt.utils import load_object_from_yaml
-
-RAW_DATA_TYPE = np.ndarray
-RAW_LABEL_TYPE = np.ndarray
-RAW_DATASET_TYPE = tuple[RAW_DATA_TYPE, RAW_LABEL_TYPE]
-PROCESSCED_DATASET_TYPE = tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]
 
 LOGGER = set_default_logger(__name__)
 
@@ -114,7 +110,7 @@ class DatasetBuilder:
             logger (Logger): logger for output messages
 
         Raises:
-            ValueError: argment lenght of the custom transform function is less than 4
+            ValueError: argment lenght of the custom transform function is less than 6
             ValueError: return type of the custom transform function is not a tuple of numpy arrays
             ValueError: argument type of the custom transform function is not numpy array
 
@@ -129,9 +125,10 @@ class DatasetBuilder:
                 "Input and return type validation will be skipped."
             )
             return
-        elif len(type_hint_dict) - 1 < 4:
+        elif len(type_hint_dict) - 1 < 6:
             raise ValueError(
-                "The custom transform function must have at least 4 arguments (X_train, y_train, X_test, y_test)."
+                "The custom transform function must have at "
+                "least 4 arguments (X_train, y_train, X_val, y_val, X_test, y_test)."
             )
 
         # check argument type and return type
@@ -199,16 +196,42 @@ class DatasetBuilder:
         Returns:
             PROCESSCED_DATASET_TYPE: train and test split of dataset (features and labels)
         """
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=self.config.dataset.test_size, random_state=self.config.dataset.random_seed
+        split_config = self.config.dataset.split
+        val_and_test_ratio = split_config.validation_ratio + split_config.test_ratio
+        random_state = self.config.dataset.random_seed
+        shuffle = split_config.shuffle
+
+        # Split the dataset into train, validation, and test sets
+        X_train, X_val_and_test, y_train, y_val_and_test = train_test_split(
+            X,
+            y,
+            test_size=val_and_test_ratio,
+            random_state=random_state,
+            shuffle=shuffle,
         )
 
-        return X_train, y_train, X_test, y_test
+        if split_config.validation_ratio == 0:
+            # Validation set is not used
+            X_val, y_val = None, None
+            X_test, y_test = X_val_and_test, y_val_and_test
+        else:
+            # Split the validation and test sets
+            X_val, X_test, y_val, y_test = train_test_split(
+                X_val_and_test,
+                y_val_and_test,
+                test_size=split_config.test_ratio / val_and_test_ratio,
+                random_state=random_state,
+                shuffle=shuffle,
+            )
+
+        return X_train, y_train, X_val, y_val, X_test, y_test
 
     def default_transform(
         self,
         X_train: np.ndarray,
         y_train: np.ndarray,
+        X_val: Optional[np.ndarray],
+        y_val: Optional[np.ndarray],
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> PROCESSCED_DATASET_TYPE:
@@ -217,18 +240,22 @@ class DatasetBuilder:
         Args:
             X_train (np.ndarray): raw features of the training data
             y_train (np.ndarray): raw labels of the training data
+            X_val (Optional[np.ndarray]): raw features of the validation data. None if validation set is not used
+            y_val (Optional[np.ndarray]): raw labels of the validation data. None if validation set is not used
             X_test (np.ndarray): raw features of the test data
             y_test (np.ndarray): raw labels of the test data
 
         Returns:
-            PROCESSCED_DATASET_TYPE: train and test split of dataset (features and labels)
+            PROCESSCED_DATASET_TYPE: train, val and test split of dataset (features and labels)
         """
-        return X_train, y_train, X_test, y_test
+        return X_train, y_train, X_val, y_val, X_test, y_test
 
     def transform(
         self,
         X_train: np.ndarray,
         y_train: np.ndarray,
+        X_val: Optional[np.ndarray],
+        y_val: Optional[np.ndarray],
         X_test: np.ndarray,
         y_test: np.ndarray,
     ) -> PROCESSCED_DATASET_TYPE:
@@ -238,16 +265,18 @@ class DatasetBuilder:
         Args:
             X_train (np.ndarray): raw features of the training data
             y_train (np.ndarray): raw labels of the training data
+            X_val (Optional[np.ndarray]): raw features of the validation data. None if validation set is not used
+            y_val (Optional[np.ndarray]): raw labels of the validation data. None if validation set is not used
             X_test (np.ndarray): raw features of the test data
             y_test (np.ndarray): raw labels of the test data
 
         Returns:
-            PROCESSCED_DATASET_TYPE: transformed train and test split of dataset (features and labels)
+            PROCESSCED_DATASET_TYPE: transformed train, val  and test split of dataset (features and labels)
         """
         if self.custom_transform is not None:
-            return self.custom_transform(X_train, y_train, X_test, y_test)
+            return self.custom_transform(X_train, y_train, X_val, y_val, X_test, y_test)
         else:
-            return self.default_transform(X_train, y_train, X_test, y_test)
+            return self.default_transform(X_train, y_train, X_val, y_val, X_test, y_test)
 
     def build(self) -> Dataset:
         """Build the dataset. This method loads, preprocesses, splits, and transforms the dataset.
@@ -257,12 +286,16 @@ class DatasetBuilder:
         """
         X, y = self.load()
         X, y = self.raw_preprocess(X, y)
-        X_train, y_train, X_test, y_test = self.split(X, y)
-        X_train_trs, y_train_trs, X_test_trs, y_test_trs = self.transform(X_train, y_train, X_test, y_test)
+        X_train, y_train, X_val, y_val, X_test, y_test = self.split(X, y)
+        X_train_trs, y_train_trs, X_val_trs, y_val_trs, X_test_trs, y_test_trs = self.transform(
+            X_train, y_train, X_val, y_val, X_test, y_test
+        )
 
         return Dataset(
             X_train=X_train_trs,
             y_train=y_train_trs,
+            X_val=X_val_trs,
+            y_val=y_val_trs,
             X_test=X_test_trs,
             y_test=y_test_trs,
             config=self.config.dataset,

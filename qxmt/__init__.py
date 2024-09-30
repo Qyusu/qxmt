@@ -8,6 +8,7 @@ from qxmt.configs import (
     KernelConfig,
     ModelConfig,
     PathConfig,
+    SplitConfig,
 )
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
@@ -44,6 +45,7 @@ __all__ = [
     "KernelConfig",
     "ModelConfig",
     "PathConfig",
+    "SplitConfig",
 ]
 
 

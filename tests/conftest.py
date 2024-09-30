@@ -10,6 +10,7 @@ from qxmt import (
     KernelConfig,
     ModelConfig,
     PathConfig,
+    SplitConfig,
 )
 
 DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
@@ -20,7 +21,7 @@ DEFAULT_DATASET_CONFIG = DatasetConfig(
     type="generate",
     path=PathConfig(data="data.npy", label="label.npy"),
     random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
-    test_size=0.2,
+    split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
     features=None,
     raw_preprocess_logic=None,
     transform_logic=None,

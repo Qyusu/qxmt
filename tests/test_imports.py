@@ -21,6 +21,7 @@ EXPECTED_ALL = [
     "KernelConfig",
     "ModelConfig",
     "PathConfig",
+    "SplitConfig",
 ]
 
 
