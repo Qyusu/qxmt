@@ -11,10 +11,36 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
-# OpenML: https://www.openml.org/
-
 
 class OpenMLDataLoader:
+    """
+    This class loads a dataset from OpenML (https://www.openml.org/) and converts it to the specified return format.
+    OpenML is an online platform for sharing datasets and machine learning experiments.
+    Identifier of the dataset can be specified by the dataset name or ID.
+    If the name is specified, search the OpenML database to get the dataset ID and load the latest version.
+    The dataset ID can be search in officail OpenML website (https://www.openml.org/search).
+    ID has a higher priority than the name.
+
+    Supported return formats:
+    - numpy: return as a tuple of numpy arrays.
+    - pandas: return as a pandas DataFrame.
+
+    Supported save formats:
+    - numpy: .npz, .npy
+    - pandas: .csv, .tsv
+
+    Examples:
+        Load the dataset "mnist_784" from OpenML and save it as a numpy file.
+        >>> loader = OpenMLDataLoader(name="mnist_784", save_path="data/mnist.npz")
+        >>> X, y = loader.load()
+        X=np.array([[0, 0, 0, ..., 0, 0, 0], ..]), y=np.array([5, 0, 4, ..., 4, 5, 6])
+
+        Load the dataset id=554 ("mnist_784") from OpenML and save it as a pandas DataFrame.
+        >>> loader = OpenMLDataLoader(id=554, save_path="data/mnist.csv", return_format="pandas")
+        >>> data = loader.load()
+        data=pd.DataFrame([[0, 0, 0, ..., 0, 0, 0], .., [5, 0, 4, ..., 4, 5, 6]])
+    """
+
     def __init__(
         self,
         name: Optional[str] = None,
@@ -84,36 +110,63 @@ class OpenMLDataLoader:
             dataset_format="dataframe", target=dataset.default_target_attribute
         )
 
-        if self.return_format in ["numpy", "array"]:
-            X = cast(pd.DataFrame, X).to_numpy()
-            y = cast(pd.DataFrame, y).to_numpy() if y is not None else None
-            data = (X, y)
-        elif self.return_format in ["pandas", "dataframe"]:
-            if y is None:
-                data = cast(pd.DataFrame, X)
-            else:
-                data = pd.concat([cast(pd.DataFrame, X), cast(pd.DataFrame, y)], axis=1)
-        else:
-            raise ValueError(f"Unsupported return format: {self.return_format}")
+        data = self._format_return_data(cast(pd.DataFrame, X), cast(pd.DataFrame, y))
 
         if self.save_path:
-            self._save_dataset(Path(self.save_path), data)
+            self._save_dataset(data)
 
         return data
 
-    def _save_dataset(self, save_path: Path, data: tuple[np.ndarray, np.ndarray | None] | pd.DataFrame) -> None:
+    def _format_return_data(
+        self, X: pd.DataFrame, y: pd.DataFrame | None
+    ) -> tuple[np.ndarray, np.ndarray | None] | pd.DataFrame:
+        """Format the loaded dataset to the specified return format.
+        Return format defined in the class attribute `return_format`.
+        supported formats:
+        - numpy: return as a tuple of numpy arrays.
+        - pandas: return as a pandas DataFrame.
+
+        Args:
+            X (pd.DataFrame): DataFrame of features.
+            y (pd.DataFrame | None): DataFrame of labels.
+
+        Raises:
+            ValueError: unsupported return format
+
+        Returns:
+            tuple[np.ndarray, np.ndarray | None] | pd.DataFrame: formated dataset for the specified return format.
+        """
+        if self.return_format in ["numpy", "array"]:
+            X_array = X.to_numpy()
+            y_array = y.to_numpy() if y is not None else None
+            data = (X_array, y_array)
+        elif self.return_format in ["pandas", "dataframe"]:
+            if y is None:
+                data = X
+            else:
+                data = pd.concat([X, y], axis=1)
+        else:
+            raise ValueError(f"Unsupported return format: {self.return_format}")
+
+        return data
+
+    def _save_dataset(self, data: tuple[np.ndarray, np.ndarray | None] | pd.DataFrame) -> None:
         """Save the loaded dataset to the specified path.
         Supported save formats:
         - numpy: .npz, .npy
         - pandas: .csv, .tsv
 
         Args:
-            save_path (Path): path to save the dataset.
             data (tuple[np.ndarray, np.ndarray  |  None] | pd.DataFrame): dataset object to save.
 
         Raises:
+            ValueError: save path is not specified.
             ValueError: not supported save format
         """
+        if self.save_path is None:
+            raise ValueError("Save path is not specified.")
+
+        save_path = Path(self.save_path)
         # create the directory if it does not exist
         save_path.parent.mkdir(parents=True, exist_ok=True)
 
