@@ -12,6 +12,15 @@ class GlobalSettingsConfig(BaseModel):
     random_seed: int
 
 
+class OpenMLConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: Optional[str]
+    id: Optional[int]
+    return_format: str
+    save_path: Optional[Path | str]
+
+
 class PathConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -46,8 +55,9 @@ class SplitConfig(BaseModel):
 class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    type: Literal["file", "generate"]
-    path: Optional[PathConfig]
+    type: Literal["openml", "file", "generate"]
+    openml: Optional[OpenMLConfig] = None
+    path: Optional[PathConfig] = None
     params: Optional[dict[str, Any]] = None
     random_seed: int
     split: SplitConfig

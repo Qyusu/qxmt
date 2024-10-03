@@ -19,6 +19,7 @@ DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
     type="generate",
+    openml=None,
     path=PathConfig(data="data.npy", label="label.npy"),
     random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),

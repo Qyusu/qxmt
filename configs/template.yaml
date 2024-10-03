@@ -4,10 +4,10 @@ global_settings:
   random_seed: &global_seed 42
 
 dataset:
-  type: "file"  # "file" or "generate"
-  path: # full path or relative path from the root of the project
-    data: "data/mnist_784/images.npy"
-    label: "data/mnist_784/label.npy"
+  type: "openml"  # "openml", "file" or "generate"
+  openml:
+    name: "mnist_784"
+    return_format: "numpy"
   params: {}
   random_seed: *global_seed
   split:
