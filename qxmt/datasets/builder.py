@@ -1,12 +1,13 @@
 import inspect
 from logging import Logger
-from typing import Callable, Optional, get_type_hints
+from typing import Callable, Optional, cast, get_type_hints
 
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from qxmt.configs import ExperimentConfig
+from qxmt.configs import ExperimentConfig, OpenMLConfig, PathConfig
 from qxmt.datasets.dummy import generate_linear_separable_data
+from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
@@ -145,15 +146,28 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
-        if (self.config.dataset.type == "file") and (self.config.dataset.path is not None):
-            # [TODO]: Implement other file formats
-            X = np.load(self.config.dataset.path.data, allow_pickle=True)
-            y = np.load(self.config.dataset.path.label, allow_pickle=True)
-        elif self.config.dataset.type == "generate":
-            # [TODO]: Implement other dataset generation methods
-            X, y = generate_linear_separable_data()
-        else:
-            raise ValueError(f"Invalid dataset type: {self.config.dataset.type}")
+        dataset_type = self.config.dataset.type
+
+        # [TODO]: Implement other file formats (ex: dataframe, csv, etc.)
+        match dataset_type:
+            case "openml":
+                openml_config = cast(OpenMLConfig, self.config.dataset.openml)
+                X, y = OpenMLDataLoader(
+                    name=openml_config.name,
+                    id=openml_config.id,
+                    save_path=openml_config.save_path,
+                    return_format=openml_config.return_format,
+                ).load()
+                X = cast(np.ndarray, X)
+                y = cast(np.ndarray, y)
+            case "file":
+                path_config = cast(PathConfig, self.config.dataset.path)
+                X = np.load(path_config.data, allow_pickle=True)
+                y = np.load(path_config.label, allow_pickle=True)
+            case "generate":
+                X, y = generate_linear_separable_data()
+            case _:
+                raise ValueError(f"Invalid dataset type: {dataset_type}")
 
         return X, y
 
