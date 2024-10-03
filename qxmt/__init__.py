@@ -13,6 +13,7 @@ from qxmt.configs import (
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
+    ExperimentSettingError,
     InputShapeError,
     InvalidFileExtensionError,
     InvalidModelNameError,
@@ -27,6 +28,7 @@ from qxmt.experiment.experiment import Experiment
 __all__ = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
+    "ExperimentSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",
