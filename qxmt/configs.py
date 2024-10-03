@@ -15,10 +15,10 @@ class GlobalSettingsConfig(BaseModel):
 class OpenMLConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    name: Optional[str]
-    id: Optional[int]
-    return_format: str
-    save_path: Optional[Path | str]
+    name: Optional[str] = None
+    id: Optional[int] = None
+    return_format: str = "numpy"
+    save_path: Optional[Path | str] = None
 
 
 class PathConfig(BaseModel):

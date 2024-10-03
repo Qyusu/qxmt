@@ -146,25 +146,28 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
+        dataset_type = self.config.dataset.type
+
         # [TODO]: Implement other file formats (ex: dataframe, csv, etc.)
-        if self.config.dataset.type == "openml":
-            openml_config = cast(OpenMLConfig, self.config.dataset.openml)
-            X, y = OpenMLDataLoader(
-                name=openml_config.name,
-                id=openml_config.id,
-                save_path=openml_config.save_path,
-                return_format=openml_config.return_format,
-            ).load()
-            X = cast(np.ndarray, X)
-            y = cast(np.ndarray, y)
-        elif self.config.dataset.type == "file":
-            path_config = cast(PathConfig, self.config.dataset.path)
-            X = np.load(path_config.data, allow_pickle=True)
-            y = np.load(path_config.label, allow_pickle=True)
-        elif self.config.dataset.type == "generate":
-            X, y = generate_linear_separable_data()
-        else:
-            raise ValueError(f"Invalid dataset type: {self.config.dataset.type}")
+        match dataset_type:
+            case "openml":
+                openml_config = cast(OpenMLConfig, self.config.dataset.openml)
+                X, y = OpenMLDataLoader(
+                    name=openml_config.name,
+                    id=openml_config.id,
+                    save_path=openml_config.save_path,
+                    return_format=openml_config.return_format,
+                ).load()
+                X = cast(np.ndarray, X)
+                y = cast(np.ndarray, y)
+            case "file":
+                path_config = cast(PathConfig, self.config.dataset.path)
+                X = np.load(path_config.data, allow_pickle=True)
+                y = np.load(path_config.label, allow_pickle=True)
+            case "generate":
+                X, y = generate_linear_separable_data()
+            case _:
+                raise ValueError(f"Invalid dataset type: {dataset_type}")
 
         return X, y
 
