@@ -530,6 +530,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.exceptions">qxmt.exceptions module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InvalidConfigError"><code class="docutils literal notranslate"><span class="pre">InvalidConfigError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InvalidFileExtensionError"><code class="docutils literal notranslate"><span class="pre">InvalidFileExtensionError</span></code></a></li>
@@ -612,6 +613,7 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.implement_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_computed_fields</span></code></a></li>
@@ -1476,6 +1478,12 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </dd></dl>
 
 <dl class="py exception">
+<dt class="sig sig-object py" id="qxmt.exceptions.ExperimentSettingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.exceptions.</span></span><span class="sig-name descname"><span class="pre">ExperimentSettingError</span></span><a class="headerlink" href="#qxmt.exceptions.ExperimentSettingError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="qxmt.exceptions.InputShapeError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.exceptions.</span></span><span class="sig-name descname"><span class="pre">InputShapeError</span></span><a class="headerlink" href="#qxmt.exceptions.InputShapeError" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -2141,6 +2149,12 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
 </dd></dl>
 
+<dl class="py exception">
+<dt class="sig sig-object py" id="qxmt.ExperimentSettingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ExperimentSettingError</span></span><a class="headerlink" href="#qxmt.ExperimentSettingError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.FeatureMapConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">FeatureMapConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.FeatureMapConfig" title="Link to this definition">#</a></dt>
@@ -2691,6 +2705,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.exceptions">qxmt.exceptions module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InvalidConfigError"><code class="docutils literal notranslate"><span class="pre">InvalidConfigError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.InvalidFileExtensionError"><code class="docutils literal notranslate"><span class="pre">InvalidFileExtensionError</span></code></a></li>
@@ -2773,6 +2788,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.implement_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.FeatureMapConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">FeatureMapConfig.model_computed_fields</span></code></a></li>
