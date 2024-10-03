@@ -1,3 +1,7 @@
+class ExperimentSettingError(Exception):
+    pass
+
+
 class ExperimentRunSettingError(Exception):
     pass
 

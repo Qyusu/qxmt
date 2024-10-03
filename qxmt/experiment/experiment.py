@@ -23,6 +23,7 @@ from qxmt.evaluation.evaluation import Evaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
+    ExperimentSettingError,
     InvalidFileExtensionError,
     JsonEncodingError,
     ReproductionError,
@@ -165,8 +166,13 @@ class Experiment:
             self.name = self._generate_default_name()
         if self.desc is None:
             self.desc = ""
+
         self.experiment_dirc = self.root_experiment_dirc / self.name
-        self.experiment_dirc.mkdir(parents=True)
+        # create experiment directory if it does not exist or empty
+        if (not self.experiment_dirc.exists()) or (not any(self.experiment_dirc.iterdir())):
+            self.experiment_dirc.mkdir(parents=True, exist_ok=True)
+        else:
+            raise ExperimentSettingError(f"Experiment directory '{self.experiment_dirc}' already exists.")
 
         self.exp_db = ExperimentDB(
             name=self.name,
