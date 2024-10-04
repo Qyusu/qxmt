@@ -38,6 +38,7 @@ class DeviceBuilder:
         return BaseDevice(
             platform=self.config.platform,
             name=self.config.name,
+            method=self.config.method,
             n_qubits=self.config.n_qubits,
             shots=self.config.shots,
         )

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 import numpy as np
 
@@ -92,7 +92,7 @@ class BaseFeatureMap(ABC):
             x = np.random.rand(1, self.n_qubits)
         self.check_input_shape(x)
 
-        if self.platform == "pennylane":
+        if self.platform.lower() == "pennylane":
             import pennylane as qml
 
             match format:
@@ -102,5 +102,10 @@ class BaseFeatureMap(ABC):
                     logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x))  # type: ignore
                 case _:
                     raise ValueError(f"Invalid format '{format}' for drawing the circuit")
+        elif self.platform.lower() == "qiskit":
+            from qiskit import QuantumCircuit
+
+            circuit = cast(QuantumCircuit, self.feature_map(x))
+            logger.info(circuit.draw(output="mpl", **kwargs))  # type: ignore
         else:
             raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')

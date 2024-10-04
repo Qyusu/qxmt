@@ -80,7 +80,8 @@ class DeviceConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     platform: str
-    name: str
+    name: Optional[str] = None
+    method: Optional[str] = None
     n_qubits: int
     shots: Optional[int] = None
 
