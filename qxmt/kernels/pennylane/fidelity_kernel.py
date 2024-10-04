@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 
 import numpy as np
 import pennylane as qml
@@ -62,20 +62,30 @@ class FidelityKernel(BaseKernel):
             float: fidelity kernel value
         """
 
-        def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP:
+        def circuit(x1: np.ndarray, x2: np.ndarray) -> Any:
             if self.feature_map is None:
                 raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
             self.feature_map(x1)
             qml.adjoint(self.feature_map)(x2)  # type: ignore
+            # return qml.probs(wires=range(self.n_qubits))
 
-            return qml.probs(wires=range(self.n_qubits))
+            projector = np.zeros((2**self.n_qubits, 2**self.n_qubits))
+            projector[0, 0] = 1
+
+            return qml.expval(qml.Hermitian(projector, wires=range(self.n_qubits)))
+
+            # return [qml.sample(qml.Hermitian(projector, wires=range(self.n_qubits)))]
+            # return [qml.sample(qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
 
         qnode = qml.QNode(circuit, self.device())
         probs = qnode(x1, x2)
-        if isinstance(probs, qml.operation.Tensor):
-            probs = probs.numpy()
 
-        kernel_value = probs[0]  # get |00> state probability
+        # if isinstance(probs, qml.operation.Tensor):
+        #     probs = probs.numpy()
 
-        return kernel_value
+        # kernel_value = probs[0]  # get |00> state probability
+
+        # kernel_value = np.mean(probs)
+
+        return probs
