@@ -15,7 +15,7 @@ def plot_2d_dataset(
     colors: Optional[dict[int, str]] = None,
     class_labels: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
-    **kwargs: dict[str, Any],
+    **kwargs: Any,
 ) -> None:
     """Ploat dataset on 2D plane.
 
@@ -24,7 +24,7 @@ def plot_2d_dataset(
         colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         save_path (Optional[str], optional): save path of graph. Defaults to None.
-        **kwargs (dict[str, Any]): additional arguments for plot.
+        **kwargs (Any): additional arguments for plot.
             train_title (str, optional): title of train dataset. Defaults to "Train Dataset".
             test_title (str, optional): title of test dataset. Defaults to "Test Dataset".
     """

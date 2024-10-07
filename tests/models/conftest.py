@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 
 import numpy as np
 import pennylane as qml
@@ -25,7 +25,7 @@ class TestKernel(BaseKernel):
 
 @pytest.fixture(scope="function")
 def build_qsvm() -> Callable:
-    def _build_qsvm(**kwargs: dict) -> QSVM:
+    def _build_qsvm(**kwargs: Any) -> QSVM:
         kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
         return QSVM(kernel=kernel, **kwargs)
 

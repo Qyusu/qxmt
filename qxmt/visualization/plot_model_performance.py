@@ -16,7 +16,7 @@ def plot_2d_predicted_result(
     y_pred: np.ndarray,
     axis: list[int] = [0, 1],
     save_path: Optional[str | Path] = None,
-    **kwargs: dict[str, Any],
+    **kwargs: Any,
 ) -> None:
     """Plot predicted result on 2D plane.
 
@@ -25,7 +25,7 @@ def plot_2d_predicted_result(
         y_pred (np.ndarray): predicted labels.
         axis (list[int], optional): axis to plot (target feature col index). Defaults to [0, 1].
         save_path (Optional[str], optional): save path of graph. Defaults to None.
-        **kwargs (dict[str, Any]): additional arguments for plot.
+        **kwargs (Any): additional arguments for plot.
             truth_label (str, optional): label of ground truth. Defaults to "Ground Truth".
             pred_label (str, optional): label of predicted. Defaults to "Predicted".
             title (str, optional): title of the plot. Defaults to '"Groud Truth" VS "Predicted"'.
@@ -102,7 +102,7 @@ def plot_2d_decisionon_boundaries(
     grid_resolution: int = 10,
     support_vectors: bool = True,
     save_path: Optional[str | Path] = None,
-    **kwargs: dict[str, Any],
+    **kwargs: Any,
 ) -> None:
     """Plot decision boundaries of QSVM on 2D plane.
 
@@ -112,7 +112,7 @@ def plot_2d_decisionon_boundaries(
         grid_resolution (int, optional): resolution of grid. Defaults to 10.
         support_vectors (bool, optional): plot support vectors or not. Defaults to True.
         save_path (Optional[str  |  Path], optional): save path of graph. Defaults to None.
-        **kwargs (dict[str, Any]): additional arguments for plot.
+        **kwargs (Any): additional arguments for plot.
             title (str, optional): title of the plot. Defaults to "Decision boundaries of QSVC".
     """
     X, y = dataset.X_train, dataset.y_train
