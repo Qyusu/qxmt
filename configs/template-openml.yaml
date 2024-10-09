@@ -45,8 +45,10 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "FidelityKernel"
-  params: {}
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "xyz_sum"
 
 model:
   name: "qsvm"
