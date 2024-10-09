@@ -462,7 +462,7 @@ document.write(`
 <li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
 <li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 train_title (str, optional): title of train dataset. Defaults to “Train Dataset”.
 test_title (str, optional): title of test dataset. Defaults to “Test Dataset”.</p></li>
 </ul>
@@ -489,7 +489,7 @@ test_title (str, optional): title of test dataset. Defaults to “Test Dataset�
 <li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
 ylabel (Optional[str], optional): y-axis label. Defaults to f’”{valid_metric}” score’.
 title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
@@ -514,7 +514,7 @@ title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
 <li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
 ylabel (Optional[str], optional): y-axis label. Defaults to “metrics score”.
 title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
@@ -540,7 +540,7 @@ title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
 <li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
 <li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 truth_label (str, optional): label of ground truth. Defaults to “Ground Truth”.
 pred_label (str, optional): label of predicted. Defaults to “Predicted”.
 title (str, optional): title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.
@@ -568,7 +568,7 @@ class_labels (Optional[dict[int, str]], optional): label of each class. Defaults
 <li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
 <li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 train_title (str, optional): title of train dataset. Defaults to “Train Dataset”.
 test_title (str, optional): title of test dataset. Defaults to “Test Dataset”.</p></li>
 </ul>
@@ -586,7 +586,7 @@ test_title (str, optional): title of test dataset. Defaults to “Test Dataset�
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>args</strong> (<em>dict</em>)</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -606,7 +606,7 @@ test_title (str, optional): title of test dataset. Defaults to “Test Dataset�
 <li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
 <li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 truth_label (str, optional): label of ground truth. Defaults to “Ground Truth”.
 pred_label (str, optional): label of predicted. Defaults to “Predicted”.
 title (str, optional): title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.
@@ -633,7 +633,7 @@ class_labels (Optional[dict[int, str]], optional): label of each class. Defaults
 <li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
 ylabel (Optional[str], optional): y-axis label. Defaults to f’”{valid_metric}” score’.
 title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
@@ -658,7 +658,7 @@ title (Optional[str], optional): title of the plot. Defaults to None.</p></li>
 <li><p><strong>run_ids</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>int</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – run_ids to plot. Defaults to None.</p></li>
 <li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – additional arguments for plot.
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
 xlabel (Optional[str], optional): x-axis label. Defaults to “run_id”.
 ylabel (Optional[str], optional): y-axis label. Defaults to “metrics score”.
 title (Optional[str], optional): title of the plot. Defaults to None.</p></li>

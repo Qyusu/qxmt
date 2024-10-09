@@ -491,13 +491,15 @@ User can define their own feature map by inheriting this class and defined in th
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">output_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.feature_maps.base</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">output_circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format='default'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.feature_maps.base</span> <span class="pre">(INFO)&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Output the circuit using the platform’s draw function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>x</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>optional</em>) – input example data for output the circuit. Defaults to None.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger object. Defaults to LOGGER.</p></li>
+<li><p><strong>format</strong> (<em>str</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>

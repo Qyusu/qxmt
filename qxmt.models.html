@@ -403,6 +403,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.base">qxmt.models.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_feature_map"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_feature_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
@@ -445,6 +446,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_feature_map"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_feature_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
@@ -532,6 +534,20 @@ The user can use any Feature Map or Kernel to be used, as long as it follows the
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel.get_feature_map">
+<span class="sig-name descname"><span class="pre">get_feature_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel.get_feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Get the feature map of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>feature map instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap">BaseFeatureMap</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qxmt.models.base.BaseKernelModel.get_kernel_matrix">
 <span class="sig-name descname"><span class="pre">get_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix" title="Link to this definition">#</a></dt>
 <dd><p>Get the kernel matrix of the given data.
@@ -611,7 +627,7 @@ predict, save, load, get_params, and set_params.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -974,6 +990,20 @@ The user can use any Feature Map or Kernel to be used, as long as it follows the
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="qxmt.models.BaseKernelModel.get_feature_map">
+<span class="sig-name descname"><span class="pre">get_feature_map</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel.get_feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Get the feature map of the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>feature map instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.feature_maps.html#qxmt.feature_maps.base.BaseFeatureMap" title="qxmt.feature_maps.base.BaseFeatureMap">BaseFeatureMap</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="qxmt.models.BaseKernelModel.get_kernel_matrix">
 <span class="sig-name descname"><span class="pre">get_kernel_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.BaseKernelModel.get_kernel_matrix" title="Link to this definition">#</a></dt>
 <dd><p>Get the kernel matrix of the given data.
@@ -1053,7 +1083,7 @@ predict, save, load, get_params, and set_params.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>np.ndarray</em>) – array of features</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em>) – array of target value</p></li>
-<li><p><strong>kwargs</strong> (<em>dict</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1430,6 +1460,7 @@ This method is only available for SVC with probability=True.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.base">qxmt.models.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_feature_map"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_feature_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.base.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
@@ -1472,6 +1503,7 @@ This method is only available for SVC with probability=True.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.__init__"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_feature_map"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_feature_map()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.get_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.get_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_kernel_matrix()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.BaseKernelModel.plot_train_test_kernel_matrix"><code class="docutils literal notranslate"><span class="pre">BaseKernelModel.plot_train_test_kernel_matrix()</span></code></a></li>
