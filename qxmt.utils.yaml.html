@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=8bf3131c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -155,6 +156,10 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 </ul>
@@ -200,12 +205,17 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.hyperparameter_search.html">qxmt.models.hyperparameter_search package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
@@ -231,7 +241,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/en/default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/en/mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 </ul>
@@ -395,6 +405,44 @@ document.write(`
         </div>
     </div>
 </div>
+
+
+<div class="language-switch">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('ja')">日本語</button>
+</div>
+
+<script>
+    // ページ読み込み時に現在の言語を確認してボタンにactiveクラスを追加
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = window.location.pathname;
+        const langSwitchButtons = document.querySelectorAll('.language-switch button');
+
+        // 現在のURLに応じてactiveクラスを付ける
+        langSwitchButtons.forEach(button => {
+            if (url.includes('/en/') && button.innerText === 'English') {
+                button.classList.add('active');
+            } else if (url.includes('/ja/') && button.innerText === '日本語') {
+                button.classList.add('active');
+            }
+        });
+    });
+
+    function switchLanguage(lang) {
+        const url = window.location.pathname;
+
+        // tutorials/en または tutorials/ja の部分だけを置き換える
+        if (url.includes('/tutorials/en/')) {
+            window.location.href = url.replace('/tutorials/en/', `/tutorials/${lang}/`);
+        } else if (url.includes('/tutorials/ja/')) {
+            window.location.href = url.replace('/tutorials/ja/', `/tutorials/${lang}/`);
+        } else {
+            // tutorialsディレクトリ外のページではリダイレクトしない
+            alert("This page is not available in other languages.");
+        }
+    }
+</script>
+
 
               
                 

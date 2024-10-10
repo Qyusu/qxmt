@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=8bf3131c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -155,6 +156,10 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 </ul>
@@ -200,12 +205,17 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.hyperparameter_search.html">qxmt.models.hyperparameter_search package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
@@ -231,7 +241,7 @@
 <li class="toctree-l2"><a class="reference internal" href="qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/en/default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/en/mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 </ul>
@@ -396,6 +406,44 @@ document.write(`
     </div>
 </div>
 
+
+<div class="language-switch">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('ja')">日本語</button>
+</div>
+
+<script>
+    // ページ読み込み時に現在の言語を確認してボタンにactiveクラスを追加
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = window.location.pathname;
+        const langSwitchButtons = document.querySelectorAll('.language-switch button');
+
+        // 現在のURLに応じてactiveクラスを付ける
+        langSwitchButtons.forEach(button => {
+            if (url.includes('/en/') && button.innerText === 'English') {
+                button.classList.add('active');
+            } else if (url.includes('/ja/') && button.innerText === '日本語') {
+                button.classList.add('active');
+            }
+        });
+    });
+
+    function switchLanguage(lang) {
+        const url = window.location.pathname;
+
+        // tutorials/en または tutorials/ja の部分だけを置き換える
+        if (url.includes('/tutorials/en/')) {
+            window.location.href = url.replace('/tutorials/en/', `/tutorials/${lang}/`);
+        } else if (url.includes('/tutorials/ja/')) {
+            window.location.href = url.replace('/tutorials/ja/', `/tutorials/${lang}/`);
+        } else {
+            // tutorialsディレクトリ外のページではリダイレクトしない
+            alert("This page is not available in other languages.");
+        }
+    }
+</script>
+
+
               
                 
 <div id="searchbox"></div>
@@ -491,7 +539,7 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>run_id</strong> (<em>int</em>) – target run_id</p></li>
-<li><p><strong>runs</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.schema.RunRecord" title="qxmt.experiment.schema.RunRecord"><em>RunRecord</em></a><em>]</em>)</p></li>
+<li><p><strong>runs</strong> (<em>list</em><em>[</em><em>RunRecord</em><em>]</em>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -501,7 +549,7 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dd class="field-odd"><p>target run record</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.schema.RunRecord" title="qxmt.experiment.schema.RunRecord">RunRecord</a></p>
+<dd class="field-even"><p>RunRecord</p>
 </dd>
 </dl>
 </dd></dl>
@@ -515,7 +563,7 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dd class="field-odd"><p>initialized experiment</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.experiment.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -535,7 +583,7 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dd class="field-odd"><p>loaded experiment</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.experiment.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -557,7 +605,7 @@ Reoroduce method not supported for the run executed from the instance.</p>
 <dd class="field-even"><p>reproduced model</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel">BaseMLModel</a></p>
+<dd class="field-odd"><p>BaseMLModel</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>ReproductinoError</strong> – if the run_id does not have a config file path</p>
@@ -579,8 +627,8 @@ It is more flexible but requires a config file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.datasets.html#qxmt.datasets.schema.Dataset" title="qxmt.datasets.schema.Dataset"><em>Dataset</em></a>) – the dataset object.</p></li>
-<li><p><strong>model</strong> (<a class="reference internal" href="qxmt.models.html#qxmt.models.base.BaseMLModel" title="qxmt.models.base.BaseMLModel"><em>BaseMLModel</em></a>) – the model object.</p></li>
+<li><p><strong>dataset</strong> (<em>Dataset</em>) – the dataset object.</p></li>
+<li><p><strong>model</strong> (<em>BaseMLModel</em>) – the model object.</p></li>
 <li><p><strong>config_source</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – config source can be either an <cite>ExperimentConfig</cite>
 instance or the path to a config file. If a path is provided, it loads and creates an
 <cite>ExperimentConfig</cite> instance. Defaults to None.</p></li>
@@ -595,7 +643,7 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <dd class="field-even"><p>Returns a tuple containing the artifact and run record of the current run_id.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[<a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.schema.RunArtifact" title="qxmt.experiment.schema.RunArtifact">RunArtifact</a>, <a class="reference internal" href="qxmt.experiment.html#qxmt.experiment.schema.RunRecord" title="qxmt.experiment.schema.RunRecord">RunRecord</a>]</p>
+<dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – Raised if the experiment is not initialized.</p>

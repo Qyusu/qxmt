@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8bf3131c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -154,6 +155,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 </ul>
@@ -199,12 +204,17 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.models.hyperparameter_search.html">qxmt.models.hyperparameter_search package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.builder.html">qxmt.models.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
@@ -230,7 +240,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 </ul>
@@ -416,6 +426,44 @@ document.write(`
     </div>
 </div>
 
+
+<div class="language-switch">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('ja')">日本語</button>
+</div>
+
+<script>
+    // ページ読み込み時に現在の言語を確認してボタンにactiveクラスを追加
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = window.location.pathname;
+        const langSwitchButtons = document.querySelectorAll('.language-switch button');
+
+        // 現在のURLに応じてactiveクラスを付ける
+        langSwitchButtons.forEach(button => {
+            if (url.includes('/en/') && button.innerText === 'English') {
+                button.classList.add('active');
+            } else if (url.includes('/ja/') && button.innerText === '日本語') {
+                button.classList.add('active');
+            }
+        });
+    });
+
+    function switchLanguage(lang) {
+        const url = window.location.pathname;
+
+        // tutorials/en または tutorials/ja の部分だけを置き換える
+        if (url.includes('/tutorials/en/')) {
+            window.location.href = url.replace('/tutorials/en/', `/tutorials/${lang}/`);
+        } else if (url.includes('/tutorials/ja/')) {
+            window.location.href = url.replace('/tutorials/ja/', `/tutorials/${lang}/`);
+        } else {
+            // tutorialsディレクトリ外のページではリダイレクトしない
+            alert("This page is not available in other languages.");
+        }
+    }
+</script>
+
+
               
                 
 <div id="searchbox"></div>
@@ -423,10 +471,11 @@ document.write(`
                   
   <section id="practical-case-with-custom-functions-and-the-mnist-dataset">
 <h1>Practical Case with Custom Functions and the MNIST Dataset<a class="headerlink" href="#practical-case-with-custom-functions-and-the-mnist-dataset" title="Link to this heading">#</a></h1>
-<p>In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you’re new to QXMT, it is recommended to start with the “Simple Case Using Only the Default Dataset and Model” tutorial to gain an overall understanding.</p>
+<p>In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you’re new to QXMT, it is recommended to start with the “<a class="reference internal" href="default_simple.html"><span class="std std-doc">Simple Case Using Only the Default Dataset and Model</span></a>” tutorial to gain an overall understanding.</p>
 <section id="preparing-the-dataset">
 <h2>1. Preparing the Dataset<a class="headerlink" href="#preparing-the-dataset" title="Link to this heading">#</a></h2>
 <p>To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> method <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">fetch_openml</a>.</p>
+<p>In this tutorial, the dataset used for the experiment is downloaded manually, but QXMT also provides a feature to download major datasets from <a class="reference external" href="https://www.openml.org/">OpenML</a> via a config file. For more details, refer to the tutorial that demonstrates how to use OpenML.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span>
 
@@ -448,7 +497,6 @@ document.write(`
 <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/mnist_784/label.npy&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><strong>Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows data to be downloaded directly within QXMT by integrating with the OpenML API.</strong></p>
 </section>
 <section id="implementing-custom-features">
 <h2>2. Implementing Custom Features<a class="headerlink" href="#implementing-custom-features" title="Link to this heading">#</a></h2>
@@ -484,6 +532,8 @@ document.write(`
 <p>Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the data is compressed using the <code class="docutils literal notranslate"><span class="pre">n_components</span></code> parameter to a manageable size based on the computing environment being used.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/transform_logic.py</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
 <span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
@@ -492,21 +542,25 @@ document.write(`
 <span class="k">def</span> <span class="nf">dimension_reduction_by_pca</span><span class="p">(</span>
     <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">X_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+    <span class="n">y_val</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">n_components</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">Optional</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
     <span class="n">scaler</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-    <span class="n">x_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
-    <span class="n">x_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">X_train_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+    <span class="n">X_val_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span> <span class="k">if</span> <span class="n">X_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">X_test_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
 
     <span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="n">n_components</span><span class="p">)</span>
-    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x_train_scaled</span><span class="p">)</span>
-    <span class="n">X_train_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_train_scaled</span><span class="p">)</span>
-    <span class="n">X_test_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">x_test_scaled</span><span class="p">)</span>
+    <span class="n">pca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">)</span>
+    <span class="n">X_train_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_train_scaled</span><span class="p">)</span>
+    <span class="n">X_val_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_val_scaled</span><span class="p">)</span> <span class="k">if</span> <span class="n">X_val_scaled</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">X_test_pca</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_test_scaled</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">X_train_pca</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test_pca</span><span class="p">,</span> <span class="n">y_test</span>
+    <span class="k">return</span> <span class="n">X_train_pca</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_val_pca</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_test_pca</span><span class="p">,</span> <span class="n">y_test</span>
 </pre></div>
 </div>
 </section>
@@ -516,7 +570,9 @@ document.write(`
 <p>In this tutorial, a quantum circuit using PennyLane is implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is important to inherit from the abstract class <code class="docutils literal notranslate"><span class="pre">qxmt.feature_maps.BaseFeatureMap</span></code> to ensure compatibility and take advantage of QXMT’s various functionalities. If creating a class for each feature map is too cumbersome, you can also pass a function that implements the FeatureMap to the Kernel class. For more details, please refer to the API Reference.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/feature_map.py</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+
 <span class="kn">from</span> <span class="nn">qxmt.feature_maps</span> <span class="kn">import</span> <span class="n">BaseFeatureMap</span>
 
 
@@ -550,8 +606,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">qxmt.evaluation</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
+
+<span class="kn">from</span> <span class="nn">qxmt.evaluation</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
 
 
 <span class="k">class</span> <span class="nc">CustomMetric</span><span class="p">(</span><span class="n">BaseMetric</span><span class="p">):</span>
@@ -574,14 +631,21 @@ document.write(`
 
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">custom</span><span class="nv"> </span><span class="s">MNIST</span><span class="nv"> </span><span class="s">case&quot;</span>
 
+<span class="nt">global_settings</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;global_seed</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+
 <span class="nt">dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;file&quot;</span>
 <span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="c1"># [SETUP] full path or relative path from the root of the project</span>
 <span class="w">    </span><span class="nt">data</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/mnist_784/images.npy&quot;</span>
 <span class="w">    </span><span class="nt">label</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/mnist_784/label.npy&quot;</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
-<span class="w">  </span><span class="nt">test_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nv">*global_seed</span>
+<span class="w">  </span><span class="nt">split</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">train_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.8</span>
+<span class="w">    </span><span class="nt">validation_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">    </span><span class="nt">test_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">features</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 <span class="w">  </span><span class="nt">raw_preprocess_logic</span><span class="p">:</span><span class="w"> </span><span class="c1"># [SETUP] your logic path and parameter</span>
 <span class="w">    </span><span class="nt">module_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;your_project.custom.raw_preprocess_logic&quot;</span>
@@ -621,13 +685,17 @@ document.write(`
 
 <span class="nt">evaluation</span><span class="p">:</span><span class="w"> </span><span class="c1"># [SETUP] your logic path</span>
 <span class="w">  </span><span class="nt">default_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;accuracy&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;precision&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;recall&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;f1_score&quot;</span><span class="p p-Indicator">]</span>
-<span class="w">  </span><span class="nt">custom_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;CustomMetric&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">custom_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span>
+<span class="w">    </span><span class="p p-Indicator">{</span><span class="s">&quot;module_name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;your_project.custom.evaluation&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;implement_name&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">&quot;CustomMetric&quot;</span><span class="p p-Indicator">}</span>
+<span class="w">    </span><span class="p p-Indicator">]</span>
 </pre></div>
 </div>
 </section>
 <section id="executing-experiments-and-evaluation">
 <h2>4. Executing Experiments and Evaluation<a class="headerlink" href="#executing-experiments-and-evaluation" title="Link to this heading">#</a></h2>
 <p>Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.</p>
+<p>If an module import error occurs during execution, review the Python path and re-run the process.
+For example, if a custome module is implemented in <code class="docutils literal notranslate"><span class="pre">/root/hoge/your_project/custom/raw_preprocess_logic.py</span></code>, the Python path can be updated using the <code class="docutils literal notranslate"><span class="pre">sys.path.append(&quot;/root/hoge&quot;)</span></code> command.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
 <span class="c1"># initialize experiment for custom tutorial</span>
@@ -676,10 +744,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/09/29</p></td>
+<td><p>2024/10/10</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.2.1</p></td>
+<td><p>v0.2.3</p></td>
 </tr>
 </tbody>
 </table>

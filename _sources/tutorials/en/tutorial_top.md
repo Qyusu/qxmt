@@ -7,5 +7,5 @@ If this is your first time using QXMT, we recommend starting with the first tuto
 ```{toctree}
 :maxdepth: 2
 
-./en/default_simple.md
-./en/mnist_custom.md
+./default_simple.md
+./mnist_custom.md

@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Simple case using only the default dataset and model &#8212; qxmt 0.2.2 documentation</title>
+    <title>デフォルトのデータセットとモデルのみを利用したシンプルなケース &#8212; qxmt 0.2.2 documentation</title>
   
   
   
@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8bf3131c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
@@ -40,7 +41,7 @@
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/jp/default_simple';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/ja/default_simple';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -105,8 +106,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -155,6 +154,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 </ul>
@@ -200,12 +203,17 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.models.hyperparameter_search.html">qxmt.models.hyperparameter_search package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.builder.html">qxmt.models.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
@@ -231,7 +239,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../en/default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../en/mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 </ul>
@@ -305,7 +313,7 @@
       
       
       
-      <li><a href="../../_sources/tutorials/jp/default_simple.md" target="_blank"
+      <li><a href="../../_sources/tutorials/ja/default_simple.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -389,7 +397,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Simple case using only the default dataset and model</h1>
+    <h1>デフォルトのデータセットとモデルのみを利用したシンプルなケース</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -399,14 +407,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. 実験の設定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 実験の設定</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">2. Runの設定</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. Runの実行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4. 結果の可視化</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3. Runの実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4. 結果の可視化</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">4.1 Datasetのラベル分布を可視化</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4.2 評価指標の比較</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.3 モデルの決定境界</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">バージョン情報</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.2 評価指標の比較</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.3 モデルの決定境界</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">バージョン情報</a></li>
 </ul>
 </li>
 </ul>
@@ -415,19 +423,57 @@ document.write(`
     </div>
 </div>
 
+
+<div class="language-switch">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('ja')">日本語</button>
+</div>
+
+<script>
+    // ページ読み込み時に現在の言語を確認してボタンにactiveクラスを追加
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = window.location.pathname;
+        const langSwitchButtons = document.querySelectorAll('.language-switch button');
+
+        // 現在のURLに応じてactiveクラスを付ける
+        langSwitchButtons.forEach(button => {
+            if (url.includes('/en/') && button.innerText === 'English') {
+                button.classList.add('active');
+            } else if (url.includes('/ja/') && button.innerText === '日本語') {
+                button.classList.add('active');
+            }
+        });
+    });
+
+    function switchLanguage(lang) {
+        const url = window.location.pathname;
+
+        // tutorials/en または tutorials/ja の部分だけを置き換える
+        if (url.includes('/tutorials/en/')) {
+            window.location.href = url.replace('/tutorials/en/', `/tutorials/${lang}/`);
+        } else if (url.includes('/tutorials/ja/')) {
+            window.location.href = url.replace('/tutorials/ja/', `/tutorials/${lang}/`);
+        } else {
+            // tutorialsディレクトリ外のページではリダイレクトしない
+            alert("This page is not available in other languages.");
+        }
+    }
+</script>
+
+
               
                 
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="simple-case-using-only-the-default-dataset-and-model">
-<h1>Simple case using only the default dataset and model<a class="headerlink" href="#simple-case-using-only-the-default-dataset-and-model" title="Link to this heading">#</a></h1>
-<p>このチュートリアルでは、QXMTのデフォルト機能を使って量子機械学習における実験管理の一連の流れを体験します。QXMTでは、よく使われるデータセットやその前処理、量子機械学習モデル、評価指標をデフォルト機能として提供しています。これらを活用することで実験の初期段階において効率的にベースラインを作成することができます。</p>
+  <section id="id1">
+<h1>デフォルトのデータセットとモデルのみを利用したシンプルなケース<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
+<p>このチュートリアルでは、QXMTのデフォルト機能を使って量子機械学習における実験管理の一連の流れを体験します。QXMTでは、よく使われるデータセットや前処理、量子機械学習モデル、評価指標をデフォルト機能として提供しています。これらを活用することで実験の初期段階において効率的にベースラインを作成することができます。</p>
 <p>QXMTでは実験を以下のディレクトリ構成に従って管理します。</p>
 <ul class="simple">
 <li><p><strong>data</strong>: 実験で利用するデータを格納します。</p></li>
-<li><p><strong>config</strong>: 各種実験を管理するためのYAMLファイルを格納します。</p></li>
-<li><p><strong>experiments</strong>: 実験を管理するための情報や処理結果がプログラムによって順次格納されていきます。各フォルダは、後ほど説明するExperimentのname毎に区切られており、その配下に実際の実行結果であるrunが作成されます。</p></li>
+<li><p><strong>config</strong>: 各種実験のRunを管理するためのYAMLファイルを格納します。</p></li>
+<li><p><strong>experiments</strong>: 実験を管理するための情報や処理結果がプログラムによって順次自動的に格納されていきます。各フォルダは、後ほど説明するExperimentのname毎に区切られており、その配下に実際の実行結果であるrunが作成されます。</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;your_project&gt;
 ├──<span class="w"> </span>data
@@ -439,6 +485,7 @@ document.write(`
 <span class="w">    </span>├──<span class="w"> </span>&lt;your_experiment_1&gt;
 <span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>experiment.json
 <span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>run_1
+<span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>├──config.yaml
 <span class="w">    </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>model.pkl
 <span class="w">    </span>│<span class="w">   </span>├──<span class="w"> </span>run_2
 <span class="w">    </span>│<span class="w">   </span>├──<span class="w">   </span>⋮
@@ -447,17 +494,17 @@ document.write(`
 <span class="w">    </span>└──<span class="w"> </span>&lt;your_experiment_n&gt;
 </pre></div>
 </div>
-<section id="id1">
-<h2>1. 実験の設定<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<section id="id2">
+<h2>1. 実験の設定<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>はじめに、<code class="docutils literal notranslate"><span class="pre">pip</span></code>でインストールしたパッケージをimportします。その後、実験全体を管理する<code class="docutils literal notranslate"><span class="pre">Experiment</span></code>インスタンスを作成し、<code class="docutils literal notranslate"><span class="pre">init()</span></code>メソッドで初期化を行います。<code class="docutils literal notranslate"><span class="pre">Experiment</span></code>クラスは、いくつかのメンバ変数を指定することができますが、今回は基本的な3つのみ設定します。それぞれ、以下のような役割を担っています。</p>
 <ul class="simple">
-<li><p><strong>name</strong>:実験の名前を設定します。この名前に従って、Current Directoryに<code class="docutils literal notranslate"><span class="pre">experiments/{name}</span></code>というディレクトリが作成されます。</p></li>
-<li><p><strong>desc</strong>:実験の概要を管理するための自由記述欄です。処理では利用されないことに加えて、文字列であること以外に制限はないため、実験を振り返る際に必要な情報を記述してください。</p></li>
+<li><p><strong>name</strong>:実験の名前を設定します。この名前に従って、Current Directory配下に<code class="docutils literal notranslate"><span class="pre">experiments/{name}</span></code>というディレクトリが作成されます。</p></li>
+<li><p><strong>desc</strong>:実験の概要を管理するための自由記述欄です。処理では利用されないことに加えて、文字列であること以外に制限はないため、実験を振り返る際に必要な情報を自由に記述してください。</p></li>
 <li><p><strong>auto_gen_mode</strong>: 各runのdescriptionをLLMを使って自動生成する機能を利用するかどうかを設定するフラグです (デフォルトでは<code class="docutils literal notranslate"><span class="pre">False</span></code>に設定)。こちらの機能を利用する場合はパッケージ利用時に<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">qxmt[llm]</span></code>とする必要があることに加えて、環境変数<code class="docutils literal notranslate"><span class="pre">USE_LLM</span></code>を<code class="docutils literal notranslate"><span class="pre">True</span></code>に設定する必要があります。</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
-<span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
+<span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_tutorial&quot;</span><span class="p">,</span>
     <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A simple experiment to check the operation of the QXMT library&quot;</span><span class="p">,</span>
     <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -468,12 +515,12 @@ document.write(`
 </section>
 <section id="run">
 <h2>2. Runの設定<a class="headerlink" href="#run" title="Link to this heading">#</a></h2>
-<p>QXMTでは各実験の試行をRunという単位で管理します。Runの設定はデータセットやモデル等のインスタンスを直接<code class="docutils literal notranslate"><span class="pre">exp.run()</span></code>メソッドに渡す方式とYAML形式のconfigファイルで設定する2種類の方法があります。アドホックな検証等には実行が容易なインスタンスベースの方法も利用可能ですが、研究等の本格的な実験管理においては、より機能が充実したconfigベースの設定方法を推奨しています。</p>
+<p>QXMTでは各実験の試行をRunという単位で管理します。Runの設定はデータセットやモデル等のインスタンスを直接<code class="docutils literal notranslate"><span class="pre">experiment.run()</span></code>メソッドに渡す方式とYAML形式のconfigファイルで設定する2種類の方法があります。アドホックな検証等には実行が容易なインスタンスベースの方法も利用可能ですが、研究等の本格的な実験管理においては、より機能が充実したconfigベースの設定方法を推奨しています。</p>
 <p>ここでは、今回のチュートリアルで利用するconfigファイルをもとに各設定項目について説明します。</p>
 <ul class="simple">
 <li><p><strong>description</strong>: Runに対しての説明を記載します。上記「1. 実験の設定」で記載したdescriptionは実験全体に対しての説明であり、今回はrunに対する説明となります。こちらの値を空文字列とし、<code class="docutils literal notranslate"><span class="pre">auto_gen_mode=True</span></code>に設定するとLLMで自動生成したdescriptionが設定されます。</p></li>
-<li><p><strong>dataset</strong>: runで利用するデータセットを指定します。<code class="docutils literal notranslate"><span class="pre">type</span></code>には”file”と”generate”があり、”file”を指定した場合には自身で用意したデータセットを利用し、”generate”が指定された場合はダミーデータが生成されます。今回のチュートリアルでは”generate”モードを利用しますが、より実践に近い”file”モードについては別のチュートリアルで紹介しています。</p></li>
-<li><p><strong>device</strong>:　シミュレーションを実行する量子デバイスを設定します。現時点ではconfigベースの設定は<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています。</p></li>
+<li><p><strong>dataset</strong>: runで利用するデータセットを指定します。<code class="docutils literal notranslate"><span class="pre">type</span></code>には”file”、”generate”、”openml”があり、”file”を指定した場合には自身で用意したデータセットを利用し、”generate”が指定された場合はダミーデータが生成され、”openml”を指定して場合はOpenMLのAPIを利用して指定したデータセットのダウンロードを行います。今回のチュートリアルでは”generate”モードを利用しますが、より実践に近い”file”や”openml”モードについては別のチュートリアルで紹介しています。</p></li>
+<li><p><strong>device</strong>:　シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています。</p></li>
 <li><p><strong>feature_map</strong>: 量子特徴マップを利用する場合には、その特徴マップが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されている特徴マップを利用します。</p></li>
 <li><p><strong>kernel</strong>: カーネルベースのモデルを利用する場合には、そのカーネルが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されているカーネルを利用します。</p></li>
 <li><p><strong>model</strong>: 利用する機械学習モデルとそのパラメータ、保存時のファイル名を指定します。今回はデフォルトで用意されているSVMモデルを利用します。</p></li>
@@ -481,12 +528,18 @@ document.write(`
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">example&quot;</span>
 
+<span class="nt">global_settings</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;global_seed</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+
 <span class="nt">dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;generate&quot;</span>
-<span class="w">  </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
-<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
-<span class="w">  </span><span class="nt">test_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nv">*global_seed</span>
+<span class="w">  </span><span class="nt">split</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">train_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.8</span>
+<span class="w">    </span><span class="nt">validation_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.0</span>
+<span class="w">    </span><span class="nt">test_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.2</span>
+<span class="w">    </span><span class="nt">shuffle</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">features</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 <span class="w">  </span><span class="nt">raw_preprocess_logic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
 <span class="w">  </span><span class="nt">transform_logic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
@@ -520,26 +573,28 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>3. Runの実行<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>ステップ2で設定したrunを実行してます。実行方法はconfigをファイルのパスとして渡す方法とインスタンスとして渡す方法の2種類があります。まず、パスを指定する方法で実行します。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../data/configs/simple.yaml&quot;</span>
+<section id="id3">
+<h2>3. Runの実行<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<p>ステップ2で設定したconfigのrunを実行してます。実行方法はconfigをファイルのパスとして渡す方法とインスタンスとして渡す方法の2種類があります。まず、パスを指定する方法で実行します。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/simple.yaml&quot;</span>
 
 <span class="c1"># input config file</span>
-<span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+<span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>run実行時には、その他にも様々な引数を指定することができますが今回は最もシンプルなconfigだけを指定して場合を紹介しています。runを実行すると<code class="docutils literal notranslate"><span class="pre">artifact</span></code>と<code class="docutils literal notranslate"><span class="pre">result</span></code>が返されます。<code class="docutils literal notranslate"><span class="pre">artifact</span></code>にはrunで利用したデータセット (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>)と機械学習モデル (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>)が含まれています。<code class="docutils literal notranslate"><span class="pre">result</span></code>には、runの設定やモデルの評価結果が含まれています。これらは、次章で紹介する可視化に利用したり次のモデル開発を行う際の分析に利用することができます。</p>
 <p>次にconfigをインスタンスとして渡し、runを実行する方法を紹介します。この方法ではモデルのパラメータ等をその場で修正しながら開発を行うことができるので、モデルの構造を探索するときなどに有用です。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">yaml</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt</span> <span class="kn">import</span> <span class="n">ExperimentConfig</span>
 
 <span class="c1"># load default config</span>
-<span class="n">update_config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">config</span><span class="p">))</span>
+<span class="n">adhoc_config</span> <span class="o">=</span> <span class="n">ExperimentConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
+
 <span class="c1"># update model paramter</span>
-<span class="n">update_config</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span> <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">}</span>
+<span class="n">adhoc_config</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">(</span>
+    <span class="p">{</span><span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="s2">&quot;scale&quot;</span><span class="p">})</span>
 
 <span class="c1"># input the updated config instance</span>
-<span class="n">artifact_2</span><span class="p">,</span> <span class="n">result_2</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+<span class="n">artifact_2</span><span class="p">,</span> <span class="n">result_2</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">adhoc_config</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>実行結果として得られる<code class="docutils literal notranslate"><span class="pre">artifact</span></code>や<code class="docutils literal notranslate"><span class="pre">result</span></code>は、configファイルから実行した場合と同様の形式のものが得られます。</p>
@@ -555,8 +610,8 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>4. 結果の可視化<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h2>4. 結果の可視化<a class="headerlink" href="#id4" title="Link to this heading">#</a></h2>
 <p>Experimentで管理されている複数のRunの結果を可視化するための方法をいくつか紹介します。今回紹介したもの以外にも、複数の可視化手法がライブラリとして提供されています。API Reference等を参考に自身の目的に合ったものをぜひ活用してください。また、Runの結果は前章で消化した<code class="docutils literal notranslate"><span class="pre">result</span></code>に格納されていることに加えて、DataFrameとしても取り出すことができるため、ご自身でさまざまな分析・可視化を行うことも可能です。</p>
 <section id="dataset">
 <h3>4.1 Datasetのラベル分布を可視化<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
@@ -568,14 +623,14 @@ document.write(`
 
 <span class="n">plot_2d_dataset</span><span class="p">(</span>
   <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">exp</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/dataset.png&quot;</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/dataset.png&quot;</span>
   <span class="p">)</span>
 </pre></div>
 </div>
 <img src="../../_static/images/tutorials/simple/dataset.png" alt="データセットの分布" title="データセットの分布">
 </section>
-<section id="id4">
-<h3>4.2 評価指標の比較<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<section id="id5">
+<h3>4.2 評価指標の比較<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>パラメータやモデルの構造を変更しながら複数のRunを実行した場合に、それらの評価指標を可視化し比較する方法を紹介します。<code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side</span></code>では、比較したい評価指標名のリスト (dataframeのカラム名)を渡すことで各RunをX軸に取った棒グラフを作成することができます。また、今回は設定していませんが特定のRunに絞り込んで比較を行いたい場合は、引数<code class="docutils literal notranslate"><span class="pre">run_ids=[1,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">6]</span></code>のように対象のrun_idのリストを設定することで可視化できます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
@@ -585,15 +640,15 @@ document.write(`
 <span class="n">plot_metrics_side_by_side</span><span class="p">(</span>
   <span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span>
   <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">,</span> <span class="s2">&quot;recall&quot;</span><span class="p">,</span> <span class="s2">&quot;precision&quot;</span><span class="p">,</span> <span class="s2">&quot;f1_score&quot;</span><span class="p">],</span>
-  <span class="n">run_ids</span><span class="o">=</span><span class="n">run_ids</span><span class="p">,</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
+  <span class="n">run_ids</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="s2">&quot;side_by_side.png&quot;</span>
   <span class="p">)</span>
 </pre></div>
 </div>
 <img src="../../_static/images/tutorials/simple/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
 </section>
-<section id="id5">
-<h3>4.3 モデルの決定境界<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<section id="id6">
+<h3>4.3 モデルの決定境界<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>モデルとしてQuantum Support Vector Machine (QSVM)を利用している場合には、学習済みモデルの決定境界を可視化することができます。この可視化を活用することで、うまく分類できていない例を見つけたり、モデルの特徴を捉えるヒントを得ることができます。</p>
 <p>引数に設定するモデルやデータセットについては、Runの<code class="docutils literal notranslate"><span class="pre">artifact</span></code>から取得することができます。<code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code>は可視化する決定境界の解像度を設定することができ、高い値に設定するほど境界が滑らかになり、個々のサンプルについても分類結果を確認することができます。一方で計算時間が大幅に増加するため目的に合わせて調整してください。<code class="docutils literal notranslate"><span class="pre">support_vectors</span></code>はbool値を取り、出力するグラフのsupport vectorを◯印で囲って視認性を高めるかを制御することができます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decisionon_boundaries</span>
@@ -604,16 +659,16 @@ document.write(`
 
 <span class="n">plot_2d_decisionon_boundaries</span><span class="p">(</span>
   <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-  <span class="n">dataet</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+  <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
   <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
   <span class="n">support_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-  <span class="n">save_path</span><span class="o">=</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">exp</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
+  <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
 </section>
-<section id="id6">
-<h3>バージョン情報<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>バージョン情報<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Environment</p></th>
@@ -622,10 +677,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/09/16</p></td>
+<td><p>2024/10/10</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.2.1</p></td>
+<td><p>v0.2.3</p></td>
 </tr>
 </tbody>
 </table>
@@ -661,14 +716,14 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. 実験の設定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 実験の設定</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">2. Runの設定</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. Runの実行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4. 結果の可視化</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">3. Runの実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4. 結果の可視化</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">4.1 Datasetのラベル分布を可視化</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4.2 評価指標の比較</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.3 モデルの決定境界</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">バージョン情報</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.2 評価指標の比較</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.3 モデルの決定境界</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">バージョン情報</a></li>
 </ul>
 </li>
 </ul>

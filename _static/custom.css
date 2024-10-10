@@ -1,0 +1,26 @@
+.language-switch {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.language-switch button {
+    background-color: gray;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    font-size: 12px
+}
+
+.language-switch button:hover {
+    background-color: #5f5f5f;
+}
+
+/* 選択された言語のボタンに適用されるスタイル */
+.language-switch button.active {
+    background-color: green;
+    color: white;
+}
