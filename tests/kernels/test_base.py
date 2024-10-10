@@ -1,7 +1,6 @@
 from typing import Callable
 
 import numpy as np
-import pennylane as qml
 import pytest
 
 from qxmt.devices.base import BaseDevice
@@ -15,7 +14,7 @@ def empty_feature_map(x: np.ndarray) -> None:
     pass
 
 
-class TestKernel(BaseKernel):
+class SimpleKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
@@ -25,7 +24,7 @@ class TestKernel(BaseKernel):
 
 @pytest.fixture(scope="function")
 def base_kernel() -> BaseKernel:
-    return TestKernel(device=DEVICE, feature_map=empty_feature_map)
+    return SimpleKernel(device=DEVICE, feature_map=empty_feature_map)
 
 
 class TestBaseKernel:
