@@ -1,4 +1,4 @@
-# Simple case using only the default dataset and model
+# デフォルトのデータセットとモデルのみを利用したシンプルなケース
 
 このチュートリアルでは、QXMTのデフォルト機能を使って量子機械学習における実験管理の一連の流れを体験します。QXMTでは、よく使われるデータセットやその前処理、量子機械学習モデル、評価指標をデフォルト機能として提供しています。これらを活用することで実験の初期段階において効率的にベースラインを作成することができます。
 
@@ -18,6 +18,7 @@ QXMTでは実験を以下のディレクトリ構成に従って管理します�
     ├── <your_experiment_1>
     │   ├── experiment.json
     │   ├── run_1
+    │   │   ├──config.yaml
     │   │   └── model.pkl
     │   ├── run_2
     │   ├──   ⋮
@@ -37,7 +38,7 @@ QXMTでは実験を以下のディレクトリ構成に従って管理します�
 ``` python
 import qxmt
 
-exp = qxmt.Experiment(
+experiment = qxmt.Experiment(
     name="simple_tutorial",
     desc="A simple experiment to check the operation of the QXMT library",
     auto_gen_mode=False,
@@ -62,12 +63,18 @@ QXMTでは各実験の試行をRunという単位で管理します。Runの設�
 ``` yaml
 description: "Configuration file for the simple example"
 
+global_settings:
+  random_seed: &global_seed 42
+
 dataset:
   type: "generate"
-  path: null
   params: {}
-  random_seed: 42
-  test_size: 0.2
+  random_seed: *global_seed
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
   features: null
   raw_preprocess_logic: null
   transform_logic: null
@@ -105,10 +112,10 @@ evaluation:
 ステップ2で設定したrunを実行してます。実行方法はconfigをファイルのパスとして渡す方法とインスタンスとして渡す方法の2種類があります。まず、パスを指定する方法で実行します。
 
 ``` python
-config_path = "../data/configs/simple.yaml"
+config_path = "../configs/simple.yaml"
 
 # input config file
-artifact_1, result_1 = exp.run(config_source=config_path)
+artifact_1, result_1 = experiment.run(config_source=config_path)
 ```
 
 run実行時には、その他にも様々な引数を指定することができますが今回は最もシンプルなconfigだけを指定して場合を紹介しています。runを実行すると`artifact`と`result`が返されます。`artifact`にはrunで利用したデータセット (`artifact.dataset`)と機械学習モデル (`artifact.model`)が含まれています。`result`には、runの設定やモデルの評価結果が含まれています。これらは、次章で紹介する可視化に利用したり次のモデル開発を行う際の分析に利用することができます。
@@ -116,15 +123,17 @@ run実行時には、その他にも様々な引数を指定することがで�
 次にconfigをインスタンスとして渡し、runを実行する方法を紹介します。この方法ではモデルのパラメータ等をその場で修正しながら開発を行うことができるので、モデルの構造を探索するときなどに有用です。
 
 ``` python
-import yaml
+from qxmt import ExperimentConfig
 
 # load default config
-update_config = yaml.safe_load(open(config))
+adhoc_config = ExperimentConfig(path=config_path)
+
 # update model paramter
-update_config["model"]["params"] = {'C': 0.1, 'gamma': 0.1}
+adhoc_config.model.params.update(
+    {"C": 0.5, "gamma": "scale"})
 
 # input the updated config instance
-artifact_2, result_2 = exp.run(config_source=config)
+artifact_2, result_2 = experiment.run(config_source=adhoc_config)
 ```
 実行結果として得られる`artifact`や`result`は、configファイルから実行した場合と同様の形式のものが得られます。
 
@@ -155,7 +164,7 @@ dataset = artifact_1.dataset
 
 plot_2d_dataset(
   dataset=dataset,
-  save_path=exp.experiment_dirc / f"run_{exp.current_run_id}/dataset.png"
+  save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/dataset.png"
   )
 ```
 
@@ -175,8 +184,8 @@ df = exp.runs_to_dataframe()
 plot_metrics_side_by_side(
   df=df,
   metrics=["accuracy", "recall", "precision", "f1_score"],
-  run_ids=run_ids,
-  save_path=exp.experiment_dirc / "side_by_side.png"
+  run_ids=[1, 2],
+  save_path=experiment.experiment_dirc / "side_by_side.png"
   )
 ```
 
@@ -198,10 +207,10 @@ dataset = artifact_1.dataset
 
 plot_2d_decisionon_boundaries(
   model=model,
-  dataet=dataset,
+  dataset=dataset,
   grid_resolution=30,
   support_vectors=True,
-  save_path=exp.experiment_dirc / f"run_{exp.current_run_id}/boundary.png")
+  save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/boundary.png")
 ```
 
 <img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
@@ -210,5 +219,5 @@ plot_2d_decisionon_boundaries(
 ### バージョン情報
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/16 |
-| QXMT| v0.2.1 |
+| document | 2024/10/10 |
+| QXMT| v0.2.3 |

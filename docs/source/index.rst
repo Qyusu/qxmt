@@ -43,7 +43,7 @@ Contents
    :maxdepth: 1
 
    qxmt
-   tutorials/tutorial_top.md
+   tutorials/en/tutorial_top.md
 
 Indices and tables
 ==================

@@ -20,6 +20,7 @@ QXMT organizes experiments using the following directory structure:
     ├── <your_experiment_1>
     │   ├── experiment.json
     │   ├── run_1
+    │   │   ├──config.yaml
     │   │   └── model.pkl
     │   ├── run_2
     │   ├──   ⋮
@@ -64,12 +65,18 @@ In this section, we will explain the configuration items based on the config fil
 ``` yaml
 description: "Configuration file for the simple example"
 
+global_settings:
+  random_seed: &global_seed 42
+
 dataset:
   type: "generate"
-  path: null
   params: {}
-  random_seed: 42
-  test_size: 0.2
+  random_seed: *global_seed
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
   features: null
   raw_preprocess_logic: null
   transform_logic: null
@@ -107,7 +114,7 @@ evaluation:
 In this step, you will execute the Run configured in Step 2. There are two methods to execute a Run: by passing the configuration as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the file path.
 
 ``` python
-config_path = "../data/configs/simple.yaml"
+config_path = "../configs/simple.yaml"
 
 # input config file
 artifact_1, result_1 = experiment.run(config_source=config_path)
@@ -118,15 +125,17 @@ When executing a Run, you can specify various additional arguments, but in this 
 Next, we will demonstrate how to execute a Run by passing the configuration as an instance. This method is useful for making on-the-fly adjustments to model parameters and is particularly beneficial when exploring the structure of a model.
 
 ``` python
-import yaml
+from qxmt import ExperimentConfig
 
 # load default config
-update_config = yaml.safe_load(open(config))
+adhoc_config = ExperimentConfig(path=config_path)
+
 # update model paramter
-update_config["model"]["params"] = {'C': 0.1, 'gamma': 0.1}
+adhoc_config.model.params.update(
+    {"C": 0.5, "gamma": "scale"})
 
 # input the updated config instance
-artifact_2, result_2 = experiment.run(config_source=config)
+artifact_2, result_2 = experiment.run(config_source=adhoc_config)
 ```
 
 The `artifact` and `result` obtained from the execution will have the same format as those generated when running from a configuration file.
@@ -159,7 +168,7 @@ dataset = artifact_1.dataset
 
 plot_2d_dataset(
   dataset=dataset,
-  save_path=exp.experiment_dirc / f"run_{exp.current_run_id}/dataset.png"
+  save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/dataset.png"
   )
 ```
 
@@ -178,7 +187,7 @@ df = experiment.runs_to_dataframe()
 plot_metrics_side_by_side(
   df=df,
   metrics=["accuracy", "recall", "precision", "f1_score"],
-  run_ids=run_ids,
+  run_ids=[1, 2],
   save_path=experiment.experiment_dirc / "side_by_side.png"
   )
 ```
@@ -200,7 +209,7 @@ dataset = artifact_1.dataset
 
 plot_2d_decisionon_boundaries(
   model=model,
-  dataet=dataset,
+  dataset=dataset,
   grid_resolution=30,
   support_vectors=True,
   save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/boundary.png")
@@ -212,5 +221,5 @@ plot_2d_decisionon_boundaries(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/29 |
-| QXMT| v0.2.1 |
+| document | 2024/10/10 |
+| QXMT| v0.2.3 |

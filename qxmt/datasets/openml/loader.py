@@ -30,15 +30,22 @@ class OpenMLDataLoader:
     - pandas: .csv, .tsv
 
     Examples:
+
         Load the dataset "mnist_784" from OpenML and save it as a numpy file.
-        >>> loader = OpenMLDataLoader(name="mnist_784", save_path="data/mnist.npz")
-        >>> X, y = loader.load()
-        X=np.array([[0, 0, 0, ..., 0, 0, 0], ..]), y=np.array([5, 0, 4, ..., 4, 5, 6])
+
+        ::
+
+            >>> loader = OpenMLDataLoader(name="mnist_784", save_path="data/mnist.npz")
+            >>> X, y = loader.load()
+            X = np.array([[0, 0, 0, ..., 0, 0, 0], ..]), y = np.array([5, 0, 4, ..., 4, 5, 6])
 
         Load the dataset id=554 ("mnist_784") from OpenML and save it as a pandas DataFrame.
-        >>> loader = OpenMLDataLoader(id=554, save_path="data/mnist.csv", return_format="pandas")
-        >>> data = loader.load()
-        data=pd.DataFrame([[0, 0, 0, ..., 0, 0, 0], .., [5, 0, 4, ..., 4, 5, 6]])
+
+        ::
+
+            >>> loader = OpenMLDataLoader(id=554, save_path="data/mnist.csv", return_format="pandas")
+            >>> data = loader.load()
+            data = pd.DataFrame([[0, 0, 0, ..., 0, 0, 0], .., [5, 0, 4, ..., 4, 5, 6]])
     """
 
     def __init__(
