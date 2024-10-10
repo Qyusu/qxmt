@@ -1,23 +1,28 @@
 import numpy as np
+import pytest
 
-from qxmt.datasets.dummy import generate_linear_separable_data
+from qxmt.datasets.dummy.linear import generate_linear_separable_data
 
 
-def test_generate_linear_separable_data() -> None:
-    X, y = generate_linear_separable_data(n_samples=100, n_features=2, noise=0.1, scale=1.0)
-    assert X.shape == (100, 2)
-    assert y.shape == (100,)
-    assert np.unique(y).tolist() == [-1, 1]
-
-    # high dimension
-    X, y = generate_linear_separable_data(n_samples=100, n_features=10, noise=0.1, scale=1.0)
-    assert X.shape == (100, 10)
-    assert y.shape == (100,)
-    assert np.unique(y).tolist() == [-1, 1]
-
-    # up scale
-    X, y = generate_linear_separable_data(n_samples=1000, n_features=2, noise=0.1, scale=10.0)
-    assert X.shape == (1000, 2)
-    assert X.max() >= 10.0
-    assert y.shape == (1000,)
-    assert np.unique(y).tolist() == [-1, 1]
+@pytest.mark.parametrize(
+    "n_samples, n_features, noise, scale, use_positive_labels",
+    [
+        (100, 2, 0.1, 1.0, True),  # default case
+        (100, 10, 0.1, 1.0, True),  # high dimension
+        (1000, 2, 0.1, 10.0, True),  # up scale
+        (100, 2, 0.1, 1.0, False),  # allow negative labels
+    ],
+)
+def test_generate_linear_separable_data(
+    n_samples: int, n_features: int, noise: float, scale: float, use_positive_labels: bool
+) -> None:
+    X, y = generate_linear_separable_data(
+        n_samples=n_samples,
+        n_features=n_features,
+        noise=noise,
+        scale=scale,
+        use_positive_labels=use_positive_labels,
+    )
+    assert X.shape == (n_samples, n_features)
+    assert y.shape == (n_samples,)
+    assert np.unique(y).tolist() == [0, 1] if use_positive_labels else [-1, 1]

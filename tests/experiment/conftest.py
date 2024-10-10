@@ -5,7 +5,7 @@ import numpy as np
 import pennylane as qml
 import pytest
 
-from qxmt import DatasetConfig, Experiment, PathConfig
+from qxmt import DatasetConfig, Experiment, PathConfig, SplitConfig
 from qxmt.datasets import Dataset
 from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
@@ -45,14 +45,19 @@ def base_experiment(tmp_path: Path) -> Experiment:
 @pytest.fixture(scope="function")
 def create_random_dataset() -> Callable:
     def _create_random_dataset(data_num: int, feature_num: int, class_num: int) -> Dataset:
-        # [TODO]: fix to use builer method
         return Dataset(
             X_train=np.random.rand(data_num, feature_num),
             y_train=np.random.randint(class_num, size=data_num),
+            X_val=np.random.rand(data_num, feature_num),
+            y_val=np.random.randint(class_num, size=data_num),
             X_test=np.random.rand(data_num, feature_num),
             y_test=np.random.randint(class_num, size=data_num),
             config=DatasetConfig(
-                type="generate", path=PathConfig(data="", label=""), random_seed=42, test_size=0.2, features=None
+                type="generate",
+                path=PathConfig(data="", label=""),
+                random_seed=42,
+                split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
+                features=None,
             ),
         )
 

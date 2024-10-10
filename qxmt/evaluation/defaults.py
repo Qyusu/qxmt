@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Literal
 
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
@@ -184,3 +184,14 @@ class TargetAlignmet(BaseMetric):
     @staticmethod
     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         raise NotImplementedError
+
+
+# set default metrics name list for evaluation
+DEFAULT_METRICS_NAME = Literal["accuracy", "precision", "recall", "f1_score"]
+
+NAME2METRIC = {
+    "accuracy": Accuracy,
+    "precision": Precision,
+    "recall": Recall,
+    "f1_score": F1Score,
+}

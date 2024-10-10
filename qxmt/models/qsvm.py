@@ -1,11 +1,15 @@
 from pathlib import Path
+from typing import Any
 
 import dill
 import numpy as np
+from sklearn.model_selection import cross_val_score
 from sklearn.svm import SVC
 
+from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseKernelModel
+from qxmt.models.hyperparameter_search.search import HyperParameterSearch
 
 
 class QSVM(BaseKernelModel):
@@ -34,23 +38,77 @@ class QSVM(BaseKernelModel):
         np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
     """
 
-    def __init__(self, kernel: BaseKernel, **kwargs: dict) -> None:
+    def __init__(self, kernel: BaseKernel, **kwargs: Any) -> None:
         """Initialize the QSVM model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
         """
         super().__init__(kernel)
-        self.model = SVC(kernel=self.kernel.compute_matrix, **kwargs)  # type: ignore
+        self.model = SVC(kernel=self.kernel.compute_matrix, **kwargs)
 
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
-        """_summary_
+    def cross_val_score(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        n_jobs: int = DEFAULT_N_JOBS,
+        **kwargs: Any,
+    ) -> np.ndarray:
+        """Cross validation score of the model.
+
+        Args:
+            X (np.ndarray): numpy array of features
+            y (np.ndarray): numpy array of target values
+
+        Returns:
+            np.ndarray: numpy array of scores
+        """
+        scores = cross_val_score(estimator=self.model, X=X, y=y, n_jobs=n_jobs, **kwargs)
+
+        return scores
+
+    def hyperparameter_search(
+        self,
+        search_type: str,
+        search_space: dict[str, list[Any]],
+        search_args: dict[str, Any],
+        X: np.ndarray,
+        y: np.ndarray,
+    ) -> dict[str, Any]:
+        """Search the best hyperparameters for the model.
+
+        Args:
+            search_type (str): search type for hyperparameter search (grid or random)
+            search_space (dict[str, list[Any]]): search space for hyperparameter search
+            search_args (dict[str, Any]): search arguments for hyperparameter search
+            X (np.ndarray): dataset for search
+            y (np.ndarray): target values for search
+
+        Raises:
+            ValueError: Not supported search type
+
+        Returns:
+            dict[str, Any]: best hyperparameters
+        """
+        searcher = HyperParameterSearch(
+            model=self.model,
+            search_space=search_space,
+            search_type=search_type,
+            search_args=search_args,
+            X=X,
+            y=y,
+        )
+        best_params = searcher.search()
+        return best_params
+
+    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
+        """Fit the model with given features and target values.
 
         Args:
             X (np.ndarray): numpy array of features
             y (np.ndarray): numpy array of target values
         """
-        self.model.fit(X, y, **kwargs)  # type: ignore
+        self.model.fit(X, y, **kwargs)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict the target value with given features.

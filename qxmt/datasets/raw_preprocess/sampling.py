@@ -1,7 +1,7 @@
 import numpy as np
 from sklearn.utils import shuffle
 
-from qxmt.datasets.builder import RAW_DATASET_TYPE
+from qxmt.types import RAW_DATASET_TYPE
 
 
 def sampling_by_each_class(

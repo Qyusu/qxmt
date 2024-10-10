@@ -3,6 +3,7 @@ from qxmt import __all__
 EXPECTED_ALL = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
+    "ExperimentSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",
@@ -21,6 +22,7 @@ EXPECTED_ALL = [
     "KernelConfig",
     "ModelConfig",
     "PathConfig",
+    "SplitConfig",
 ]
 
 

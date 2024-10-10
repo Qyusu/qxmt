@@ -1,11 +1,12 @@
+from typing import get_args
+
 import numpy as np
 import pytest
 
-from qxmt.constants import DEFAULT_METRICS_NAME
 from qxmt.evaluation import Evaluation
-from qxmt.evaluation.defaults import BaseMetric
+from qxmt.evaluation.defaults import DEFAULT_METRICS_NAME, BaseMetric
 
-DEFAULT_METRICS_NUM = len(DEFAULT_METRICS_NAME)
+DEFAULT_METRICS_NUM = len(get_args(DEFAULT_METRICS_NAME))
 
 
 class CustomMetric(BaseMetric):

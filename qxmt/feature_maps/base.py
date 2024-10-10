@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -76,7 +76,9 @@ class BaseFeatureMap(ABC):
         if x.shape[idx] != self.n_qubits:
             raise InputShapeError("Input data shape does not match the number of qubits.")
 
-    def output_circuit(self, x: Optional[np.ndarray] = None, logger: Logger = LOGGER) -> None:
+    def output_circuit(
+        self, x: Optional[np.ndarray] = None, format: str = "default", logger: Logger = LOGGER, **kwargs: Any
+    ) -> None:
         """Output the circuit using the platform's draw function.
 
         Args:
@@ -93,6 +95,12 @@ class BaseFeatureMap(ABC):
         if self.platform == "pennylane":
             import pennylane as qml
 
-            logger.info(qml.draw(self.feature_map)(x))
+            match format:
+                case "default":
+                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x[0]))
+                case "mpl":
+                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x[0]))
+                case _:
+                    raise ValueError(f"Invalid format '{format}' for drawing the circuit")
         else:
             raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')

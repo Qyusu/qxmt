@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
 from qxmt.constants import DEFAULT_N_JOBS
+from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 
 
@@ -16,7 +18,7 @@ class BaseMLModel(ABC):
     """
 
     @abstractmethod
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
         """Fit the model with given data.
 
         Args:
@@ -90,6 +92,14 @@ class BaseKernelModel(BaseMLModel):
         """
         super().__init__()
         self.kernel = kernel
+
+    def get_feature_map(self) -> BaseFeatureMap:
+        """Get the feature map of the model.
+
+        Returns:
+            BaseFeatureMap: feature map instance
+        """
+        return self.kernel.feature_map
 
     def get_kernel_matrix(
         self,

@@ -24,6 +24,56 @@ SVM_PARAMS = [
 
 
 class TestQSVM:
+    def test_cross_val_score(self, build_qsvm: Callable) -> None:
+        qsvm_model = build_qsvm()
+
+        X = np.random.rand(30, 2)
+        y = np.random.randint(2, size=30)
+        scores = qsvm_model.cross_val_score(X, y, cv=5)
+
+        assert scores.shape == (5,)
+        assert all([0 <= score <= 1 for score in scores])
+
+    def test_fit(self, build_qsvm: Callable) -> None:
+        qsvm_model = build_qsvm()
+
+        with pytest.raises(AttributeError):
+            qsvm_model.model.support_
+
+        X = np.random.rand(10, 2)
+        y = np.random.randint(2, size=10)
+        qsvm_model.fit(X, y)
+        qsvm_model.model.support_
+
+    def test_predict(self, build_qsvm: Callable) -> None:
+        qsvm_model = build_qsvm()
+
+        X_train = np.random.rand(10, 2)
+        y_train = np.random.randint(2, size=10)
+        qsvm_model.fit(X_train, y_train)
+
+        X_test = np.random.rand(10, 2)
+        y_pred = qsvm_model.predict(X_test)
+        assert y_pred.shape == (10,)
+        assert all([0 <= y <= 1 for y in y_pred])
+
+    def test_predict_proba(self, build_qsvm: Callable) -> None:
+        qsvm_model_no_prob = build_qsvm(probability=False)
+        qsvm_model_prob = build_qsvm(probability=True)
+
+        X_train = np.random.rand(10, 2)
+        y_train = np.random.randint(2, size=10)
+        qsvm_model_no_prob.fit(X_train, y_train)
+        qsvm_model_prob.fit(X_train, y_train)
+
+        X_test = np.random.rand(10, 2)
+        with pytest.raises(AttributeError):
+            qsvm_model_no_prob.predict_proba(X_test)
+
+        y_pred = qsvm_model_prob.predict_proba(X_test)
+        assert y_pred.shape == (10, 2)
+        assert all([0 <= y <= 1 for y in y_pred.flatten()])
+
     def test_save(self, build_qsvm: Callable, tmp_path: str) -> None:
         qsvm_model = build_qsvm()
 
@@ -41,46 +91,6 @@ class TestQSVM:
         for k, v in qsvm_model.get_params().items():
             if not callable(v):
                 assert loaded_qsvm.get_params()[k] == v
-
-    def test_fit(self, build_qsvm: Callable) -> None:
-        qsvm_model = build_qsvm()
-
-        with pytest.raises(AttributeError):
-            qsvm_model.model.support_
-
-        X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-        y = np.array([0, 1, 1, 0])
-        qsvm_model.fit(X, y)
-        qsvm_model.model.support_
-
-    def test_predict(self, build_qsvm: Callable) -> None:
-        qsvm_model = build_qsvm()
-
-        X_train = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-        y_train = np.array([0, 1, 1, 0])
-        qsvm_model.fit(X_train, y_train)
-
-        X_test = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-        y_pred = qsvm_model.predict(X_test)
-        assert y_pred.shape == (4,)
-        assert all([0 <= y <= 1 for y in y_pred])
-
-    def test_predict_proba(self, build_qsvm: Callable) -> None:
-        qsvm_model_no_prob = build_qsvm(probability=False)
-        qsvm_model_prob = build_qsvm(probability=True)
-
-        X_train = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-        y_train = np.array([0, 1, 1, 0])
-        qsvm_model_no_prob.fit(X_train, y_train)
-        qsvm_model_prob.fit(X_train, y_train)
-
-        X_test = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
-        with pytest.raises(AttributeError):
-            qsvm_model_no_prob.predict_proba(X_test)
-
-        y_pred = qsvm_model_prob.predict_proba(X_test)
-        assert y_pred.shape == (4, 2)
-        assert all([0 <= y <= 1 for y in y_pred.flatten()])
 
     def test_get_params(self, build_qsvm: Callable) -> None:
         qsvm_model = build_qsvm()

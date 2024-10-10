@@ -8,10 +8,12 @@ from qxmt.configs import (
     KernelConfig,
     ModelConfig,
     PathConfig,
+    SplitConfig,
 )
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
+    ExperimentSettingError,
     InputShapeError,
     InvalidFileExtensionError,
     InvalidModelNameError,
@@ -26,6 +28,7 @@ from qxmt.experiment.experiment import Experiment
 __all__ = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
+    "ExperimentSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",
@@ -44,7 +47,8 @@ __all__ = [
     "KernelConfig",
     "ModelConfig",
     "PathConfig",
+    "SplitConfig",
 ]
 
 
-__version__ = "0.2.2"
+__version__ = "0.2.3"

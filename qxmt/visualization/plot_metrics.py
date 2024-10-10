@@ -42,7 +42,7 @@ def plot_metric(
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
-    **kwargs: dict[str, Any],
+    **kwargs: Any,
 ) -> None:
     """Plot bar chart of the target metric. x-axis is run_id.
 
@@ -53,7 +53,7 @@ def plot_metric(
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
-        **kwargs (dict[str, Any]): additional arguments for plot.
+        **kwargs (Any): additional arguments for plot.
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to f'"{valid_metric}" score'.
             title (Optional[str], optional): title of the plot. Defaults to None.
@@ -89,7 +89,7 @@ def plot_metrics_side_by_side(
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
     logger: Logger = LOGGER,
-    **kwargs: dict[str, Any],
+    **kwargs: Any,
 ) -> None:
     """Plot bar chart of the target metrics side by side. x-axis is run_id.
 
@@ -100,7 +100,7 @@ def plot_metrics_side_by_side(
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
         logger (Logger, optional): logger object. Defaults to LOGGER.
-        **kwargs (dict[str, Any]): additional arguments for plot.
+        **kwargs (Any): additional arguments for plot.
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to "metrics score".
             title (Optional[str], optional): title of the plot. Defaults to None.

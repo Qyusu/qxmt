@@ -30,14 +30,11 @@ PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.Device, qml.QubitD
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
 
-# set default metrics name list for evaluation
-DEFAULT_METRICS_NAME: list[str] = ["accuracy", "precision", "recall", "f1_score"]
-
 # set default LLM for generating description
 LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 # set default n_jobs for parallel processing
-# it mainly used in kernel calculation
+# it mainly used in kernel calculation, cross validation
 DEFAULT_N_JOBS = 3
 
 # set default timezone
