@@ -42,8 +42,8 @@ class HyperParameterSearch:
         search_type: str,
         search_space: dict[str, list[Any]],
         search_args: Any,
-        X_train: np.ndarray,
-        y_train: np.ndarray,
+        X: np.ndarray,
+        y: np.ndarray,
         logger: Logger = LOGGER,
     ) -> None:
         """Initialize the hyperparameter search class.
@@ -60,8 +60,8 @@ class HyperParameterSearch:
         self.search_type = search_type
         self.search_space = search_space
         self.search_args = search_args
-        self.X_train = X_train
-        self.y_train = y_train
+        self.X = X
+        self.y = y
         self.logger = logger
 
     def search(self) -> dict[str, Any]:
@@ -91,7 +91,7 @@ class HyperParameterSearch:
             dict[str, Any]: best hyperparameters
         """
         searcher = GridSearchCV(self.model, self.search_space, **self.search_args)
-        searcher.fit(self.X_train, self.y_train)
+        searcher.fit(self.X, self.y)
         return searcher.best_params_
 
     def random_search(self) -> dict[str, Any]:
@@ -104,5 +104,5 @@ class HyperParameterSearch:
             self.logger.info("random_state is not set. Random search may not be reproducible.")
 
         searcher = RandomizedSearchCV(self.model, self.search_space, **self.search_args)
-        searcher.fit(self.X_train, self.y_train)
+        searcher.fit(self.X, self.y)
         return searcher.best_params_
