@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -17,7 +18,7 @@ class BaseMLModel(ABC):
     """
 
     @abstractmethod
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: dict) -> None:
+    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
         """Fit the model with given data.
 
         Args:

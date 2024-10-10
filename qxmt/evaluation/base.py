@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Optional
+from typing import Any, Optional
 
 import numpy as np
 
@@ -22,7 +22,7 @@ class BaseMetric(ABC):
         ...         super().__init__(name)
         ...
         ...     @staticmethod
-        ...     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: dict) -> float:
+        ...     def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         ...         return np.mean(np.abs(actual - predicted))
         ...
         >>> metric = CustomMetric("mean_absolute_error")
@@ -42,7 +42,7 @@ class BaseMetric(ABC):
 
     @staticmethod
     @abstractmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: dict) -> float:
+    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
         """define evaluation method for each metric.
 
         Args:
@@ -55,7 +55,7 @@ class BaseMetric(ABC):
         """
         pass
 
-    def set_score(self, actual: np.ndarray, predicted: np.ndarray, **kwargs: dict) -> None:
+    def set_score(self, actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> None:
         """Evaluated the score and set it to the score attribute.
 
         Args:

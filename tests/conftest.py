@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 
 from qxmt import (
@@ -37,7 +39,7 @@ DEFAULT_EVALUATION_CONFIG = EvaluationConfig(default_metrics=["accuracy", "preci
 
 
 @pytest.fixture(scope="function")
-def experiment_config(**kwargs: dict) -> ExperimentConfig:
+def experiment_config(**kwargs: Any) -> ExperimentConfig:
     default_values = {
         "path": ".",
         "description": "test",

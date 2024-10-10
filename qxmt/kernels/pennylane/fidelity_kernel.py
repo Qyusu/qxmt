@@ -12,13 +12,14 @@ from qxmt.kernels.base import BaseKernel
 
 class FidelityKernel(BaseKernel):
     """Fidelity kernel class.
+    The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
+    between two quantum states.
 
     Args:
         BaseKernel (_type_): base class of kernel
 
     Examples:
         >>> import numpy as np
-        >>> from typing import Callable
         >>> from qxmt.kernels.pennylane.fidelity_kernel import FidelityKernel
         >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig

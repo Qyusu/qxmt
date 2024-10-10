@@ -77,7 +77,7 @@ class BaseFeatureMap(ABC):
             raise InputShapeError("Input data shape does not match the number of qubits.")
 
     def output_circuit(
-        self, x: Optional[np.ndarray] = None, format: str = "default", logger: Logger = LOGGER, **kwargs: dict[str, Any]
+        self, x: Optional[np.ndarray] = None, format: str = "default", logger: Logger = LOGGER, **kwargs: Any
     ) -> None:
         """Output the circuit using the platform's draw function.
 
@@ -97,9 +97,9 @@ class BaseFeatureMap(ABC):
 
             match format:
                 case "default":
-                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x))  # type: ignore
+                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x[0]))
                 case "mpl":
-                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x))  # type: ignore
+                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x[0]))
                 case _:
                     raise ValueError(f"Invalid format '{format}' for drawing the circuit")
         else:
