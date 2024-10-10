@@ -1,9 +1,11 @@
 # Practical Case with Custom Functions and the MNIST Dataset
 
-In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you're new to QXMT, it is recommended to start with the "Simple Case Using Only the Default Dataset and Model" tutorial to gain an overall understanding.
+In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you're new to QXMT, it is recommended to start with the "[Simple Case Using Only the Default Dataset and Model](./default_simple.md)" tutorial to gain an overall understanding.
 
 ## 1. Preparing the Dataset
 To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the `scikit-learn` method [fetch_openml](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html).
+
+In this tutorial, the dataset used for the experiment is downloaded manually, but QXMT also provides a feature to download major datasets from [OpenML](https://www.openml.org/) via a config file. For more details, refer to the tutorial that demonstrates how to use OpenML.
 
 ``` python
 import numpy as np
@@ -26,8 +28,6 @@ y = digits_dataset.target.to_numpy()
 np.save("./data/mnist_784/images.npy", X)
 np.save("./data/mnist_784/label.npy", y)
 ```
-
-**Note: Currently, it is necessary to download major datasets individually, but there are plans to add functionality that allows data to be downloaded directly within QXMT by integrating with the OpenML API.**
 
 ## 2. Implementing Custom Features
 
@@ -68,6 +68,8 @@ Next, the transformation logic for the data will be implemented. In this step, P
 ``` python
 # File: your_project/custom/transform_logic.py
 
+from typing import Optional
+
 import numpy as np
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
@@ -76,21 +78,25 @@ from sklearn.preprocessing import StandardScaler
 def dimension_reduction_by_pca(
     X_train: np.ndarray,
     y_train: np.ndarray,
+    X_val: Optional[np.ndarray],
+    y_val: Optional[np.ndarray],
     X_test: np.ndarray,
     y_test: np.ndarray,
     n_components: int,
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+) -> tuple[np.ndarray, np.ndarray, Optional[np.ndarray], Optional[np.ndarray], np.ndarray, np.ndarray]:
     scaler = StandardScaler()
     scaler.fit(X_train)
-    x_train_scaled = scaler.transform(X_train)
-    x_test_scaled = scaler.transform(X_test)
+    X_train_scaled = scaler.transform(X_train)
+    X_val_scaled = scaler.transform(X_val) if X_val is not None else None
+    X_test_scaled = scaler.transform(X_test)
 
     pca = PCA(n_components=n_components)
-    pca.fit(x_train_scaled)
-    X_train_pca = pca.transform(x_train_scaled)
-    X_test_pca = pca.transform(x_test_scaled)
+    pca.fit(X_train_scaled)
+    X_train_pca = pca.transform(X_train_scaled)
+    X_val_pca = pca.transform(X_val_scaled) if X_val_scaled is not None else None
+    X_test_pca = pca.transform(X_test_scaled)
 
-    return X_train_pca, y_train, X_test_pca, y_test
+    return X_train_pca, y_train, X_val_pca, y_val, X_test_pca, y_test
 ```
 
 ### 2.2 Custom Definition of Feature Map
@@ -102,7 +108,9 @@ In this tutorial, a quantum circuit using PennyLane is implemented as a feature 
 ``` python
 # File: your_project/custom/feature_map.py
 
+import numpy as np
 import pennylane as qml
+
 from qxmt.feature_maps import BaseFeatureMap
 
 
@@ -138,8 +146,9 @@ In this tutorial, we will define specificity as an additional evaluation metric.
 from typing import Any
 
 import numpy as np
-from qxmt.evaluation import BaseMetric
 from sklearn.metrics import confusion_matrix
+
+from qxmt.evaluation import BaseMetric
 
 
 class CustomMetric(BaseMetric):
@@ -163,14 +172,21 @@ This section explains the items that need to be configured in the configuration 
 
 description: "Configuration file for the custom MNIST case"
 
+global_settings:
+  random_seed: &global_seed 42
+
 dataset:
   type: "file"
   path: # [SETUP] full path or relative path from the root of the project
     data: "data/mnist_784/images.npy"
     label: "data/mnist_784/label.npy"
   params: {}
-  random_seed: 42
-  test_size: 0.2
+  random_seed: *global_seed
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
   features: null
   raw_preprocess_logic: # [SETUP] your logic path and parameter
     module_name: "your_project.custom.raw_preprocess_logic"
@@ -210,11 +226,18 @@ model:
 
 evaluation: # [SETUP] your logic path
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]
-  custom_metrics: ["CustomMetric"]
+  custom_metrics: [
+    {"module_name": "your_project.custom.evaluation", "implement_name": "CustomMetric"}
+    ]
+
 ```
 
 ## 4. Executing Experiments and Evaluation
 Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.
+
+If an module import error occurs during execution, review the Python path and re-run the process.
+For example, if a custome module is implemented in `/root/hoge/your_project/custom/raw_preprocess_logic.py`, the Python path can be updated using the `sys.path.append("/root/hoge")` command.
+
 
 ``` python
 import qxmt
@@ -261,5 +284,5 @@ plot_metrics_side_by_side(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/09/29 |
-| QXMT| v0.2.1 |
+| document | 2024/10/10 |
+| QXMT| v0.2.3 |

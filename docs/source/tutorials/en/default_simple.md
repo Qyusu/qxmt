@@ -50,7 +50,7 @@ experiment = qxmt.Experiment(
 Up to this point, we have completed the setup for managing experiments using QXMT.
 
 ## 2. Run Configuration
-In QXMT, each experimental trial is managed as a unit called a "Run." There are two methods to configure a Run: by directly passing instances, such as datasets and models, to the `exp.run()` method, or by using a YAML configuration file. While the instance-based method is convenient for ad-hoc validations due to its simplicity, for more structured experimental management, especially in research, we recommend using the more feature-rich config-based method.
+In QXMT, each experimental trial is managed as a unit called a "Run." There are two methods to configure a Run: by directly passing instances, such as datasets and models, to the `experiment.run()` method, or by using a YAML configuration file. While the instance-based method is convenient for ad-hoc validations due to its simplicity, for more structured experimental management, especially in research, we recommend using the more feature-rich config-based method.
 
 In this section, we will explain the configuration items based on the config file used in this tutorial.
 

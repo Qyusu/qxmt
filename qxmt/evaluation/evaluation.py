@@ -84,7 +84,7 @@ class Evaluation:
         """Initialize and validate custom metrics.
 
         Args:
-            custom_metrics (Optional[list[BaseMetric]], optional): list of custom metrics. Defaults to None.
+            custom_metrics (Optional[list[dict[str, Any]]]): list of custom metrics. Defaults to None.
 
         Raises:
             ValueError: if the metric is not subclass of BaseMetric
