@@ -5,26 +5,13 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    qxmt.kernels.pennylane
-   qxmt.kernels.base
 
 Submodules
 ----------
+.. toctree::
+   :maxdepth: 2
 
-qxmt.kernels.base module
-------------------------
-
-.. automodule:: qxmt.kernels.base
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: qxmt.kernels
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   qxmt.kernels.base

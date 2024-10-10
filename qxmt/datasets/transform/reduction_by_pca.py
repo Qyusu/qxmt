@@ -32,13 +32,14 @@ def dimension_reduction_by_pca(
     """
     scaler = StandardScaler()
     scaler.fit(X_train)
-    x_train_scaled = scaler.transform(X_train)
-    x_test_scaled = scaler.transform(X_test)
+    X_train_scaled = scaler.transform(X_train)
+    X_val_scaled = scaler.transform(X_val) if X_val is not None else None
+    X_test_scaled = scaler.transform(X_test)
 
     pca = PCA(n_components=n_components)
-    pca.fit(x_train_scaled)
-    X_train_pca = pca.transform(x_train_scaled)
-    X_val_pca = pca.transform(X_val) if X_val is not None else None
-    X_test_pca = pca.transform(x_test_scaled)
+    pca.fit(X_train_scaled)
+    X_train_pca = pca.transform(X_train_scaled)
+    X_val_pca = pca.transform(X_val_scaled) if X_val_scaled is not None else None
+    X_test_pca = pca.transform(X_test_scaled)
 
     return X_train_pca, y_train, X_val_pca, y_val, X_test_pca, y_test

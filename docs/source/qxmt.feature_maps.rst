@@ -5,26 +5,14 @@ Subpackages
 -----------
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 1
 
    qxmt.feature_maps.pennylane
-   qxmt.feature_maps.base
 
 Submodules
 ----------
 
-qxmt.feature\_maps.base module
-------------------------------
+.. toctree::
+   :maxdepth: 2
 
-.. automodule:: qxmt.feature_maps.base
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-Module contents
----------------
-
-.. automodule:: qxmt.feature_maps
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   qxmt.feature_maps.base
