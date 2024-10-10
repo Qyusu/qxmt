@@ -509,6 +509,32 @@ Then, many methods use the same interface as the sklearn.svm.SVC class.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hyperparameter_search</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Search the best hyperparameters for the model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>search_type</strong> (<em>str</em>) – search type for hyperparameter search (grid or random)</p></li>
+<li><p><strong>search_space</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – search space for hyperparameter search</p></li>
+<li><p><strong>search_args</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – search arguments for hyperparameter search</p></li>
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – dataset for search</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – target values for search</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Not supported search type</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>best hyperparameters</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Any]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Load the trained model from the given path.</p>
 <dl class="field-list simple">
