@@ -9,6 +9,7 @@ from sklearn.svm import SVC
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseKernelModel
+from qxmt.models.hyperparameter_search.search import HyperParameterSearch
 
 
 class QSVM(BaseKernelModel):
@@ -65,6 +66,40 @@ class QSVM(BaseKernelModel):
         scores = cross_val_score(estimator=self.model, X=X, y=y, n_jobs=n_jobs, **kwargs)
 
         return scores
+
+    def hyperparameter_search(
+        self,
+        search_type: str,
+        search_space: dict[str, list[Any]],
+        search_args: dict[str, Any],
+        X: np.ndarray,
+        y: np.ndarray,
+    ) -> dict[str, Any]:
+        """Search the best hyperparameters for the model.
+
+        Args:
+            search_type (str): search type for hyperparameter search (grid or random)
+            search_space (dict[str, list[Any]]): search space for hyperparameter search
+            search_args (dict[str, Any]): search arguments for hyperparameter search
+            X (np.ndarray): dataset for search
+            y (np.ndarray): target values for search
+
+        Raises:
+            ValueError: Not supported search type
+
+        Returns:
+            dict[str, Any]: best hyperparameters
+        """
+        searcher = HyperParameterSearch(
+            model=self.model,
+            search_space=search_space,
+            search_type=search_type,
+            search_args=search_args,
+            X_train=X,
+            y_train=y,
+        )
+        best_params = searcher.search()
+        return best_params
 
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
         """Fit the model with given features and target values.
