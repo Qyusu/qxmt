@@ -95,8 +95,8 @@ class QSVM(BaseKernelModel):
             search_space=search_space,
             search_type=search_type,
             search_args=search_args,
-            X_train=X,
-            y_train=y,
+            X=X,
+            y=y,
         )
         best_params = searcher.search()
         return best_params
