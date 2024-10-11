@@ -217,6 +217,7 @@ plot_2d_decisionon_boundaries(
 
 <img src="../../_static/images/tutorials/simple/boundary.png" alt="モデルの決定境界" title="モデルの決定境界">
 
+---
 
 ### Version Information
 | Environment | Version |

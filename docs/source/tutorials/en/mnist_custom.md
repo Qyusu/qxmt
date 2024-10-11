@@ -280,6 +280,7 @@ plot_metrics_side_by_side(
 ```
 <img src="../../_static/images/tutorials/custom/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
 
+---
 
 ### Version Information
 | Environment | Version |
