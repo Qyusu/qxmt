@@ -3,7 +3,7 @@ from logging import Logger
 from pathlib import Path
 from typing import Optional
 
-from qxmt.constants import MODULE_HOME
+from qxmt.constants import PROJECT_ROOT_DIR
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
@@ -11,7 +11,7 @@ LOGGER = set_default_logger(__name__)
 
 def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
     """Get the commit ID of the current git repository.
-    if the current directory is not a git repository, return an empty string.
+    if the user is not using git version control, return "[Not using Git version control]".
 
     Args:
         repo_path (Optional[Path | str]): git repository path. Defaults to None.
@@ -21,16 +21,14 @@ def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGE
         str: git commit ID
     """
     if repo_path is None:
-        repo_path = MODULE_HOME
+        repo_path = PROJECT_ROOT_DIR
 
     command = ["git", "-C", str(repo_path), "rev-parse", "HEAD"]
     try:
         commit_id = subprocess.check_output(command).strip().decode("utf-8")
         return commit_id
-    except subprocess.CalledProcessError as e:
-        command_str = " ".join(command)
-        logger.warning(f'Error executing "{command_str}" command: {e}')
-        return ""
+    except subprocess.CalledProcessError:
+        return "[Not using Git version control]"
 
 
 def get_git_diff(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
@@ -45,7 +43,7 @@ def get_git_diff(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER
         str: git diff
     """
     if repo_path is None:
-        repo_path = MODULE_HOME
+        repo_path = PROJECT_ROOT_DIR
 
     command = ["git", "-C", str(repo_path), "diff"]
     try:
@@ -73,7 +71,7 @@ def get_git_add_code(
         str: added code
     """
     if repo_path is None:
-        repo_path = MODULE_HOME
+        repo_path = PROJECT_ROOT_DIR
 
     if diff is None:
         diff = get_git_diff(repo_path=repo_path, logger=logger)
@@ -103,7 +101,7 @@ def get_git_rm_code(
         str: removed code
     """
     if repo_path is None:
-        repo_path = MODULE_HOME
+        repo_path = PROJECT_ROOT_DIR
 
     if diff is None:
         diff = get_git_diff(repo_path=repo_path, logger=logger)
