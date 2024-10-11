@@ -456,7 +456,7 @@ document.write(`
 <dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">qxmt.utils.github.</span></span><span class="sig-name descname"><span class="pre">get_commit_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.github</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get the commit ID of the current git repository.
-if the current directory is not a git repository, return an empty string.</p>
+if the user is not using git version control, return “[Not using Git version control]”.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
