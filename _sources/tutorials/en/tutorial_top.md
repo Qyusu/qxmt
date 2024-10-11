@@ -9,3 +9,4 @@ If this is your first time using QXMT, we recommend starting with the first tuto
 
 ./default_simple.md
 ./mnist_custom.md
+./tool_reference.md
