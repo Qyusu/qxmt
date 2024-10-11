@@ -11,7 +11,7 @@ LOGGER = set_default_logger(__name__)
 
 def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
     """Get the commit ID of the current git repository.
-    if the current directory is not a git repository, return an empty string.
+    if the user is not using git version control, return "[Not using Git version control]".
 
     Args:
         repo_path (Optional[Path | str]): git repository path. Defaults to None.
@@ -27,10 +27,8 @@ def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGE
     try:
         commit_id = subprocess.check_output(command).strip().decode("utf-8")
         return commit_id
-    except subprocess.CalledProcessError as e:
-        command_str = " ".join(command)
-        logger.warning(f'Error executing "{command_str}" command: {e}')
-        return ""
+    except subprocess.CalledProcessError:
+        return "[Not using Git version control]"
 
 
 def get_git_diff(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:

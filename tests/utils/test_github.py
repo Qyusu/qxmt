@@ -30,7 +30,7 @@ class TestGetCommitId:
         mocker.patch("subprocess.check_output", side_effect=subprocess.CalledProcessError(1, "git"))
 
         commit_id = get_commit_id(repo_path=PROJECT_ROOT_DIR)
-        assert commit_id == ""
+        assert commit_id == "[Not using Git version control]"
 
 
 class TestGetGitDiff:
