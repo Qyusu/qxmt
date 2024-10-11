@@ -4,7 +4,7 @@ from typing import Any, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from qxmt.constants import MODULE_HOME
+from qxmt.constants import PROJECT_ROOT_DIR
 
 
 class GlobalSettingsConfig(BaseModel):
@@ -29,10 +29,10 @@ class PathConfig(BaseModel):
 
     def model_post_init(self, __context: dict[str, Any]) -> None:
         if not Path(self.data).is_absolute():
-            self.data = MODULE_HOME / self.data
+            self.data = PROJECT_ROOT_DIR / self.data
 
         if not Path(self.label).is_absolute():
-            self.label = MODULE_HOME / self.label
+            self.label = PROJECT_ROOT_DIR / self.label
 
 
 class SplitConfig(BaseModel):

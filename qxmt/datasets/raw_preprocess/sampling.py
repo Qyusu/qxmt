@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.utils import shuffle
 
 from qxmt.types import RAW_DATASET_TYPE
 

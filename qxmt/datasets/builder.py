@@ -129,7 +129,7 @@ class DatasetBuilder:
         elif len(type_hint_dict) - 1 < 6:
             raise ValueError(
                 "The custom transform function must have at "
-                "least 4 arguments (X_train, y_train, X_val, y_val, X_test, y_test)."
+                "least 6 arguments (X_train, y_train, X_val, y_val, X_test, y_test)."
             )
 
         # check argument type and return type

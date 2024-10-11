@@ -5,20 +5,21 @@ from typing import Any
 import pennylane as qml
 import pytz
 
-# set module path for development
+# set module path for developer environment
 MODULE_HOME: Path = Path(__file__).resolve().parents[1]
-MODULE_SRC: Path = Path(__file__).resolve().parents[0]
 
-# set current working directory for production
+# set current working directory for user environment
 CURRENT_WORKING_DIR: Path = Path.cwd()
+
+# set project root directory.
+# it swith by environment variable "QXMT_ENV"
+PROJECT_ROOT_DIR: Path = (
+    MODULE_HOME if os.getenv("QXMT_ENV", "").lower() == "dev" else CURRENT_WORKING_DIR.resolve().parents[0]
+)
 
 # set default experiment directory.
 # it swith by environment variable "QXMT_ENV"
-DEFAULT_EXP_DIRC: Path = (
-    MODULE_HOME / "experiments"
-    if os.getenv("QXMT_ENV", "").lower() == "dev"
-    else CURRENT_WORKING_DIR.resolve().parents[0] / "experiments"
-)
+DEFAULT_EXP_DIRC: Path = PROJECT_ROOT_DIR / "experiments"
 
 # set default experiment file name.
 DEFAULT_EXP_DB_FILE: Path = Path("experiment.json")
