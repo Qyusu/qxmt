@@ -5,7 +5,11 @@ global_settings:
 
 dataset:
   type: "generate"  # "openml", "file" or "generate"
-  params: {}
+  params: {
+    "n_samples": 100,
+    "n_features": 2,
+    "n_classes": 3,
+  }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -18,7 +22,7 @@ dataset:
       implement_name: "sampling_by_each_class"
       params:
         n_samples: 100
-        labels: [0, 1]
+        labels: [0, 1, 2]
         random_seed: *global_seed
   transform_logic:
     module_name: "qxmt.datasets.transform.reduction_by_pca"
@@ -48,7 +52,7 @@ model:
   file_name: "model.pkl"
   params:
     C: 1.0
-    gamma: 0.05
+    gamma:  "scale"
 
 evaluation:
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]

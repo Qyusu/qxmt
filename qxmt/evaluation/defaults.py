@@ -77,13 +77,21 @@ class Recall(BaseMetric):
             predicted (np.ndarray): numpy array of predicted values
             **kwargs (dict): additional keyword arguments. The following options are supported:
                 - average (str): define averaging method
+                - pos_label (int): positive label for binary classification (default: max value)
 
         Returns:
             float: recall score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
+
+        # skleran default pos_label is 1.
+        # it is handle not enclude 1 label case. ex) [0, 8] -> pos_label=8
+        if (kwargs.get("average") == "binary") and (kwargs.get("pos_label") is None):
+            pos_label = max(np.unique(actual))
+            kwargs["pos_label"] = pos_label
+
         score = recall_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -121,13 +129,21 @@ class Precision(BaseMetric):
             predicted (np.ndarray): numpy array of predicted values
             **kwargs (dict): additional keyword arguments. The following options are supported:
                 - average (str): define averaging method
+                - pos_label (int): positive label for binary classification (default: max value)
 
         Returns:
             float: precision score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
+
+        # skleran default pos_label is 1.
+        # it is handle not enclude 1 label case. ex) [0, 8] -> pos_label=8
+        if (kwargs.get("average") == "binary") and (kwargs.get("pos_label") is None):
+            pos_label = max(np.unique(actual))
+            kwargs["pos_label"] = pos_label
+
         score = precision_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)
@@ -165,13 +181,21 @@ class F1Score(BaseMetric):
             predicted (np.ndarray): numpy array of predicted values
             **kwargs (dict): additional keyword arguments. The following options are supported:
                 - average (str): define averaging method
+                - pos_label (int): positive label for binary classification (default: max value)
 
         Returns:
             float: F1 score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
+
+        # skleran default pos_label is 1.
+        # it is handle not enclude 1 label case. ex) [0, 8] -> pos_label=8
+        if (kwargs.get("average") == "binary") and (kwargs.get("pos_label") is None):
+            pos_label = max(np.unique(actual))
+            kwargs["pos_label"] = pos_label
+
         score = f1_score(y_true=actual, y_pred=predicted, **kwargs)
 
         return float(score)

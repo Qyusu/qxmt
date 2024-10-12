@@ -18,6 +18,10 @@ def sampling_by_each_class(
     Returns:
         RAW_DATASET_TYPE: sampled data
     """
+    not_exist_labels = set(labels) - set(map(int, np.unique(y)))
+    if not_exist_labels:
+        raise ValueError(f"Labels {not_exist_labels} do not exist in the dataset.")
+
     # fix random seed and shuffle
     rng = np.random.default_rng(random_seed)
     indices = np.arange(X.shape[0])

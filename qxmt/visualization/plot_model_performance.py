@@ -116,6 +116,7 @@ def plot_2d_decisionon_boundaries(
             title (str, optional): title of the plot. Defaults to "Decision boundaries of QSVC".
     """
     X, y = dataset.X_train, dataset.y_train
+    is_multi_class = len(np.unique(y)) > 2
 
     if X.shape[1] != 2:
         raise ValueError("This function only supports 2D dataset.")
@@ -127,7 +128,8 @@ def plot_2d_decisionon_boundaries(
 
     _, ax = plt.subplots(figsize=(6, 5), tight_layout=True)
     x_min, x_max, y_min, y_max = X[:, 0].min(), X[:, 0].max(), X[:, 1].min(), X[:, 1].max()
-    ax.set(xlim=(x_min, x_max), ylim=(y_min, y_max))
+    margin = 1
+    ax.set(xlim=(x_min - margin, x_max + margin), ylim=(y_min - margin, y_max + margin))
 
     # Plot decision boundary and margins
     common_params = {"estimator": model.model, "X": X, "grid_resolution": grid_resolution, "ax": ax}
@@ -138,14 +140,16 @@ def plot_2d_decisionon_boundaries(
         alpha=0.3,
     )
 
-    DecisionBoundaryDisplay.from_estimator(
-        **common_params,
-        response_method="decision_function",
-        plot_method="contour",
-        levels=[-1, 0, 1],
-        colors=["k", "k", "k"],
-        linestyles=["--", "-", "--"],
-    )
+    if not is_multi_class:
+        # Only plot decision boundary and margins when it is binary classification
+        DecisionBoundaryDisplay.from_estimator(
+            **common_params,
+            response_method="decision_function",
+            plot_method="contour",
+            levels=[-1, 0, 1],
+            colors=["k", "k", "k"],
+            linestyles=["--", "-", "--"],
+        )
 
     if support_vectors:
         # Plot bigger circles around samples that serve as support vectors
