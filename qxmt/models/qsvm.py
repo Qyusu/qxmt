@@ -1,5 +1,6 @@
+import copy
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Optional
 
 import dill
 import numpy as np
@@ -69,20 +70,24 @@ class QSVM(BaseKernelModel):
 
     def hyperparameter_search(
         self,
+        X: np.ndarray,
+        y: np.ndarray,
         search_type: str,
         search_space: dict[str, list[Any]],
         search_args: dict[str, Any],
-        X: np.ndarray,
-        y: np.ndarray,
+        objective: Optional[Callable] = None,
+        refit: bool = True,
     ) -> dict[str, Any]:
         """Search the best hyperparameters for the model.
 
         Args:
-            search_type (str): search type for hyperparameter search (grid or random)
-            search_space (dict[str, list[Any]]): search space for hyperparameter search
-            search_args (dict[str, Any]): search arguments for hyperparameter search
             X (np.ndarray): dataset for search
             y (np.ndarray): target values for search
+            search_type (str): search type for hyperparameter search (grid, random, tpe)
+            search_space (dict[str, list[Any]]): search space for hyperparameter search
+            search_args (dict[str, Any]): search arguments for hyperparameter search
+            objective (Optional[Callable], optional): objective function for search. Defaults to None.
+            refit (bool, optional): refit the model with best hyperparameters. Defaults to True.
 
         Raises:
             ValueError: Not supported search type
@@ -90,15 +95,21 @@ class QSVM(BaseKernelModel):
         Returns:
             dict[str, Any]: best hyperparameters
         """
+        search_model = copy.deepcopy(self.model)
         searcher = HyperParameterSearch(
-            model=self.model,
-            search_space=search_space,
-            search_type=search_type,
-            search_args=search_args,
             X=X,
             y=y,
+            model=search_model,
+            search_type=search_type,
+            search_space=search_space,
+            search_args=search_args,
+            objective=objective,
         )
         best_params = searcher.search()
+        if refit:
+            self.model.set_params(**best_params)
+            self.model.fit(X, y)
+
         return best_params
 
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
