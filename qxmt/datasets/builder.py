@@ -50,6 +50,7 @@ class DatasetBuilder:
             logger (Logger, optional): logger for output messages. Defaults to LOGGER.
         """
         self.config: ExperimentConfig = config
+        self.task_type: str = config.global_settings.task_type
         self.random_seed: int = config.dataset.random_seed
         self.logger: Logger = logger
 
