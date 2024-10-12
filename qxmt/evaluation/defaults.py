@@ -82,7 +82,7 @@ class Recall(BaseMetric):
             float: recall score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
         score = recall_score(y_true=actual, y_pred=predicted, **kwargs)
 
@@ -126,7 +126,7 @@ class Precision(BaseMetric):
             float: precision score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
         score = precision_score(y_true=actual, y_pred=predicted, **kwargs)
 
@@ -170,7 +170,7 @@ class F1Score(BaseMetric):
             float: F1 score
         """
         if kwargs.get("average") is None:
-            average = "binary" if len(np.unique(actual)) == 2 else "micro"
+            average = "binary" if len(np.unique(actual)) == 2 else "macro"
             kwargs["average"] = average
         score = f1_score(y_true=actual, y_pred=predicted, **kwargs)
 
