@@ -2,14 +2,16 @@ description: "This is a template configuration file for the QXMT framework."
 
 global_settings:
   random_seed: &global_seed 42
+  task_type: "classification"
 
 dataset:
-  type: "generate"  # "openml", "file" or "generate"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-    "n_classes": 3,
-  }
+  type: "openml"  # "openml", "file" or "generate"
+  openml:
+    name: "mnist_784"
+    id: 554
+    return_format: "numpy"
+    save_path: "data/openml/mnist_784/dataset.npz"
+  params: {}
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -22,7 +24,7 @@ dataset:
       implement_name: "sampling_by_each_class"
       params:
         n_samples: 100
-        labels: [0, 1, 2]
+        labels: [0, 1]
         random_seed: *global_seed
   transform_logic:
     module_name: "qxmt.datasets.transform.reduction_by_pca"
@@ -44,15 +46,17 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "FidelityKernel"
-  params: {}
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "xyz_sum"
 
 model:
   name: "qsvm"
   file_name: "model.pkl"
   params:
     C: 1.0
-    gamma:  "scale"
+    gamma: "scale"
 
 evaluation:
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]

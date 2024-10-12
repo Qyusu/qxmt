@@ -10,6 +10,7 @@ from qxmt.constants import PROJECT_ROOT_DIR
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
+    task_type: Literal["classification", "regression"]
 
 
 class OpenMLConfig(BaseModel):

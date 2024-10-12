@@ -10,7 +10,7 @@ from qxmt import Experiment
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.datasets import Dataset
-from qxmt.evaluation import BaseMetric
+from qxmt.evaluation.metrics import BaseMetric
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
@@ -159,7 +159,9 @@ class TestExperimentRun:
 
         # only default metrics
         custom_metrics = None
-        evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
+        evaluation = base_experiment.run_evaluation(
+            "classification", actual, predicted, default_metrics_name, custom_metrics
+        )
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(evaluation) == 4
         for key, value in acutal_result.items():
@@ -167,7 +169,9 @@ class TestExperimentRun:
 
         # default and custom metrics
         custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
-        evaluation = base_experiment.run_evaluation(actual, predicted, default_metrics_name, custom_metrics)
+        evaluation = base_experiment.run_evaluation(
+            "classification", actual, predicted, default_metrics_name, custom_metrics
+        )
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         assert len(evaluation) == 5
         for key, value in acutal_result.items():
@@ -189,18 +193,20 @@ class TestExperimentRun:
 
         # run from dataset and model instance
         base_experiment.init()
-        artifact, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
+        artifact, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=base_model, add_results=True
+        )
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=True)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=True)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # not add result record
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=False)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # invalid arguments patterm
@@ -212,6 +218,9 @@ class TestExperimentRun:
 
         with pytest.raises(ExperimentRunSettingError):
             base_experiment.run(model=base_model)
+
+        with pytest.raises(ExperimentRunSettingError):
+            base_experiment.run(dataset=dataset, model=base_model)
 
     def test_run_from_config(
         self,
@@ -241,35 +250,15 @@ class TestExperimentRun:
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=True)
-        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
-
-        # not add result record
-        _, _ = base_experiment.run(dataset=dataset, model=base_model, add_results=False)
-        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
-        assert not base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
-        assert not base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
-
-        # run from config instance
+        # run from config file
         experiment_config_file = tmp_path / "experiment_config.yaml"
         save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
         artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
-        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_4/config.yaml").exists()
+        assert len(base_experiment.exp_db.runs) == 2  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_2/config.yaml").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
-
-        # invalid arguments patterm
-        with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run()
-
-        with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=dataset)
-
-        with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(model=base_model)
 
 
 class TestExperimentResults:
@@ -282,8 +271,12 @@ class TestExperimentResults:
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
-        base_experiment.run(dataset=dataset, model=base_model, default_metrics_name=default_metrics_name)
-        base_experiment.run(dataset=dataset, model=base_model, default_metrics_name=default_metrics_name)
+        base_experiment.run(
+            task_type="classification", dataset=dataset, model=base_model, default_metrics_name=default_metrics_name
+        )
+        base_experiment.run(
+            task_type="classification", dataset=dataset, model=base_model, default_metrics_name=default_metrics_name
+        )
         df = base_experiment.runs_to_dataframe()
 
         assert len(df.columns) == 5
@@ -295,8 +288,8 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
-        base_experiment.run(dataset=dataset, model=base_model)
-        base_experiment.run(dataset=dataset, model=base_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
@@ -311,7 +304,7 @@ class TestExperimentReproduce:
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(dataset=dataset, model=base_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
 
         # run_id=1 executed from dataset and model instance.
         # this run not exist config file.
