@@ -32,7 +32,7 @@ class ErrorCustomMetric:
         return float(score)
 
 
-class TestEvaluation:
+class TestClassifierEvaluation:
     @pytest.fixture(scope="function")
     def base_evaluation(self) -> Evaluation:
         actual = np.array([0, 1, 1, 0, 1])
@@ -50,11 +50,10 @@ class TestEvaluation:
     def custom_evaluation(self) -> Evaluation:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
-        default_metrics_name = None
         return Evaluation(
             actual=actual,
             predicted=predicted,
-            default_metrics_name=default_metrics_name,
+            default_metrics_name=["accuracy", "precision", "recall", "f1_score"],
             custom_metrics=[{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}],
         )
 
@@ -104,7 +103,7 @@ class TestEvaluation:
         custom_evaluation.evaluate()
         acutal_scores = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         metrics_list = custom_evaluation.default_metrics + custom_evaluation.custom_metrics
-        assert len(metrics_list) == DEFAULT_METRICS_NUM + 1
+        assert len(metrics_list) == len(custom_evaluation.default_metrics) + 1
         for metric in metrics_list:
             assert metric.score is not None
             assert round(metric.score, 2) == acutal_scores[metric.name]

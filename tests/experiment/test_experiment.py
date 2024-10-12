@@ -281,8 +281,9 @@ class TestExperimentResults:
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(dataset=dataset, model=base_model)
-        base_experiment.run(dataset=dataset, model=base_model)
+        default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
+        base_experiment.run(dataset=dataset, model=base_model, default_metrics_name=default_metrics_name)
+        base_experiment.run(dataset=dataset, model=base_model, default_metrics_name=default_metrics_name)
         df = base_experiment.runs_to_dataframe()
 
         assert len(df.columns) == 5
