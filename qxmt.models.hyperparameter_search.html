@@ -414,8 +414,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.hyperparameter_search">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.__init__"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.grid_search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.grid_search()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.random_search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.random_search()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.default_objective"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.default_objective()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.search()</span></code></a></li>
 </ul>
 </li>
@@ -484,10 +483,12 @@ document.write(`
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.models.hyperparameter_search" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.models.hyperparameter_search.HyperParameterSearch">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.hyperparameter_search.</span></span><span class="sig-name descname"><span class="pre">HyperParameterSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.hyperparameter_search.search</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.hyperparameter_search.</span></span><span class="sig-name descname"><span class="pre">HyperParameterSearch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.hyperparameter_search.search</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Hyperparameter search class for machine models.
-This class provides grid search and random search for hyperparameters.</p>
+<p>Hyperparameter search class for machine models using optuna.
+This class provides grid search , random search, and TPE search for hyperparameter optimization.
+The search space is defined by the user, and the search arguments can be customized.
+Reference: <a class="reference external" href="https://optuna.readthedocs.io/en/stable/reference/index.html">https://optuna.readthedocs.io/en/stable/reference/index.html</a></p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">SVC</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
@@ -496,82 +497,75 @@ This class provides grid search and random search for hyperparameters.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">(</span><span class="n">return_X_y</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">SVC</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">search_type</span> <span class="o">=</span> <span class="s2">&quot;grid&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">search_type</span> <span class="o">=</span> <span class="s2">&quot;tpe&quot;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search_space</span> <span class="o">=</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="s2">&quot;C&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="s2">&quot;gamma&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">}</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">search_args</span> <span class="o">=</span> <span class="p">{</span>
 <span class="gp">... </span>    <span class="s2">&quot;cv&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s2">&quot;n_jobs&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="s2">&quot;refit&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
 <span class="gp">... </span><span class="p">}</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span> <span class="o">=</span> <span class="n">HyperParameterSearch</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">search_type</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="n">search_args</span><span class="p">,</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">searcher</span> <span class="o">=</span> <span class="n">HyperParameterSearch</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">search_type</span><span class="p">,</span> <span class="n">search_space</span><span class="p">,</span> <span class="n">search_args</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">best_params</span> <span class="o">=</span> <span class="n">searcher</span><span class="o">.</span><span class="n">search</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">best_params</span>
-<span class="go">{&#39;C&#39;: 0.1}</span>
+<span class="go">{&#39;C&#39;: 0.8526745595533768, &#39;gamma&#39;: 0.01217052619278743}</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>y</strong> (<em>ndarray</em>)</p></li>
 <li><p><strong>model</strong> (<em>Any</em>)</p></li>
 <li><p><strong>search_type</strong> (<em>str</em>)</p></li>
 <li><p><strong>search_space</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>Any</em><em>]</em><em>]</em>)</p></li>
-<li><p><strong>search_args</strong> (<em>Any</em>)</p></li>
-<li><p><strong>X</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>y</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>search_args</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>objective</strong> (<em>Callable</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.models.hyperparameter_search.HyperParameterSearch.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.hyperparameter_search.search</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.__init__" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">objective=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.hyperparameter_search.search</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.__init__" title="Link to this definition">#</a></dt>
 <dd><p>Initialize the hyperparameter search class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – dataset for search</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – target values for search</p></li>
 <li><p><strong>model</strong> (<em>Any</em>) – model instance for hyperparameter search</p></li>
-<li><p><strong>search_type</strong> (<em>str</em>) – search type for hyperparameter search (grid or random)</p></li>
+<li><p><strong>search_type</strong> (<em>str</em>) – search type for hyperparameter search (random, grid, tpe)</p></li>
 <li><p><strong>search_space</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>list</em><em>[</em><em>Any</em><em>]</em><em>]</em>) – search space for hyperparameter search</p></li>
-<li><p><strong>search_args</strong> (<em>Any</em>) – search arguments for hyperparameter search</p></li>
-<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – dataset for search</p></li>
-<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – target values for search</p></li>
-<li><p><strong>X</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>y</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+<li><p><strong>search_args</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – search arguments for hyperparameter search</p></li>
+<li><p><strong>objective</strong> (<em>Optional</em><em>[</em><em>Callable</em><em>]</em><em>, </em><em>optional</em>) – objective function for hyperparameter search. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger instance. Defaults to LOGGER.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – Sampler of search_args not matching search type</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qxmt.models.hyperparameter_search.HyperParameterSearch.grid_search">
-<span class="sig-name descname"><span class="pre">grid_search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.grid_search" title="Link to this definition">#</a></dt>
-<dd><p>Grid search for hyperparameters.</p>
+<dt class="sig sig-object py" id="qxmt.models.hyperparameter_search.HyperParameterSearch.default_objective">
+<span class="sig-name descname"><span class="pre">default_objective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">trial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.default_objective" title="Link to this definition">#</a></dt>
+<dd><p>Default objective function for hyperparameter search.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>best hyperparameters</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>trial</strong> (<em>Trial</em>) – optuna trial instance</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict[str, Any]</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>score of the model</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.models.hyperparameter_search.HyperParameterSearch.random_search">
-<span class="sig-name descname"><span class="pre">random_search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.random_search" title="Link to this definition">#</a></dt>
-<dd><p>Random search for hyperparameters.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>best hyperparameters</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>dict[str, Any]</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -581,14 +575,11 @@ This class provides grid search and random search for hyperparameters.</p>
 <span class="sig-name descname"><span class="pre">search</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.search" title="Link to this definition">#</a></dt>
 <dd><p>Search the best hyperparameters for the model.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – Not supported search type</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>best hyperparameters found by search</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>best hyperparameters</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict[str, Any]</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict[str, Any]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -647,8 +638,7 @@ This class provides grid search and random search for hyperparameters.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.models.hyperparameter_search">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.__init__"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.grid_search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.grid_search()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.random_search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.random_search()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.default_objective"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.default_objective()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.models.hyperparameter_search.HyperParameterSearch.search"><code class="docutils literal notranslate"><span class="pre">HyperParameterSearch.search()</span></code></a></li>
 </ul>
 </li>
