@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from qxmt.evaluation import Accuracy, F1Score, Precision, Recall
+from qxmt.evaluation.defaults_classification import Accuracy, F1Score, Precision, Recall
 
 
 class TestAccuracy:

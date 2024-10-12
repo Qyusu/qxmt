@@ -1,4 +1,4 @@
-from typing import Any, Optional, get_args
+from typing import Any, Optional, Type, get_args
 
 import numpy as np
 import pandas as pd
@@ -33,6 +33,9 @@ class Evaluation:
            accuracy  precision  recall  f1_score
         0  0.666667   0.666667     1.0       0.8
     """
+
+    DEFAULT_METRICS_NAME: list[str] = []
+    NAME2METRIC: dict[str, Type[BaseMetric]] = {}
 
     def __init__(
         self,
@@ -75,7 +78,18 @@ class Evaluation:
         Raises:
             ValueError: if the metric is not implemented
         """
-        raise NotImplementedError
+        if default_metrics_name is not None:
+            self.default_metrics_name = default_metrics_name
+        else:
+            self.default_metrics_name = self.DEFAULT_METRICS_NAME
+
+        self.default_metrics = []
+        for metric_name in self.default_metrics_name:
+            if metric_name not in self.NAME2METRIC:
+                raise ValueError(f"{metric_name} is not implemented.")
+
+            metric = self.NAME2METRIC[metric_name](name=metric_name)
+            self.default_metrics.append(metric)
 
     def init_custom_metrics(self, custom_metrics: Optional[list[dict[str, Any]]]) -> None:
         """Initialize and validate custom metrics.
@@ -153,60 +167,10 @@ class Evaluation:
 
 
 class ClassificationEvaluation(Evaluation):
-    def __init__(
-        self,
-        actual: np.ndarray,
-        predicted: np.ndarray,
-        default_metrics_name: Optional[list[str]] = None,
-        custom_metrics: Optional[list[dict[str, Any]]] = None,
-    ) -> None:
-        super().__init__(actual, predicted, default_metrics_name, custom_metrics)
-
-    def init_default_metrics(self, default_metrics_name: Optional[list[str]]) -> None:
-        """Initialize and validate default metrics.
-
-        Raises:
-            ValueError: if the metric is not implemented
-        """
-        if default_metrics_name is not None:
-            self.default_metrics_name = default_metrics_name
-        else:
-            self.default_metrics_name = list(get_args(DEFAULT_CLF_METRICS_NAME))
-
-        self.default_metrics = []
-        for metric_name in self.default_metrics_name:
-            if metric_name not in NAME2CLF_METRIC:
-                raise ValueError(f"{metric_name} is not implemented.")
-
-            metric = NAME2CLF_METRIC[metric_name]()
-            self.default_metrics.append(metric)
+    DEFAULT_METRICS_NAME = list(get_args(DEFAULT_CLF_METRICS_NAME))
+    NAME2METRIC = NAME2CLF_METRIC
 
 
 class RegressionEvaluation(Evaluation):
-    def __init__(
-        self,
-        actual: np.ndarray,
-        predicted: np.ndarray,
-        default_metrics_name: Optional[list[str]] = None,
-        custom_metrics: Optional[list[dict[str, Any]]] = None,
-    ) -> None:
-        super().__init__(actual, predicted, default_metrics_name, custom_metrics)
-
-    def init_default_metrics(self, default_metrics_name: Optional[list[str]]) -> None:
-        """Initialize and validate default metrics.
-
-        Raises:
-            ValueError: if the metric is not implemented
-        """
-        if default_metrics_name is not None:
-            self.default_metrics_name = default_metrics_name
-        else:
-            self.default_metrics_name = list(get_args(DEFAULT_REG_METRICS_NAME))
-
-        self.default_metrics = []
-        for metric_name in self.default_metrics_name:
-            if metric_name not in NAME2REG_METRIC:
-                raise ValueError(f"{metric_name} is not implemented.")
-
-            metric = NAME2REG_METRIC[metric_name]()
-            self.default_metrics.append(metric)
+    DEFAULT_METRICS_NAME = list(get_args(DEFAULT_REG_METRICS_NAME))
+    NAME2METRIC = NAME2REG_METRIC

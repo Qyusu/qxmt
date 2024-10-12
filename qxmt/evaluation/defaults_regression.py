@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any, Literal, Type
 
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score, root_mean_squared_error
@@ -127,7 +127,7 @@ DEFAULT_REG_METRICS_NAME = Literal[
     "r2_score",
 ]
 
-NAME2REG_METRIC = {
+NAME2REG_METRIC: dict[str, Type[BaseMetric]] = {
     "mean_absolute_error": MeanAbsoluteError,
     "root_mean_squared_error": RootMeanSquaredError,
     "r2_score": R2Score,

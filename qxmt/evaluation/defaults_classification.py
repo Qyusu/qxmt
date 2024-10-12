@@ -1,4 +1,4 @@
-from typing import Any, Literal
+from typing import Any, Literal, Type
 
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
@@ -218,7 +218,7 @@ DEFAULT_CLF_METRICS_NAME = Literal[
     "f1_score",
 ]
 
-NAME2CLF_METRIC = {
+NAME2CLF_METRIC: dict[str, Type[BaseMetric]] = {
     "accuracy": Accuracy,
     "precision": Precision,
     "recall": Recall,

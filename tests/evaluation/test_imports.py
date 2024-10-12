@@ -6,7 +6,12 @@ EXPECTED_ALL = [
     "Recall",
     "Precision",
     "F1Score",
+    "MeanAbsoluteError",
+    "RootMeanSquaredError",
+    "R2Score",
     "Evaluation",
+    "ClassificationEvaluation",
+    "RegressionEvaluation",
 ]
 
 
