@@ -55,7 +55,7 @@ model:
   file_name: "model.pkl"
   params:
     C: 1.0
-    gamma: 0.05
+    gamma: "scale"
 
 evaluation:
   default_metrics: ["accuracy", "precision", "recall", "f1_score"]

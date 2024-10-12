@@ -50,6 +50,7 @@ class DatasetBuilder:
             logger (Logger, optional): logger for output messages. Defaults to LOGGER.
         """
         self.config: ExperimentConfig = config
+        self.random_seed: int = config.dataset.random_seed
         self.logger: Logger = logger
 
         if self.config.dataset.raw_preprocess_logic is not None:
@@ -165,7 +166,15 @@ class DatasetBuilder:
                 X = np.load(path_config.data, allow_pickle=True)
                 y = np.load(path_config.label, allow_pickle=True)
             case "generate":
-                X, y = generate_linear_separable_data()
+                params = self.config.dataset.params or {}
+                X, y = generate_linear_separable_data(
+                    n_samples=params.get("n_samples", 100),
+                    n_features=params.get("n_features", 2),
+                    n_classes=params.get("n_classes", 2),
+                    noise=params.get("noise", 0.1),
+                    scale=params.get("scale", 1.0),
+                    random_seed=self.random_seed,
+                )
             case _:
                 raise ValueError(f"Invalid dataset type: {dataset_type}")
 
@@ -212,7 +221,6 @@ class DatasetBuilder:
         """
         split_config = self.config.dataset.split
         val_and_test_ratio = split_config.validation_ratio + split_config.test_ratio
-        random_state = self.config.dataset.random_seed
         shuffle = split_config.shuffle
 
         # Split the dataset into train, validation, and test sets
@@ -220,7 +228,7 @@ class DatasetBuilder:
             X,
             y,
             test_size=val_and_test_ratio,
-            random_state=random_state,
+            random_state=self.random_seed,
             shuffle=shuffle,
         )
 
@@ -234,7 +242,7 @@ class DatasetBuilder:
                 X_val_and_test,
                 y_val_and_test,
                 test_size=split_config.test_ratio / val_and_test_ratio,
-                random_state=random_state,
+                random_state=self.random_seed,
                 shuffle=shuffle,
             )
 
