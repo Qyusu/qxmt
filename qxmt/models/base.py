@@ -42,6 +42,7 @@ class BaseMLModel(ABC):
     @abstractmethod
     def save(self, path: str | Path) -> None:
         """Save the model to the given path.
+        [TODO]: standardize the save/load method using same library
 
         Args:
             path (str | Path): path to save the model
@@ -51,6 +52,7 @@ class BaseMLModel(ABC):
     @abstractmethod
     def load(self, path: str | Path) -> "BaseMLModel":
         """Load the model from the given path.
+        [TODO]: standardize the save/load method using same library
 
         Args:
             path (str | Path): path to load the model

@@ -1,0 +1,60 @@
+description: "This is a template configuration file for the QXMT framework."
+
+global_settings:
+  random_seed: &global_seed 42
+
+dataset:
+  type: "openml"  # "openml", "file" or "generate"
+  openml:
+    name: "california_housing"
+    id: 43939
+    return_format: "numpy"
+    save_path: "../data/openml/california_housing/dataset.npz"
+  params: {}
+  random_seed: *global_seed
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
+  features: null
+  raw_preprocess_logic:
+      module_name: "qxmt.datasets.raw_preprocess.filter"
+      implement_name: "filter_by_categorical"
+      params:
+        n_samples: 100
+        random_seed: *global_seed
+        drop_na: true
+
+  transform_logic:
+      module_name: "qxmt.datasets.transform.normalization"
+      implement_name: "normalization"
+
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 8
+  shots: null
+
+feature_map:
+  module_name: "qxmt.feature_maps.pennylane"
+  implement_name: "ZZFeatureMap"
+  params:
+    reps: 2
+
+kernel:
+  module_name: "qxmt.kernels.pennylane"
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "xyz_sum"
+
+model:
+  name: "qrigge"
+  file_name: "model.pkl"
+  params:
+    alpha: 0.1
+
+evaluation:
+  default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
+  custom_metrics: []
