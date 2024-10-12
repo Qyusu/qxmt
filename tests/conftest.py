@@ -17,6 +17,7 @@ from qxmt import (
 
 DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
     random_seed=42,
+    task_type="classification",
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
