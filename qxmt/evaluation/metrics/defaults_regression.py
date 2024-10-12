@@ -3,7 +3,7 @@ from typing import Any, Literal, Type
 import numpy as np
 from sklearn.metrics import mean_absolute_error, r2_score, root_mean_squared_error
 
-from qxmt.evaluation.base import BaseMetric
+from qxmt.evaluation.metrics.base import BaseMetric
 
 
 class MeanAbsoluteError(BaseMetric):

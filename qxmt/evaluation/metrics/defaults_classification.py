@@ -3,7 +3,7 @@ from typing import Any, Literal, Type
 import numpy as np
 from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 
-from qxmt.evaluation.base import BaseMetric
+from qxmt.evaluation.metrics.base import BaseMetric
 
 
 class Accuracy(BaseMetric):

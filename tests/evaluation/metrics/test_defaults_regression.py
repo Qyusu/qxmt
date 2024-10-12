@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from qxmt.evaluation.defaults_regression import (
+from qxmt.evaluation.metrics.defaults_regression import (
     MeanAbsoluteError,
     R2Score,
     RootMeanSquaredError,

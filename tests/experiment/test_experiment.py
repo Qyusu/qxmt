@@ -10,7 +10,7 @@ from qxmt import Experiment
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_EXP_DB_FILE
 from qxmt.datasets import Dataset
-from qxmt.evaluation import BaseMetric
+from qxmt.evaluation.metrics import BaseMetric
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,

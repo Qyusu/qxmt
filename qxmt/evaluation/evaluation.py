@@ -3,12 +3,12 @@ from typing import Any, Optional, Type, get_args
 import numpy as np
 import pandas as pd
 
-from qxmt.evaluation.base import BaseMetric
-from qxmt.evaluation.defaults_classification import (
+from qxmt.evaluation.metrics.base import BaseMetric
+from qxmt.evaluation.metrics.defaults_classification import (
     DEFAULT_CLF_METRICS_NAME,
     NAME2CLF_METRIC,
 )
-from qxmt.evaluation.defaults_regression import (
+from qxmt.evaluation.metrics.defaults_regression import (
     DEFAULT_REG_METRICS_NAME,
     NAME2REG_METRIC,
 )

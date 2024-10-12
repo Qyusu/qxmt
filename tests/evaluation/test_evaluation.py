@@ -4,13 +4,13 @@ import numpy as np
 import pytest
 
 from qxmt.evaluation import Evaluation
-from qxmt.evaluation.defaults_classification import DEFAULT_CLF_METRICS_NAME
-from qxmt.evaluation.defaults_regression import DEFAULT_REG_METRICS_NAME
 from qxmt.evaluation.evaluation import (
     BaseMetric,
     ClassificationEvaluation,
     RegressionEvaluation,
 )
+from qxmt.evaluation.metrics.defaults_classification import DEFAULT_CLF_METRICS_NAME
+from qxmt.evaluation.metrics.defaults_regression import DEFAULT_REG_METRICS_NAME
 
 DEFAULT_CLF_METRICS_NUM = len(get_args(DEFAULT_CLF_METRICS_NAME))
 DEFAULT_REG_METRICS_NUM = len(get_args(DEFAULT_REG_METRICS_NAME))
