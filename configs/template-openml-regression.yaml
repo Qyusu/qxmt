@@ -9,7 +9,7 @@ dataset:
     name: "california_housing"
     id: 43939
     return_format: "numpy"
-    save_path: "data/openml/california_housing/dataset.npz"
+    save_path: "../data/openml/california_housing/dataset.npz"
   params: {}
   random_seed: *global_seed
   split:
@@ -22,6 +22,8 @@ dataset:
       module_name: "qxmt.datasets.raw_preprocess.filter"
       implement_name: "filter_by_categorical"
       params:
+        n_samples: 100
+        random_seed: *global_seed
         drop_na: true
 
   transform_logic:
