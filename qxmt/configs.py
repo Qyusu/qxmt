@@ -21,6 +21,10 @@ class OpenMLConfig(BaseModel):
     return_format: str = "numpy"
     save_path: Optional[Path | str] = None
 
+    def model_post_init(self, __context: dict[str, Any]) -> None:
+        if (self.save_path is not None) and (not Path(self.save_path).is_absolute()):
+            self.save_path = PROJECT_ROOT_DIR / self.save_path
+
 
 class PathConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
