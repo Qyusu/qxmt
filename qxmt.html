@@ -506,6 +506,7 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_config"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_post_init"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_post_init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.name"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.return_format"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.return_format</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.save_path"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.save_path</span></code></a></li>
@@ -1340,6 +1341,21 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.configs.OpenMLConfig.model_post_init">
+<span class="sig-name descname"><span class="pre">model_post_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">_OpenMLConfig__context</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.OpenMLConfig.model_post_init" title="Link to this definition">#</a></dt>
+<dd><p>Override this method to perform additional initialization after <cite>__init__</cite> and <cite>model_construct</cite>.
+This is useful if you want to do some validation that requires the entire model to be initialized.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>_OpenMLConfig__context</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
@@ -2739,6 +2755,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_computed_fields"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_computed_fields</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_config"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_fields"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_fields</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.model_post_init"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.model_post_init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.name"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.return_format"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.return_format</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.OpenMLConfig.save_path"><code class="docutils literal notranslate"><span class="pre">OpenMLConfig.save_path</span></code></a></li>
