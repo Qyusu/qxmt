@@ -6,6 +6,8 @@ EXPECTED_ALL = [
     "plot_metrics_side_by_side",
     "plot_2d_decisionon_boundaries",
     "plot_2d_predicted_result",
+    "plot_residual",
+    "plot_actual_vs_predicted",
 ]
 
 

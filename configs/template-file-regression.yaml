@@ -5,12 +5,10 @@ global_settings:
   task_type: "regression"
 
 dataset:
-  type: "openml"  # "openml", "file" or "generate"
-  openml:
-    name: "california_housing"
-    id: 43939
-    return_format: "numpy"
-    save_path: "data/openml/california_housing/dataset.npy"
+  type: "file"  # "openml", "file" or "generate"
+  path: # full path or relative path from the root of the project
+    data: "data/openml/california_housing/dataset_X.npy"
+    label: "data/openml/california_housing/dataset_y.npy"
   params: {}
   random_seed: *global_seed
   split:
