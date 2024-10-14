@@ -9,6 +9,7 @@ from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
 from qxmt.models.qrigge import QRiggeRegressor
 from qxmt.models.qsvc import QSVC
+from qxmt.models.qsvr import QSVR
 from qxmt.utils import load_object_from_yaml
 
 
@@ -84,6 +85,8 @@ class ModelBuilder:
         match self.config.model.name:
             case "qsvc":
                 self.model = QSVC(kernel=self.kernel, **self.config.model.params)
+            case "qsvr":
+                self.model = QSVR(kernel=self.kernel, **self.config.model.params)
             case "qrigge":
                 self.model = QRiggeRegressor(kernel=self.kernel, **self.config.model.params)
             case _:

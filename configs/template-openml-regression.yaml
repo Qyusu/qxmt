@@ -51,10 +51,11 @@ kernel:
     projection: "xyz_sum"
 
 model:
-  name: "qrigge"
+  name: "qsvr"
   file_name: "model.pkl"
   params:
-    alpha: 0.1
+    C: 1.0
+    gamma: "scale"
 
 evaluation:
   default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
