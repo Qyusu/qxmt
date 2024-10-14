@@ -563,7 +563,7 @@ document.write(`
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 
 <span class="nt">model</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvm&quot;</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvc&quot;</span>
 <span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model.pkl&quot;</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">C</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
@@ -650,7 +650,7 @@ document.write(`
 </section>
 <section id="id6">
 <h3>4.3 モデルの決定境界<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
-<p>モデルとしてQuantum Support Vector Machine (QSVM)を利用している場合には、学習済みモデルの決定境界を可視化することができます。この可視化を活用することで、うまく分類できていない例を見つけたり、モデルの特徴を捉えるヒントを得ることができます。</p>
+<p>モデルとしてQuantum Support Vector Machine (QSVC)を利用している場合には、学習済みモデルの決定境界を可視化することができます。この可視化を活用することで、うまく分類できていない例を見つけたり、モデルの特徴を捉えるヒントを得ることができます。</p>
 <p>引数に設定するモデルやデータセットについては、Runの<code class="docutils literal notranslate"><span class="pre">artifact</span></code>から取得することができます。<code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code>は可視化する決定境界の解像度を設定することができ、高い値に設定するほど境界が滑らかになり、個々のサンプルについても分類結果を確認することができます。一方で計算時間が大幅に増加するため目的に合わせて調整してください。<code class="docutils literal notranslate"><span class="pre">support_vectors</span></code>はbool値を取り、出力するグラフのsupport vectorを◯印で囲って視認性を高めるかを制御することができます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decisionon_boundaries</span>
 

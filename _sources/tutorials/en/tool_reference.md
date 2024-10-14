@@ -29,7 +29,7 @@ dataset:
 Both `openml.name` and `openml.id` can be used individually. If only `openml.name` is specified, the dataset will be searched internally via the API. Since `openml.id` uniquely identifies the dataset, it is recommended to use this value. If both `openml.name` and `openml.id` are set, the value of `openml.id` will take precedence.
 
 ## Using Projected Kernel
-In kernel-based machine learning models, such as QSVM, there are various algorithms available for kernel computation. This section explains how to configure the settings when using the `Projected Kernel` [1].
+In kernel-based machine learning models, such as QSVC, there are various algorithms available for kernel computation. This section explains how to configure the settings when using the `Projected Kernel` [1].
 
 A simple Projected Kernel is expressed by the following equation, where the scale parameter `γ` and the method of projecting quantum states into classical states can be specified for distance computation.
 

@@ -565,7 +565,7 @@ document.write(`
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 
 <span class="nt">model</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvm&quot;</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvc&quot;</span>
 <span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model.pkl&quot;</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">C</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
@@ -652,7 +652,7 @@ document.write(`
 </section>
 <section id="decision-boundary-of-the-model">
 <h3>4.3 Decision Boundary of the Model<a class="headerlink" href="#decision-boundary-of-the-model" title="Link to this heading">#</a></h3>
-<p>When using a Quantum Support Vector Machine (QSVM) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the model’s behavior.</p>
+<p>When using a Quantum Support Vector Machine (QSVC) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the model’s behavior.</p>
 <p>The model and dataset to be used as arguments can be obtained from the Run’s <code class="docutils literal notranslate"><span class="pre">artifact</span></code>. The <code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code> parameter allows you to set the resolution of the visualized decision boundary—the higher the value, the smoother the boundary, enabling you to examine individual sample classification results in more detail. However, higher resolution significantly increases computation time, so adjust it according to your needs. The <code class="docutils literal notranslate"><span class="pre">support_vectors</span></code> argument accepts a boolean value and controls whether support vectors are highlighted with circles to improve visibility in the output graph.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decisionon_boundaries</span>
 
