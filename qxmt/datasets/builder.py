@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from qxmt.configs import ExperimentConfig, OpenMLConfig, PathConfig
-from qxmt.datasets.dummy import generate_linear_separable_data
+from qxmt.datasets.dummy import load_dummy_dataset
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
@@ -167,14 +167,11 @@ class DatasetBuilder:
                 X = np.load(path_config.data, allow_pickle=True)
                 y = np.load(path_config.label, allow_pickle=True)
             case "generate":
-                params = self.config.dataset.params or {}
-                X, y = generate_linear_separable_data(
-                    n_samples=params.get("n_samples", 100),
-                    n_features=params.get("n_features", 2),
-                    n_classes=params.get("n_classes", 2),
-                    noise=params.get("noise", 0.1),
-                    scale=params.get("scale", 1.0),
+                X, y = load_dummy_dataset(
+                    task_type=self.task_type,
+                    generate_method=self.config.dataset.generate_method,  # type: ignore
                     random_seed=self.random_seed,
+                    params=self.config.dataset.params or {},
                 )
             case _:
                 raise ValueError(f"Invalid dataset type: {dataset_type}")

@@ -5,7 +5,7 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "openml"  # "openml", "file" or "generate"
+  type: "openml"
   openml:
     name: "mnist_784"
     id: 554

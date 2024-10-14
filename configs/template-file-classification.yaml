@@ -5,7 +5,7 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "file"  # "openml", "file" or "generate"
+  type: "file"
   path: # full path or relative path from the root of the project
     data: "data/mnist_784/images.npy"
     label: "data/mnist_784/label.npy"
