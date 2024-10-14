@@ -6,7 +6,7 @@ import pytest
 
 from qxmt.devices.base import BaseDevice
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVC, QRiggeRegressor
+from qxmt.models import QSVC, QSVR, QRiggeRegressor
 
 DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
 
@@ -30,6 +30,15 @@ def build_qsvc() -> Callable:
         return QSVC(kernel=kernel, **kwargs)
 
     return _build_qsvc
+
+
+@pytest.fixture(scope="function")
+def build_qsvr() -> Callable:
+    def _build_qsvr(**kwargs: Any) -> QSVR:
+        kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
+        return QSVR(kernel=kernel, **kwargs)
+
+    return _build_qsvr
 
 
 @pytest.fixture(scope="function")
