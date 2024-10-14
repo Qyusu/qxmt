@@ -5,6 +5,7 @@ EXPECTED_ALL = [
     "BaseKernelModel",
     "ModelBuilder",
     "QSVC",
+    "QSVR",
     "QRiggeRegressor",
 ]
 
