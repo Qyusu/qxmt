@@ -1,12 +1,16 @@
+import copy
 from pathlib import Path
 from typing import Any, Optional, cast
 
 import dill
 import numpy as np
 from sklearn.kernel_ridge import KernelRidge
+from sklearn.model_selection import cross_val_score
 
+from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseKernelModel
+from qxmt.models.hyperparameter_search.search import HyperParameterSearch
 
 
 class QRiggeRegressor(BaseKernelModel):
@@ -29,6 +33,79 @@ class QRiggeRegressor(BaseKernelModel):
         super().__init__(kernel)
         self.fit_X: Optional[np.ndarray] = None
         self.model = KernelRidge(alpha=alpha, kernel="precomputed", **kwargs)
+
+    def cross_val_score(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        n_jobs: int = DEFAULT_N_JOBS,
+        **kwargs: Any,
+    ) -> np.ndarray:
+        """Cross validation score of the Quantum Kernel Ridge Regressor model.
+        Default to use the R^2 score.
+
+        Args:
+            X (np.ndarray): numpy array of input data
+            y (np.ndarray): numpy array of target data
+            n_jobs (int): number of jobs to run in parallel
+            **kwargs (dict): additional arguments
+
+        Returns:
+            np.ndarray: array of scores of the estimator for each run of the cross validation
+        """
+        kernel_X = self.kernel.compute_matrix(X, X)
+        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
+        return scores
+
+    def hyperparameter_search(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        search_type: str,
+        search_space: dict[str, list[Any]],
+        search_args: dict[str, Any],
+        objective: Optional[Any] = None,
+        refit: bool = True,
+    ) -> dict[str, Any]:
+        """Search the best hyperparameters for the Quantum Kernel Ridge Regressor model.
+
+        Args:
+            X (np.ndarray): dataset for search
+            y (np.ndarray): target values for search
+            search_type (str): search type for hyperparameter search (grid, random, tpe)
+            search_space (dict[str, list[Any]]): search space for hyperparameter search
+            search_args (dict[str, Any]): search arguments for hyperparameter search
+            objective (Optional[Callable], optional): objective function for search. Defaults to None.
+            refit (bool, optional): refit the model with best hyperparameters. Defaults to True.
+
+        Raises:
+            ValueError: Not supported search type
+
+        Returns:
+            dict[str, Any]: best hyperparameters
+        """
+        search_model = copy.deepcopy(self.model)
+        X_kernel = self.kernel.compute_matrix(X, X)
+
+        if "scoring" not in search_args.keys():
+            search_args["scoring"] = "r2"
+
+        searcher = HyperParameterSearch(
+            X=X_kernel,
+            y=y,
+            model=search_model,
+            search_type=search_type,
+            search_space=search_space,
+            search_args=search_args,
+            objective=objective,
+        )
+        best_params = searcher.search()
+
+        if refit:
+            self.model.set_params(**best_params)
+            self.model.fit(X_kernel, y)
+
+        return best_params
 
     def fit(self, X: np.ndarray, y: np.ndarray) -> None:
         """Fit the model with given input data and target data.

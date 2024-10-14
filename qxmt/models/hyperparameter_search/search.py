@@ -78,7 +78,7 @@ class HyperParameterSearch:
         self.objective = objective
         self.logger = logger
 
-        self.scoring = self.search_args.get("scoring", "accuracy")
+        self.scoring = self.search_args.get("scoring")
 
         sampler_from_type = self._get_sampler()
         if (search_args is not None) and (

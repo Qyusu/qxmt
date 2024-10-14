@@ -17,6 +17,16 @@ KernelRigge_PARAMS = [
 
 
 class TestQRiggeRegressor:
+    def test_cross_val_score(self, build_qrigge: Callable) -> None:
+        qrigge_model = build_qrigge()
+
+        X = np.random.rand(30, 2)
+        y = np.random.rand(30, 1)
+        scores = qrigge_model.cross_val_score(X, y, cv=5)
+
+        assert scores.shape == (5,)
+        assert all([score <= 1 for score in scores])
+
     def test_fit(self, build_qrigge: Callable, mocker: MockFixture) -> None:
         qrigge_model = build_qrigge()
         mock_kernel_matrix = np.eye(5)

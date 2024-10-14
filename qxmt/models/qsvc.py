@@ -55,7 +55,8 @@ class QSVC(BaseKernelModel):
         n_jobs: int = DEFAULT_N_JOBS,
         **kwargs: Any,
     ) -> np.ndarray:
-        """Cross validation score of the model.
+        """Cross validation score of the QSVC model.
+        Default to use the Accuracy score.
 
         Args:
             X (np.ndarray): numpy array of features
@@ -78,7 +79,7 @@ class QSVC(BaseKernelModel):
         objective: Optional[Callable] = None,
         refit: bool = True,
     ) -> dict[str, Any]:
-        """Search the best hyperparameters for the model.
+        """Search the best hyperparameters for the QSVC model.
 
         Args:
             X (np.ndarray): dataset for search
@@ -96,6 +97,10 @@ class QSVC(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
+
+        if "scoring" not in search_args.keys():
+            search_args["scoring"] = "accuracy"
+
         searcher = HyperParameterSearch(
             X=X,
             y=y,
@@ -106,6 +111,7 @@ class QSVC(BaseKernelModel):
             objective=objective,
         )
         best_params = searcher.search()
+
         if refit:
             self.model.set_params(**best_params)
             self.model.fit(X, y)
