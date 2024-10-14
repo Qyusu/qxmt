@@ -52,7 +52,7 @@ kernel:
     projection: "xyz_sum"
 
 model:
-  name: "qsvm"
+  name: "qsvc"
   file_name: "model.pkl"
   params:
     C: 1.0

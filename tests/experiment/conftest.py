@@ -9,7 +9,7 @@ from qxmt import DatasetConfig, Experiment, PathConfig, SplitConfig
 from qxmt.datasets import Dataset
 from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVM, BaseMLModel
+from qxmt.models import QSVC, BaseMLModel
 
 DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
 
@@ -29,7 +29,7 @@ class TestKernel(BaseKernel):
 @pytest.fixture(scope="function")
 def base_model() -> BaseMLModel:
     kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
-    return QSVM(kernel=kernel)
+    return QSVC(kernel=kernel)
 
 
 @pytest.fixture(scope="function")

@@ -87,7 +87,7 @@ class QRiggeRegressor(BaseKernelModel):
             path (str | Path): path to load the model
 
         Returns:
-            QSVM: loaded QRiggeRegressor model
+            QRiggeRegressor: loaded QRiggeRegressor model
         """
         return dill.load(open(path, "rb"))
 

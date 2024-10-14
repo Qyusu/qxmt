@@ -7,7 +7,7 @@ from sklearn.inspection import DecisionBoundaryDisplay
 
 from qxmt.datasets.schema import Dataset
 from qxmt.decorators import notify_long_running
-from qxmt.models.qsvm import QSVM
+from qxmt.models.qsvc import QSVC
 from qxmt.visualization.graph_settings import _create_class_labels, _create_colors
 
 
@@ -101,7 +101,7 @@ def plot_2d_predicted_result(
 
 @notify_long_running
 def plot_2d_decisionon_boundaries(
-    model: QSVM,
+    model: QSVC,
     X: np.ndarray,
     y: np.ndarray,
     grid_resolution: int = 10,
@@ -110,10 +110,10 @@ def plot_2d_decisionon_boundaries(
     save_path: Optional[str | Path] = None,
     **kwargs: Any,
 ) -> None:
-    """Plot decision boundaries of QSVM on 2D plane.
+    """Plot decision boundaries of QSVC on 2D plane.
 
     Args:
-        model (QSVM): QSVM model.
+        model (QSVC): QSVC model.
         X (np.ndarray): feature values of the data.
         y (np.ndarray): labels of the data.
         grid_resolution (int, optional): resolution of grid. Defaults to 10.
@@ -125,7 +125,7 @@ def plot_2d_decisionon_boundaries(
     """
     assert X.shape[0] == len(y), "Length of X and y must be the same."
 
-    if isinstance(model, QSVM):
+    if isinstance(model, QSVC):
         is_multi_class = len(model.model.classes_) > 2
     else:
         is_multi_class = len(np.unique(y)) > 2
