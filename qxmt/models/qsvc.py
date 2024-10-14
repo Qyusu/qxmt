@@ -13,13 +13,13 @@ from qxmt.models.base import BaseKernelModel
 from qxmt.models.hyperparameter_search.search import HyperParameterSearch
 
 
-class QSVM(BaseKernelModel):
-    """Quantum Support Vector Machine (QSVM) model.
-    This class wraps the sklearn.svm.SVC class to provide a QSVM model.
+class QSVC(BaseKernelModel):
+    """Quantum Support Vector Machine (QSVC) model.
+    This class wraps the sklearn.svm.SVC class to provide a QSVC model.
     Then, many methods use the same interface as the sklearn.svm.SVC class.
 
     Examples:
-        >>> from qxmt.models.qsvm import QSVM
+        >>> from qxmt.models.qsvc import QSVC
         >>> from qxmt.kernels.pennylane import FidelityKernel
         >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig
@@ -33,14 +33,14 @@ class QSVM(BaseKernelModel):
         >>> device = DeviceBuilder(config).build()
         >>> feature_map = ZZFeatureMap(2, 2)
         >>> kernel = FidelityKernel(device, feature_map)
-        >>> model = QSVM(kernel=kernel)
+        >>> model = QSVC(kernel=kernel)
         >>> model.fit(X_train, y_train)
         >>> model.predict(X_test)
         np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
     """
 
     def __init__(self, kernel: BaseKernel, **kwargs: Any) -> None:
-        """Initialize the QSVM model.
+        """Initialize the QSVC model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
@@ -154,14 +154,14 @@ class QSVM(BaseKernelModel):
         # AttributeError: Can't pickle local object 'BaseKernel._to_fm_instance.<locals>.CustomFeatureMap'
         dill.dump(self.model, open(path, "wb"))
 
-    def load(self, path: str | Path) -> "QSVM":
+    def load(self, path: str | Path) -> "QSVC":
         """Load the trained model from the given path.
 
         Args:
             path (str | Path): path to load the model
 
         Returns:
-            QSVM: loaded QSVM model
+            QSVC: loaded QSVC model
         """
         # [TODO] Use pickle of joblib
         return dill.load(open(path, "rb"))

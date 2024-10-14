@@ -35,7 +35,7 @@ DEFAULT_FEATUREMAP_CONFIG = FeatureMapConfig(
     module_name="qxmt.feature_maps.pennylane", implement_name="ZZFeatureMap", params={"reps": 2}
 )
 DEFAULT_KERNEL_CONFIG = KernelConfig(module_name="qxmt.kernels.pennylane", implement_name="FidelityKernel", params={})
-DEFAULT_MODEL_CONFIG = ModelConfig(name="qsvm", file_name="model.pkl", params={"C": 1.0, "gamma": 0.05})
+DEFAULT_MODEL_CONFIG = ModelConfig(name="qsvc", file_name="model.pkl", params={"C": 1.0, "gamma": 0.05})
 DEFAULT_EVALUATION_CONFIG = EvaluationConfig(default_metrics=["accuracy", "precision", "recall", "f1_score"])
 
 

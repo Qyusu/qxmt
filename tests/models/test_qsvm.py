@@ -4,7 +4,7 @@ from typing import Callable
 import numpy as np
 import pytest
 
-from qxmt.models import QSVM
+from qxmt.models import QSVC
 
 SVM_PARAMS = [
     "kernel",
@@ -23,7 +23,7 @@ SVM_PARAMS = [
 ]
 
 
-class TestQSVM:
+class TestQSVC:
     def test_cross_val_score(self, build_qsvm: Callable) -> None:
         qsvm_model = build_qsvm()
 
@@ -87,7 +87,7 @@ class TestQSVM:
         save_path = f"{tmp_path}/model.pkl"
         qsvm_model.save(save_path)
 
-        loaded_qsvm = QSVM(kernel=qsvm_model.kernel).load(save_path)
+        loaded_qsvm = QSVC(kernel=qsvm_model.kernel).load(save_path)
         for k, v in qsvm_model.get_params().items():
             if not callable(v):
                 assert loaded_qsvm.get_params()[k] == v
