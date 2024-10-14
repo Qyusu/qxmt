@@ -5,7 +5,7 @@ global_settings:
   task_type: "regression"
 
 dataset:
-  type: "file"  # "openml", "file" or "generate"
+  type: "file"
   path: # full path or relative path from the root of the project
     data: "data/openml/california_housing/dataset_X.npy"
     label: "data/openml/california_housing/dataset_y.npy"

@@ -2,7 +2,7 @@ description: "This is a template configuration file for the QXMT framework."
 
 global_settings:
   random_seed: &global_seed 42
-  task_type: "classification"
+  task_type: "regression"
 
 dataset:
   type: "generate"
@@ -10,7 +10,6 @@ dataset:
   params: {
     "n_samples": 100,
     "n_features": 2,
-    "n_classes": 3,
   }
   random_seed: *global_seed
   split:
@@ -20,17 +19,15 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-      module_name: "qxmt.datasets.raw_preprocess.sampling"
-      implement_name: "sampling_by_each_class"
+      module_name: "qxmt.datasets.raw_preprocess.filter"
+      implement_name: "filter_by_categorical"
       params:
         n_samples: 100
-        labels: [0, 1, 2]
         random_seed: *global_seed
+        drop_na: true
   transform_logic:
-    module_name: "qxmt.datasets.transform.reduction_by_pca"
-    implement_name: "dimension_reduction_by_pca"
-    params:
-      n_components: 2
+      module_name: "qxmt.datasets.transform.normalization"
+      implement_name: "normalization"
 
 device:
   platform: "pennylane"
@@ -46,16 +43,17 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "FidelityKernel"
-  params: {}
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "xyz_sum"
 
 model:
-  name: "qsvm"
+  name: "qrigge"
   file_name: "model.pkl"
   params:
-    C: 1.0
-    gamma:  "scale"
+    alpha: 0.1
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
   custom_metrics: []

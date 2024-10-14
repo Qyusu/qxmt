@@ -24,7 +24,7 @@ def generate_linear_separable_data(
     Returns:
         tuple[np.ndarray, np.ndarray]: generated data and label
     """
-    # fix random seed
+    # set the random seed for reproducibility
     if random_seed is not None:
         np.random.seed(random_seed)
 
@@ -36,5 +36,40 @@ def generate_linear_separable_data(
 
     # assign the class with the highest score as the label
     y = np.argmax(scores, axis=1)
+
+    return X, y
+
+
+def generate_linear_regression_data(
+    n_samples: int = 100,
+    n_features: int = 2,
+    noise: float = 0.1,
+    scale: float = 1.0,
+    random_seed: Optional[int] = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Generate random data for linear regression.
+
+    Args:
+        n_samples (int, optional): Number of samples. Defaults to 100.
+        n_features (int, optional): Number of features. Defaults to 2.
+        noise (float, optional): Noise level to add to the target. Defaults to 0.1.
+        scale (float, optional): Scale of the data. Defaults to 1.0.
+        random_seed (int, optional): Random seed for reproducibility. Defaults to None.
+
+    Returns:
+        Tuple[np.ndarray, np.ndarray]: Generated features and target values
+    """
+    # set the random seed for reproducibility
+    if random_seed is not None:
+        np.random.seed(random_seed)
+
+    # generate random feature data
+    X = scale * np.random.randn(n_samples, n_features)
+
+    # generate random weights for the linear relationship
+    true_weights = scale * np.random.randn(n_features)
+
+    # generate target variable with a linear relationship to the features
+    y = X @ true_weights + noise * np.random.randn(n_samples)
 
     return X, y
