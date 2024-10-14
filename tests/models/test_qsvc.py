@@ -24,8 +24,8 @@ SVM_PARAMS = [
 
 
 class TestQSVC:
-    def test_cross_val_score(self, build_qsvm: Callable) -> None:
-        qsvm_model = build_qsvm()
+    def test_cross_val_score(self, build_qsvc: Callable) -> None:
+        qsvm_model = build_qsvc()
 
         X = np.random.rand(30, 2)
         y = np.random.randint(2, size=30)

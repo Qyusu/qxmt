@@ -24,12 +24,12 @@ class TestKernel(BaseKernel):
 
 
 @pytest.fixture(scope="function")
-def build_qsvm() -> Callable:
-    def _build_qsvm(**kwargs: Any) -> QSVC:
+def build_qsvc() -> Callable:
+    def _build_qsvc(**kwargs: Any) -> QSVC:
         kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
         return QSVC(kernel=kernel, **kwargs)
 
-    return _build_qsvm
+    return _build_qsvc
 
 
 @pytest.fixture(scope="function")
