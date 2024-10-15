@@ -19,7 +19,7 @@ from qxmt.constants import (
 )
 from qxmt.datasets.builder import DatasetBuilder
 from qxmt.datasets.schema import Dataset
-from qxmt.evaluation.evaluation import Evaluation
+from qxmt.evaluation.evaluation import ClassificationEvaluation, RegressionEvaluation
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
@@ -276,6 +276,7 @@ class Experiment:
 
     def run_evaluation(
         self,
+        task_type: str,
         actual: np.ndarray,
         predicted: np.ndarray,
         default_metrics_name: Optional[list[str]],
@@ -292,12 +293,24 @@ class Experiment:
         Returns:
             dict: evaluation result
         """
-        evaluation = Evaluation(
-            actual=actual,
-            predicted=predicted,
-            default_metrics_name=default_metrics_name,
-            custom_metrics=custom_metrics,
-        )
+        match task_type:
+            case "classification":
+                evaluation = ClassificationEvaluation(
+                    actual=actual,
+                    predicted=predicted,
+                    default_metrics_name=default_metrics_name,
+                    custom_metrics=custom_metrics,
+                )
+            case "regression":
+                evaluation = RegressionEvaluation(
+                    actual=actual,
+                    predicted=predicted,
+                    default_metrics_name=default_metrics_name,
+                    custom_metrics=custom_metrics,
+                )
+            case _:
+                raise ValueError(f"Invalid task_type: {task_type}")
+
         evaluation.evaluate()
 
         return evaluation.to_dict()
@@ -330,6 +343,7 @@ class Experiment:
         save_model_path = Path(run_dirc) / config.model.file_name
 
         artifact, record = self._run_from_instance(
+            task_type=config.global_settings.task_type,
             dataset=dataset,
             model=model,
             save_model_path=save_model_path,
@@ -346,6 +360,7 @@ class Experiment:
 
     def _run_from_instance(
         self,
+        task_type: str,
         dataset: Dataset,
         model: BaseMLModel,
         save_model_path: str | Path,
@@ -360,6 +375,7 @@ class Experiment:
         """Run the experiment from the dataset and model instance.
 
         Args:
+            task_type (str): type of the task (classification or regression)
             dataset (Dataset): dataset object
             model (BaseMLModel): model object
             save_model_path (str | Path): path to save the model
@@ -398,6 +414,7 @@ class Experiment:
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             config_path=config_path,
             evaluation=self.run_evaluation(
+                task_type=task_type,
                 actual=dataset.y_test,
                 predicted=predicted,
                 default_metrics_name=default_metrics_name,
@@ -409,6 +426,7 @@ class Experiment:
 
     def run(
         self,
+        task_type: Optional[str] = None,
         dataset: Optional[Dataset] = None,
         model: Optional[BaseMLModel] = None,
         config_source: Optional[ExperimentConfig | str | Path] = None,
@@ -432,6 +450,7 @@ class Experiment:
         It is more flexible but requires a config file.
 
         Args:
+            task_type (str, optional): type of the task (classification or regression). Defaults to None.
             dataset (Dataset): the dataset object.
             model (BaseMLModel): the model object.
             config_source (ExperimentConfig, str | Path, optional): config source can be either an `ExperimentConfig`
@@ -473,8 +492,16 @@ class Experiment:
                     add_results=add_results,
                 )
             elif (dataset is not None) and (model is not None):
+                if task_type is None:
+                    raise ExperimentRunSettingError(
+                        """
+                        task_type must be provided when dataset and model are provided.
+                        Please provide task_type="classification" or "regression".
+                        """
+                    )
                 save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
                 artifact, record = self._run_from_instance(
+                    task_type=task_type,
                     dataset=dataset,
                     model=model,
                     save_model_path=save_model_path,

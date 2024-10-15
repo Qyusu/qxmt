@@ -7,13 +7,15 @@ from sklearn.inspection import DecisionBoundaryDisplay
 
 from qxmt.datasets.schema import Dataset
 from qxmt.decorators import notify_long_running
-from qxmt.models.qsvm import QSVM
+from qxmt.models.qsvc import QSVC
 from qxmt.visualization.graph_settings import _create_class_labels, _create_colors
 
 
 def plot_2d_predicted_result(
-    dataset: Dataset,
+    X: np.ndarray,
+    y_true: np.ndarray,
     y_pred: np.ndarray,
+    feature_cols: Optional[list[str]] = None,
     axis: list[int] = [0, 1],
     save_path: Optional[str | Path] = None,
     **kwargs: Any,
@@ -21,8 +23,10 @@ def plot_2d_predicted_result(
     """Plot predicted result on 2D plane.
 
     Args:
-        dataset (Dataset): Dataset object. It contains test data.
+        X (np.ndarray): feature values.
+        y_true (np.ndarray): ground truth labels.
         y_pred (np.ndarray): predicted labels.
+        feature_cols (Optional[list[str]], optional): feature column names. Defaults to None.
         axis (list[int], optional): axis to plot (target feature col index). Defaults to [0, 1].
         save_path (Optional[str], optional): save path of graph. Defaults to None.
         **kwargs (Any): additional arguments for plot.
@@ -32,23 +36,23 @@ def plot_2d_predicted_result(
             colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
             class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
     """
-    if dataset.config.features is not None:
-        feature_cols = dataset.config.features
-    else:
+    assert X.shape[0] == len(y_true) == len(y_pred), "Length of X , y_true and y_pred must be the same."
+
+    if feature_cols is None:
         feature_cols = [f"feature_{i}" for i in range(max(axis) + 1)]
 
     colors = cast(dict[int, str] | None, kwargs.get("colors", None))
     if colors is None:
-        colors = _create_colors(dataset.y_test)
+        colors = _create_colors(y_true)
 
     class_labels = cast(dict[int, str] | None, kwargs.get("class_labels", None))
     if class_labels is None:
-        class_labels = _create_class_labels(dataset.y_test)
+        class_labels = _create_class_labels(y_true)
 
     plt.figure(figsize=(7, 5), tight_layout=True)
     color_labels = []
-    for class_value in np.unique(dataset.y_test):
-        groud_subset = dataset.X_test[np.where(dataset.y_test == class_value)]
+    for class_value in np.unique(y_true):
+        groud_subset = X[np.where(y_true == class_value)]
         plt.scatter(
             groud_subset[:, axis[0]],
             groud_subset[:, axis[1]],
@@ -57,7 +61,7 @@ def plot_2d_predicted_result(
             s=100,
         )
 
-        predicted_subset = dataset.X_test[np.where(y_pred == class_value)]
+        predicted_subset = X[np.where(y_pred == class_value)]
         plt.scatter(
             predicted_subset[:, axis[0]],
             predicted_subset[:, axis[1]],
@@ -97,55 +101,62 @@ def plot_2d_predicted_result(
 
 @notify_long_running
 def plot_2d_decisionon_boundaries(
-    model: QSVM,
-    dataset: Dataset,
+    model: QSVC,
+    X: np.ndarray,
+    y: np.ndarray,
     grid_resolution: int = 10,
     support_vectors: bool = True,
+    feature_cols: Optional[list[str]] = None,
     save_path: Optional[str | Path] = None,
     **kwargs: Any,
 ) -> None:
-    """Plot decision boundaries of QSVM on 2D plane.
+    """Plot decision boundaries of QSVC on 2D plane.
 
     Args:
-        model (QSVM): QSVM model.
-        dataset (Dataset): Dataset object. It contains train data.
+        model (QSVC): QSVC model.
+        X (np.ndarray): feature values of the data.
+        y (np.ndarray): labels of the data.
         grid_resolution (int, optional): resolution of grid. Defaults to 10.
         support_vectors (bool, optional): plot support vectors or not. Defaults to True.
+        feature_cols (Optional[list[str]], optional): feature column names. Defaults to None.
         save_path (Optional[str  |  Path], optional): save path of graph. Defaults to None.
         **kwargs (Any): additional arguments for plot.
             title (str, optional): title of the plot. Defaults to "Decision boundaries of QSVC".
     """
-    X, y = dataset.X_train, dataset.y_train
+    assert X.shape[0] == len(y), "Length of X and y must be the same."
+
+    if isinstance(model, QSVC):
+        is_multi_class = len(model.model.classes_) > 2
+    else:
+        is_multi_class = len(np.unique(y)) > 2
 
     if X.shape[1] != 2:
         raise ValueError("This function only supports 2D dataset.")
 
-    if dataset.config.features is not None:
-        feature_cols = dataset.config.features
-    else:
+    if feature_cols is None:
         feature_cols = ["feature_0", "feature_1"]
 
     _, ax = plt.subplots(figsize=(6, 5), tight_layout=True)
     x_min, x_max, y_min, y_max = X[:, 0].min(), X[:, 0].max(), X[:, 1].min(), X[:, 1].max()
-    ax.set(xlim=(x_min, x_max), ylim=(y_min, y_max))
+    margin = 1
+    ax.set(xlim=(x_min - margin, x_max + margin), ylim=(y_min - margin, y_max + margin))
 
     # Plot decision boundary and margins
     common_params = {"estimator": model.model, "X": X, "grid_resolution": grid_resolution, "ax": ax}
     DecisionBoundaryDisplay.from_estimator(
-        **common_params,
-        response_method="predict",
-        plot_method="pcolormesh",
-        alpha=0.3,
+        **common_params, response_method="predict", plot_method="pcolormesh", alpha=0.3, cmap="viridis"
     )
 
-    DecisionBoundaryDisplay.from_estimator(
-        **common_params,
-        response_method="decision_function",
-        plot_method="contour",
-        levels=[-1, 0, 1],
-        colors=["k", "k", "k"],
-        linestyles=["--", "-", "--"],
-    )
+    if not is_multi_class:
+        # Only plot decision boundary and margins when it is binary classification
+        DecisionBoundaryDisplay.from_estimator(
+            **common_params,
+            response_method="decision_function",
+            plot_method="contour",
+            levels=[-1, 0, 1],
+            colors=["k", "k", "k"],
+            linestyles=["--", "-", "--"],
+        )
 
     if support_vectors:
         # Plot bigger circles around samples that serve as support vectors
@@ -158,7 +169,7 @@ def plot_2d_decisionon_boundaries(
         )
 
     # Plot samples by color and add legend
-    scatter = ax.scatter(X[:, 0], X[:, 1], c=y, s=30, edgecolors="k")
+    scatter = ax.scatter(X[:, 0], X[:, 1], c=y, s=30, edgecolors="k", cmap="viridis")
     plt.xlabel(f"{feature_cols[0]}")
     plt.ylabel(f"{feature_cols[1]}")
     ax.legend(*scatter.legend_elements(), loc="upper right", title="Class", bbox_to_anchor=(1.2, 1))

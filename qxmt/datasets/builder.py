@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from qxmt.configs import ExperimentConfig, OpenMLConfig, PathConfig
-from qxmt.datasets.dummy import generate_linear_separable_data
+from qxmt.datasets.dummy import load_dummy_dataset
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
@@ -50,6 +50,8 @@ class DatasetBuilder:
             logger (Logger, optional): logger for output messages. Defaults to LOGGER.
         """
         self.config: ExperimentConfig = config
+        self.task_type: str = config.global_settings.task_type
+        self.random_seed: int = config.dataset.random_seed
         self.logger: Logger = logger
 
         if self.config.dataset.raw_preprocess_logic is not None:
@@ -129,7 +131,7 @@ class DatasetBuilder:
         elif len(type_hint_dict) - 1 < 6:
             raise ValueError(
                 "The custom transform function must have at "
-                "least 4 arguments (X_train, y_train, X_val, y_val, X_test, y_test)."
+                "least 6 arguments (X_train, y_train, X_val, y_val, X_test, y_test)."
             )
 
         # check argument type and return type
@@ -165,7 +167,12 @@ class DatasetBuilder:
                 X = np.load(path_config.data, allow_pickle=True)
                 y = np.load(path_config.label, allow_pickle=True)
             case "generate":
-                X, y = generate_linear_separable_data()
+                X, y = load_dummy_dataset(
+                    task_type=self.task_type,
+                    generate_method=self.config.dataset.generate_method,  # type: ignore
+                    random_seed=self.random_seed,
+                    params=self.config.dataset.params or {},
+                )
             case _:
                 raise ValueError(f"Invalid dataset type: {dataset_type}")
 
@@ -212,7 +219,6 @@ class DatasetBuilder:
         """
         split_config = self.config.dataset.split
         val_and_test_ratio = split_config.validation_ratio + split_config.test_ratio
-        random_state = self.config.dataset.random_seed
         shuffle = split_config.shuffle
 
         # Split the dataset into train, validation, and test sets
@@ -220,7 +226,7 @@ class DatasetBuilder:
             X,
             y,
             test_size=val_and_test_ratio,
-            random_state=random_state,
+            random_state=self.random_seed,
             shuffle=shuffle,
         )
 
@@ -234,7 +240,7 @@ class DatasetBuilder:
                 X_val_and_test,
                 y_val_and_test,
                 test_size=split_config.test_ratio / val_and_test_ratio,
-                random_state=random_state,
+                random_state=self.random_seed,
                 shuffle=shuffle,
             )
 

@@ -7,7 +7,9 @@ from qxmt.exceptions import InvalidModelNameError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
 from qxmt.models.base import BaseMLModel
-from qxmt.models.qsvm import QSVM
+from qxmt.models.qrigge import QRiggeRegressor
+from qxmt.models.qsvc import QSVC
+from qxmt.models.qsvr import QSVR
 from qxmt.utils import load_object_from_yaml
 
 
@@ -80,10 +82,15 @@ class ModelBuilder:
 
     def _set_model(self) -> None:
         """Set quantum model."""
-        if self.config.model.name == "qsvm":
-            self.model = QSVM(kernel=self.kernel, **self.config.model.params)
-        else:
-            raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
+        match self.config.model.name:
+            case "qsvc":
+                self.model = QSVC(kernel=self.kernel, **self.config.model.params)
+            case "qsvr":
+                self.model = QSVR(kernel=self.kernel, **self.config.model.params)
+            case "qrigge":
+                self.model = QRiggeRegressor(kernel=self.kernel, **self.config.model.params)
+            case _:
+                raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
 
     def build(self) -> BaseMLModel:
         """

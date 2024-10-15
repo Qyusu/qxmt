@@ -1,5 +1,6 @@
+import copy
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable, Optional
 
 import dill
 import numpy as np
@@ -12,13 +13,14 @@ from qxmt.models.base import BaseKernelModel
 from qxmt.models.hyperparameter_search.search import HyperParameterSearch
 
 
-class QSVM(BaseKernelModel):
-    """Quantum Support Vector Machine (QSVM) model.
-    This class wraps the sklearn.svm.SVC class to provide a QSVM model.
+class QSVC(BaseKernelModel):
+    """Quantum Support Vector Classification (QSVC) model.
+    This class wraps the sklearn.svm.SVC class to provide a QSVC model.
     Then, many methods use the same interface as the sklearn.svm.SVC class.
+    References: https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
 
     Examples:
-        >>> from qxmt.models.qsvm import QSVM
+        >>> from qxmt.models.qsvc import QSVC
         >>> from qxmt.kernels.pennylane import FidelityKernel
         >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig
@@ -32,14 +34,14 @@ class QSVM(BaseKernelModel):
         >>> device = DeviceBuilder(config).build()
         >>> feature_map = ZZFeatureMap(2, 2)
         >>> kernel = FidelityKernel(device, feature_map)
-        >>> model = QSVM(kernel=kernel)
+        >>> model = QSVC(kernel=kernel)
         >>> model.fit(X_train, y_train)
         >>> model.predict(X_test)
         np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
     """
 
     def __init__(self, kernel: BaseKernel, **kwargs: Any) -> None:
-        """Initialize the QSVM model.
+        """Initialize the QSVC model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
@@ -54,7 +56,8 @@ class QSVM(BaseKernelModel):
         n_jobs: int = DEFAULT_N_JOBS,
         **kwargs: Any,
     ) -> np.ndarray:
-        """Cross validation score of the model.
+        """Cross validation score of the QSVC model.
+        Default to use the Accuracy score.
 
         Args:
             X (np.ndarray): numpy array of features
@@ -69,20 +72,24 @@ class QSVM(BaseKernelModel):
 
     def hyperparameter_search(
         self,
+        X: np.ndarray,
+        y: np.ndarray,
         search_type: str,
         search_space: dict[str, list[Any]],
         search_args: dict[str, Any],
-        X: np.ndarray,
-        y: np.ndarray,
+        objective: Optional[Callable] = None,
+        refit: bool = True,
     ) -> dict[str, Any]:
-        """Search the best hyperparameters for the model.
+        """Search the best hyperparameters for the QSVC model.
 
         Args:
-            search_type (str): search type for hyperparameter search (grid or random)
-            search_space (dict[str, list[Any]]): search space for hyperparameter search
-            search_args (dict[str, Any]): search arguments for hyperparameter search
             X (np.ndarray): dataset for search
             y (np.ndarray): target values for search
+            search_type (str): search type for hyperparameter search (grid, random, tpe)
+            search_space (dict[str, list[Any]]): search space for hyperparameter search
+            search_args (dict[str, Any]): search arguments for hyperparameter search
+            objective (Optional[Callable], optional): objective function for search. Defaults to None.
+            refit (bool, optional): refit the model with best hyperparameters. Defaults to True.
 
         Raises:
             ValueError: Not supported search type
@@ -90,15 +97,26 @@ class QSVM(BaseKernelModel):
         Returns:
             dict[str, Any]: best hyperparameters
         """
+        search_model = copy.deepcopy(self.model)
+
+        if "scoring" not in search_args.keys():
+            search_args["scoring"] = "accuracy"
+
         searcher = HyperParameterSearch(
-            model=self.model,
-            search_space=search_space,
-            search_type=search_type,
-            search_args=search_args,
             X=X,
             y=y,
+            model=search_model,
+            search_type=search_type,
+            search_space=search_space,
+            search_args=search_args,
+            objective=objective,
         )
         best_params = searcher.search()
+
+        if refit:
+            self.model.set_params(**best_params)
+            self.model.fit(X, y)
+
         return best_params
 
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
@@ -143,14 +161,14 @@ class QSVM(BaseKernelModel):
         # AttributeError: Can't pickle local object 'BaseKernel._to_fm_instance.<locals>.CustomFeatureMap'
         dill.dump(self.model, open(path, "wb"))
 
-    def load(self, path: str | Path) -> "QSVM":
+    def load(self, path: str | Path) -> "QSVC":
         """Load the trained model from the given path.
 
         Args:
             path (str | Path): path to load the model
 
         Returns:
-            QSVM: loaded QSVM model
+            QSVC: loaded QSVC model
         """
         # [TODO] Use pickle of joblib
         return dill.load(open(path, "rb"))

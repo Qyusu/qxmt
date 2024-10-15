@@ -99,7 +99,7 @@ kernel:
   params: {}
 
 model:
-  name: "qsvm"
+  name: "qsvc"
   file_name: "model.pkl"
   params:
     C: 1.0
@@ -196,7 +196,7 @@ plot_metrics_side_by_side(
 
 
 ### 4.3 Decision Boundary of the Model
-When using a Quantum Support Vector Machine (QSVM) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the model's behavior.
+When using a Quantum Support Vector Machine (QSVC) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the model's behavior.
 
 The model and dataset to be used as arguments can be obtained from the Run's `artifact`. The `grid_resolution` parameter allows you to set the resolution of the visualized decision boundary—the higher the value, the smoother the boundary, enabling you to examine individual sample classification results in more detail. However, higher resolution significantly increases computation time, so adjust it according to your needs. The `support_vectors` argument accepts a boolean value and controls whether support vectors are highlighted with circles to improve visibility in the output graph.
 

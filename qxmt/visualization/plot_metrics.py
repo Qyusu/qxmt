@@ -56,6 +56,7 @@ def plot_metric(
         **kwargs (Any): additional arguments for plot.
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to f'"{valid_metric}" score'.
+            ylim (Optional[tuple[float, float]], optional): y-axis limit. Defaults to None.
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
@@ -70,7 +71,9 @@ def plot_metric(
     plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     plt.ylabel(str(kwargs.get("ylabel", f'"{valid_metric}" score')))
     plt.xticks(x, list(df[run_id_col]))
-    plt.ylim(0, 1.05)
+
+    ylim = kwargs.get("ylim", (0.0, df[valid_metric].max() * 1.2))
+    plt.ylim(*ylim)
 
     title = cast(str | None, kwargs.get("title", None))
     if title is not None:
@@ -103,6 +106,7 @@ def plot_metrics_side_by_side(
         **kwargs (Any): additional arguments for plot.
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to "metrics score".
+            ylim (Optional[tuple[float, float]], optional): y-axis limit. Defaults to None.
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
@@ -113,15 +117,20 @@ def plot_metrics_side_by_side(
     plt.figure(figsize=(10, 6), tight_layout=True)
     width = 1.0 / (len(valid_metrics) + 1)
     color: list = cast(list, kwargs.get("color", DEFAULT_COLOR))
+    y_max = 0.0
     for i, metric in enumerate(valid_metrics):
         x = [j + i * width for j in range(len(df))]
         plt.bar(x, df[metric], width=width, label=metric, color=color[i])
+        y_max = max(y_max, max(df[metric]))
 
     plt.ylabel(str(kwargs.get("ylabel", "metrics score")))
     plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
     plt.xticks(x_ticks, list(df[run_id_col]))
-    plt.ylim(0, 1.3)
+
+    ylim = kwargs.get("ylim", (0.0, y_max * 1.2))
+    plt.ylim(*ylim)
+
     plt.legend(loc="upper right")
 
     title = cast(str | None, kwargs.get("title", None))

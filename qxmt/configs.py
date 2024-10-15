@@ -4,12 +4,13 @@ from typing import Any, Literal, Optional
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from qxmt.constants import MODULE_HOME
+from qxmt.constants import PROJECT_ROOT_DIR
 
 
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
+    task_type: Literal["classification", "regression"]
 
 
 class OpenMLConfig(BaseModel):
@@ -20,6 +21,10 @@ class OpenMLConfig(BaseModel):
     return_format: str = "numpy"
     save_path: Optional[Path | str] = None
 
+    def model_post_init(self, __context: dict[str, Any]) -> None:
+        if (self.save_path is not None) and (not Path(self.save_path).is_absolute()):
+            self.save_path = PROJECT_ROOT_DIR / self.save_path
+
 
 class PathConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -29,10 +34,10 @@ class PathConfig(BaseModel):
 
     def model_post_init(self, __context: dict[str, Any]) -> None:
         if not Path(self.data).is_absolute():
-            self.data = MODULE_HOME / self.data
+            self.data = PROJECT_ROOT_DIR / self.data
 
         if not Path(self.label).is_absolute():
-            self.label = MODULE_HOME / self.label
+            self.label = PROJECT_ROOT_DIR / self.label
 
 
 class SplitConfig(BaseModel):
@@ -56,8 +61,9 @@ class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     type: Literal["openml", "file", "generate"]
-    openml: Optional[OpenMLConfig] = None
-    path: Optional[PathConfig] = None
+    openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
+    path: Optional[PathConfig] = None  # only need when type is "file"
+    generate_method: Optional[str] = None  # only need when type is "generate"
     params: Optional[dict[str, Any]] = None
     random_seed: int
     split: SplitConfig
@@ -66,12 +72,32 @@ class DatasetConfig(BaseModel):
     transform_logic: Optional[dict[str, Any]] = None
 
     @model_validator(mode="before")
+    def check_openml_setting_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
+        type_ = values.get("type")
+        openml_setting = values.get("openml")
+
+        if type_ == "openml" and openml_setting is None:
+            raise ValueError('"openml" setting must be provided when type is "openml".')
+
+        return values
+
+    @model_validator(mode="before")
     def check_path_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_ = values.get("type")
         path = values.get("path")
 
         if type_ == "file" and path is None:
-            raise ValueError('path must be provided when type is "file".')
+            raise ValueError('"path" must be provided when type is "file".')
+
+        return values
+
+    @model_validator(mode="before")
+    def check_generate_method_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
+        type_ = values.get("type")
+        generate_method = values.get("generate_method")
+
+        if type_ == "generate" and generate_method is None:
+            raise ValueError('"generate_method" must be provided when type is "generate".')
 
         return values
 

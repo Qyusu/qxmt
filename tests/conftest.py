@@ -11,18 +11,19 @@ from qxmt import (
     GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
-    PathConfig,
     SplitConfig,
 )
 
 DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
     random_seed=42,
+    task_type="classification",
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
     type="generate",
+    generate_method="linear",
     openml=None,
-    path=PathConfig(data="data.npy", label="label.npy"),
+    path=None,
     random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
     features=None,
@@ -34,7 +35,7 @@ DEFAULT_FEATUREMAP_CONFIG = FeatureMapConfig(
     module_name="qxmt.feature_maps.pennylane", implement_name="ZZFeatureMap", params={"reps": 2}
 )
 DEFAULT_KERNEL_CONFIG = KernelConfig(module_name="qxmt.kernels.pennylane", implement_name="FidelityKernel", params={})
-DEFAULT_MODEL_CONFIG = ModelConfig(name="qsvm", file_name="model.pkl", params={"C": 1.0, "gamma": 0.05})
+DEFAULT_MODEL_CONFIG = ModelConfig(name="qsvc", file_name="model.pkl", params={"C": 1.0, "gamma": 0.05})
 DEFAULT_EVALUATION_CONFIG = EvaluationConfig(default_metrics=["accuracy", "precision", "recall", "f1_score"])
 
 
