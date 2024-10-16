@@ -174,6 +174,7 @@ description: "Configuration file for the custom MNIST case"
 
 global_settings:
   random_seed: &global_seed 42
+  task_type: "classification"
 
 dataset:
   type: "file"
@@ -229,7 +230,6 @@ evaluation: # [SETUP] your logic path
   custom_metrics: [
     {"module_name": "your_project.custom.evaluation", "implement_name": "CustomMetric"}
     ]
-
 ```
 
 ## 4. Executing Experiments and Evaluation
@@ -285,5 +285,5 @@ plot_metrics_side_by_side(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/10 |
-| QXMT| v0.2.3 |
+| document | 2024/10/16 |
+| QXMT| v0.3.0 |

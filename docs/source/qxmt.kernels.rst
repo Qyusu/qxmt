@@ -12,6 +12,6 @@ Subpackages
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.kernels.base

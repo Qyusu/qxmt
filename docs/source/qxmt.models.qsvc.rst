@@ -1,8 +1,7 @@
-qxmt.models.qsvm module
+qxmt.models.qsvc module
 =======================
 
-.. automodule:: qxmt.models.qsvm
+.. automodule:: qxmt.models.qsvc
    :members:
    :undoc-members:
    :show-inheritance:
-   :noindex:

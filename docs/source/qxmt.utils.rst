@@ -4,7 +4,7 @@ qxmt.utils package
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.utils.github
    qxmt.utils.yaml
