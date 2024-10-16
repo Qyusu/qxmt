@@ -543,10 +543,16 @@ document.write(`
 
 <span class="nt">global_settings</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;global_seed</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">task_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;classification&quot;</span>
 
 <span class="nt">dataset</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;generate&quot;</span>
-<span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">  </span><span class="nt">generate_method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;linear&quot;</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span>
+<span class="w">    </span><span class="s">&quot;n_samples&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">100</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;n_features&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">2</span><span class="p p-Indicator">,</span>
+<span class="w">    </span><span class="s">&quot;n_classes&quot;</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="nv">3</span><span class="p p-Indicator">,</span>
+<span class="w">  </span><span class="p p-Indicator">}</span>
 <span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nv">*global_seed</span>
 <span class="w">  </span><span class="nt">split</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">train_ratio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.8</span>
@@ -672,7 +678,8 @@ document.write(`
 
 <span class="n">plot_2d_decisionon_boundaries</span><span class="p">(</span>
   <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
-  <span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
+  <span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span>
+  <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span>
   <span class="n">grid_resolution</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
   <span class="n">support_vectors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
   <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/boundary.png&quot;</span><span class="p">)</span>
@@ -691,10 +698,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/10/10</p></td>
+<td><p>2024/10/16</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.2.3</p></td>
+<td><p>v0.3.0</p></td>
 </tr>
 </tbody>
 </table>

@@ -61,5 +61,5 @@ kernel:
 ### バージョン情報
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/10 |
-| QXMT| v0.2.3 |
+| document | 2024/10/16 |
+| QXMT| v0.3.0 |
