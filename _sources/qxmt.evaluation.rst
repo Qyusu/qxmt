@@ -1,11 +1,19 @@
 qxmt.evaluation package
 =======================
 
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 1
+
+   qxmt.evaluation.metrics
+
+
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   qxmt.evaluation.base
-   qxmt.evaluation.defaults
    qxmt.evaluation.evaluation

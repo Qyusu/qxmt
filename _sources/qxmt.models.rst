@@ -13,8 +13,10 @@ Subpackages
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.models.base
    qxmt.models.builder
-   qxmt.models.qsvm
+   qxmt.models.qsvc
+   qxmt.models.qsvr
+   qxmt.models.qrigge

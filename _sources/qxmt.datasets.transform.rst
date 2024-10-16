@@ -4,9 +4,10 @@ qxmt.datasets.transform package
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.datasets.transform.reduction_by_pca
+   qxmt.datasets.transform.normalization
 
 
 qxmt.datasets.transform.reduction_by_pca module

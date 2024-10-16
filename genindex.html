@@ -153,6 +153,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.dummy.html">qxmt.datasets.dummy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.loader.html">qxmt.datasets.dummy.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -161,10 +162,12 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalization.html">qxmt.datasets.transform.normalization module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -178,8 +181,12 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.evaluation.html">qxmt.evaluation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.base.html">qxmt.evaluation.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.defaults.html">qxmt.evaluation.defaults module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.evaluation.metrics.html">qxmt.evaluation.metrics package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
@@ -217,7 +224,9 @@
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvc.html">qxmt.models.qsvc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvr.html">qxmt.models.qsvr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -229,7 +238,8 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.graph_settings.html">qxmt.visualization.graph_settings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_model_performance.html">qxmt.visualization.plot_model_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.configs.html">qxmt.configs module</a></li>
@@ -406,6 +416,8 @@ document.write(`
 
 <div class="genindex-jumpbox">
  <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
  | <a href="#E"><strong>E</strong></a>
@@ -440,6 +452,38 @@ document.write(`
 </li>
         <li><a href="qxmt.datasets.openml.html#qxmt.datasets.openml.OpenMLDataLoader.__init__">(qxmt.datasets.openml.OpenMLDataLoader method)</a>
 </li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Accuracy.__init__">(qxmt.evaluation.metrics.Accuracy method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric.__init__">(qxmt.evaluation.metrics.base.BaseMetric method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric.__init__">(qxmt.evaluation.metrics.BaseMetric method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Accuracy.__init__">(qxmt.evaluation.metrics.defaults_classification.Accuracy method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.F1Score.__init__">(qxmt.evaluation.metrics.defaults_classification.F1Score method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Precision.__init__">(qxmt.evaluation.metrics.defaults_classification.Precision method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Recall.__init__">(qxmt.evaluation.metrics.defaults_classification.Recall method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError.__init__">(qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.R2Score.__init__">(qxmt.evaluation.metrics.defaults_regression.R2Score method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError.__init__">(qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.F1Score.__init__">(qxmt.evaluation.metrics.F1Score method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.MeanAbsoluteError.__init__">(qxmt.evaluation.metrics.MeanAbsoluteError method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Precision.__init__">(qxmt.evaluation.metrics.Precision method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.R2Score.__init__">(qxmt.evaluation.metrics.R2Score method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Recall.__init__">(qxmt.evaluation.metrics.Recall method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.RootMeanSquaredError.__init__">(qxmt.evaluation.metrics.RootMeanSquaredError method)</a>
+</li>
         <li><a href="qxmt.html#qxmt.Experiment.__init__">(qxmt.Experiment method)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ExperimentConfig.__init__">(qxmt.ExperimentConfig method)</a>
@@ -473,6 +517,36 @@ document.write(`
         <li><a href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.ProjectedKernel.__init__">(qxmt.kernels.pennylane.ProjectedKernel method)</a>
 </li>
         <li><a href="qxmt.models.hyperparameter_search.html#qxmt.models.hyperparameter_search.HyperParameterSearch.__init__">(qxmt.models.hyperparameter_search.HyperParameterSearch method)</a>
+</li>
+        <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.__init__">(qxmt.models.qrigge.QRiggeRegressor method)</a>
+</li>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.__init__">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.__init__">(qxmt.models.qsvr.QSVR method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Accuracy">Accuracy (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Accuracy">(class in qxmt.evaluation.metrics.defaults_classification)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric">BaseMetric (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric">(class in qxmt.evaluation.metrics.base)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -515,6 +589,14 @@ document.write(`
         <li><a href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.projected_kernel.ProjectedKernel.compute">(qxmt.kernels.pennylane.projected_kernel.ProjectedKernel method)</a>
 </li>
         <li><a href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.ProjectedKernel.compute">(qxmt.kernels.pennylane.ProjectedKernel method)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.cross_val_score">cross_val_score() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.cross_val_score">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.cross_val_score">(qxmt.models.qsvr.QSVR method)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.html#qxmt.configs.EvaluationConfig.custom_metrics">custom_metrics (qxmt.configs.EvaluationConfig attribute)</a>
@@ -583,6 +665,44 @@ document.write(`
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Accuracy.evaluate">evaluate() (qxmt.evaluation.metrics.Accuracy static method)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric.evaluate">(qxmt.evaluation.metrics.base.BaseMetric static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric.evaluate">(qxmt.evaluation.metrics.BaseMetric static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Accuracy.evaluate">(qxmt.evaluation.metrics.defaults_classification.Accuracy static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.F1Score.evaluate">(qxmt.evaluation.metrics.defaults_classification.F1Score static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Precision.evaluate">(qxmt.evaluation.metrics.defaults_classification.Precision static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Recall.evaluate">(qxmt.evaluation.metrics.defaults_classification.Recall static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.TargetAlignmet.evaluate">(qxmt.evaluation.metrics.defaults_classification.TargetAlignmet static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError.evaluate">(qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.R2Score.evaluate">(qxmt.evaluation.metrics.defaults_regression.R2Score static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError.evaluate">(qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.F1Score.evaluate">(qxmt.evaluation.metrics.F1Score static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.MeanAbsoluteError.evaluate">(qxmt.evaluation.metrics.MeanAbsoluteError static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Precision.evaluate">(qxmt.evaluation.metrics.Precision static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.R2Score.evaluate">(qxmt.evaluation.metrics.R2Score static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Recall.evaluate">(qxmt.evaluation.metrics.Recall static method)</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.RootMeanSquaredError.evaluate">(qxmt.evaluation.metrics.RootMeanSquaredError static method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.evaluation">evaluation (qxmt.configs.ExperimentConfig attribute)</a>
 
       <ul>
@@ -597,8 +717,6 @@ document.write(`
       </ul></li>
       <li><a href="qxmt.html#qxmt.Experiment">Experiment (class in qxmt)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.ExperimentConfig">ExperimentConfig (class in qxmt)</a>
 
       <ul>
@@ -617,6 +735,12 @@ document.write(`
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.F1Score">F1Score (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.F1Score">(class in qxmt.evaluation.metrics.defaults_classification)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.feature_map">feature_map (qxmt.configs.ExperimentConfig attribute)</a>
 
       <ul>
@@ -675,6 +799,16 @@ document.write(`
         <li><a href="qxmt.html#qxmt.ModelConfig.file_name">(qxmt.ModelConfig attribute)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.datasets.raw_preprocess.filter.html#qxmt.datasets.raw_preprocess.filter.filter_by_categorical">filter_by_categorical() (in module qxmt.datasets.raw_preprocess.filter)</a>
+</li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.fit">fit() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.fit">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.fit">(qxmt.models.qsvr.QSVR method)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -697,6 +831,14 @@ document.write(`
 
       <ul>
         <li><a href="qxmt.html#qxmt.DatasetConfig.generate_method">(qxmt.DatasetConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.get_params">get_params() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.get_params">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.get_params">(qxmt.models.qsvr.QSVR method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -725,6 +867,14 @@ document.write(`
 
       <ul>
         <li><a href="qxmt.feature_maps.pennylane.html#qxmt.feature_maps.pennylane.defaults.HRotationFeatureMap">(class in qxmt.feature_maps.pennylane.defaults)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.hyperparameter_search">hyperparameter_search() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.hyperparameter_search">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.hyperparameter_search">(qxmt.models.qsvr.QSVR method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -814,11 +964,21 @@ document.write(`
       <ul>
         <li><a href="qxmt.datasets.openml.html#qxmt.datasets.openml.OpenMLDataLoader.load">(qxmt.datasets.openml.OpenMLDataLoader method)</a>
 </li>
+        <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.load">(qxmt.models.qrigge.QRiggeRegressor method)</a>
+</li>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.load">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.load">(qxmt.models.qsvr.QSVR method)</a>
+</li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.datasets.dummy.html#qxmt.datasets.dummy.load_dummy_dataset">load_dummy_dataset() (in module qxmt.datasets.dummy)</a>
+
+      <ul>
+        <li><a href="qxmt.datasets.dummy.loader.html#qxmt.datasets.dummy.loader.load_dummy_dataset">(in module qxmt.datasets.dummy.loader)</a>
 </li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.Experiment.load_experiment">load_experiment() (qxmt.Experiment method)</a>
 </li>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.load_from_path">load_from_path() (qxmt.configs.ExperimentConfig method)</a>
@@ -833,6 +993,12 @@ document.write(`
 <h2 id="M">M</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.MeanAbsoluteError">MeanAbsoluteError (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError">(class in qxmt.evaluation.metrics.defaults_regression)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.model">model (qxmt.configs.ExperimentConfig attribute)</a>
 
       <ul>
@@ -1003,19 +1169,33 @@ document.write(`
 </li>
         <li><a href="qxmt.datasets.dummy.html#module-qxmt.datasets.dummy.linear">qxmt.datasets.dummy.linear</a>
 </li>
+        <li><a href="qxmt.datasets.dummy.loader.html#module-qxmt.datasets.dummy.loader">qxmt.datasets.dummy.loader</a>
+</li>
         <li><a href="qxmt.datasets.openml.html#module-qxmt.datasets.openml">qxmt.datasets.openml</a>
 </li>
         <li><a href="qxmt.datasets.openml.loader.html#module-qxmt.datasets.openml.loader">qxmt.datasets.openml.loader</a>
 </li>
         <li><a href="qxmt.datasets.raw_preprocess.html#module-qxmt.datasets.raw_preprocess">qxmt.datasets.raw_preprocess</a>
 </li>
+        <li><a href="qxmt.datasets.raw_preprocess.filter.html#module-qxmt.datasets.raw_preprocess.filter">qxmt.datasets.raw_preprocess.filter</a>
+</li>
         <li><a href="qxmt.datasets.raw_preprocess.html#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling</a>
 </li>
         <li><a href="qxmt.datasets.transform.html#module-qxmt.datasets.transform">qxmt.datasets.transform</a>
 </li>
+        <li><a href="qxmt.datasets.transform.normalization.html#module-qxmt.datasets.transform.normalization">qxmt.datasets.transform.normalization</a>
+</li>
         <li><a href="qxmt.datasets.transform.html#module-qxmt.datasets.transform.reduction_by_pca">qxmt.datasets.transform.reduction_by_pca</a>
 </li>
         <li><a href="qxmt.html#module-qxmt.decorators">qxmt.decorators</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.html#module-qxmt.evaluation.metrics">qxmt.evaluation.metrics</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.base.html#module-qxmt.evaluation.metrics.base">qxmt.evaluation.metrics.base</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#module-qxmt.evaluation.metrics.defaults_classification">qxmt.evaluation.metrics.defaults_classification</a>
+</li>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#module-qxmt.evaluation.metrics.defaults_regression">qxmt.evaluation.metrics.defaults_regression</a>
 </li>
         <li><a href="qxmt.html#module-qxmt.exceptions">qxmt.exceptions</a>
 </li>
@@ -1033,7 +1213,17 @@ document.write(`
 </li>
         <li><a href="qxmt.models.hyperparameter_search.html#module-qxmt.models.hyperparameter_search">qxmt.models.hyperparameter_search</a>
 </li>
+        <li><a href="qxmt.models.qrigge.html#module-qxmt.models.qrigge">qxmt.models.qrigge</a>
+</li>
+        <li><a href="qxmt.models.qsvc.html#module-qxmt.models.qsvc">qxmt.models.qsvc</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#module-qxmt.models.qsvr">qxmt.models.qsvr</a>
+</li>
         <li><a href="qxmt.html#module-qxmt.types">qxmt.types</a>
+</li>
+        <li><a href="qxmt.visualization.plot_classification_performance.html#module-qxmt.visualization.plot_classification_performance">qxmt.visualization.plot_classification_performance</a>
+</li>
+        <li><a href="qxmt.visualization.plot_regression_performance.html#module-qxmt.visualization.plot_regression_performance">qxmt.visualization.plot_regression_performance</a>
 </li>
       </ul></li>
       <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.module_name">module_name (qxmt.configs.FeatureMapConfig attribute)</a>
@@ -1072,6 +1262,8 @@ document.write(`
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.datasets.transform.normalization.html#qxmt.datasets.transform.normalization.normalization">normalization() (in module qxmt.datasets.transform.normalization)</a>
+</li>
       <li><a href="qxmt.html#qxmt.decorators.notify_long_running">notify_long_running() (in module qxmt.decorators)</a>
 </li>
   </ul></td>
@@ -1086,14 +1278,20 @@ document.write(`
         <li><a href="qxmt.html#qxmt.DatasetConfig.openml">(qxmt.DatasetConfig attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.OpenMLConfig">OpenMLConfig (class in qxmt.configs)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.datasets.openml.html#qxmt.datasets.openml.OpenMLDataLoader">OpenMLDataLoader (class in qxmt.datasets.openml)</a>
 
       <ul>
         <li><a href="qxmt.datasets.openml.loader.html#qxmt.datasets.openml.loader.OpenMLDataLoader">(class in qxmt.datasets.openml.loader)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric.output_score">output_score() (qxmt.evaluation.metrics.base.BaseMetric method)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric.output_score">(qxmt.evaluation.metrics.BaseMetric method)</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1130,20 +1328,42 @@ document.write(`
         <li><a href="qxmt.html#qxmt.ExperimentConfig.path">(qxmt.ExperimentConfig attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.PathConfig">PathConfig (class in qxmt)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.configs.PathConfig">(class in qxmt.configs)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.DeviceConfig.platform">platform (qxmt.configs.DeviceConfig attribute)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.DeviceConfig.platform">(qxmt.DeviceConfig attribute)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.visualization.plot_classification_performance.html#qxmt.visualization.plot_classification_performance.plot_2d_predicted_result">plot_2d_predicted_result() (in module qxmt.visualization.plot_classification_performance)</a>
+</li>
+      <li><a href="qxmt.visualization.plot_regression_performance.html#qxmt.visualization.plot_regression_performance.plot_actual_vs_predicted">plot_actual_vs_predicted() (in module qxmt.visualization.plot_regression_performance)</a>
+</li>
+      <li><a href="qxmt.visualization.plot_regression_performance.html#qxmt.visualization.plot_regression_performance.plot_residual">plot_residual() (in module qxmt.visualization.plot_regression_performance)</a>
+</li>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Precision">Precision (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Precision">(class in qxmt.evaluation.metrics.defaults_classification)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.predict">predict() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.predict">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.predict">(qxmt.models.qsvr.QSVR method)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.predict_proba">predict_proba() (qxmt.models.qsvc.QSVC method)</a>
+</li>
       <li><a href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.ProjectedKernel">ProjectedKernel (class in qxmt.kernels.pennylane)</a>
 
       <ul>
@@ -1156,6 +1376,12 @@ document.write(`
 <h2 id="Q">Q</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor">QRiggeRegressor (class in qxmt.models.qrigge)</a>
+</li>
+      <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC">QSVC (class in qxmt.models.qsvc)</a>
+</li>
+      <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR">QSVR (class in qxmt.models.qsvr)</a>
+</li>
       <li>
     qxmt
 
@@ -1192,6 +1418,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    qxmt.datasets.dummy.loader
+
+      <ul>
+        <li><a href="qxmt.datasets.dummy.loader.html#module-qxmt.datasets.dummy.loader">module</a>
+</li>
+      </ul></li>
+      <li>
     qxmt.datasets.openml
 
       <ul>
@@ -1213,6 +1446,13 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    qxmt.datasets.raw_preprocess.filter
+
+      <ul>
+        <li><a href="qxmt.datasets.raw_preprocess.filter.html#module-qxmt.datasets.raw_preprocess.filter">module</a>
+</li>
+      </ul></li>
+      <li>
     qxmt.datasets.raw_preprocess.sampling
 
       <ul>
@@ -1227,19 +1467,54 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    qxmt.datasets.transform.normalization
+
+      <ul>
+        <li><a href="qxmt.datasets.transform.normalization.html#module-qxmt.datasets.transform.normalization">module</a>
+</li>
+      </ul></li>
+      <li>
     qxmt.datasets.transform.reduction_by_pca
 
       <ul>
         <li><a href="qxmt.datasets.transform.html#module-qxmt.datasets.transform.reduction_by_pca">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     qxmt.decorators
 
       <ul>
         <li><a href="qxmt.html#module-qxmt.decorators">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.evaluation.metrics
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.html#module-qxmt.evaluation.metrics">module</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li>
+    qxmt.evaluation.metrics.base
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.base.html#module-qxmt.evaluation.metrics.base">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.evaluation.metrics.defaults_classification
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#module-qxmt.evaluation.metrics.defaults_classification">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.evaluation.metrics.defaults_regression
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#module-qxmt.evaluation.metrics.defaults_regression">module</a>
 </li>
       </ul></li>
       <li>
@@ -1299,10 +1574,45 @@ document.write(`
 </li>
       </ul></li>
       <li>
+    qxmt.models.qrigge
+
+      <ul>
+        <li><a href="qxmt.models.qrigge.html#module-qxmt.models.qrigge">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.models.qsvc
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#module-qxmt.models.qsvc">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.models.qsvr
+
+      <ul>
+        <li><a href="qxmt.models.qsvr.html#module-qxmt.models.qsvr">module</a>
+</li>
+      </ul></li>
+      <li>
     qxmt.types
 
       <ul>
         <li><a href="qxmt.html#module-qxmt.types">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.visualization.plot_classification_performance
+
+      <ul>
+        <li><a href="qxmt.visualization.plot_classification_performance.html#module-qxmt.visualization.plot_classification_performance">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.visualization.plot_regression_performance
+
+      <ul>
+        <li><a href="qxmt.visualization.plot_regression_performance.html#module-qxmt.visualization.plot_regression_performance">module</a>
 </li>
       </ul></li>
   </ul></td>
@@ -1311,6 +1621,12 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.R2Score">R2Score (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.R2Score">(class in qxmt.evaluation.metrics.defaults_regression)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.DatasetConfig.random_seed">random_seed (qxmt.configs.DatasetConfig attribute)</a>
 
       <ul>
@@ -1327,16 +1643,28 @@ document.write(`
         <li><a href="qxmt.html#qxmt.DatasetConfig.raw_preprocess_logic">(qxmt.DatasetConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="qxmt.html#qxmt.Experiment.reproduce">reproduce() (qxmt.Experiment method)</a>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.Recall">Recall (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.Recall">(class in qxmt.evaluation.metrics.defaults_classification)</a>
 </li>
+      </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.html#qxmt.Experiment.reproduce">reproduce() (qxmt.Experiment method)</a>
+</li>
       <li><a href="qxmt.html#qxmt.ReproductionError">ReproductionError</a>, <a href="qxmt.html#qxmt.exceptions.ReproductionError">[1]</a>
 </li>
       <li><a href="qxmt.html#qxmt.decorators.retry_on_exception">retry_on_exception() (in module qxmt.decorators)</a>
 </li>
       <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.return_format">return_format (qxmt.configs.OpenMLConfig attribute)</a>
 </li>
+      <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.RootMeanSquaredError">RootMeanSquaredError (class in qxmt.evaluation.metrics)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.defaults_regression.html#qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError">(class in qxmt.evaluation.metrics.defaults_regression)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.feature_maps.pennylane.html#qxmt.feature_maps.pennylane.RotationFeatureMap">RotationFeatureMap (class in qxmt.feature_maps.pennylane)</a>
 
       <ul>
@@ -1357,22 +1685,46 @@ document.write(`
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.datasets.raw_preprocess.html#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class">sampling_by_each_class() (in module qxmt.datasets.raw_preprocess.sampling)</a>
 </li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.save">save() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.save">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.save">(qxmt.models.qsvr.QSVR method)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.Experiment.save_experiment">save_experiment() (qxmt.Experiment method)</a>
 </li>
       <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.save_path">save_path (qxmt.configs.OpenMLConfig attribute)</a>
+</li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.score">score() (qxmt.models.qrigge.QRiggeRegressor method)</a>
 </li>
       <li><a href="qxmt.models.hyperparameter_search.html#qxmt.models.hyperparameter_search.HyperParameterSearch.search">search() (qxmt.models.hyperparameter_search.HyperParameterSearch method)</a>
 </li>
       <li><a href="qxmt.html#qxmt.logger.set_default_logger">set_default_logger() (in module qxmt.logger)</a>
 </li>
+      <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.set_params">set_params() (qxmt.models.qrigge.QRiggeRegressor method)</a>
+
+      <ul>
+        <li><a href="qxmt.models.qsvc.html#qxmt.models.qsvc.QSVC.set_params">(qxmt.models.qsvc.QSVC method)</a>
+</li>
+        <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.set_params">(qxmt.models.qsvr.QSVR method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric.set_score">set_score() (qxmt.evaluation.metrics.base.BaseMetric method)</a>
+
+      <ul>
+        <li><a href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric.set_score">(qxmt.evaluation.metrics.BaseMetric method)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.DeviceConfig.shots">shots (qxmt.configs.DeviceConfig attribute)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.DeviceConfig.shots">(qxmt.DeviceConfig attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.SplitConfig.shuffle">shuffle (qxmt.configs.SplitConfig attribute)</a>
 
       <ul>
@@ -1397,6 +1749,8 @@ document.write(`
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.evaluation.metrics.defaults_classification.html#qxmt.evaluation.metrics.defaults_classification.TargetAlignmet">TargetAlignmet (class in qxmt.evaluation.metrics.defaults_classification)</a>
+</li>
       <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.task_type">task_type (qxmt.configs.GlobalSettingsConfig attribute)</a>
 
       <ul>
@@ -1409,14 +1763,14 @@ document.write(`
         <li><a href="qxmt.html#qxmt.SplitConfig.test_ratio">(qxmt.SplitConfig attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.SplitConfig.train_ratio">train_ratio (qxmt.configs.SplitConfig attribute)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.SplitConfig.train_ratio">(qxmt.SplitConfig attribute)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.DatasetConfig.transform_logic">transform_logic (qxmt.configs.DatasetConfig attribute)</a>
 
       <ul>

@@ -156,6 +156,7 @@
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.dummy.html">qxmt.datasets.dummy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.loader.html">qxmt.datasets.dummy.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -164,10 +165,12 @@
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalization.html">qxmt.datasets.transform.normalization module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -181,8 +184,12 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.evaluation.html">qxmt.evaluation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.base.html">qxmt.evaluation.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.defaults.html">qxmt.evaluation.defaults module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.evaluation.metrics.html">qxmt.evaluation.metrics package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
@@ -220,7 +227,9 @@
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvm.html">qxmt.models.qsvm module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvc.html">qxmt.models.qsvc module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvr.html">qxmt.models.qsvr module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -232,7 +241,8 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.graph_settings.html">qxmt.visualization.graph_settings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_model_performance.html">qxmt.visualization.plot_model_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.configs.html">qxmt.configs module</a></li>
@@ -444,6 +454,11 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="qxmt.datasets.dummy.loader.html#module-qxmt.datasets.dummy.loader"><code class="xref">qxmt.datasets.dummy.loader</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="qxmt.datasets.openml.html#module-qxmt.datasets.openml"><code class="xref">qxmt.datasets.openml</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
@@ -459,6 +474,11 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="qxmt.datasets.raw_preprocess.filter.html#module-qxmt.datasets.raw_preprocess.filter"><code class="xref">qxmt.datasets.raw_preprocess.filter</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="qxmt.datasets.raw_preprocess.html#module-qxmt.datasets.raw_preprocess.sampling"><code class="xref">qxmt.datasets.raw_preprocess.sampling</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
@@ -469,12 +489,37 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="qxmt.datasets.transform.normalization.html#module-qxmt.datasets.transform.normalization"><code class="xref">qxmt.datasets.transform.normalization</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="qxmt.datasets.transform.html#module-qxmt.datasets.transform.reduction_by_pca"><code class="xref">qxmt.datasets.transform.reduction_by_pca</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
        <a href="qxmt.html#module-qxmt.decorators"><code class="xref">qxmt.decorators</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.evaluation.metrics.html#module-qxmt.evaluation.metrics"><code class="xref">qxmt.evaluation.metrics</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.evaluation.metrics.base.html#module-qxmt.evaluation.metrics.base"><code class="xref">qxmt.evaluation.metrics.base</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.evaluation.metrics.defaults_classification.html#module-qxmt.evaluation.metrics.defaults_classification"><code class="xref">qxmt.evaluation.metrics.defaults_classification</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.evaluation.metrics.defaults_regression.html#module-qxmt.evaluation.metrics.defaults_regression"><code class="xref">qxmt.evaluation.metrics.defaults_regression</code></a></td><td>
        <em></em></td></tr>
      <tr class="cg-1">
        <td></td>
@@ -519,7 +564,32 @@ document.write(`
      <tr class="cg-1">
        <td></td>
        <td>&#160;&#160;&#160;
+       <a href="qxmt.models.qrigge.html#module-qxmt.models.qrigge"><code class="xref">qxmt.models.qrigge</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.models.qsvc.html#module-qxmt.models.qsvc"><code class="xref">qxmt.models.qsvc</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.models.qsvr.html#module-qxmt.models.qsvr"><code class="xref">qxmt.models.qsvr</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
        <a href="qxmt.html#module-qxmt.types"><code class="xref">qxmt.types</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.visualization.plot_classification_performance.html#module-qxmt.visualization.plot_classification_performance"><code class="xref">qxmt.visualization.plot_classification_performance</code></a></td><td>
+       <em></em></td></tr>
+     <tr class="cg-1">
+       <td></td>
+       <td>&#160;&#160;&#160;
+       <a href="qxmt.visualization.plot_regression_performance.html#module-qxmt.visualization.plot_regression_performance"><code class="xref">qxmt.visualization.plot_regression_performance</code></a></td><td>
        <em></em></td></tr>
    </table>
 

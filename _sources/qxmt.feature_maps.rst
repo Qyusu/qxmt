@@ -13,6 +13,6 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.feature_maps.base

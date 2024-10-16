@@ -16,7 +16,7 @@ Submodules
 ----------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.datasets.builder
    qxmt.datasets.schema
