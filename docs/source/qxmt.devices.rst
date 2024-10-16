@@ -4,7 +4,7 @@ qxmt.devices package
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.devices.base
    qxmt.devices.builder

@@ -4,7 +4,7 @@ qxmt.experiment package
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.experiment.experiment
    qxmt.experiment.schema

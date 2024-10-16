@@ -4,7 +4,7 @@ qxmt.feature\_maps.pennylane package
 Submodules
 ----------
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    qxmt.feature_maps.pennylane.defaults
 
