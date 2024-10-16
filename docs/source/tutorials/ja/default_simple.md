@@ -65,10 +65,16 @@ description: "Configuration file for the simple example"
 
 global_settings:
   random_seed: &global_seed 42
+  task_type: "classification"
 
 dataset:
   type: "generate"
-  params: {}
+  generate_method: "linear"
+  params: {
+    "n_samples": 100,
+    "n_features": 2,
+    "n_classes": 3,
+  }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -141,7 +147,7 @@ artifact_2, result_2 = experiment.run(config_source=adhoc_config)
 
 ``` python
 # extract the results as a pandas dataframe
-metrics_df = exp.runs_to_dataframe()
+metrics_df = experiment.runs_to_dataframe()
 
 metrics_df.head()
 # output
@@ -179,7 +185,7 @@ plot_2d_dataset(
 from qxmt.visualization import plot_metrics_side_by_side
 
 # get run result as dataframe
-df = exp.runs_to_dataframe()
+df = experiment.runs_to_dataframe()
 
 plot_metrics_side_by_side(
   df=df,
@@ -207,7 +213,8 @@ dataset = artifact_1.dataset
 
 plot_2d_decisionon_boundaries(
   model=model,
-  dataset=dataset,
+  X=dataset.X_train,
+  y=dataset.y_train,
   grid_resolution=30,
   support_vectors=True,
   save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/boundary.png")
@@ -220,5 +227,5 @@ plot_2d_decisionon_boundaries(
 ### バージョン情報
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/10 |
-| QXMT| v0.2.3 |
+| document | 2024/10/16 |
+| QXMT| v0.3.0 |

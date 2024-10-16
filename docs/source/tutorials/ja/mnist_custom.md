@@ -175,6 +175,7 @@ description: "Configuration file for the custom MNIST case"
 
 global_settings:
   random_seed: &global_seed 42
+  task_type: "classification"
 
 dataset:
   type: "file"
@@ -284,5 +285,5 @@ plot_metrics_side_by_side(
 ### バージョン情報
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/10 |
-| QXMT| v0.2.3 |
+| document | 2024/10/16 |
+| QXMT| v0.3.0 |

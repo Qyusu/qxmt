@@ -67,10 +67,16 @@ description: "Configuration file for the simple example"
 
 global_settings:
   random_seed: &global_seed 42
+  task_type: "classification"
 
 dataset:
   type: "generate"
-  params: {}
+  generate_method: "linear"
+  params: {
+    "n_samples": 100,
+    "n_features": 2,
+    "n_classes": 3,
+  }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -209,7 +215,8 @@ dataset = artifact_1.dataset
 
 plot_2d_decisionon_boundaries(
   model=model,
-  dataset=dataset,
+  X=dataset.X_train,
+  y=dataset.y_train,
   grid_resolution=30,
   support_vectors=True,
   save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/boundary.png")
@@ -222,5 +229,5 @@ plot_2d_decisionon_boundaries(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/10 |
-| QXMT| v0.2.3 |
+| document | 2024/10/16 |
+| QXMT| v0.3.0 |
