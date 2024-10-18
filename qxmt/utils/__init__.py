@@ -1,4 +1,4 @@
-from qxmt.utils.github import (
+from qxmt.utils.git import (
     get_commit_id,
     get_git_add_code,
     get_git_diff,
