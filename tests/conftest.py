@@ -21,7 +21,6 @@ DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
-    type="generate",
     generate=GenerateDataConfig(generate_method="linear"),
     openml=None,
     file=None,

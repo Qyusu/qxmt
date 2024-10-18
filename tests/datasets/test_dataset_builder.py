@@ -170,9 +170,67 @@ class TestValidationTransformLogic:
         #     )
 
 
+class TestGetDatasetType:
+    def test_get_dataset_type(self) -> None:
+        openml_config = {
+            "dataset": {
+                "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        file_config = {
+            "dataset": {
+                "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        generate_config = {
+            "dataset": {
+                "generate": GenerateDataConfig(generate_method="linear"),
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        no_exist_type_config = {
+            "dataset": {
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        multi_type_config = {
+            "dataset": {
+                "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
+                "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+                "generate": GenerateDataConfig(generate_method="linear"),
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**openml_config["dataset"]))
+        assert dataset_type == "openml"
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**file_config["dataset"]))
+        assert dataset_type == "file"
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**generate_config["dataset"]))
+        assert dataset_type == "generate"
+
+        with pytest.raises(ValueError):
+            DatasetBuilder._get_dataset_type(DatasetConfig(**no_exist_type_config["dataset"]))
+
+        with pytest.raises(ValueError):
+            DatasetBuilder._get_dataset_type(DatasetConfig(**multi_type_config["dataset"]))
+
+
 FILE_DATE_CONFIG = {
     "dataset": {
-        "type": "file",
         "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
         "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
@@ -188,7 +246,6 @@ def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
 
 GEN_DATA_CONFIG_WITH_VAL = {
     "dataset": {
-        "type": "generate",
         "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
@@ -197,7 +254,6 @@ GEN_DATA_CONFIG_WITH_VAL = {
 
 GEN_DATA_CONFIG_NO_VAL = {
     "dataset": {
-        "type": "generate",
         "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
@@ -219,7 +275,6 @@ def default_gen_builder_no_val(experiment_config: ExperimentConfig) -> DatasetBu
 
 CUSTOM_CONFIG = {
     "dataset": {
-        "type": "generate",
         "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
