@@ -6,14 +6,72 @@ import pandas as pd
 
 
 class FileDataLoader:
+    """
+    This class loads the data and label from the multi format file.
+    The loaded data and label are returned as numpy arrays (X and y).
+    Input data schema supports two patterns:
+    1. data and label are defined in separate files.
+    2. data and label are defined in a single file. In this case, the label name must be defined.
+
+    Supported file formats:
+    - .npy, .npz, .csv, .tsv
+
+    Examples:
+        >>> loader = FileDataLoader(data_path="data.npy", label_path="label.npy")
+        >>> X, y = loader.load()
+        >>> loader = FileDataLoader(data_path="data.npz")
+        >>> X, y = loader.load()
+        >>> loader = FileDataLoader(data_path="data.csv", data_path="label.csv")
+        >>> X, y = loader.load()
+        >>> loader = FileDataLoader(data_path="data.csv", label_name="target")
+        >>> X, y = loader.load()
+        >>> loader = FileDataLoader(data_path="data.tsv", data_path="label.tsv")
+        >>> X, y = loader.load()
+        >>> loader = FileDataLoader(data_path="data.tsv", label_name="target")
+        >>> X, y = loader.load()
+    """
+
     def __init__(
-        self, data_path: str | Path, label_path: Optional[str | Path] = None, label_name: Optional[str] = None
+        self,
+        data_path: str | Path,
+        label_path: Optional[str | Path] = None,
+        label_name: Optional[str] = None,
     ) -> None:
+        """Initialize the FileDataLoader.
+
+        Args:
+            data_path (str | Path): path to the data file.
+            label_path (Optional[str  |  Path], optional): path to the label file. Defaults to None.
+            label_name (Optional[str], optional): label name in the dataset. Defaults to None.
+        """
         self.data_path = Path(data_path)
         self.label_path = Path(label_path) if label_path is not None else None
         self.label_name = label_name
 
     def load(self) -> tuple[np.ndarray, np.ndarray]:
+        """Load the data and label from the file path.
+        The file format is determined by the extension of the file path.
+        Supported file formats:
+        - numpy: .npy, .npz
+        - pandas: .csv, .tsv
+
+        Two input patterns exist:
+        1. "data_path" and "label_path" are defined.
+            "label_name" is not needed, because the label is loaded from the file.
+        2. "data_path" and "label_name" are defined.
+            "label_path" is not needed, because the label data include in the data file.
+
+        Returns:
+            tuple[np.ndarray, np.ndarray]: loaded data and label as numpy arrays.
+
+        Raises:
+            ValueError: data and label file extensions do not match
+            ValueError: Data or label key is not matched in the npz file.
+            ValueError: Label defined in data of "label_path", not need to define "label_name".
+            ValueError: "Data and label are expected to be contained in the single file defined in "data_path"
+            ValueError: Label name is not found in the dataset.
+            ValueError: unsupported file extension
+        """
         data_path = Path(self.data_path)
         data_extension = data_path.suffix
 
@@ -78,4 +136,4 @@ class FileDataLoader:
             case _:
                 raise ValueError(f'Unsupported file extension: "{data_extension}"')
 
-        return cast(np.ndarray, X), cast(np.ndarray, y)
+        return X, np.array(y)
