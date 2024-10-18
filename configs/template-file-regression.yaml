@@ -6,9 +6,11 @@ global_settings:
 
 dataset:
   type: "file"
-  path: # full path or relative path from the root of the project
+  file:
+    # full path or relative path from the root of the project
     data: "data/openml/california_housing/dataset_X.npy"
     label: "data/openml/california_housing/dataset_y.npy"
+    label_name: null
   params: {}
   random_seed: *global_seed
   split:

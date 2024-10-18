@@ -5,7 +5,7 @@ import numpy as np
 import pennylane as qml
 import pytest
 
-from qxmt import DatasetConfig, Experiment, PathConfig, SplitConfig
+from qxmt import DatasetConfig, Experiment, SplitConfig
 from qxmt.datasets import Dataset
 from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel

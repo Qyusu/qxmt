@@ -21,7 +21,7 @@ EXPECTED_ALL = [
     "FeatureMapConfig",
     "KernelConfig",
     "ModelConfig",
-    "PathConfig",
+    "FileConfig",
     "SplitConfig",
 ]
 

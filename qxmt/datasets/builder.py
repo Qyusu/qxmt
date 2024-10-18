@@ -5,8 +5,9 @@ from typing import Callable, Optional, cast, get_type_hints
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from qxmt.configs import ExperimentConfig, OpenMLConfig, PathConfig
+from qxmt.configs import ExperimentConfig, FileConfig, OpenMLConfig
 from qxmt.datasets.dummy import load_dummy_dataset
+from qxmt.datasets.file import FileDataLoader
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
@@ -150,7 +151,6 @@ class DatasetBuilder:
         """
         dataset_type = self.config.dataset.type
 
-        # [TODO]: Implement other file formats (ex: dataframe, csv, etc.)
         match dataset_type:
             case "openml":
                 openml_config = cast(OpenMLConfig, self.config.dataset.openml)
@@ -163,9 +163,12 @@ class DatasetBuilder:
                 X = cast(np.ndarray, X)
                 y = cast(np.ndarray, y)
             case "file":
-                path_config = cast(PathConfig, self.config.dataset.path)
-                X = np.load(path_config.data, allow_pickle=True)
-                y = np.load(path_config.label, allow_pickle=True)
+                file_config = cast(FileConfig, self.config.dataset.file)
+                X, y = FileDataLoader(
+                    data_path=file_config.data_path,
+                    label_path=file_config.label_path,
+                    label_name=file_config.label_name,
+                ).load()
             case "generate":
                 X, y = load_dummy_dataset(
                     task_type=self.task_type,

@@ -4,10 +4,10 @@ from qxmt.configs import (
     EvaluationConfig,
     ExperimentConfig,
     FeatureMapConfig,
+    FileConfig,
     GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
-    PathConfig,
     SplitConfig,
 )
 from qxmt.exceptions import (
@@ -46,7 +46,7 @@ __all__ = [
     "FeatureMapConfig",
     "KernelConfig",
     "ModelConfig",
-    "PathConfig",
+    "FileConfig",
     "SplitConfig",
 ]
 
