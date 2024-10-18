@@ -72,7 +72,6 @@ class DatasetConfig(BaseModel):
     openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
     file: Optional[FileConfig] = None  # only need when type is "file"
     generate: Optional[GenerateDataConfig] = None  # only need when type is "generate"
-    params: Optional[dict[str, Any]] = None
     random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None

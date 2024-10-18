@@ -11,7 +11,6 @@ dataset:
     data_path: "data/mnist_784/images.npy"
     label_path: "data/mnist_784/label.npy"
     label_name: null
-  params: {}
   random_seed: *global_seed
   split:
     train_ratio: 0.8
