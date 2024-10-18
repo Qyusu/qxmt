@@ -421,17 +421,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.dummy.linear">qxmt.datasets.dummy.linear module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.linear.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.linear.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.dummy">Module contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.load_dummy_dataset"><code class="docutils literal notranslate"><span class="pre">load_dummy_dataset()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-dummy-linear-module">qxmt.datasets.dummy.linear module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
 </ul>
             </nav>
         </div>
@@ -492,130 +483,11 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="module-qxmt.datasets.dummy.linear">
-<span id="qxmt-datasets-dummy-linear-module"></span><h2>qxmt.datasets.dummy.linear module<a class="headerlink" href="#module-qxmt.datasets.dummy.linear" title="Link to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.dummy.linear.generate_linear_regression_data">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.dummy.linear.</span></span><span class="sig-name descname"><span class="pre">generate_linear_regression_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.dummy.linear.generate_linear_regression_data" title="Link to this definition">#</a></dt>
-<dd><p>Generate random data for linear regression.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of samples. Defaults to 100.</p></li>
-<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of features. Defaults to 2.</p></li>
-<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – Noise level to add to the target. Defaults to 0.1.</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale of the data. Defaults to 1.0.</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Generated features and target values</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.dummy.linear.generate_linear_separable_data">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.dummy.linear.</span></span><span class="sig-name descname"><span class="pre">generate_linear_separable_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.dummy.linear.generate_linear_separable_data" title="Link to this definition">#</a></dt>
-<dd><p>Generate random linear separable data for multi-class classification.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – sample size. Defaults to 100.</p></li>
-<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – dimension of feature. Defaults to 2.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – number of classes. Defaults to 2.</p></li>
-<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – noise level. Defaults to 0.1.</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – scale of data. Defaults to 1.0.</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – random seed. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>generated data and label</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="qxmt-datasets-dummy-linear-module">
+<h2>qxmt.datasets.dummy.linear module<a class="headerlink" href="#qxmt-datasets-dummy-linear-module" title="Link to this heading">#</a></h2>
 </section>
-<section id="module-qxmt.datasets.dummy">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets.dummy" title="Link to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.dummy.generate_linear_regression_data">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.dummy.</span></span><span class="sig-name descname"><span class="pre">generate_linear_regression_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.dummy.generate_linear_regression_data" title="Link to this definition">#</a></dt>
-<dd><p>Generate random data for linear regression.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of samples. Defaults to 100.</p></li>
-<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of features. Defaults to 2.</p></li>
-<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – Noise level to add to the target. Defaults to 0.1.</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale of the data. Defaults to 1.0.</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Generated features and target values</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.dummy.generate_linear_separable_data">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.dummy.</span></span><span class="sig-name descname"><span class="pre">generate_linear_separable_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.dummy.generate_linear_separable_data" title="Link to this definition">#</a></dt>
-<dd><p>Generate random linear separable data for multi-class classification.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – sample size. Defaults to 100.</p></li>
-<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – dimension of feature. Defaults to 2.</p></li>
-<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – number of classes. Defaults to 2.</p></li>
-<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – noise level. Defaults to 0.1.</p></li>
-<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – scale of data. Defaults to 1.0.</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – random seed. Defaults to None.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>generated data and label</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.dummy.load_dummy_dataset">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.dummy.</span></span><span class="sig-name descname"><span class="pre">load_dummy_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate_method</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.dummy.load_dummy_dataset" title="Link to this definition">#</a></dt>
-<dd><p>Load dummy dataset. The dataset is generated by the specified task and method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>task_type</strong> (<em>str</em>) – dataset task type. “classification” or “regression” is supported.</p></li>
-<li><p><strong>generate_method</strong> (<em>str</em>) – generate dataset method. “linear” is supported.</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em>) – random seed for reproducibility.</p></li>
-<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em>) – additional parameters for dataset generation.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – not supported task_type or generate_method</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>generated data and label</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[np.ndarray, np.ndarray]</p>
-</dd>
-</dl>
-</dd></dl>
-
+<section id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
 </section>
 </section>
 
@@ -665,17 +537,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.dummy.linear">qxmt.datasets.dummy.linear module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.linear.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.linear.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.dummy">Module contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.dummy.load_dummy_dataset"><code class="docutils literal notranslate"><span class="pre">load_dummy_dataset()</span></code></a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-datasets-dummy-linear-module">qxmt.datasets.dummy.linear module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
 </ul>
   </nav></div>
 
