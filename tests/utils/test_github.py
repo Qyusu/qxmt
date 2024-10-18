@@ -9,9 +9,29 @@ from qxmt.utils.github import (
     get_git_add_code,
     get_git_diff,
     get_git_rm_code,
+    is_git_available,
 )
 
 LOGGER = set_default_logger(__name__)
+
+
+class TestGitAvailable:
+    def test_git_available(self, mocker: MockerFixture) -> None:
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.return_value.returncode = 0
+
+        assert is_git_available() is True
+
+    def test_git_not_available(self, mocker: MockerFixture) -> None:
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.return_value.returncode = 1
+
+        assert is_git_available() is False
+
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.side_effect = FileNotFoundError
+
+        assert is_git_available() is False
 
 
 class TestGetCommitId:

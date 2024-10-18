@@ -9,6 +9,19 @@ from qxmt.logger import set_default_logger
 LOGGER = set_default_logger(__name__)
 
 
+def is_git_available() -> bool:
+    """Check if git is available in the system.
+
+    Returns:
+        bool: whether git is available or not
+    """
+    try:
+        result = subprocess.run(["git", "--version"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        return result.returncode == 0
+    except FileNotFoundError:
+        return False
+
+
 def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
     """Get the commit ID of the current git repository.
     if the user is not using git version control, return "[Not using Git version control]".
