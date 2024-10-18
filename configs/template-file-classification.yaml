@@ -5,7 +5,6 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "file"
   file:
     # full path or relative path from the root of the project
     data_path: "data/mnist_784/images.npy"

@@ -68,45 +68,14 @@ class SplitConfig(BaseModel):
 class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    type: Literal["openml", "file", "generate"]
-    openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
-    file: Optional[FileConfig] = None  # only need when type is "file"
-    generate: Optional[GenerateDataConfig] = None  # only need when type is "generate"
+    openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
+    file: Optional[FileConfig] = None  # only need when use file dataset
+    generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
     random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[dict[str, Any]] = None
     transform_logic: Optional[dict[str, Any]] = None
-
-    @model_validator(mode="before")
-    def check_openml_setting_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        openml_setting = values.get("openml")
-
-        if type_ == "openml" and openml_setting is None:
-            raise ValueError('"openml" setting must be provided when type is "openml".')
-
-        return values
-
-    @model_validator(mode="before")
-    def check_path_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        file = values.get("file")
-
-        if type_ == "file" and file is None:
-            raise ValueError('"file" must be provided when type is "file".')
-
-        return values
-
-    @model_validator(mode="before")
-    def check_generate_method_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        generate = values.get("generate")
-
-        if type_ == "generate" and generate is None:
-            raise ValueError('"generate" must be provided when type is "generate".')
-
-        return values
 
 
 class DeviceConfig(BaseModel):
