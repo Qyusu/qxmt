@@ -6,6 +6,7 @@ from pytest_mock import MockFixture
 
 from qxmt.configs import DatasetConfig, ExperimentConfig
 from qxmt.datasets import DatasetBuilder
+from qxmt.datasets.file.loader import FileDataLoader
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
 
 
@@ -169,6 +170,22 @@ class TestValidationTransformLogic:
         #     )
 
 
+FILE_DATE_CONFIG = {
+    "dataset": {
+        "type": "file",
+        "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+        "random_seed": 42,
+        "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+    }
+}
+
+
+@pytest.fixture(scope="function")
+def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+    dataset_config = DatasetConfig(**FILE_DATE_CONFIG["dataset"])
+    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+
+
 GEN_DATA_CONFIG_WITH_VAL = {
     "dataset": {
         "type": "generate",
@@ -246,9 +263,15 @@ class TestBuilder:
         assert isinstance(X, np.ndarray)
         assert isinstance(y, np.ndarray)
 
-    def test_load_file_data(self) -> None:
-        # [TODO]: Implement file data loading test
-        pass
+    def test_load_file_data(self, default_file_builder: DatasetBuilder, mocker: MockFixture) -> None:
+        _ = mocker.patch.object(
+            FileDataLoader, "load", return_value=(np.random.rand(100, 2), np.random.randint(2, size=100))
+        )
+
+        X, y = default_file_builder.load()
+        assert len(X) == len(y)
+        assert isinstance(X, np.ndarray)
+        assert isinstance(y, np.ndarray)
 
     def test_split(self, default_gen_builder: DatasetBuilder, default_gen_builder_no_val: DatasetBuilder) -> None:
         X = np.random.rand(100, 2)

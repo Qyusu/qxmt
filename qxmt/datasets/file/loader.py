@@ -6,10 +6,12 @@ import pandas as pd
 
 
 class FileDataLoader:
-    def __init__(self, data_path: str | Path, label_path: Optional[str | Path], label_name: Optional[str]) -> None:
+    def __init__(
+        self, data_path: str | Path, label_path: Optional[str | Path] = None, label_name: Optional[str] = None
+    ) -> None:
         self.data_path = Path(data_path)
         self.label_path = Path(label_path) if label_path is not None else None
-        self.label_name = label_name if label_name is not None else "label"
+        self.label_name = label_name
 
     def load(self) -> tuple[np.ndarray, np.ndarray]:
         data_path = Path(self.data_path)
@@ -37,23 +39,37 @@ class FileDataLoader:
                         """Data or label key is not matched in the npz file.
                         Data key must be set as 'X' and label key must be set as 'y'."""
                     )
-            case ".csv" if self.label_path is None:
+            case ".csv" if self.label_path is not None:
                 # input two csv file paths from config
+                if self.label_name is not None:
+                    raise ValueError('Label defined in data of "label_path", not need to define "label_name".')
                 X = pd.read_csv(data_path, sep=",").values
                 y = pd.read_csv(label_path, sep=",").values
-            case ".csv" if self.label_path is not None:
+            case ".csv" if self.label_path is None:
                 # input one csv file path from config
+                if self.label_path is not None:
+                    raise ValueError(
+                        """Data and label are expected to be contained in the single file defined in "data_path"
+                        , but "label_path" is also defined."""
+                    )
                 data = pd.read_csv(data_path, sep=",")
                 if self.label_name not in data.columns:
                     raise ValueError(f'Label name "{self.label_name}" is not found in the dataset.')
                 X = data.drop(columns=[self.label_name]).values
                 y = cast(np.ndarray, data[self.label_name].values)
-            case ".tsv" if self.label_path is None:
+            case ".tsv" if self.label_path is not None:
                 # input two tsv file paths from config
+                if self.label_name is not None:
+                    raise ValueError('Label defined in data of "label_path", not need to define "label_name".')
                 X = pd.read_csv(data_path, sep="\t").values
                 y = pd.read_csv(label_path, sep="\t").values
-            case ".tsv" if self.label_path is not None:
+            case ".tsv" if self.label_path is None:
                 # input one tsv file path from config
+                if self.label_path is not None:
+                    raise ValueError(
+                        """Data and label are expected to be contained in the single file defined in "data_path"
+                        , but "label_path" is also defined."""
+                    )
                 data = pd.read_csv(data_path, sep="\t")
                 if self.label_name not in data.columns:
                     raise ValueError(f'Label name "{self.label_name}" is not found in the dataset.')
