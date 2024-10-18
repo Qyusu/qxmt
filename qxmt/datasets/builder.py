@@ -5,8 +5,8 @@ from typing import Callable, Optional, cast, get_type_hints
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from qxmt.configs import ExperimentConfig, FileConfig, OpenMLConfig
-from qxmt.datasets.dummy import load_dummy_dataset
+from qxmt.configs import ExperimentConfig, FileConfig, GenerateDataConfig, OpenMLConfig
+from qxmt.datasets.dummy import GeneratedDataLoader
 from qxmt.datasets.file import FileDataLoader
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
@@ -170,12 +170,13 @@ class DatasetBuilder:
                     label_name=file_config.label_name,
                 ).load()
             case "generate":
-                X, y = load_dummy_dataset(
+                generate_config = cast(GenerateDataConfig, self.config.dataset.generate)
+                X, y = GeneratedDataLoader(
                     task_type=self.task_type,
-                    generate_method=self.config.dataset.generate_method,  # type: ignore
+                    generate_method=generate_config.generate_method,
                     random_seed=self.random_seed,
-                    params=self.config.dataset.params or {},
-                )
+                    params=generate_config.params or {},
+                ).load()
             case _:
                 raise ValueError(f"Invalid dataset type: {dataset_type}")
 

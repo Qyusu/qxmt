@@ -5,6 +5,7 @@ from qxmt.configs import (
     ExperimentConfig,
     FeatureMapConfig,
     FileConfig,
+    GenerateDataConfig,
     GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
@@ -26,6 +27,18 @@ from qxmt.exceptions import (
 from qxmt.experiment.experiment import Experiment
 
 __all__ = [
+    "ExperimentConfig",
+    "DatasetConfig",
+    "DeviceConfig",
+    "EvaluationConfig",
+    "ExperimentConfig",
+    "FeatureMapConfig",
+    "FileConfig",
+    "GenerateDataConfig",
+    "GlobalSettingsConfig",
+    "KernelConfig",
+    "ModelConfig",
+    "SplitConfig",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
@@ -38,16 +51,6 @@ __all__ = [
     "ModelSettingError",
     "ReproductionError",
     "Experiment",
-    "ExperimentConfig",
-    "GlobalSettingsConfig",
-    "DatasetConfig",
-    "DeviceConfig",
-    "EvaluationConfig",
-    "FeatureMapConfig",
-    "KernelConfig",
-    "ModelConfig",
-    "FileConfig",
-    "SplitConfig",
 ]
 
 
