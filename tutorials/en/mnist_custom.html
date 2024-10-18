@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Practical Case with Custom Functions and the MNIST Dataset &#8212; qxmt 0.2.2 documentation</title>
+    <title>Practical Case with Custom Functions and the MNIST Dataset &#8212; qxmt 0.3.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=d3f42505"></script>
+    <script src="../../_static/documentation_options.js?v=83a61292"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.2.2 documentation</p>
+    <p class="title logo__title">qxmt 0.3.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -505,8 +505,8 @@ document.write(`
 <span class="n">y</span> <span class="o">=</span> <span class="n">digits_dataset</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
 
 <span class="c1"># save dataset on local environment</span>
-<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/mnist_784/images.npy&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
-<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;./data/mnist_784/label.npy&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;../data/mnist_784/images.npy&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;../data/mnist_784/label.npy&quot;</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -620,7 +620,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">confusion_matrix</span>
 
-<span class="kn">from</span> <span class="nn">qxmt.evaluation</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
+<span class="kn">from</span> <span class="nn">qxmt.evaluation.metrics</span> <span class="kn">import</span> <span class="n">BaseMetric</span>
 
 
 <span class="k">class</span> <span class="nc">CustomMetric</span><span class="p">(</span><span class="n">BaseMetric</span><span class="p">):</span>

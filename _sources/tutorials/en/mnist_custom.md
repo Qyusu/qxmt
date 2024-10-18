@@ -25,8 +25,8 @@ X = digits_dataset.data.to_numpy()
 y = digits_dataset.target.to_numpy()
 
 # save dataset on local environment
-np.save("./data/mnist_784/images.npy", X)
-np.save("./data/mnist_784/label.npy", y)
+np.save("../data/mnist_784/images.npy", X)
+np.save("../data/mnist_784/label.npy", y)
 ```
 
 ## 2. Implementing Custom Features
@@ -148,7 +148,7 @@ from typing import Any
 import numpy as np
 from sklearn.metrics import confusion_matrix
 
-from qxmt.evaluation import BaseMetric
+from qxmt.evaluation.metrics import BaseMetric
 
 
 class CustomMetric(BaseMetric):
