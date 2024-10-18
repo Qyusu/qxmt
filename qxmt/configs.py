@@ -45,7 +45,7 @@ class GenerateDataConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     generate_method: Literal["linear"]
-    params: dict[str, Any]
+    params: Optional[dict[str, Any]] = {}
 
 
 class SplitConfig(BaseModel):
