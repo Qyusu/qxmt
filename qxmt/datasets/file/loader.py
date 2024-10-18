@@ -4,8 +4,6 @@ from typing import Optional, cast
 import numpy as np
 import pandas as pd
 
-from qxmt.configs import FileConfig
-
 
 class FileDataLoader:
     def __init__(self, data_path: str | Path, label_path: Optional[str | Path], label_name: Optional[str]) -> None:
