@@ -11,7 +11,6 @@ dataset:
     id: 43939
     return_format: "numpy"
     save_path: "data/openml/california_housing/dataset.npy"
-  params: {}
   random_seed: *global_seed
   split:
     train_ratio: 0.8

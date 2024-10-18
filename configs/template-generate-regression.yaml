@@ -12,7 +12,6 @@ dataset:
       "n_samples": 100,
       "n_features": 2,
     }
-  params: {}
   random_seed: *global_seed
   split:
     train_ratio: 0.8
