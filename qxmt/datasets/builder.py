@@ -60,20 +60,52 @@ class DatasetBuilder:
         self.task_type: str = config.global_settings.task_type
         self.random_seed: int = config.dataset.random_seed
         self.logger: Logger = logger
+        self.custom_raw_preprocess_list = self._set_custom_raw_process_list()
+        self.custom_transform_list = self._set_custom_transform_list()
 
-        if self.config.dataset.raw_preprocess_logic is not None:
-            raw_preprocess_logic = load_object_from_yaml(self.config.dataset.raw_preprocess_logic)
+    def _set_custom_raw_process_list(self) -> Optional[list[Callable]]:
+        """Set the custom raw preprocess functions.
+        If the custom raw preprocess functions are defined in the config, load and set them from top to bottom order.
+
+        Returns:
+            Optional[list[Callable]]: list of custom raw preprocess functions
+        """
+        raw_process_list = self.config.dataset.raw_preprocess_logic
+        if (raw_process_list is None) or (len(raw_process_list) == 0):
+            return None
+
+        if isinstance(raw_process_list, dict):
+            raw_process_list = [raw_process_list]
+
+        custom_raw_process_list = []
+        for logic in raw_process_list:
+            raw_preprocess_logic = load_object_from_yaml(logic)
             self._validate_raw_preprocess_logic(raw_preprocess_logic, self.logger)
-            self.custom_raw_preprocess: Optional[Callable] = raw_preprocess_logic
-        else:
-            self.custom_raw_preprocess = None
+            custom_raw_process_list.append(raw_preprocess_logic)
 
-        if self.config.dataset.transform_logic is not None:
-            transform_logic = load_object_from_yaml(self.config.dataset.transform_logic)
+        return custom_raw_process_list
+
+    def _set_custom_transform_list(self) -> Optional[list[Callable]]:
+        """Set the custom transform functions.
+        If the custom transform functions are defined in the config, load and set them from top to bottom order.
+
+        Returns:
+            Optional[list[Callable]]: list of custom transform functions
+        """
+        transform_list = self.config.dataset.transform_logic
+        if (transform_list is None) or (len(transform_list) == 0):
+            return None
+
+        if isinstance(transform_list, dict):
+            transform_list = [transform_list]
+
+        custom_transform_list = []
+        for logic in transform_list:
+            transform_logic = load_object_from_yaml(logic)
             self._validate_transform_logic(transform_logic, self.logger)
-            self.custom_transform: Optional[Callable] = transform_logic
-        else:
-            self.custom_transform = None
+            custom_transform_list.append(transform_logic)
+
+        return custom_transform_list
 
     @staticmethod
     def _validate_raw_preprocess_logic(raw_preprocess_logic: Callable, logger: Logger) -> None:
@@ -223,8 +255,10 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: preprocessed features and labels of the dataset
         """
-        if self.custom_raw_preprocess is not None:
-            return self.custom_raw_preprocess(X, y)
+        if self.custom_raw_preprocess_list is not None:
+            for raw_preprocess_logic in self.custom_raw_preprocess_list:
+                X, y = raw_preprocess_logic(X, y)
+            return X, y
         else:
             return self.default_raw_preprocess(X, y)
 
@@ -315,8 +349,12 @@ class DatasetBuilder:
         Returns:
             PROCESSCED_DATASET_TYPE: transformed train, val  and test split of dataset (features and labels)
         """
-        if self.custom_transform is not None:
-            return self.custom_transform(X_train, y_train, X_val, y_val, X_test, y_test)
+        if self.custom_transform_list is not None:
+            for transform_logic in self.custom_transform_list:
+                X_train, y_train, X_val, y_val, X_test, y_test = transform_logic(
+                    X_train, y_train, X_val, y_val, X_test, y_test
+                )
+            return X_train, y_train, X_val, y_val, X_test, y_test
         else:
             return self.default_transform(X_train, y_train, X_val, y_val, X_test, y_test)
 

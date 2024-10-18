@@ -19,12 +19,12 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-      module_name: "qxmt.datasets.raw_preprocess.filter"
-      implement_name: "filter_by_categorical"
-      params:
-        n_samples: 100
-        random_seed: *global_seed
-        drop_na: true
+    module_name: "qxmt.datasets.raw_preprocess.filter"
+    implement_name: "filter_by_categorical"
+    params:
+      n_samples: 100
+      random_seed: *global_seed
+      drop_na: true
   transform_logic:
       module_name: "qxmt.datasets.transform.normalization"
       implement_name: "normalization"

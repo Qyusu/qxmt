@@ -74,8 +74,8 @@ class DatasetConfig(BaseModel):
     random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None
-    raw_preprocess_logic: Optional[dict[str, Any]] = None
-    transform_logic: Optional[dict[str, Any]] = None
+    raw_preprocess_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
+    transform_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
 
 
 class DeviceConfig(BaseModel):
