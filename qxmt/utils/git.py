@@ -22,13 +22,12 @@ def is_git_available() -> bool:
         return False
 
 
-def get_commit_id(repo_path: Optional[Path | str] = None, logger: Logger = LOGGER) -> str:
+def get_commit_id(repo_path: Optional[Path | str] = None) -> str:
     """Get the commit ID of the current git repository.
     if the user is not using git version control, return "[Not using Git version control]".
 
     Args:
         repo_path (Optional[Path | str]): git repository path. Defaults to None.
-        logger (Logger): logger. Defaults to LOGGER.
 
     Returns:
         str: git commit ID

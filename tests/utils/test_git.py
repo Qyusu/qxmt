@@ -75,7 +75,7 @@ class TestGetGitDiff:
 class TestGetGitAdd:
     def test_get_git_add_code_success(self, mocker: MockerFixture) -> None:
         diff = "+++test.py\n+import subprocess\n+import pytest\n+from pytest_mock import MockerFixture\n"
-        mocker.patch("qxmt.utils.github.get_git_diff", return_value=diff)
+        mocker.patch("qxmt.utils.git.get_git_diff", return_value=diff)
 
         # set diff parameter
         added_code = get_git_add_code(diff)
@@ -89,7 +89,7 @@ class TestGetGitAdd:
 class TestGetGitRm:
     def test_get_git_rm_code_success(self, mocker: MockerFixture) -> None:
         diff = "---test.py\n-import subprocess\n-import pytest\n-import pytest_mock\n"
-        mocker.patch("qxmt.utils.github.get_git_diff", return_value=diff)
+        mocker.patch("qxmt.utils.git.get_git_diff", return_value=diff)
 
         # set diff parameter
         rm_code = get_git_rm_code(diff)
