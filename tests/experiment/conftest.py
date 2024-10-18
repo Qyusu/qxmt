@@ -53,7 +53,6 @@ def create_random_dataset() -> Callable:
             X_test=np.random.rand(data_num, feature_num),
             y_test=np.random.randint(class_num, size=data_num),
             config=DatasetConfig(
-                type="generate",
                 generate=GenerateDataConfig(generate_method="linear"),
                 random_seed=42,
                 split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),

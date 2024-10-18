@@ -5,7 +5,6 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "generate"
   generate:
     generate_method: "linear"
     params: {
