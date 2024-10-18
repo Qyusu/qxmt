@@ -1,6 +1,18 @@
-from qxmt import __all__
+from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
+    "ExperimentConfig",
+    "DatasetConfig",
+    "DeviceConfig",
+    "EvaluationConfig",
+    "ExperimentConfig",
+    "FeatureMapConfig",
+    "FileConfig",
+    "GenerateDataConfig",
+    "GlobalSettingsConfig",
+    "KernelConfig",
+    "ModelConfig",
+    "SplitConfig",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
@@ -13,18 +25,12 @@ EXPECTED_ALL = [
     "ModelSettingError",
     "ReproductionError",
     "Experiment",
-    "ExperimentConfig",
-    "GlobalSettingsConfig",
-    "DatasetConfig",
-    "DeviceConfig",
-    "EvaluationConfig",
-    "FeatureMapConfig",
-    "KernelConfig",
-    "ModelConfig",
-    "FileConfig",
-    "SplitConfig",
 ]
 
 
 def test_all_imports() -> None:
     assert set(__all__) == set(EXPECTED_ALL)
+
+
+def test_version() -> None:
+    assert __version__ == "0.3.0"

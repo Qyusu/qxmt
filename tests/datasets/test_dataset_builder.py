@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from pytest_mock import MockFixture
 
-from qxmt.configs import DatasetConfig, ExperimentConfig
+from qxmt.configs import DatasetConfig, ExperimentConfig, GenerateDataConfig
 from qxmt.datasets import DatasetBuilder
 from qxmt.datasets.file.loader import FileDataLoader
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
@@ -189,7 +189,7 @@ def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
 GEN_DATA_CONFIG_WITH_VAL = {
     "dataset": {
         "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
     }
@@ -198,7 +198,7 @@ GEN_DATA_CONFIG_WITH_VAL = {
 GEN_DATA_CONFIG_NO_VAL = {
     "dataset": {
         "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
     }
@@ -220,7 +220,7 @@ def default_gen_builder_no_val(experiment_config: ExperimentConfig) -> DatasetBu
 CUSTOM_CONFIG = {
     "dataset": {
         "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
         "features": None,

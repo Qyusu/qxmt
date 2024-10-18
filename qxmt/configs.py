@@ -41,6 +41,13 @@ class FileConfig(BaseModel):
             self.label_path = PROJECT_ROOT_DIR / self.label_path
 
 
+class GenerateDataConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    generate_method: Literal["linear"]
+    params: Optional[dict[str, Any]] = {}
+
+
 class SplitConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -64,7 +71,7 @@ class DatasetConfig(BaseModel):
     type: Literal["openml", "file", "generate"]
     openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
     file: Optional[FileConfig] = None  # only need when type is "file"
-    generate_method: Optional[str] = None  # only need when type is "generate"
+    generate: Optional[GenerateDataConfig] = None  # only need when type is "generate"
     params: Optional[dict[str, Any]] = None
     random_seed: int
     split: SplitConfig
@@ -95,10 +102,10 @@ class DatasetConfig(BaseModel):
     @model_validator(mode="before")
     def check_generate_method_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_ = values.get("type")
-        generate_method = values.get("generate_method")
+        generate = values.get("generate")
 
-        if type_ == "generate" and generate_method is None:
-            raise ValueError('"generate_method" must be provided when type is "generate".')
+        if type_ == "generate" and generate is None:
+            raise ValueError('"generate" must be provided when type is "generate".')
 
         return values
 
