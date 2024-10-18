@@ -36,12 +36,15 @@ from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
     get_git_rm_code,
+    is_git_available,
     save_experiment_config_to_yaml,
 )
 
 USE_LLM = os.getenv("USE_LLM", "FALSE").lower() == "true"
 if USE_LLM:
     from qxmt.generators import DescriptionGenerator
+
+IS_GIT_AVAILABLE = is_git_available()
 
 LOGGER = set_default_logger(__name__)
 
@@ -396,10 +399,17 @@ class Experiment:
             model.save(save_model_path)
 
         if self.auto_gen_mode and (desc == ""):
-            desc = self.desc_generator.generate(
-                add_code=get_git_add_code(repo_path=repo_path, logger=self.logger),
-                remove_code=get_git_rm_code(repo_path=repo_path, logger=self.logger),
-            )
+            if IS_GIT_AVAILABLE:
+                desc = self.desc_generator.generate(
+                    add_code=get_git_add_code(repo_path=repo_path, logger=self.logger),
+                    remove_code=get_git_rm_code(repo_path=repo_path, logger=self.logger),
+                )
+            else:
+                self.logger.warning(
+                    """Git command is not available. DescriptionGenerator need git environment to generate.
+                        Current run description set to empty string."""
+                )
+                desc = ""
 
         artifact = RunArtifact(
             run_id=self.current_run_id,
@@ -473,7 +483,7 @@ class Experiment:
 
         if add_results:
             current_run_dirc = self._run_setup()
-            commit_id = get_commit_id(repo_path=repo_path, logger=self.logger)
+            commit_id = get_commit_id(repo_path=repo_path) if IS_GIT_AVAILABLE else ""
         else:
             current_run_dirc = Path("")
             commit_id = ""
@@ -630,7 +640,7 @@ class Experiment:
         run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
 
         if check_commit_id:
-            commit_id = get_commit_id(logger=self.logger)
+            commit_id = get_commit_id() if IS_GIT_AVAILABLE else ""
             if commit_id != run_record.commit_id:
                 self.logger.warning(
                     f'Current commit_id="{commit_id}" is different from'

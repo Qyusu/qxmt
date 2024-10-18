@@ -195,10 +195,8 @@ class TestSaveExperimentConfigToYaml:
         loaded_config = ExperimentConfig(path="", **loaded_config)
 
         for field in experiment_config.model_dump().keys():
-            if field == "dataset":
-                # [TODO]: handle str or Path type
+            if field == "path":
+                # config path is not saved in the yaml file.
                 continue
-            elif field == "path":
-                assert getattr(loaded_config, field) != getattr(experiment_config, field)
             else:
                 assert getattr(loaded_config, field) == getattr(experiment_config, field)

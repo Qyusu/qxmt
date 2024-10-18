@@ -8,6 +8,7 @@ from qxmt import (
     EvaluationConfig,
     ExperimentConfig,
     FeatureMapConfig,
+    GenerateDataConfig,
     GlobalSettingsConfig,
     KernelConfig,
     ModelConfig,
@@ -20,10 +21,9 @@ DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
-    type="generate",
-    generate_method="linear",
+    generate=GenerateDataConfig(generate_method="linear"),
     openml=None,
-    path=None,
+    file=None,
     random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
     features=None,

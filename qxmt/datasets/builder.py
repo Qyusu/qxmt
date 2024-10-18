@@ -5,8 +5,15 @@ from typing import Callable, Optional, cast, get_type_hints
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-from qxmt.configs import ExperimentConfig, OpenMLConfig, PathConfig
-from qxmt.datasets.dummy import load_dummy_dataset
+from qxmt.configs import (
+    DatasetConfig,
+    ExperimentConfig,
+    FileConfig,
+    GenerateDataConfig,
+    OpenMLConfig,
+)
+from qxmt.datasets.file import FileDataLoader
+from qxmt.datasets.generate import GeneratedDataLoader
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
@@ -142,15 +149,26 @@ class DatasetBuilder:
             # elif (arg_name != "return") and (arg_type != RAW_DATA_TYPE):
             #     raise ValueError(f'The arguments of the custom transform function must be "{RAW_DATA_TYPE}".')
 
+    @staticmethod
+    def _get_dataset_type(dataset_config: DatasetConfig) -> str:
+        dataset_sources = []
+        for source in ["openml", "file", "generate"]:
+            if getattr(dataset_config, source) is not None:
+                dataset_sources.append(source)
+
+        if len(dataset_sources) != 1:
+            raise ValueError("Exactly one of 'openml', 'file', or 'generate' must be set.")
+
+        return dataset_sources[0]
+
     def load(self) -> RAW_DATASET_TYPE:
         """Load the dataset from the path defined in config.
 
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
-        dataset_type = self.config.dataset.type
+        dataset_type = self._get_dataset_type(self.config.dataset)
 
-        # [TODO]: Implement other file formats (ex: dataframe, csv, etc.)
         match dataset_type:
             case "openml":
                 openml_config = cast(OpenMLConfig, self.config.dataset.openml)
@@ -163,16 +181,20 @@ class DatasetBuilder:
                 X = cast(np.ndarray, X)
                 y = cast(np.ndarray, y)
             case "file":
-                path_config = cast(PathConfig, self.config.dataset.path)
-                X = np.load(path_config.data, allow_pickle=True)
-                y = np.load(path_config.label, allow_pickle=True)
+                file_config = cast(FileConfig, self.config.dataset.file)
+                X, y = FileDataLoader(
+                    data_path=file_config.data_path,
+                    label_path=file_config.label_path,
+                    label_name=file_config.label_name,
+                ).load()
             case "generate":
-                X, y = load_dummy_dataset(
+                generate_config = cast(GenerateDataConfig, self.config.dataset.generate)
+                X, y = GeneratedDataLoader(
                     task_type=self.task_type,
-                    generate_method=self.config.dataset.generate_method,  # type: ignore
+                    generate_method=generate_config.generate_method,
                     random_seed=self.random_seed,
-                    params=self.config.dataset.params or {},
-                )
+                    params=generate_config.params or {},
+                ).load()
             case _:
                 raise ValueError(f"Invalid dataset type: {dataset_type}")
 

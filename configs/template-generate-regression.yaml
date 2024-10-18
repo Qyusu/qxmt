@@ -5,12 +5,12 @@ global_settings:
   task_type: "regression"
 
 dataset:
-  type: "generate"
-  generate_method: "linear"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-  }
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 100,
+      "n_features": 2,
+    }
   random_seed: *global_seed
   split:
     train_ratio: 0.8

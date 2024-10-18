@@ -5,13 +5,13 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "generate"
-  generate_method: "linear"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-    "n_classes": 3,
-  }
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 100,
+      "n_features": 2,
+      "n_classes": 3,
+    }
   random_seed: *global_seed
   split:
     train_ratio: 0.8

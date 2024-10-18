@@ -26,18 +26,26 @@ class OpenMLConfig(BaseModel):
             self.save_path = PROJECT_ROOT_DIR / self.save_path
 
 
-class PathConfig(BaseModel):
+class FileConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    data: Path | str
-    label: Path | str
+    data_path: Path | str
+    label_path: Optional[Path | str]
+    label_name: Optional[str]
 
     def model_post_init(self, __context: dict[str, Any]) -> None:
-        if not Path(self.data).is_absolute():
-            self.data = PROJECT_ROOT_DIR / self.data
+        if not Path(self.data_path).is_absolute():
+            self.data_path = PROJECT_ROOT_DIR / self.data_path
 
-        if not Path(self.label).is_absolute():
-            self.label = PROJECT_ROOT_DIR / self.label
+        if (self.label_path is not None) and not Path(self.label_path).is_absolute():
+            self.label_path = PROJECT_ROOT_DIR / self.label_path
+
+
+class GenerateDataConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    generate_method: Literal["linear"]
+    params: Optional[dict[str, Any]] = {}
 
 
 class SplitConfig(BaseModel):
@@ -60,46 +68,14 @@ class SplitConfig(BaseModel):
 class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    type: Literal["openml", "file", "generate"]
-    openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
-    path: Optional[PathConfig] = None  # only need when type is "file"
-    generate_method: Optional[str] = None  # only need when type is "generate"
-    params: Optional[dict[str, Any]] = None
+    openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
+    file: Optional[FileConfig] = None  # only need when use file dataset
+    generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
     random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[dict[str, Any]] = None
     transform_logic: Optional[dict[str, Any]] = None
-
-    @model_validator(mode="before")
-    def check_openml_setting_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        openml_setting = values.get("openml")
-
-        if type_ == "openml" and openml_setting is None:
-            raise ValueError('"openml" setting must be provided when type is "openml".')
-
-        return values
-
-    @model_validator(mode="before")
-    def check_path_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        path = values.get("path")
-
-        if type_ == "file" and path is None:
-            raise ValueError('"path" must be provided when type is "file".')
-
-        return values
-
-    @model_validator(mode="before")
-    def check_generate_method_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
-        type_ = values.get("type")
-        generate_method = values.get("generate_method")
-
-        if type_ == "generate" and generate_method is None:
-            raise ValueError('"generate_method" must be provided when type is "generate".')
-
-        return values
 
 
 class DeviceConfig(BaseModel):
