@@ -6,9 +6,11 @@ global_settings:
 
 dataset:
   type: "file"
-  path: # full path or relative path from the root of the project
-    data: "data/mnist_784/images.npy"
-    label: "data/mnist_784/label.npy"
+  file:
+    # full path or relative path from the root of the project
+    data_path: "data/mnist_784/images.npy"
+    label_path: "data/mnist_784/label.npy"
+    label_name: null
   params: {}
   random_seed: *global_seed
   split:

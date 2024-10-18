@@ -8,7 +8,7 @@ from pytest_mock import MockFixture
 from qxmt.datasets.openml.loader import OpenMLDataLoader
 
 
-class TestOpenMLLoader:
+class TestOpenMLDataLoader:
     def test_init(self, mocker: MockFixture) -> None:
         mocker.patch("qxmt.datasets.openml.loader.OpenMLDataLoader._get_dataset_id", return_value=554)
         # set id

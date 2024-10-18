@@ -26,18 +26,19 @@ class OpenMLConfig(BaseModel):
             self.save_path = PROJECT_ROOT_DIR / self.save_path
 
 
-class PathConfig(BaseModel):
+class FileConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    data: Path | str
-    label: Path | str
+    data_path: Path | str
+    label_path: Optional[Path | str]
+    label_name: Optional[str]
 
     def model_post_init(self, __context: dict[str, Any]) -> None:
-        if not Path(self.data).is_absolute():
-            self.data = PROJECT_ROOT_DIR / self.data
+        if not Path(self.data_path).is_absolute():
+            self.data_path = PROJECT_ROOT_DIR / self.data_path
 
-        if not Path(self.label).is_absolute():
-            self.label = PROJECT_ROOT_DIR / self.label
+        if (self.label_path is not None) and not Path(self.label_path).is_absolute():
+            self.label_path = PROJECT_ROOT_DIR / self.label_path
 
 
 class SplitConfig(BaseModel):
@@ -62,7 +63,7 @@ class DatasetConfig(BaseModel):
 
     type: Literal["openml", "file", "generate"]
     openml: Optional[OpenMLConfig] = None  # only need when type is "openml"
-    path: Optional[PathConfig] = None  # only need when type is "file"
+    file: Optional[FileConfig] = None  # only need when type is "file"
     generate_method: Optional[str] = None  # only need when type is "generate"
     params: Optional[dict[str, Any]] = None
     random_seed: int
@@ -84,10 +85,10 @@ class DatasetConfig(BaseModel):
     @model_validator(mode="before")
     def check_path_based_on_type(cls, values: dict[str, Any]) -> dict[str, Any]:
         type_ = values.get("type")
-        path = values.get("path")
+        file = values.get("file")
 
-        if type_ == "file" and path is None:
-            raise ValueError('"path" must be provided when type is "file".')
+        if type_ == "file" and file is None:
+            raise ValueError('"file" must be provided when type is "file".')
 
         return values
 
