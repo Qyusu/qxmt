@@ -6,8 +6,8 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 
 from qxmt.configs import ExperimentConfig, FileConfig, GenerateDataConfig, OpenMLConfig
-from qxmt.datasets.dummy import GeneratedDataLoader
 from qxmt.datasets.file import FileDataLoader
+from qxmt.datasets.generate import GeneratedDataLoader
 from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
