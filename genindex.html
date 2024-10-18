@@ -611,10 +611,10 @@ document.write(`
 <h2 id="D">D</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qxmt.html#qxmt.configs.PathConfig.data">data (qxmt.configs.PathConfig attribute)</a>
+      <li><a href="qxmt.html#qxmt.configs.FileConfig.data_path">data_path (qxmt.configs.FileConfig attribute)</a>
 
       <ul>
-        <li><a href="qxmt.html#qxmt.PathConfig.data">(qxmt.PathConfig attribute)</a>
+        <li><a href="qxmt.html#qxmt.FileConfig.data_path">(qxmt.FileConfig attribute)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.dataset">dataset (qxmt.configs.ExperimentConfig attribute)</a>
@@ -793,10 +793,22 @@ document.write(`
         <li><a href="qxmt.kernels.pennylane.html#qxmt.kernels.pennylane.fidelity_kernel.FidelityKernel">(class in qxmt.kernels.pennylane.fidelity_kernel)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.html#qxmt.configs.DatasetConfig.file">file (qxmt.configs.DatasetConfig attribute)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.DatasetConfig.file">(qxmt.DatasetConfig attribute)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.ModelConfig.file_name">file_name (qxmt.configs.ModelConfig attribute)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.ModelConfig.file_name">(qxmt.ModelConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.html#qxmt.FileConfig">FileConfig (class in qxmt)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.configs.FileConfig">(class in qxmt.configs)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.datasets.raw_preprocess.filter.html#qxmt.datasets.raw_preprocess.filter.filter_by_categorical">filter_by_categorical() (in module qxmt.datasets.raw_preprocess.filter)</a>
@@ -953,10 +965,16 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qxmt.html#qxmt.configs.PathConfig.label">label (qxmt.configs.PathConfig attribute)</a>
+      <li><a href="qxmt.html#qxmt.configs.FileConfig.label_name">label_name (qxmt.configs.FileConfig attribute)</a>
 
       <ul>
-        <li><a href="qxmt.html#qxmt.PathConfig.label">(qxmt.PathConfig attribute)</a>
+        <li><a href="qxmt.html#qxmt.FileConfig.label_name">(qxmt.FileConfig attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.html#qxmt.configs.FileConfig.label_path">label_path (qxmt.configs.FileConfig attribute)</a>
+
+      <ul>
+        <li><a href="qxmt.html#qxmt.FileConfig.label_path">(qxmt.FileConfig attribute)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.datasets.openml.loader.html#qxmt.datasets.openml.loader.OpenMLDataLoader.load">load() (qxmt.datasets.openml.loader.OpenMLDataLoader method)</a>
@@ -1016,6 +1034,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_computed_fields">(qxmt.configs.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.configs.FileConfig.model_computed_fields">(qxmt.configs.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_computed_fields">(qxmt.configs.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_computed_fields">(qxmt.configs.KernelConfig attribute)</a>
@@ -1023,8 +1043,6 @@ document.write(`
         <li><a href="qxmt.html#qxmt.configs.ModelConfig.model_computed_fields">(qxmt.configs.ModelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.model_computed_fields">(qxmt.configs.OpenMLConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.configs.PathConfig.model_computed_fields">(qxmt.configs.PathConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.SplitConfig.model_computed_fields">(qxmt.configs.SplitConfig attribute)</a>
 </li>
@@ -1038,13 +1056,13 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_computed_fields">(qxmt.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.FileConfig.model_computed_fields">(qxmt.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_computed_fields">(qxmt.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_computed_fields">(qxmt.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ModelConfig.model_computed_fields">(qxmt.ModelConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.PathConfig.model_computed_fields">(qxmt.PathConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.SplitConfig.model_computed_fields">(qxmt.SplitConfig attribute)</a>
 </li>
@@ -1060,6 +1078,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_config">(qxmt.configs.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.configs.FileConfig.model_config">(qxmt.configs.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_config">(qxmt.configs.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_config">(qxmt.configs.KernelConfig attribute)</a>
@@ -1067,8 +1087,6 @@ document.write(`
         <li><a href="qxmt.html#qxmt.configs.ModelConfig.model_config">(qxmt.configs.ModelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.model_config">(qxmt.configs.OpenMLConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.configs.PathConfig.model_config">(qxmt.configs.PathConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.SplitConfig.model_config">(qxmt.configs.SplitConfig attribute)</a>
 </li>
@@ -1082,13 +1100,13 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_config">(qxmt.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.FileConfig.model_config">(qxmt.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_config">(qxmt.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_config">(qxmt.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ModelConfig.model_config">(qxmt.ModelConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.PathConfig.model_config">(qxmt.PathConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.SplitConfig.model_config">(qxmt.SplitConfig attribute)</a>
 </li>
@@ -1104,6 +1122,8 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.configs.FeatureMapConfig.model_fields">(qxmt.configs.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.configs.FileConfig.model_fields">(qxmt.configs.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.configs.GlobalSettingsConfig.model_fields">(qxmt.configs.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.KernelConfig.model_fields">(qxmt.configs.KernelConfig attribute)</a>
@@ -1111,8 +1131,6 @@ document.write(`
         <li><a href="qxmt.html#qxmt.configs.ModelConfig.model_fields">(qxmt.configs.ModelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.model_fields">(qxmt.configs.OpenMLConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.configs.PathConfig.model_fields">(qxmt.configs.PathConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.configs.SplitConfig.model_fields">(qxmt.configs.SplitConfig attribute)</a>
 </li>
@@ -1126,25 +1144,25 @@ document.write(`
 </li>
         <li><a href="qxmt.html#qxmt.FeatureMapConfig.model_fields">(qxmt.FeatureMapConfig attribute)</a>
 </li>
+        <li><a href="qxmt.html#qxmt.FileConfig.model_fields">(qxmt.FileConfig attribute)</a>
+</li>
         <li><a href="qxmt.html#qxmt.GlobalSettingsConfig.model_fields">(qxmt.GlobalSettingsConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.KernelConfig.model_fields">(qxmt.KernelConfig attribute)</a>
 </li>
         <li><a href="qxmt.html#qxmt.ModelConfig.model_fields">(qxmt.ModelConfig attribute)</a>
 </li>
-        <li><a href="qxmt.html#qxmt.PathConfig.model_fields">(qxmt.PathConfig attribute)</a>
-</li>
         <li><a href="qxmt.html#qxmt.SplitConfig.model_fields">(qxmt.SplitConfig attribute)</a>
 </li>
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.model_post_init">model_post_init() (qxmt.configs.OpenMLConfig method)</a>
+      <li><a href="qxmt.html#qxmt.configs.FileConfig.model_post_init">model_post_init() (qxmt.configs.FileConfig method)</a>
 
       <ul>
-        <li><a href="qxmt.html#qxmt.configs.PathConfig.model_post_init">(qxmt.configs.PathConfig method)</a>
+        <li><a href="qxmt.html#qxmt.configs.OpenMLConfig.model_post_init">(qxmt.configs.OpenMLConfig method)</a>
 </li>
-        <li><a href="qxmt.html#qxmt.PathConfig.model_post_init">(qxmt.PathConfig method)</a>
+        <li><a href="qxmt.html#qxmt.FileConfig.model_post_init">(qxmt.FileConfig method)</a>
 </li>
       </ul></li>
       <li><a href="qxmt.html#qxmt.ModelConfig">ModelConfig (class in qxmt)</a>
@@ -1318,30 +1336,20 @@ document.write(`
         <li><a href="qxmt.html#qxmt.ModelConfig.params">(qxmt.ModelConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="qxmt.html#qxmt.configs.DatasetConfig.path">path (qxmt.configs.DatasetConfig attribute)</a>
+      <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.path">path (qxmt.configs.ExperimentConfig attribute)</a>
 
       <ul>
-        <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.path">(qxmt.configs.ExperimentConfig attribute)</a>
-</li>
-        <li><a href="qxmt.html#qxmt.DatasetConfig.path">(qxmt.DatasetConfig attribute)</a>
-</li>
         <li><a href="qxmt.html#qxmt.ExperimentConfig.path">(qxmt.ExperimentConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="qxmt.html#qxmt.PathConfig">PathConfig (class in qxmt)</a>
-
-      <ul>
-        <li><a href="qxmt.html#qxmt.configs.PathConfig">(class in qxmt.configs)</a>
-</li>
-      </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.configs.DeviceConfig.platform">platform (qxmt.configs.DeviceConfig attribute)</a>
 
       <ul>
         <li><a href="qxmt.html#qxmt.DeviceConfig.platform">(qxmt.DeviceConfig attribute)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.visualization.plot_classification_performance.html#qxmt.visualization.plot_classification_performance.plot_2d_predicted_result">plot_2d_predicted_result() (in module qxmt.visualization.plot_classification_performance)</a>
 </li>
       <li><a href="qxmt.visualization.plot_regression_performance.html#qxmt.visualization.plot_regression_performance.plot_actual_vs_predicted">plot_actual_vs_predicted() (in module qxmt.visualization.plot_regression_performance)</a>
