@@ -19,12 +19,15 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-    module_name: "qxmt.datasets.raw_preprocess.filter"
+  - module_name: "qxmt.datasets.raw_preprocess.filter"
     implement_name: "filter_by_categorical"
+    params:
+      drop_na: true
+  - module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_num"
     params:
       n_samples: 100
       random_seed: *global_seed
-      drop_na: true
   transform_logic:
       module_name: "qxmt.datasets.transform.normalization"
       implement_name: "normalization"
@@ -56,5 +59,8 @@ model:
     gamma: "scale"
 
 evaluation:
-  default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
+  default_metrics:
+  - "mean_absolute_error"
+  - "root_mean_squared_error"
+  - "r2_score"
   custom_metrics: []

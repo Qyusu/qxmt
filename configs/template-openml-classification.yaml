@@ -9,7 +9,7 @@ dataset:
     name: "mnist_784"
     id: 554
     return_format: "numpy"
-    save_path: "data/openml/mnist_784/dataset.npz"
+    save_path: "data/openml/mnist_784/dataset.npy"
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -57,5 +57,9 @@ model:
     gamma: "scale"
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
   custom_metrics: []

@@ -57,5 +57,9 @@ model:
     gamma:  "scale"
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
   custom_metrics: []
