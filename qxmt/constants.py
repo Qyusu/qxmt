@@ -40,3 +40,6 @@ DEFAULT_N_JOBS = 3
 
 # set default timezone
 TZ: pytz.BaseTzInfo = pytz.timezone("Asia/Tokyo")
+
+# set color mapt for visualization
+DEFAULT_COLOR_MAP = "viridis"
