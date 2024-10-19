@@ -3,16 +3,16 @@ from typing import Any, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 from qxmt.datasets.schema import Dataset
-from qxmt.visualization.graph_settings import _create_class_labels, _create_colors
 
 DEFAULT_FEATURE_COLS = ["feature_1", "feature_2"]
 
 
 def plot_2d_dataset(
     dataset: Dataset,
-    colors: Optional[dict[int, str]] = None,
+    colors: Optional[dict[int, tuple]] = None,
     class_labels: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
     **kwargs: Any,
@@ -21,7 +21,7 @@ def plot_2d_dataset(
 
     Args:
         dataset (Dataset): Dataset object. It contains train and test data.
-        colors (Optional[dict[int, str]], optional): color of each class. Defaults to None.
+        colors (Optional[dict[int, tuple]], optional): color of each class. Defaults to None.
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         save_path (Optional[str], optional): save path of graph. Defaults to None.
         **kwargs (Any): additional arguments for plot.
@@ -35,10 +35,15 @@ def plot_2d_dataset(
 
     y_all = np.concatenate([dataset.y_train, dataset.y_test])
     if colors is None:
-        colors = _create_colors(y_all)
+        colors = {
+            int(class_value): color
+            for class_value, color in zip(
+                np.unique(y_all), sns.color_palette("viridis", n_colors=len(np.unique(y_all)))
+            )
+        }
 
     if class_labels is None:
-        class_labels = _create_class_labels(y_all)
+        class_labels = {class_value: str(class_value) for class_value in np.unique(y_all)}
 
     plt.figure(figsize=(10, 5), tight_layout=True)
     plt.subplot(1, 2, 1)
@@ -47,7 +52,7 @@ def plot_2d_dataset(
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors.get(class_value),
+            color=colors.get(class_value),
             label=class_labels.get(class_value),
         )
         plt.xlabel(f"{feature_cols[0]}")
@@ -61,7 +66,7 @@ def plot_2d_dataset(
         plt.scatter(
             subset[:, 0],
             subset[:, 1],
-            c=colors.get(class_value),
+            color=colors.get(class_value),
             label=class_labels.get(class_value),
         )
         plt.xlabel(f"{feature_cols[0]}")
