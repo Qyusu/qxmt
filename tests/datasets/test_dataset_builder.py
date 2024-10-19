@@ -10,6 +10,110 @@ from qxmt.datasets.file.loader import FileDataLoader
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
 
 
+def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
+    return X[:50], y[:50]  # extract first 50 samples
+
+
+def custom_transform(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_val: Optional[np.ndarray],
+    y_val: Optional[np.ndarray],
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+) -> PROCESSCED_DATASET_TYPE:
+    # all lable change to 1
+    y_train = np.ones_like(y_train)
+    if y_val is not None:
+        y_val = np.ones_like(y_val)
+    y_test = np.ones_like(y_test)
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+
+class TestSetCustomRawPreprocessLogic:
+    def test_set_custom_raw_preprocess_logic(self, experiment_config: ExperimentConfig) -> None:
+        # empty custom raw preprocess logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": {}})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is None
+
+        # None custom raw preprocess logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": None})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is None
+
+        # one custom raw preprocess logic
+        one_logic = {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}}
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": one_logic})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is not None
+        assert len(builder.custom_raw_preprocess_list) == 1
+
+        # multiple custom raw preprocess logic
+        multi_logic = [
+            {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
+            {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
+        ]
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": multi_logic})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is not None
+        assert len(builder.custom_raw_preprocess_list) == 2
+
+
+class TestSetCustomTransformLogic:
+    def test_set_custom_transform_logic(self, experiment_config: ExperimentConfig) -> None:
+        # empty custom transform logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": {}})}
+            )
+        )
+        assert builder.custom_transform_list is None
+
+        # None custom transform logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": None})}
+            )
+        )
+        assert builder.custom_transform_list is None
+
+        # one custom transform logic
+        one_logic = {"module_name": __name__, "implement_name": "custom_transform", "params": {}}
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": one_logic})}
+            )
+        )
+        assert builder.custom_transform_list is not None
+        assert len(builder.custom_transform_list) == 1
+
+        # multiple custom transform logic
+        multi_logic = [
+            {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
+            {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
+        ]
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": multi_logic})}
+            )
+        )
+        assert builder.custom_transform_list is not None
+        assert len(builder.custom_transform_list) == 2
+
+
 class TestValidationPreprocessLogic:
     def test__validate_raw_preprocess_logic_valid(self, mocker: MockFixture) -> None:
         def valid_raw_preprocess_logic(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
@@ -283,26 +387,6 @@ CUSTOM_CONFIG = {
         "transform_logic": {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
     }
 }
-
-
-def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-    return X[:50], y[:50]  # extract first 50 samples
-
-
-def custom_transform(
-    X_train: np.ndarray,
-    y_train: np.ndarray,
-    X_val: Optional[np.ndarray],
-    y_val: Optional[np.ndarray],
-    X_test: np.ndarray,
-    y_test: np.ndarray,
-) -> PROCESSCED_DATASET_TYPE:
-    # all lable change to 1
-    y_train = np.ones_like(y_train)
-    if y_val is not None:
-        y_val = np.ones_like(y_val)
-    y_test = np.ones_like(y_test)
-    return X_train, y_train, X_val, y_val, X_test, y_test
 
 
 @pytest.fixture(scope="function")

@@ -3,6 +3,24 @@ import numpy as np
 from qxmt.types import RAW_DATASET_TYPE
 
 
+def sampling_by_num(X: np.ndarray, y: np.ndarray, n_samples: int, random_seed: int) -> RAW_DATASET_TYPE:
+    """Data sampling by number of samples
+
+    Args:
+        X (np.ndarray): input data
+        y (np.ndarray): label of input data
+        n_samples (int): number of samples to be extracted
+        random_seed (int): random seed
+
+    Returns:
+        RAW_DATASET_TYPE: sampled data
+    """
+    rng = np.random.default_rng(random_seed)
+    indices = rng.choice(X.shape[0], n_samples, replace=False)
+
+    return X[indices], y[indices]
+
+
 def sampling_by_each_class(
     X: np.ndarray, y: np.ndarray, n_samples: int, labels: list[int], random_seed: int
 ) -> RAW_DATASET_TYPE:

@@ -7,8 +7,8 @@ global_settings:
 dataset:
   file:
     # full path or relative path from the root of the project
-    data: "data/openml/california_housing/dataset_X.npy"
-    label: "data/openml/california_housing/dataset_y.npy"
+    data_path: "data/openml/california_housing/dataset.npz"
+    label_path: null
     label_name: null
   random_seed: *global_seed
   split:
@@ -18,16 +18,18 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-      module_name: "qxmt.datasets.raw_preprocess.filter"
-      implement_name: "filter_by_categorical"
-      params:
-        n_samples: 100
-        random_seed: *global_seed
-        drop_na: true
-
+  - module_name: "qxmt.datasets.raw_preprocess.filter"
+    implement_name: "filter_by_categorical"
+    params:
+      drop_na: true
+  - module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_num"
+    params:
+      n_samples: 100
+      random_seed: *global_seed
   transform_logic:
-      module_name: "qxmt.datasets.transform.normalization"
-      implement_name: "normalization"
+    module_name: "qxmt.datasets.transform.normalization"
+    implement_name: "normalization"
 
 device:
   platform: "pennylane"
@@ -55,5 +57,8 @@ model:
     alpha: 0.1
 
 evaluation:
-  default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
+  default_metrics:
+  - "mean_absolute_error"
+  - "root_mean_squared_error"
+  - "r2_score"
   custom_metrics: []
