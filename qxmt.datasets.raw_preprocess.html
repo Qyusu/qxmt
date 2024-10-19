@@ -423,6 +423,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class"><code class="docutils literal notranslate"><span class="pre">sampling_by_each_class()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num"><code class="docutils literal notranslate"><span class="pre">sampling_by_num()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess">Module contents</a></li>
@@ -511,6 +512,28 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.raw_preprocess.sampling.sampling_by_num">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.raw_preprocess.sampling.</span></span><span class="sig-name descname"><span class="pre">sampling_by_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num" title="Link to this definition">#</a></dt>
+<dd><p>Data sampling by number of samples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – input data</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em>) – label of input data</p></li>
+<li><p><strong>n_samples</strong> (<em>int</em>) – number of samples to be extracted</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em>) – random seed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>sampled data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 <section id="module-qxmt.datasets.raw_preprocess">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets.raw_preprocess" title="Link to this heading">#</a></h2>
@@ -565,6 +588,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class"><code class="docutils literal notranslate"><span class="pre">sampling_by_each_class()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num"><code class="docutils literal notranslate"><span class="pre">sampling_by_num()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess">Module contents</a></li>
