@@ -8,7 +8,7 @@ dataset:
   generate:
     generate_method: "linear"
     params: {
-      "n_samples": 100,
+      "n_samples": 1000,
       "n_features": 2,
       "n_classes": 3,
     }

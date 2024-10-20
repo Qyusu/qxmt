@@ -1,8 +1,10 @@
-from typing import Callable
+from collections import Counter
+from typing import Callable, cast
 
 import numpy as np
 import pennylane as qml
 from pennylane.measurements.probs import ProbabilityMP
+from pennylane.measurements.sample import SampleMP
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
@@ -28,7 +30,7 @@ class FidelityKernel(BaseKernel):
         ...     platform="pennylane",
         ...     name="default.qubit",
         ...     n_qubits=2,
-        ...     shots=1000,
+        ...     shots=1024,
         >>> )
         >>> device = DeviceBuilder(config).build()
         >>> feature_map = ZZFeatureMap(2, 2)
@@ -63,20 +65,43 @@ class FidelityKernel(BaseKernel):
             float: fidelity kernel value
         """
 
-        def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP:
+        def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
             if self.feature_map is None:
                 raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
             self.feature_map(x1)
             qml.adjoint(self.feature_map)(x2)  # type: ignore
 
-            return qml.probs(wires=range(self.n_qubits))
+            if self.is_sampling:
+                return qml.sample(wires=range(self.n_qubits))
+            else:
+                return qml.probs(wires=range(self.n_qubits))
 
         qnode = qml.QNode(circuit, self.device())
-        probs = qnode(x1, x2)
-        if isinstance(probs, qml.operation.Tensor):
-            probs = probs.numpy()
+        result = qnode(x1, x2)
 
-        kernel_value = probs[0]  # get |00> state probability
+        if self.is_sampling:
+            # validate sampleing results for getting the each state probability
+            self._validate_sampling_values(result)
+
+            # convert the sample results to bit strings
+            # ex) shots=3, n_qubits=2, [[0, 0], [1, 1], [0, 0]] => ["00", "11", "00"]
+            result = [result] if np.array(result).ndim == 1 else result
+            bit_strings = ["".join(map(str, sample)) for sample in result]
+            all_states = self._generate_all_observable_states(state_pattern="01")
+
+            # count the number of each state
+            count_dict = Counter(bit_strings)
+            state_counts = [count_dict.get(state, 0) for state in all_states]
+
+            # convert the count to the probability
+            probs = np.array(state_counts) / cast(int, self.device.shots)  # shots must be over 0
+        else:
+            # use theoretical probability distribution
+            probs = result
+            if isinstance(probs, qml.operation.Tensor):
+                probs = probs.numpy()
+
+        kernel_value = probs[0]  # get |0..0> state probability
 
         return kernel_value

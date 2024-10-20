@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from itertools import product
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -9,6 +10,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
+from qxmt.exceptions import DeviceSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 
 
@@ -66,6 +68,7 @@ class BaseKernel(ABC):
         if callable(feature_map):
             feature_map = self._to_fm_instance(feature_map)
         self.feature_map = feature_map
+        self.is_sampling = (self.device.shots is not None) and (self.device.shots > 0)
 
     def _to_fm_instance(self, feature_map: Callable[[np.ndarray], None]) -> BaseFeatureMap:
         """Convert a feature map function to a BaseFeatureMap instance.
@@ -86,6 +89,23 @@ class BaseKernel(ABC):
                 feature_map(x)
 
         return CustomFeatureMap(self.platform, self.n_qubits)
+
+    def _validate_sampling_values(self, sampling_result: np.ndarray, valid_values: list[int] = [0, 1]) -> None:
+        if not self.is_sampling:
+            raise DeviceSettingError("Shots must be set to a positive integer value to use sampling.")
+
+        if not np.all(np.isin(sampling_result, valid_values)):
+            unique_values = np.unique(sampling_result)
+            invalid_values = unique_values[~np.isin(unique_values, valid_values)]
+            raise ValueError(f"The input array contains values other than 0 and 1. (invalid values: {invalid_values})")
+
+    def _generate_all_observable_states(self, state_pattern: str = "01") -> list[str]:
+        """Generate all possible observable states for the given number of qubits.
+
+        Returns:
+            list[str]: list of all possible observable states
+        """
+        return ["".join(bits) for bits in product(state_pattern, repeat=self.n_qubits)]
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:

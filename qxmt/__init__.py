@@ -12,6 +12,7 @@ from qxmt.configs import (
     SplitConfig,
 )
 from qxmt.exceptions import (
+    DeviceSettingError,
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
     ExperimentSettingError,
@@ -27,7 +28,6 @@ from qxmt.exceptions import (
 from qxmt.experiment.experiment import Experiment
 
 __all__ = [
-    "ExperimentConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -39,6 +39,7 @@ __all__ = [
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
+    "DeviceSettingError",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
