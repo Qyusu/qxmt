@@ -1,7 +1,6 @@
 from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
-    "ExperimentConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -13,6 +12,7 @@ EXPECTED_ALL = [
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
+    "DeviceSettingError",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
