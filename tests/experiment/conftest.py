@@ -11,7 +11,8 @@ from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
 from qxmt.models import QSVC, BaseMLModel
 
-DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+DEVICE_STATEVC = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+DEVICE_SHOTS = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
 
 
 def empty_feature_map(x: np.ndarray) -> None:
@@ -24,13 +25,19 @@ class TestKernel(BaseKernel):
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         kernel_value = np.dot(x1, x2)
-        probs = np.array([0.2, 0.1, 0.4, 0.0, 0.3])  # dummy probs
+        probs = np.array([0.2, 0.1, 0.4, 0.3])  # dummy probs
         return kernel_value, probs
 
 
 @pytest.fixture(scope="function")
-def base_model() -> BaseMLModel:
-    kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
+def state_vec_model() -> BaseMLModel:
+    kernel = TestKernel(device=DEVICE_STATEVC, feature_map=empty_feature_map)
+    return QSVC(kernel=kernel)
+
+
+@pytest.fixture(scope="function")
+def shots_model() -> BaseMLModel:
+    kernel = TestKernel(device=DEVICE_SHOTS, feature_map=empty_feature_map)
     return QSVC(kernel=kernel)
 
 

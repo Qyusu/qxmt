@@ -31,6 +31,7 @@ DEFAULT_DATASET_CONFIG = DatasetConfig(
     transform_logic=None,
 )
 DEFAULT_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+SHOTS_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
 DEFAULT_FEATUREMAP_CONFIG = FeatureMapConfig(
     module_name="qxmt.feature_maps.pennylane", implement_name="ZZFeatureMap", params={"reps": 2}
 )
@@ -47,6 +48,23 @@ def experiment_config(**kwargs: Any) -> ExperimentConfig:
         "global_settings": DEFAULT_GLOBAL_SETTINGS,
         "dataset": DEFAULT_DATASET_CONFIG,
         "device": DEFAULT_DEVICE_CONFIG,
+        "feature_map": DEFAULT_FEATUREMAP_CONFIG,
+        "kernel": DEFAULT_KERNEL_CONFIG,
+        "model": DEFAULT_MODEL_CONFIG,
+        "evaluation": DEFAULT_EVALUATION_CONFIG,
+    }
+    default_values.update(kwargs)
+    return ExperimentConfig(**default_values)
+
+
+@pytest.fixture(scope="function")
+def shots_experiment_config(**kwargs: Any) -> ExperimentConfig:
+    default_values = {
+        "path": ".",
+        "description": "test",
+        "global_settings": DEFAULT_GLOBAL_SETTINGS,
+        "dataset": DEFAULT_DATASET_CONFIG,
+        "device": SHOTS_DEVICE_CONFIG,
         "feature_map": DEFAULT_FEATUREMAP_CONFIG,
         "kernel": DEFAULT_KERNEL_CONFIG,
         "model": DEFAULT_MODEL_CONFIG,
