@@ -22,8 +22,10 @@ class TestKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
-        return np.dot(x1, x2)
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+        kernel_value = np.dot(x1, x2)
+        probs = np.array([0.2, 0.1, 0.4, 0.0, 0.3])  # dummy probs
+        return kernel_value, probs
 
 
 @pytest.fixture(scope="function")

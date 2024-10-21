@@ -119,7 +119,14 @@ class BaseKernelModel(BaseMLModel):
         Returns:
             np.ndarray: kernel matrix
         """
-        return self.kernel.compute_matrix(x_array_1, x_array_2, n_jobs=n_jobs)
+        kernel_matrix, _ = self.kernel.compute_matrix(
+            x_array_1,
+            x_array_2,
+            return_shots_resutls=False,
+            n_jobs=n_jobs,
+        )
+
+        return kernel_matrix
 
     def plot_kernel_matrix(
         self,
