@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Callable
 
 import numpy as np
@@ -119,3 +120,21 @@ class TestBaseKernel:
             x_array_1, x_array_2, return_shots_resutls=True
         )
         assert shots_matrix is None
+
+    def test_save_shots_results(
+        self, kernel_by_state_vector: BaseKernel, kernel_by_sampling: BaseKernel, tmp_path: Path
+    ) -> None:
+        prob_matrix = np.zeros((10, 10, 4))  # dummy probs matrix, sample=10, n_qubits=2
+        valid_save_path = tmp_path / "shots.h5"
+        # state vector mode can't save shots results
+        with pytest.raises(DeviceSettingError):
+            kernel_by_state_vector.save_shots_results(prob_matrix, valid_save_path)
+
+        # invalid extension
+        invalid_save_path = tmp_path / "shots.csv"
+        with pytest.raises(ValueError):
+            kernel_by_sampling.save_shots_results(prob_matrix, invalid_save_path)
+
+        # sampling mode can save shots results
+        kernel_by_sampling.save_shots_results(prob_matrix, valid_save_path)
+        assert valid_save_path.exists()
