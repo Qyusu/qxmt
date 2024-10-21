@@ -36,7 +36,7 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  shots: 10
+  shots: 1024
 
 feature_map:
   module_name: "qxmt.feature_maps.pennylane"
