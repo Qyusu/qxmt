@@ -26,6 +26,10 @@ class InputShapeError(Exception):
     pass
 
 
+class DeviceSettingError(Exception):
+    pass
+
+
 class ModelSettingError(Exception):
     pass
 

@@ -20,5 +20,6 @@ class TestFidelityKernel:
     def test_compute(self, fidelity_kernel: FidelityKernel) -> None:
         x1 = np.array([0, 1])
         x2 = np.array([1, 0])
-        kernel_value = fidelity_kernel.compute(x1, x2)
+        kernel_value, probs = fidelity_kernel.compute(x1, x2)
         assert kernel_value == 1.0
+        assert (probs == np.array([1.0, 0.0, 0.0, 0.0])).all()

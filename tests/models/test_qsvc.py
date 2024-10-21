@@ -38,12 +38,12 @@ class TestQSVC:
         qsvc_model = build_qsvc()
 
         with pytest.raises(AttributeError):
-            qsvc_model.model.support_
+            qsvc_model.support_
 
         X = np.random.rand(10, 2)
         y = np.random.randint(2, size=10)
         qsvc_model.fit(X, y)
-        qsvc_model.model.support_
+        qsvc_model.support_
 
     def test_predict(self, build_qsvc: Callable) -> None:
         qsvc_model = build_qsvc()

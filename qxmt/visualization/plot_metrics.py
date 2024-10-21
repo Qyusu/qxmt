@@ -6,11 +6,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
+from qxmt.constants import DEFAULT_COLOR_MAP
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 RUN_ID_COL = "run_id"
-DEFAULT_COLOR = sns.color_palette("viridis")
 
 
 def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Logger = LOGGER) -> list[str]:
@@ -66,7 +66,7 @@ def plot_metric(
 
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
-    color = kwargs.get("color", DEFAULT_COLOR[0])
+    color = kwargs.get("color", sns.color_palette(DEFAULT_COLOR_MAP)[0])
     plt.bar(x, df[valid_metric], color=color)
     plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     plt.ylabel(str(kwargs.get("ylabel", f'"{valid_metric}" score')))
@@ -116,7 +116,7 @@ def plot_metrics_side_by_side(
 
     plt.figure(figsize=(10, 6), tight_layout=True)
     width = 1.0 / (len(valid_metrics) + 1)
-    color: list = cast(list, kwargs.get("color", DEFAULT_COLOR))
+    color: list = cast(list, kwargs.get("color", sns.color_palette(DEFAULT_COLOR_MAP)))
     y_max = 0.0
     for i, metric in enumerate(valid_metrics):
         x = [j + i * width for j in range(len(df))]

@@ -5,13 +5,11 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "openml"
   openml:
     name: "mnist_784"
     id: 554
     return_format: "numpy"
-    save_path: "data/openml/mnist_784/dataset.npz"
-  params: {}
+    save_path: "data/openml/mnist_784/dataset.npy"
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -20,12 +18,12 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-      module_name: "qxmt.datasets.raw_preprocess.sampling"
-      implement_name: "sampling_by_each_class"
-      params:
-        n_samples: 100
-        labels: [0, 1]
-        random_seed: *global_seed
+    module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_each_class"
+    params:
+      n_samples: 100
+      labels: [0, 1]
+      random_seed: *global_seed
   transform_logic:
     module_name: "qxmt.datasets.transform.reduction_by_pca"
     implement_name: "dimension_reduction_by_pca"
@@ -53,11 +51,14 @@ kernel:
 
 model:
   name: "qsvc"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: "scale"
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
   custom_metrics: []

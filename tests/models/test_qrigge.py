@@ -30,7 +30,8 @@ class TestQRiggeRegressor:
     def test_fit(self, build_qrigge: Callable, mocker: MockFixture) -> None:
         qrigge_model = build_qrigge()
         mock_kernel_matrix = np.eye(5)
-        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=mock_kernel_matrix)
+        shots_matrix = None
+        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=(mock_kernel_matrix, shots_matrix))
 
         assert qrigge_model.fit_X is None
 
@@ -42,7 +43,8 @@ class TestQRiggeRegressor:
     def test_predict(self, build_qrigge: Callable, mocker: MockFixture) -> None:
         qrigge_model = build_qrigge()
         mock_kernel_matrix = np.eye(5)
-        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=mock_kernel_matrix)
+        shots_matrix = None
+        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=(mock_kernel_matrix, shots_matrix))
 
         X_train = np.random.rand(5, 2)
         y_train = np.random.rand(5, 1)
@@ -55,7 +57,8 @@ class TestQRiggeRegressor:
     def test_score(self, build_qrigge: Callable, mocker: MockFixture) -> None:
         qrigge_model = build_qrigge()
         mock_kernel_matrix = np.eye(5)
-        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=mock_kernel_matrix)
+        shots_matrix = None
+        mocker.patch.object(qrigge_model.kernel, "compute_matrix", return_value=(mock_kernel_matrix, shots_matrix))
 
         X_train = np.random.rand(5, 2)
         y_train = np.random.rand(5, 1)

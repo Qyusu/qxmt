@@ -4,14 +4,34 @@ from pytest_mock import MockerFixture
 
 from qxmt.constants import PROJECT_ROOT_DIR
 from qxmt.logger import set_default_logger
-from qxmt.utils.github import (
+from qxmt.utils.git import (
     get_commit_id,
     get_git_add_code,
     get_git_diff,
     get_git_rm_code,
+    is_git_available,
 )
 
 LOGGER = set_default_logger(__name__)
+
+
+class TestGitAvailable:
+    def test_git_available(self, mocker: MockerFixture) -> None:
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.return_value.returncode = 0
+
+        assert is_git_available() is True
+
+    def test_git_not_available(self, mocker: MockerFixture) -> None:
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.return_value.returncode = 1
+
+        assert is_git_available() is False
+
+        mock_subprocess = mocker.patch("subprocess.run")
+        mock_subprocess.side_effect = FileNotFoundError
+
+        assert is_git_available() is False
 
 
 class TestGetCommitId:
@@ -55,7 +75,7 @@ class TestGetGitDiff:
 class TestGetGitAdd:
     def test_get_git_add_code_success(self, mocker: MockerFixture) -> None:
         diff = "+++test.py\n+import subprocess\n+import pytest\n+from pytest_mock import MockerFixture\n"
-        mocker.patch("qxmt.utils.github.get_git_diff", return_value=diff)
+        mocker.patch("qxmt.utils.git.get_git_diff", return_value=diff)
 
         # set diff parameter
         added_code = get_git_add_code(diff)
@@ -69,7 +89,7 @@ class TestGetGitAdd:
 class TestGetGitRm:
     def test_get_git_rm_code_success(self, mocker: MockerFixture) -> None:
         diff = "---test.py\n-import subprocess\n-import pytest\n-import pytest_mock\n"
-        mocker.patch("qxmt.utils.github.get_git_diff", return_value=diff)
+        mocker.patch("qxmt.utils.git.get_git_diff", return_value=diff)
 
         # set diff parameter
         rm_code = get_git_rm_code(diff)

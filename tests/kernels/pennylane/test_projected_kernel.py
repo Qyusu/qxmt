@@ -55,5 +55,6 @@ class TestProjectedKernel:
                 gamma=1.0,
                 projection=projection,  # type: ignore
             )
-            kernel_value = projected_kernel.compute(x1, x2)
+            # [TODO]: currently, projected kernel not support probs
+            kernel_value, probs = projected_kernel.compute(x1, x2)
             assert round(kernel_value, 5) == expected
