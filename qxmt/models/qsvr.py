@@ -47,7 +47,8 @@ class QSVR(BaseKernelModel):
             kernel (BaseKernel): kernel instance of BaseKernel class
         """
         super().__init__(kernel)
-        self.model = SVR(kernel=self.kernel.compute_matrix, **kwargs)
+        self.fit_X: Optional[np.ndarray] = None
+        self.model = SVR(kernel="precomputed", **kwargs)
 
     def cross_val_score(
         self,
@@ -66,7 +67,8 @@ class QSVR(BaseKernelModel):
         Returns:
             np.ndarray: numpy array of scores
         """
-        scores = cross_val_score(estimator=self.model, X=X, y=y, n_jobs=n_jobs, **kwargs)
+        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
+        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
 
         return scores
 
@@ -98,12 +100,13 @@ class QSVR(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
+        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "r2"
 
         searcher = HyperParameterSearch(
-            X=X,
+            X=X_kernel,
             y=y,
             model=search_model,
             search_type=search_type,
@@ -115,18 +118,32 @@ class QSVR(BaseKernelModel):
 
         if refit:
             self.model.set_params(**best_params)
-            self.model.fit(X, y)
+            self.model.fit(X_kernel, y)
 
         return best_params
 
-    def fit(self, X: np.ndarray, y: np.ndarray, **kwargs: Any) -> None:
+    def fit(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        save_shots_path: Optional[Path | str] = None,
+        **kwargs: Any,
+    ) -> None:
         """Fit the model with given features and target values.
 
         Args:
             X (np.ndarray): numpy array of features
             y (np.ndarray): numpy array of target values
+            save_shots_path (Optional[Path | str], optional): save path for the shot results. Defaults to None.
         """
-        self.model.fit(X, y, **kwargs)
+        self.fit_X = X
+        if save_shots_path is not None:
+            kernel_train_X, shots_matrix = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=True)
+            if shots_matrix is not None:
+                self.kernel.save_shots_results(shots_matrix, save_shots_path)
+        else:
+            kernel_train_X, _ = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=False)
+        self.model.fit(kernel_train_X, y, **kwargs)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
         """Predict the target value with given features.
@@ -137,7 +154,11 @@ class QSVR(BaseKernelModel):
         Returns:
             np.ndarray: numpy array of predicted values
         """
-        return self.model.predict(X)
+        if self.fit_X is None:
+            raise ValueError("The model is not trained yet.")
+        else:
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+        return self.model.predict(kernel_pred_X)
 
     def save(self, path: str | Path) -> None:
         """Save the model to the given path.

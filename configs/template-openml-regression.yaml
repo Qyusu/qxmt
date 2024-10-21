@@ -52,7 +52,6 @@ kernel:
 
 model:
   name: "qsvr"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: "scale"
