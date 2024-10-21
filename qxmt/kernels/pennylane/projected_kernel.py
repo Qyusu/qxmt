@@ -1,4 +1,5 @@
-from typing import Callable, Literal
+from pathlib import Path
+from typing import Callable, Literal, Optional
 
 import numpy as np
 import pennylane as qml
@@ -117,7 +118,7 @@ class ProjectedKernel(BaseKernel):
 
         return projected_results
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the projected kernel value between two data points.
 
         Args:
@@ -125,7 +126,7 @@ class ProjectedKernel(BaseKernel):
             x2 (np.ndarray): numpy array representing the second data point
 
         Returns:
-            float: computed kernel value
+            tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
 
         def circuit(x: np.ndarray) -> list[Operation]:
@@ -148,4 +149,7 @@ class ProjectedKernel(BaseKernel):
         x2_projected = self._process_measurement_results(qnode(x2))
         kernel_value = np.exp(-self.gamma * np.sum((x1_projected - x2_projected) ** 2))
 
-        return kernel_value
+        # [TODO]: Dummy value for now, it is not implemented yet.
+        probs = np.array([1.0])
+
+        return kernel_value, probs

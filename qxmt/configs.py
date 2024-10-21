@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional
 
 import yaml
-from pydantic import BaseModel, ConfigDict, Field, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from qxmt.constants import PROJECT_ROOT_DIR
 
@@ -85,6 +85,19 @@ class DeviceConfig(BaseModel):
     name: str
     n_qubits: int
     shots: Optional[int] = None
+    save_shots_results: bool = False
+
+    @field_validator("shots")
+    def check_shots(cls, value: int) -> int:
+        if (value is not None) and (value < 1):
+            raise ValueError("shots must be greater than or equal to 1")
+        return value
+
+    @model_validator(mode="after")
+    def check_save_shots(self) -> "DeviceConfig":
+        if (self.shots is None) and (self.save_shots_results):
+            raise ValueError('The "shots" must be set to save the shot results.')
+        return self
 
 
 class FeatureMapConfig(BaseModel):
@@ -107,7 +120,6 @@ class ModelConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     name: str
-    file_name: str
     params: dict[str, Any]
     feature_map: Optional[FeatureMapConfig] = None
     kernel: Optional[KernelConfig] = None

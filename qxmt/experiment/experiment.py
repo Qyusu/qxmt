@@ -14,6 +14,7 @@ from qxmt.constants import (
     DEFAULT_EXP_DB_FILE,
     DEFAULT_EXP_DIRC,
     DEFAULT_MODEL_NAME,
+    DEFAULT_SHOT_RESULTS_NAME,
     LLM_MODEL_PATH,
     TZ,
 )
@@ -343,12 +344,14 @@ class Experiment:
 
         # create model instance from the config
         model = ModelBuilder(config=config).build()
-        save_model_path = Path(run_dirc) / config.model.file_name
+        save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
+        save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
 
         artifact, record = self._run_from_instance(
             task_type=config.global_settings.task_type,
             dataset=dataset,
             model=model,
+            save_shots_path=save_shots_path,
             save_model_path=save_model_path,
             default_metrics_name=config.evaluation.default_metrics,
             custom_metrics=config.evaluation.custom_metrics,
@@ -366,6 +369,7 @@ class Experiment:
         task_type: str,
         dataset: Dataset,
         model: BaseMLModel,
+        save_shots_path: Optional[str | Path],
         save_model_path: str | Path,
         default_metrics_name: Optional[list[str]],
         custom_metrics: Optional[list[dict[str, Any]]],
@@ -393,7 +397,7 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        model.fit(dataset.X_train, dataset.y_train)
+        model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
         predicted = model.predict(dataset.X_test)
         if add_results:
             model.save(save_model_path)
@@ -509,12 +513,12 @@ class Experiment:
                         Please provide task_type="classification" or "regression".
                         """
                     )
-                save_model_path = current_run_dirc / DEFAULT_MODEL_NAME
                 artifact, record = self._run_from_instance(
                     task_type=task_type,
                     dataset=dataset,
                     model=model,
-                    save_model_path=save_model_path,
+                    save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
+                    save_model_path=current_run_dirc / DEFAULT_MODEL_NAME,
                     default_metrics_name=default_metrics_name,
                     custom_metrics=custom_metrics,
                     desc=desc,

@@ -1,5 +1,6 @@
 from collections import Counter
-from typing import Callable, cast
+from pathlib import Path
+from typing import Callable, Optional, cast
 
 import numpy as np
 import pennylane as qml
@@ -54,7 +55,7 @@ class FidelityKernel(BaseKernel):
         """
         super().__init__(device, feature_map)
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
 
         Args:
@@ -62,7 +63,7 @@ class FidelityKernel(BaseKernel):
             x2 (np.ndarray): numpy array representing the second data point
 
         Returns:
-            float: fidelity kernel value
+            tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
 
         def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
@@ -104,4 +105,4 @@ class FidelityKernel(BaseKernel):
 
         kernel_value = probs[0]  # get |0..0> state probability
 
-        return kernel_value
+        return kernel_value, probs

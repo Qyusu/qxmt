@@ -36,7 +36,7 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  shots: null
+  shots: 1024
 
 feature_map:
   module_name: "qxmt.feature_maps.pennylane"
@@ -46,14 +46,11 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "ProjectedKernel"
-  params:
-    gamma: 1.0
-    projection: "xyz_sum"
+  implement_name: "FidelityKernel"
+  params: {}
 
 model:
   name: "qsvr"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: "scale"

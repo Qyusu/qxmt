@@ -34,6 +34,13 @@ class QRiggeRegressor(BaseKernelModel):
         self.fit_X: Optional[np.ndarray] = None
         self.model = KernelRidge(alpha=alpha, kernel="precomputed", **kwargs)
 
+    def __getattr__(self, name: str) -> Any:
+        # if the attribute is in the model, return it
+        if hasattr(self.model, name):
+            return getattr(self.model, name)
+        # if the attribute is not in the model, raise AttributeError
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
     def cross_val_score(
         self,
         X: np.ndarray,
@@ -53,7 +60,7 @@ class QRiggeRegressor(BaseKernelModel):
         Returns:
             np.ndarray: array of scores of the estimator for each run of the cross validation
         """
-        kernel_X = self.kernel.compute_matrix(X, X)
+        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
         scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
         return scores
 
@@ -85,7 +92,7 @@ class QRiggeRegressor(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
-        X_kernel = self.kernel.compute_matrix(X, X)
+        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "r2"
@@ -107,15 +114,26 @@ class QRiggeRegressor(BaseKernelModel):
 
         return best_params
 
-    def fit(self, X: np.ndarray, y: np.ndarray) -> None:
+    def fit(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+        save_shots_path: Optional[Path | str] = None,
+    ) -> None:
         """Fit the model with given input data and target data.
 
         Args:
             X (np.ndarray): numpy array of input data
             y (np.ndarray): numpy array of target data
+            save_shots_path (Optional[Path | str], optional): save path for the shot results. Defaults to None.
         """
         self.fit_X = X
-        kernel_train_X = self.kernel.compute_matrix(self.fit_X, self.fit_X)
+        if save_shots_path is not None:
+            kernel_train_X, shots_matrix = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=True)
+            if shots_matrix is not None:
+                self.kernel.save_shots_results(shots_matrix, save_shots_path)
+        else:
+            kernel_train_X, _ = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=False)
         self.model.fit(kernel_train_X, y)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -130,7 +148,7 @@ class QRiggeRegressor(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X = self.kernel.compute_matrix(X, self.fit_X)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
         return self.model.predict(kernel_pred_X)
 
     def score(self, X: np.ndarray, y: np.ndarray, sample_weight: Optional[np.ndarray] = None) -> float:
@@ -146,7 +164,7 @@ class QRiggeRegressor(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X = self.kernel.compute_matrix(X, self.fit_X)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
         return cast(float, self.model.score(kernel_pred_X, y, sample_weight=sample_weight))
 
     def save(self, path: str | Path) -> None:

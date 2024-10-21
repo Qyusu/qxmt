@@ -1,10 +1,9 @@
 from pathlib import Path
-from typing import Any, Optional, cast
+from typing import Any, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from sklearn.inspection import DecisionBoundaryDisplay
 
 from qxmt.constants import DEFAULT_COLOR_MAP
 from qxmt.decorators import notify_long_running
@@ -95,11 +94,11 @@ def plot_2d_predicted_result(
 
 
 @notify_long_running
-def plot_2d_decisionon_boundaries(
+def plot_2d_decision_boundaries(
     model: QSVC,
     X: np.ndarray,
     y: np.ndarray,
-    grid_resolution: int = 10,
+    grid_resolution: int = 100,
     support_vectors: bool = True,
     feature_cols: Optional[list[str]] = None,
     save_path: Optional[str | Path] = None,
@@ -109,63 +108,70 @@ def plot_2d_decisionon_boundaries(
 
     Args:
         model (QSVC): QSVC model.
-        X (np.ndarray): feature values of the data.
-        y (np.ndarray): labels of the data.
-        grid_resolution (int, optional): resolution of grid. Defaults to 10.
-        support_vectors (bool, optional): plot support vectors or not. Defaults to True.
-        feature_cols (Optional[list[str]], optional): feature column names. Defaults to None.
-        save_path (Optional[str  |  Path], optional): save path of graph. Defaults to None.
-        **kwargs (Any): additional arguments for plot.
-            title (str, optional): title of the plot. Defaults to "Decision boundaries of QSVC".
-            cmap (str, optional): color map for the plot. Defaults to DEFAULT_COLOR_MAP.
+        X (np.ndarray): Feature values of the data.
+        y (np.ndarray): Labels of the data.
+        grid_resolution (int, optional): Resolution of the grid. Defaults to 100.
+        support_vectors (bool, optional): Plot support vectors or not. Defaults to True.
+        feature_cols (Optional[list[str]], optional): Feature column names. Defaults to None.
+        save_path (Optional[str | Path], optional): Save path of the graph. Defaults to None.
+        **kwargs (Any): Additional arguments for the plot.
+            title (str, optional): Title of the plot. Defaults to "Decision boundaries of QSVC".
+            cmap (str, optional): Color map for the plot. Defaults to DEFAULT_COLOR_MAP.
     """
     assert X.shape[0] == len(y), "Length of X and y must be the same."
 
     if isinstance(model, QSVC):
-        is_multi_class = len(model.model.classes_) > 2
+        is_multi_class = len(model.classes_) > 2
     else:
         is_multi_class = len(np.unique(y)) > 2
 
     if X.shape[1] != 2:
-        raise ValueError("This function only supports 2D dataset.")
+        raise ValueError("This function only supports 2D datasets.")
 
     if feature_cols is None:
         feature_cols = ["feature_0", "feature_1"]
 
     _, ax = plt.subplots(figsize=(6, 5), tight_layout=True)
-    x_min, x_max, y_min, y_max = X[:, 0].min(), X[:, 0].max(), X[:, 1].min(), X[:, 1].max()
+    x_min, x_max = X[:, 0].min(), X[:, 0].max()
+    y_min, y_max = X[:, 1].min(), X[:, 1].max()
     margin = 1
     ax.set(xlim=(x_min - margin, x_max + margin), ylim=(y_min - margin, y_max + margin))
 
-    # Plot decision boundary and margins
-    common_params = {"estimator": model.model, "X": X, "grid_resolution": grid_resolution, "ax": ax}
-    cmap = kwargs.get("cmap", DEFAULT_COLOR_MAP)
-    DecisionBoundaryDisplay.from_estimator(
-        **common_params,
-        response_method="predict",
-        plot_method="pcolormesh",
-        alpha=0.3,
-        cmap=cmap,
-        vmin=y.min(),
-        vmax=y.max(),
+    # Generate grid
+    xx, yy = np.meshgrid(
+        np.linspace(x_min - margin, x_max + margin, grid_resolution),
+        np.linspace(y_min - margin, y_max + margin, grid_resolution),
     )
+    grid_points = np.c_[xx.ravel(), yy.ravel()]  # Shape (n_grid_points, 2)
+
+    # Compute predictions over the grid
+    Z = model.predict(grid_points)
+    if not is_multi_class:
+        decision_function = model.decision_function(grid_points)
+
+    Z = Z.reshape(xx.shape)
+
+    # Plot decision boundaries
+    cmap = kwargs.get("cmap", DEFAULT_COLOR_MAP)
+    ax.pcolormesh(xx, yy, Z, cmap=cmap, shading="auto", alpha=0.3, vmin=y.min(), vmax=y.max())
 
     if not is_multi_class:
-        # Only plot decision boundary and margins when it is binary classification
-        DecisionBoundaryDisplay.from_estimator(
-            **common_params,
-            response_method="decision_function",
-            plot_method="contour",
+        # Plot decision boundary and margins
+        Z_decision = decision_function.reshape(xx.shape)
+        ax.contour(
+            xx,
+            yy,
+            Z_decision,
             levels=[-1, 0, 1],
             colors=["k", "k", "k"],
             linestyles=["--", "-", "--"],
         )
 
-    if support_vectors:
-        # Plot bigger circles around samples that serve as support vectors
+    if support_vectors and hasattr(model, "support_"):
+        # Plot support vectors
         ax.scatter(
-            X[model.model.support_, 0],
-            X[model.model.support_, 1],
+            X[model.support_, 0],
+            X[model.support_, 1],
             s=150,
             facecolors="none",
             edgecolors="k",

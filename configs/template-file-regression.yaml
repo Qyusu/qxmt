@@ -52,7 +52,6 @@ kernel:
 
 model:
   name: "qrigge"
-  file_name: "model.pkl"
   params:
     alpha: 0.1
 

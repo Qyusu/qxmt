@@ -31,6 +31,9 @@ PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.Device, qml.QubitD
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
 
+# set default shot results file name
+DEFAULT_SHOT_RESULTS_NAME: str = "shots.h5"
+
 # set default LLM for generating description
 LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 

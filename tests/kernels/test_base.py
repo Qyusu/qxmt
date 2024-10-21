@@ -1,3 +1,4 @@
+from pathlib import Path
 from typing import Callable
 
 import numpy as np
@@ -22,8 +23,10 @@ class SimpleKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> float:
-        return np.dot(x1, x2)
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+        kernel_value = np.dot(x1, x2)
+        probs = np.array([0.2, 0.1, 0.4, 0.0, 0.3])  # dummy probs
+        return kernel_value, probs
 
 
 @pytest.fixture(scope="function")
@@ -92,15 +95,46 @@ class TestBaseKernel:
     def test_compute(self, kernel_by_state_vector: BaseKernel) -> None:
         x1 = np.array([0, 1])
         x2 = np.array([1, 0])
-        assert kernel_by_state_vector.compute(x1, x2) == 0.0
+        kernel_value, _ = kernel_by_state_vector.compute(x1, x2)
+        assert kernel_value == 0.0
 
         x1 = np.array([1, 0])
         x2 = np.array([1, 0])
-        assert kernel_by_state_vector.compute(x1, x2) == 1.0
+        kernel_value, _ = kernel_by_state_vector.compute(x1, x2)
+        assert kernel_value == 1.0
 
     def test_compute_matrix(self, kernel_by_state_vector: BaseKernel) -> None:
         x_array_1 = np.array([[0, 1], [1, 0]])
         x_array_2 = np.array([[1, 0], [1, 0]])
-        kernel_matrix = kernel_by_state_vector.compute_matrix(x_array_1, x_array_2)
+
+        kernel_matrix, shots_matrix = kernel_by_state_vector.compute_matrix(
+            x_array_1, x_array_2, return_shots_resutls=False
+        )
         assert kernel_matrix.shape == (2, 2)
+        assert shots_matrix is None
         assert np.array_equal(kernel_matrix, np.array([[0.0, 0.0], [1.0, 1.0]]))
+
+        # state vector mode can't get shots results
+        # so, return_shots_resutls=True but return None
+        kernel_matrix, shots_matrix = kernel_by_state_vector.compute_matrix(
+            x_array_1, x_array_2, return_shots_resutls=True
+        )
+        assert shots_matrix is None
+
+    def test_save_shots_results(
+        self, kernel_by_state_vector: BaseKernel, kernel_by_sampling: BaseKernel, tmp_path: Path
+    ) -> None:
+        prob_matrix = np.zeros((10, 10, 4))  # dummy probs matrix, sample=10, n_qubits=2
+        valid_save_path = tmp_path / "shots.h5"
+        # state vector mode can't save shots results
+        with pytest.raises(DeviceSettingError):
+            kernel_by_state_vector.save_shots_results(prob_matrix, valid_save_path)
+
+        # invalid extension
+        invalid_save_path = tmp_path / "shots.csv"
+        with pytest.raises(ValueError):
+            kernel_by_sampling.save_shots_results(prob_matrix, invalid_save_path)
+
+        # sampling mode can save shots results
+        kernel_by_sampling.save_shots_results(prob_matrix, valid_save_path)
+        assert valid_save_path.exists()
