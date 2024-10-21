@@ -50,17 +50,19 @@ class FileDataLoader:
         self.label_name = label_name
 
     def load(self) -> tuple[np.ndarray, np.ndarray]:
-        """Load the data and label from the file path.
+        """
+        Load the data and label from the file path.
         The file format is determined by the extension of the file path.
+
         Supported file formats:
         - numpy: .npy, .npz
         - pandas: .csv, .tsv
 
         Two input patterns exist:
         1. "data_path" and "label_path" are defined.
-            "label_name" is not needed, because the label is loaded from the file.
+        "label_name" is not needed, because the label is loaded from the file.
         2. "data_path" and "label_name" are defined.
-            "label_path" is not needed, because the label data include in the data file.
+        "label_path" is not needed, because the label data include in the data file.
 
         Returns:
             tuple[np.ndarray, np.ndarray]: loaded data and label as numpy arrays.
