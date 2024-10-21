@@ -34,6 +34,13 @@ class QRiggeRegressor(BaseKernelModel):
         self.fit_X: Optional[np.ndarray] = None
         self.model = KernelRidge(alpha=alpha, kernel="precomputed", **kwargs)
 
+    def __getattr__(self, name: str) -> Any:
+        # if the attribute is in the model, return it
+        if hasattr(self.model, name):
+            return getattr(self.model, name)
+        # if the attribute is not in the model, raise AttributeError
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
     def cross_val_score(
         self,
         X: np.ndarray,

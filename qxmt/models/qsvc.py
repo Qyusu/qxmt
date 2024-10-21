@@ -50,6 +50,13 @@ class QSVC(BaseKernelModel):
         self.fit_X: Optional[np.ndarray] = None
         self.model = SVC(kernel="precomputed", **kwargs)
 
+    def __getattr__(self, name: str) -> Any:
+        # if the attribute is in the model, return it
+        if hasattr(self.model, name):
+            return getattr(self.model, name)
+        # if the attribute is not in the model, raise AttributeError
+        raise AttributeError(f"'{self.__class__.__name__}' object has no attribute '{name}'")
+
     def cross_val_score(
         self,
         X: np.ndarray,
@@ -175,6 +182,21 @@ class QSVC(BaseKernelModel):
         else:
             kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
         return self.model.predict_proba(kernel_pred_X)
+
+    def decision_function(self, X: np.ndarray) -> np.ndarray:
+        """Predict the decision function value with given features.
+
+        Args:
+            X (np.ndarray): numpy array of features
+
+        Returns:
+            np.ndarray: numpy array of decision function values
+        """
+        if self.fit_X is None:
+            raise ValueError("The model is not trained yet.")
+        else:
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+        return self.model.decision_function(kernel_pred_X)
 
     def save(self, path: str | Path) -> None:
         """Save the model to the given path.
