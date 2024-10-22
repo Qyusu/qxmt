@@ -5,12 +5,12 @@ global_settings:
   task_type: "regression"
 
 dataset:
-  type: "generate"
-  generate_method: "linear"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-  }
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 1000,
+      "n_features": 2,
+    }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -19,12 +19,15 @@ dataset:
     shuffle: true
   features: null
   raw_preprocess_logic:
-      module_name: "qxmt.datasets.raw_preprocess.filter"
-      implement_name: "filter_by_categorical"
-      params:
-        n_samples: 100
-        random_seed: *global_seed
-        drop_na: true
+  - module_name: "qxmt.datasets.raw_preprocess.filter"
+    implement_name: "filter_by_categorical"
+    params:
+      drop_na: true
+  - module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_num"
+    params:
+      n_samples: 100
+      random_seed: *global_seed
   transform_logic:
       module_name: "qxmt.datasets.transform.normalization"
       implement_name: "normalization"
@@ -33,7 +36,7 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  shots: null
+  shots: 1024
 
 feature_map:
   module_name: "qxmt.feature_maps.pennylane"
@@ -43,18 +46,18 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "ProjectedKernel"
-  params:
-    gamma: 1.0
-    projection: "xyz_sum"
+  implement_name: "FidelityKernel"
+  params: {}
 
 model:
   name: "qsvr"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: "scale"
 
 evaluation:
-  default_metrics: ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
+  default_metrics:
+  - "mean_absolute_error"
+  - "root_mean_squared_error"
+  - "r2_score"
   custom_metrics: []

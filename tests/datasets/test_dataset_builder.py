@@ -4,9 +4,114 @@ import numpy as np
 import pytest
 from pytest_mock import MockFixture
 
-from qxmt.configs import DatasetConfig, ExperimentConfig
+from qxmt.configs import DatasetConfig, ExperimentConfig, GenerateDataConfig
 from qxmt.datasets import DatasetBuilder
+from qxmt.datasets.file.loader import FileDataLoader
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
+
+
+def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
+    return X[:50], y[:50]  # extract first 50 samples
+
+
+def custom_transform(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    X_val: Optional[np.ndarray],
+    y_val: Optional[np.ndarray],
+    X_test: np.ndarray,
+    y_test: np.ndarray,
+) -> PROCESSCED_DATASET_TYPE:
+    # all lable change to 1
+    y_train = np.ones_like(y_train)
+    if y_val is not None:
+        y_val = np.ones_like(y_val)
+    y_test = np.ones_like(y_test)
+    return X_train, y_train, X_val, y_val, X_test, y_test
+
+
+class TestSetCustomRawPreprocessLogic:
+    def test_set_custom_raw_preprocess_logic(self, experiment_config: ExperimentConfig) -> None:
+        # empty custom raw preprocess logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": {}})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is None
+
+        # None custom raw preprocess logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": None})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is None
+
+        # one custom raw preprocess logic
+        one_logic = {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}}
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": one_logic})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is not None
+        assert len(builder.custom_raw_preprocess_list) == 1
+
+        # multiple custom raw preprocess logic
+        multi_logic = [
+            {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
+            {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
+        ]
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": multi_logic})}
+            )
+        )
+        assert builder.custom_raw_preprocess_list is not None
+        assert len(builder.custom_raw_preprocess_list) == 2
+
+
+class TestSetCustomTransformLogic:
+    def test_set_custom_transform_logic(self, experiment_config: ExperimentConfig) -> None:
+        # empty custom transform logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": {}})}
+            )
+        )
+        assert builder.custom_transform_list is None
+
+        # None custom transform logic
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": None})}
+            )
+        )
+        assert builder.custom_transform_list is None
+
+        # one custom transform logic
+        one_logic = {"module_name": __name__, "implement_name": "custom_transform", "params": {}}
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": one_logic})}
+            )
+        )
+        assert builder.custom_transform_list is not None
+        assert len(builder.custom_transform_list) == 1
+
+        # multiple custom transform logic
+        multi_logic = [
+            {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
+            {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
+        ]
+        builder = DatasetBuilder(
+            config=experiment_config.model_copy(
+                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": multi_logic})}
+            )
+        )
+        assert builder.custom_transform_list is not None
+        assert len(builder.custom_transform_list) == 2
 
 
 class TestValidationPreprocessLogic:
@@ -169,10 +274,83 @@ class TestValidationTransformLogic:
         #     )
 
 
+class TestGetDatasetType:
+    def test_get_dataset_type(self) -> None:
+        openml_config = {
+            "dataset": {
+                "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        file_config = {
+            "dataset": {
+                "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        generate_config = {
+            "dataset": {
+                "generate": GenerateDataConfig(generate_method="linear"),
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        no_exist_type_config = {
+            "dataset": {
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        multi_type_config = {
+            "dataset": {
+                "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
+                "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+                "generate": GenerateDataConfig(generate_method="linear"),
+                "random_seed": 42,
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+            }
+        }
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**openml_config["dataset"]))
+        assert dataset_type == "openml"
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**file_config["dataset"]))
+        assert dataset_type == "file"
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**generate_config["dataset"]))
+        assert dataset_type == "generate"
+
+        with pytest.raises(ValueError):
+            DatasetBuilder._get_dataset_type(DatasetConfig(**no_exist_type_config["dataset"]))
+
+        with pytest.raises(ValueError):
+            DatasetBuilder._get_dataset_type(DatasetConfig(**multi_type_config["dataset"]))
+
+
+FILE_DATE_CONFIG = {
+    "dataset": {
+        "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
+        "random_seed": 42,
+        "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+    }
+}
+
+
+@pytest.fixture(scope="function")
+def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+    dataset_config = DatasetConfig(**FILE_DATE_CONFIG["dataset"])
+    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+
+
 GEN_DATA_CONFIG_WITH_VAL = {
     "dataset": {
-        "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
     }
@@ -180,8 +358,7 @@ GEN_DATA_CONFIG_WITH_VAL = {
 
 GEN_DATA_CONFIG_NO_VAL = {
     "dataset": {
-        "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
     }
@@ -202,8 +379,7 @@ def default_gen_builder_no_val(experiment_config: ExperimentConfig) -> DatasetBu
 
 CUSTOM_CONFIG = {
     "dataset": {
-        "type": "generate",
-        "generate_method": "linear",
+        "generate": GenerateDataConfig(generate_method="linear"),
         "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
         "features": None,
@@ -211,26 +387,6 @@ CUSTOM_CONFIG = {
         "transform_logic": {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
     }
 }
-
-
-def custom_raw_preprocess(X: np.ndarray, y: np.ndarray) -> RAW_DATASET_TYPE:
-    return X[:50], y[:50]  # extract first 50 samples
-
-
-def custom_transform(
-    X_train: np.ndarray,
-    y_train: np.ndarray,
-    X_val: Optional[np.ndarray],
-    y_val: Optional[np.ndarray],
-    X_test: np.ndarray,
-    y_test: np.ndarray,
-) -> PROCESSCED_DATASET_TYPE:
-    # all lable change to 1
-    y_train = np.ones_like(y_train)
-    if y_val is not None:
-        y_val = np.ones_like(y_val)
-    y_test = np.ones_like(y_test)
-    return X_train, y_train, X_val, y_val, X_test, y_test
 
 
 @pytest.fixture(scope="function")
@@ -246,9 +402,15 @@ class TestBuilder:
         assert isinstance(X, np.ndarray)
         assert isinstance(y, np.ndarray)
 
-    def test_load_file_data(self) -> None:
-        # [TODO]: Implement file data loading test
-        pass
+    def test_load_file_data(self, default_file_builder: DatasetBuilder, mocker: MockFixture) -> None:
+        _ = mocker.patch.object(
+            FileDataLoader, "load", return_value=(np.random.rand(100, 2), np.random.randint(2, size=100))
+        )
+
+        X, y = default_file_builder.load()
+        assert len(X) == len(y)
+        assert isinstance(X, np.ndarray)
+        assert isinstance(y, np.ndarray)
 
     def test_split(self, default_gen_builder: DatasetBuilder, default_gen_builder_no_val: DatasetBuilder) -> None:
         X = np.random.rand(100, 2)

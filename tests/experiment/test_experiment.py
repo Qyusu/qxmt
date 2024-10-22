@@ -181,7 +181,8 @@ class TestExperimentRun:
         self,
         base_experiment: Experiment,
         create_random_dataset: Callable,
-        base_model: BaseMLModel,
+        state_vec_model: BaseMLModel,
+        shots_model: BaseMLModel,
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
@@ -189,25 +190,41 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(dataset=dataset, model=base_model)
+            base_experiment.run(dataset=dataset, model=state_vec_model)
 
         # run from dataset and model instance
         base_experiment.init()
         artifact, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=base_model, add_results=True
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True
         )
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert not base_experiment.experiment_dirc.joinpath("run_1/shots.h5").exists()
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=True)
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=True)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, add_results=True)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, add_results=True)
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
-        # not add result record
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=base_model, add_results=False)
-        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
+        # run by shots model
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=shots_model, add_results=True)
+        assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_4/shots.h5").exists()
+        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
+
+        # not add result record (state vector mode)
+        _, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=False
+        )
+        assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
+        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
+
+        # not add result record (shots mode)
+        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=shots_model, add_results=False)
+        assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
+        assert not base_experiment.experiment_dirc.joinpath("run_5/shots.h5").exists()
+        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
 
         # invalid arguments patterm
         with pytest.raises(ExperimentRunSettingError):
@@ -217,23 +234,23 @@ class TestExperimentRun:
             base_experiment.run(dataset=dataset)
 
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(model=base_model)
+            base_experiment.run(model=state_vec_model)
 
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=dataset, model=base_model)
+            base_experiment.run(dataset=dataset, model=state_vec_model)
 
-    def test_run_from_config(
+    def test_run_from_config_state_vec(
         self,
         mocker: MockFixture,
         tmp_path: Path,
         base_experiment: Experiment,
         create_random_dataset: Callable,
-        base_model: BaseMLModel,
+        state_vec_model: BaseMLModel,
         experiment_config: ExperimentConfig,
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
-        mocker.patch("qxmt.models.ModelBuilder.build", return_value=base_model)
+        mocker.patch("qxmt.models.ModelBuilder.build", return_value=state_vec_model)
 
         # initialization error check
         assert base_experiment.current_run_id == 0
@@ -260,10 +277,50 @@ class TestExperimentRun:
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
+    def test_run_from_config_shots(
+        self,
+        mocker: MockFixture,
+        tmp_path: Path,
+        base_experiment: Experiment,
+        create_random_dataset: Callable,
+        shots_model: BaseMLModel,
+        shots_experiment_config: ExperimentConfig,
+    ) -> None:
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
+        mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
+        mocker.patch("qxmt.models.ModelBuilder.build", return_value=shots_model)
+
+        # initialization error check
+        assert base_experiment.current_run_id == 0
+        assert base_experiment.exp_db is None
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment.run(config_source=shots_experiment_config)
+
+        # run from config instance
+        base_experiment.init()
+        artifact, _ = base_experiment.run(config_source=shots_experiment_config)
+        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_1/shots.h5").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
+        assert isinstance(artifact.model, BaseMLModel)
+        assert isinstance(artifact.dataset, Dataset)
+
+        # run from config file
+        experiment_config_file = tmp_path / "experiment_config.yaml"
+        save_experiment_config_to_yaml(shots_experiment_config, experiment_config_file, delete_source_path=True)
+        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
+        assert len(base_experiment.exp_db.runs) == 2  # type: ignore
+        assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_2/shots.h5").exists()
+        assert base_experiment.experiment_dirc.joinpath("run_2/config.yaml").exists()
+        assert isinstance(artifact.model, BaseMLModel)
+        assert isinstance(artifact.dataset, Dataset)
+
 
 class TestExperimentResults:
     def test_runs_to_dataframe(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.runs_to_dataframe()
@@ -272,10 +329,16 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         base_experiment.run(
-            task_type="classification", dataset=dataset, model=base_model, default_metrics_name=default_metrics_name
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            default_metrics_name=default_metrics_name,
         )
         base_experiment.run(
-            task_type="classification", dataset=dataset, model=base_model, default_metrics_name=default_metrics_name
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            default_metrics_name=default_metrics_name,
         )
         df = base_experiment.runs_to_dataframe()
 
@@ -283,13 +346,13 @@ class TestExperimentResults:
         assert len(df) == 2
 
     def test_save_experiment(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
-        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
-        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
@@ -297,14 +360,14 @@ class TestExperimentResults:
 
 class TestExperimentReproduce:
     def test_reproduce(
-        self, base_experiment: Experiment, create_random_dataset: Callable, base_model: BaseMLModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.reproduce(run_id=1)
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(task_type="classification", dataset=dataset, model=base_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
 
         # run_id=1 executed from dataset and model instance.
         # this run not exist config file.

@@ -1,9 +1,9 @@
-from qxmt.datasets.dummy import __all__
+from qxmt.datasets.generate import __all__
 
 EXPECTED_ALL = [
     "generate_linear_separable_data",
     "generate_linear_regression_data",
-    "load_dummy_dataset",
+    "GeneratedDataLoader",
 ]
 
 

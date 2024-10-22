@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from qxmt.datasets.dummy.linear import (
+from qxmt.datasets.generate.linear import (
     generate_linear_regression_data,
     generate_linear_separable_data,
 )
