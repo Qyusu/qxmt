@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.experiment.experiment module &#8212; qxmt 0.3.1 documentation</title>
+    <title>qxmt.datasets.generate.linear module &#8212; qxmt 0.3.1 documentation</title>
   
   
   
@@ -44,11 +44,11 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.experiment.experiment';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.datasets.generate.linear';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.experiment.schema module" href="qxmt.experiment.schema.html" />
-    <link rel="prev" title="qxmt.experiment package" href="qxmt.experiment.html" />
+    <link rel="next" title="qxmt.datasets.generate.loader module" href="qxmt.datasets.generate.loader.html" />
+    <link rel="prev" title="qxmt.datasets.generate package" href="qxmt.datasets.generate.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -140,13 +140,13 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.linear.html">qxmt.datasets.generate.linear module</a></li>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">qxmt.datasets.generate.linear module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.loader.html">qxmt.datasets.generate.loader module</a></li>
 </ul>
 </details></li>
@@ -184,8 +184,8 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.experiment.html">qxmt.experiment package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.experiment.html">qxmt.experiment package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.experiment.html">qxmt.experiment.experiment module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
 </ul>
 </details></li>
@@ -318,7 +318,7 @@
       
       
       
-      <li><a href="_sources/qxmt.experiment.experiment.rst" target="_blank"
+      <li><a href="_sources/qxmt.datasets.generate.linear.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -381,7 +381,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -392,11 +394,20 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>qxmt.experiment.experiment module</h1>
+    <h1>qxmt.datasets.generate.linear module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.generate.linear.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.generate.linear.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -444,266 +455,53 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="qxmt-experiment-experiment-module">
-<h1>qxmt.experiment.experiment module<a class="headerlink" href="#qxmt-experiment-experiment-module" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.experiment.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Experiment class for managing the experiment and each run data.
-The Experiment class provides methods for initializing the experiment,
-running the experiment, saving the experiment data, and reproducing the model.</p>
-<p>All experiment data is stored in the ExperimentDB instance.
-It is save in local directory as a json file (root_experiment_dirc/experiments/your_exp_name/experiment.json).</p>
-<p>Experiment can be initialized and strated from scratch by calling the <cite>init()</cite> method.
-Anthoer way is to load the existing experiment data from the json file (experiment.json)
-by calling the <cite>load_experiment()</cite> method.</p>
-<p>The Experiment class can be used in two ways:
-1. <strong>Provide config_path</strong>:
-This method accepts the path to the config file or config instance.
-It is more flexible but requires a YAML base config file.
-This method tracks the experiment settings, result and can reproduce the model.
-Officially, we recommend using the config file method.</p>
-<p>2. <strong>Directly provide dataset and model instance</strong>:
-This method directly accepts dataset and model instances.
-It is easy to use but does “NOT” track the experiment settings.
-This method is useful for adhoc experiments, quick testing or debugging.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">qxmt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
-<span class="gp">... </span>       <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_qsvm_algorithm&quot;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;This is a experiment for new qsvm algorithm.</span>
-<span class="gp">... </span><span class="s2">       This experiment is applied and evaluated on multiple datasets.</span>
-<span class="gp">... </span><span class="s2">       &quot;&quot;&quot;</span><span class="p">,</span>
-<span class="gp">... </span>       <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span>   <span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/template.yaml&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
-<span class="go">    run_id      accuracy        precision       recall  f1_score</span>
-<span class="go">0            1      0.45             0.53         0.66      0.59</span>
-</pre></div>
-</div>
+  <section id="module-qxmt.datasets.generate.linear">
+<span id="qxmt-datasets-generate-linear-module"></span><h1>qxmt.datasets.generate.linear module<a class="headerlink" href="#module-qxmt.datasets.generate.linear" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.generate.linear.generate_linear_regression_data">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.generate.linear.</span></span><span class="sig-name descname"><span class="pre">generate_linear_regression_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.generate.linear.generate_linear_regression_data" title="Link to this definition">#</a></dt>
+<dd><p>Generate random data for linear regression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>desc</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>auto_gen_mode</strong> (<em>bool</em>)</p></li>
-<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>)</p></li>
-<li><p><strong>llm_model_path</strong> (<em>str</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the Experiment class.
-Set the experiment name, description,
-and other settings such as auto_gen_mode, root_experiment_dirc and logger.
-auto_gen_mode controls whether to use the DescriptionGenerator by LLM.
-If use, set environemnt variable “USE_LLM” to True.
-root_experiment_dirc is the root directory to save the experiment data.
-Each artifact and result store in the subdirectory of the root directory.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – experiment name. If None, generate by execution time. Defaults to None.</p></li>
-<li><p><strong>desc</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – description of the experiment.
-The purpose is search, memo, etc not used in the code. Defaults to None.</p></li>
-<li><p><strong>auto_gen_mode</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to use the DescriptionGenerator
-for generating the description of each run. Defaults to USE_LLM.</p></li>
-<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – root directory to save the experiment data. Defaults to DEFAULT_EXP_DIRC.</p></li>
-<li><p><strong>llm_model_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the LLM model. Defaults to LLM_MODEL_PATH.</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger instance for warning or error messages. Defaults to LOGGER.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">get_run_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Get the run record of the target run_id.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>run_id</strong> (<em>int</em>) – target run_id</p></li>
-<li><p><strong>runs</strong> (<em>list</em><em>[</em><em>RunRecord</em><em>]</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – if the run record does not exist</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>target run record</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>RunRecord</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the experiment directory and DB.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>initialized experiment</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">load_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_file</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Load existing experiment data from a json file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the experiment json file</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – if the experiment file does not exist</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>loaded experiment</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">reproduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_commit_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Reproduce the target run_id model from config file.
-If the target run_id does not have a config file path, raise an error.
-Reoroduce method not supported for the run executed from the instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>run_id</strong> (<em>int</em>) – target run_id</p></li>
-<li><p><strong>check_commit_id</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to check the commit_id. Defaults to False.</p></li>
+<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of samples. Defaults to 100.</p></li>
+<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of features. Defaults to 2.</p></li>
+<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – Noise level to add to the target. Defaults to 0.1.</p></li>
+<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – Scale of the data. Defaults to 1.0.</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – Random seed for reproducibility. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>reproduced model</p>
+<dd class="field-even"><p>Generated features and target values</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>BaseMLModel</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ReproductinoError</strong> – if the run_id does not have a config file path</p>
+<dd class="field-odd"><p>Tuple[np.ndarray, np.ndarray]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Start a new run for the experiment.</p>
-<p>The <cite>run()</cite> method can be called in two ways:</p>
-<p>1. <strong>Provide dataset and model instance</strong>:
-This method directly accepts dataset and model instances.
-It is easy to use but less flexible and does “NOT” track the experiment settings.</p>
-<p>2. <strong>Provide config_path</strong>:
-This method accepts the path to the config file or config instance.
-It is more flexible but requires a config file.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.generate.linear.generate_linear_separable_data">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.generate.linear.</span></span><span class="sig-name descname"><span class="pre">generate_linear_separable_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_samples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_classes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noise</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.generate.linear.generate_linear_separable_data" title="Link to this definition">#</a></dt>
+<dd><p>Generate random linear separable data for multi-class classification.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>task_type</strong> (<em>str</em><em>, </em><em>optional</em>) – type of the task (classification or regression). Defaults to None.</p></li>
-<li><p><strong>dataset</strong> (<em>Dataset</em>) – the dataset object.</p></li>
-<li><p><strong>model</strong> (<em>BaseMLModel</em>) – the model object.</p></li>
-<li><p><strong>config_source</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – config source can be either an <cite>ExperimentConfig</cite>
-instance or the path to a config file. If a path is provided, it loads and creates an
-<cite>ExperimentConfig</cite> instance. Defaults to None.</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – list of default metrics names. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – list of user defined custom metric configurations. Defaults to None.</p></li>
-<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – description of the run. Defaults to “”.</p></li>
-<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the git repository. Defaults to None.</p></li>
-<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to add the run record to the experiment. Defaults to True.</p></li>
+<li><p><strong>n_samples</strong> (<em>int</em><em>, </em><em>optional</em>) – sample size. Defaults to 100.</p></li>
+<li><p><strong>n_features</strong> (<em>int</em><em>, </em><em>optional</em>) – dimension of feature. Defaults to 2.</p></li>
+<li><p><strong>n_classes</strong> (<em>int</em><em>, </em><em>optional</em>) – number of classes. Defaults to 2.</p></li>
+<li><p><strong>noise</strong> (<em>float</em><em>, </em><em>optional</em>) – noise level. Defaults to 0.1.</p></li>
+<li><p><strong>scale</strong> (<em>float</em><em>, </em><em>optional</em>) – scale of data. Defaults to 1.0.</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em><em>, </em><em>optional</em>) – random seed. Defaults to None.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns a tuple containing the artifact and run record of the current run_id.</p>
+<dd class="field-even"><p>generated data and label</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – Raised if the experiment is not initialized.</p>
+<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray]</p>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">run_evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Run evaluation for the current run.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual values</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted values</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – list of default metrics name</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – list of user defined custom metric configurations</p></li>
-<li><p><strong>task_type</strong> (<em>str</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluation result</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">runs_to_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Convert the run data to a pandas DataFrame.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame of run data</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">save_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('experiment.json')</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Save the experiment data to a json file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – name of the file to save the experiment data.Defaults to DEFAULT_EXP_DB_FILE.</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
@@ -720,20 +518,20 @@ instance or the path to a config file. If a path is provided, it loads and creat
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.experiment.html"
+       href="qxmt.datasets.generate.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.experiment package</p>
+        <p class="prev-next-title">qxmt.datasets.generate package</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.experiment.schema.html"
+       href="qxmt.datasets.generate.loader.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.experiment.schema module</p>
+        <p class="prev-next-title">qxmt.datasets.generate.loader module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -743,6 +541,23 @@ instance or the path to a config file. If a path is provided, it loads and creat
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.generate.linear.generate_linear_regression_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_regression_data()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.generate.linear.generate_linear_separable_data"><code class="docutils literal notranslate"><span class="pre">generate_linear_separable_data()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

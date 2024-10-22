@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.datasets.dummy.linear module &#8212; qxmt 0.3.0 documentation</title>
+    <title>qxmt.utils.git module &#8212; qxmt 0.3.1 documentation</title>
   
   
   
@@ -40,15 +40,15 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="_static/documentation_options.js?v=83a61292"></script>
+    <script src="_static/documentation_options.js?v=385a908f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.datasets.dummy.linear';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.utils.git';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.datasets.dummy.loader module" href="qxmt.datasets.dummy.loader.html" />
-    <link rel="prev" title="qxmt.datasets.dummy package" href="qxmt.datasets.dummy.html" />
+    <link rel="next" title="qxmt.utils.yaml module" href="qxmt.utils.yaml.html" />
+    <link rel="prev" title="qxmt.utils package" href="qxmt.utils.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.3.0 documentation</p>
+    <p class="title logo__title">qxmt 0.3.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -140,14 +140,18 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="qxmt.datasets.dummy.html">qxmt.datasets.dummy package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">qxmt.datasets.dummy.linear module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.loader.html">qxmt.datasets.dummy.loader module</a></li>
-</ul>
-</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.linear.html">qxmt.datasets.generate.linear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.loader.html">qxmt.datasets.generate.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.file.html">qxmt.datasets.file package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.file.loader.html">qxmt.datasets.file.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -219,13 +223,12 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.utils.github.html">qxmt.utils.github module</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.utils.git module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.utils.yaml.html">qxmt.utils.yaml module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.graph_settings.html">qxmt.visualization.graph_settings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
@@ -315,7 +318,7 @@
       
       
       
-      <li><a href="_sources/qxmt.datasets.dummy.linear.rst" target="_blank"
+      <li><a href="_sources/qxmt.utils.git.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -378,7 +381,9 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -389,11 +394,23 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>qxmt.datasets.dummy.linear module</h1>
+    <h1>qxmt.utils.git module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.is_git_available"><code class="docutils literal notranslate"><span class="pre">is_git_available()</span></code></a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -441,8 +458,103 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="qxmt-datasets-dummy-linear-module">
-<h1>qxmt.datasets.dummy.linear module<a class="headerlink" href="#qxmt-datasets-dummy-linear-module" title="Link to this heading">#</a></h1>
+  <section id="module-qxmt.utils.git">
+<span id="qxmt-utils-git-module"></span><h1>qxmt.utils.git module<a class="headerlink" href="#module-qxmt.utils.git" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.git.get_commit_id">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.git.</span></span><span class="sig-name descname"><span class="pre">get_commit_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.git.get_commit_id" title="Link to this definition">#</a></dt>
+<dd><p>Get the commit ID of the current git repository.
+if the user is not using git version control, return “[Not using Git version control]”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git commit ID</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.git.get_git_add_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.git.</span></span><span class="sig-name descname"><span class="pre">get_git_add_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.git</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.git.get_git_add_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the added code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>added code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.git.get_git_diff">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.git.</span></span><span class="sig-name descname"><span class="pre">get_git_diff</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.git</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.git.get_git_diff" title="Link to this definition">#</a></dt>
+<dd><p>Get the git diff of the current git repository.
+if the current directory is not a git repository, return an empty string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>git diff</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.git.get_git_rm_code">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.git.</span></span><span class="sig-name descname"><span class="pre">get_git_rm_code</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diff=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.utils.git</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.git.get_git_rm_code" title="Link to this definition">#</a></dt>
+<dd><p>Get the removed code from the git diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>diff</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – string of git diff</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>Path</em><em> | </em><em>str</em><em>]</em>) – git repository path. Defaults to None.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger. Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>removed code</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.utils.git.is_git_available">
+<span class="sig-prename descclassname"><span class="pre">qxmt.utils.git.</span></span><span class="sig-name descname"><span class="pre">is_git_available</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.utils.git.is_git_available" title="Link to this definition">#</a></dt>
+<dd><p>Check if git is available in the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>whether git is available or not</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -457,20 +569,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.datasets.dummy.html"
+       href="qxmt.utils.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.datasets.dummy package</p>
+        <p class="prev-next-title">qxmt.utils package</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.datasets.dummy.loader.html"
+       href="qxmt.utils.yaml.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.datasets.dummy.loader module</p>
+        <p class="prev-next-title">qxmt.utils.yaml module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -480,6 +592,26 @@
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_commit_id"><code class="docutils literal notranslate"><span class="pre">get_commit_id()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_add_code"><code class="docutils literal notranslate"><span class="pre">get_git_add_code()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_diff"><code class="docutils literal notranslate"><span class="pre">get_git_diff()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.get_git_rm_code"><code class="docutils literal notranslate"><span class="pre">get_git_rm_code()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.utils.git.is_git_available"><code class="docutils literal notranslate"><span class="pre">is_git_available()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; qxmt 0.3.0 documentation</title>
+    <title>Index &#8212; qxmt 0.3.1 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="_static/documentation_options.js?v=83a61292"></script>
+    <script src="_static/documentation_options.js?v=385a908f"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -125,7 +125,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.3.0 documentation</p>
+    <p class="title logo__title">qxmt 0.3.1 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -140,13 +140,17 @@
         <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.dummy.html">qxmt.datasets.dummy package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.linear.html">qxmt.datasets.dummy.linear module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.dummy.loader.html">qxmt.datasets.dummy.loader module</a></li>
-</ul>
-</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.linear.html">qxmt.datasets.generate.linear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.loader.html">qxmt.datasets.generate.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.file.html">qxmt.datasets.file package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.file.loader.html">qxmt.datasets.file.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -219,12 +223,11 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.utils.github.html">qxmt.utils.github module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.utils.git.html">qxmt.utils.git module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.utils.yaml.html">qxmt.utils.yaml module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.graph_settings.html">qxmt.visualization.graph_settings module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
@@ -429,6 +432,14 @@
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.__init__">__init__() (qxmt.configs.ExperimentConfig method)</a>
 
       <ul>
+        <li><a href="qxmt.datasets.file.html#qxmt.datasets.file.FileDataLoader.__init__">(qxmt.datasets.file.FileDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.file.loader.html#qxmt.datasets.file.loader.FileDataLoader.__init__">(qxmt.datasets.file.loader.FileDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.generate.html#qxmt.datasets.generate.GeneratedDataLoader.__init__">(qxmt.datasets.generate.GeneratedDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.generate.loader.html#qxmt.datasets.generate.loader.GeneratedDataLoader.__init__">(qxmt.datasets.generate.loader.GeneratedDataLoader method)</a>
+</li>
         <li><a href="qxmt.datasets.openml.loader.html#qxmt.datasets.openml.loader.OpenMLDataLoader.__init__">(qxmt.datasets.openml.loader.OpenMLDataLoader method)</a>
 </li>
         <li><a href="qxmt.datasets.openml.html#qxmt.datasets.openml.OpenMLDataLoader.__init__">(qxmt.datasets.openml.OpenMLDataLoader method)</a>
@@ -784,6 +795,12 @@
         <li><a href="qxmt.html#qxmt.configs.FileConfig">(class in qxmt.configs)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.datasets.file.html#qxmt.datasets.file.FileDataLoader">FileDataLoader (class in qxmt.datasets.file)</a>
+
+      <ul>
+        <li><a href="qxmt.datasets.file.loader.html#qxmt.datasets.file.loader.FileDataLoader">(class in qxmt.datasets.file.loader)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.datasets.raw_preprocess.filter.html#qxmt.datasets.raw_preprocess.filter.filter_by_categorical">filter_by_categorical() (in module qxmt.datasets.raw_preprocess.filter)</a>
 </li>
       <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.fit">fit() (qxmt.models.qrigge.QRiggeRegressor method)</a>
@@ -806,6 +823,18 @@
         <li><a href="qxmt.html#qxmt.DatasetConfig.generate">(qxmt.DatasetConfig attribute)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.datasets.generate.html#qxmt.datasets.generate.generate_linear_regression_data">generate_linear_regression_data() (in module qxmt.datasets.generate)</a>
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.linear.html#qxmt.datasets.generate.linear.generate_linear_regression_data">(in module qxmt.datasets.generate.linear)</a>
+</li>
+      </ul></li>
+      <li><a href="qxmt.datasets.generate.html#qxmt.datasets.generate.generate_linear_separable_data">generate_linear_separable_data() (in module qxmt.datasets.generate)</a>
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.linear.html#qxmt.datasets.generate.linear.generate_linear_separable_data">(in module qxmt.datasets.generate.linear)</a>
+</li>
+      </ul></li>
       <li><a href="qxmt.html#qxmt.configs.GenerateDataConfig.generate_method">generate_method (qxmt.configs.GenerateDataConfig attribute)</a>
 
       <ul>
@@ -818,6 +847,22 @@
         <li><a href="qxmt.html#qxmt.configs.GenerateDataConfig">(class in qxmt.configs)</a>
 </li>
       </ul></li>
+      <li><a href="qxmt.datasets.generate.html#qxmt.datasets.generate.GeneratedDataLoader">GeneratedDataLoader (class in qxmt.datasets.generate)</a>
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.loader.html#qxmt.datasets.generate.loader.GeneratedDataLoader">(class in qxmt.datasets.generate.loader)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="qxmt.utils.git.html#qxmt.utils.git.get_commit_id">get_commit_id() (in module qxmt.utils.git)</a>
+</li>
+      <li><a href="qxmt.utils.git.html#qxmt.utils.git.get_git_add_code">get_git_add_code() (in module qxmt.utils.git)</a>
+</li>
+      <li><a href="qxmt.utils.git.html#qxmt.utils.git.get_git_diff">get_git_diff() (in module qxmt.utils.git)</a>
+</li>
+      <li><a href="qxmt.utils.git.html#qxmt.utils.git.get_git_rm_code">get_git_rm_code() (in module qxmt.utils.git)</a>
+</li>
       <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.get_params">get_params() (qxmt.models.qrigge.QRiggeRegressor method)</a>
 
       <ul>
@@ -826,8 +871,6 @@
         <li><a href="qxmt.models.qsvr.html#qxmt.models.qsvr.QSVR.get_params">(qxmt.models.qsvr.QSVR method)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="qxmt.html#qxmt.Experiment.get_run_record">get_run_record() (qxmt.Experiment method)</a>
 </li>
       <li><a href="qxmt.html#qxmt.configs.ExperimentConfig.global_settings">global_settings (qxmt.configs.ExperimentConfig attribute)</a>
@@ -900,6 +943,8 @@
 </li>
       <li><a href="qxmt.html#qxmt.InvalidQunatumDeviceError">InvalidQunatumDeviceError</a>, <a href="qxmt.html#qxmt.exceptions.InvalidQunatumDeviceError">[1]</a>
 </li>
+      <li><a href="qxmt.utils.git.html#qxmt.utils.git.is_git_available">is_git_available() (in module qxmt.utils.git)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -950,9 +995,17 @@
         <li><a href="qxmt.html#qxmt.FileConfig.label_path">(qxmt.FileConfig attribute)</a>
 </li>
       </ul></li>
-      <li><a href="qxmt.datasets.openml.loader.html#qxmt.datasets.openml.loader.OpenMLDataLoader.load">load() (qxmt.datasets.openml.loader.OpenMLDataLoader method)</a>
+      <li><a href="qxmt.datasets.file.html#qxmt.datasets.file.FileDataLoader.load">load() (qxmt.datasets.file.FileDataLoader method)</a>
 
       <ul>
+        <li><a href="qxmt.datasets.file.loader.html#qxmt.datasets.file.loader.FileDataLoader.load">(qxmt.datasets.file.loader.FileDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.generate.html#qxmt.datasets.generate.GeneratedDataLoader.load">(qxmt.datasets.generate.GeneratedDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.generate.loader.html#qxmt.datasets.generate.loader.GeneratedDataLoader.load">(qxmt.datasets.generate.loader.GeneratedDataLoader method)</a>
+</li>
+        <li><a href="qxmt.datasets.openml.loader.html#qxmt.datasets.openml.loader.OpenMLDataLoader.load">(qxmt.datasets.openml.loader.OpenMLDataLoader method)</a>
+</li>
         <li><a href="qxmt.datasets.openml.html#qxmt.datasets.openml.OpenMLDataLoader.load">(qxmt.datasets.openml.OpenMLDataLoader method)</a>
 </li>
         <li><a href="qxmt.models.qrigge.html#qxmt.models.qrigge.QRiggeRegressor.load">(qxmt.models.qrigge.QRiggeRegressor method)</a>
@@ -1162,6 +1215,16 @@
 </li>
         <li><a href="qxmt.html#module-qxmt.constants">qxmt.constants</a>
 </li>
+        <li><a href="qxmt.datasets.file.html#module-qxmt.datasets.file">qxmt.datasets.file</a>
+</li>
+        <li><a href="qxmt.datasets.file.loader.html#module-qxmt.datasets.file.loader">qxmt.datasets.file.loader</a>
+</li>
+        <li><a href="qxmt.datasets.generate.html#module-qxmt.datasets.generate">qxmt.datasets.generate</a>
+</li>
+        <li><a href="qxmt.datasets.generate.linear.html#module-qxmt.datasets.generate.linear">qxmt.datasets.generate.linear</a>
+</li>
+        <li><a href="qxmt.datasets.generate.loader.html#module-qxmt.datasets.generate.loader">qxmt.datasets.generate.loader</a>
+</li>
         <li><a href="qxmt.datasets.openml.html#module-qxmt.datasets.openml">qxmt.datasets.openml</a>
 </li>
         <li><a href="qxmt.datasets.openml.loader.html#module-qxmt.datasets.openml.loader">qxmt.datasets.openml.loader</a>
@@ -1211,6 +1274,8 @@
         <li><a href="qxmt.models.qsvr.html#module-qxmt.models.qsvr">qxmt.models.qsvr</a>
 </li>
         <li><a href="qxmt.html#module-qxmt.types">qxmt.types</a>
+</li>
+        <li><a href="qxmt.utils.git.html#module-qxmt.utils.git">qxmt.utils.git</a>
 </li>
         <li><a href="qxmt.visualization.plot_classification_performance.html#module-qxmt.visualization.plot_classification_performance">qxmt.visualization.plot_classification_performance</a>
 </li>
@@ -1385,6 +1450,41 @@
 </li>
       </ul></li>
       <li>
+    qxmt.datasets.file
+
+      <ul>
+        <li><a href="qxmt.datasets.file.html#module-qxmt.datasets.file">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.datasets.file.loader
+
+      <ul>
+        <li><a href="qxmt.datasets.file.loader.html#module-qxmt.datasets.file.loader">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.datasets.generate
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.html#module-qxmt.datasets.generate">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.datasets.generate.linear
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.linear.html#module-qxmt.datasets.generate.linear">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.datasets.generate.loader
+
+      <ul>
+        <li><a href="qxmt.datasets.generate.loader.html#module-qxmt.datasets.generate.loader">module</a>
+</li>
+      </ul></li>
+      <li>
     qxmt.datasets.openml
 
       <ul>
@@ -1447,6 +1547,8 @@
         <li><a href="qxmt.html#module-qxmt.decorators">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     qxmt.evaluation.metrics
 
@@ -1461,8 +1563,6 @@
         <li><a href="qxmt.evaluation.metrics.base.html#module-qxmt.evaluation.metrics.base">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     qxmt.evaluation.metrics.defaults_classification
 
@@ -1559,6 +1659,13 @@
 
       <ul>
         <li><a href="qxmt.html#module-qxmt.types">module</a>
+</li>
+      </ul></li>
+      <li>
+    qxmt.utils.git
+
+      <ul>
+        <li><a href="qxmt.utils.git.html#module-qxmt.utils.git">module</a>
 </li>
       </ul></li>
       <li>
