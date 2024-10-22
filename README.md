@@ -50,6 +50,7 @@ QXMT manages experiments in the following folder structure.
     │   ├── experiment.json
     │   ├── run_1
     │   │   ├── config.yaml
+    │   │   ├── shots.h5
     │   │   └── model.pkl
     │   ├── run_2
     │   ├──   ⋮

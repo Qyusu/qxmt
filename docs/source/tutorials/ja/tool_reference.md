@@ -27,6 +27,23 @@ dataset:
 
 `openml.name`と`openml.id`は、どちらか一方のみでも利用可能です。`openml.name`のみが設定された場合はAPIを使って内部で該当するデータセットが検索されます。`openml.id`は対象のデータセットを一意に特定することができるため、こちらの値を設定することを推奨しています。`openml.name`と`openml.id`の両方が設定された場合は`openml.id`の値が優先されます。
 
+## Raw Processing LogicとTransform LogicのChain処理
+QXMTからデフォルトで提供されているLogicに限らず、ユーザが独自に定義したカスタムのRaw Processing LogicとTransform LogicについてもChain処理として、複数の処理を順に適用することが可能です。configでの定義方法は、各種ロジックをリスト形式で順に記載していきます。
+
+以下の例では、データセットに対して`normalization`を行ったのち、`dimension_reduction_by_pca`で次元圧縮を行う処理を定義しています。
+yamlにおけるリストの表記方法はいくつかパターンがありますが、yamlで許可されている記法であれば問題ありません。
+
+``` python
+transform_logic:
+- module_name: qxmt.datasets.transform.normalization
+  implement_name: normalization
+  params: null
+- module_name: qxmt.datasets.transform.reduction_by_pca
+  implement_name: dimension_reduction_by_pca
+  params:
+    n_components: 2
+```
+
 
 ## Projected Kernelの利用
 QSVCに代表されるカーネル機械学習モデルでは、カーネルの計算アルゴリズムとして様々なものが存在します。ここでは`Projected Kernel`[1]を利用する場合のconfigの設定方法を紹介します。
