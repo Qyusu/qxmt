@@ -400,6 +400,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openml">OpenMLを用いたデータセットの読み込み</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">Raw Processing LogicとTransform LogicのChain処理</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">Projected Kernelの利用</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">バージョン情報</a></li>
 </ul>
@@ -479,6 +480,22 @@
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">openml.name</span></code>と<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>は、どちらか一方のみでも利用可能です。<code class="docutils literal notranslate"><span class="pre">openml.name</span></code>のみが設定された場合はAPIを使って内部で該当するデータセットが検索されます。<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>は対象のデータセットを一意に特定することができるため、こちらの値を設定することを推奨しています。<code class="docutils literal notranslate"><span class="pre">openml.name</span></code>と<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>の両方が設定された場合は<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>の値が優先されます。</p>
 </section>
+<section id="raw-processing-logictransform-logicchain">
+<h2>Raw Processing LogicとTransform LogicのChain処理<a class="headerlink" href="#raw-processing-logictransform-logicchain" title="Link to this heading">#</a></h2>
+<p>QXMTからデフォルトで提供されているLogicに限らず、ユーザが独自に定義したカスタムのRaw Processing LogicとTransform LogicについてもChain処理として、複数の処理を順に適用することが可能です。configでの定義方法は、各種ロジックをリスト形式で順に記載していきます。</p>
+<p>以下の例では、データセットに対して<code class="docutils literal notranslate"><span class="pre">normalization</span></code>を行ったのち、<code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca</span></code>で次元圧縮を行う処理を定義しています。
+yamlにおけるリストの表記方法はいくつかパターンがありますが、yamlで許可されている記法であれば問題ありません。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform_logic</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">module_name</span><span class="p">:</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">normalization</span>
+  <span class="n">implement_name</span><span class="p">:</span> <span class="n">normalization</span>
+  <span class="n">params</span><span class="p">:</span> <span class="n">null</span>
+<span class="o">-</span> <span class="n">module_name</span><span class="p">:</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">reduction_by_pca</span>
+  <span class="n">implement_name</span><span class="p">:</span> <span class="n">dimension_reduction_by_pca</span>
+  <span class="n">params</span><span class="p">:</span>
+    <span class="n">n_components</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
+</section>
 <section id="projected-kernel">
 <h2>Projected Kernelの利用<a class="headerlink" href="#projected-kernel" title="Link to this heading">#</a></h2>
 <p>QSVCに代表されるカーネル機械学習モデルでは、カーネルの計算アルゴリズムとして様々なものが存在します。ここでは<code class="docutils literal notranslate"><span class="pre">Projected</span> <span class="pre">Kernel</span></code>[1]を利用する場合のconfigの設定方法を紹介します。</p>
@@ -553,6 +570,7 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#openml">OpenMLを用いたデータセットの読み込み</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">Raw Processing LogicとTransform LogicのChain処理</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">Projected Kernelの利用</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">バージョン情報</a></li>
 </ul>

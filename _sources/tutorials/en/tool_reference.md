@@ -28,6 +28,22 @@ dataset:
 
 Both `openml.name` and `openml.id` can be used individually. If only `openml.name` is specified, the dataset will be searched internally via the API. Since `openml.id` uniquely identifies the dataset, it is recommended to use this value. If both `openml.name` and `openml.id` are set, the value of `openml.id` will take precedence.
 
+## Chain Processing of Raw Processing Logic and Transform Logic
+Not limited to the default logic provided by QXMT, users can also apply custom Raw Processing Logic and Transform Logic defined by themselves in a chain processing manner, where multiple processes are sequentially applied. In the configuration, the definition is done by listing each logic in order as a sequence.
+
+In the example below, a process is defined that first applies `normalization` to the dataset, followed by dimensionality reduction using `dimension_reduction_by_pca`. There are several ways to represent lists in YAML, but as long as the syntax is permitted by YAML, any method can be used.
+
+``` python
+transform_logic:
+- module_name: qxmt.datasets.transform.normalization
+  implement_name: normalization
+  params: null
+- module_name: qxmt.datasets.transform.reduction_by_pca
+  implement_name: dimension_reduction_by_pca
+  params:
+    n_components: 2
+```
+
 ## Using Projected Kernel
 In kernel-based machine learning models, such as QSVC, there are various algorithms available for kernel computation. This section explains how to configure the settings when using the `Projected Kernel` [1].
 

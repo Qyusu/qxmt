@@ -401,6 +401,7 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-datasets-with-openml">Load Datasets with OpenML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-processing-of-raw-processing-logic-and-transform-logic">Chain Processing of Raw Processing Logic and Transform Logic</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">Using Projected Kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-information">Version Information</a></li>
 </ul>
@@ -479,6 +480,21 @@
 <li><p><strong>openml.save_path</strong>: Specifies the path to save the downloaded dataset. If set to <code class="docutils literal notranslate"><span class="pre">null</span></code>, the dataset will not be saved.</p></li>
 </ul>
 <p>Both <code class="docutils literal notranslate"><span class="pre">openml.name</span></code> and <code class="docutils literal notranslate"><span class="pre">openml.id</span></code> can be used individually. If only <code class="docutils literal notranslate"><span class="pre">openml.name</span></code> is specified, the dataset will be searched internally via the API. Since <code class="docutils literal notranslate"><span class="pre">openml.id</span></code> uniquely identifies the dataset, it is recommended to use this value. If both <code class="docutils literal notranslate"><span class="pre">openml.name</span></code> and <code class="docutils literal notranslate"><span class="pre">openml.id</span></code> are set, the value of <code class="docutils literal notranslate"><span class="pre">openml.id</span></code> will take precedence.</p>
+</section>
+<section id="chain-processing-of-raw-processing-logic-and-transform-logic">
+<h2>Chain Processing of Raw Processing Logic and Transform Logic<a class="headerlink" href="#chain-processing-of-raw-processing-logic-and-transform-logic" title="Link to this heading">#</a></h2>
+<p>Not limited to the default logic provided by QXMT, users can also apply custom Raw Processing Logic and Transform Logic defined by themselves in a chain processing manner, where multiple processes are sequentially applied. In the configuration, the definition is done by listing each logic in order as a sequence.</p>
+<p>In the example below, a process is defined that first applies <code class="docutils literal notranslate"><span class="pre">normalization</span></code> to the dataset, followed by dimensionality reduction using <code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca</span></code>. There are several ways to represent lists in YAML, but as long as the syntax is permitted by YAML, any method can be used.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">transform_logic</span><span class="p">:</span>
+<span class="o">-</span> <span class="n">module_name</span><span class="p">:</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">normalization</span>
+  <span class="n">implement_name</span><span class="p">:</span> <span class="n">normalization</span>
+  <span class="n">params</span><span class="p">:</span> <span class="n">null</span>
+<span class="o">-</span> <span class="n">module_name</span><span class="p">:</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">reduction_by_pca</span>
+  <span class="n">implement_name</span><span class="p">:</span> <span class="n">dimension_reduction_by_pca</span>
+  <span class="n">params</span><span class="p">:</span>
+    <span class="n">n_components</span><span class="p">:</span> <span class="mi">2</span>
+</pre></div>
+</div>
 </section>
 <section id="using-projected-kernel">
 <h2>Using Projected Kernel<a class="headerlink" href="#using-projected-kernel" title="Link to this heading">#</a></h2>
@@ -563,6 +579,7 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-datasets-with-openml">Load Datasets with OpenML</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-processing-of-raw-processing-logic-and-transform-logic">Chain Processing of Raw Processing Logic and Transform Logic</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">Using Projected Kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-information">Version Information</a></li>
 </ul>
