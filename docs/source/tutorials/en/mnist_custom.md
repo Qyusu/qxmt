@@ -25,8 +25,8 @@ X = digits_dataset.data.to_numpy()
 y = digits_dataset.target.to_numpy()
 
 # save dataset on local environment
-np.save("../data/mnist_784/images.npy", X)
-np.save("../data/mnist_784/label.npy", y)
+np.save("../data/mnist_784/dataset_X.npy", X)
+np.save("../data/mnist_784/dataset_y.npy", y)
 ```
 
 ## 2. Implementing Custom Features
@@ -177,11 +177,10 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "file"
-  path: # [SETUP] full path or relative path from the root of the project
-    data: "data/mnist_784/images.npy"
-    label: "data/mnist_784/label.npy"
-  params: {}
+  file: # [SETUP] full path or relative path from the root of the project
+    data_path: "data/mnist_784/dataset_X.npy"
+    label_path: "data/mnist_784/dataset_y.npy"
+    label_name: null
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -226,10 +225,13 @@ model:
     gamma: 0.05
 
 evaluation: # [SETUP] your logic path
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
-  custom_metrics: [
-    {"module_name": "your_project.custom.evaluation", "implement_name": "CustomMetric"}
-    ]
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
+  custom_metrics:
+  - {"module_name": "your_project.custom.evaluation", "implement_name": "CustomMetric"}
 ```
 
 ## 4. Executing Experiments and Evaluation
@@ -285,5 +287,5 @@ plot_metrics_side_by_side(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/16 |
-| QXMT| v0.3.0 |
+| document | 2024/10/22 |
+| QXMT| v0.3.1 |
