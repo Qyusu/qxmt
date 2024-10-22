@@ -9,6 +9,7 @@ class FileDataLoader:
     """
     This class loads the data and label from the multi format file.
     The loaded data and label are returned as numpy arrays (X and y).
+
     Input data schema supports two patterns:
     1. data and label are defined in separate files.
     2. data and label are defined in a single file. In this case, the label name must be defined.
@@ -21,11 +22,11 @@ class FileDataLoader:
         >>> X, y = loader.load()
         >>> loader = FileDataLoader(data_path="data.npz")
         >>> X, y = loader.load()
-        >>> loader = FileDataLoader(data_path="data.csv", data_path="label.csv")
+        >>> loader = FileDataLoader(data_path="data.csv", label_path="label.csv")
         >>> X, y = loader.load()
         >>> loader = FileDataLoader(data_path="data.csv", label_name="target")
         >>> X, y = loader.load()
-        >>> loader = FileDataLoader(data_path="data.tsv", data_path="label.tsv")
+        >>> loader = FileDataLoader(data_path="data.tsv", label_path="label.tsv")
         >>> X, y = loader.load()
         >>> loader = FileDataLoader(data_path="data.tsv", label_name="target")
         >>> X, y = loader.load()
@@ -49,17 +50,19 @@ class FileDataLoader:
         self.label_name = label_name
 
     def load(self) -> tuple[np.ndarray, np.ndarray]:
-        """Load the data and label from the file path.
+        """
+        Load the data and label from the file path.
         The file format is determined by the extension of the file path.
+
         Supported file formats:
         - numpy: .npy, .npz
         - pandas: .csv, .tsv
 
         Two input patterns exist:
         1. "data_path" and "label_path" are defined.
-            "label_name" is not needed, because the label is loaded from the file.
+        "label_name" is not needed, because the label is loaded from the file.
         2. "data_path" and "label_name" are defined.
-            "label_path" is not needed, because the label data include in the data file.
+        "label_path" is not needed, because the label data include in the data file.
 
         Returns:
             tuple[np.ndarray, np.ndarray]: loaded data and label as numpy arrays.
