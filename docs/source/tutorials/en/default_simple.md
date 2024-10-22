@@ -20,7 +20,8 @@ QXMT organizes experiments using the following directory structure:
     ├── <your_experiment_1>
     │   ├── experiment.json
     │   ├── run_1
-    │   │   ├──config.yaml
+    │   │   ├── config.yaml
+    │   │   ├── shots.h5
     │   │   └── model.pkl
     │   ├── run_2
     │   ├──   ⋮
@@ -70,13 +71,13 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "generate"
-  generate_method: "linear"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-    "n_classes": 3,
-  }
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 100,
+      "n_features": 2,
+      "n_classes": 2,
+    }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -106,14 +107,17 @@ kernel:
 
 model:
   name: "qsvc"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: 0.05
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
-
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
+  custom_metrics: []
 ```
 
 ## 3. Executing the Run
@@ -207,13 +211,13 @@ When using a Quantum Support Vector Machine (QSVC) as the model, you can visuali
 The model and dataset to be used as arguments can be obtained from the Run's `artifact`. The `grid_resolution` parameter allows you to set the resolution of the visualized decision boundary—the higher the value, the smoother the boundary, enabling you to examine individual sample classification results in more detail. However, higher resolution significantly increases computation time, so adjust it according to your needs. The `support_vectors` argument accepts a boolean value and controls whether support vectors are highlighted with circles to improve visibility in the output graph.
 
 ``` python
-from qxmt.visualization import plot_2d_decisionon_boundaries
+from qxmt.visualization import plot_2d_decision_boundaries
 
 # extract model and dataset instance from run artifact
 model = artifact_1.model
 dataset = artifact_1.dataset
 
-plot_2d_decisionon_boundaries(
+plot_2d_decision_boundaries(
   model=model,
   X=dataset.X_train,
   y=dataset.y_train,
@@ -229,5 +233,5 @@ plot_2d_decisionon_boundaries(
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/16 |
-| QXMT| v0.3.0 |
+| document | 2024/10/22 |
+| QXMT| v0.3.1 |

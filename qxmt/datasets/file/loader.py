@@ -11,11 +11,11 @@ class FileDataLoader:
     The loaded data and label are returned as numpy arrays (X and y).
 
     Input data schema supports two patterns:
-    1. Data and label are defined in separate files.
-    2. Data and label are defined in a single file. In this case, the label name must be defined.
+    1. data and label are defined in separate files.
+    2. data and label are defined in a single file. In this case, the label name must be defined.
 
     Supported file formats:
-    - npy, npz, csv, tsv
+    - .npy, .npz, .csv, .tsv
 
     Examples:
         >>> loader = FileDataLoader(data_path="data.npy", label_path="label.npy")

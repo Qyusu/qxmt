@@ -19,6 +19,7 @@ QXMTでは実験を以下のディレクトリ構成に従って管理します�
     │   ├── experiment.json
     │   ├── run_1
     │   │   ├──config.yaml
+    │   │   ├── shots.h5
     │   │   └── model.pkl
     │   ├── run_2
     │   ├──   ⋮
@@ -68,13 +69,13 @@ global_settings:
   task_type: "classification"
 
 dataset:
-  type: "generate"
-  generate_method: "linear"
-  params: {
-    "n_samples": 100,
-    "n_features": 2,
-    "n_classes": 3,
-  }
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 100,
+      "n_features": 2,
+      "n_classes": 2,
+    }
   random_seed: *global_seed
   split:
     train_ratio: 0.8
@@ -110,8 +111,12 @@ model:
     gamma: 0.05
 
 evaluation:
-  default_metrics: ["accuracy", "precision", "recall", "f1_score"]
-
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
+  custom_metrics: []
 ```
 
 ## 3. Runの実行
@@ -205,13 +210,13 @@ plot_metrics_side_by_side(
 引数に設定するモデルやデータセットについては、Runの`artifact`から取得することができます。`grid_resolution`は可視化する決定境界の解像度を設定することができ、高い値に設定するほど境界が滑らかになり、個々のサンプルについても分類結果を確認することができます。一方で計算時間が大幅に増加するため目的に合わせて調整してください。`support_vectors`はbool値を取り、出力するグラフのsupport vectorを◯印で囲って視認性を高めるかを制御することができます。
 
 ``` python
-from qxmt.visualization import plot_2d_decisionon_boundaries
+from qxmt.visualization import plot_2d_decision_boundaries
 
 # extract model and dataset instance from run artifact
 model = artifact_1.model
 dataset = artifact_1.dataset
 
-plot_2d_decisionon_boundaries(
+plot_2d_decision_boundaries(
   model=model,
   X=dataset.X_train,
   y=dataset.y_train,
@@ -227,5 +232,5 @@ plot_2d_decisionon_boundaries(
 ### バージョン情報
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/16 |
-| QXMT| v0.3.0 |
+| document | 2024/10/22 |
+| QXMT| v0.3.1 |
