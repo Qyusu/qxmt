@@ -30,7 +30,7 @@ from qxmt.exceptions import (
     JsonEncodingError,
     ReproductionError,
 )
-from qxmt.experiment.schema import ElapsedTime, ExperimentDB, RunArtifact, RunRecord
+from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord, RunTime
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
@@ -433,7 +433,7 @@ class Experiment:
             desc=desc,
             commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            elapsed_time=ElapsedTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
+            runtime=RunTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
             config_path=config_path,
             evaluation=self.run_evaluation(
                 task_type=task_type,

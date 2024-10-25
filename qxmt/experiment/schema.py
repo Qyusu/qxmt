@@ -6,7 +6,7 @@ from qxmt.datasets.schema import Dataset
 from qxmt.models.base import BaseMLModel
 
 
-class ElapsedTime(BaseModel):
+class RunTime(BaseModel):
     fit_seconds: float
     predict_seconds: float
 
@@ -17,7 +17,7 @@ class RunRecord(BaseModel):
     run_id: int
     desc: str
     execution_time: str
-    elapsed_time: ElapsedTime
+    runtime: RunTime
     commit_id: str
     config_path: Path | str
     evaluation: dict[str, float]
