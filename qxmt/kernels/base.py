@@ -86,7 +86,6 @@ class BaseKernel(ABC):
                 super().__init__(platform, n_qubits)
 
             def feature_map(self, x: np.ndarray) -> None:
-                self.check_input_shape(x)
                 feature_map(x)
 
         return CustomFeatureMap(self.platform, self.n_qubits)

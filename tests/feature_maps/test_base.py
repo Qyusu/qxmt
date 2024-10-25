@@ -28,10 +28,10 @@ class TestBaseFeatureMap:
         x = np.random.rand(1, 2)
         base_feature_map(x)
 
-    def test_check_input_shape(self, base_feature_map: BaseFeatureMap) -> None:
+    def test_check_input_dim_eq_nqubits(self, base_feature_map: BaseFeatureMap) -> None:
         x = np.random.rand(1, 3)
         with pytest.raises(InputShapeError):
-            base_feature_map.check_input_shape(x)
+            base_feature_map.check_input_dim_eq_nqubits(x)
 
     def test_output_circuit(self, base_feature_map: BaseFeatureMap) -> None:
         base_feature_map.output_circuit()

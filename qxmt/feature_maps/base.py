@@ -27,7 +27,6 @@ class BaseFeatureMap(ABC):
         ...         super().__init__(platform, n_qubits)
         ...
         ...     def feature_map(self, x: np.ndarray) -> None:
-        ...         self.check_input_shape(x)
         ...         # define quantum circuit
         ...         qml.RX(x[0, 0], wires=0)
         ...
@@ -63,15 +62,15 @@ class BaseFeatureMap(ABC):
         """
         pass
 
-    def check_input_shape(self, x: np.ndarray, idx: int = -1) -> None:
-        """Check if the input data shape matches the number of qubits.
+    def check_input_dim_eq_nqubits(self, x: np.ndarray, idx: int = -1) -> None:
+        """Check if the input data dimension matches the number of qubits.
 
         Args:
             x (np.ndarray): input data
             idx (int, optional): index of the dimension of qubit. Defaults to -1.
 
         Raises:
-            InputShapeError: input data shape does not match the number of qubits.
+            InputShapeError: input data dimension does not match the number of qubits.
         """
         if x.shape[idx] != self.n_qubits:
             raise InputShapeError("Input data shape does not match the number of qubits.")
@@ -88,9 +87,9 @@ class BaseFeatureMap(ABC):
         Raises:
             NotImplementedError: not supported platform
         """
+        # [TODO]: consider x dimension
         if x is None:
             x = np.random.rand(1, self.n_qubits)
-        self.check_input_shape(x)
 
         if self.platform == "pennylane":
             import pennylane as qml

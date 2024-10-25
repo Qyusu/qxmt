@@ -37,7 +37,6 @@ class RotationFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        self.check_input_shape(x)
         for _ in range(self.reps):
             for ax in self.rotation_axis:
                 qml.AngleEmbedding(x, wires=range(self.n_qubits), rotation=ax)
@@ -74,7 +73,6 @@ class HRotationFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        self.check_input_shape(x)
         for _ in range(self.reps):
             for i in range(self.n_qubits):
                 qml.Hadamard(wires=i)
@@ -111,7 +109,6 @@ class XXFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        self.check_input_shape(x)
         for _ in range(self.reps):
             for i in range(self.n_qubits):
                 qml.RX(x[i], wires=i)
@@ -148,7 +145,6 @@ class YYFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        self.check_input_shape(x)
         for _ in range(self.reps):
             for i in range(self.n_qubits):
                 qml.Hadamard(wires=i)
@@ -186,7 +182,6 @@ class ZZFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        self.check_input_shape(x)
         for _ in range(self.reps):
             for i in range(self.n_qubits):
                 qml.Hadamard(wires=i)
