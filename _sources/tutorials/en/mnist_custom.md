@@ -219,7 +219,6 @@ kernel:
 
 model:
   name: "qsvc"
-  file_name: "model.pkl"
   params:
     C: 1.0
     gamma: 0.05
