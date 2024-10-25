@@ -693,13 +693,13 @@
 <h2>4. Executing Experiments and Evaluation<a class="headerlink" href="#executing-experiments-and-evaluation" title="Link to this heading">#</a></h2>
 <p>Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.</p>
 <p>If an module import error occurs during execution, review the Python path and re-run the process.
-For example, if a custome module is implemented in <code class="docutils literal notranslate"><span class="pre">/root/hoge/your_project/custom/raw_preprocess_logic.py</span></code>, the Python path can be updated using the <code class="docutils literal notranslate"><span class="pre">sys.path.append(&quot;/root/hoge&quot;)</span></code> command.</p>
+For example, if a custom module is implemented in <code class="docutils literal notranslate"><span class="pre">/root/hoge/your_project/custom/raw_preprocess_logic.py</span></code>, the Python path can be updated using the <code class="docutils literal notranslate"><span class="pre">sys.path.append(&quot;/root/hoge&quot;)</span></code> command.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
 
 <span class="c1"># initialize experiment for custom tutorial</span>
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;custom_tutorial&quot;</span><span class="p">,</span>
-    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A custome experiment for MNIST dataset&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;A custom experiment for MNIST dataset&quot;</span><span class="p">,</span>
     <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
