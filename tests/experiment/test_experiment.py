@@ -66,6 +66,7 @@ class TestLoadExperiment:
                     "run_id": 1,
                     "desc": "",
                     "execution_time": "2024-07-24 17:33:55.305025 JST+0900",
+                    "elapsed_time": {"fit_seconds": 7.42, "predict_seconds": 1.36},
                     "commit_id": "commit_1",
                     "config_path": "config_1.yaml",
                     "evaluation": {
@@ -79,6 +80,7 @@ class TestLoadExperiment:
                     "run_id": 2,
                     "desc": "",
                     "execution_time": "2024-07-24 17:34:01.932990 JST+0900",
+                    "elapsed_time": {"fit_seconds": 120.5, "predict_seconds": 33.3},
                     "commit_id": "commit_2",
                     "config_path": "",
                     "evaluation": {
