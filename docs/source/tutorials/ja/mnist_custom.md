@@ -246,7 +246,7 @@ import qxmt
 # initialize experiment for custom tutorial
 exp = qxmt.Experiment(
     name="custom_tutorial",
-    desc="A custome experiment for MNIST dataset",
+    desc="A custom experiment for MNIST dataset",
     auto_gen_mode=False,
 ).init()
 

@@ -237,7 +237,7 @@ evaluation: # [SETUP] your logic path
 Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.
 
 If an module import error occurs during execution, review the Python path and re-run the process.
-For example, if a custome module is implemented in `/root/hoge/your_project/custom/raw_preprocess_logic.py`, the Python path can be updated using the `sys.path.append("/root/hoge")` command.
+For example, if a custom module is implemented in `/root/hoge/your_project/custom/raw_preprocess_logic.py`, the Python path can be updated using the `sys.path.append("/root/hoge")` command.
 
 
 ``` python
@@ -246,7 +246,7 @@ import qxmt
 # initialize experiment for custom tutorial
 experiment = qxmt.Experiment(
     name="custom_tutorial",
-    desc="A custome experiment for MNIST dataset",
+    desc="A custom experiment for MNIST dataset",
     auto_gen_mode=False,
 ).init()
 
