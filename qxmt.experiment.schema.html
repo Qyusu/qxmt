@@ -448,50 +448,6 @@
 <h1>qxmt.experiment.schema module<a class="headerlink" href="#qxmt-experiment-schema-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.schema.</span></span><span class="sig-name descname"><span class="pre">ElapsedTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict_seconds</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>fit_seconds</strong> (<em>float</em>)</p></li>
-<li><p><strong>predict_seconds</strong> (<em>float</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">fit_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em></dt>
-<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em></dt>
-<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fit_seconds':</span> <span class="pre">FieldInfo(annotation=float,</span> <span class="pre">required=True),</span> <span class="pre">'predict_seconds':</span> <span class="pre">FieldInfo(annotation=float,</span> <span class="pre">required=True)}</span></em></dt>
-<dd><p>Metadata about the fields defined on the model,
-mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
-<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">predict_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.schema.</span></span><span class="sig-name descname"><span class="pre">ExperimentDB</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">working_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">experiment_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
@@ -604,7 +560,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.schema.</span></span><span class="sig-name descname"><span class="pre">RunRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elapsed_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.schema.</span></span><span class="sig-name descname"><span class="pre">RunRecord</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">execution_time</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">runtime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">commit_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -612,7 +568,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <li><p><strong>run_id</strong> (<em>int</em>)</p></li>
 <li><p><strong>desc</strong> (<em>str</em>)</p></li>
 <li><p><strong>execution_time</strong> (<em>str</em>)</p></li>
-<li><p><strong>elapsed_time</strong> (<em>ElapsedTime</em>)</p></li>
+<li><p><strong>runtime</strong> (<em>RunTime</em>)</p></li>
 <li><p><strong>commit_id</strong> (<em>str</em>)</p></li>
 <li><p><strong>config_path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>evaluation</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>)</p></li>
@@ -632,11 +588,6 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">desc</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
-<dd></dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">elapsed_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ElapsedTime</span></em></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -663,7 +614,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'commit_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'config_path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=True),</span> <span class="pre">'desc':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'elapsed_time':</span> <span class="pre">FieldInfo(annotation=ElapsedTime,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=dict[str,</span> <span class="pre">float],</span> <span class="pre">required=True),</span> <span class="pre">'execution_time':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'run_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True)}</span></em></dt>
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'commit_id':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'config_path':</span> <span class="pre">FieldInfo(annotation=Union[Path,</span> <span class="pre">str],</span> <span class="pre">required=True),</span> <span class="pre">'desc':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'evaluation':</span> <span class="pre">FieldInfo(annotation=dict[str,</span> <span class="pre">float],</span> <span class="pre">required=True),</span> <span class="pre">'execution_time':</span> <span class="pre">FieldInfo(annotation=str,</span> <span class="pre">required=True),</span> <span class="pre">'run_id':</span> <span class="pre">FieldInfo(annotation=int,</span> <span class="pre">required=True),</span> <span class="pre">'runtime':</span> <span class="pre">FieldInfo(annotation=RunTime,</span> <span class="pre">required=True)}</span></em></dt>
 <dd><p>Metadata about the fields defined on the model,
 mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
 <p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
@@ -672,6 +623,55 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">run_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">runtime</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RunTime</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.schema.</span></span><span class="sig-name descname"><span class="pre">RunTime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fit_seconds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predict_seconds</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fit_seconds</strong> (<em>float</em>)</p></li>
+<li><p><strong>predict_seconds</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">fit_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_computed_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ComputedFieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em></dt>
+<dd><p>A dictionary of computed field names and their corresponding <cite>ComputedFieldInfo</cite> objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">FieldInfo</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fit_seconds':</span> <span class="pre">FieldInfo(annotation=float,</span> <span class="pre">required=True),</span> <span class="pre">'predict_seconds':</span> <span class="pre">FieldInfo(annotation=float,</span> <span class="pre">required=True)}</span></em></dt>
+<dd><p>Metadata about the fields defined on the model,
+mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] objects.</p>
+<p>This replaces <cite>Model.__fields__</cite> from Pydantic V1.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">predict_seconds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em></dt>
 <dd></dd></dl>
 
 </dd></dl>
