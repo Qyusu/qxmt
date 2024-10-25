@@ -464,7 +464,6 @@ User can define their own feature map by inheriting this class and defined in th
 <span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">platform</span><span class="p">,</span> <span class="n">n_qubits</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">feature_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">check_input_shape</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="gp">... </span>        <span class="c1"># define quantum circuit</span>
 <span class="gp">... </span>        <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">...</span>
@@ -500,8 +499,8 @@ User can define their own feature map by inheriting this class and defined in th
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">check_input_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Check if the input data shape matches the number of qubits.</p>
+<span class="sig-name descname"><span class="pre">check_input_dim_eq_nqubits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Check if the input data dimension matches the number of qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -510,7 +509,7 @@ User can define their own feature map by inheriting this class and defined in th
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.InputShapeError" title="qxmt.exceptions.InputShapeError"><strong>InputShapeError</strong></a> – input data shape does not match the number of qubits.</p>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.InputShapeError" title="qxmt.exceptions.InputShapeError"><strong>InputShapeError</strong></a> – input data dimension does not match the number of qubits.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
