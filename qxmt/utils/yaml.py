@@ -1,5 +1,6 @@
 import copy
 import importlib
+import sys
 import types
 from functools import wraps
 from pathlib import Path
@@ -31,12 +32,13 @@ def load_yaml_config(file_path: str | Path) -> dict:
     return config
 
 
-def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
+def load_object_from_yaml(config: dict, dynamic_params: dict = {}, use_cache: bool = False) -> Any:
     """Extract object from yaml configuration and convert it to a function or class instance.
 
     Args:
         config (dict): configuration of the object
         dynamic_params (dict, optional): dynamic parameters to be passed to the object. Defaults to {}.
+        use_cache (bool, optional): use cache when loading the module. Defaults to False.
 
     Raises:
         ModuleNotFoundError: module not found in the path
@@ -48,14 +50,17 @@ def load_object_from_yaml(config: dict, dynamic_params: dict = {}) -> Any:
     """
     module_name = config.get("module_name", None)
     object_name = config.get("implement_name", None)
-    params = config.get("params", {})
-    if params is None:
-        params = dynamic_params
-    else:
-        params = params | dynamic_params
+    params = config.get("params", None)
+    params = {} if params is None else params
+    params.update(dynamic_params)
 
     try:
-        module = importlib.import_module(module_name)
+        if (not use_cache) and (module_name in sys.modules):
+            # load module not use cache
+            module = sys.modules[module_name]
+            importlib.reload(module)
+        else:
+            module = importlib.import_module(module_name)
         obj = getattr(module, object_name)
     except ModuleNotFoundError:
         raise ImportError(f"Module '{module_name}' not found.")

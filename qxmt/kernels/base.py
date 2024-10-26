@@ -169,7 +169,8 @@ class BaseKernel(ABC):
         # compute each entry of the kernel matrix in parallel
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
-        results = Parallel(n_jobs=n_jobs)(
+
+        results = Parallel(n_jobs=n_jobs, backend="threading")(
             delayed(_compute_entry)(i, j) for i in range(n_samples_1) for j in range(n_samples_2)
         )
 
