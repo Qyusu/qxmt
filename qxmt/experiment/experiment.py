@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import time
 from datetime import datetime
 from logging import Logger
 from pathlib import Path
@@ -29,7 +30,7 @@ from qxmt.exceptions import (
     JsonEncodingError,
     ReproductionError,
 )
-from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord
+from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord, RunTime
 from qxmt.logger import set_default_logger
 from qxmt.models.base import BaseMLModel
 from qxmt.models.builder import ModelBuilder
@@ -397,8 +398,14 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
+        fit_start = time.perf_counter()
         model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
+        fit_end = time.perf_counter()
+
+        predict_start = time.perf_counter()
         predicted = model.predict(dataset.X_test)
+        predict_end = time.perf_counter()
+
         if add_results:
             model.save(save_model_path)
 
@@ -426,6 +433,7 @@ class Experiment:
             desc=desc,
             commit_id=commit_id,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
+            runtime=RunTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
             config_path=config_path,
             evaluation=self.run_evaluation(
                 task_type=task_type,

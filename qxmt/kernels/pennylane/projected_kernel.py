@@ -61,6 +61,7 @@ class ProjectedKernel(BaseKernel):
         self.gamma = gamma
         self.projection = projection
         self.projection_ops = self._set_projection_ops(projection)
+        self.qnode = qml.QNode(self._circuit, self.device())
 
     def _set_projection_ops(self, projection: str) -> list[Operation | list[Operation]]:
         """Set the projection operations based on the projection method.
@@ -118,6 +119,21 @@ class ProjectedKernel(BaseKernel):
 
         return projected_results
 
+    def _circuit(self, x: np.ndarray) -> list[Operation]:
+        if self.feature_map is None:
+            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
+
+        self.feature_map(x)
+        measurement_results = []
+        for op in self.projection_ops:
+            if isinstance(op, list):
+                for single_op in op:
+                    measurement_results.append(qml.expval(single_op))
+            else:
+                measurement_results.append(qml.expval(op))
+
+        return measurement_results
+
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the projected kernel value between two data points.
 
@@ -128,25 +144,8 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-
-        def circuit(x: np.ndarray) -> list[Operation]:
-            if self.feature_map is None:
-                raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
-            self.feature_map(x)
-            measurement_results = []
-            for op in self.projection_ops:
-                if isinstance(op, list):
-                    for single_op in op:
-                        measurement_results.append(qml.expval(single_op))
-                else:
-                    measurement_results.append(qml.expval(op))
-
-            return measurement_results
-
-        qnode = qml.QNode(circuit, self.device())
-        x1_projected = self._process_measurement_results(qnode(x1))
-        x2_projected = self._process_measurement_results(qnode(x2))
+        x1_projected = self._process_measurement_results(self.qnode(x1))
+        x2_projected = self._process_measurement_results(self.qnode(x2))
         kernel_value = np.exp(-self.gamma * np.sum((x1_projected - x2_projected) ** 2))
 
         # [TODO]: Dummy value for now, it is not implemented yet.

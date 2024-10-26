@@ -53,7 +53,21 @@ class FidelityKernel(BaseKernel):
             device (BaseDevice): device instance for quantum computation
             feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
         """
+
         super().__init__(device, feature_map)
+        self.qnode = qml.QNode(self._circuit, self.device())
+
+    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
+        if self.feature_map is None:
+            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
+
+        self.feature_map(x1)
+        qml.adjoint(self.feature_map)(x2)  # type: ignore
+
+        if self.is_sampling:
+            return qml.sample(wires=range(self.n_qubits))
+        else:
+            return qml.probs(wires=range(self.n_qubits))
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
@@ -65,21 +79,7 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
-
-        def circuit(x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
-            if self.feature_map is None:
-                raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
-            self.feature_map(x1)
-            qml.adjoint(self.feature_map)(x2)  # type: ignore
-
-            if self.is_sampling:
-                return qml.sample(wires=range(self.n_qubits))
-            else:
-                return qml.probs(wires=range(self.n_qubits))
-
-        qnode = qml.QNode(circuit, self.device())
-        result = qnode(x1, x2)
+        result = self.qnode(x1, x2)
 
         if self.is_sampling:
             # validate sampleing results for getting the each state probability

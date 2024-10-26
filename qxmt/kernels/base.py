@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from itertools import product
 from pathlib import Path
-from typing import Callable, Optional
+from types import FunctionType
+from typing import Callable, Optional, cast
 
 import h5py
 import matplotlib.pyplot as plt
@@ -66,16 +67,29 @@ class BaseKernel(ABC):
         self.device: BaseDevice = device
         self.platform: str = self.device.platform
         self.n_qubits: int = self.device.n_qubits
-        if callable(feature_map):
-            feature_map = self._to_fm_instance(feature_map)
-        self.feature_map = feature_map
-        self.is_sampling = (self.device.shots is not None) and (self.device.shots > 0)
+        self.feature_map: BaseFeatureMap = self._set_feature_map(feature_map)
+        self.is_sampling: bool = (self.device.shots is not None) and (self.device.shots > 0)
 
-    def _to_fm_instance(self, feature_map: Callable[[np.ndarray], None]) -> BaseFeatureMap:
+    def _set_feature_map(self, feature_map: BaseFeatureMap | Callable[[np.ndarray], None]) -> BaseFeatureMap:
+        """Set the feature map instance of the BaseFeatureMap.
+
+        Args:
+            feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
+
+        Returns:
+            BaseFeatureMap: feature map instance
+        """
+        if isinstance(feature_map, FunctionType):
+            return self._to_fm_instance(feature_map)
+        else:
+            return cast(BaseFeatureMap, feature_map)
+
+    def _to_fm_instance(self, feature_map_func: Callable[[np.ndarray], None]) -> BaseFeatureMap:
         """Convert a feature map function to a BaseFeatureMap instance.
 
         Args:
-            feature_map (Callable[[np.ndarray], None]): function that defines the feature map circuit
+            feature_map_func (Callable[[np.ndarray], None]): function that defines the feature map circuit.
+                if the function needs some parameters, it should be defined in the function as a default value.
 
         Returns:
             BaseFeatureMap: instance of BaseFeatureMap
@@ -86,12 +100,21 @@ class BaseKernel(ABC):
                 super().__init__(platform, n_qubits)
 
             def feature_map(self, x: np.ndarray) -> None:
-                self.check_input_shape(x)
-                feature_map(x)
+                feature_map_func(x)
 
         return CustomFeatureMap(self.platform, self.n_qubits)
 
     def _validate_sampling_values(self, sampling_result: np.ndarray, valid_values: list[int] = [0, 1]) -> None:
+        """Validate the sampling resutls of each shots.
+
+        Args:
+            sampling_result (np.ndarray): array of sampling results
+            valid_values (list[int], optional): valid value of quantum state. Defaults to [0, 1].
+
+        Raises:
+            DeviceSettingError: qunatum device is not in sampling mode
+            ValueError: invalid values in the sampling results
+        """
         if not self.is_sampling:
             raise DeviceSettingError("Shots must be set to a positive integer value to use sampling.")
 
@@ -146,7 +169,9 @@ class BaseKernel(ABC):
         # compute each entry of the kernel matrix in parallel
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
-        results = Parallel(n_jobs=n_jobs)(
+
+        # [FIX]: Parallel backend is changed to "threading" due to the issue with the "loky" backend.
+        results = Parallel(n_jobs=1, backend="threading")(
             delayed(_compute_entry)(i, j) for i in range(n_samples_1) for j in range(n_samples_2)
         )
 
