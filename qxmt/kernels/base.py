@@ -170,7 +170,8 @@ class BaseKernel(ABC):
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
 
-        results = Parallel(n_jobs=n_jobs, backend="threading")(
+        # [FIX]: Parallel backend is changed to "threading" due to the issue with the "loky" backend.
+        results = Parallel(n_jobs=1, backend="threading")(
             delayed(_compute_entry)(i, j) for i in range(n_samples_1) for j in range(n_samples_2)
         )
 
