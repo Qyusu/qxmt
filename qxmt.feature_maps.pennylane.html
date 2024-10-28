@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.feature_maps.pennylane package &#8212; qxmt 0.3.1 documentation</title>
+    <title>qxmt.feature_maps.pennylane package &#8212; qxmt 0.3.3 documentation</title>
   
   
   
@@ -40,14 +40,14 @@
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script src="_static/documentation_options.js?v=385a908f"></script>
+    <script src="_static/documentation_options.js?v=94d292f4"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.feature_maps.pennylane';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.feature_maps.pennylane.defaults module" href="qxmt.feature_maps.pennylane.defaults.html" />
+    <link rel="next" title="qxmt.feature_maps.pennylane.rotation module" href="qxmt.feature_maps.pennylane.rotation.html" />
     <link rel="prev" title="qxmt.feature_maps package" href="qxmt.feature_maps.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -126,7 +126,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.3.1 documentation</p>
+    <p class="title logo__title">qxmt 0.3.3 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -191,7 +191,8 @@
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.feature_maps.html">qxmt.feature_maps package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">qxmt.feature_maps.pennylane package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.defaults.html">qxmt.feature_maps.pennylane.defaults module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.rotation.html">qxmt.feature_maps.pennylane.rotation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.ising.html">qxmt.feature_maps.pennylane.ising module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.feature_maps.base.html">qxmt.feature_maps.base module</a></li>
@@ -405,7 +406,37 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-feature-maps-pennylane-defaults-module">qxmt.feature_maps.pennylane.defaults module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane.rotation">qxmt.feature_maps.pennylane.rotation module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane.ising">qxmt.feature_maps.pennylane.ising module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.__init__()</span></code></a></li>
@@ -489,12 +520,290 @@
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="qxmt.feature_maps.pennylane.defaults.html">qxmt.feature_maps.pennylane.defaults module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qxmt.feature_maps.pennylane.rotation.html">qxmt.feature_maps.pennylane.rotation module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="qxmt.feature_maps.pennylane.ising.html">qxmt.feature_maps.pennylane.ising module</a></li>
 </ul>
 </div>
 </section>
-<section id="qxmt-feature-maps-pennylane-defaults-module">
-<h2>qxmt.feature_maps.pennylane.defaults module<a class="headerlink" href="#qxmt-feature-maps-pennylane-defaults-module" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.feature_maps.pennylane.rotation">
+<span id="qxmt-feature-maps-pennylane-rotation-module"></span><h2>qxmt.feature_maps.pennylane.rotation module<a class="headerlink" href="#module-qxmt.feature_maps.pennylane.rotation" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.rotation.</span></span><span class="sig-name descname"><span class="pre">HRotationFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_axis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>Hadamard and multi-axis rotation feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+<li><p><strong>rotation_axis</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">HRotationFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">HRotationFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_axis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the Hadamard and multi axis rotation feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+<li><p><strong>rotation_axis</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of rotation axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of Hadamard and rotation feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.RotationFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.rotation.</span></span><span class="sig-name descname"><span class="pre">RotationFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_axis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>Multi-axis rotation feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+<li><p><strong>rotation_axis</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">RotationFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">RotationFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_axis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the multi axis rotation feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+<li><p><strong>rotation_axis</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – list of rotation axis</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of rotation feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-qxmt.feature_maps.pennylane.ising">
+<span id="qxmt-feature-maps-pennylane-ising-module"></span><h2>qxmt.feature_maps.pennylane.ising module<a class="headerlink" href="#module-qxmt.feature_maps.pennylane.ising" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.XXFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">XXFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>XX feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">XXFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">XXFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.XXFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the XX feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.XXFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of XX feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.YYFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">YYFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>YY feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">YYFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">YYFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.YYFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the YY feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.YYFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of YY feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.ZZFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">ZZFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>ZZ feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.ZZFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>Initialize the ZZ feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.ising.ZZFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of ZZ feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-qxmt.feature_maps.pennylane">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.feature_maps.pennylane" title="Link to this heading">#</a></h2>
@@ -796,11 +1105,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.feature_maps.pennylane.defaults.html"
+       href="qxmt.feature_maps.pennylane.rotation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.feature_maps.pennylane.defaults module</p>
+        <p class="prev-next-title">qxmt.feature_maps.pennylane.rotation module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -822,7 +1131,37 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt-feature-maps-pennylane-defaults-module">qxmt.feature_maps.pennylane.defaults module</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane.rotation">qxmt.feature_maps.pennylane.rotation module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.HRotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.rotation.RotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane.ising">qxmt.feature_maps.pennylane.ising module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.XXFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">XXFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.YYFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">YYFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.ising.ZZFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">ZZFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.feature_maps.pennylane">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.__init__()</span></code></a></li>

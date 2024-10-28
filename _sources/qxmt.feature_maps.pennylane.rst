@@ -6,12 +6,21 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
-   qxmt.feature_maps.pennylane.defaults
+   qxmt.feature_maps.pennylane.rotation
+   qxmt.feature_maps.pennylane.ising
 
-qxmt.feature\_maps.pennylane.defaults module
+qxmt.feature\_maps.pennylane.rotation module
 --------------------------------------------
 
-.. automodule:: qxmt.feature_maps.pennylane.defaults
+.. automodule:: qxmt.feature_maps.pennylane.rotation
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+qxmt.feature\_maps.pennylane.ising module
+--------------------------------------------
+
+.. automodule:: qxmt.feature_maps.pennylane.ising
    :members:
    :undoc-members:
    :show-inheritance:
