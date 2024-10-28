@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -103,3 +103,14 @@ class BaseFeatureMap(ABC):
                     raise ValueError(f"Invalid format '{format}' for drawing the circuit")
         else:
             raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')
+
+
+class FeatureMapFromFunc(BaseFeatureMap):
+    """Wrap the feature map function to the BaseFeatureMap class."""
+
+    def __init__(self, platform: str, n_qubits: int, feature_map_func: Callable[[np.ndarray], None]) -> None:
+        super().__init__(platform, n_qubits)
+        self.feature_map_func = feature_map_func
+
+    def feature_map(self, x: np.ndarray) -> None:
+        self.feature_map_func(x)

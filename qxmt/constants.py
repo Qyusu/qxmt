@@ -1,3 +1,4 @@
+import multiprocessing as mp
 import os
 from pathlib import Path
 from typing import Any
@@ -39,7 +40,7 @@ LLM_MODEL_PATH = "microsoft/Phi-3-mini-128k-instruct"
 
 # set default n_jobs for parallel processing
 # it mainly used in kernel calculation, cross validation
-DEFAULT_N_JOBS = 3
+DEFAULT_N_JOBS = max(1, int(mp.cpu_count() * 0.6))
 
 # set default timezone
 TZ: pytz.BaseTzInfo = pytz.timezone("Asia/Tokyo")
