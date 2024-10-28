@@ -77,5 +77,5 @@ kernel:
 ### Version Information
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/16 |
-| QXMT| v0.3.0 |
+| document | 2024/10/28 |
+| QXMT| v0.3.3 |
