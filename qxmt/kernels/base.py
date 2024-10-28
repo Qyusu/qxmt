@@ -1,3 +1,4 @@
+import multiprocessing as mp
 from abc import ABC, abstractmethod
 from itertools import product
 from pathlib import Path
@@ -7,13 +8,12 @@ from typing import Callable, Optional, cast
 import h5py
 import matplotlib.pyplot as plt
 import numpy as np
-from joblib import Parallel, delayed
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import DeviceSettingError
-from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
 
 
 class BaseKernel(ABC):
@@ -80,29 +80,9 @@ class BaseKernel(ABC):
             BaseFeatureMap: feature map instance
         """
         if isinstance(feature_map, FunctionType):
-            return self._to_fm_instance(feature_map)
+            return FeatureMapFromFunc(self.platform, self.n_qubits, feature_map)
         else:
             return cast(BaseFeatureMap, feature_map)
-
-    def _to_fm_instance(self, feature_map_func: Callable[[np.ndarray], None]) -> BaseFeatureMap:
-        """Convert a feature map function to a BaseFeatureMap instance.
-
-        Args:
-            feature_map_func (Callable[[np.ndarray], None]): function that defines the feature map circuit.
-                if the function needs some parameters, it should be defined in the function as a default value.
-
-        Returns:
-            BaseFeatureMap: instance of BaseFeatureMap
-        """
-
-        class CustomFeatureMap(BaseFeatureMap):
-            def __init__(self, platform: str, n_qubits: int) -> None:
-                super().__init__(platform, n_qubits)
-
-            def feature_map(self, x: np.ndarray) -> None:
-                feature_map_func(x)
-
-        return CustomFeatureMap(self.platform, self.n_qubits)
 
     def _validate_sampling_values(self, sampling_result: np.ndarray, valid_values: list[int] = [0, 1]) -> None:
         """Validate the sampling resutls of each shots.
@@ -144,6 +124,24 @@ class BaseKernel(ABC):
         """
         pass
 
+    def _compute_entry(
+        self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray
+    ) -> tuple[int, int, tuple[float, np.ndarray]]:
+        """Compute each entry of the kernel matrix.
+        This method is used for parallel computation of the kernel matrix.
+
+        Args:
+            i (int): row index of kernel matrix
+            j (int): column index of kernel matrix
+            x_array_1 (np.ndarray): input array 1 for kernel computation
+            x_array_2 (np.ndarray): input array 2 for kernel computation
+
+        Returns:
+            tuple[int, int, tuple[float, np.ndarray]]:
+                row index, column index, kernel value and probability distribution
+        """
+        return i, j, self.compute(x_array_1[i], x_array_2[j])
+
     def compute_matrix(
         self,
         x_array_1: np.ndarray,
@@ -163,17 +161,16 @@ class BaseKernel(ABC):
             np.ndarray: computed kernel matrix
         """
 
-        def _compute_entry(i: int, j: int) -> tuple[int, int, tuple[float, np.ndarray]]:
-            return i, j, self.compute(x_array_1[i], x_array_2[j])
-
         # compute each entry of the kernel matrix in parallel
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
 
-        # [FIX]: Parallel backend is changed to "threading" due to the issue with the "loky" backend.
-        results = Parallel(n_jobs=1, backend="threading")(
-            delayed(_compute_entry)(i, j) for i in range(n_samples_1) for j in range(n_samples_2)
-        )
+        # parallel computation for each entry of the kernel matrix
+        with mp.Pool(processes=n_jobs) as pool:
+            results = pool.starmap(
+                self._compute_entry,
+                [(i, j, x_array_1, x_array_2) for i in range(len(x_array_1)) for j in range(len(x_array_2))],
+            )
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:
