@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qxmt"
-version = "0.3.3"  # using poetry-dynamic-versioning
+version = "0.3.4"  # using poetry-dynamic-versioning
 description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
@@ -30,6 +30,7 @@ seaborn = "^0.13.2"
 openml = "^0.14.2"
 optuna = "^4.0.0"
 h5py = "^3.12.1"
+rich = {extras = ["jupyter"], version = "^13.9.4"}
 
 
 [tool.poetry.group.dev.dependencies]

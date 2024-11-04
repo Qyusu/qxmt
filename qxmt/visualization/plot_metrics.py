@@ -1,6 +1,6 @@
 from logging import Logger
 from pathlib import Path
-from typing import Any, Optional, cast
+from typing import Any, Literal, Optional, cast
 
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -38,6 +38,7 @@ def _check_existence_of_metrics(df: pd.DataFrame, metrics: list[str], logger: Lo
 def plot_metric(
     df: pd.DataFrame,
     metric: str,
+    chart_type: Literal["bar", "line"] = "bar",
     run_id_col: str = RUN_ID_COL,
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
@@ -49,6 +50,7 @@ def plot_metric(
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metric (str): target metric name
+        chart_type (Literal["bar", "line"], optional): chart type ("bar" or "line"). Defaults to "bar".
         run_id_col (str, optional): column name of run_id. Defaults to RUN_ID_COL.
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
@@ -57,6 +59,7 @@ def plot_metric(
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to f'"{valid_metric}" score'.
             ylim (Optional[tuple[float, float]], optional): y-axis limit. Defaults to None.
+            grid (Optional[bool], optional): grid option. Defaults to True.
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
@@ -67,13 +70,22 @@ def plot_metric(
     plt.figure(figsize=(10, 6), tight_layout=True)
     x = [i for i in range(len(df))]
     color = kwargs.get("color", sns.color_palette(DEFAULT_COLOR_MAP)[0])
-    plt.bar(x, df[valid_metric], color=color)
+    if chart_type == "bar":
+        plt.bar(x, df[valid_metric], color=color)
+    elif chart_type == "line":
+        plt.plot(x, df[valid_metric], color=color, marker="o")
+    else:
+        raise ValueError(f"chart_type '{chart_type}' is not supported.")
     plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
     plt.ylabel(str(kwargs.get("ylabel", f'"{valid_metric}" score')))
     plt.xticks(x, list(df[run_id_col]))
 
     ylim = kwargs.get("ylim", (0.0, df[valid_metric].max() * 1.2))
     plt.ylim(*ylim)
+
+    if chart_type == "line":
+        grid = kwargs.get("grid", True)
+        plt.grid(grid)
 
     title = cast(str | None, kwargs.get("title", None))
     if title is not None:
@@ -88,6 +100,7 @@ def plot_metric(
 def plot_metrics_side_by_side(
     df: pd.DataFrame,
     metrics: list[str],
+    chart_type: Literal["bar", "line"] = "bar",
     run_id_col: str = RUN_ID_COL,
     run_ids: Optional[list[int]] = None,
     save_path: Optional[Path] = None,
@@ -99,6 +112,7 @@ def plot_metrics_side_by_side(
     Args:
         df (pd.DataFrame): dataframe that contains the calculated metrics
         metrics (list[str]): target metric names
+        chart_type (Literal["bar", "line"], optional): chart type ("bar" or "line"). Defaults to "bar".
         run_id_col (str, optional): column name of run_id. Defaults to RUN_ID_COL.
         run_ids (Optional[list[int]], optional): run_ids to plot. Defaults to None.
         save_path (Optional[Path], optional): save path for the plot. Defaults to None.
@@ -107,6 +121,7 @@ def plot_metrics_side_by_side(
             xlabel (Optional[str], optional): x-axis label. Defaults to "run_id".
             ylabel (Optional[str], optional): y-axis label. Defaults to "metrics score".
             ylim (Optional[tuple[float, float]], optional): y-axis limit. Defaults to None.
+            grid (Optional[bool], optional): grid option. Defaults to True.
             title (Optional[str], optional): title of the plot. Defaults to None.
     """
     if run_ids is not None:
@@ -119,19 +134,32 @@ def plot_metrics_side_by_side(
     color: list = cast(list, kwargs.get("color", sns.color_palette(DEFAULT_COLOR_MAP)))
     y_max = 0.0
     for i, metric in enumerate(valid_metrics):
-        x = [j + i * width for j in range(len(df))]
-        plt.bar(x, df[metric], width=width, label=metric, color=color[i])
+        if chart_type == "bar":
+            x = [j + i * width for j in range(len(df))]
+            plt.bar(x, df[metric], width=width, label=metric, color=color[i])
+        elif chart_type == "line":
+            x = [j for j in range(len(df))]
+            plt.plot(x, df[metric], label=metric, color=color[i], marker="o")
+        else:
+            raise ValueError(f"chart_type '{chart_type}' is not supported.")
         y_max = max(y_max, max(df[metric]))
 
     plt.ylabel(str(kwargs.get("ylabel", "metrics score")))
     plt.xlabel(str(kwargs.get("xlabel", run_id_col)))
-    x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
+    if chart_type == "bar":
+        x_ticks = [i + width * 0.5 * (len(valid_metrics) - 1) for i in range(len(df))]
+    else:
+        x_ticks = [i for i in range(len(df))]
     plt.xticks(x_ticks, list(df[run_id_col]))
 
     ylim = kwargs.get("ylim", (0.0, y_max * 1.2))
     plt.ylim(*ylim)
 
     plt.legend(loc="upper right")
+
+    if chart_type == "line":
+        grid = kwargs.get("grid", True)
+        plt.grid(grid)
 
     title = cast(str | None, kwargs.get("title", None))
     if title is not None:

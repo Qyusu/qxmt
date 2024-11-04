@@ -633,7 +633,7 @@ class Experiment:
                 f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
             )
 
-    def reproduce(self, run_id: int, check_commit_id: bool = False) -> BaseMLModel:
+    def reproduce(self, run_id: int, check_commit_id: bool = False) -> tuple[RunArtifact, RunRecord]:
         """Reproduce the target run_id model from config file.
         If the target run_id does not have a config file path, raise an error.
         Reoroduce method not supported for the run executed from the instance.
@@ -643,7 +643,7 @@ class Experiment:
             check_commit_id (bool, optional): whether to check the commit_id. Defaults to False.
 
         Returns:
-            BaseMLModel: reproduced model
+            tuple[RunArtifact, RunRecord]: artifact and record of the reproduced run_id
 
         Raises:
             ReproductinoError: if the run_id does not have a config file path
@@ -672,4 +672,4 @@ class Experiment:
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
         self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
 
-        return reproduced_artifact.model
+        return reproduced_artifact, reproduced_result
