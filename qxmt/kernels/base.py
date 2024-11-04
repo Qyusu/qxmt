@@ -174,7 +174,7 @@ class BaseKernel(ABC):
         with mp.Manager() as manager:
             progress_queue = manager.Queue()
             with Progress() as progress:
-                task_progress = progress.add_task("Calculating Kernel Matrix", total=len(tasks))
+                task_progress = progress.add_task("Computing Kernel Matrix", total=len(tasks))
 
                 with mp.Pool(processes=n_jobs) as pool:
                     results = pool.starmap_async(
