@@ -9,6 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from rich.progress import Progress, track
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
@@ -125,7 +126,7 @@ class BaseKernel(ABC):
         pass
 
     def _compute_entry(
-        self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray
+        self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: mp.Queue
     ) -> tuple[int, int, tuple[float, np.ndarray]]:
         """Compute each entry of the kernel matrix.
         This method is used for parallel computation of the kernel matrix.
@@ -135,12 +136,15 @@ class BaseKernel(ABC):
             j (int): column index of kernel matrix
             x_array_1 (np.ndarray): input array 1 for kernel computation
             x_array_2 (np.ndarray): input array 2 for kernel computation
+            progress_queue (mp.Queue): queue for tracking the progress
 
         Returns:
             tuple[int, int, tuple[float, np.ndarray]]:
                 row index, column index, kernel value and probability distribution
         """
-        return i, j, self.compute(x_array_1[i], x_array_2[j])
+        result = self.compute(x_array_1[i], x_array_2[j])
+        progress_queue.put(1)
+        return i, j, result
 
     def compute_matrix(
         self,
@@ -166,11 +170,26 @@ class BaseKernel(ABC):
         n_samples_2 = len(x_array_2)
 
         # parallel computation for each entry of the kernel matrix
-        with mp.Pool(processes=n_jobs) as pool:
-            results = pool.starmap(
-                self._compute_entry,
-                [(i, j, x_array_1, x_array_2) for i in range(len(x_array_1)) for j in range(len(x_array_2))],
-            )
+        tasks = [(i, j, x_array_1, x_array_2) for i in range(len(x_array_1)) for j in range(len(x_array_2))]
+        with mp.Manager() as manager:
+            progress_queue = manager.Queue()
+            with Progress() as progress:
+                task_progress = progress.add_task("Calculating Kernel Matrix", total=len(tasks))
+
+                with mp.Pool(processes=n_jobs) as pool:
+                    results = pool.starmap_async(
+                        self._compute_entry,
+                        [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
+                    )
+
+                    # track progress
+                    completed = 0
+                    while completed < len(tasks):
+                        progress_queue.get()
+                        completed += 1
+                        progress.update(task_progress, advance=1)
+
+                    final_results = results.get()
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:
@@ -180,7 +199,7 @@ class BaseKernel(ABC):
             shots_matrix = None
 
         kernel_matrix = np.zeros((n_samples_1, n_samples_2))
-        for i, j, result in results:  # type: ignore
+        for i, j, result in final_results:
             kernel_matrix[i, j] = result[0]
 
             if shots_matrix is not None:
