@@ -108,7 +108,7 @@ class TestBaseKernel:
         x_array_2 = np.array([[1, 0], [1, 0]])
 
         kernel_matrix, shots_matrix = kernel_by_state_vector.compute_matrix(
-            x_array_1, x_array_2, return_shots_resutls=False
+            x_array_1, x_array_2, return_shots_resutls=False, n_jobs=1
         )
         assert kernel_matrix.shape == (2, 2)
         assert shots_matrix is None
@@ -117,7 +117,7 @@ class TestBaseKernel:
         # state vector mode can't get shots results
         # so, return_shots_resutls=True but return None
         kernel_matrix, shots_matrix = kernel_by_state_vector.compute_matrix(
-            x_array_1, x_array_2, return_shots_resutls=True
+            x_array_1, x_array_2, return_shots_resutls=True, n_jobs=1
         )
         assert shots_matrix is None
 
