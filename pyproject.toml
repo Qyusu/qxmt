@@ -42,6 +42,7 @@ mypy = "^1.10.1"
 flake8 = "^7.1.0"
 ipykernel = "^6.29.5"
 pytest-mock = "^3.14.0"
+pytest-xdist = "^3.6.1"
 
 
 [tool.poetry.group.docs.dependencies]
@@ -56,3 +57,6 @@ llm = ["torch", "transformers"]
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+ addopts="-n 3"
