@@ -9,7 +9,7 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from rich.progress import Progress, track
+from rich.progress import Progress
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
@@ -184,11 +184,18 @@ class BaseKernel(ABC):
 
                     # track progress
                     completed = 0
-                    while completed < len(tasks):
+                    # while completed < len(tasks):
+                    while not progress.finished:
                         progress_queue.get()
                         completed += 1
-                        progress.update(task_progress, advance=1)
+                        progress.update(task_progress, completed=completed)
 
+                    # finalize progress bar
+                    progress.update(task_progress, completed=len(tasks))
+                    progress.refresh()
+
+                    # get all process results
+                    results.wait()
                     final_results = results.get()
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
