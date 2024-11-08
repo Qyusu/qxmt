@@ -76,20 +76,27 @@ class BaseFeatureMap(ABC):
             raise InputShapeError("Input data shape does not match the number of qubits.")
 
     def output_circuit(
-        self, x: Optional[np.ndarray] = None, format: str = "default", logger: Logger = LOGGER, **kwargs: Any
+        self,
+        x: Optional[np.ndarray] = None,
+        x_dim: Optional[int] = None,
+        format: str = "default",
+        logger: Logger = LOGGER,
+        **kwargs: Any,
     ) -> None:
         """Output the circuit using the platform's draw function.
 
         Args:
             x (Optional[np.ndarray], optional): input example data for output the circuit. Defaults to None.
+            x_dim (Optional[int], optional): dimension of input data. Defaults to None.
+            format (str, optional): format of the output circuit. Select "defalt" or "mpl". Defaults to "default".
             logger (Logger, optional): logger object. Defaults to LOGGER.
 
         Raises:
             NotImplementedError: not supported platform
         """
-        # [TODO]: consider x dimension
         if x is None:
-            x = np.random.rand(1, self.n_qubits)
+            dim = x_dim if x_dim is not None else self.n_qubits
+            x = np.random.rand(1, dim)
 
         if self.platform == "pennylane":
             import pennylane as qml
