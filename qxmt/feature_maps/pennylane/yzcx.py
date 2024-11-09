@@ -36,7 +36,7 @@ class YZCXFeatureMap(BaseFeatureMap):
         self.n_qubits: int = n_qubits
         self.reps: int = reps
         self.c: float = c
-        self.rng = np.random.default_rng(seed)
+        self.seed: int = seed
 
     def feature_map(self, x: np.ndarray) -> None:
         """Create quantum circuit of YZCX feature map.
@@ -44,18 +44,19 @@ class YZCXFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
+        rng = np.random.default_rng(self.seed)
         data_idx = 0
         for c_idx in range(self.reps):
             for i in range(self.n_qubits):
                 # Apply rotaion Y gate by data value and random angle
-                qml.RY(x[data_idx % len(x)] * self.c, wires=i)
-                ry_angle = 2.0 * np.pi * self.rng.random()
+                qml.RY(self.c * x[data_idx % len(x)], wires=i)
+                ry_angle = 2.0 * np.pi * rng.random()
                 qml.RY(ry_angle, wires=i)
                 data_idx += 1
 
                 # Apply rotaion Z gate by data value and random angle
-                qml.RZ(x[data_idx % len(x)] * self.c, wires=i)
-                rz_angle = 2.0 * np.pi * self.rng.random()
+                qml.RZ(self.c * x[data_idx % len(x)], wires=i)
+                rz_angle = 2.0 * np.pi * rng.random()
                 qml.RZ(rz_angle, wires=i)
                 data_idx += 1
 
