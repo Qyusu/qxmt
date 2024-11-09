@@ -1,9 +1,8 @@
 import numpy as np
 import pennylane as qml
 
+from qxmt.constants import PENNYLANE_PLATFORM
 from qxmt.feature_maps.base import BaseFeatureMap
-
-PENNYLANE_PLATFORM: str = "pennylane"
 
 
 class RotationFeatureMap(BaseFeatureMap):
