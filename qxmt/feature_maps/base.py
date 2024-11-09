@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Any, Callable, Optional
+from typing import Any, Callable, Optional, cast
 
 import numpy as np
 
@@ -75,7 +75,7 @@ class BaseFeatureMap(ABC):
         if x.shape[idx] != self.n_qubits:
             raise InputShapeError("Input data shape does not match the number of qubits.")
 
-    def output_circuit(
+    def draw(
         self,
         x: Optional[np.ndarray] = None,
         x_dim: Optional[int] = None,
@@ -83,33 +83,34 @@ class BaseFeatureMap(ABC):
         logger: Logger = LOGGER,
         **kwargs: Any,
     ) -> None:
-        """Output the circuit using the platform's draw function.
+        """Draw the circuit using the platform's draw function.
 
         Args:
-            x (Optional[np.ndarray], optional): input example data for output the circuit. Defaults to None.
+            x (Optional[np.ndarray], optional): input example data for drawing the circuit. Defaults to None.
             x_dim (Optional[int], optional): dimension of input data. Defaults to None.
-            format (str, optional): format of the output circuit. Select "defalt" or "mpl". Defaults to "default".
+            format (str, optional): format of the drawing the circuit. Select "defalt" or "mpl". Defaults to "default".
             logger (Logger, optional): logger object. Defaults to LOGGER.
 
         Raises:
             NotImplementedError: not supported platform
         """
-        if x is None:
-            dim = x_dim if x_dim is not None else self.n_qubits
-            x = np.random.rand(1, dim)
+        if (x is None) and (x_dim is None):
+            raise ValueError("Either 'x' or 'x_dim' argument must be provided.")
+
+        x_sample = x[0] if x is not None else np.random.rand(1, cast(int, x_dim))[0]
 
         if self.platform == "pennylane":
             import pennylane as qml
 
             match format:
                 case "default":
-                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x[0]))
+                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x_sample))
                 case "mpl":
-                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x[0]))
+                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x_sample))
                 case _:
                     raise ValueError(f"Invalid format '{format}' for drawing the circuit")
         else:
-            raise NotImplementedError(f'"output_circuit" method is not supported in {self.platform}.')
+            raise NotImplementedError(f'"draw" method is not supported in {self.platform}.')
 
 
 class FeatureMapFromFunc(BaseFeatureMap):
