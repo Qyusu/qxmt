@@ -463,9 +463,11 @@
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">XXFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.ising</span> <span class="kn">import</span> <span class="n">XXFeatureMap</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">XXFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──RX(0.33)─╭IsingXX(15.19)──RX(0.33)─╭IsingXX(15.19)─┤</span>
+<span class="go">1: ──RX(0.44)─╰IsingXX(15.19)──RX(0.44)─╰IsingXX(15.19)─┤</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -517,9 +519,11 @@
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">YYFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.ising</span> <span class="kn">import</span> <span class="n">YYFeatureMap</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">YYFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──H──RY(0.86)─╭IsingYY(11.23)──H──RY(0.86)─╭IsingYY(11.23)─┤</span>
+<span class="go">1: ──H──RY(0.68)─╰IsingYY(11.23)──H──RY(0.68)─╰IsingYY(11.23)─┤</span>
 </pre></div>
 </div>
 <dl class="py method">
@@ -571,9 +575,11 @@
 </dl>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.defaults</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.ising</span> <span class="kn">import</span> <span class="n">ZZFeatureMap</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──H──RZ(0.88)─╭IsingZZ(13.28)──H──RZ(0.88)─╭IsingZZ(13.28)─┤</span>
+<span class="go">1: ──H──RZ(0.20)─╰IsingZZ(13.28)──H──RZ(0.20)─╰IsingZZ(13.28)─┤</span>
 </pre></div>
 </div>
 <dl class="py method">
