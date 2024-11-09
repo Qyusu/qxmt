@@ -145,11 +145,15 @@ class QSVC(BaseKernelModel):
         """
         self.fit_X = X
         if save_shots_path is not None:
-            kernel_train_X, shots_matrix = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=True)
+            kernel_train_X, shots_matrix = self.kernel.compute_matrix(
+                self.fit_X, self.fit_X, return_shots_resutls=True, bar_label="Train"
+            )
             if shots_matrix is not None:
                 self.kernel.save_shots_results(shots_matrix, save_shots_path)
         else:
-            kernel_train_X, _ = self.kernel.compute_matrix(self.fit_X, self.fit_X, return_shots_resutls=False)
+            kernel_train_X, _ = self.kernel.compute_matrix(
+                self.fit_X, self.fit_X, return_shots_resutls=False, bar_label="Train"
+            )
         self.model.fit(kernel_train_X, y, **kwargs)
 
     def predict(self, X: np.ndarray) -> np.ndarray:
@@ -164,7 +168,7 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, bar_label="Test")
         return self.model.predict(kernel_pred_X)
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:

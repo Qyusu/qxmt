@@ -6,6 +6,7 @@ EXPECTED_ALL = [
     "ZZFeatureMap",
     "HRotationFeatureMap",
     "RotationFeatureMap",
+    "YZCXFeatureMap",
 ]
 
 
