@@ -46,7 +46,7 @@ class YZCXFeatureMap(BaseFeatureMap):
         """
         rng = np.random.default_rng(self.seed)
         data_idx = 0
-        for c_idx in range(self.reps):
+        for r_idx in range(self.reps):
             for i in range(self.n_qubits):
                 # Apply rotaion Y gate by data value and random angle
                 qml.RY(self.c * x[data_idx % len(x)], wires=i)
@@ -61,5 +61,5 @@ class YZCXFeatureMap(BaseFeatureMap):
                 data_idx += 1
 
                 # Apply CNOT gate based on the current repetition and qubit index
-                if (i % 2 == c_idx % 2) and (i + 1 < self.n_qubits):
+                if (i % 2 == r_idx % 2) and (i + 1 < self.n_qubits):
                     qml.CNOT(wires=[i, i + 1])

@@ -7,6 +7,7 @@ EXPECTED_ALL = [
     "HRotationFeatureMap",
     "RotationFeatureMap",
     "YZCXFeatureMap",
+    "NPQCFeatureMap",
 ]
 
 
