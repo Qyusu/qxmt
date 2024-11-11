@@ -443,6 +443,11 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.feature_map()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.RotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.RotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.RotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap.feature_map()</span></code></a></li>
@@ -884,6 +889,66 @@
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.NPQCFeatureMap">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.</span></span><span class="sig-name descname"><span class="pre">NPQCFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>NPQC feature map class.
+Reference: <a class="reference external" href="https://arxiv.org/abs/2108.01039">https://arxiv.org/abs/2108.01039</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+<li><p><strong>c</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.npqc</span> <span class="kn">import</span> <span class="n">NPQCFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">NPQCFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──RY(1.60)──RZ(1.59)──RY(1.57)─╭●──RY(1.60)──RZ(1.59)──RY(1.57)─╭●──RY(1.60)─┤</span>
+<span class="go">1: ──RY(1.60)──RZ(1.59)───────────╰Z───────────────────────────────╰Z───────────┤</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.NPQCFeatureMap.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.__init__" title="Link to this definition">#</a></dt>
+<dd><p>“Initialize the NPQC feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+<li><p><strong>c</strong> (<em>float</em>) – scaling factor</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – random seed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.NPQCFeatureMap.feature_map">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.feature_map" title="Link to this definition">#</a></dt>
+<dd><p>Create quantum circuit of NPQC feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="qxmt.feature_maps.pennylane.RotationFeatureMap">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.</span></span><span class="sig-name descname"><span class="pre">RotationFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rotation_axis</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.feature_maps.pennylane.RotationFeatureMap" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
@@ -1258,6 +1323,11 @@ Reference: <a class="reference external" href="https://arxiv.org/abs/2108.01039"
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.HRotationFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">HRotationFeatureMap.feature_map()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.__init__"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.NPQCFeatureMap.feature_map"><code class="docutils literal notranslate"><span class="pre">NPQCFeatureMap.feature_map()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.feature_maps.pennylane.RotationFeatureMap"><code class="docutils literal notranslate"><span class="pre">RotationFeatureMap</span></code></a><ul class="nav section-nav flex-column">
