@@ -58,6 +58,9 @@ class ProjectedKernel(BaseKernel):
             gamma (float): gamma parameter for kernel computation
             projection (str): projection method for kernel computation
         """
+        if projection not in ["x", "y", "z"]:
+            raise ValueError("Projection method must be 'x', 'y', or 'z'.")
+
         super().__init__(device, feature_map)
         self.n_qubits = device.n_qubits
         self.gamma = gamma
