@@ -1,6 +1,4 @@
-from collections import Counter
-from pathlib import Path
-from typing import Callable, Optional, cast
+from typing import Callable, cast
 
 import numpy as np
 import pennylane as qml
@@ -11,6 +9,7 @@ from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
+from qxmt.kernels.sampling import sample_results_to_probs
 
 
 class FidelityKernel(BaseKernel):
@@ -82,26 +81,12 @@ class FidelityKernel(BaseKernel):
         result = self.qnode(x1, x2)
 
         if self.is_sampling:
-            # validate sampleing results for getting the each state probability
-            self._validate_sampling_values(result)
-
-            # convert the sample results to bit strings
-            # ex) shots=3, n_qubits=2, [[0, 0], [1, 1], [0, 0]] => ["00", "11", "00"]
-            result = [result] if np.array(result).ndim == 1 else result
-            bit_strings = ["".join(map(str, sample)) for sample in result]
-            all_states = self._generate_all_observable_states(state_pattern="01")
-
-            # count the number of each state
-            count_dict = Counter(bit_strings)
-            state_counts = [count_dict.get(state, 0) for state in all_states]
-
-            # convert the count to the probability
-            probs = np.array(state_counts) / cast(int, self.device.shots)  # shots must be over 0
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
+            probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
         else:
             # use theoretical probability distribution
-            probs = result
-            if isinstance(probs, qml.operation.Tensor):
-                probs = probs.numpy()
+            probs = np.array(result)
 
         kernel_value = probs[0]  # get |0..0> state probability
 
