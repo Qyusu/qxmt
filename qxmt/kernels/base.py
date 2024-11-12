@@ -1,6 +1,5 @@
 import multiprocessing as mp
 from abc import ABC, abstractmethod
-from itertools import product
 from pathlib import Path
 from types import FunctionType
 from typing import Callable, Optional, cast
@@ -15,6 +14,7 @@ from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import DeviceSettingError
 from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
+from qxmt.kernels.sampling import generate_all_observable_states
 
 
 class BaseKernel(ABC):
@@ -84,33 +84,6 @@ class BaseKernel(ABC):
             return FeatureMapFromFunc(self.platform, self.n_qubits, feature_map)
         else:
             return cast(BaseFeatureMap, feature_map)
-
-    def _validate_sampling_values(self, sampling_result: np.ndarray, valid_values: list[int] = [0, 1]) -> None:
-        """Validate the sampling resutls of each shots.
-
-        Args:
-            sampling_result (np.ndarray): array of sampling results
-            valid_values (list[int], optional): valid value of quantum state. Defaults to [0, 1].
-
-        Raises:
-            DeviceSettingError: qunatum device is not in sampling mode
-            ValueError: invalid values in the sampling results
-        """
-        if not self.is_sampling:
-            raise DeviceSettingError("Shots must be set to a positive integer value to use sampling.")
-
-        if not np.all(np.isin(sampling_result, valid_values)):
-            unique_values = np.unique(sampling_result)
-            invalid_values = unique_values[~np.isin(unique_values, valid_values)]
-            raise ValueError(f"The input array contains values other than 0 and 1. (invalid values: {invalid_values})")
-
-    def _generate_all_observable_states(self, state_pattern: str = "01") -> list[str]:
-        """Generate all possible observable states for the given number of qubits.
-
-        Returns:
-            list[str]: list of all possible observable states
-        """
-        return ["".join(bits) for bits in product(state_pattern, repeat=self.n_qubits)]
 
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
@@ -187,7 +160,6 @@ class BaseKernel(ABC):
 
                     # track progress
                     completed = 0
-                    # while completed < len(tasks):
                     while not progress.finished:
                         progress_queue.get()
                         completed += 1
@@ -237,7 +209,7 @@ class BaseKernel(ABC):
         if Path(save_path).suffix != ".h5":
             raise ValueError("The save path must be a .h5 file.")
 
-        state_labels = self._generate_all_observable_states(state_pattern="01")
+        state_labels = generate_all_observable_states(self.n_qubits, state_pattern="01")
         if probs_matrix.shape[2] != len(state_labels):
             raise ValueError(
                 "The length of the state of probability distribution must be equal to the number of observable states."

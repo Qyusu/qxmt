@@ -1,14 +1,16 @@
-from pathlib import Path
-from typing import Callable, Literal, Optional
+from typing import Callable, Literal, cast
 
 import numpy as np
 import pennylane as qml
+from pennylane.measurements.probs import ProbabilityMP
+from pennylane.measurements.sample import SampleMP
 from pennylane.operation import Operation
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import BaseKernel
+from qxmt.kernels.sampling import sample_results_to_probs
 
 
 class ProjectedKernel(BaseKernel):
@@ -30,7 +32,7 @@ class ProjectedKernel(BaseKernel):
         ...     platform="pennylane",
         ...     name="default.qubit",
         ...     n_qubits=2,
-        ...     shots=1000,
+        ...     shots=1024,
         >>> )
         >>> device = DeviceBuilder(config).build()
         >>> feature_map = ZZFeatureMap(2, 2)
@@ -46,7 +48,7 @@ class ProjectedKernel(BaseKernel):
         device: BaseDevice,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
         gamma: float = 1.0,
-        projection: Literal["x", "y", "z", "xyz", "xyz_sum"] = "xyz",
+        projection: Literal["x", "y", "z"] = "z",
     ) -> None:
         """Initialize the ProjectedKernel class.
 
@@ -56,47 +58,14 @@ class ProjectedKernel(BaseKernel):
             gamma (float): gamma parameter for kernel computation
             projection (str): projection method for kernel computation
         """
+        if projection not in ["x", "y", "z"]:
+            raise ValueError("Projection method must be 'x', 'y', or 'z'.")
+
         super().__init__(device, feature_map)
         self.n_qubits = device.n_qubits
         self.gamma = gamma
         self.projection = projection
-        self.projection_ops = self._set_projection_ops(projection)
         self.qnode = qml.QNode(self._circuit, self.device())
-
-    def _set_projection_ops(self, projection: str) -> list[Operation | list[Operation]]:
-        """Set the projection operations based on the projection method.
-        Projection method determines the Pauli operators to be measured for each qubit.
-
-        Args:
-            projection (str): projection method name for kernel computation
-
-        Raises:
-            ValueError: Invalid projection method
-
-        Returns:
-            list[Operation | list[Operation]]: list of projection operations
-        """
-        projection_ops = []
-        match projection.lower():
-            case "x":
-                for i in range(self.n_qubits):
-                    projection_ops.append(qml.PauliX(wires=i))
-            case "y":
-                for i in range(self.n_qubits):
-                    projection_ops.append(qml.PauliY(wires=i))
-            case "z":
-                for i in range(self.n_qubits):
-                    projection_ops.append(qml.PauliZ(wires=i))
-            case "xyz":
-                for i in range(self.n_qubits):
-                    projection_ops.extend([qml.PauliX(wires=i), qml.PauliY(wires=i), qml.PauliZ(wires=i)])
-            case "xyz_sum":
-                for i in range(self.n_qubits):
-                    projection_ops.append([qml.PauliX(wires=i), qml.PauliY(wires=i), qml.PauliZ(wires=i)])
-            case _:
-                raise ValueError(f'Invalid projection method: "{projection}"')
-
-        return projection_ops
 
     def _process_measurement_results(self, results: list[float]) -> np.ndarray:
         """Process the measurement results based on the projection method.
@@ -119,20 +88,41 @@ class ProjectedKernel(BaseKernel):
 
         return projected_results
 
-    def _circuit(self, x: np.ndarray) -> list[Operation]:
+    def _calculate_expected_values_by_z(self, probs: np.ndarray, target_qubit: int) -> float:
+        mask = 1 << target_qubit
+        expval_z = 0.0
+        for i, prob in enumerate(probs):
+            if (i & mask) == 0:
+                expval_z += prob
+            else:
+                expval_z -= prob
+        return expval_z
+
+    def _calculate_expected_values(self, probs: np.ndarray) -> np.ndarray:
+        # calculate the expected values by Z basis for each qubit
+        # when the projection method is "x" or "y", apply Hadamard or RY gate in _circuit method
+        projected_exp_value = np.array([self._calculate_expected_values_by_z(probs, i) for i in range(self.n_qubits)])
+
+        return projected_exp_value
+
+    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
         self.feature_map(x)
-        measurement_results = []
-        for op in self.projection_ops:
-            if isinstance(op, list):
-                for single_op in op:
-                    measurement_results.append(qml.expval(single_op))
-            else:
-                measurement_results.append(qml.expval(op))
 
-        return measurement_results
+        # apply projection operators for calculating the expected values by Z basis
+        if self.projection == "x":
+            for i in range(self.n_qubits):
+                qml.Hadamard(wires=i)
+        elif self.projection == "y":
+            for i in range(self.n_qubits):
+                qml.RY(np.pi / 2, wires=i)
+
+        if self.is_sampling:
+            return qml.sample(wires=range(self.n_qubits))
+        else:
+            return qml.probs(wires=range(self.n_qubits))
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the projected kernel value between two data points.
@@ -144,11 +134,24 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        x1_projected = self._process_measurement_results(self.qnode(x1))
-        x2_projected = self._process_measurement_results(self.qnode(x2))
+        x1_result = self.qnode(x1)
+        x2_result = self.qnode(x2)
+
+        if self.is_sampling:
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
+            x1_probs = sample_results_to_probs(x1_result, self.n_qubits, cast(int, self.device.shots))
+            x2_probs = sample_results_to_probs(x2_result, self.n_qubits, cast(int, self.device.shots))
+        else:
+            # use theoretical probability distribution
+            x1_probs = np.array(x1_result)
+            x2_probs = np.array(x2_result)
+
+        # compute expected values for projection operators
+        x1_projected = self._calculate_expected_values(x1_probs)
+        x2_projected = self._calculate_expected_values(x2_probs)
+
+        # compute gaussian kernel value based on the projected measurement results
         kernel_value = np.exp(-self.gamma * np.sum((x1_projected - x2_projected) ** 2))
 
-        # [TODO]: Dummy value for now, it is not implemented yet.
-        probs = np.array([1.0])
-
-        return kernel_value, probs
+        return kernel_value, x1_probs
