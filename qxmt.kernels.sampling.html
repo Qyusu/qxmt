@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.datasets.file.loader module &#8212; qxmt 0.3.3 documentation</title>
+    <title>qxmt.kernels.sampling module &#8212; qxmt 0.3.3 documentation</title>
   
   
   
@@ -44,11 +44,11 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.datasets.file.loader';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.kernels.sampling';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.datasets.raw_preprocess package" href="qxmt.datasets.raw_preprocess.html" />
-    <link rel="prev" title="qxmt.datasets.file package" href="qxmt.datasets.file.html" />
+    <link rel="next" title="qxmt.models package" href="qxmt.models.html" />
+    <link rel="prev" title="qxmt.kernels.base module" href="qxmt.kernels.base.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -140,7 +140,7 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
 </ul>
@@ -150,8 +150,8 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.loader.html">qxmt.datasets.generate.loader module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="qxmt.datasets.file.html">qxmt.datasets.file package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">qxmt.datasets.file.loader module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.file.html">qxmt.datasets.file package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.file.loader.html">qxmt.datasets.file.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -205,14 +205,14 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.sampling.html">qxmt.kernels.sampling module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.kernels.sampling module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -322,7 +322,7 @@
       
       
       
-      <li><a href="_sources/qxmt.datasets.file.loader.rst" target="_blank"
+      <li><a href="_sources/qxmt.kernels.sampling.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -385,9 +385,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -398,23 +396,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>qxmt.datasets.file.loader module</h1>
+    <h1>qxmt.kernels.sampling module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader"><code class="docutils literal notranslate"><span class="pre">FileDataLoader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader.__init__"><code class="docutils literal notranslate"><span class="pre">FileDataLoader.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader.load"><code class="docutils literal notranslate"><span class="pre">FileDataLoader.load()</span></code></a></li>
-</ul>
-</li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -462,94 +448,68 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-qxmt.datasets.file.loader">
-<span id="qxmt-datasets-file-loader-module"></span><h1>qxmt.datasets.file.loader module<a class="headerlink" href="#module-qxmt.datasets.file.loader" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py" id="qxmt.datasets.file.loader.FileDataLoader">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.file.loader.</span></span><span class="sig-name descname"><span class="pre">FileDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.file.loader.FileDataLoader" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class loads the data and label from the multi format file.
-The loaded data and label are returned as numpy arrays (X and y).</p>
-<p>Input data schema supports two patterns:
-1. data and label are defined in separate files.
-2. data and label are defined in a single file. In this case, the label name must be defined.</p>
-<p>Supported file formats:
-- .npy, .npz, .csv, .tsv</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.npy&quot;</span><span class="p">,</span> <span class="n">label_path</span><span class="o">=</span><span class="s2">&quot;label.npy&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.npz&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="n">label_path</span><span class="o">=</span><span class="s2">&quot;label.csv&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.csv&quot;</span><span class="p">,</span> <span class="n">label_name</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.tsv&quot;</span><span class="p">,</span> <span class="n">label_path</span><span class="o">=</span><span class="s2">&quot;label.tsv&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">FileDataLoader</span><span class="p">(</span><span class="n">data_path</span><span class="o">=</span><span class="s2">&quot;data.tsv&quot;</span><span class="p">,</span> <span class="n">label_name</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-</pre></div>
-</div>
+  <section id="qxmt-kernels-sampling-module">
+<h1>qxmt.kernels.sampling module<a class="headerlink" href="#qxmt-kernels-sampling-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">generate_all_observable_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'01'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Generate all possible observable states for the given number of qubits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data_path</strong> (<em>str</em><em> | </em><em>Path</em>)</p></li>
-<li><p><strong>label_path</strong> (<em>str</em><em> | </em><em>Path</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>label_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>state_pattern</strong> (<em>str</em><em>, </em><em>optional</em>) – pattern of the observable state. Defaults to “01”.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.datasets.file.loader.FileDataLoader.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.file.loader.FileDataLoader.__init__" title="Link to this definition">#</a></dt>
-<dd><p>Initialize the FileDataLoader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the data file.</p></li>
-<li><p><strong>label_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>  |  </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – path to the label file. Defaults to None.</p></li>
-<li><p><strong>label_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – label name in the dataset. Defaults to None.</p></li>
-</ul>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of all possible observable states</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.datasets.file.loader.FileDataLoader.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.file.loader.FileDataLoader.load" title="Link to this definition">#</a></dt>
-<dd><p>Load the data and label from the file path.
-The file format is determined by the extension of the file path.</p>
-<p>Supported file formats:
-- numpy: .npy, .npz
-- pandas: .csv, .tsv</p>
-<p>Two input patterns exist:
-1. “data_path” and “label_path” are defined.
-“label_name” is not needed, because the label is loaded from the file.
-2. “data_path” and “label_name” are defined.
-“label_path” is not needed, because the label data include in the data file.</p>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">sample_results_to_probs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'01'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Convert the sampling results to the probability of each</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>loaded data and label as numpy arrays.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>tuple[np.ndarray, np.ndarray]</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>ValueError</strong> – data and label file extensions do not match</p></li>
-<li><p><strong>ValueError</strong> – Data or label key is not matched in the npz file.</p></li>
-<li><p><strong>ValueError</strong> – Label defined in data of “label_path”, not need to define “label_name”.</p></li>
-<li><p><strong>ValueError</strong> – “Data and label are expected to be contained in the single file defined in “data_path”</p></li>
-<li><p><strong>ValueError</strong> – Label name is not found in the dataset.</p></li>
-<li><p><strong>ValueError</strong> – unsupported file extension</p></li>
+<li><p><strong>result</strong> (<em>np.ndarray</em>) – numpy array of sampling results</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>shots</strong> (<em>int</em>) – number of shots</p></li>
+<li><p><strong>state_pattern</strong> (<em>str</em><em>, </em><em>optional</em>) – pattern of the observable state. Defaults to “01”.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of the probability of each state</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
 </dd>
 </dl>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">validate_sampling_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sampling_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Validate the sampling resutls of each shots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sampling_result</strong> (<em>np.ndarray</em>) – array of sampling results</p></li>
+<li><p><strong>valid_values</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – valid value of quantum state. Defaults to [0, 1].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – invalid values in the sampling results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -566,20 +526,20 @@ The file format is determined by the extension of the file path.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.datasets.file.html"
+       href="qxmt.kernels.base.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.datasets.file package</p>
+        <p class="prev-next-title">qxmt.kernels.base module</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.datasets.raw_preprocess.html"
+       href="qxmt.models.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.datasets.raw_preprocess package</p>
+        <p class="prev-next-title">qxmt.models package</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -589,26 +549,6 @@ The file format is determined by the extension of the file path.</p>
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader"><code class="docutils literal notranslate"><span class="pre">FileDataLoader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader.__init__"><code class="docutils literal notranslate"><span class="pre">FileDataLoader.__init__()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.file.loader.FileDataLoader.load"><code class="docutils literal notranslate"><span class="pre">FileDataLoader.load()</span></code></a></li>
-</ul>
-</li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

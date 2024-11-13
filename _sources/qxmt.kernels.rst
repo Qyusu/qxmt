@@ -15,3 +15,4 @@ Submodules
    :maxdepth: 1
 
    qxmt.kernels.base
+   qxmt.kernels.sampling
