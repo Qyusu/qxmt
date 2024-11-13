@@ -154,4 +154,4 @@ class ProjectedKernel(BaseKernel):
         # compute gaussian kernel value based on the projected measurement results
         kernel_value = np.exp(-self.gamma * np.sum((x1_projected - x2_projected) ** 2))
 
-        return kernel_value, x1_probs
+        return kernel_value, (x1_probs + x2_probs) / 2

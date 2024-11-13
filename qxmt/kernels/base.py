@@ -223,7 +223,7 @@ class BaseKernel(ABC):
             metadata_group.attrs["n_qubits"] = self.n_qubits
             metadata_group.attrs["shots"] = self.device.shots
             metadata_group.attrs["state_labels"] = state_labels
-            metadata_group.attrs["n_samples"] = probs_dataset.shape[0] * probs_dataset.shape[1]
+            metadata_group.attrs["n_elements"] = probs_dataset.shape[0] * probs_dataset.shape[1]
 
     def plot_matrix(
         self,
