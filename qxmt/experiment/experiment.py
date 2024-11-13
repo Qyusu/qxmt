@@ -12,6 +12,7 @@ import pandas as pd
 
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import (
+    DEFAULT_EXP_CONFIG_FILE,
     DEFAULT_EXP_DB_FILE,
     DEFAULT_EXP_DIRC,
     DEFAULT_MODEL_NAME,
@@ -189,11 +190,11 @@ class Experiment:
 
         return self
 
-    def load_experiment(self, exp_file: str | Path) -> "Experiment":
+    def load(self, exp_dirc: str | Path, exp_file_name: str | Path = DEFAULT_EXP_DB_FILE) -> "Experiment":
         """Load existing experiment data from a json file.
 
         Args:
-            exp_file (str | Path): path to the experiment json file
+            exp_dirc (str | Path): path to the experiment directory
 
         Raises:
             FileNotFoundError: if the experiment file does not exist
@@ -201,11 +202,12 @@ class Experiment:
         Returns:
             Experiment: loaded experiment
         """
-        if not Path(exp_file).exists():
-            raise FileNotFoundError(f"{exp_file} does not exist.")
+        exp_file_path = Path(exp_dirc) / exp_file_name
+        if not exp_file_path.exists():
+            raise FileNotFoundError(f"{exp_file_path} does not exist.")
 
-        self._check_json_extension(exp_file)
-        with open(exp_file, "r") as json_file:
+        self._check_json_extension(exp_file_path)
+        with open(exp_file_path, "r") as json_file:
             exp_data = json.load(json_file)
 
         self.exp_db = ExperimentDB(**exp_data)
@@ -231,9 +233,11 @@ class Experiment:
             self.logger.info(
                 f'Experiment directory is changed from "{self.exp_db.experiment_dirc}" to "{self.experiment_dirc}".'
             )
+            self.experiment_dirc.mkdir(parents=True, exist_ok=True)
             self.exp_db.experiment_dirc = self.experiment_dirc
 
         self.current_run_id = len(self.exp_db.runs)
+        self.save_experiment()
 
         return self
 
@@ -348,6 +352,9 @@ class Experiment:
         save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
         save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
 
+        # set the config path to the copy of the config file in the run directory if add_results is True
+        config_path = Path(run_dirc) / DEFAULT_EXP_CONFIG_FILE if add_results else config.path
+
         artifact, record = self._run_from_instance(
             task_type=config.global_settings.task_type,
             dataset=dataset,
@@ -358,7 +365,7 @@ class Experiment:
             custom_metrics=config.evaluation.custom_metrics,
             desc=config.description,
             commit_id=commit_id,
-            config_path=config.path,
+            config_path=config_path,
             repo_path=repo_path,
             add_results=add_results,
         )
@@ -531,6 +538,7 @@ class Experiment:
                     custom_metrics=custom_metrics,
                     desc=desc,
                     commit_id=commit_id,
+                    config_path="",
                     repo_path=repo_path,
                     add_results=add_results,
                 )
@@ -545,9 +553,14 @@ class Experiment:
         if add_results:
             self.exp_db.runs.append(record)  # type: ignore
             self.save_experiment()
+
             if config_source is not None:
-                save_experiment_config_to_yaml(config, current_run_dirc / "config.yaml", delete_source_path=True)
+                save_experiment_config_to_yaml(
+                    config, Path(current_run_dirc) / DEFAULT_EXP_CONFIG_FILE, delete_source_path=True
+                )
+            else:
                 # [TODO]: convert dataset and model instance to config and store it in the run directory
+                pass
 
         return artifact, record
 

@@ -55,7 +55,7 @@ class TestExperimentInit:
 
 
 class TestLoadExperiment:
-    def set_dummy_experiment_data(self, experiment_dirc: Path) -> Path:
+    def set_dummy_experiment_data(self, experiment_dirc: Path) -> None:
         dummy_experiment_dict = {
             "name": "load_exp",
             "desc": "load experiment",
@@ -93,18 +93,20 @@ class TestLoadExperiment:
             ],
         }
 
-        exp_json_path = Path(f"{dummy_experiment_dict['experiment_dirc']}/experiment.json")
+        exp_json_path = Path(f"{dummy_experiment_dict['experiment_dirc']}/{DEFAULT_EXP_DB_FILE}")
         exp_json_path.parent.mkdir(parents=True, exist_ok=True)
         with open(exp_json_path, "w") as json_file:
             json.dump(dummy_experiment_dict, json_file, indent=4)
 
-        return exp_json_path
+    def test_load(self, tmp_path: Path) -> None:
+        self.set_dummy_experiment_data(tmp_path)
 
-    def test_load_experiment(self, tmp_path: Path) -> None:
-        exp_json_path = self.set_dummy_experiment_data(tmp_path)
+        # Error pattern
+        with pytest.raises(FileNotFoundError):
+            Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "not_exist_exp")
 
         # Default pattern
-        loaded_exp = Experiment(root_experiment_dirc=tmp_path).load_experiment(exp_json_path)
+        loaded_exp = Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "load_exp")
         assert loaded_exp.name == "load_exp"
         assert loaded_exp.desc == "load experiment"
         assert loaded_exp.root_experiment_dirc == tmp_path
@@ -113,14 +115,15 @@ class TestLoadExperiment:
         assert len(loaded_exp.exp_db.runs) == 2  # type: ignore
 
         # Update Setting Pattern
-        updated_exp = Experiment(
-            name="update_exp", desc="update experiment", root_experiment_dirc=tmp_path
-        ).load_experiment(exp_json_path)
+        updated_exp = Experiment(name="update_exp", desc="update experiment", root_experiment_dirc=tmp_path).load(
+            exp_dirc=tmp_path / "load_exp"
+        )
         assert updated_exp.name == "update_exp"
         assert updated_exp.desc == "update experiment"
         assert updated_exp.root_experiment_dirc == tmp_path
         assert updated_exp.experiment_dirc == tmp_path / "update_exp"
         assert updated_exp.current_run_id == 2
+        assert updated_exp.exp_db.working_dirc == Path.cwd()  # type: ignore
         assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
 
