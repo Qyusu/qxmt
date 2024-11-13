@@ -14,6 +14,7 @@ from qxmt.evaluation.metrics import BaseMetric
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
+    ExperimentSettingError,
     ReproductionError,
 )
 from qxmt.models import BaseMLModel
@@ -68,7 +69,7 @@ class TestLoadExperiment:
                     "execution_time": "2024-07-24 17:33:55.305025 JST+0900",
                     "runtime": {"fit_seconds": 7.42, "predict_seconds": 1.36},
                     "commit_id": "commit_1",
-                    "config_path": "config_1.yaml",
+                    "config_file_name": "config.yaml",
                     "evaluation": {
                         "accuracy": 0.65,
                         "precision": 0.69,
@@ -82,7 +83,7 @@ class TestLoadExperiment:
                     "execution_time": "2024-07-24 17:34:01.932990 JST+0900",
                     "runtime": {"fit_seconds": 120.5, "predict_seconds": 33.3},
                     "commit_id": "commit_2",
-                    "config_path": "",
+                    "config_file_name": "",
                     "evaluation": {
                         "accuracy": 0.5,
                         "precision": 0.47,
@@ -101,9 +102,13 @@ class TestLoadExperiment:
     def test_load(self, tmp_path: Path) -> None:
         self.set_dummy_experiment_data(tmp_path)
 
-        # Error pattern
+        # Error pattern (not exist experiment file)
         with pytest.raises(FileNotFoundError):
             Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "not_exist_exp")
+
+        # Error pattern (not exist experiment directory)
+        with pytest.raises(ExperimentSettingError):
+            Experiment(name="not_exist").load(exp_dirc=tmp_path / "load_exp")
 
         # Default pattern
         loaded_exp = Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "load_exp")
@@ -115,6 +120,7 @@ class TestLoadExperiment:
         assert len(loaded_exp.exp_db.runs) == 2  # type: ignore
 
         # Update Setting Pattern
+        (tmp_path / "update_exp").mkdir(parents=True, exist_ok=True)
         updated_exp = Experiment(name="update_exp", desc="update experiment", root_experiment_dirc=tmp_path).load(
             exp_dirc=tmp_path / "load_exp"
         )

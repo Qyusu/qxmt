@@ -198,6 +198,7 @@ class Experiment:
 
         Raises:
             FileNotFoundError: if the experiment file does not exist
+            ExperimentSettingError: if the experiment directory does not exist
 
         Returns:
             Experiment: loaded experiment
@@ -210,7 +211,11 @@ class Experiment:
         with open(exp_file_path, "r") as json_file:
             exp_data = json.load(json_file)
 
+        # set the experiment data from the json file
         self.exp_db = ExperimentDB(**exp_data)
+
+        # update the experiment name, description, working directory, and experiment directory
+        # if the loaded data is different from the current settings
         if (self.name is not None) and (self.name != self.exp_db.name):
             self.exp_db.name = self.name
             self.logger.info(f'Name is changed from "{self.exp_db.name}" to "{self.name}".')
@@ -233,8 +238,10 @@ class Experiment:
             self.logger.info(
                 f'Experiment directory is changed from "{self.exp_db.experiment_dirc}" to "{self.experiment_dirc}".'
             )
-            self.experiment_dirc.mkdir(parents=True, exist_ok=True)
             self.exp_db.experiment_dirc = self.experiment_dirc
+
+        if not self.exp_db.experiment_dirc.exists():
+            raise ExperimentSettingError(f"Experiment directory '{self.exp_db.experiment_dirc}' does not exist.")
 
         self.current_run_id = len(self.exp_db.runs)
         self.save_experiment()
@@ -352,9 +359,6 @@ class Experiment:
         save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
         save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
 
-        # set the config path to the copy of the config file in the run directory if add_results is True
-        config_path = Path(run_dirc) / DEFAULT_EXP_CONFIG_FILE if add_results else config.path
-
         artifact, record = self._run_from_instance(
             task_type=config.global_settings.task_type,
             dataset=dataset,
@@ -365,7 +369,7 @@ class Experiment:
             custom_metrics=config.evaluation.custom_metrics,
             desc=config.description,
             commit_id=commit_id,
-            config_path=config_path,
+            config_file_name=DEFAULT_EXP_CONFIG_FILE,
             repo_path=repo_path,
             add_results=add_results,
         )
@@ -383,7 +387,7 @@ class Experiment:
         custom_metrics: Optional[list[dict[str, Any]]],
         desc: str,
         commit_id: str,
-        config_path: str | Path = "",
+        config_file_name: str,
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
@@ -398,7 +402,7 @@ class Experiment:
             custom_metrics (Optional[list[dict[str, Any]]]): list of user defined custom metric configurations
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
-            config_path (str | Path, optional): path to the config file. Defaults to "".
+            config_file_name (str): name of the config file
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
@@ -439,9 +443,9 @@ class Experiment:
             run_id=self.current_run_id,
             desc=desc,
             commit_id=commit_id,
+            config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             runtime=RunTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
-            config_path=config_path,
             evaluation=self.run_evaluation(
                 task_type=task_type,
                 actual=dataset.y_test,
@@ -538,7 +542,7 @@ class Experiment:
                     custom_metrics=custom_metrics,
                     desc=desc,
                     commit_id=commit_id,
-                    config_path="",
+                    config_file_name="",
                     repo_path=repo_path,
                     add_results=add_results,
                 )
@@ -671,13 +675,13 @@ class Experiment:
                     f'Current commit_id="{commit_id}" is different from'
                     f'the run_id={run_id} commit_id="{run_record.commit_id}".'
                 )
-
-        config_path = run_record.config_path
-        if config_path == "":
+        if run_record.config_file_name == "":
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
                 "run from instance mode not supported for reproduction."
             )
+
+        config_path = Path(f"{self.experiment_dirc}/run_{run_id}/{DEFAULT_EXP_CONFIG_FILE}")
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation
