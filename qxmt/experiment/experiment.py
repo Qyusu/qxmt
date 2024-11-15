@@ -559,12 +559,11 @@ class Experiment:
             self.save_experiment()
 
             if config_source is not None:
+                # config is saved in the run directory
+                # if "run" executed by instance mode, config is not saved
                 save_experiment_config_to_yaml(
                     config, Path(current_run_dirc) / DEFAULT_EXP_CONFIG_FILE, delete_source_path=True
                 )
-            else:
-                # [TODO]: convert dataset and model instance to config and store it in the run directory
-                pass
 
         return artifact, record
 
