@@ -609,7 +609,7 @@
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.load_experiment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load"><code class="docutils literal notranslate"><span class="pre">Experiment.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.reproduce"><code class="docutils literal notranslate"><span class="pre">Experiment.reproduce()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run_evaluation"><code class="docutils literal notranslate"><span class="pre">Experiment.run_evaluation()</span></code></a></li>
@@ -2045,15 +2045,21 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="qxmt.Experiment.load_experiment">
-<span class="sig-name descname"><span class="pre">load_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.load_experiment" title="Link to this definition">#</a></dt>
+<dt class="sig sig-object py" id="qxmt.Experiment.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('experiment.json')</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.load" title="Link to this definition">#</a></dt>
 <dd><p>Load existing experiment data from a json file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the experiment json file</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exp_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the experiment directory</p></li>
+<li><p><strong>exp_file_name</strong> (<em>str</em><em> | </em><em>Path</em>)</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>FileNotFoundError</strong> – if the experiment file does not exist</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – if the experiment file does not exist</p></li>
+<li><p><a class="reference internal" href="#qxmt.ExperimentSettingError" title="qxmt.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – if the experiment directory does not exist</p></li>
+</ul>
 </dd>
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>loaded experiment</p>
@@ -2999,7 +3005,7 @@ mapping of field names to [<cite>FieldInfo</cite>][pydantic.fields.FieldInfo] ob
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.load_experiment()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load"><code class="docutils literal notranslate"><span class="pre">Experiment.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.reproduce"><code class="docutils literal notranslate"><span class="pre">Experiment.reproduce()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run_evaluation"><code class="docutils literal notranslate"><span class="pre">Experiment.run_evaluation()</span></code></a></li>
