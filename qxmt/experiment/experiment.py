@@ -387,7 +387,7 @@ class Experiment:
         custom_metrics: Optional[list[dict[str, Any]]],
         desc: str,
         commit_id: str,
-        config_file_name: str,
+        config_file_name: Path,
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
@@ -402,7 +402,7 @@ class Experiment:
             custom_metrics (Optional[list[dict[str, Any]]]): list of user defined custom metric configurations
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
-            config_file_name (str): name of the config file
+            config_file_name (Path): name of the config file
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
@@ -542,7 +542,7 @@ class Experiment:
                     custom_metrics=custom_metrics,
                     desc=desc,
                     commit_id=commit_id,
-                    config_file_name="",
+                    config_file_name=Path(""),
                     repo_path=repo_path,
                     add_results=add_results,
                 )
@@ -559,12 +559,11 @@ class Experiment:
             self.save_experiment()
 
             if config_source is not None:
+                # config is saved in the run directory
+                # if "run" executed by instance mode, config is not saved
                 save_experiment_config_to_yaml(
                     config, Path(current_run_dirc) / DEFAULT_EXP_CONFIG_FILE, delete_source_path=True
                 )
-            else:
-                # [TODO]: convert dataset and model instance to config and store it in the run directory
-                pass
 
         return artifact, record
 
@@ -675,7 +674,7 @@ class Experiment:
                     f'Current commit_id="{commit_id}" is different from'
                     f'the run_id={run_id} commit_id="{run_record.commit_id}".'
                 )
-        if run_record.config_file_name == "":
+        if run_record.config_file_name == Path(""):
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
                 "run from instance mode not supported for reproduction."
