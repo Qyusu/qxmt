@@ -33,9 +33,10 @@ source_suffix = {
 
 # ignore warnings about references
 suppress_warnings = [
-    # "ref.ref",
     "ref.python",
 ]
+
+nitpick_ignore = [("myst", "ref1"), ("myst", "ref2")]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

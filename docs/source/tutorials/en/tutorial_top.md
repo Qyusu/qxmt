@@ -9,4 +9,10 @@ If this is your first time using QXMT, we recommend starting with the first tuto
 
 ./default_simple.md
 ./mnist_custom.md
+
+```
+
+```{toctree}
+:maxdepth: 1
+
 ./tool_reference.md
