@@ -34,6 +34,12 @@ class NPQCFeatureMap(BaseFeatureMap):
         self.n_qubits: int = n_qubits
         self.reps: int = reps
         self.c: float = c
+        self._validation()
+
+    def _validation(self) -> None:
+        """Validate the NPQC feature map."""
+        if self.n_qubits % 2 != 0:
+            raise ValueError(f"NPQC feature map requires an even number of qubits. but got {self.n_qubits}")
 
     def _calculate_target_wire(self, idx: int, r_idx: int, n_qubits: int) -> int:
         """Calculate target wire for controlled-Z gate.
@@ -59,9 +65,6 @@ class NPQCFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
-        if self.n_qubits % 2 != 0:
-            raise ValueError(f"NPQC feature map requires an even number of qubits. but got {self.n_qubits}")
-
         data_idx = 0
         # Apply RY and RZ rotations based on input
         for i in range(self.n_qubits):

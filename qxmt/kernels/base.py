@@ -165,13 +165,13 @@ class BaseKernel(ABC):
                         completed += 1
                         progress.update(task_progress, completed=completed)
 
-                    # finalize progress bar
-                    progress.update(task_progress, completed=len(tasks))
-                    progress.refresh()
-
                     # get all process results
                     results.wait()
                     final_results = results.get()
+
+                    # finalize progress bar
+                    progress.update(task_progress, completed=len(tasks))
+                    progress.refresh()
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:
