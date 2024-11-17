@@ -1,9 +1,8 @@
 import numpy as np
 import pennylane as qml
 
+from qxmt.constants import PENNYLANE_PLATFORM
 from qxmt.feature_maps.base import BaseFeatureMap
-
-PENNYLANE_PLATFORM: str = "pennylane"
 
 
 class RotationFeatureMap(BaseFeatureMap):
@@ -14,9 +13,12 @@ class RotationFeatureMap(BaseFeatureMap):
 
     Example:
         >>> import numpy as np
-        >>> from qxmt.feature_maps.pennylane.defaults import RotationFeatureMap
+        >>> from qxmt.feature_maps.pennylane.rotation import RotationFeatureMap
         >>> feature_map = RotationFeatureMap(2, 2, ["X", "Y"])
-        >>> feature_map(np.random.rand(1, 2))
+        >>> feature_map.draw(x_dim=2)
+        0: ─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─┤
+        1: ─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─┤
+        M0 = [0.87336112 0.05976227]
     """
 
     def __init__(self, n_qubits: int, reps: int, rotation_axis: list[str]) -> None:
@@ -50,9 +52,12 @@ class HRotationFeatureMap(BaseFeatureMap):
 
     Example:
         >>> import numpy as np
-        >>> from qxmt.feature_maps.pennylane.defaults import HRotationFeatureMap
+        >>> from qxmt.feature_maps.pennylane.rotation import HRotationFeatureMap
         >>> feature_map = HRotationFeatureMap(2, 2, ["X", "Y"])
-        >>> feature_map(np.random.rand(1, 2))
+        >>> feature_map.draw(x_dim=2)
+        0: ──H─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)──H─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─┤
+        1: ──H─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)──H─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─┤
+        M0 = [0.88859928 0.32907378]
     """
 
     def __init__(self, n_qubits: int, reps: int, rotation_axis: list[str]) -> None:

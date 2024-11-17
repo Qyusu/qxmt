@@ -25,8 +25,12 @@ DEFAULT_EXP_DIRC: Path = PROJECT_ROOT_DIR / "experiments"
 # set default experiment file name.
 DEFAULT_EXP_DB_FILE: Path = Path("experiment.json")
 
+# set default config file name.
+DEFAULT_EXP_CONFIG_FILE: Path = Path("config.yaml")
+
 # set supported quantum platforms and devices
-SUPPORTED_PLATFORMS: list[str] = ["pennylane"]
+PENNYLANE_PLATFORM: str = "pennylane"
+SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM]
 PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.Device, qml.QubitDevice)
 
 # set default model name

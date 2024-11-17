@@ -48,7 +48,7 @@ kernel:
   implement_name: "ProjectedKernel"
   params:
     gamma: 1.0
-    projection: "xyz_sum"
+    projection: "z"
 
 model:
   name: "qsvr"

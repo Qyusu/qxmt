@@ -33,9 +33,12 @@ class TestBaseFeatureMap:
         with pytest.raises(InputShapeError):
             base_feature_map.check_input_dim_eq_nqubits(x)
 
-    def test_output_circuit(self, base_feature_map: BaseFeatureMap) -> None:
-        base_feature_map.output_circuit()
+    def test_draw(self, base_feature_map: BaseFeatureMap) -> None:
+        base_feature_map.draw(x_dim=2)
+
+        with pytest.raises(ValueError):
+            base_feature_map.draw()
 
         with pytest.raises(NotImplementedError):
             base_feature_map.platform = "unsupported"
-            base_feature_map.output_circuit()
+            base_feature_map.draw(x_dim=2)

@@ -26,8 +26,6 @@ class TestProjectedKernel:
             ("x", np.array([0, 1]), np.array([1, 0]), 1.0, None),
             ("y", np.array([0, 1]), np.array([1, 0]), 1.0, None),
             ("z", np.array([0, 1]), np.array([1, 0]), 0.00034, None),
-            ("xyz", np.array([0, 1]), np.array([1, 0]), 0.00034, None),
-            ("xyz_sum", np.array([0, 1]), np.array([1, 0]), 0.01832, None),
             ("invalid_projection", np.array([0, 1]), np.array([1, 0]), None, ValueError),
         ],
     )

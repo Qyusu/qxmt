@@ -1,6 +1,5 @@
 import multiprocessing as mp
 from abc import ABC, abstractmethod
-from itertools import product
 from pathlib import Path
 from types import FunctionType
 from typing import Callable, Optional, cast
@@ -9,12 +8,13 @@ import h5py
 import matplotlib.pyplot as plt
 import numpy as np
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from rich.progress import Progress, track
+from rich.progress import Progress
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import DeviceSettingError
 from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
+from qxmt.kernels.sampling import generate_all_observable_states
 
 
 class BaseKernel(ABC):
@@ -85,33 +85,6 @@ class BaseKernel(ABC):
         else:
             return cast(BaseFeatureMap, feature_map)
 
-    def _validate_sampling_values(self, sampling_result: np.ndarray, valid_values: list[int] = [0, 1]) -> None:
-        """Validate the sampling resutls of each shots.
-
-        Args:
-            sampling_result (np.ndarray): array of sampling results
-            valid_values (list[int], optional): valid value of quantum state. Defaults to [0, 1].
-
-        Raises:
-            DeviceSettingError: qunatum device is not in sampling mode
-            ValueError: invalid values in the sampling results
-        """
-        if not self.is_sampling:
-            raise DeviceSettingError("Shots must be set to a positive integer value to use sampling.")
-
-        if not np.all(np.isin(sampling_result, valid_values)):
-            unique_values = np.unique(sampling_result)
-            invalid_values = unique_values[~np.isin(unique_values, valid_values)]
-            raise ValueError(f"The input array contains values other than 0 and 1. (invalid values: {invalid_values})")
-
-    def _generate_all_observable_states(self, state_pattern: str = "01") -> list[str]:
-        """Generate all possible observable states for the given number of qubits.
-
-        Returns:
-            list[str]: list of all possible observable states
-        """
-        return ["".join(bits) for bits in product(state_pattern, repeat=self.n_qubits)]
-
     @abstractmethod
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute kernel value between two samples.
@@ -152,6 +125,7 @@ class BaseKernel(ABC):
         x_array_2: np.ndarray,
         return_shots_resutls: bool = False,
         n_jobs: int = DEFAULT_N_JOBS,
+        bar_label: str = "",
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
         """Default implementation of kernel matrix computation.
 
@@ -160,6 +134,7 @@ class BaseKernel(ABC):
             x_array_2 (np.ndarray): array of samples (ex: test data)
             return_shots_resutls (bool, optional): return the shot results. Defaults to False.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
+            bar_label (str, optional): label for the progress bar. Defaults to "".
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -174,7 +149,8 @@ class BaseKernel(ABC):
         with mp.Manager() as manager:
             progress_queue = manager.Queue()
             with Progress() as progress:
-                task_progress = progress.add_task("Computing Kernel Matrix", total=len(tasks))
+                bar_label = f" ({bar_label})" if bar_label else ""
+                task_progress = progress.add_task(f"Computing Kernel Matrix{bar_label}", total=len(tasks))
 
                 with mp.Pool(processes=n_jobs) as pool:
                     results = pool.starmap_async(
@@ -184,12 +160,18 @@ class BaseKernel(ABC):
 
                     # track progress
                     completed = 0
-                    while completed < len(tasks):
+                    while not progress.finished:
                         progress_queue.get()
                         completed += 1
-                        progress.update(task_progress, advance=1)
+                        progress.update(task_progress, completed=completed)
 
+                    # get all process results
+                    results.wait()
                     final_results = results.get()
+
+                    # finalize progress bar
+                    progress.update(task_progress, completed=len(tasks))
+                    progress.refresh()
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:
@@ -227,7 +209,7 @@ class BaseKernel(ABC):
         if Path(save_path).suffix != ".h5":
             raise ValueError("The save path must be a .h5 file.")
 
-        state_labels = self._generate_all_observable_states(state_pattern="01")
+        state_labels = generate_all_observable_states(self.n_qubits, state_pattern="01")
         if probs_matrix.shape[2] != len(state_labels):
             raise ValueError(
                 "The length of the state of probability distribution must be equal to the number of observable states."
@@ -241,7 +223,7 @@ class BaseKernel(ABC):
             metadata_group.attrs["n_qubits"] = self.n_qubits
             metadata_group.attrs["shots"] = self.device.shots
             metadata_group.attrs["state_labels"] = state_labels
-            metadata_group.attrs["n_samples"] = probs_dataset.shape[0] * probs_dataset.shape[1]
+            metadata_group.attrs["n_elements"] = probs_dataset.shape[0] * probs_dataset.shape[1]
 
     def plot_matrix(
         self,

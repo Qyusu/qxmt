@@ -19,7 +19,7 @@ class RunRecord(BaseModel):
     execution_time: str
     runtime: RunTime
     commit_id: str
-    config_path: Path | str
+    config_file_name: Path
     evaluation: dict[str, float]
 
 

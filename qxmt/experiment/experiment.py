@@ -12,6 +12,7 @@ import pandas as pd
 
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import (
+    DEFAULT_EXP_CONFIG_FILE,
     DEFAULT_EXP_DB_FILE,
     DEFAULT_EXP_DIRC,
     DEFAULT_MODEL_NAME,
@@ -189,26 +190,32 @@ class Experiment:
 
         return self
 
-    def load_experiment(self, exp_file: str | Path) -> "Experiment":
+    def load(self, exp_dirc: str | Path, exp_file_name: str | Path = DEFAULT_EXP_DB_FILE) -> "Experiment":
         """Load existing experiment data from a json file.
 
         Args:
-            exp_file (str | Path): path to the experiment json file
+            exp_dirc (str | Path): path to the experiment directory
 
         Raises:
             FileNotFoundError: if the experiment file does not exist
+            ExperimentSettingError: if the experiment directory does not exist
 
         Returns:
             Experiment: loaded experiment
         """
-        if not Path(exp_file).exists():
-            raise FileNotFoundError(f"{exp_file} does not exist.")
+        exp_file_path = Path(exp_dirc) / exp_file_name
+        if not exp_file_path.exists():
+            raise FileNotFoundError(f"{exp_file_path} does not exist.")
 
-        self._check_json_extension(exp_file)
-        with open(exp_file, "r") as json_file:
+        self._check_json_extension(exp_file_path)
+        with open(exp_file_path, "r") as json_file:
             exp_data = json.load(json_file)
 
+        # set the experiment data from the json file
         self.exp_db = ExperimentDB(**exp_data)
+
+        # update the experiment name, description, working directory, and experiment directory
+        # if the loaded data is different from the current settings
         if (self.name is not None) and (self.name != self.exp_db.name):
             self.exp_db.name = self.name
             self.logger.info(f'Name is changed from "{self.exp_db.name}" to "{self.name}".')
@@ -233,7 +240,11 @@ class Experiment:
             )
             self.exp_db.experiment_dirc = self.experiment_dirc
 
+        if not self.exp_db.experiment_dirc.exists():
+            raise ExperimentSettingError(f"Experiment directory '{self.exp_db.experiment_dirc}' does not exist.")
+
         self.current_run_id = len(self.exp_db.runs)
+        self.save_experiment()
 
         return self
 
@@ -358,7 +369,7 @@ class Experiment:
             custom_metrics=config.evaluation.custom_metrics,
             desc=config.description,
             commit_id=commit_id,
-            config_path=config.path,
+            config_file_name=DEFAULT_EXP_CONFIG_FILE,
             repo_path=repo_path,
             add_results=add_results,
         )
@@ -376,7 +387,7 @@ class Experiment:
         custom_metrics: Optional[list[dict[str, Any]]],
         desc: str,
         commit_id: str,
-        config_path: str | Path = "",
+        config_file_name: Path,
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
@@ -391,7 +402,7 @@ class Experiment:
             custom_metrics (Optional[list[dict[str, Any]]]): list of user defined custom metric configurations
             desc (str, optional): description of the run.
             commit_id (str): commit ID of the current git repository
-            config_path (str | Path, optional): path to the config file. Defaults to "".
+            config_file_name (Path): name of the config file
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
@@ -432,9 +443,9 @@ class Experiment:
             run_id=self.current_run_id,
             desc=desc,
             commit_id=commit_id,
+            config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             runtime=RunTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
-            config_path=config_path,
             evaluation=self.run_evaluation(
                 task_type=task_type,
                 actual=dataset.y_test,
@@ -531,6 +542,7 @@ class Experiment:
                     custom_metrics=custom_metrics,
                     desc=desc,
                     commit_id=commit_id,
+                    config_file_name=Path(""),
                     repo_path=repo_path,
                     add_results=add_results,
                 )
@@ -545,9 +557,13 @@ class Experiment:
         if add_results:
             self.exp_db.runs.append(record)  # type: ignore
             self.save_experiment()
+
             if config_source is not None:
-                save_experiment_config_to_yaml(config, current_run_dirc / "config.yaml", delete_source_path=True)
-                # [TODO]: convert dataset and model instance to config and store it in the run directory
+                # config is saved in the run directory
+                # if "run" executed by instance mode, config is not saved
+                save_experiment_config_to_yaml(
+                    config, Path(current_run_dirc) / DEFAULT_EXP_CONFIG_FILE, delete_source_path=True
+                )
 
         return artifact, record
 
@@ -658,13 +674,13 @@ class Experiment:
                     f'Current commit_id="{commit_id}" is different from'
                     f'the run_id={run_id} commit_id="{run_record.commit_id}".'
                 )
-
-        config_path = run_record.config_path
-        if config_path == "":
+        if run_record.config_file_name == Path(""):
             raise ReproductionError(
                 f"run_id={run_id} does not have a config file path. This run executed from instance."
                 "run from instance mode not supported for reproduction."
             )
+
+        config_path = Path(f"{self.experiment_dirc}/run_{run_id}/{DEFAULT_EXP_CONFIG_FILE}")
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
         logging_evaluation = run_record.evaluation

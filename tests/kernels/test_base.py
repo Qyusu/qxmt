@@ -58,40 +58,6 @@ class TestBaseKernel:
         assert kernel_by_sampling.feature_map is not None
         assert kernel_by_sampling.is_sampling is True
 
-    def test__validate_sampling_values(
-        self, kernel_by_state_vector: BaseKernel, kernel_by_sampling: BaseKernel
-    ) -> None:
-        sampling_result = np.array([[0, 1], [1, 0], [0, 0], [1, 1], [0, 1]])
-
-        # valid pattern
-        kernel_by_sampling._validate_sampling_values(sampling_result, valid_values=[0, 1])
-
-        # invalid pattern
-        # raise error if not sampling mode device
-        with pytest.raises(DeviceSettingError):
-            kernel_by_state_vector._validate_sampling_values(sampling_result)
-
-        # raise error if invalid values
-        with pytest.raises(ValueError):
-            kernel_by_sampling._validate_sampling_values(sampling_result, valid_values=[-1, 1])
-
-    def test__generate_all_observable_states(
-        self, kernel_by_sampling: BaseKernel, kernel_by_multi_qubits: BaseKernel
-    ) -> None:
-        state_pattern = "01"
-        observable_states = kernel_by_sampling._generate_all_observable_states(state_pattern)
-        assert observable_states == ["00", "01", "10", "11"]
-
-        observable_states = kernel_by_multi_qubits._generate_all_observable_states(state_pattern)
-        # fmt: off
-        assert observable_states == [
-            "00000", "00001", "00010", "00011", "00100", "00101", "00110", "00111",
-            "01000", "01001", "01010", "01011", "01100", "01101", "01110", "01111",
-            "10000", "10001", "10010", "10011", "10100", "10101", "10110", "10111",
-            "11000", "11001", "11010", "11011", "11100", "11101", "11110", "11111"
-        ]
-        # fmt: on
-
     def test_compute(self, kernel_by_state_vector: BaseKernel) -> None:
         x1 = np.array([0, 1])
         x2 = np.array([1, 0])
