@@ -9,4 +9,10 @@
 
 ./default_simple.md
 ./mnist_custom.md
+
+```
+
+```{toctree}
+:maxdepth: 1
+
 ./tool_reference.md
