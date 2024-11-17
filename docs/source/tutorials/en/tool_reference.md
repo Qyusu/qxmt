@@ -90,7 +90,50 @@ transform_logic:
 
 ## 3. Feature Map
 
-### 3.1 Using NPQC
+### 3.1 Visualization of Feature Map
+This section introduces how to visualize the quantum circuit of the feature map you created. First, access the instance of the feature map you wish to visualize. There are two main ways to access the instance:
+
+The first method involves obtaining the feature map instance through an artifact returned as the result of executing `run`.
+``` python
+artifact, result = experiment.run(config_source=adhoc_config)
+feature_map = artifact.model.kernel.feature_map
+```
+
+
+The second method is to directly create an instance of the target feature map. This approach is useful when you want to experiment while referencing the circuit diagram, such as when creating a custom feature map.
+``` python
+from qxmt.feature_maps.pennylane.rotation import RotationFeatureMap
+feature_map = RotationFeatureMap(2, 2, ["X", "Y"])
+```
+
+Once the feature map instance is obtained, you can visualize its quantum circuit using the `draw` method. PennyLane currently provides two visualization formats for quantum circuits: `default` and `mpl`. This section introduces the visualization results for both formats using the same circuit.
+
+``` python
+feature_map.draw(x_dim=2, format="default")
+```
+```
+0: ─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─┤
+1: ─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─┤
+M0 =
+[0.41553733 0.03790852]
+```
+
+
+``` python
+feature_map.draw(x_dim=2, format="mpl")
+```
+
+<img src="../../_static/images/tutorials/tools/draw_featuremap_sample.png" alt="visualization example of feature map" title="visualization example of feature map" width="50%">
+
+When visualizing a feature map, it is necessary to provide sample information for the input data by specifying either the `x` or `x_dim` argument.
+
+- The x argument should be set to a single sample value from the input data (e.g., `x_train[0]`).
+- Alternatively, if using `x_dim`, specify the dimensionality of the input data. In this case, random data corresponding to the specified dimensionality will be generated and used for visualizing the quantum circuit.
+
+These values are used solely as sample data during quantum circuit visualization and do not affect the results of experiments such as model construction.
+
+
+### 3.2 Using NPQC
 Here, we introduce the configuration settings for using `NPQC` as proposed in Reference [[1]](#ref1).
 
 NPQC is defined using the following quantum circuit, which repeatedly encodes input data into qubits. This approach allows handling data with an input dimensionality exceeding the number of qubits used.
@@ -113,7 +156,7 @@ feature_map:
 - **params.c**: The scale parameter used in the feature map.
 - **params.reps**: The number of repetitions in the feature map.
 
-### 3.2 Using YZCX
+### 3.3 Using YZCX
 Here, we introduce the configuration settings for using `YZCX` as proposed in Reference [[1]](#ref1).
 
 YZCX is defined using the following quantum circuit, and like NPQC, it can handle data with an input dimensionality exceeding the number of qubits used.

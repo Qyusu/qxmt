@@ -94,7 +94,51 @@ transform_logic:
 
 ## 3. Feature Map
 
-### 3.1 NPQCの利用
+### 3.1 Feature Mapの可視化
+作成した特徴マップの量子回路を可視化する方法を紹介します。
+まず、可視化したい特徴マップのインスタンスにアクセスします。インスタンスへは大きく二つの方法でアクセスする方法があります。
+
+一つ目の方法は、`run`の実行結果として返ってくるArtifact経由で特徴マップのインスタンスを取得する方法です。
+``` python
+artifact, result = experiment.run(config_source=adhoc_config)
+feature_map = artifact.model.kernel.feature_map
+```
+
+もう一つの方法は、対象の特徴マップのインスタンスを直接作成する方法です。この方法では、カスタムの特徴マップを作る場合に回路図を見ながら試行錯誤したいという場合に便利です。
+``` python
+from qxmt.feature_maps.pennylane.rotation import RotationFeatureMap
+feature_map = RotationFeatureMap(2, 2, ["X", "Y"])
+```
+
+特徴マップのインスタンスが取得できると`draw`メソッドでその量子回路を可視化できます。
+現在PennyLaneで作成した量子回路の可視化フォーマットとして、`default`と`mpl`の2種類が用意されています。
+同一回路における、それぞれの可視化結果をここでは紹介します。
+
+``` python
+feature_map.draw(x_dim=2, format="default")
+```
+```
+0: ─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─┤
+1: ─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─┤
+M0 =
+[0.41553733 0.03790852]
+```
+
+
+``` python
+feature_map.draw(x_dim=2, format="mpl")
+```
+
+<img src="../../_static/images/tutorials/tools/draw_featuremap_sample.png" alt="特徴マップの可視化例" title="特徴マップの可視化例" width="50%">
+
+特徴マップの可視化時には、入力データのサンプル情報を伝える必要があるため引数`x`または`x_dim`のどちらかを設定する必要があります。
+- `x`は入力データの1つのサンプル値を設定します (例：`x_train[0]`など)
+- `x_dim`を利用する場合には、入力データの次元数を設定します。すると、次元数に応じたランダムなデータが生成され、その値を元に量子回路の可視化が行われます。
+
+これらの値は、量子回路可視化時にサンプルデータとして用いられるだけで、モデル構築等の実験の結果には影響しません。
+
+
+### 3.2 NPQCの利用
 ここでは、[参考文献[1]](#ref1)で提案された`NPQC`を利用する場合のconifg設定方法を紹介します。
 
 NPQCは以下の量子回路で定義され、入力データをqubitに対して繰り返しエンコーディングしていくため、利用するqubit数以上の入力次元数を持つデータを扱うことができます。
@@ -116,7 +160,7 @@ feature_map:
 - **params.c**: 特徴マップで利用されるスケールパラメータ
 - **params.reps**: 特徴マップの繰り返し数
 
-### 3.2 YZCXの利用
+### 3.3 YZCXの利用
 ここでは、[参考文献[1]](#ref1)で提案された`YZCX`を利用する場合のconifg設定方法を紹介します。
 
 YZCXは以下の量子回路で定義され、NPQCと同様に利用するqubit数以上の入力次元数を持つデータを扱うことができます。
