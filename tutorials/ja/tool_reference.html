@@ -417,8 +417,9 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.1 NPQCの利用</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.2 YZCXの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.2 NPQCの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.3 YZCXの利用</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
@@ -564,8 +565,45 @@ yamlにおけるリストの表記方法はいくつかパターンがありま�
 <hr class="docutils" />
 <section id="feature-map">
 <h2>3. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
+<section id="id4">
+<h3>3.1 Feature Mapの可視化<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>作成した特徴マップの量子回路を可視化する方法を紹介します。
+まず、可視化したい特徴マップのインスタンスにアクセスします。インスタンスへは大きく二つの方法でアクセスする方法があります。</p>
+<p>一つ目の方法は、<code class="docutils literal notranslate"><span class="pre">run</span></code>の実行結果として返ってくるArtifact経由で特徴マップのインスタンスを取得する方法です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">adhoc_config</span><span class="p">)</span>
+<span class="n">feature_map</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">feature_map</span>
+</pre></div>
+</div>
+<p>もう一つの方法は、対象の特徴マップのインスタンスを直接作成する方法です。この方法では、カスタムの特徴マップを作る場合に回路図を見ながら試行錯誤したいという場合に便利です。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.rotation</span> <span class="kn">import</span> <span class="n">RotationFeatureMap</span>
+<span class="n">feature_map</span> <span class="o">=</span> <span class="n">RotationFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>特徴マップのインスタンスが取得できると<code class="docutils literal notranslate"><span class="pre">draw</span></code>メソッドでその量子回路を可視化できます。
+現在PennyLaneで作成した量子回路の可視化フォーマットとして、<code class="docutils literal notranslate"><span class="pre">default</span></code>と<code class="docutils literal notranslate"><span class="pre">mpl</span></code>の2種類が用意されています。
+同一回路における、それぞれの可視化結果をここでは紹介します。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>0: ─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─╭AngleEmbedding(M0)─┤
+1: ─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─╰AngleEmbedding(M0)─┤
+M0 =
+[0.41553733 0.03790852]
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;mpl&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img src="../../_static/images/tutorials/tools/draw_featuremap_sample.png" alt="特徴マップの可視化例" title="特徴マップの可視化例" width="50%">
+<p>特徴マップの可視化時には、入力データのサンプル情報を伝える必要があるため引数<code class="docutils literal notranslate"><span class="pre">x</span></code>または<code class="docutils literal notranslate"><span class="pre">x_dim</span></code>のどちらかを設定する必要があります。</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">x</span></code>は入力データの1つのサンプル値を設定します (例：<code class="docutils literal notranslate"><span class="pre">x_train[0]</span></code>など)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_dim</span></code>を利用する場合には、入力データの次元数を設定します。すると、次元数に応じたランダムなデータが生成され、その値を元に量子回路の可視化が行われます。</p></li>
+</ul>
+<p>これらの値は、量子回路可視化時にサンプルデータとして用いられるだけで、モデル構築等の実験の結果には影響しません。</p>
+</section>
 <section id="npqc">
-<h3>3.1 NPQCの利用<a class="headerlink" href="#npqc" title="Link to this heading">#</a></h3>
+<h3>3.2 NPQCの利用<a class="headerlink" href="#npqc" title="Link to this heading">#</a></h3>
 <p>ここでは、<a class="reference internal" href="#ref1"><span class="xref myst">参考文献[1]</span></a>で提案された<code class="docutils literal notranslate"><span class="pre">NPQC</span></code>を利用する場合のconifg設定方法を紹介します。</p>
 <p>NPQCは以下の量子回路で定義され、入力データをqubitに対して繰り返しエンコーディングしていくため、利用するqubit数以上の入力次元数を持つデータを扱うことができます。</p>
 <img src="../../_static/images/tutorials/tools/npqc_circuit.png" alt="NPQCの回路図" title="NPQCの回路図" width="75%">
@@ -586,7 +624,7 @@ yamlにおけるリストの表記方法はいくつかパターンがありま�
 </ul>
 </section>
 <section id="yzcx">
-<h3>3.2 YZCXの利用<a class="headerlink" href="#yzcx" title="Link to this heading">#</a></h3>
+<h3>3.3 YZCXの利用<a class="headerlink" href="#yzcx" title="Link to this heading">#</a></h3>
 <p>ここでは、<a class="reference internal" href="#ref1"><span class="xref myst">参考文献[1]</span></a>で提案された<code class="docutils literal notranslate"><span class="pre">YZCX</span></code>を利用する場合のconifg設定方法を紹介します。</p>
 <p>YZCXは以下の量子回路で定義され、NPQCと同様に利用するqubit数以上の入力次元数を持つデータを扱うことができます。</p>
 <img src="../../_static/images/tutorials/tools/yzcx_circuit.png" alt="YZCXの回路図" title="YZCXの回路図" width="100%">
@@ -700,8 +738,9 @@ yamlにおけるリストの表記方法はいくつかパターンがありま�
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.1 NPQCの利用</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.2 YZCXの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.2 NPQCの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.3 YZCXの利用</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
