@@ -283,8 +283,9 @@ plot_metrics_side_by_side(
 
 ---
 
-### バージョン情報
+**バージョン情報**
+
 | Environment | Version |
 |----------|----------|
-| document | 2024/10/28 |
-| QXMT| v0.3.3 |
+| document | 2024/11/17 |
+| QXMT| v0.3.5 |

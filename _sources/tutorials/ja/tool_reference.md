@@ -227,5 +227,5 @@ kernel:
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/11/15 |
+| document | 2024/11/17 |
 | QXMT| v0.3.5 |
