@@ -11,7 +11,8 @@ class DeviceBuilder:
         >>> from qxmt.devices.builder import DeviceBuilder
         >>> config = DeviceConfig(
         ...     platform="pennylane",
-        ...     name="default.qubit",
+        ...     device_name="default.qubit",
+        ...     backend_name=None,
         ...     n_qubits=2,
         ...     shots=1000,
         ... )
@@ -37,7 +38,8 @@ class DeviceBuilder:
         """
         return BaseDevice(
             platform=self.config.platform,
-            name=self.config.name,
+            device_name=self.config.device_name,
+            backend_name=self.config.backend_name,
             n_qubits=self.config.n_qubits,
             shots=self.config.shots,
         )

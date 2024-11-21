@@ -30,6 +30,10 @@ class DeviceSettingError(Exception):
     pass
 
 
+class IBMQSettingError(Exception):
+    pass
+
+
 class ModelSettingError(Exception):
     pass
 
