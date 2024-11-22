@@ -1,4 +1,4 @@
-name: unit tests
+name: integration tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - '*'
+      - main
   workflow_dispatch:
 
 env:
