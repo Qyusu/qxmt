@@ -32,13 +32,13 @@ class TestKernel(BaseKernel):
 @pytest.fixture(scope="function")
 def state_vec_model() -> BaseMLModel:
     kernel = TestKernel(device=DEVICE_STATEVC, feature_map=empty_feature_map)
-    return QSVC(kernel=kernel)
+    return QSVC(kernel=kernel, n_jobs=1)
 
 
 @pytest.fixture(scope="function")
 def shots_model() -> BaseMLModel:
     kernel = TestKernel(device=DEVICE_SHOTS, feature_map=empty_feature_map)
-    return QSVC(kernel=kernel)
+    return QSVC(kernel=kernel, n_jobs=1)
 
 
 @pytest.fixture(scope="function")

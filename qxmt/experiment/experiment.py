@@ -16,6 +16,7 @@ from qxmt.constants import (
     DEFAULT_EXP_DB_FILE,
     DEFAULT_EXP_DIRC,
     DEFAULT_MODEL_NAME,
+    DEFAULT_N_JOBS,
     DEFAULT_SHOT_RESULTS_NAME,
     LLM_MODEL_PATH,
     TZ,
@@ -336,6 +337,7 @@ class Experiment:
         config: ExperimentConfig,
         commit_id: str,
         run_dirc: str | Path,
+        n_jobs: int,
         repo_path: Optional[str] = None,
         add_results: bool = True,
     ) -> tuple[RunArtifact, RunRecord]:
@@ -345,6 +347,7 @@ class Experiment:
             config (ExperimentConfig): configuration of the experiment
             commit_id (str): commit ID of the current git repository
             run_dirc (str | Path): path to the run directory
+            n_jobs (int): number of jobs for parallel processing
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to save the model. Defaults to True.
 
@@ -355,7 +358,7 @@ class Experiment:
         dataset = DatasetBuilder(config=config).build()
 
         # create model instance from the config
-        model = ModelBuilder(config=config).build()
+        model = ModelBuilder(config=config, n_jobs=n_jobs).build()
         save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
         save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
 
@@ -465,6 +468,7 @@ class Experiment:
         config_source: Optional[ExperimentConfig | str | Path] = None,
         default_metrics_name: Optional[list[str]] = None,
         custom_metrics: Optional[list[dict[str, Any]]] = None,
+        n_jobs: int = DEFAULT_N_JOBS,
         desc: str = "",
         repo_path: Optional[str] = None,
         add_results: bool = True,
@@ -492,6 +496,7 @@ class Experiment:
             default_metrics_name (list[str], optional): list of default metrics names. Defaults to None.
             custom_metrics (list[dict[str, Any]], optional):
                 list of user defined custom metric configurations. Defaults to None.
+            n_jobs (int, optional): number of jobs for parallel processing. Defaults to DEFAULT_N_JOBS.
             desc (str, optional): description of the run. Defaults to "".
             repo_path (str, optional): path to the git repository. Defaults to None.
             add_results (bool, optional): whether to add the run record to the experiment. Defaults to True.
@@ -522,6 +527,8 @@ class Experiment:
                     config=config,
                     commit_id=commit_id,
                     run_dirc=current_run_dirc,
+                    n_jobs=n_jobs,
+                    repo_path=repo_path,
                     add_results=add_results,
                 )
             elif (dataset is not None) and (model is not None):

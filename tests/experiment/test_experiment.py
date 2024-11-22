@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import Callable, cast
+from typing import Callable
 
 import numpy as np
 import pytest
@@ -158,7 +158,7 @@ class TestExperimentRun:
         base_experiment.init()
 
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=None, model=None)
+            base_experiment.run(dataset=None, model=None, n_jobs=1)
 
         assert base_experiment.current_run_id == 0
         assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
@@ -201,12 +201,12 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(dataset=dataset, model=state_vec_model)
+            base_experiment.run(dataset=dataset, model=state_vec_model, n_jobs=1)
 
         # run from dataset and model instance
         base_experiment.init()
         artifact, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
         )
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
@@ -214,25 +214,33 @@ class TestExperimentRun:
         assert isinstance(artifact.model, BaseMLModel)
         assert isinstance(artifact.dataset, Dataset)
 
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, add_results=True)
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, add_results=True)
+        _, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
+        )
+        _, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
+        )
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # run by shots model
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=shots_model, add_results=True)
+        _, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=shots_model, add_results=True, n_jobs=1
+        )
         assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_4/shots.h5").exists()
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
 
         # not add result record (state vector mode)
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=False
+            task_type="classification", dataset=dataset, model=state_vec_model, add_results=False, n_jobs=1
         )
         assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
 
         # not add result record (shots mode)
-        _, _ = base_experiment.run(task_type="classification", dataset=dataset, model=shots_model, add_results=False)
+        _, _ = base_experiment.run(
+            task_type="classification", dataset=dataset, model=shots_model, add_results=False, n_jobs=1
+        )
         assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
         assert not base_experiment.experiment_dirc.joinpath("run_5/shots.h5").exists()
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
@@ -267,11 +275,11 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(config_source=experiment_config)
+            base_experiment.run(config_source=experiment_config, n_jobs=1)
 
         # run from config instance
         base_experiment.init()
-        artifact, _ = base_experiment.run(config_source=experiment_config)
+        artifact, _ = base_experiment.run(config_source=experiment_config, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
@@ -281,7 +289,7 @@ class TestExperimentRun:
         # run from config file
         experiment_config_file = tmp_path / "experiment_config.yaml"
         save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
-        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
+        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 2  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_2/config.yaml").exists()
@@ -305,11 +313,11 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(config_source=shots_experiment_config)
+            base_experiment.run(config_source=shots_experiment_config, n_jobs=1)
 
         # run from config instance
         base_experiment.init()
-        artifact, _ = base_experiment.run(config_source=shots_experiment_config)
+        artifact, _ = base_experiment.run(config_source=shots_experiment_config, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_1/shots.h5").exists()
@@ -320,7 +328,7 @@ class TestExperimentRun:
         # run from config file
         experiment_config_file = tmp_path / "experiment_config.yaml"
         save_experiment_config_to_yaml(shots_experiment_config, experiment_config_file, delete_source_path=True)
-        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True)
+        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 2  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_2/shots.h5").exists()
@@ -344,12 +352,14 @@ class TestExperimentResults:
             dataset=dataset,
             model=state_vec_model,
             default_metrics_name=default_metrics_name,
+            n_jobs=1,
         )
         base_experiment.run(
             task_type="classification",
             dataset=dataset,
             model=state_vec_model,
             default_metrics_name=default_metrics_name,
+            n_jobs=1,
         )
         df = base_experiment.runs_to_dataframe()
 
@@ -362,8 +372,8 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
@@ -378,7 +388,7 @@ class TestExperimentReproduce:
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model)
+        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
 
         # run_id=1 executed from dataset and model instance.
         # this run not exist config file.

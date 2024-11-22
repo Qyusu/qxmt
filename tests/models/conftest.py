@@ -29,7 +29,7 @@ class TestKernel(BaseKernel):
 def build_qsvc() -> Callable:
     def _build_qsvc(**kwargs: Any) -> QSVC:
         kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
-        return QSVC(kernel=kernel, **kwargs)
+        return QSVC(kernel=kernel, n_jobs=1, **kwargs)
 
     return _build_qsvc
 
@@ -38,7 +38,7 @@ def build_qsvc() -> Callable:
 def build_qsvr() -> Callable:
     def _build_qsvr(**kwargs: Any) -> QSVR:
         kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
-        return QSVR(kernel=kernel, **kwargs)
+        return QSVR(kernel=kernel, n_jobs=1, **kwargs)
 
     return _build_qsvr
 
@@ -47,7 +47,7 @@ def build_qsvr() -> Callable:
 def build_qrigge() -> Callable:
     def _build_qsvm(**kwargs: Any) -> QRiggeRegressor:
         kernel = TestKernel(device=DEVICE, feature_map=empty_feature_map)
-        return QRiggeRegressor(kernel=kernel, **kwargs)
+        return QRiggeRegressor(kernel=kernel, n_jobs=1, **kwargs)
 
     return _build_qsvm
 

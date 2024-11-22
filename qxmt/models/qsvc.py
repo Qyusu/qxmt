@@ -40,13 +40,14 @@ class QSVC(BaseKernelModel):
         np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
     """
 
-    def __init__(self, kernel: BaseKernel, **kwargs: Any) -> None:
+    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, **kwargs: Any) -> None:
         """Initialize the QSVC model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
+            n_jobs (int): number of jobs for parallel computation
         """
-        super().__init__(kernel)
+        super().__init__(kernel, n_jobs)
         self.fit_X: Optional[np.ndarray] = None
         self.model = SVC(kernel="precomputed", **kwargs)
 
@@ -61,7 +62,6 @@ class QSVC(BaseKernelModel):
         self,
         X: np.ndarray,
         y: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
         **kwargs: Any,
     ) -> np.ndarray:
         """Cross validation score of the QSVC model.
@@ -74,8 +74,8 @@ class QSVC(BaseKernelModel):
         Returns:
             np.ndarray: numpy array of scores
         """
-        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
-        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
+        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
+        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=self.n_jobs, **kwargs)
 
         return scores
 
@@ -107,7 +107,7 @@ class QSVC(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
-        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
+        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "accuracy"
@@ -146,13 +146,13 @@ class QSVC(BaseKernelModel):
         self.fit_X = X
         if save_shots_path is not None:
             kernel_train_X, shots_matrix = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=True, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=True, n_jobs=self.n_jobs, bar_label="Train"
             )
             if shots_matrix is not None:
                 self.kernel.save_shots_results(shots_matrix, save_shots_path)
         else:
             kernel_train_X, _ = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=False, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Train"
             )
         self.model.fit(kernel_train_X, y, **kwargs)
 
@@ -168,7 +168,9 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, bar_label="Test")
+            kernel_pred_X, _ = self.kernel.compute_matrix(
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Test"
+            )
         return self.model.predict(kernel_pred_X)
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
@@ -184,7 +186,7 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs)
         return self.model.predict_proba(kernel_pred_X)
 
     def decision_function(self, X: np.ndarray) -> np.ndarray:
@@ -199,7 +201,7 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs)
         return self.model.decision_function(kernel_pred_X)
 
     def save(self, path: str | Path) -> None:
