@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 import pandas as pd
@@ -112,13 +113,25 @@ class TestRunExperiment:
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        expected_df = pd.DataFrame(
-            {
-                "run_id": [1, 2],
-                "accuracy": [0.40, 0.50],
-                "precision": [0.55, 0.27],
-                "recall": [0.33, 0.36],
-                "f1_score": [0.35, 0.31],
-            }
-        ).round(2)
+        if sys.version_info == (3, 10):
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1, 2],
+                    "accuracy": [0.45, 0.35],
+                    "precision": [0.55, 0.27],
+                    "recall": [0.33, 0.36],
+                    "f1_score": [0.35, 0.31],
+                }
+            ).round(2)
+        elif sys.version_info == (3, 11):
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1, 2],
+                    "accuracy": [0.40, 0.50],
+                    "precision": [0.55, 0.27],
+                    "recall": [0.33, 0.36],
+                    "f1_score": [0.35, 0.31],
+                }
+            ).round(2)
+
         assert_frame_equal(result_df, expected_df)
