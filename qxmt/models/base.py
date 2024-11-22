@@ -86,7 +86,7 @@ class BaseKernelModel(BaseMLModel):
     The user can use any Feature Map or Kernel to be used, as long as it follows the interface of the BaseKernel class.
     """
 
-    def __init__(self, kernel: BaseKernel) -> None:
+    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS) -> None:
         """Initialize the kernel model.
 
         Args:
@@ -94,6 +94,7 @@ class BaseKernelModel(BaseMLModel):
         """
         super().__init__()
         self.kernel = kernel
+        self.n_jobs = n_jobs
 
     def get_feature_map(self) -> BaseFeatureMap:
         """Get the feature map of the model.
@@ -107,7 +108,6 @@ class BaseKernelModel(BaseMLModel):
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
     ) -> np.ndarray:
         """Get the kernel matrix of the given data.
         This method is alias of kernel.compute_matrix().
@@ -123,7 +123,7 @@ class BaseKernelModel(BaseMLModel):
             x_array_1,
             x_array_2,
             return_shots_resutls=False,
-            n_jobs=n_jobs,
+            n_jobs=self.n_jobs,
         )
 
         return kernel_matrix
@@ -132,7 +132,6 @@ class BaseKernelModel(BaseMLModel):
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
         """Plot the kernel matrix of the given data.
         This method is alias of kernel.plot_matrix().
@@ -141,13 +140,12 @@ class BaseKernelModel(BaseMLModel):
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
         """
-        self.kernel.plot_matrix(x_array_1, x_array_2, n_jobs=n_jobs)
+        self.kernel.plot_matrix(x_array_1, x_array_2, n_jobs=self.n_jobs)
 
     def plot_train_test_kernel_matrix(
         self,
         x_train: np.ndarray,
         x_test: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
     ) -> None:
         """Plot the kernel matrix of training and testing data.
         This method is alias of kernel.plot_train_test_matrix().
@@ -156,4 +154,4 @@ class BaseKernelModel(BaseMLModel):
             x_train (np.ndarray): array of training samples
             x_test (np.ndarray): array of testing samples
         """
-        self.kernel.plot_train_test_matrix(x_train, x_test, n_jobs=n_jobs)
+        self.kernel.plot_train_test_matrix(x_train, x_test, n_jobs=self.n_jobs)
