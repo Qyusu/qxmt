@@ -100,9 +100,10 @@ class BaseKernel(ABC):
 
     def _compute_entry(
         self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: mp.Queue
-    ) -> tuple[int, int, tuple[float, np.ndarray]]:
+    ) -> tuple[int, int, tuple[float, np.ndarray] | Exception]:
         """Compute each entry of the kernel matrix.
         This method is used for parallel computation of the kernel matrix.
+        If an error occurs in the self.compute() method, it is handled and returned as an exception.
 
         Args:
             i (int): row index of kernel matrix
@@ -112,12 +113,19 @@ class BaseKernel(ABC):
             progress_queue (mp.Queue): queue for tracking the progress
 
         Returns:
-            tuple[int, int, tuple[float, np.ndarray]]:
+            tuple[int, int, tuple[float, np.ndarray] | Exception]:
                 row index, column index, kernel value and probability distribution
+
+        Raises:
+            Exception: error in the self.compute() method
         """
-        result = self.compute(x_array_1[i], x_array_2[j])
-        progress_queue.put(1)
-        return i, j, result
+        try:
+            result = self.compute(x_array_1[i], x_array_2[j])
+            progress_queue.put(1)
+            return i, j, result
+        except Exception as e:
+            progress_queue.put(1)
+            return i, j, e
 
     def compute_matrix(
         self,
@@ -128,6 +136,7 @@ class BaseKernel(ABC):
         bar_label: str = "",
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
         """Default implementation of kernel matrix computation.
+        Due to the parallel computation, raise an error is delayed until the end of the computation.
 
         Args:
             x_array_1 (np.ndarray): array of samples (ex: training data)
@@ -138,6 +147,9 @@ class BaseKernel(ABC):
 
         Returns:
             np.ndarray: computed kernel matrix
+
+        Raises:
+            Exception: error in the self.compute() method
         """
 
         # compute each entry of the kernel matrix in parallel
@@ -182,10 +194,15 @@ class BaseKernel(ABC):
 
         kernel_matrix = np.zeros((n_samples_1, n_samples_2))
         for i, j, result in final_results:
-            kernel_matrix[i, j] = result[0]
+            if isinstance(result, Exception):
+                # raise error in self.compute() method
+                raise result
+            else:
+                # success to compute the kernel value
+                kernel_matrix[i, j] = result[0]
 
-            if shots_matrix is not None:
-                shots_matrix[i, j] = result[1]
+                if shots_matrix is not None:
+                    shots_matrix[i, j] = result[1]
 
         return kernel_matrix, shots_matrix
 
