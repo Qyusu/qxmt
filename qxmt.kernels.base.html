@@ -536,7 +536,8 @@ It is possible to use a feature map instance or a function that defines the feat
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">compute_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_shots_resutls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Default implementation of kernel matrix computation.</p>
+<dd><p>Default implementation of kernel matrix computation.
+Due to the parallel computation, raise an error is delayed until the end of the computation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -552,6 +553,9 @@ It is possible to use a feature map instance or a function that defines the feat
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – error in the self.compute() method</p>
 </dd>
 </dl>
 </dd></dl>
