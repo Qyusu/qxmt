@@ -14,7 +14,7 @@ QXMT includes a variety of datasets, machine learning models, and visualization 
 QXMT is a newly released tool, and its features are currently limited. The quantum libraries and devices that have been tested are listed below. For future development plans, please refer to the roadmap. Even if your environment is not listed, you can still manage experiments by implementing according to the interfaces provided by QXMT. For details on how to implement these interfaces, please refer to the documentation.
 
 
-| Quantum Library              | Simulator | Real Machine |
+| Quantum Library              | Simulator | Real Machine (IBMQ, Amazon Braket) |
 |---------------------|-----------|--------------|
 |<p align="center">[pennylane](https://github.com/PennyLaneAI/pennylane)</p>|<p align="center">✅</p>|<p align="center">❌</p>|
 |<p align="center">[Qulacs](https://github.com/qulacs/qulacs)</p>           |<p align="center">❌</p>|<p align="center">❌</p>|

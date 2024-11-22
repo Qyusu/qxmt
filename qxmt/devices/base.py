@@ -1,12 +1,11 @@
 import os
-from typing import TYPE_CHECKING, Any, Optional
+from typing import Any, Optional
 
+from qiskit.providers.backend import BackendV2
+from qiskit_ibm_runtime import IBMBackend
+
+from qxmt.constants import IBMQ_API_KEY
 from qxmt.exceptions import IBMQSettingError, InvalidPlatformError
-
-if TYPE_CHECKING:
-    from qiskit.providers.backend import BackendV2
-    from qiskit_ibm_runtime import IBMBackend
-
 
 IBMQ_REAL_DEVICES = ["qiskit.remote"]
 
@@ -62,10 +61,10 @@ class BaseDevice:
         """
         from qiskit_ibm_runtime import QiskitRuntimeService
 
-        ibm_api_key = os.getenv("IBMQ_API_KEY")
+        ibm_api_key = os.getenv(IBMQ_API_KEY)
         if ibm_api_key is None:
             raise IBMQSettingError(
-                'IBM Quantum account is not set. Please set the "IBMQ_API_KEY" environment variable.'
+                f'IBM Quantum account is not set. Please set the "{IBMQ_API_KEY}" environment variable.'
             )
 
         QiskitRuntimeService.save_account(
@@ -90,7 +89,7 @@ class BaseDevice:
             InvalidPlatformError: platform is not implemented.
         """
         if self.platform == "pennylane":
-            from pennylane import qml
+            import pennylane as qml
 
             if self.device_name in IBMQ_REAL_DEVICES:
                 backend = self._get_ibm_real_device(self.backend_name)

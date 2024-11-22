@@ -1,14 +1,10 @@
-from typing import TYPE_CHECKING
-
 from pydantic import BaseModel
+from qiskit_ibm_runtime import QiskitRuntimeService
 
 from qxmt.constants import PENNYLANE_DEVICES
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import InvalidQunatumDeviceError
 from qxmt.types import QuantumDeviceType
-
-if TYPE_CHECKING:
-    from qiskit_ibm_runtime import QiskitRuntimeService
 
 
 class IBMQDevice(BaseModel):
