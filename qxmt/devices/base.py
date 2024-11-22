@@ -38,7 +38,6 @@ class BaseDevice:
             InvalidPlatformError: platform is not implemented.
         """
         if self.platform == "pennylane":
-            # from pennylane import qml
             import pennylane as qml
 
             self.device = qml.device(
