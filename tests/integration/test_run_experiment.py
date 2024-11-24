@@ -127,7 +127,6 @@ class TestRunExperiment:
                 }
             ).round(2)
         elif sys.version_info[:2] == (3, 11):
-            print("Hello! Python 3.11")
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1, 2],

@@ -37,6 +37,7 @@ device:
   name: "default.qubit"
   n_qubits: 2
   shots: 1024
+  random_seed: *global_seed
 
 feature_map:
   module_name: "qxmt.feature_maps.pennylane"
