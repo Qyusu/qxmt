@@ -1,6 +1,7 @@
 import sys
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal
 
@@ -130,10 +131,10 @@ class TestRunExperiment:
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1, 2],
-                    "accuracy": [0.40, 0.50],
-                    "precision": [0.55, 0.27],
-                    "recall": [0.33, 0.36],
-                    "f1_score": [0.35, 0.31],
+                    "accuracy": [0.50, 0.50],
+                    "precision": [0.40, 0.19],
+                    "recall": [0.38, 0.30],
+                    "f1_score": [0.37, 0.23],
                 }
             ).round(2)
         else:
