@@ -24,6 +24,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install ARM64 dependencies
+        run: sudo apt-get install qemu binfmt-support qemu-user-static
+
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
