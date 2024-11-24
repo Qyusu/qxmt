@@ -32,7 +32,7 @@ dataset:
 
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: null
 

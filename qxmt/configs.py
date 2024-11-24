@@ -82,7 +82,8 @@ class DeviceConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     platform: str
-    name: str
+    device_name: str
+    backend_name: Optional[str] = None
     n_qubits: int
     shots: Optional[int] = None
     save_shots_results: bool = False
@@ -97,6 +98,12 @@ class DeviceConfig(BaseModel):
     def check_save_shots(self) -> "DeviceConfig":
         if (self.shots is None) and (self.save_shots_results):
             raise ValueError('The "shots" must be set to save the shot results.')
+        return self
+
+    @model_validator(mode="after")
+    def check_real_machine_setting(self) -> "DeviceConfig":
+        if (self.backend_name is not None) and (self.shots is None):
+            raise ValueError("Real quantum machine must set the shots.")
         return self
 
 

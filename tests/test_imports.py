@@ -16,6 +16,7 @@ EXPECTED_ALL = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
+    "IBMQSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",

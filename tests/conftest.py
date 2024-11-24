@@ -30,8 +30,8 @@ DEFAULT_DATASET_CONFIG = DatasetConfig(
     raw_preprocess_logic=None,
     transform_logic=None,
 )
-DEFAULT_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
-SHOTS_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
+DEFAULT_DEVICE_CONFIG = DeviceConfig(platform="pennylane", device_name="default.qubit", n_qubits=2, shots=None)
+SHOTS_DEVICE_CONFIG = DeviceConfig(platform="pennylane", device_name="default.qubit", n_qubits=2, shots=5)
 DEFAULT_FEATUREMAP_CONFIG = FeatureMapConfig(
     module_name="qxmt.feature_maps.pennylane", implement_name="ZZFeatureMap", params={"reps": 2}
 )
