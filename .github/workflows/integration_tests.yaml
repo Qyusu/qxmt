@@ -15,7 +15,7 @@ env:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       matrix:
         python-version: ['3.10', '3.11']
@@ -23,9 +23,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: Install ARM64 dependencies
-        run: sudo apt-get install qemu binfmt-support qemu-user-static
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
