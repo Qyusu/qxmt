@@ -123,7 +123,10 @@ class TestRunExperiment:
                     "f1_score": [0.35, 0.31],
                 }
             ).round(2)
+            print("*" * 80)
+            print(f"Expected DataFrame: {expected_df}")
         elif sys.version_info[:2] == (3, 11):
+            print("Hello! Python 3.11")
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1, 2],
@@ -133,5 +136,9 @@ class TestRunExperiment:
                     "f1_score": [0.35, 0.31],
                 }
             ).round(2)
+            print("*" * 80)
+            print(f"Expected DataFrame: {expected_df}")
+        else:
+            raise ValueError("Unsupported Python version")
 
         assert_frame_equal(result_df, expected_df)
