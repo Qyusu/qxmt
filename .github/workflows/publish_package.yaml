@@ -33,13 +33,8 @@ jobs:
     - name: Build the package
       run: poetry build
 
-    - name: Publish to PyPI using OpenID Connect
+    - name: Publish to PyPI using Trusted Publisher
       env:
-        TWINE_REPOSITORY_URL: https://upload.pypi.org/legacy/
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.ACTIONS_ID_TOKEN }}
       run: |
-        export TWINE_USERNAME=__token__
-        poetry publish --username $TWINE_USERNAME --password $(curl -X POST \
-          -H "Accept: application/json" \
-          -H "Authorization: Bearer $ACTIONS_ID_TOKEN" \
-          https://upload.pypi.org/account/token \
-          | jq -r '.token')
+          poetry publish --build
