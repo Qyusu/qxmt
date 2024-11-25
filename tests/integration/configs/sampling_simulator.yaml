@@ -54,7 +54,7 @@ model:
   name: "qsvc"
   params:
     C: 1.0
-    gamma:  "scale"
+    gamma:  3.0
 
 evaluation:
   default_metrics:
