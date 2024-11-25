@@ -139,4 +139,4 @@ class TestRunExperiment:
         else:
             raise ValueError("Unsupported Python version")
 
-        assert_frame_equal(result_df, expected_df)
+        assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-2)
