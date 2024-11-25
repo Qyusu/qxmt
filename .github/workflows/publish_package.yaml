@@ -36,6 +36,19 @@ jobs:
     - name: Install dependencies
       run: poetry install --no-dev
 
+    - name: Debug Poetry Config
+      run: poetry config --list
+
+    - name: Debug OIDC Token
+      run: |
+        curl -X POST \
+          -H "Accept: application/json" \
+          -H "Authorization: Bearer $ACTIONS_ID_TOKEN" \
+          https://upload.pypi.org/account/token/
+
+    - name: Debug Environment Variables
+      run: env
+
     - name: Build the package
       run: poetry build
 
