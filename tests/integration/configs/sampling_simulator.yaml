@@ -1,4 +1,4 @@
-description: "This is a template configuration file for the QXMT framework."
+description: "This is an integration test for running an experiment by the sampling simulator."
 
 global_settings:
   random_seed: &global_seed 42

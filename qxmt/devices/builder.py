@@ -40,4 +40,5 @@ class DeviceBuilder:
             name=self.config.name,
             n_qubits=self.config.n_qubits,
             shots=self.config.shots,
+            random_seed=self.config.random_seed,
         )

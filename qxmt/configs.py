@@ -85,6 +85,7 @@ class DeviceConfig(BaseModel):
     name: str
     n_qubits: int
     shots: Optional[int] = None
+    random_seed: Optional[int] = None
     save_shots_results: bool = False
 
     @field_validator("shots")
