@@ -40,13 +40,14 @@ class QSVR(BaseKernelModel):
         np.array([-0.5441202 , -0.19483975, -0.19773099, -0.24928479,  0.12222858])
     """
 
-    def __init__(self, kernel: BaseKernel, **kwargs: Any) -> None:
+    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, **kwargs: Any) -> None:
         """Initialize the QSVR model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
+            n_jobs (int): number of jobs for parallel computation
         """
-        super().__init__(kernel)
+        super().__init__(kernel, n_jobs)
         self.fit_X: Optional[np.ndarray] = None
         self.model = SVR(kernel="precomputed", **kwargs)
 
@@ -61,7 +62,6 @@ class QSVR(BaseKernelModel):
         self,
         X: np.ndarray,
         y: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
         **kwargs: Any,
     ) -> np.ndarray:
         """Cross validation score of the QSVR model.
@@ -74,8 +74,8 @@ class QSVR(BaseKernelModel):
         Returns:
             np.ndarray: numpy array of scores
         """
-        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
-        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
+        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
+        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=self.n_jobs, **kwargs)
 
         return scores
 
@@ -107,7 +107,7 @@ class QSVR(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
-        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
+        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "r2"
@@ -146,13 +146,13 @@ class QSVR(BaseKernelModel):
         self.fit_X = X
         if save_shots_path is not None:
             kernel_train_X, shots_matrix = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=True, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=True, n_jobs=self.n_jobs, bar_label="Train"
             )
             if shots_matrix is not None:
                 self.kernel.save_shots_results(shots_matrix, save_shots_path)
         else:
             kernel_train_X, _ = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=False, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Train"
             )
         self.model.fit(kernel_train_X, y, **kwargs)
 
@@ -168,7 +168,9 @@ class QSVR(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, bar_label="Test")
+            kernel_pred_X, _ = self.kernel.compute_matrix(
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Test"
+            )
         return self.model.predict(kernel_pred_X)
 
     def save(self, path: str | Path) -> None:

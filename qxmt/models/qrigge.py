@@ -23,14 +23,15 @@ class QRiggeRegressor(BaseKernelModel):
         BaseKernelModel (_type_): kernel instance of BaseKernel class
     """
 
-    def __init__(self, kernel: BaseKernel, alpha: float = 1.0, **kwargs: Any) -> None:
+    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, alpha: float = 1.0, **kwargs: Any) -> None:
         """Initialize the QRiggeRegressor model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
+            n_jobs (int): number of jobs for parallel computation
             alpha (float): Regularization strength; must be a positive float
         """
-        super().__init__(kernel)
+        super().__init__(kernel, n_jobs)
         self.fit_X: Optional[np.ndarray] = None
         self.model = KernelRidge(alpha=alpha, kernel="precomputed", **kwargs)
 
@@ -45,7 +46,6 @@ class QRiggeRegressor(BaseKernelModel):
         self,
         X: np.ndarray,
         y: np.ndarray,
-        n_jobs: int = DEFAULT_N_JOBS,
         **kwargs: Any,
     ) -> np.ndarray:
         """Cross validation score of the Quantum Kernel Ridge Regressor model.
@@ -54,14 +54,13 @@ class QRiggeRegressor(BaseKernelModel):
         Args:
             X (np.ndarray): numpy array of input data
             y (np.ndarray): numpy array of target data
-            n_jobs (int): number of jobs to run in parallel
             **kwargs (dict): additional arguments
 
         Returns:
             np.ndarray: array of scores of the estimator for each run of the cross validation
         """
-        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
-        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=n_jobs, **kwargs)
+        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
+        scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=self.n_jobs, **kwargs)
         return scores
 
     def hyperparameter_search(
@@ -92,7 +91,7 @@ class QRiggeRegressor(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
-        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False)
+        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "r2"
@@ -130,13 +129,13 @@ class QRiggeRegressor(BaseKernelModel):
         self.fit_X = X
         if save_shots_path is not None:
             kernel_train_X, shots_matrix = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=True, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=True, n_jobs=self.n_jobs, bar_label="Train"
             )
             if shots_matrix is not None:
                 self.kernel.save_shots_results(shots_matrix, save_shots_path)
         else:
             kernel_train_X, _ = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=False, bar_label="Train"
+                self.fit_X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Train"
             )
         self.model.fit(kernel_train_X, y)
 
@@ -152,7 +151,9 @@ class QRiggeRegressor(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, bar_label="Test")
+            kernel_pred_X, _ = self.kernel.compute_matrix(
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Test"
+            )
         return self.model.predict(kernel_pred_X)
 
     def score(self, X: np.ndarray, y: np.ndarray, sample_weight: Optional[np.ndarray] = None) -> float:
@@ -168,7 +169,7 @@ class QRiggeRegressor(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False)
+            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs)
         return cast(float, self.model.score(kernel_pred_X, y, sample_weight=sample_weight))
 
     def save(self, path: str | Path) -> None:

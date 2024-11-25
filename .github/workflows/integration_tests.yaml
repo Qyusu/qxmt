@@ -1,4 +1,4 @@
-name: unit tests
+name: integration tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - '*'
+      - main
   workflow_dispatch:
 
 env:
@@ -37,4 +37,4 @@ jobs:
         run: poetry install --with dev
 
       - name: Run tests
-        run: poetry run pytest tests/unit
+        run: poetry run pytest tests/integration

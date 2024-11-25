@@ -19,11 +19,16 @@ def empty_feature_map(x: np.ndarray) -> None:
     pass
 
 
+def invalid_feature_map(x: np.ndarray) -> None:
+    raise ValueError("invalid feature map")
+
+
 class SimpleKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
     def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+        self.feature_map(x1)
         kernel_value = np.dot(x1, x2)
         probs = np.array([0.2, 0.1, 0.4, 0.0, 0.3])  # dummy probs
         return kernel_value, probs
@@ -32,6 +37,11 @@ class SimpleKernel(BaseKernel):
 @pytest.fixture(scope="function")
 def kernel_by_state_vector() -> BaseKernel:
     return SimpleKernel(device=STATE_VECTOR_DEVICE, feature_map=empty_feature_map)
+
+
+@pytest.fixture(scope="function")
+def invalid_kernel() -> BaseKernel:
+    return SimpleKernel(device=STATE_VECTOR_DEVICE, feature_map=invalid_feature_map)
 
 
 @pytest.fixture(scope="function")
@@ -69,7 +79,7 @@ class TestBaseKernel:
         kernel_value, _ = kernel_by_state_vector.compute(x1, x2)
         assert kernel_value == 1.0
 
-    def test_compute_matrix(self, kernel_by_state_vector: BaseKernel) -> None:
+    def test_compute_matrix(self, kernel_by_state_vector: BaseKernel, invalid_kernel: BaseKernel) -> None:
         x_array_1 = np.array([[0, 1], [1, 0]])
         x_array_2 = np.array([[1, 0], [1, 0]])
 
@@ -86,6 +96,10 @@ class TestBaseKernel:
             x_array_1, x_array_2, return_shots_resutls=True, n_jobs=1
         )
         assert shots_matrix is None
+
+        # raise error in compute method
+        with pytest.raises(ValueError):
+            invalid_kernel.compute(x_array_1[0], x_array_2[0])
 
     def test_save_shots_results(
         self, kernel_by_state_vector: BaseKernel, kernel_by_sampling: BaseKernel, tmp_path: Path
