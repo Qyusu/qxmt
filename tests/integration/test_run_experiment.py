@@ -114,8 +114,6 @@ class TestRunExperiment:
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        print("*" * 80)
-        print(f"Result DataFrame: {result_df}")
         if sys.version_info[:2] == (3, 10):
             expected_df = pd.DataFrame(
                 {
@@ -139,4 +137,5 @@ class TestRunExperiment:
         else:
             raise ValueError("Unsupported Python version")
 
+        # [TODO]: check atol value for randomaizetion of sampling simulator
         assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-1)
