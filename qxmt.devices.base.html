@@ -452,7 +452,7 @@
 <h1>qxmt.devices.base module<a class="headerlink" href="#qxmt-devices-base-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.base.</span></span><span class="sig-name descname"><span class="pre">BaseDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.base.</span></span><span class="sig-name descname"><span class="pre">BaseDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>General-purpose device class for experiment.
 This class is abstracted to oversee multiple platforms.
@@ -469,12 +469,13 @@ Provide a common interface within the QXMT library by absorbing differences betw
 <li><p><strong>name</strong> (<em>str</em>)</p></li>
 <li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
 <li><p><strong>shots</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Initialize the quantum device.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -483,6 +484,7 @@ Provide a common interface within the QXMT library by absorbing differences betw
 <li><p><strong>name</strong> (<em>str</em>) – device name provided by the platform (ex: default.qubit, default.tensor, etc.)</p></li>
 <li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
 <li><p><strong>shots</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – number of shots for the quantum circuit</p></li>
+<li><p><strong>random_seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – random seed for the quantum device</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
