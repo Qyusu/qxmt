@@ -120,20 +120,20 @@ class TestRunExperiment:
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1, 2],
-                    "accuracy": [0.45, 0.35],
-                    "precision": [0.55, 0.27],
-                    "recall": [0.33, 0.36],
-                    "f1_score": [0.35, 0.31],
+                    "accuracy": [0.40, 0.35],
+                    "precision": [0.55, 0.20],
+                    "recall": [0.33, 0.27],
+                    "f1_score": [0.35, 0.23],
                 }
             ).round(2)
         elif sys.version_info[:2] == (3, 11):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1, 2],
-                    "accuracy": [0.50, 0.50],
-                    "precision": [0.40, 0.19],
-                    "recall": [0.38, 0.30],
-                    "f1_score": [0.37, 0.23],
+                    "accuracy": [0.40, 0.35],
+                    "precision": [0.55, 0.20],
+                    "recall": [0.33, 0.27],
+                    "f1_score": [0.35, 0.23],
                 }
             ).round(2)
         else:

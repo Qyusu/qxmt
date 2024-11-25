@@ -50,7 +50,7 @@ class BaseDevice:
                 name=self.name,
                 wires=self.n_qubits,
                 shots=self.shots,
-                seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else "global",
+                seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
             )
         else:
             raise InvalidPlatformError(f'"{self.platform}" is not implemented.')

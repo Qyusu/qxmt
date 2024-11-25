@@ -36,7 +36,7 @@ device:
   platform: "pennylane"
   name: "default.qubit"
   n_qubits: 2
-  shots: 32
+  shots: 1024
   random_seed: *global_seed
 
 feature_map:
