@@ -15,6 +15,9 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/qxmt
 
     steps:
     - name: Check out the code
@@ -37,7 +40,4 @@ jobs:
       run: poetry build
 
     - name: Publish to PyPI using Trusted Publisher
-      env:
-          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.ACTIONS_ID_TOKEN }}
-      run: |
-          poetry publish --build
+      run: poetry publish
