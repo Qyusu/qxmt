@@ -460,6 +460,7 @@ Provide a common interface within the QXMT library by absorbing differences betw
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">qxmt.devices.base</span> <span class="kn">import</span> <span class="n">BaseDevice</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">BaseDevice</span><span class="p">(</span><span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">simulator</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">get_simulator</span><span class="p">()</span>
 </pre></div>
 </div>
 <dl class="field-list simple">
@@ -489,6 +490,34 @@ Provide a common interface within the QXMT library by absorbing differences betw
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_real_machine</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get quantum real machine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.InvalidPlatformError" title="qxmt.exceptions.InvalidPlatformError"><strong>InvalidPlatformError</strong></a> – platform is not implemented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Any</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_simulator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get quantum simulator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.InvalidPlatformError" title="qxmt.exceptions.InvalidPlatformError"><strong>InvalidPlatformError</strong></a> – platform is not implemented.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
