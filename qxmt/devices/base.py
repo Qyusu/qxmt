@@ -13,6 +13,7 @@ class BaseDevice:
     Examples:
         >>> from qxmt.devices.base import BaseDevice
         >>> device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=100)
+        >>> simulator = device.get_simulator()
     """
 
     def __init__(
@@ -32,13 +33,9 @@ class BaseDevice:
         self.n_qubits = n_qubits
         self.shots = shots
         self.random_seed = random_seed
-        self._set_device()
 
-    def __call__(self) -> Any:
-        return self.device
-
-    def _set_device(self) -> None:
-        """Set quantum device.
+    def get_simulator(self) -> Any:
+        """Get quantum simulator.
 
         Raises:
             InvalidPlatformError: platform is not implemented.
@@ -46,7 +43,7 @@ class BaseDevice:
         if self.platform == "pennylane":
             import pennylane as qml
 
-            self.device = qml.device(
+            return qml.device(
                 name=self.name,
                 wires=self.n_qubits,
                 shots=self.shots,
@@ -54,3 +51,11 @@ class BaseDevice:
             )
         else:
             raise InvalidPlatformError(f'"{self.platform}" is not implemented.')
+
+    def get_real_machine(self) -> Any:
+        """Get quantum real machine.
+
+        Raises:
+            InvalidPlatformError: platform is not implemented.
+        """
+        raise NotImplementedError

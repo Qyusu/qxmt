@@ -54,7 +54,6 @@ class FidelityKernel(BaseKernel):
         """
 
         super().__init__(device, feature_map)
-        self.qnode = qml.QNode(self._circuit, self.device())
 
     def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
         if self.feature_map is None:
@@ -78,7 +77,8 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
-        result = self.qnode(x1, x2)
+        qnode = qml.QNode(self._circuit, device=self.device.get_simulator(), cache=False)  # type: ignore
+        result = qnode(x1, x2)
 
         if self.is_sampling:
             # convert the sample results to probability distribution
