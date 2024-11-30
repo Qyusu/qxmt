@@ -31,6 +31,7 @@ openml = "0.15.0"
 optuna = "^4.0.0"
 h5py = "^3.12.1"
 rich = {extras = ["jupyter"], version = "^13.9.4"}
+numpy = "2.0"
 
 
 [tool.poetry.group.dev.dependencies]
