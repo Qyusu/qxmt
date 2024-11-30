@@ -4,7 +4,6 @@ import numpy as np
 import pennylane as qml
 from pennylane.measurements.probs import ProbabilityMP
 from pennylane.measurements.sample import SampleMP
-from pennylane.operation import Operation
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
@@ -65,7 +64,6 @@ class ProjectedKernel(BaseKernel):
         self.n_qubits = device.n_qubits
         self.gamma = gamma
         self.projection = projection
-        self.qnode = qml.QNode(self._circuit, self.device())
 
     def _process_measurement_results(self, results: list[float]) -> np.ndarray:
         """Process the measurement results based on the projection method.
@@ -134,8 +132,9 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        x1_result = self.qnode(x1)
-        x2_result = self.qnode(x2)
+        qnode = qml.QNode(self._circuit, device=self.device.get_simulator(), cache=False)  # type: ignore
+        x1_result = qnode(x1)
+        x2_result = qnode(x2)
 
         if self.is_sampling:
             # convert the sample results to probability distribution
