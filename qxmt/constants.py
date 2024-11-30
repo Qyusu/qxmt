@@ -31,7 +31,7 @@ DEFAULT_EXP_CONFIG_FILE: Path = Path("config.yaml")
 # set supported quantum platforms and devices
 PENNYLANE_PLATFORM: str = "pennylane"
 SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM]
-PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.Device, qml.QubitDevice)
+PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.devices.LegacyDevice, qml.devices.QubitDevice)
 
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
