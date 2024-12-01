@@ -2,9 +2,9 @@
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qxmt)
 [![PyPI version](https://img.shields.io/pypi/v/qxmt.svg)](https://pypi.org/project/qxmt/)
-[![Downloads](https://static.pepy.tech/badge/qxmt)](https://pepy.tech/project/qxmt)
 [![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://qyusu.github.io/qxmt/)
 [![CI/CD](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml/badge.svg)](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml)
+[![Downloads](https://static.pepy.tech/badge/qxmt)](https://pepy.tech/project/qxmt)
 
 
 QXMT is an open-source tool designed for managing experiments in quantum machine learning. Its primary focus is on minimizing the cost of managing experiments and ensuring reproducibility. To reduce costs, QXMT aims to minimize the amount of implementation code needed for experiment management, allowing developers and researchers to focus on implementing new experiments. For reproducibility, QXMT manages experimental configurations via configuration files, enabling not only the original developers but also collaborators to easily reproduce the same results without significant additional effort.
