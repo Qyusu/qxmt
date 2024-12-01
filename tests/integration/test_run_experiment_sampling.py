@@ -132,20 +132,20 @@ class TestRunExperiment:
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
-                    "accuracy": [0.50],
-                    "precision": [0.30],
-                    "recall": [0.41],
-                    "f1_score": [0.35],
+                    "accuracy": [0.45],
+                    "precision": [0.57],
+                    "recall": [0.36],
+                    "f1_score": [0.37],
                 }
             ).round(2)
         elif (python_version == (3, 11)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
-                    "accuracy": [0.45],
-                    "precision": [0.57],
-                    "recall": [0.36],
-                    "f1_score": [0.37],
+                    "accuracy": [0.50],
+                    "precision": [0.30],
+                    "recall": [0.41],
+                    "f1_score": [0.35],
                 }
             ).round(2)
         else:
