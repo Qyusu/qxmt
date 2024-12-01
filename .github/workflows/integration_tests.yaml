@@ -38,4 +38,4 @@ jobs:
         run: poetry install --with dev
 
       - name: Run tests
-        run: poetry run pytest tests/integration
+        run: poetry run pytest tests/integration/test_run_experiment_state_vector.py

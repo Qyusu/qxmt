@@ -124,7 +124,7 @@ class TestRunExperiment:
                     "f1_score": [0.35],
                 }
             ).round(2)
-        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "amd64"):
+        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "x86_64"):
             pass
         elif (sys.version_info[:2] == (3, 11)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
