@@ -45,6 +45,7 @@ ipykernel = "^6.29.5"
 pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
 pennylane-lightning = "^0.39.0"
+pennylane-qulacs = {extras = ["cpu"], version = "^0.39.0"}
 
 
 [tool.poetry.group.docs.dependencies]

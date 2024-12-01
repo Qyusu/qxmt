@@ -65,40 +65,27 @@ class TestRunExperiment:
         ).exists()
 
     @pytest.mark.parametrize(
-        "device_name, kernel_name, expected_df",
+        "device_name, kernel_name",
         [
             pytest.param(
                 "default.qubit",
                 "FidelityKernel",
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.45],
-                        "precision": [0.57],
-                        "recall": [0.36],
-                        "f1_score": [0.37],
-                    }
-                ),
                 id="default.qubit and FidelityKernel",
             ),
             pytest.param(
                 "lightling.qubit",
                 "FidelityKernel",
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.45],
-                        "precision": [0.57],
-                        "recall": [0.36],
-                        "f1_score": [0.37],
-                    }
-                ),
                 id="lightling.qubit and FidelityKernel",
+            ),
+            pytest.param(
+                "qulacs.simulator",
+                "FidelityKernel",
+                id="qulacs.simulator and FidelityKernel",
             ),
         ],
     )
     def test_run_experiment_by_state_vector_simulator_from_config_instance(
-        self, device_name: str, kernel_name: str, expected_df: pd.DataFrame, tmp_path: Path
+        self, device_name: str, kernel_name: str, tmp_path: Path
     ) -> None:
         experiment = qxmt.Experiment(
             name="integration_test_by_state_vector_simulator_from_config_instance",
@@ -118,4 +105,13 @@ class TestRunExperiment:
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        assert_frame_equal(result_df, expected_df.round(2))
+        expected_df = pd.DataFrame(
+            {
+                "run_id": [1],
+                "accuracy": [0.45],
+                "precision": [0.57],
+                "recall": [0.36],
+                "f1_score": [0.37],
+            }
+        ).round(2)
+        assert_frame_equal(result_df, expected_df)
