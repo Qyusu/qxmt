@@ -105,16 +105,20 @@ class TestRunExperiment:
         config = base_config.model_copy(update={"device.name": device_name, "kernel.implement_name": kernel_name})
         _, _ = experiment.run(config_source=config)
 
+        # expected result of each pattern
+        python_version = sys.version_info[:2]
         architecuture = platform.machine()
-        if architecuture not in ["x86_64", "arm64"]:
-            raise ValueError(f"Unsupported architecture: {architecuture}")
-
-        # get result dataframe
-        # compare up to 2 decimal places
-        result_df = experiment.runs_to_dataframe().round(2)
-        if (sys.version_info[:2] == (3, 10)) and (architecuture == "x86_64"):
-            pass
-        elif (sys.version_info[:2] == (3, 10)) and (architecuture == "arm64"):
+        if (python_version == (3, 10)) and (architecuture == "x86_64"):
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1],
+                    "accuracy": [0.50],
+                    "precision": [0.30],
+                    "recall": [0.41],
+                    "f1_score": [0.35],
+                }
+            ).round(2)
+        elif (python_version == (3, 10)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
@@ -124,9 +128,17 @@ class TestRunExperiment:
                     "f1_score": [0.35],
                 }
             ).round(2)
-        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "x86_64"):
-            pass
-        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "arm64"):
+        elif (python_version == (3, 11)) and (architecuture == "x86_64"):
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1],
+                    "accuracy": [0.50],
+                    "precision": [0.30],
+                    "recall": [0.41],
+                    "f1_score": [0.35],
+                }
+            ).round(2)
+        elif (python_version == (3, 11)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
@@ -137,10 +149,11 @@ class TestRunExperiment:
                 }
             ).round(2)
         else:
-            raise ValueError("Unsupported Python version")
-
-        print(f"{sys.version_info[:2]}\n{result_df}")
+            raise ValueError(f"Unsupported Pattern (python version={python_version}, architecture={architecuture})")
 
         # [TODO]: check atol value for randomaizetion of sampling simulator
         # assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-1)
+        # get result dataframe, and compare up to 2 decimal places
+        result_df = experiment.runs_to_dataframe().round(2)
+        print(f"{python_version}, {architecuture}\n{result_df}")
         assert_frame_equal(result_df, expected_df)
