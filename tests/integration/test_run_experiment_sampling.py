@@ -64,53 +64,22 @@ class TestRunExperiment:
         ).exists()
 
     @pytest.mark.parametrize(
-        "device_name, kernel_name, expected_310_df, expected_311_df",
+        "device_name, kernel_name",
         [
             pytest.param(
                 "default.qubit",
                 "FidelityKernel",
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
-                    }
-                ),
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
-                    }
-                ),
                 id="default.qubit and FidelityKernel",
             ),
             pytest.param(
                 "lightling.qubit",
                 "FidelityKernel",
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
-                    }
-                ),
-                pd.DataFrame(
-                    {
-                        "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
-                    }
-                ),
                 id="lightling.qubit and FidelityKernel",
+            ),
+            pytest.param(
+                "qulacs.simulator",
+                "FidelityKernel",
+                id="qulacs.simulator and FidelityKernel",
             ),
         ],
     )
@@ -118,8 +87,6 @@ class TestRunExperiment:
         self,
         device_name: str,
         kernel_name: str,
-        expected_310_df: pd.DataFrame,
-        expected_311_df: pd.DataFrame,
         tmp_path: Path,
     ) -> None:
         experiment = qxmt.Experiment(
@@ -141,9 +108,25 @@ class TestRunExperiment:
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
         if sys.version_info[:2] == (3, 10):
-            expected_df = expected_310_df.round(2)
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1],
+                    "accuracy": [0.40],
+                    "precision": [0.55],
+                    "recall": [0.33],
+                    "f1_score": [0.35],
+                }
+            ).round(2)
         elif sys.version_info[:2] == (3, 11):
-            expected_df = expected_311_df.round(2)
+            expected_df = pd.DataFrame(
+                {
+                    "run_id": [1],
+                    "accuracy": [0.40],
+                    "precision": [0.55],
+                    "recall": [0.33],
+                    "f1_score": [0.35],
+                }
+            ).round(2)
         else:
             raise ValueError("Unsupported Python version")
 

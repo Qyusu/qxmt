@@ -1,0 +1,27 @@
+name: CI/CD
+
+on:
+  workflow_run:
+    workflows:
+      - code_format.yaml
+      - deploy_docs.yaml
+      - unit_tests.yaml
+      - integration_tests.yaml
+    types:
+      - completed
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  summary:
+    runs-on: ubuntu-latest
+    if: >
+      github.event_name == 'workflow_run' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event_name == 'push'
+    steps:
+      - name: Check overall status
+        run: |
+          echo "Triggered by both workflow_run success and push to main."
