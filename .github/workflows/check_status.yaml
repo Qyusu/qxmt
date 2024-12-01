@@ -1,4 +1,4 @@
-name: Check All Workflow Status
+name: CI/CD
 
 on:
   workflow_run:
@@ -18,10 +18,10 @@ on:
 jobs:
   summary:
     runs-on: ubuntu-latest
-    if: >
-      github.event_name == 'workflow_run' &&
-      github.event.workflow_run.conclusion == 'success' &&
-      github.event_name == 'push'
+    # if: >
+    #   github.event_name == 'workflow_run' &&
+    #   github.event.workflow_run.conclusion == 'success' &&
+    #   github.event_name == 'push'
     steps:
       - name: Check overall status
         run: |
