@@ -106,13 +106,13 @@ class TestRunExperiment:
         _, _ = experiment.run(config_source=config)
 
         architecuture = platform.machine()
-        if architecuture not in ["amd64", "arm64"]:
+        if architecuture not in ["x86_64", "arm64"]:
             raise ValueError(f"Unsupported architecture: {architecuture}")
 
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        if (sys.version_info[:2] == (3, 10)) and (architecuture == "amd64"):
+        if (sys.version_info[:2] == (3, 10)) and (architecuture == "x86_64"):
             pass
         elif (sys.version_info[:2] == (3, 10)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(

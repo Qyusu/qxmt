@@ -128,5 +128,5 @@ class TestRunExperiment:
             ).round(2)
         else:
             raise ValueError(f"Unsupported architecture: {platform.machine()}")
-        print(result_df)
+
         assert_frame_equal(result_df, expected_df)
