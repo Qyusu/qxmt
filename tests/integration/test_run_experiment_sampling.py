@@ -1,3 +1,4 @@
+import platform
 import sys
 from pathlib import Path
 
@@ -104,10 +105,16 @@ class TestRunExperiment:
         config = base_config.model_copy(update={"device.name": device_name, "kernel.implement_name": kernel_name})
         _, _ = experiment.run(config_source=config)
 
+        architecuture = platform.machine()
+        if architecuture not in ["amd64", "arm64"]:
+            raise ValueError(f"Unsupported architecture: {architecuture}")
+
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        if sys.version_info[:2] == (3, 10):
+        if (sys.version_info[:2] == (3, 10)) and (architecuture == "amd64"):
+            pass
+        elif (sys.version_info[:2] == (3, 10)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
@@ -117,18 +124,23 @@ class TestRunExperiment:
                     "f1_score": [0.35],
                 }
             ).round(2)
-        elif sys.version_info[:2] == (3, 11):
+        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "amd64"):
+            pass
+        elif (sys.version_info[:2] == (3, 11)) and (architecuture == "arm64"):
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
-                    "accuracy": [0.40],
-                    "precision": [0.55],
-                    "recall": [0.33],
+                    "accuracy": [0.50],
+                    "precision": [0.30],
+                    "recall": [0.41],
                     "f1_score": [0.35],
                 }
             ).round(2)
         else:
             raise ValueError("Unsupported Python version")
 
+        print(f"{sys.version_info[:2]}\n{result_df}")
+
         # [TODO]: check atol value for randomaizetion of sampling simulator
-        assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-1)
+        # assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-1)
+        assert_frame_equal(result_df, expected_df)

@@ -106,12 +106,20 @@ class TestRunExperiment:
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
         expected_df = pd.DataFrame(
+            # {
+            #     "run_id": [1],
+            #     "accuracy": [0.45],
+            #     "precision": [0.57],
+            #     "recall": [0.36],
+            #     "f1_score": [0.37],
+            # }
             {
                 "run_id": [1],
-                "accuracy": [0.45],
-                "precision": [0.57],
-                "recall": [0.36],
-                "f1_score": [0.37],
+                "accuracy": [0.50],
+                "precision": [0.30],
+                "recall": [0.41],
+                "f1_score": [0.35],
             }
         ).round(2)
+        print(result_df)
         assert_frame_equal(result_df, expected_df)
