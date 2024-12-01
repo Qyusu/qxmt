@@ -4,7 +4,7 @@ import numpy as np
 import pennylane as qml
 
 # [TODO]: constract from qxmt.constants
-QuantumDeviceType = TypeVar("QuantumDeviceType", qml.devices.Device, qml.Device, qml.QubitDevice)
+QuantumDeviceType = TypeVar("QuantumDeviceType", qml.devices.Device, qml.devices.LegacyDevice, qml.devices.QubitDevice)
 
 
 RAW_DATA_TYPE = np.ndarray

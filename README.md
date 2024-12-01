@@ -1,8 +1,9 @@
 # QXMT: Quantum Experiment Management Tool
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
-[![unit tests](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml/badge.svg)](https://github.com/kenya-sk/qxmt/actions/workflows/unit_tests.yaml)
-[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://qyusu.github.io/qxmt/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qxmt)
 [![PyPI version](https://img.shields.io/pypi/v/qxmt.svg)](https://pypi.org/project/qxmt/)
+[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://qyusu.github.io/qxmt/)
+[![CI/CD](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml/badge.svg)](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml)
 [![Downloads](https://static.pepy.tech/badge/qxmt)](https://pepy.tech/project/qxmt)
 
 
