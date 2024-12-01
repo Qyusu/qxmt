@@ -151,8 +151,6 @@ class TestRunExperiment:
         else:
             raise ValueError(f"Unsupported Pattern (python version={python_version}, architecture={architecuture})")
 
-        # [TODO]: check atol value for randomaizetion of sampling simulator
-        # assert_frame_equal(result_df, expected_df, check_exact=False, atol=1e-1)
         # get result dataframe, and compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
         print(f"{python_version}, {architecuture}\n{result_df}")
