@@ -88,9 +88,62 @@ transform_logic:
 
 ---
 
-## 3. Feature Map
+## 3. Device
+### 3.1 Specifying the Simulator
+In QXMT, simulators provided by various platforms can be specified and utilized through the configuration settings.
+Several tutorials use `default.qubit`, the most basic simulator provided by PennyLane.
 
-### 3.1 Visualization of Feature Map
+If computation time becomes a bottleneck in your experiments, consider using faster simulators such as `lightning.qubit`, which is implemented in C++, or `qulacs.simulator`, known for its high performance.
+
+Below is an example of configuration settings for using `lightning.qubit`:
+```
+device:
+  platform: "pennylane"
+  name: "lightning.qubit"
+  n_qubits: 2
+  shots: null
+```
+
+When using these additional simulators, you may need to install the corresponding plugins in your environment.
+For example, to use `lightning.qubit`, you can install the plugin with the following command:
+`pip install pennylane-lightning`.
+
+For other simulators available in PennyLane, refer to the [official documentation](https://pennylane.ai/plugins).
+
+**Note:** QXMT has been validated and tested with frequently used simulators such as `default.qubit`, `lightning.qubit`, and `qulacs.simulator`. Therefore, some features of QXMT may not work with certain simulators. If you have requests for additional simulators, please feel free
+
+### 3.2 Specifying the Simulation Execution Mode
+
+There are two types of simulation execution modes: **State Vector** and **Sampling**.
+
+In the **State Vector mode**, gates are applied as matrix operations on the state vector. Since the results are deterministic and directly obtained from the operations, this mode is ideal for ensuring reproducibility and performing functionality checks.
+
+In the **Sampling mode**, sampling is performed based on the probability amplitudes obtained from the matrix operations to determine the final measurement results. While noise and other factors are not considered, this mode allows for simulation behavior closer to that of real quantum hardware.
+
+In QXMT, the execution mode can be specified by configuring the `shots` value in the device's configuration.
+The `shots` parameter represents the number of measurements, and as the value increases, the results converge toward those of the State Vector mode.
+
+```
+# State Vector形式
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: null
+
+# Sampling形式
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: 1024
+```
+
+---
+
+## 4. Feature Map
+
+### 4.1 Visualization of Feature Map
 This section introduces how to visualize the quantum circuit of the feature map you created. First, access the instance of the feature map you wish to visualize. There are two main ways to access the instance:
 
 The first method involves obtaining the feature map instance through an artifact returned as the result of executing `run`.
@@ -133,7 +186,7 @@ When visualizing a feature map, it is necessary to provide sample information fo
 These values are used solely as sample data during quantum circuit visualization and do not affect the results of experiments such as model construction.
 
 
-### 3.2 Using NPQC
+### 4.2 Using NPQC
 Here, we introduce the configuration settings for using `NPQC` as proposed in Reference [[1]](#ref1).
 
 NPQC is defined using the following quantum circuit, which repeatedly encodes input data into qubits. This approach allows handling data with an input dimensionality exceeding the number of qubits used.
@@ -156,7 +209,7 @@ feature_map:
 - **params.c**: The scale parameter used in the feature map.
 - **params.reps**: The number of repetitions in the feature map.
 
-### 3.3 Using YZCX
+### 4.3 Using YZCX
 Here, we introduce the configuration settings for using `YZCX` as proposed in Reference [[1]](#ref1).
 
 YZCX is defined using the following quantum circuit, and like NPQC, it can handle data with an input dimensionality exceeding the number of qubits used.
@@ -182,9 +235,9 @@ feature_map:
 
 ---
 
-## 4. Kernel
+## 5. Kernel
 
-### 4.1 Using Projected Kernel
+### 5.1 Using Projected Kernel
 In kernel-based machine learning models, such as QSVC, there are various algorithms available for kernel computation. This section explains how to configure the settings when using the `Projected Kernel` ([[2]](#ref2)).
 
 A simple Projected Kernel is expressed by the following equation, where the scale parameter `γ` and the method of projecting quantum states into classical states can be specified for distance computation.
@@ -213,6 +266,7 @@ kernel:
 
 ## Reference
 <a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, [Arxiv (2021)](https://arxiv.org/abs/2108.01039)
+
 <a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, [Nature Communications 12, 1–9 (2021)](https://www.nature.com/articles/s41467-021-22539-9).
 
 ---
@@ -221,5 +275,5 @@ kernel:
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/11/17 |
-| QXMT| v0.3.5 |
+| document | 2024/12/02 |
+| QXMT| v0.3.7 |
