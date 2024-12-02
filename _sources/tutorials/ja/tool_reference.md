@@ -92,9 +92,55 @@ transform_logic:
 
 ---
 
-## 3. Feature Map
+## 3. Device
+### 3.1 シミュレータの指定
+QXMTでは各プラットフォームから提供されているシミュレータをconfigから指定して利用することができます。
+いくつかのチュートリアルでは、PennyLaneから提供されている最も基本的なシミュレータである`default.qubit`を利用しています。
+計算時間が実験のボトルネックとなっている場合には、C++ベースで実装された`lightning.qubit`や高速なシミュレータの一つとして知られている`qulacs.simulator`等の利用を検討してみてください。
 
-### 3.1 Feature Mapの可視化
+以下に、`lightning.qubit`を利用する場合のconfigの設定例を記載します。
+```
+device:
+  platform: "pennylane"
+  name: "lightning.qubit"
+  n_qubits: 2
+  shots: null
+```
+
+これらの追加のシミュレータを利用する場合には、ご自身の環境にプラグインをインストールする必要がある場合もあります。
+たとえば、`lightning.qubit`であれば`pip install pennylane-lightning`等で追加を行えます。
+その他、PennyLaneで利用可能なシミュレータは[公式ドキュメント](https://pennylane.ai/plugins)にまとめてあります。
+
+**※** QXMTでは利用頻度の高い`default.qubit`、`lightning.qubit`、`qulacs.simulator`を対象に動作確認・テストを行っています。そのため、一部のシミュレータではQXMTの全ての機能が利用できない可能性があります。追加希望等がございましたら、QXMTのレポジトリ内からIssueを作成して提案していただけると助かります。
+
+### 3.2 シミュレータの実行モードを指定
+シミュレーションの実行方法には、State Vector方式とSampling方式の2種類が存在します。
+State Vector方式では、状態ベクトルに対してゲートを行列演算として適用していきます。演算の結果をそのまま利用するため結果が決定的となり再現性を担保しやすいため、動作確認に適しています。Sampling方式では演算の結果得られた確率振幅に従い、Samplingを行い最終的な測定値を求めます。そのため、ノイズ等は考慮されていませんが、実機に近い挙動でシミュレーションを実行することができます。
+
+QXMTでは、deviceのconfigで`shots`の値を設定するかどうかで、各種形式を指定することができます。
+`shots`は測定数を表し、数を増やすほどState Vector形式の値に収束していきます。
+
+```
+# State Vector形式
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: null
+
+# Sampling形式
+device:
+  platform: "pennylane"
+  name: "default.qubit"
+  n_qubits: 2
+  shots: 1024
+```
+
+---
+
+## 4. Feature Map
+
+### 4.1 Feature Mapの可視化
 作成した特徴マップの量子回路を可視化する方法を紹介します。
 まず、可視化したい特徴マップのインスタンスにアクセスします。インスタンスへは大きく二つの方法でアクセスする方法があります。
 
@@ -138,7 +184,7 @@ feature_map.draw(x_dim=2, format="mpl")
 これらの値は、量子回路可視化時にサンプルデータとして用いられるだけで、モデル構築等の実験の結果には影響しません。
 
 
-### 3.2 NPQCの利用
+### 4.2 NPQCの利用
 ここでは、[参考文献[1]](#ref1)で提案された`NPQC`を利用する場合のconifg設定方法を紹介します。
 
 NPQCは以下の量子回路で定義され、入力データをqubitに対して繰り返しエンコーディングしていくため、利用するqubit数以上の入力次元数を持つデータを扱うことができます。
@@ -160,7 +206,7 @@ feature_map:
 - **params.c**: 特徴マップで利用されるスケールパラメータ
 - **params.reps**: 特徴マップの繰り返し数
 
-### 3.3 YZCXの利用
+### 4.3 YZCXの利用
 ここでは、[参考文献[1]](#ref1)で提案された`YZCX`を利用する場合のconifg設定方法を紹介します。
 
 YZCXは以下の量子回路で定義され、NPQCと同様に利用するqubit数以上の入力次元数を持つデータを扱うことができます。
@@ -187,9 +233,9 @@ feature_map:
 
 ---
 
-## 4. Kernel
+## 5. Kernel
 
-### 4.1 Projected Kernelの利用
+### 5.1 Projected Kernelの利用
 QSVCに代表されるカーネル機械学習モデルでは、カーネルの計算アルゴリズムとして様々なものが存在します。ここでは[参考文献[2]](#ref2)で提案された`Projected Kernel`を利用する場合のconfigの設定方法を紹介します。
 
 シンプルなProjected Kernelは以下の式で表され、スケールパラメータ`γ`と距離を計算するにあたり量子状態を古典状態に投影する方法を指定することができます。
@@ -219,6 +265,7 @@ kernel:
 
 ## Reference
 <a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, [Arxiv (2021)](https://arxiv.org/abs/2108.01039)
+
 <a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, [Nature Communications 12, 1–9 (2021)](https://www.nature.com/articles/s41467-021-22539-9).
 
 ---
@@ -227,5 +274,5 @@ kernel:
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/11/17 |
-| QXMT| v0.3.5 |
+| document | 2024/12/02 |
+| QXMT| v0.3.7 |

@@ -287,5 +287,5 @@ plot_metrics_side_by_side(
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/11/17 |
-| QXMT| v0.3.5 |
+| document | 2024/12/02 |
+| QXMT| v0.3.7 |

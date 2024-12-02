@@ -417,14 +417,19 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-processing-of-raw-processing-logic-and-transform-logic">2.3 Chain Processing of Raw Processing Logic and Transform Logic</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-feature-map">3.1 Visualization of Feature Map</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-npqc">3.2 Using NPQC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-yzcx">3.3 Using YZCX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-simulator">3.1 Specifying the Simulator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-simulation-execution-mode">3.2 Specifying the Simulation Execution Mode</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">4.1 Using Projected Kernel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-feature-map">4.1 Visualization of Feature Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-npqc">4.2 Using NPQC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-yzcx">4.3 Using YZCX</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">5.1 Using Projected Kernel</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
@@ -561,10 +566,56 @@ If the environment where the experiment was conducted is accessible, such as a s
 </section>
 </section>
 <hr class="docutils" />
+<section id="device">
+<h2>3. Device<a class="headerlink" href="#device" title="Link to this heading">#</a></h2>
+<section id="specifying-the-simulator">
+<h3>3.1 Specifying the Simulator<a class="headerlink" href="#specifying-the-simulator" title="Link to this heading">#</a></h3>
+<p>In QXMT, simulators provided by various platforms can be specified and utilized through the configuration settings.
+Several tutorials use <code class="docutils literal notranslate"><span class="pre">default.qubit</span></code>, the most basic simulator provided by PennyLane.</p>
+<p>If computation time becomes a bottleneck in your experiments, consider using faster simulators such as <code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>, which is implemented in C++, or <code class="docutils literal notranslate"><span class="pre">qulacs.simulator</span></code>, known for its high performance.</p>
+<p>Below is an example of configuration settings for using <code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;lightning.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
+</pre></div>
+</div>
+<p>When using these additional simulators, you may need to install the corresponding plugins in your environment.
+For example, to use <code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>, you can install the plugin with the following command:
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pennylane-lightning</span></code>.</p>
+<p>For other simulators available in PennyLane, refer to the <a class="reference external" href="https://pennylane.ai/plugins">official documentation</a>.</p>
+<p><strong>Note:</strong> QXMT has been validated and tested with frequently used simulators such as <code class="docutils literal notranslate"><span class="pre">default.qubit</span></code>, <code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>, and <code class="docutils literal notranslate"><span class="pre">qulacs.simulator</span></code>. Therefore, some features of QXMT may not work with certain simulators. If you have requests for additional simulators, please feel free</p>
+</section>
+<section id="specifying-the-simulation-execution-mode">
+<h3>3.2 Specifying the Simulation Execution Mode<a class="headerlink" href="#specifying-the-simulation-execution-mode" title="Link to this heading">#</a></h3>
+<p>There are two types of simulation execution modes: <strong>State Vector</strong> and <strong>Sampling</strong>.</p>
+<p>In the <strong>State Vector mode</strong>, gates are applied as matrix operations on the state vector. Since the results are deterministic and directly obtained from the operations, this mode is ideal for ensuring reproducibility and performing functionality checks.</p>
+<p>In the <strong>Sampling mode</strong>, sampling is performed based on the probability amplitudes obtained from the matrix operations to determine the final measurement results. While noise and other factors are not considered, this mode allows for simulation behavior closer to that of real quantum hardware.</p>
+<p>In QXMT, the execution mode can be specified by configuring the <code class="docutils literal notranslate"><span class="pre">shots</span></code> value in the device’s configuration.
+The <code class="docutils literal notranslate"><span class="pre">shots</span></code> parameter represents the number of measurements, and as the value increases, the results converge toward those of the State Vector mode.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># State Vector形式</span>
+<span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
+
+<span class="c1"># Sampling形式</span>
+<span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="mi">1024</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
 <section id="feature-map">
-<h2>3. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
+<h2>4. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
 <section id="visualization-of-feature-map">
-<h3>3.1 Visualization of Feature Map<a class="headerlink" href="#visualization-of-feature-map" title="Link to this heading">#</a></h3>
+<h3>4.1 Visualization of Feature Map<a class="headerlink" href="#visualization-of-feature-map" title="Link to this heading">#</a></h3>
 <p>This section introduces how to visualize the quantum circuit of the feature map you created. First, access the instance of the feature map you wish to visualize. There are two main ways to access the instance:</p>
 <p>The first method involves obtaining the feature map instance through an artifact returned as the result of executing <code class="docutils literal notranslate"><span class="pre">run</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">adhoc_config</span><span class="p">)</span>
@@ -598,7 +649,7 @@ M0 =
 <p>These values are used solely as sample data during quantum circuit visualization and do not affect the results of experiments such as model construction.</p>
 </section>
 <section id="using-npqc">
-<h3>3.2 Using NPQC<a class="headerlink" href="#using-npqc" title="Link to this heading">#</a></h3>
+<h3>4.2 Using NPQC<a class="headerlink" href="#using-npqc" title="Link to this heading">#</a></h3>
 <p>Here, we introduce the configuration settings for using <code class="docutils literal notranslate"><span class="pre">NPQC</span></code> as proposed in Reference <a class="reference internal" href="#ref1"><span class="xref myst">[1]</span></a>.</p>
 <p>NPQC is defined using the following quantum circuit, which repeatedly encodes input data into qubits. This approach allows handling data with an input dimensionality exceeding the number of qubits used.</p>
 <img src="../../_static/images/tutorials/tools/npqc_circuit.png" alt="NPQC circuit" title="NPQC circuit" width="75%">
@@ -619,7 +670,7 @@ M0 =
 </ul>
 </section>
 <section id="using-yzcx">
-<h3>3.3 Using YZCX<a class="headerlink" href="#using-yzcx" title="Link to this heading">#</a></h3>
+<h3>4.3 Using YZCX<a class="headerlink" href="#using-yzcx" title="Link to this heading">#</a></h3>
 <p>Here, we introduce the configuration settings for using <code class="docutils literal notranslate"><span class="pre">YZCX</span></code> as proposed in Reference <a class="reference internal" href="#ref1"><span class="xref myst">[1]</span></a>.</p>
 <p>YZCX is defined using the following quantum circuit, and like NPQC, it can handle data with an input dimensionality exceeding the number of qubits used.</p>
 <img src="../../_static/images/tutorials/tools/yzcx_circuit.png" alt="YZCX circuit" title="YZCX circuit" width="100%">
@@ -644,9 +695,9 @@ M0 =
 </section>
 <hr class="docutils" />
 <section id="kernel">
-<h2>4. Kernel<a class="headerlink" href="#kernel" title="Link to this heading">#</a></h2>
+<h2>5. Kernel<a class="headerlink" href="#kernel" title="Link to this heading">#</a></h2>
 <section id="using-projected-kernel">
-<h3>4.1 Using Projected Kernel<a class="headerlink" href="#using-projected-kernel" title="Link to this heading">#</a></h3>
+<h3>5.1 Using Projected Kernel<a class="headerlink" href="#using-projected-kernel" title="Link to this heading">#</a></h3>
 <p>In kernel-based machine learning models, such as QSVC, there are various algorithms available for kernel computation. This section explains how to configure the settings when using the <code class="docutils literal notranslate"><span class="pre">Projected</span> <span class="pre">Kernel</span></code> (<a class="reference internal" href="#ref2"><span class="xref myst">[2]</span></a>).</p>
 <p>A simple Projected Kernel is expressed by the following equation, where the scale parameter <code class="docutils literal notranslate"><span class="pre">γ</span></code> and the method of projecting quantum states into classical states can be specified for distance computation.</p>
 <img src="../../_static/images/tutorials/tools/projected_kernel_definition.png" alt="Definition of Projected Kernel" title="Definition of Projected Kernel" width="50%">
@@ -671,8 +722,8 @@ M0 =
 <hr class="docutils" />
 <section id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
-<p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a>
-<a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, <a class="reference external" href="https://www.nature.com/articles/s41467-021-22539-9">Nature Communications 12, 1–9 (2021)</a>.</p>
+<p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a></p>
+<p><a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, <a class="reference external" href="https://www.nature.com/articles/s41467-021-22539-9">Nature Communications 12, 1–9 (2021)</a>.</p>
 <hr class="docutils" />
 <p><strong>Version Information</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -683,10 +734,10 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/11/17</p></td>
+<td><p>2024/12/02</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.3.5</p></td>
+<td><p>v0.3.7</p></td>
 </tr>
 </tbody>
 </table>
@@ -741,14 +792,19 @@ M0 =
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-processing-of-raw-processing-logic-and-transform-logic">2.3 Chain Processing of Raw Processing Logic and Transform Logic</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-feature-map">3.1 Visualization of Feature Map</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-npqc">3.2 Using NPQC</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-yzcx">3.3 Using YZCX</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-simulator">3.1 Specifying the Simulator</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#specifying-the-simulation-execution-mode">3.2 Specifying the Simulation Execution Mode</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">4.1 Using Projected Kernel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-feature-map">4.1 Visualization of Feature Map</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-npqc">4.2 Using NPQC</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-yzcx">4.3 Using YZCX</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">5.1 Using Projected Kernel</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>

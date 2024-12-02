@@ -416,14 +416,19 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.2 Raw Processing LogicとTransform LogicのChain処理</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 Feature Mapの可視化</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.2 NPQCの利用</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.3 YZCXの利用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 シミュレータの指定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.2 シミュレータの実行モードを指定</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">4.1 Projected Kernelの利用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">4.2 NPQCの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">4.3 YZCXの利用</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">5.1 Projected Kernelの利用</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
@@ -563,10 +568,54 @@ yamlにおけるリストの表記方法はいくつかパターンがありま�
 </section>
 </section>
 <hr class="docutils" />
-<section id="feature-map">
-<h2>3. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
+<section id="device">
+<h2>3. Device<a class="headerlink" href="#device" title="Link to this heading">#</a></h2>
 <section id="id4">
-<h3>3.1 Feature Mapの可視化<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<h3>3.1 シミュレータの指定<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>QXMTでは各プラットフォームから提供されているシミュレータをconfigから指定して利用することができます。
+いくつかのチュートリアルでは、PennyLaneから提供されている最も基本的なシミュレータである<code class="docutils literal notranslate"><span class="pre">default.qubit</span></code>を利用しています。
+計算時間が実験のボトルネックとなっている場合には、C++ベースで実装された<code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>や高速なシミュレータの一つとして知られている<code class="docutils literal notranslate"><span class="pre">qulacs.simulator</span></code>等の利用を検討してみてください。</p>
+<p>以下に、<code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>を利用する場合のconfigの設定例を記載します。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;lightning.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
+</pre></div>
+</div>
+<p>これらの追加のシミュレータを利用する場合には、ご自身の環境にプラグインをインストールする必要がある場合もあります。
+たとえば、<code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>であれば<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pennylane-lightning</span></code>等で追加を行えます。
+その他、PennyLaneで利用可能なシミュレータは<a class="reference external" href="https://pennylane.ai/plugins">公式ドキュメント</a>にまとめてあります。</p>
+<p><strong>※</strong> QXMTでは利用頻度の高い<code class="docutils literal notranslate"><span class="pre">default.qubit</span></code>、<code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>、<code class="docutils literal notranslate"><span class="pre">qulacs.simulator</span></code>を対象に動作確認・テストを行っています。そのため、一部のシミュレータではQXMTの全ての機能が利用できない可能性があります。追加希望等がございましたら、QXMTのレポジトリ内からIssueを作成して提案していただけると助かります。</p>
+</section>
+<section id="id5">
+<h3>3.2 シミュレータの実行モードを指定<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>シミュレーションの実行方法には、State Vector方式とSampling方式の2種類が存在します。
+State Vector方式では、状態ベクトルに対してゲートを行列演算として適用していきます。演算の結果をそのまま利用するため結果が決定的となり再現性を担保しやすいため、動作確認に適しています。Sampling方式では演算の結果得られた確率振幅に従い、Samplingを行い最終的な測定値を求めます。そのため、ノイズ等は考慮されていませんが、実機に近い挙動でシミュレーションを実行することができます。</p>
+<p>QXMTでは、deviceのconfigで<code class="docutils literal notranslate"><span class="pre">shots</span></code>の値を設定するかどうかで、各種形式を指定することができます。
+<code class="docutils literal notranslate"><span class="pre">shots</span></code>は測定数を表し、数を増やすほどState Vector形式の値に収束していきます。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># State Vector形式</span>
+<span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
+
+<span class="c1"># Sampling形式</span>
+<span class="n">device</span><span class="p">:</span>
+  <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
+  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">shots</span><span class="p">:</span> <span class="mi">1024</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="feature-map">
+<h2>4. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
+<section id="id6">
+<h3>4.1 Feature Mapの可視化<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>作成した特徴マップの量子回路を可視化する方法を紹介します。
 まず、可視化したい特徴マップのインスタンスにアクセスします。インスタンスへは大きく二つの方法でアクセスする方法があります。</p>
 <p>一つ目の方法は、<code class="docutils literal notranslate"><span class="pre">run</span></code>の実行結果として返ってくるArtifact経由で特徴マップのインスタンスを取得する方法です。</p>
@@ -603,7 +652,7 @@ M0 =
 <p>これらの値は、量子回路可視化時にサンプルデータとして用いられるだけで、モデル構築等の実験の結果には影響しません。</p>
 </section>
 <section id="npqc">
-<h3>3.2 NPQCの利用<a class="headerlink" href="#npqc" title="Link to this heading">#</a></h3>
+<h3>4.2 NPQCの利用<a class="headerlink" href="#npqc" title="Link to this heading">#</a></h3>
 <p>ここでは、<a class="reference internal" href="#ref1"><span class="xref myst">参考文献[1]</span></a>で提案された<code class="docutils literal notranslate"><span class="pre">NPQC</span></code>を利用する場合のconifg設定方法を紹介します。</p>
 <p>NPQCは以下の量子回路で定義され、入力データをqubitに対して繰り返しエンコーディングしていくため、利用するqubit数以上の入力次元数を持つデータを扱うことができます。</p>
 <img src="../../_static/images/tutorials/tools/npqc_circuit.png" alt="NPQCの回路図" title="NPQCの回路図" width="75%">
@@ -624,7 +673,7 @@ M0 =
 </ul>
 </section>
 <section id="yzcx">
-<h3>3.3 YZCXの利用<a class="headerlink" href="#yzcx" title="Link to this heading">#</a></h3>
+<h3>4.3 YZCXの利用<a class="headerlink" href="#yzcx" title="Link to this heading">#</a></h3>
 <p>ここでは、<a class="reference internal" href="#ref1"><span class="xref myst">参考文献[1]</span></a>で提案された<code class="docutils literal notranslate"><span class="pre">YZCX</span></code>を利用する場合のconifg設定方法を紹介します。</p>
 <p>YZCXは以下の量子回路で定義され、NPQCと同様に利用するqubit数以上の入力次元数を持つデータを扱うことができます。</p>
 <img src="../../_static/images/tutorials/tools/yzcx_circuit.png" alt="YZCXの回路図" title="YZCXの回路図" width="100%">
@@ -649,9 +698,9 @@ M0 =
 </section>
 <hr class="docutils" />
 <section id="kernel">
-<h2>4. Kernel<a class="headerlink" href="#kernel" title="Link to this heading">#</a></h2>
+<h2>5. Kernel<a class="headerlink" href="#kernel" title="Link to this heading">#</a></h2>
 <section id="projected-kernel">
-<h3>4.1 Projected Kernelの利用<a class="headerlink" href="#projected-kernel" title="Link to this heading">#</a></h3>
+<h3>5.1 Projected Kernelの利用<a class="headerlink" href="#projected-kernel" title="Link to this heading">#</a></h3>
 <p>QSVCに代表されるカーネル機械学習モデルでは、カーネルの計算アルゴリズムとして様々なものが存在します。ここでは<a class="reference internal" href="#ref2"><span class="xref myst">参考文献[2]</span></a>で提案された<code class="docutils literal notranslate"><span class="pre">Projected</span> <span class="pre">Kernel</span></code>を利用する場合のconfigの設定方法を紹介します。</p>
 <p>シンプルなProjected Kernelは以下の式で表され、スケールパラメータ<code class="docutils literal notranslate"><span class="pre">γ</span></code>と距離を計算するにあたり量子状態を古典状態に投影する方法を指定することができます。</p>
 <img src="../../_static/images/tutorials/tools/projected_kernel_definition.png" alt="Projected Kernelの定義式" title="Projected Kernelの定義式" width="50%">
@@ -676,8 +725,8 @@ M0 =
 <hr class="docutils" />
 <section id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
-<p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a>
-<a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, <a class="reference external" href="https://www.nature.com/articles/s41467-021-22539-9">Nature Communications 12, 1–9 (2021)</a>.</p>
+<p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a></p>
+<p><a id="ref2"></a>[2] Hsin-Yuan Huang, Michael Broughton, Masoud Mohseni, Ryan Babbush, Sergio Boixo, Hartmut Neven, and Jarrod R McClean, “Power of data in quantum machine learning”, <a class="reference external" href="https://www.nature.com/articles/s41467-021-22539-9">Nature Communications 12, 1–9 (2021)</a>.</p>
 <hr class="docutils" />
 <p><strong>バージョン情報</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
@@ -688,10 +737,10 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/11/17</p></td>
+<td><p>2024/12/02</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.3.5</p></td>
+<td><p>v0.3.7</p></td>
 </tr>
 </tbody>
 </table>
@@ -737,14 +786,19 @@ M0 =
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.2 Raw Processing LogicとTransform LogicのChain処理</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">3. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 Feature Mapの可視化</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">3.2 NPQCの利用</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">3.3 YZCXの利用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 シミュレータの指定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.2 シミュレータの実行モードを指定</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">4. Kernel</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">4.1 Projected Kernelの利用</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">4.2 NPQCの利用</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">4.3 YZCXの利用</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">5.1 Projected Kernelの利用</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
