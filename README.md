@@ -1,14 +1,21 @@
 <p align="center">
-    <img src="./data/images/tool_icon.png" alt="QXMTのアイコン" title="QXMTのアイコン" width="50%">
+    <img src="./data/images/tool_icon.png" alt="QXMTのアイコン" title="QXMTのアイコン" width="65%">
 </p>
 
-![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qxmt)
-[![PyPI version](https://img.shields.io/pypi/v/qxmt.svg)](https://pypi.org/project/qxmt/)
-[![Docs](https://img.shields.io/badge/docs-online-brightgreen)](https://qyusu.github.io/qxmt/)
-[![CI/CD](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml/badge.svg)](https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml)
-[![Downloads](https://static.pepy.tech/badge/qxmt)](https://pepy.tech/project/qxmt)
+<div align="center">
+    <a href="https://img.shields.io/badge/License-MIT-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a>
+    <a href="https://img.shields.io/pypi/pyversions/qxmt"><img src="https://img.shields.io/pypi/pyversions/qxmt" alt="PyPI - Python Version"></a>
+    <a href="https://pypi.org/project/qxmt/"><img src="https://img.shields.io/pypi/v/qxmt.svg" alt="PyPI version"></a>
+    <a href="https://qyusu.github.io/qxmt/"><img src="https://img.shields.io/badge/docs-online-brightgreen" alt="Document"></a>
+    <a href="https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml"><img src="https://github.com/Qyusu/qxmt/actions/workflows/check_status.yaml/badge.svg" alt="CI/CD"></a>
+    <a href="https://pepy.tech/project/qxmt"><img src="https://static.pepy.tech/badge/qxmt" alt="Downloads"></a>
+</div>
 
+---
+
+**Documentation**: [qyusu.github.io](https://qyusu.github.io/qxmt/)
+
+---
 
 QXMT is an open-source tool designed for managing experiments in quantum machine learning. Its primary focus is on minimizing the cost of managing experiments and ensuring reproducibility. To reduce costs, QXMT aims to minimize the amount of implementation code needed for experiment management, allowing developers and researchers to focus on implementing new experiments. For reproducibility, QXMT manages experimental configurations via configuration files, enabling not only the original developers but also collaborators to easily reproduce the same results without significant additional effort.
 
