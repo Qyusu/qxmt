@@ -172,3 +172,4 @@ experiments/
 
 # raw data
 data/
+!data/images/tool_icon.png

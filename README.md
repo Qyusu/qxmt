@@ -1,4 +1,7 @@
-# QXMT: Quantum Experiment Management Tool
+<p align="center">
+    <img src="./data/images/tool_icon.png" alt="QXMTのアイコン" title="QXMTのアイコン" width="50%">
+</p>
+
 ![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/qxmt)
 [![PyPI version](https://img.shields.io/pypi/v/qxmt.svg)](https://pypi.org/project/qxmt/)
