@@ -313,7 +313,7 @@ search_args = {
 best_params = model.hyperparameter_search(
     X=dataset.X_train,
     y=dataset.y_train,
-    search_type="tpe",
+    sampler_type="tpe",
     search_space=search_space,
     search_args=search_args,
     objective=None,
@@ -330,10 +330,10 @@ print(f"Accuracy: {score}")
 
 - **X**: データセットの説明変数
 - **y**: データセットの目的変数
-- **search_type**: 探索に利用するアルゴリズム
-  - `grid`: Grid Search
-  - `random`: Random Search
-  - `tpe`: TPE search by [Optuna](https://github.com/optuna/optuna)
+- **sampler_type**: 探索に利用するアルゴリズム
+  - `grid`: Grid Sampler
+  - `random`: Random Sampler
+  - `tpe`: TPE Sampler by [Optuna](https://github.com/optuna/optuna)
 - **search_space**: パラメータとその探索範囲
 - **search_args**: 探索時の設定
 - **objective**: 探索時に利用する目的関数 (Noneの場合は、モデルに定義されているデフォルト指標を利用。詳細：[String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers))

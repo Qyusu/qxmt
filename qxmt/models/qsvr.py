@@ -83,7 +83,7 @@ class QSVR(BaseKernelModel):
         self,
         X: np.ndarray,
         y: np.ndarray,
-        search_type: str,
+        sampler_type: str,
         search_space: dict[str, list[Any]],
         search_args: dict[str, Any],
         objective: Optional[Callable] = None,
@@ -94,7 +94,7 @@ class QSVR(BaseKernelModel):
         Args:
             X (np.ndarray): dataset for search
             y (np.ndarray): target values for search
-            search_type (str): search type for hyperparameter search (grid, random, tpe)
+            sampler_type (str): sampler type for hyperparameter search (grid, random, tpe)
             search_space (dict[str, list[Any]]): search space for hyperparameter search
             search_args (dict[str, Any]): search arguments for hyperparameter search
             objective (Optional[Callable], optional): objective function for search. Defaults to None.
@@ -116,7 +116,7 @@ class QSVR(BaseKernelModel):
             X=X_kernel,
             y=y,
             model=search_model,
-            search_type=search_type,
+            sampler_type=sampler_type,
             search_space=search_space,
             search_args=search_args,
             objective=objective,

@@ -92,7 +92,7 @@ class Recall(BaseMetric):
             pos_label = max(np.unique(actual))
             kwargs["pos_label"] = pos_label
 
-        score = recall_score(y_true=actual, y_pred=predicted, **kwargs)
+        score = recall_score(y_true=actual, y_pred=predicted, zero_division=0, **kwargs)
 
         return float(score)
 
@@ -144,7 +144,7 @@ class Precision(BaseMetric):
             pos_label = max(np.unique(actual))
             kwargs["pos_label"] = pos_label
 
-        score = precision_score(y_true=actual, y_pred=predicted, **kwargs)
+        score = precision_score(y_true=actual, y_pred=predicted, zero_division=0, **kwargs)
 
         return float(score)
 
@@ -196,7 +196,7 @@ class F1Score(BaseMetric):
             pos_label = max(np.unique(actual))
             kwargs["pos_label"] = pos_label
 
-        score = f1_score(y_true=actual, y_pred=predicted, **kwargs)
+        score = f1_score(y_true=actual, y_pred=predicted, zero_division=0, **kwargs)
 
         return float(score)
 

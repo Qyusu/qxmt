@@ -34,10 +34,7 @@ QXMT is a newly released tool, and its features are currently limited. The quant
 
 
 ## Installation
-QXMT is tested and supported on 64-bit systems with:
-- Python 3.10, 3.11
-
-You can install QXMT with Python's pip package manager:
+QXMT is tested and supported on 64-bit systems. You can install QXMT with Python's pip package manager:
 ```bash
 pip install qxmt
 ```
