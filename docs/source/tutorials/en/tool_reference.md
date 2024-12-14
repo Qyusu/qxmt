@@ -293,7 +293,6 @@ QXMT’s Cross Validation internally executes scikit-learn’s `cross_val_score`
 This section introduces how to perform hyperparameter search for machine learning models. No additional settings are required in the config file. The results of the search are returned as a dictionary containing the values of the discovered parameters. Additionally, by setting the `refit` parameter to `True` during the search, you can obtain the trained model using the pa
 
 ``` python
-```python
 from sklearn.metrics import accuracy_score
 
 # Obtain the model and dataset instances from the artifact returned by experiment.run
