@@ -432,6 +432,11 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">5.1 Using Projected Kernel</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation-via-cross-validation">6.1 Model Evaluation via Cross Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-search-for-machine-learning-models">6.2 Hyperparameter Search for Machine Learning Models</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
 </ul>
             </nav>
@@ -720,6 +725,88 @@ M0 =
 </section>
 </section>
 <hr class="docutils" />
+<section id="model">
+<h2>6. Model<a class="headerlink" href="#model" title="Link to this heading">#</a></h2>
+<section id="model-evaluation-via-cross-validation">
+<h3>6.1 Model Evaluation via Cross Validation<a class="headerlink" href="#model-evaluation-via-cross-validation" title="Link to this heading">#</a></h3>
+<p>If you want to evaluate the performance of the implemented quantum machine learning model using Cross Validation, you can configure and run it as follows. No additional settings are required in the config file for performing Cross Validation. The results of the execution are returned as a list that contains the evaluation results of each split.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Obtain the model and dataset instances from the artifact returned by experiment.run</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="c1"># In the example below, we perform evaluation by splitting the dataset originally prepared as &quot;Train&quot; into 5 folds</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="p">[</span><span class="mf">0.444643</span>  <span class="mf">0.535290</span> <span class="mf">0.423356</span> <span class="mf">0.551298</span> <span class="mf">0.673212</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>X</strong>: Explanatory variables of the dataset to be split</p></li>
+<li><p><strong>y</strong>: Objective variables of the dataset to be split</p></li>
+<li><p><strong>cv</strong>: Number of splits for the dataset</p></li>
+</ul>
+<p>QXMT’s Cross Validation internally executes scikit-learn’s <code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>. Therefore, you can also configure the other parameters described in the scikit-learn <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html">documentation</a>. One commonly used parameter is <code class="docutils literal notranslate"><span class="pre">scoring</span></code>, which allows you to set the evaluation metric. By default, the model-specific default metric defined by scikit-learn is used (for SVC, this is accuracy). If you want to use a custom metric, refer to the <a class="reference external" href="https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers">String name scorers</a>.</p>
+</section>
+<section id="hyperparameter-search-for-machine-learning-models">
+<h3>6.2 Hyperparameter Search for Machine Learning Models<a class="headerlink" href="#hyperparameter-search-for-machine-learning-models" title="Link to this heading">#</a></h3>
+<p>This section introduces how to perform hyperparameter search for machine learning models. No additional settings are required in the config file. The results of the search are returned as a dictionary containing the values of the discovered parameters. Additionally, by setting the <code class="docutils literal notranslate"><span class="pre">refit</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">True</span></code> during the search, you can obtain the trained model using the pa</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="err">```</span><span class="n">python</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># Obtain the model and dataset instances from the artifact returned by experiment.run</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="c1"># Configure the search space and conditions</span>
+<span class="n">search_space</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+    <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">search_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;cv&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;n_jobs&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;n_trials&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># Perform the hyperparameter search</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">hyperparameter_search</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span>
+    <span class="n">search_type</span><span class="o">=</span><span class="s2">&quot;tpe&quot;</span><span class="p">,</span>
+    <span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">,</span>
+    <span class="n">search_args</span><span class="o">=</span><span class="n">search_args</span><span class="p">,</span>
+    <span class="n">objective</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">refit</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+
+<span class="c1"># Evaluate the search results</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">answer</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">y_test</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Parameters: </span><span class="si">{</span><span class="n">best_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>X</strong>: Explanatory variables of the dataset</p></li>
+<li><p><strong>y</strong>: Objective variables of the dataset</p></li>
+<li><p><strong>search_type</strong>: Algorithm used for the search</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: Grid Search</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random</span></code>: Random Search</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tpe</span></code>: TPE search by <a class="reference external" href="https://github.com/optuna/optuna">Optuna</a></p></li>
+</ul>
+</li>
+<li><p><strong>search_space</strong>: Parameters and their search ranges</p></li>
+<li><p><strong>search_args</strong>: Settings for the search</p></li>
+<li><p><strong>objective</strong>: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)</p></li>
+<li><p><strong>refit</strong>: Whether to train the model with the parameters found during the search (True/False)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
 <section id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
 <p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a></p>
@@ -734,7 +821,7 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/12/02</p></td>
+<td><p>2024/12/14</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
 <td><p>v0.3.7</p></td>
@@ -805,6 +892,11 @@ M0 =
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-projected-kernel">5.1 Using Projected Kernel</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation-via-cross-validation">6.1 Model Evaluation via Cross Validation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-search-for-machine-learning-models">6.2 Hyperparameter Search for Machine Learning Models</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>

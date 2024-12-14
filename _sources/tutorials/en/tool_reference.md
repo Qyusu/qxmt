@@ -264,6 +264,87 @@ kernel:
 
 ---
 
+## 6. Model
+
+### 6.1 Model Evaluation via Cross Validation
+
+If you want to evaluate the performance of the implemented quantum machine learning model using Cross Validation, you can configure and run it as follows. No additional settings are required in the config file for performing Cross Validation. The results of the execution are returned as a list that contains the evaluation results of each split.
+
+``` python
+# Obtain the model and dataset instances from the artifact returned by experiment.run
+model = artifact.model
+dataset = artifact.dataset
+
+# In the example below, we perform evaluation by splitting the dataset originally prepared as "Train" into 5 folds
+model.cross_val_score(X=dataset.X_train, y=dataset.y_train, cv=5)
+
+>> [0.444643  0.535290 0.423356 0.551298 0.673212]
+```
+
+- **X**: Explanatory variables of the dataset to be split
+- **y**: Objective variables of the dataset to be split
+- **cv**: Number of splits for the dataset
+
+QXMT’s Cross Validation internally executes scikit-learn’s `cross_val_score`. Therefore, you can also configure the other parameters described in the scikit-learn [documentation](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html). One commonly used parameter is `scoring`, which allows you to set the evaluation metric. By default, the model-specific default metric defined by scikit-learn is used (for SVC, this is accuracy). If you want to use a custom metric, refer to the [String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers).
+
+
+### 6.2 Hyperparameter Search for Machine Learning Models
+
+This section introduces how to perform hyperparameter search for machine learning models. No additional settings are required in the config file. The results of the search are returned as a dictionary containing the values of the discovered parameters. Additionally, by setting the `refit` parameter to `True` during the search, you can obtain the trained model using the pa
+
+``` python
+```python
+from sklearn.metrics import accuracy_score
+
+# Obtain the model and dataset instances from the artifact returned by experiment.run
+model = artifact.model
+dataset = artifact.dataset
+
+# Configure the search space and conditions
+search_space = {
+    'C': [0.1, 1.0],
+    'gamma': [0.01, 0.1]
+}
+search_args = {
+    'cv': 5,
+    "direction": "maximize",
+    'n_jobs': -1,
+    'verbose': 2,
+    "n_trials": 5,
+}
+
+# Perform the hyperparameter search
+best_params = model.hyperparameter_search(
+    X=dataset.X_train,
+    y=dataset.y_train,
+    search_type="tpe",
+    search_space=search_space,
+    search_args=search_args,
+    objective=None,
+    refit=True
+)
+
+# Evaluate the search results
+pred = model.predict(dataset.X_test)
+answer = dataset.y_test
+score = accuracy_score(pred, answer)
+print(f"Best Parameters: {best_params}")
+print(f"Accuracy: {score}")
+```
+
+- **X**: Explanatory variables of the dataset
+- **y**: Objective variables of the dataset
+- **search_type**: Algorithm used for the search
+  - `grid`: Grid Search
+  - `random`: Random Search
+  - `tpe`: TPE search by [Optuna](https://github.com/optuna/optuna)
+- **search_space**: Parameters and their search ranges
+- **search_args**: Settings for the search
+- **objective**: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)
+- **refit**: Whether to train the model with the parameters found during the search (True/False)
+
+---
+
 ## Reference
 <a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, [Arxiv (2021)](https://arxiv.org/abs/2108.01039)
 
@@ -275,5 +356,5 @@ kernel:
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/02 |
+| document | 2024/12/14 |
 | QXMT| v0.3.7 |

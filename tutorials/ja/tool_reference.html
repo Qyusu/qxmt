@@ -431,6 +431,11 @@
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">5.1 Projected Kernelの利用</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">6.1 Cross Validationによるモデルの評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
 </ul>
             </nav>
@@ -723,6 +728,87 @@ M0 =
 </section>
 </section>
 <hr class="docutils" />
+<section id="model">
+<h2>6. Model<a class="headerlink" href="#model" title="Link to this heading">#</a></h2>
+<section id="cross-validation">
+<h3>6.1 Cross Validationによるモデルの評価<a class="headerlink" href="#cross-validation" title="Link to this heading">#</a></h3>
+<p>実装した量子機械学習モデルのパフォーマンスをCross Validationで評価したい場合には、次のように設定・実行を行います。 Cross Validationを実施するにあたりconfigファイルの追加設定は必要ありません。実行結果は、各分割の評価結果を格納したリストで返されます。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># experiment.runの結果として得られるartifactから、モデルとデータセットのインスタンスを取得</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="c1"># 以下の例では元のDatasetでTrainとして用意されていたものを5分割して評価を実施</span>
+<span class="n">model</span><span class="o">.</span><span class="n">cross_val_score</span><span class="p">(</span><span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;</span> <span class="p">[</span><span class="mf">0.444643</span>  <span class="mf">0.535290</span> <span class="mf">0.423356</span> <span class="mf">0.551298</span> <span class="mf">0.673212</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>X</strong>: 分割元となるデータセットの説明変数</p></li>
+<li><p><strong>y</strong>: 分割元となるデータセットの目的変数</p></li>
+<li><p><strong>cv</strong>: データセットの分割数</p></li>
+</ul>
+<p>QXMTのCross Validationでは、内部的にsckit-learnの<code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>を実行しています。そのため、sckit-learnの<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html">ドキュメント</a>に記載のその他のパラメータについても設定することが可能です。よく使うものとして評価指標は<code class="docutils literal notranslate"><span class="pre">scoring</span></code>パラメータで設定することができます。デフォルトでは、scikit-learnで定義されたモデルごとのデフォルト指標が利用されます (SVCの場合はaccuracy)。任意の指標を利用したい場合は、「<a class="reference external" href="https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers">String name scorers</a>」を参照してください。</p>
+</section>
+<section id="id7">
+<h3>6.2 機械学習モデルのハイパーパラメータ探索<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<p>機械学習のモデルのハイパーパラメータを探索する方法について紹介します。こちらもconfigの追加設定は必要ありません。実行結果は、探索の結果得られたパラーメータの値をdict形式で得ることができます。また、探索時に<code class="docutils literal notranslate"><span class="pre">refit</span></code>パラメータを<code class="docutils literal notranslate"><span class="pre">True</span></code>に設定することで探索結果のパラメータでモデルを学習した結果を得ることもできます。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+
+<span class="c1"># experiment.runの結果として得られるartifactから、モデルとデータセットのインスタンスを取得</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">dataset</span>
+
+<span class="c1"># 探索範囲や条件の設定</span>
+<span class="n">search_space</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;C&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+    <span class="s1">&#39;gamma&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="n">search_args</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;cv&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+    <span class="s2">&quot;direction&quot;</span><span class="p">:</span> <span class="s2">&quot;maximize&quot;</span><span class="p">,</span>
+    <span class="s1">&#39;n_jobs&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;verbose&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="s2">&quot;n_trials&quot;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1"># パラメータ探索の実施</span>
+<span class="n">best_params</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">hyperparameter_search</span><span class="p">(</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span>
+    <span class="n">search_type</span><span class="o">=</span><span class="s2">&quot;tpe&quot;</span><span class="p">,</span>
+    <span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">,</span>
+    <span class="n">search_args</span><span class="o">=</span><span class="n">search_args</span><span class="p">,</span>
+    <span class="n">objective</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">refit</span><span class="o">=</span><span class="kc">True</span>
+    <span class="p">)</span>
+
+<span class="c1"># 探索結果の評価</span>
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_test</span><span class="p">)</span>
+<span class="n">answer</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">y_test</span>
+<span class="n">score</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Best Prameter: </span><span class="si">{</span><span class="n">best_params</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Accuracy: </span><span class="si">{</span><span class="n">score</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>X</strong>: データセットの説明変数</p></li>
+<li><p><strong>y</strong>: データセットの目的変数</p></li>
+<li><p><strong>search_type</strong>: 探索に利用するアルゴリズム</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: Grid Search</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random</span></code>: Random Search</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tpe</span></code>: TPE search by <a class="reference external" href="https://github.com/optuna/optuna">Optuna</a></p></li>
+</ul>
+</li>
+<li><p><strong>search_space</strong>: パラメータとその探索範囲</p></li>
+<li><p><strong>search_args</strong>: 探索時の設定</p></li>
+<li><p><strong>objective</strong>: 探索時に利用する目的関数 (Noneの場合は、モデルに定義されているデフォルト指標を利用。詳細：<a class="reference external" href="https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers">String name scorers</a>)</p></li>
+<li><p><strong>refit</strong>: 探索後、結果のパラメータでモデルの学習を行うかどうか (True/False)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
 <section id="reference">
 <h2>Reference<a class="headerlink" href="#reference" title="Link to this heading">#</a></h2>
 <p><a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, <a class="reference external" href="https://arxiv.org/abs/2108.01039">Arxiv (2021)</a></p>
@@ -737,7 +823,7 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/12/02</p></td>
+<td><p>2024/12/14</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
 <td><p>v0.3.7</p></td>
@@ -799,6 +885,11 @@ M0 =
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kernel">5. Kernel</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#projected-kernel">5.1 Projected Kernelの利用</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">6.1 Cross Validationによるモデルの評価</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
