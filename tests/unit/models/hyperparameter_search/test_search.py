@@ -55,7 +55,7 @@ class TestHyperParameterSearch:
         assert direction == expected
 
     @pytest.mark.parametrize(
-        ["search_type", "search_args", "expected"],
+        ["sampler_type", "search_args", "expected"],
         [
             pytest.param(
                 "tpe",
@@ -71,9 +71,9 @@ class TestHyperParameterSearch:
             ),
         ],
     )
-    def test_get_study_args(self, search_type: str, search_args: dict, expected: dict) -> None:
+    def test_get_study_args(self, sampler_type: str, search_args: dict, expected: dict) -> None:
         searcher = HyperParameterSearch(
-            np.array([[1, 2], [3, 4]]), np.array([0, 1]), SVC(), search_type, {}, search_args
+            np.array([[1, 2], [3, 4]]), np.array([0, 1]), SVC(), sampler_type, {}, search_args
         )
         study_args = searcher._get_study_args()
         for k, v in expected.items():
