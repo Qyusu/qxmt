@@ -316,7 +316,7 @@ search_args = {
 best_params = model.hyperparameter_search(
     X=dataset.X_train,
     y=dataset.y_train,
-    search_type="tpe",
+    sampler_type="tpe",
     search_space=search_space,
     search_args=search_args,
     objective=None,
@@ -333,10 +333,10 @@ print(f"Accuracy: {score}")
 
 - **X**: Explanatory variables of the dataset
 - **y**: Objective variables of the dataset
-- **search_type**: Algorithm used for the search
-  - `grid`: Grid Search
-  - `random`: Random Search
-  - `tpe`: TPE search by [Optuna](https://github.com/optuna/optuna)
+- **sampler_type**: Algorithm used for the search
+  - `grid`: Grid Sampler
+  - `random`: Random Sampler
+  - `tpe`: TPE Sampler by [Optuna](https://github.com/optuna/optuna)
 - **search_space**: Parameters and their search ranges
 - **search_args**: Settings for the search
 - **objective**: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)

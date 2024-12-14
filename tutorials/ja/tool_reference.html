@@ -776,7 +776,7 @@ M0 =
 <span class="n">best_params</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">hyperparameter_search</span><span class="p">(</span>
     <span class="n">X</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">X_train</span><span class="p">,</span>
     <span class="n">y</span><span class="o">=</span><span class="n">dataset</span><span class="o">.</span><span class="n">y_train</span><span class="p">,</span>
-    <span class="n">search_type</span><span class="o">=</span><span class="s2">&quot;tpe&quot;</span><span class="p">,</span>
+    <span class="n">sampler_type</span><span class="o">=</span><span class="s2">&quot;tpe&quot;</span><span class="p">,</span>
     <span class="n">search_space</span><span class="o">=</span><span class="n">search_space</span><span class="p">,</span>
     <span class="n">search_args</span><span class="o">=</span><span class="n">search_args</span><span class="p">,</span>
     <span class="n">objective</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -794,11 +794,11 @@ M0 =
 <ul class="simple">
 <li><p><strong>X</strong>: データセットの説明変数</p></li>
 <li><p><strong>y</strong>: データセットの目的変数</p></li>
-<li><p><strong>search_type</strong>: 探索に利用するアルゴリズム</p>
+<li><p><strong>sampler_type</strong>: 探索に利用するアルゴリズム</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: Grid Search</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">random</span></code>: Random Search</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">tpe</span></code>: TPE search by <a class="reference external" href="https://github.com/optuna/optuna">Optuna</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid</span></code>: Grid Sampler</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random</span></code>: Random Sampler</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tpe</span></code>: TPE Sampler by <a class="reference external" href="https://github.com/optuna/optuna">Optuna</a></p></li>
 </ul>
 </li>
 <li><p><strong>search_space</strong>: パラメータとその探索範囲</p></li>
