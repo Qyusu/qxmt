@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./data/images/tool_icon.png" alt="QXMTのアイコン" title="QXMTのアイコン" width="65%">
+    <img src="./data/images/tool_icon.png" title="QXMT" width="65%">
 </p>
 
 <div align="center">
