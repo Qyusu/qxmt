@@ -144,5 +144,4 @@ class TestRunExperiment:
 
         # get result dataframe, and compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        print(f"{python_version}, {architecture}\n{result_df}")  # [TODO] Remove this line
         assert_frame_equal(result_df, expected_df)
