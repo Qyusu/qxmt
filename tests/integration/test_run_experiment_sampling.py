@@ -109,7 +109,7 @@ class TestRunExperiment:
         python_version = sys.version_info[:2]
         architecture = platform.machine()
         match (python_version, architecture):
-            case (3, 10), "x86_64" | (3, 11), "x86_64" | (3, 12), "x86_64" | (3, 13), "x86_64":
+            case ((3, 10), "x86_64") | ((3, 11), "x86_64") | ((3, 12), "x86_64") | ((3, 13), "x86_64"):
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
@@ -119,7 +119,7 @@ class TestRunExperiment:
                         "f1_score": [0.37],
                     }
                 ).round(2)
-            case (3, 10), "arm64" | (3, 11), "arm64":
+            case ((3, 10), "arm64") | ((3, 11), "arm64"):
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
@@ -129,7 +129,7 @@ class TestRunExperiment:
                         "f1_score": [0.35],
                     }
                 ).round(2)
-            case (3, 12), "arm64" | (3, 13), "arm64":
+            case ((3, 12), "arm64") | ((3, 13), "arm64"):
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
