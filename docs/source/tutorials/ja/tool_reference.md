@@ -263,6 +263,84 @@ kernel:
 
 ---
 
+## 6. Model
+
+### 6.1 Cross Validationによるモデルの評価
+実装した量子機械学習モデルのパフォーマンスをCross Validationで評価したい場合には、次のように設定・実行を行います。 Cross Validationを実施するにあたりconfigファイルの追加設定は必要ありません。実行結果は、各分割の評価結果を格納したリストで返されます。
+
+``` python
+# experiment.runの結果として得られるartifactから、モデルとデータセットのインスタンスを取得
+model = artifact.model
+dataset = artifact.dataset
+
+# 以下の例では元のDatasetでTrainとして用意されていたものを5分割して評価を実施
+model.cross_val_score(X=dataset.X_train, y=dataset.y_train, cv=5)
+
+>> [0.444643  0.535290 0.423356 0.551298 0.673212]
+```
+
+- **X**: 分割元となるデータセットの説明変数
+- **y**: 分割元となるデータセットの目的変数
+- **cv**: データセットの分割数
+
+QXMTのCross Validationでは、内部的にsckit-learnの`cross_val_score`を実行しています。そのため、sckit-learnの[ドキュメント](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html)に記載のその他のパラメータについても設定することが可能です。よく使うものとして評価指標は`scoring`パラメータで設定することができます。デフォルトでは、scikit-learnで定義されたモデルごとのデフォルト指標が利用されます (SVCの場合はaccuracy)。任意の指標を利用したい場合は、「[String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers)」を参照してください。
+
+
+### 6.2 機械学習モデルのハイパーパラメータ探索
+機械学習のモデルのハイパーパラメータを探索する方法について紹介します。こちらもconfigの追加設定は必要ありません。実行結果は、探索の結果得られたパラーメータの値をdict形式で得ることができます。また、探索時に`refit`パラメータを`True`に設定することで探索結果のパラメータでモデルを学習した結果を得ることもできます。
+
+``` python
+from sklearn.metrics import accuracy_score
+
+# experiment.runの結果として得られるartifactから、モデルとデータセットのインスタンスを取得
+model = artifact.model
+dataset = artifact.dataset
+
+# 探索範囲や条件の設定
+search_space = {
+    'C': [0.1, 1.0],
+    'gamma': [0.01, 0.1]
+}
+search_args = {
+    'cv': 5,
+    "direction": "maximize",
+    'n_jobs': -1,
+    'verbose': 2,
+    "n_trials": 5,
+}
+
+# パラメータ探索の実施
+best_params = model.hyperparameter_search(
+    X=dataset.X_train,
+    y=dataset.y_train,
+    search_type="tpe",
+    search_space=search_space,
+    search_args=search_args,
+    objective=None,
+    refit=True
+    )
+
+# 探索結果の評価
+pred = model.predict(dataset.X_test)
+answer = dataset.y_test
+score = accuracy_score(pred, answer)
+print(f"Best Prameter: {best_params}")
+print(f"Accuracy: {score}")
+```
+
+- **X**: データセットの説明変数
+- **y**: データセットの目的変数
+- **search_type**: 探索に利用するアルゴリズム
+  - `grid`: Grid Search
+  - `random`: Random Search
+  - `tpe`: TPE search by [Optuna](https://github.com/optuna/optuna)
+- **search_space**: パラメータとその探索範囲
+- **search_args**: 探索時の設定
+- **objective**: 探索時に利用する目的関数 (Noneの場合は、モデルに定義されているデフォルト指標を利用。詳細：[String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers))
+- **refit**: 探索後、結果のパラメータでモデルの学習を行うかどうか (True/False)
+
+---
+
 ## Reference
 <a id="ref1"></a>[1] Tobias Haug, Chris N. Self, M. S. Kim, “Quantum machine learning of large datasets using randomized measurements”, [Arxiv (2021)](https://arxiv.org/abs/2108.01039)
 
@@ -274,5 +352,5 @@ kernel:
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/02 |
+| document | 2024/12/14 |
 | QXMT| v0.3.7 |
