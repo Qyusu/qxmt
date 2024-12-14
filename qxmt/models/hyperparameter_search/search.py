@@ -27,7 +27,7 @@ class HyperParameterSearch:
         >>> X, y = load_iris(return_X_y=True)
         >>> X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
         >>> model = SVC()
-        >>> search_type = "tpe"
+        >>> sampler_type = "tpe"
         >>> search_space = {
         ...     "C": [0.1, 1.0],
         ...     "gamma": [0.01, 0.1]
@@ -37,7 +37,7 @@ class HyperParameterSearch:
         ...     "direction": "maximize",
         ...     "n_jobs": -1,
         ... }
-        >>> searcher = HyperParameterSearch(X_train, y_train, model, search_type, search_space, search_args)
+        >>> searcher = HyperParameterSearch(X_train, y_train, model, sampler_type, search_space, search_args)
         >>> best_params = searcher.search()
         >>> best_params
         {'C': 0.8526745595533768, 'gamma': 0.01217052619278743}
@@ -48,7 +48,7 @@ class HyperParameterSearch:
         X: np.ndarray,
         y: np.ndarray,
         model: Any,
-        search_type: str,
+        sampler_type: str,
         search_space: dict[str, list[Any]],
         search_args: Optional[dict[str, Any]],
         objective: Optional[Callable] = None,
@@ -60,7 +60,7 @@ class HyperParameterSearch:
             X (np.ndarray): dataset for search
             y (np.ndarray): target values for search
             model (Any): model instance for hyperparameter search
-            search_type (str): search type for hyperparameter search (random, grid, tpe)
+            sampler_type (str): sampler type for hyperparameter search (random, grid, tpe)
             search_space (dict[str, list[Any]]): search space for hyperparameter search
             search_args (Optional[dict[str, Any]]): search arguments for hyperparameter search
             objective (Optional[Callable], optional): objective function for hyperparameter search. Defaults to None.
@@ -72,7 +72,7 @@ class HyperParameterSearch:
         self.X = X
         self.y = y
         self.model = model
-        self.search_type = search_type
+        self.sampler_type = sampler_type
         self.search_space = search_space
         self.search_args = search_args or {}
         self.objective = objective
@@ -86,16 +86,16 @@ class HyperParameterSearch:
         ):
             raise ValueError(
                 f"""Sampler '{search_args['sampler']}' specified in search_args is
-                 not matching search_type '{self.search_type}'."""
+                 not matching sampler_type '{self.sampler_type}'."""
             )
 
     def _get_sampler(self) -> RandomSampler | GridSampler | TPESampler:
-        """Get sampler instance based on search_type. If not specified, default to TPE sampler.
+        """Get sampler instance based on sampler_type. If not specified, default to TPE sampler.
 
         Returns:
             Any: sampler instance
         """
-        match self.search_type.lower():
+        match self.sampler_type.lower():
             case "random":
                 return RandomSampler()
             case "grid":
@@ -103,7 +103,7 @@ class HyperParameterSearch:
             case "tpe":
                 return TPESampler()
             case _:
-                self.logger.warning(f"Unknown search_type '{self.search_type}', defaulting to TPE sampler.")
+                self.logger.warning(f"Unknown sampler_type '{self.sampler_type}', defaulting to TPE sampler.")
                 return TPESampler()
 
     def _get_direction(self) -> str:
