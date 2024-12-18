@@ -89,6 +89,7 @@ class BaseDevice:
         return backend
 
     def _set_ibmq_real_device_by_pennylane(self) -> None:
+        """Set IBM Quantum real device by PennyLane."""
         import pennylane as qml
 
         backend = self._get_ibmq_real_device(self.backend_name)
@@ -100,6 +101,7 @@ class BaseDevice:
         )
 
     def _set_simulator_by_pennylane(self) -> None:
+        """Set PennyLane simulator."""
         import pennylane as qml
 
         self.device = qml.device(
