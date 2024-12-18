@@ -127,7 +127,7 @@ class BaseKernel(ABC):
             progress_queue.put(1)
             return i, j, e
 
-    def compute_matrix(
+    def compute_matrix_simulator(
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
@@ -205,6 +205,19 @@ class BaseKernel(ABC):
                     shots_matrix[i, j] = result[1]
 
         return kernel_matrix, shots_matrix
+
+    def compute_matrix(
+        self,
+        x_array_1: np.ndarray,
+        x_array_2: np.ndarray,
+        return_shots_resutls: bool = False,
+        n_jobs: int = DEFAULT_N_JOBS,
+        bar_label: str = "",
+    ) -> tuple[np.ndarray, Optional[np.ndarray]]:
+        if self.device.is_simulator():
+            return self.compute_matrix_simulator(x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label)
+        else:
+            raise NotImplementedError("The compute_matrix() method is not implemented for real quantum devices.")
 
     def save_shots_results(self, probs_matrix: np.ndarray, save_path: str | Path) -> None:
         """Save the shot results to a file.

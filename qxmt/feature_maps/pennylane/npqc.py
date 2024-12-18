@@ -75,7 +75,7 @@ class NPQCFeatureMap(BaseFeatureMap):
 
         for r_idx in range(self.reps):
             for i in range(0, self.n_qubits - 1, 2):
-                qml.RY(np.pi / 2, wires=i)
+                qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
                 # Calculate and apply controlled-Z gate
                 target_wire = self._calculate_target_wire(i, r_idx, self.n_qubits)

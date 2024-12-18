@@ -7,7 +7,9 @@ from qxmt.exceptions import InvalidQunatumDeviceError
 
 class TestGetPlatformFromDevice:
     def test_get_platform_from_device_base_device(self) -> None:
-        device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=1, shots=None)
+        device = BaseDevice(
+            platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=1, shots=None
+        )
         platform = get_platform_from_device(device)
         assert platform == "pennylane"
 
@@ -35,7 +37,9 @@ class TestGetPlatformFromDevice:
 
 class TestGetNumberOfQubits:
     def test_get_number_of_qubits_base_device(self) -> None:
-        device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=1, shots=None)
+        device = BaseDevice(
+            platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=1, shots=None
+        )
         n_qubits = get_number_of_qubits(device)
         assert n_qubits == 1
 

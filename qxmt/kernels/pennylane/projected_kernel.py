@@ -115,7 +115,7 @@ class ProjectedKernel(BaseKernel):
                 qml.Hadamard(wires=i)
         elif self.projection == "y":
             for i in range(self.n_qubits):
-                qml.RY(np.pi / 2, wires=i)
+                qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
         if self.is_sampling:
             return qml.sample(wires=range(self.n_qubits))
@@ -132,7 +132,7 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device.get_simulator(), cache=False)  # type: ignore
+        qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
         x1_result = qnode(x1)
         x2_result = qnode(x2)
 
