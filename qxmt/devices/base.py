@@ -1,15 +1,17 @@
 import os
+from logging import Logger
 from typing import Any, Optional
 
+import numpy as np
 from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend
 
 from qxmt.constants import IBMQ_API_KEY
 from qxmt.exceptions import IBMQSettingError, InvalidPlatformError
+from qxmt.logger import set_default_logger
 
+LOGGER = set_default_logger(__name__)
 IBMQ_REAL_DEVICES = ["qiskit.remote"]
-
-import numpy as np
 
 
 class BaseDevice:
@@ -37,6 +39,7 @@ class BaseDevice:
         n_qubits: int,
         shots: Optional[int],
         random_seed: Optional[int] = None,
+        logger: Logger = LOGGER,
     ) -> None:
         """Initialize the quantum device.
 
@@ -54,6 +57,7 @@ class BaseDevice:
         self.n_qubits = n_qubits
         self.shots = shots
         self.random_seed = random_seed
+        self.logger = logger
         self._set_device()
 
     def __call__(self) -> Any:
@@ -83,6 +87,7 @@ class BaseDevice:
         service = QiskitRuntimeService()
         if backend_name is None:
             backend = service.least_busy(operational=True, simulator=False, min_num_qubits=self.n_qubits)
+            self.logger.info(f'Backend is not provided. Select least busy backend: "{backend.name}"')
         else:
             backend = service.backend(backend_name)
 
@@ -98,6 +103,10 @@ class BaseDevice:
             backend=backend,
             wires=backend.num_qubits,
             shots=self.shots,
+        )
+        self.logger.info(
+            "Set IBM Quantum real device: "
+            f'(backend="{backend.name}", n_qubits={backend.num_qubits}, shots={self.shots})'
         )
 
     def _set_simulator_by_pennylane(self) -> None:
@@ -124,3 +133,11 @@ class BaseDevice:
                 self._set_simulator_by_pennylane()
         else:
             raise InvalidPlatformError(f'"{self.platform}" is not implemented.')
+
+    def is_simulator(self) -> bool:
+        """Check the device is a simulator or real machine.
+
+        Returns:
+            bool: True if the device is a simulator, False otherwise
+        """
+        return self.device_name not in IBMQ_REAL_DEVICES
