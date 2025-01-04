@@ -279,31 +279,31 @@ class TestGetDatasetType:
         openml_config = {
             "dataset": {
                 "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
-                "random_seed": 42,
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
             }
         }
 
         file_config = {
             "dataset": {
                 "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
-                "random_seed": 42,
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
             }
         }
 
         generate_config = {
             "dataset": {
                 "generate": GenerateDataConfig(generate_method="linear"),
-                "random_seed": 42,
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
             }
         }
 
         no_exist_type_config = {
             "dataset": {
-                "random_seed": 42,
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
             }
         }
 
@@ -312,8 +312,8 @@ class TestGetDatasetType:
                 "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
                 "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
                 "generate": GenerateDataConfig(generate_method="linear"),
-                "random_seed": 42,
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
             }
         }
 
@@ -336,8 +336,8 @@ class TestGetDatasetType:
 FILE_DATE_CONFIG = {
     "dataset": {
         "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
-        "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+        "features": None,
     }
 }
 
@@ -351,16 +351,16 @@ def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
 GEN_DATA_CONFIG_WITH_VAL = {
     "dataset": {
         "generate": GenerateDataConfig(generate_method="linear"),
-        "random_seed": 42,
         "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+        "features": None,
     }
 }
 
 GEN_DATA_CONFIG_NO_VAL = {
     "dataset": {
         "generate": GenerateDataConfig(generate_method="linear"),
-        "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
+        "features": None,
     }
 }
 
@@ -380,7 +380,6 @@ def default_gen_builder_no_val(experiment_config: ExperimentConfig) -> DatasetBu
 CUSTOM_CONFIG = {
     "dataset": {
         "generate": GenerateDataConfig(generate_method="linear"),
-        "random_seed": 42,
         "split": {"train_ratio": 0.8, "validation_ratio": 0.0, "test_ratio": 0.2, "shuffle": True},
         "features": None,
         "raw_preprocess_logic": {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
