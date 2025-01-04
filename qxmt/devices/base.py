@@ -4,7 +4,7 @@ from typing import Any, Optional
 
 import numpy as np
 from qiskit.providers.backend import BackendV2
-from qiskit_ibm_runtime import IBMBackend
+from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
 from qxmt.constants import IBMQ_API_KEY
 from qxmt.exceptions import IBMQSettingError, InvalidPlatformError
@@ -69,8 +69,6 @@ class BaseDevice:
         then please set the IBM Quantum account on environment variables "IBMQ_API_KEY".
         If the backend name is not provided, the least busy backend is selected.
         """
-        from qiskit_ibm_runtime import QiskitRuntimeService
-
         ibm_api_key = os.getenv(IBMQ_API_KEY)
         if ibm_api_key is None:
             raise IBMQSettingError(
@@ -141,3 +139,13 @@ class BaseDevice:
             bool: True if the device is a simulator, False otherwise
         """
         return self.device_name not in IBMQ_REAL_DEVICES
+
+    def get_backend(self) -> IBMBackend | BackendV2:
+        """Get the IBM Quantum real device backend.
+
+        Returns:
+            IBMBackend | BackendV2: IBM Quantum real device backend
+        """
+        if self.is_simulator():
+            raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
+        return self.device.backend
