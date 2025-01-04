@@ -24,7 +24,6 @@ DEFAULT_DATASET_CONFIG = DatasetConfig(
     generate=GenerateDataConfig(generate_method="linear"),
     openml=None,
     file=None,
-    random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
     features=None,
     raw_preprocess_logic=None,

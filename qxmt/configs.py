@@ -71,7 +71,6 @@ class DatasetConfig(BaseModel):
     openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
     file: Optional[FileConfig] = None  # only need when use file dataset
     generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
-    random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
