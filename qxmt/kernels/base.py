@@ -16,6 +16,8 @@ from qxmt.exceptions import DeviceSettingError
 from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
 from qxmt.kernels.sampling import generate_all_observable_states
 
+MAX_IBMQ_REQUEST_NUM = 3
+
 
 class BaseKernel(ABC):
     """
@@ -98,7 +100,7 @@ class BaseKernel(ABC):
         """
         pass
 
-    def _compute_entry(
+    def _compute_entry_by_simulator(
         self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: mp.Queue
     ) -> tuple[int, int, tuple[float, np.ndarray] | Exception]:
         """Compute each entry of the kernel matrix.
@@ -127,11 +129,11 @@ class BaseKernel(ABC):
             progress_queue.put(1)
             return i, j, e
 
-    def compute_matrix(
+    def _compute_matrix_by_simulator(
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
-        return_shots_resutls: bool = False,
+        return_shots_resutls: bool,
         n_jobs: int = DEFAULT_N_JOBS,
         bar_label: str = "",
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
@@ -141,9 +143,9 @@ class BaseKernel(ABC):
         Args:
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
-            return_shots_resutls (bool, optional): return the shot results. Defaults to False.
+            return_shots_resutls (bool): return the shot results.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
-            bar_label (str, optional): label for the progress bar. Defaults to "".
+            bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -157,7 +159,7 @@ class BaseKernel(ABC):
         n_samples_2 = len(x_array_2)
 
         # parallel computation for each entry of the kernel matrix
-        tasks = [(i, j, x_array_1, x_array_2) for i in range(len(x_array_1)) for j in range(len(x_array_2))]
+        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
         with mp.Manager() as manager:
             progress_queue = manager.Queue()
             with Progress() as progress:
@@ -166,7 +168,7 @@ class BaseKernel(ABC):
 
                 with mp.Pool(processes=n_jobs) as pool:
                     results = pool.starmap_async(
-                        self._compute_entry,
+                        self._compute_entry_by_simulator,
                         [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
                     )
 
@@ -205,6 +207,90 @@ class BaseKernel(ABC):
                     shots_matrix[i, j] = result[1]
 
         return kernel_matrix, shots_matrix
+
+    def _compute_entry_by_ibmq(
+        self,
+        i: int,
+        j: int,
+        x_array_1: np.ndarray,
+        x_array_2: np.ndarray,
+    ) -> tuple[int, int, tuple[float | list[float], np.ndarray]]:
+        result = self.compute(x_array_1[i], x_array_2[j])
+        return i, j, result
+
+    def _compute_matrix_by_ibmq(
+        self,
+        x_array_1: np.ndarray,
+        x_array_2: np.ndarray,
+        return_shots_resutls: bool,
+    ) -> tuple[np.ndarray, Optional[np.ndarray]]:
+        """Compute the kernel matrix for given samples by IBM Quantum real device.
+
+        Args:
+            x_array_1 (np.ndarray): array of samples (ex: training data)
+            x_array_2 (np.ndarray): array of samples (ex: test data)
+            return_shots_resutls (bool): return the shot results.
+
+        Returns:
+            tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
+        """
+        # compute each entry of the kernel matrix in parallel
+        n_samples_1 = len(x_array_1)
+        n_samples_2 = len(x_array_2)
+
+        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
+        with mp.Pool(processes=MAX_IBMQ_REQUEST_NUM) as pool:
+            results = pool.starmap_async(
+                self._compute_entry_by_ibmq,
+                [(i, j, x_array_1, x_array_2) for (i, j, x_array_1, x_array_2) in tasks],
+            )
+
+            # get all process results
+            results.wait()
+            final_results = results.get()
+
+        # initialize the shots results matrix when return_shots_resutls is True
+        if self.is_sampling and return_shots_resutls:
+            num_state = 2**self.device.n_qubits
+            shots_matrix = np.zeros((n_samples_1, n_samples_2, num_state))
+        else:
+            shots_matrix = None
+
+        kernel_matrix = np.zeros((n_samples_1, n_samples_2))
+        for i, j, result in final_results:
+            kernel_matrix[i, j] = result[0]
+
+            if shots_matrix is not None:
+                shots_matrix[i, j] = result[1]
+
+        return kernel_matrix, shots_matrix
+
+    def compute_matrix(
+        self,
+        x_array_1: np.ndarray,
+        x_array_2: np.ndarray,
+        return_shots_resutls: bool = False,
+        n_jobs: int = DEFAULT_N_JOBS,
+        bar_label: str = "",
+    ) -> tuple[np.ndarray, Optional[np.ndarray]]:
+        """Compute the kernel matrix for given samples.
+        The kernel matrix is computed by simulator or IBM Quantum real device.
+
+        Args:
+            x_array_1 (np.ndarray): array of samples (ex: training data)
+            x_array_2 (np.ndarray): array of samples (ex: test data)
+            return_shots_resutls (bool, optional): return the shot results. Defaults to False.
+            n_jobs (int, optional): parallel computation for each entry of the kernel matrix.
+                This value only valid for simulator mode. Defaults to DEFAULT_N_JOBS.
+            bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
+
+        Returns:
+            tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
+        """
+        if self.device.is_simulator():
+            return self._compute_matrix_by_simulator(x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label)
+        else:
+            return self._compute_matrix_by_ibmq(x_array_1, x_array_2, return_shots_resutls)
 
     def save_shots_results(self, probs_matrix: np.ndarray, save_path: str | Path) -> None:
         """Save the shot results to a file.

@@ -100,7 +100,9 @@ class TestRunExperiment:
         # update config
         base_config_path = "tests/integration/configs/state_vector_simulator.yaml"
         base_config = ExperimentConfig(path=base_config_path)
-        config = base_config.model_copy(update={"device.name": device_name, "kernel.implement_name": kernel_name})
+        config = base_config.model_copy(
+            update={"device.device_name": device_name, "kernel.implement_name": kernel_name}
+        )
         _, _ = experiment.run(config_source=config)
 
         # get result dataframe

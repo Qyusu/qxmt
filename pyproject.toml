@@ -32,6 +32,9 @@ optuna = "^4.0.0"
 h5py = "^3.12.1"
 rich = {extras = ["jupyter"], version = "^13.9.4"}
 numpy = "~2.0.0"
+qiskit = "^1.2.4"
+qiskit-ibm-runtime = "0.29"
+pennylane-qiskit = "^0.39.1"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -46,6 +49,7 @@ pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
 pennylane-lightning = "^0.39.0"
 pennylane-qulacs = {extras = ["cpu"], version = "^0.39.0"}
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.docs.dependencies]

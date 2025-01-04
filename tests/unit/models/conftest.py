@@ -8,7 +8,7 @@ from qxmt.devices.base import BaseDevice
 from qxmt.kernels import BaseKernel
 from qxmt.models import QSVC, QSVR, QRiggeRegressor
 
-DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+DEVICE = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
 
 
 def empty_feature_map(x: np.ndarray) -> None:

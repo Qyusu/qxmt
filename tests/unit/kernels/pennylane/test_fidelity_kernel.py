@@ -12,7 +12,7 @@ def empty_feature_map(x: np.ndarray) -> None:
 
 @pytest.fixture(scope="function")
 def fidelity_kernel() -> FidelityKernel:
-    device = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
     return FidelityKernel(device, feature_map=empty_feature_map)
 
 

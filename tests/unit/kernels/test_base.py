@@ -10,9 +10,15 @@ from qxmt.kernels import BaseKernel
 
 N_QUBITS = 2
 SHOTS = 5
-STATE_VECTOR_DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=N_QUBITS, shots=None)
-SAMPLING_DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=N_QUBITS, shots=SHOTS)
-MULTI_QUBITS_DEVICE = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=5, shots=SHOTS)
+STATE_VECTOR_DEVICE = BaseDevice(
+    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=N_QUBITS, shots=None
+)
+SAMPLING_DEVICE = BaseDevice(
+    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=N_QUBITS, shots=SHOTS
+)
+MULTI_QUBITS_DEVICE = BaseDevice(
+    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=5, shots=SHOTS
+)
 
 
 def empty_feature_map(x: np.ndarray) -> None:

@@ -11,8 +11,10 @@ from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
 from qxmt.models import QSVC, BaseMLModel
 
-DEVICE_STATEVC = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
-DEVICE_SHOTS = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
+DEVICE_STATEVC = BaseDevice(
+    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None
+)
+DEVICE_SHOTS = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=5)
 
 
 def empty_feature_map(x: np.ndarray) -> None:

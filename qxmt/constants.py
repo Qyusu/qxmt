@@ -28,6 +28,9 @@ DEFAULT_EXP_DB_FILE: Path = Path("experiment.json")
 # set default config file name.
 DEFAULT_EXP_CONFIG_FILE: Path = Path("config.yaml")
 
+# set environment variable name for IBM Quantum API key
+IBMQ_API_KEY: str = "IBMQ_API_KEY"
+
 # set supported quantum platforms and devices
 PENNYLANE_PLATFORM: str = "pennylane"
 SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM]
