@@ -30,7 +30,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8bf3131c" />
   
@@ -506,7 +506,7 @@
 <li><p><strong>desc</strong>:実験の概要を管理するための自由記述欄です。処理では利用されないことに加えて、文字列であること以外に制限はないため、実験を振り返る際に必要な情報を自由に記述してください。</p></li>
 <li><p><strong>auto_gen_mode</strong>: 各runのdescriptionをLLMを使って自動生成する機能を利用するかどうかを設定するフラグです (デフォルトでは<code class="docutils literal notranslate"><span class="pre">False</span></code>に設定)。こちらの機能を利用する場合はパッケージ利用時に<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">qxmt[llm]</span></code>とする必要があることに加えて、環境変数<code class="docutils literal notranslate"><span class="pre">USE_LLM</span></code>を<code class="docutils literal notranslate"><span class="pre">True</span></code>に設定する必要があります。</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_tutorial&quot;</span><span class="p">,</span>
@@ -599,7 +599,7 @@
 </div>
 <p>run実行時には、その他にも様々な引数を指定することができますが今回は最もシンプルなconfigだけを指定して場合を紹介しています。runを実行すると<code class="docutils literal notranslate"><span class="pre">artifact</span></code>と<code class="docutils literal notranslate"><span class="pre">result</span></code>が返されます。<code class="docutils literal notranslate"><span class="pre">artifact</span></code>にはrunで利用したデータセット (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>)と機械学習モデル (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>)が含まれています。<code class="docutils literal notranslate"><span class="pre">result</span></code>には、runの設定やモデルの評価結果が含まれています。これらは、次章で紹介する可視化に利用したり次のモデル開発を行う際の分析に利用することができます。</p>
 <p>次にconfigをインスタンスとして渡し、runを実行する方法を紹介します。この方法ではモデルのパラメータ等をその場で修正しながら開発を行うことができるので、モデルの構造を探索するときなどに有用です。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt</span> <span class="kn">import</span> <span class="n">ExperimentConfig</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentConfig</span>
 
 <span class="c1"># load default config</span>
 <span class="n">adhoc_config</span> <span class="o">=</span> <span class="n">ExperimentConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
@@ -631,7 +631,7 @@
 <section id="dataset">
 <h3>4.1 Datasetのラベル分布を可視化<a class="headerlink" href="#dataset" title="Link to this heading">#</a></h3>
 <p>今回作成したダミーデータセットのラベル分布を可視化します。この可視化を行うことで、学習データと評価データで分布に大きな乖離がないか視覚的に確認することができます。以下の例では、データセットと保存先のパス (<code class="docutils literal notranslate"><span class="pre">save_path</span></code>)のみを引数として設定しましたが、その他にも<code class="docutils literal notranslate"><span class="pre">kwargs</span></code>としてグラフのタイトル等を渡すことも可能です。また、<code class="docutils literal notranslate"><span class="pre">save_path=None</span></code>とした場合にはグラフの保存は行われません。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_dataset</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_2d_dataset</span>
 
 <span class="c1"># extract dataset instance from run artifact</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">dataset</span>
@@ -647,7 +647,7 @@
 <section id="id5">
 <h3>4.2 評価指標の比較<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
 <p>パラメータやモデルの構造を変更しながら複数のRunを実行した場合に、それらの評価指標を可視化し比較する方法を紹介します。<code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side</span></code>では、比較したい評価指標名のリスト (dataframeのカラム名)を渡すことで各RunをX軸に取った棒グラフを作成することができます。また、今回は設定していませんが特定のRunに絞り込んで比較を行いたい場合は、引数<code class="docutils literal notranslate"><span class="pre">run_ids=[1,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">6]</span></code>のように対象のrun_idのリストを設定することで可視化できます。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
 <span class="c1"># get run result as dataframe</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
@@ -666,7 +666,7 @@
 <h3>4.3 モデルの決定境界<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
 <p>モデルとしてQuantum Support Vector Machine (QSVC)を利用している場合には、学習済みモデルの決定境界を可視化することができます。この可視化を活用することで、うまく分類できていない例を見つけたり、モデルの特徴を捉えるヒントを得ることができます。</p>
 <p>引数に設定するモデルやデータセットについては、Runの<code class="docutils literal notranslate"><span class="pre">artifact</span></code>から取得することができます。<code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code>は可視化する決定境界の解像度を設定することができ、高い値に設定するほど境界が滑らかになり、個々のサンプルについても分類結果を確認することができます。一方で計算時間が大幅に増加するため目的に合わせて調整してください。<code class="docutils literal notranslate"><span class="pre">support_vectors</span></code>はbool値を取り、出力するグラフのsupport vectorを◯印で囲って視認性を高めるかを制御することができます。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decision_boundaries</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_2d_decision_boundaries</span>
 
 <span class="c1"># extract model and dataset instance from run artifact</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">model</span>

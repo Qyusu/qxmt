@@ -30,7 +30,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8bf3131c" />
   
@@ -504,7 +504,7 @@
 自分のローカル環境やクラウド環境で行った実験については、以下のようにQXMTで生成されるログファイルである<code class="docutils literal notranslate"><span class="pre">experiment.json</span></code>を指定することで読み込むことができます。読み込んだ際にワーキングディレクトリ等のディレクトリ構成が読み込み元と異なる場合には自動的に現在の実行ディレクトリに更新されます。</p></li>
 </ul>
 <p>読み込んだ後に<code class="docutils literal notranslate"><span class="pre">run</span></code>メソッドで実験を再開すると連続した連番がrun_idとして付与され、一連の実験として管理することができます。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
 
 <span class="n">experiment_path</span> <span class="o">=</span> <span class="s2">&quot;/your_project/experiments/your_experiment/experiment.json&quot;</span>
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">()</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">experiment_path</span><span class="p">)</span>
@@ -634,7 +634,7 @@ State Vector方式では、状態ベクトルに対してゲートを行列演�
 </pre></div>
 </div>
 <p>もう一つの方法は、対象の特徴マップのインスタンスを直接作成する方法です。この方法では、カスタムの特徴マップを作る場合に回路図を見ながら試行錯誤したいという場合に便利です。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.feature_maps.pennylane.rotation</span> <span class="kn">import</span> <span class="n">RotationFeatureMap</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.rotation</span><span class="w"> </span><span class="kn">import</span> <span class="n">RotationFeatureMap</span>
 <span class="n">feature_map</span> <span class="o">=</span> <span class="n">RotationFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">,</span> <span class="s2">&quot;Y&quot;</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -758,7 +758,7 @@ M0 =
 <section id="id7">
 <h3>6.2 機械学習モデルのハイパーパラメータ探索<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>機械学習のモデルのハイパーパラメータを探索する方法について紹介します。こちらもconfigの追加設定は必要ありません。実行結果は、探索の結果得られたパラーメータの値をdict形式で得ることができます。また、探索時に<code class="docutils literal notranslate"><span class="pre">refit</span></code>パラメータを<code class="docutils literal notranslate"><span class="pre">True</span></code>に設定することで探索結果のパラメータでモデルを学習した結果を得ることもできます。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
 
 <span class="c1"># experiment.runの結果として得られるartifactから、モデルとデータセットのインスタンスを取得</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span>

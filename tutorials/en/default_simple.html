@@ -30,7 +30,7 @@
   <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=8bf3131c" />
   
@@ -508,7 +508,7 @@
 <li><p><strong>desc</strong>: A free-text field for adding a brief description of the experiment. It is not used in any processing, and there are no restrictions other than being a string. Use this field to document any relevant information for reviewing the experiment later.</p></li>
 <li><p><strong>auto_gen_mode</strong>: A flag to enable or disable the feature that automatically generates descriptions for each run using an LLM (default is <code class="docutils literal notranslate"><span class="pre">False</span></code>). If you want to use this feature, make sure to run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">qxmt[llm]</span></code> when installing the package, and set the environment variable <code class="docutils literal notranslate"><span class="pre">USE_LLM</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">qxmt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
 
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;simple_tutorial&quot;</span><span class="p">,</span>
@@ -600,7 +600,7 @@
 </div>
 <p>When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method by specifying only the configuration. When a Run is executed, it returns an <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and a <code class="docutils literal notranslate"><span class="pre">result</span></code>. The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> includes the dataset (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>) and machine learning model (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>) used in the Run. The <code class="docutils literal notranslate"><span class="pre">result</span></code> contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.</p>
 <p>Next, we will demonstrate how to execute a Run by passing the configuration as an instance. This method is useful for making on-the-fly adjustments to model parameters and is particularly beneficial when exploring the structure of a model.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt</span> <span class="kn">import</span> <span class="n">ExperimentConfig</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentConfig</span>
 
 <span class="c1"># load default config</span>
 <span class="n">adhoc_config</span> <span class="o">=</span> <span class="n">ExperimentConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
@@ -632,7 +632,7 @@
 <section id="visualizing-the-label-distribution-of-the-dataset">
 <h3>4.1 Visualizing the Label Distribution of the Dataset<a class="headerlink" href="#visualizing-the-label-distribution-of-the-dataset" title="Link to this heading">#</a></h3>
 <p>In this section, we visualize the label distribution of the dummy dataset created. This allows you to visually inspect whether there are significant deviations in the distribution between the training and evaluation datasets. In the following example, only the dataset and the save path (<code class="docutils literal notranslate"><span class="pre">save_path</span></code>) are specified as arguments, but other options, such as the graph title, can also be passed as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>. Additionally, if <code class="docutils literal notranslate"><span class="pre">save_path=None</span></code> is specified, the graph will not be saved.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_dataset</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_2d_dataset</span>
 
 <span class="c1"># extract dataset instance from run artifact</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">dataset</span>
@@ -648,7 +648,7 @@
 <section id="comparison-of-evaluation-metrics">
 <h3>4.2 Comparison of Evaluation Metrics<a class="headerlink" href="#comparison-of-evaluation-metrics" title="Link to this heading">#</a></h3>
 <p>In this section, we explain how to visualize and compare evaluation metrics when multiple Runs are executed with different parameters or model structures. Using <code class="docutils literal notranslate"><span class="pre">plot_metrics_side_by_side</span></code>, you can create bar graphs with each Run on the X-axis by passing a list of the evaluation metric names you want to compare (these correspond to the column names in the DataFrame). Additionally, although not used in this example, if you want to narrow the comparison to specific Runs, you can do so by passing a list of target <code class="docutils literal notranslate"><span class="pre">run_ids</span></code>, such as <code class="docutils literal notranslate"><span class="pre">run_ids=[1,</span> <span class="pre">3,</span> <span class="pre">5,</span> <span class="pre">6]</span></code>, as an argument.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
 <span class="c1"># get run result as dataframe</span>
 <span class="n">df</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
@@ -667,7 +667,7 @@
 <h3>4.3 Decision Boundary of the Model<a class="headerlink" href="#decision-boundary-of-the-model" title="Link to this heading">#</a></h3>
 <p>When using a Quantum Support Vector Machine (QSVC) as the model, you can visualize the decision boundary of the trained model. This visualization helps identify examples that are not classified correctly and provides insights into the model’s behavior.</p>
 <p>The model and dataset to be used as arguments can be obtained from the Run’s <code class="docutils literal notranslate"><span class="pre">artifact</span></code>. The <code class="docutils literal notranslate"><span class="pre">grid_resolution</span></code> parameter allows you to set the resolution of the visualized decision boundary—the higher the value, the smoother the boundary, enabling you to examine individual sample classification results in more detail. However, higher resolution significantly increases computation time, so adjust it according to your needs. The <code class="docutils literal notranslate"><span class="pre">support_vectors</span></code> argument accepts a boolean value and controls whether support vectors are highlighted with circles to improve visibility in the output graph.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qxmt.visualization</span> <span class="kn">import</span> <span class="n">plot_2d_decision_boundaries</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_2d_decision_boundaries</span>
 
 <span class="c1"># extract model and dataset instance from run artifact</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">artifact_1</span><span class="o">.</span><span class="n">model</span>
