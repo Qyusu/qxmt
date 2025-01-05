@@ -67,7 +67,7 @@ class FidelityKernel(BaseKernel):
         else:
             return qml.probs(wires=range(self.n_qubits))
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray] | list[tuple[float, np.ndarray]]:
         """Compute the fidelity kernel value between two data points.
 
         Args:
@@ -78,16 +78,21 @@ class FidelityKernel(BaseKernel):
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
         qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
-        result = qnode(x1, x2)
+        results = cast(np.ndarray, qnode(x1, x2))
 
-        if self.is_sampling:
+        if not self.is_sampling:
+            # use theoretical probability distribution
+            probs = np.array(results)
+            kernel_value = probs[0]  # get |0..0> state probability
+            return kernel_value, probs
+
+        if self.is_sampling and results.ndim == 1:
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
+            probs = sample_results_to_probs(results, self.n_qubits, cast(int, self.device.shots))
+            kernel_value = probs[0]  # get |0..0> state probability
+            return kernel_value, probs
         else:
-            # use theoretical probability distribution
-            probs = np.array(result)
-
-        kernel_value = probs[0]  # get |0..0> state probability
-
-        return kernel_value, probs
+            # batch mode
+            probs_list = [sample_results_to_probs(res, self.n_qubits, cast(int, self.device.shots)) for res in results]
+            return [(probs[0], probs) for probs in probs_list]

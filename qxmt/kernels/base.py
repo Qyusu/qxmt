@@ -17,6 +17,8 @@ from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
 from qxmt.kernels.sampling import generate_all_observable_states
 
 MAX_IBMQ_REQUEST_NUM = 3
+IBMQ_MAX_BATCH_SIZE = 100
+IBMQ_BATCH_SIZE = int(IBMQ_MAX_BATCH_SIZE * 0.8)
 
 
 class BaseKernel(ABC):
@@ -88,7 +90,7 @@ class BaseKernel(ABC):
             return cast(BaseFeatureMap, feature_map)
 
     @abstractmethod
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray] | list[tuple[float, np.ndarray]]:
         """Compute kernel value between two samples.
 
         Args:
@@ -110,8 +112,8 @@ class BaseKernel(ABC):
         Args:
             i (int): row index of kernel matrix
             j (int): column index of kernel matrix
-            x_array_1 (np.ndarray): input array 1 for kernel computation
-            x_array_2 (np.ndarray): input array 2 for kernel computation
+            x_array_1 (np.ndarray): input array 1 that index is i for kernel computation
+            x_array_2 (np.ndarray): input array 2 that index is j for kernel computation
             progress_queue (mp.Queue): queue for tracking the progress
 
         Returns:
@@ -122,7 +124,7 @@ class BaseKernel(ABC):
             Exception: error in the self.compute() method
         """
         try:
-            result = self.compute(x_array_1[i], x_array_2[j])
+            result = cast(tuple[float, np.ndarray], self.compute(x_array_1, x_array_2))
             progress_queue.put(1)
             return i, j, result
         except Exception as e:
@@ -159,7 +161,7 @@ class BaseKernel(ABC):
         n_samples_2 = len(x_array_2)
 
         # parallel computation for each entry of the kernel matrix
-        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
+        tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
         with mp.Manager() as manager:
             progress_queue = manager.Queue()
             with Progress() as progress:
@@ -208,21 +210,24 @@ class BaseKernel(ABC):
 
         return kernel_matrix, shots_matrix
 
-    def _compute_entry_by_ibmq(
-        self,
-        i: int,
-        j: int,
-        x_array_1: np.ndarray,
-        x_array_2: np.ndarray,
-    ) -> tuple[int, int, tuple[float | list[float], np.ndarray]]:
-        result = self.compute(x_array_1[i], x_array_2[j])
-        return i, j, result
+    def _compute_entries_by_ibmq(
+        self, batch_tasks: list[tuple[int, int, np.ndarray, np.ndarray]]
+    ) -> list[tuple[int, int, tuple[float, np.ndarray]]]:
+        print("Call compute")
+        i_list, j_list, x1_batch, x2_batch = zip(*batch_tasks)
+        x1_array = np.array(x1_batch)
+        x2_array = np.array(x2_batch)
+
+        results = cast(list[tuple[float, np.ndarray]], self.compute(x1_array, x2_array))
+
+        return [(i, j, res) for i, j, res in zip(i_list, j_list, results)]
 
     def _compute_matrix_by_ibmq(
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
         return_shots_resutls: bool,
+        batch_size: int = IBMQ_BATCH_SIZE,
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
         """Compute the kernel matrix for given samples by IBM Quantum real device.
 
@@ -230,6 +235,9 @@ class BaseKernel(ABC):
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
             return_shots_resutls (bool): return the shot results.
+            batch_size (int, optional):
+                batch size for one request to IBM Quantum real device.
+                Defaults to IBMQ_BATCH_SIZE.
 
         Returns:
             tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
@@ -238,16 +246,18 @@ class BaseKernel(ABC):
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
 
-        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
+        tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
+        batched_tasks = [tasks[i : i + batch_size] for i in range(0, len(tasks), batch_size)]
         with mp.Pool(processes=MAX_IBMQ_REQUEST_NUM) as pool:
-            results = pool.starmap_async(
-                self._compute_entry_by_ibmq,
-                [(i, j, x_array_1, x_array_2) for (i, j, x_array_1, x_array_2) in tasks],
-            )
+            results = pool.map_async(self._compute_entries_by_ibmq, batched_tasks)
 
             # get all process results
             results.wait()
-            final_results = results.get()
+            batched_results = results.get()
+
+        # flatten the batched results
+        final_results = [item for sublist in batched_results for item in sublist]
+        print(final_results)
 
         # initialize the shots results matrix when return_shots_resutls is True
         if self.is_sampling and return_shots_resutls:
