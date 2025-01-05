@@ -1,9 +1,16 @@
 from pathlib import Path
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict
 
 from qxmt.datasets.schema import Dataset
 from qxmt.models.base import BaseMLModel
+
+
+class RealMachine(BaseModel):
+    provider: str
+    backend: str
+    job_ids: list[str]
 
 
 class RunTime(BaseModel):
@@ -16,10 +23,11 @@ class RunRecord(BaseModel):
 
     run_id: int
     desc: str
-    execution_time: str
-    runtime: RunTime
+    real_machine: Optional[RealMachine] = None
     commit_id: str
     config_file_name: Path
+    execution_time: str
+    runtime: RunTime
     evaluation: dict[str, float]
 
 

@@ -11,7 +11,6 @@ dataset:
       "n_samples": 1000,
       "n_features": 2,
     }
-  random_seed: *global_seed
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -34,7 +33,7 @@ dataset:
 
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: 1024
   random_seed: *global_seed

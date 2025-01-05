@@ -16,6 +16,7 @@ from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
     ExperimentSettingError,
+    IBMQSettingError,
     InputShapeError,
     InvalidFileExtensionError,
     InvalidModelNameError,
@@ -43,6 +44,7 @@ __all__ = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
+    "IBMQSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",
@@ -55,4 +57,4 @@ __all__ = [
 ]
 
 
-__version__ = "0.3.7"
+__version__ = "0.4.0"

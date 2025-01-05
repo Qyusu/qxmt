@@ -10,7 +10,6 @@ dataset:
     data_path: "data/openml/california_housing/dataset.npz"
     label_path: null
     label_name: null
-  random_seed: *global_seed
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -33,7 +32,7 @@ dataset:
 
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 8
   shots: null
 

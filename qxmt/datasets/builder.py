@@ -58,7 +58,7 @@ class DatasetBuilder:
         """
         self.config: ExperimentConfig = config
         self.task_type: str = config.global_settings.task_type
-        self.random_seed: int = config.dataset.random_seed
+        self.random_seed: int = config.global_settings.random_seed
         self.logger: Logger = logger
         self.custom_raw_preprocess_list = self._set_custom_raw_process_list()
         self.custom_transform_list = self._set_custom_transform_list()

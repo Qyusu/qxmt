@@ -16,7 +16,7 @@ def encode_x_feature_map(x: np.ndarray) -> None:
 
 @pytest.fixture(scope="function")
 def device() -> BaseDevice:
-    return BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
+    return BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
 
 
 class TestProjectedKernel:

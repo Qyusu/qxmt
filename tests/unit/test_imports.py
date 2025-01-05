@@ -16,6 +16,7 @@ EXPECTED_ALL = [
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
     "ExperimentSettingError",
+    "IBMQSettingError",
     "InputShapeError",
     "InvalidFileExtensionError",
     "InvalidModelNameError",
@@ -33,4 +34,4 @@ def test_all_imports() -> None:
 
 
 def test_version() -> None:
-    assert __version__ == "0.3.7"
+    assert __version__ == "0.4.0"

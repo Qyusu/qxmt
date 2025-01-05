@@ -24,14 +24,13 @@ DEFAULT_DATASET_CONFIG = DatasetConfig(
     generate=GenerateDataConfig(generate_method="linear"),
     openml=None,
     file=None,
-    random_seed=DEFAULT_GLOBAL_SETTINGS.random_seed,
     split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
     features=None,
     raw_preprocess_logic=None,
     transform_logic=None,
 )
-DEFAULT_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
-SHOTS_DEVICE_CONFIG = DeviceConfig(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
+DEFAULT_DEVICE_CONFIG = DeviceConfig(platform="pennylane", device_name="default.qubit", n_qubits=2, shots=None)
+SHOTS_DEVICE_CONFIG = DeviceConfig(platform="pennylane", device_name="default.qubit", n_qubits=2, shots=5)
 DEFAULT_FEATUREMAP_CONFIG = FeatureMapConfig(
     module_name="qxmt.feature_maps.pennylane", implement_name="ZZFeatureMap", params={"reps": 2}
 )

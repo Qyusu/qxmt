@@ -11,8 +11,10 @@ from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
 from qxmt.models import QSVC, BaseMLModel
 
-DEVICE_STATEVC = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=None)
-DEVICE_SHOTS = BaseDevice(platform="pennylane", name="default.qubit", n_qubits=2, shots=5)
+DEVICE_STATEVC = BaseDevice(
+    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None
+)
+DEVICE_SHOTS = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=5)
 
 
 def empty_feature_map(x: np.ndarray) -> None:
@@ -63,7 +65,6 @@ def create_random_dataset() -> Callable:
             y_test=np.random.randint(class_num, size=data_num),
             config=DatasetConfig(
                 generate=GenerateDataConfig(generate_method="linear"),
-                random_seed=42,
                 split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
                 features=None,
             ),

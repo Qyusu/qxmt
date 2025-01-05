@@ -71,7 +71,6 @@ class DatasetConfig(BaseModel):
     openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
     file: Optional[FileConfig] = None  # only need when use file dataset
     generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
-    random_seed: int
     split: SplitConfig
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
@@ -82,7 +81,8 @@ class DeviceConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     platform: str
-    name: str
+    device_name: str
+    backend_name: Optional[str] = None
     n_qubits: int
     shots: Optional[int] = None
     random_seed: Optional[int] = None
@@ -98,6 +98,12 @@ class DeviceConfig(BaseModel):
     def check_save_shots(self) -> "DeviceConfig":
         if (self.shots is None) and (self.save_shots_results):
             raise ValueError('The "shots" must be set to save the shot results.')
+        return self
+
+    @model_validator(mode="after")
+    def check_real_machine_setting(self) -> "DeviceConfig":
+        if (self.backend_name is not None) and (self.shots is None):
+            raise ValueError("Real quantum machine must set the shots.")
         return self
 
 
