@@ -110,8 +110,8 @@ class BaseKernel(ABC):
         Args:
             i (int): row index of kernel matrix
             j (int): column index of kernel matrix
-            x_array_1 (np.ndarray): input array 1 for kernel computation
-            x_array_2 (np.ndarray): input array 2 for kernel computation
+            x_array_1 (np.ndarray): input array 1 that index i for kernel computation
+            x_array_2 (np.ndarray): input array 2 that index j for kernel computation
             progress_queue (mp.Queue): queue for tracking the progress
 
         Returns:
@@ -122,7 +122,7 @@ class BaseKernel(ABC):
             Exception: error in the self.compute() method
         """
         try:
-            result = self.compute(x_array_1[i], x_array_2[j])
+            result = self.compute(x_array_1, x_array_2)
             progress_queue.put(1)
             return i, j, result
         except Exception as e:
@@ -159,7 +159,7 @@ class BaseKernel(ABC):
         n_samples_2 = len(x_array_2)
 
         # parallel computation for each entry of the kernel matrix
-        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
+        tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
         with mp.Manager() as manager:
             progress_queue = manager.Queue()
             with Progress() as progress:
@@ -215,7 +215,7 @@ class BaseKernel(ABC):
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
     ) -> tuple[int, int, tuple[float | list[float], np.ndarray]]:
-        result = self.compute(x_array_1[i], x_array_2[j])
+        result = self.compute(x_array_1, x_array_2)
         return i, j, result
 
     def _compute_matrix_by_ibmq(
@@ -238,7 +238,7 @@ class BaseKernel(ABC):
         n_samples_1 = len(x_array_1)
         n_samples_2 = len(x_array_2)
 
-        tasks = [(i, j, x_array_1, x_array_2) for i in range(n_samples_1) for j in range(n_samples_2)]
+        tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
         with mp.Pool(processes=MAX_IBMQ_REQUEST_NUM) as pool:
             results = pool.starmap_async(
                 self._compute_entry_by_ibmq,

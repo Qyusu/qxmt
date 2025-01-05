@@ -1,4 +1,5 @@
 import os
+from datetime import datetime
 from logging import Logger
 from typing import Any, Optional
 
@@ -140,6 +141,27 @@ class BaseDevice:
         """
         return self.device_name not in IBMQ_REAL_DEVICES
 
+    def get_provider(self) -> str:
+        """Get real machine provider name.
+
+        Returns:
+            str: provider name
+        """
+        if self.device_name in IBMQ_REAL_DEVICES:
+            return "IBM"
+        else:
+            return ""
+
+    def get_service(self) -> QiskitRuntimeService:
+        """Get the IBM Quantum service.
+
+        Returns:
+            QiskitRuntimeService: IBM Quantum service
+        """
+        if self.is_simulator():
+            raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
+        return self.device.service
+
     def get_backend(self) -> IBMBackend | BackendV2:
         """Get the IBM Quantum real device backend.
 
@@ -149,3 +171,29 @@ class BaseDevice:
         if self.is_simulator():
             raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
         return self.device.backend
+
+    def get_backend_name(self) -> str:
+        """Get the IBM Quantum real device backend name.
+
+        Returns:
+            str: IBM Quantum real device backend name
+        """
+        backend = self.get_backend()
+        return backend.name
+
+    def get_ibmq_job_ids(
+        self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
+    ) -> list[str]:
+        """Get the IBM Quantum job IDs.
+
+        Returns:
+            list[str]: IBM Quantum job IDs
+        """
+        if self.is_simulator():
+            raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
+
+        service = self.get_service()
+        backend = self.get_backend()
+        jobs = service.jobs(backend_name=backend.name, created_after=created_after, created_before=created_before)
+
+        return [job.job_id() for job in jobs]

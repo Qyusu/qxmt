@@ -1,11 +1,10 @@
 import json
 import os
 import shutil
-import time
 from datetime import datetime
 from logging import Logger
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 import numpy as np
 import pandas as pd
@@ -32,9 +31,15 @@ from qxmt.exceptions import (
     JsonEncodingError,
     ReproductionError,
 )
-from qxmt.experiment.schema import ExperimentDB, RunArtifact, RunRecord, RunTime
+from qxmt.experiment.schema import (
+    ExperimentDB,
+    RealMachine,
+    RunArtifact,
+    RunRecord,
+    RunTime,
+)
 from qxmt.logger import set_default_logger
-from qxmt.models.base import BaseMLModel
+from qxmt.models.base import BaseKernelModel, BaseMLModel
 from qxmt.models.builder import ModelBuilder
 from qxmt.utils import (
     get_commit_id,
@@ -412,13 +417,23 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        fit_start = time.perf_counter()
+        fit_start_dt = datetime.now()
         model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
-        fit_end = time.perf_counter()
+        fit_end_dt = datetime.now()
 
-        predict_start = time.perf_counter()
+        predict_start_dt = datetime.now()
         predicted = model.predict(dataset.X_test)
-        predict_end = time.perf_counter()
+        predict_end_dt = datetime.now()
+
+        device = cast(BaseKernelModel, model).kernel.device
+        if not device.is_simulator():
+            fit_job_ids = device.get_ibmq_job_ids(created_after=fit_start_dt, created_before=fit_end_dt)
+            predict_job_ids = device.get_ibmq_job_ids(created_after=predict_start_dt, created_before=predict_end_dt)
+            real_machine_log = RealMachine(
+                provider=device.get_provider(), backend=device.get_backend_name(), job_ids=fit_job_ids + predict_job_ids
+            )
+        else:
+            real_machine_log = None
 
         if add_results:
             model.save(save_model_path)
@@ -445,10 +460,14 @@ class Experiment:
         record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
+            real_machine=real_machine_log,
             commit_id=commit_id,
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            runtime=RunTime(fit_seconds=fit_end - fit_start, predict_seconds=predict_end - predict_start),
+            runtime=RunTime(
+                fit_seconds=(fit_end_dt - fit_start_dt).total_seconds(),
+                predict_seconds=(predict_end_dt - predict_start_dt).total_seconds(),
+            ),
             evaluation=self.run_evaluation(
                 task_type=task_type,
                 actual=dataset.y_test,
