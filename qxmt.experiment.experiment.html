@@ -688,17 +688,20 @@ instance or the path to a config file. If a path is provided, it loads and creat
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">runs_to_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">runs_to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Convert the run data to a pandas DataFrame.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>DataFrame of run data</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>include_validation</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to include the validation results. Defaults to False.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>pd.DataFrame</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame of run data</p>
 </dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
 </dd>
 </dl>
 </dd></dl>
