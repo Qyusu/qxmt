@@ -19,6 +19,11 @@ class RunTime(BaseModel):
     test_seconds: float
 
 
+class Evaluations(BaseModel):
+    validation: Optional[dict[str, float]]
+    test: dict[str, float]
+
+
 class RunRecord(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
@@ -29,7 +34,7 @@ class RunRecord(BaseModel):
     config_file_name: Path
     execution_time: str
     runtime: RunTime
-    evaluation: dict[str, float]
+    evaluations: Evaluations
 
 
 class RunArtifact(BaseModel):

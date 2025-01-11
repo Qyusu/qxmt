@@ -139,11 +139,12 @@ class QRiggeRegressor(BaseKernelModel):
             )
         self.model.fit(kernel_train_X, y)
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
         """Predict target values of input data.
 
         Args:
             X (np.ndarray): numpy array of input data
+            bar_label (str): label for progress bar. Defaults to "".
 
         Returns:
             np.ndarray: numpy array of predicted target values

@@ -156,11 +156,12 @@ class QSVR(BaseKernelModel):
             )
         self.model.fit(kernel_train_X, y, **kwargs)
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
         """Predict the target value with given features.
 
         Args:
             X (np.ndarray): numpy array of features
+            bar_label (str): label for progress bar. Defaults to ""
 
         Returns:
             np.ndarray: numpy array of predicted values
