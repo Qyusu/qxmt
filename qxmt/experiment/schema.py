@@ -14,8 +14,9 @@ class RealMachine(BaseModel):
 
 
 class RunTime(BaseModel):
-    fit_seconds: float
-    predict_seconds: float
+    train_seconds: float
+    validation_seconds: Optional[float]
+    test_seconds: float
 
 
 class RunRecord(BaseModel):

@@ -417,20 +417,35 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        fit_start_dt = datetime.now()
+        train_start_dt = datetime.now()
         model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
-        fit_end_dt = datetime.now()
+        train_end_dt = datetime.now()
+        train_seconds = (train_end_dt - train_start_dt).total_seconds()
 
-        predict_start_dt = datetime.now()
+        if (dataset.X_val is not None) and (dataset.y_val is not None):
+            validation_start_dt = datetime.now()
+            # [TODO] validation method should be implemented in the model
+            validation_end_dt = datetime.now()
+            validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
+        else:
+            validation_seconds = None
+
+        test_start_dt = datetime.now()
         predicted = model.predict(dataset.X_test)
-        predict_end_dt = datetime.now()
+        test_end_dt = datetime.now()
+        test_seconds = (test_end_dt - test_start_dt).total_seconds()
 
         device = cast(BaseKernelModel, model).kernel.device
         if not device.is_simulator():
-            fit_job_ids = device.get_ibmq_job_ids(created_after=fit_start_dt, created_before=fit_end_dt)
-            predict_job_ids = device.get_ibmq_job_ids(created_after=predict_start_dt, created_before=predict_end_dt)
+            train_job_ids = device.get_ibmq_job_ids(created_after=train_start_dt, created_before=train_end_dt)
+            validation_job_ids = device.get_ibmq_job_ids(
+                created_after=validation_start_dt, created_before=validation_end_dt
+            )
+            test_job_ids = device.get_ibmq_job_ids(created_after=test_start_dt, created_before=test_end_dt)
             real_machine_log = RealMachine(
-                provider=device.get_provider(), backend=device.get_backend_name(), job_ids=fit_job_ids + predict_job_ids
+                provider=device.get_provider(),
+                backend=device.get_backend_name(),
+                job_ids=train_job_ids + validation_job_ids + test_job_ids,
             )
         else:
             real_machine_log = None
@@ -465,8 +480,9 @@ class Experiment:
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             runtime=RunTime(
-                fit_seconds=(fit_end_dt - fit_start_dt).total_seconds(),
-                predict_seconds=(predict_end_dt - predict_start_dt).total_seconds(),
+                train_seconds=train_seconds,
+                validation_seconds=validation_seconds,
+                test_seconds=test_seconds,
             ),
             evaluation=self.run_evaluation(
                 task_type=task_type,
