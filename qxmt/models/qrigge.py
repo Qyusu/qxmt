@@ -139,11 +139,12 @@ class QRiggeRegressor(BaseKernelModel):
             )
         self.model.fit(kernel_train_X, y)
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
         """Predict target values of input data.
 
         Args:
             X (np.ndarray): numpy array of input data
+            bar_label (str): label for progress bar. Defaults to "".
 
         Returns:
             np.ndarray: numpy array of predicted target values
@@ -152,7 +153,7 @@ class QRiggeRegressor(BaseKernelModel):
             raise ValueError("The model is not trained yet.")
         else:
             kernel_pred_X, _ = self.kernel.compute_matrix(
-                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Test"
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label=bar_label
             )
         return self.model.predict(kernel_pred_X)
 

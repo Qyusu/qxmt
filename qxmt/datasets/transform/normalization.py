@@ -1,9 +1,11 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import numpy as np
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 
 from qxmt.types import PROCESSCED_DATASET_TYPE
+
+SCALER_TYPE = Literal["StandardScaler", "MinMaxScaler"]
 
 
 def normalization(
@@ -13,6 +15,7 @@ def normalization(
     y_val: Optional[np.ndarray],
     X_test: np.ndarray,
     y_test: np.ndarray,
+    scaler_type: SCALER_TYPE = "StandardScaler",
 ) -> PROCESSCED_DATASET_TYPE:
     """Normalization of dataset by StandardScaler
 
@@ -27,9 +30,15 @@ def normalization(
     Returns:
         PROCESSCED_DATASET_TYPE: tuple of normalized dataset
     """
-    scaler = StandardScaler()
-    scaler.fit(X_train)
-    X_train_scaled = scaler.transform(X_train)
+    match scaler_type:
+        case "StandardScaler":
+            scaler = StandardScaler()
+        case "MinMaxScaler":
+            scaler = MinMaxScaler()
+        case _:
+            raise ValueError(f"Invalid scaler type: {scaler_type}")
+
+    X_train_scaled = scaler.fit_transform(X_train)
     X_val_scaled = scaler.transform(X_val) if X_val is not None else None
     X_test_scaled = scaler.transform(X_test)
 

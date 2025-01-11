@@ -32,6 +32,7 @@ from qxmt.exceptions import (
     ReproductionError,
 )
 from qxmt.experiment.schema import (
+    Evaluations,
     ExperimentDB,
     RealMachine,
     RunArtifact,
@@ -417,20 +418,50 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        fit_start_dt = datetime.now()
+        train_start_dt = datetime.now()
         model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
-        fit_end_dt = datetime.now()
+        train_end_dt = datetime.now()
+        train_seconds = (train_end_dt - train_start_dt).total_seconds()
 
-        predict_start_dt = datetime.now()
-        predicted = model.predict(dataset.X_test)
-        predict_end_dt = datetime.now()
+        if (dataset.X_val is not None) and (dataset.y_val is not None):
+            validation_start_dt = datetime.now()
+            validation_predicted = model.predict(dataset.X_test, bar_label="Validation")
+            validation_end_dt = datetime.now()
+            validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
+            validation_evaluation = self.run_evaluation(
+                task_type=task_type,
+                actual=dataset.y_val,
+                predicted=validation_predicted,
+                default_metrics_name=default_metrics_name,
+                custom_metrics=custom_metrics,
+            )
+        else:
+            validation_seconds = None
+            validation_evaluation = None
+
+        test_start_dt = datetime.now()
+        test_predicted = model.predict(dataset.X_test, bar_label="Test")
+        test_end_dt = datetime.now()
+        test_seconds = (test_end_dt - test_start_dt).total_seconds()
+        test_evaluation = self.run_evaluation(
+            task_type=task_type,
+            actual=dataset.y_test,
+            predicted=test_predicted,
+            default_metrics_name=default_metrics_name,
+            custom_metrics=custom_metrics,
+        )
 
         device = cast(BaseKernelModel, model).kernel.device
         if not device.is_simulator():
-            fit_job_ids = device.get_ibmq_job_ids(created_after=fit_start_dt, created_before=fit_end_dt)
-            predict_job_ids = device.get_ibmq_job_ids(created_after=predict_start_dt, created_before=predict_end_dt)
+            train_job_ids = device.get_ibmq_job_ids(created_after=train_start_dt, created_before=train_end_dt)
+            validation_job_ids = device.get_ibmq_job_ids(
+                created_after=validation_start_dt, created_before=validation_end_dt
+            )
+            test_job_ids = device.get_ibmq_job_ids(created_after=test_start_dt, created_before=test_end_dt)
             real_machine_log = RealMachine(
-                provider=device.get_provider(), backend=device.get_backend_name(), job_ids=fit_job_ids + predict_job_ids
+                provider=device.get_provider(),
+                backend=device.get_backend_name(),
+                job_ids=train_job_ids + validation_job_ids + test_job_ids,
             )
         else:
             real_machine_log = None
@@ -465,16 +496,11 @@ class Experiment:
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
             runtime=RunTime(
-                fit_seconds=(fit_end_dt - fit_start_dt).total_seconds(),
-                predict_seconds=(predict_end_dt - predict_start_dt).total_seconds(),
+                train_seconds=train_seconds,
+                validation_seconds=validation_seconds,
+                test_seconds=test_seconds,
             ),
-            evaluation=self.run_evaluation(
-                task_type=task_type,
-                actual=dataset.y_test,
-                predicted=predicted,
-                default_metrics_name=default_metrics_name,
-                custom_metrics=custom_metrics,
-            ),
+            evaluations=Evaluations(validation=validation_evaluation, test=test_evaluation),
         )
 
         return artifact, record
@@ -593,8 +619,11 @@ class Experiment:
 
         return artifact, record
 
-    def runs_to_dataframe(self) -> pd.DataFrame:
+    def runs_to_dataframe(self, include_validation: bool = False) -> pd.DataFrame:
         """Convert the run data to a pandas DataFrame.
+
+        Args:
+            include_validation (bool, optional): whether to include the validation results. Defaults to False.
 
         Returns:
             pd.DataFrame: DataFrame of run data
@@ -605,7 +634,19 @@ class Experiment:
         self._is_initialized()
         run_data = [run.model_dump() for run in self.exp_db.runs]  # type: ignore
         run_data = [
-            {"run_id": run_record_dict["run_id"], **run_record_dict["evaluation"]} for run_record_dict in run_data
+            {
+                "run_id": run_record_dict["run_id"],
+                **run_record_dict["evaluations"]["test"],
+                **(
+                    {
+                        f"{key}_validation": value
+                        for key, value in (run_record_dict["evaluations"]["validation"] or {}).items()
+                    }
+                    if include_validation and "validation" in run_record_dict.get("evaluations", {})
+                    else {}
+                ),
+            }
+            for run_record_dict in run_data
         ]
         return pd.DataFrame(run_data)
 
@@ -709,8 +750,8 @@ class Experiment:
         config_path = Path(f"{self.experiment_dirc}/run_{run_id}/{DEFAULT_EXP_CONFIG_FILE}")
         reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
 
-        logging_evaluation = run_record.evaluation
-        reproduced_evaluation = reproduced_result.evaluation
+        logging_evaluation = run_record.evaluations.test
+        reproduced_evaluation = reproduced_result.evaluations.test
         self._validate_evaluation(logging_evaluation, reproduced_evaluation)
         self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
 

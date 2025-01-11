@@ -35,6 +35,7 @@ numpy = "~2.0.0"
 qiskit = "^1.2.4"
 qiskit-ibm-runtime = "0.29"
 pennylane-qiskit = "^0.39.1"
+qiskit-aer = "0.15.1"
 
 
 [tool.poetry.group.dev.dependencies]
