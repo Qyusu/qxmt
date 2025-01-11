@@ -55,7 +55,9 @@ def base_experiment(tmp_path: Path) -> Experiment:
 
 @pytest.fixture(scope="function")
 def create_random_dataset() -> Callable:
-    def _create_random_dataset(data_num: int, feature_num: int, class_num: int) -> Dataset:
+    def _create_random_dataset(
+        data_num: int, feature_num: int, class_num: int, include_validation: bool = False
+    ) -> Dataset:
         return Dataset(
             X_train=np.random.rand(data_num, feature_num),
             y_train=np.random.randint(class_num, size=data_num),
@@ -65,7 +67,12 @@ def create_random_dataset() -> Callable:
             y_test=np.random.randint(class_num, size=data_num),
             config=DatasetConfig(
                 generate=GenerateDataConfig(generate_method="linear"),
-                split=SplitConfig(train_ratio=0.8, validation_ratio=0.0, test_ratio=0.2, shuffle=True),
+                split=SplitConfig(
+                    train_ratio=0.8,
+                    validation_ratio=0.1 if include_validation else 0.0,
+                    test_ratio=0.1 if include_validation else 0.2,
+                    shuffle=True,
+                ),
                 features=None,
             ),
         )

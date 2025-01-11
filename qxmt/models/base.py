@@ -28,11 +28,12 @@ class BaseMLModel(ABC):
         pass
 
     @abstractmethod
-    def predict(self, X: np.ndarray) -> np.ndarray:
+    def predict(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
         """Predict the target value with given features.
 
         Args:
             X (np.ndarray): array of features
+            bar_label (str): label for progress bar. Defaults to "".
 
         Returns:
             np.ndarray: array of predicted value

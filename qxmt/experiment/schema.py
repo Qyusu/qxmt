@@ -14,8 +14,14 @@ class RealMachine(BaseModel):
 
 
 class RunTime(BaseModel):
-    fit_seconds: float
-    predict_seconds: float
+    train_seconds: float
+    validation_seconds: Optional[float]
+    test_seconds: float
+
+
+class Evaluations(BaseModel):
+    validation: Optional[dict[str, float]]
+    test: dict[str, float]
 
 
 class RunRecord(BaseModel):
@@ -28,7 +34,7 @@ class RunRecord(BaseModel):
     config_file_name: Path
     execution_time: str
     runtime: RunTime
-    evaluation: dict[str, float]
+    evaluations: Evaluations
 
 
 class RunArtifact(BaseModel):
