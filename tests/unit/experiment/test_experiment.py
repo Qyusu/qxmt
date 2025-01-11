@@ -1,4 +1,5 @@
 import json
+from collections import Counter
 from pathlib import Path
 from typing import Callable
 
@@ -70,11 +71,14 @@ class TestLoadExperiment:
                     "runtime": {"train_seconds": 7.42, "validation_seconds": 1.23, "test_seconds": 1.36},
                     "commit_id": "commit_1",
                     "config_file_name": "config.yaml",
-                    "evaluation": {
-                        "accuracy": 0.65,
-                        "precision": 0.69,
-                        "recall": 0.65,
-                        "f1_score": 0.67,
+                    "evaluations": {
+                        "validation": None,
+                        "test": {
+                            "accuracy": 0.65,
+                            "precision": 0.69,
+                            "recall": 0.65,
+                            "f1_score": 0.67,
+                        },
                     },
                 },
                 {
@@ -84,11 +88,19 @@ class TestLoadExperiment:
                     "runtime": {"train_seconds": 120.5, "validation_seconds": None, "test_seconds": 33.3},
                     "commit_id": "commit_2",
                     "config_file_name": "",
-                    "evaluation": {
-                        "accuracy": 0.5,
-                        "precision": 0.47,
-                        "recall": 0.55,
-                        "f1_score": 0.50,
+                    "evaluations": {
+                        "validation": {
+                            "accuracy": 0.6,
+                            "precision": 0.68,
+                            "recall": 0.62,
+                            "f1_score": 0.65,
+                        },
+                        "test": {
+                            "accuracy": 0.5,
+                            "precision": 0.47,
+                            "recall": 0.55,
+                            "f1_score": 0.50,
+                        },
                     },
                 },
             ],
@@ -363,7 +375,48 @@ class TestExperimentResults:
         )
         df = base_experiment.runs_to_dataframe()
 
-        assert len(df.columns) == 5
+        assert Counter(df.columns) == Counter(["run_id", "accuracy", "precision", "recall", "f1_score"])
+        assert len(df) == 2
+
+    def test_runs_to_dataframe_with_validation(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
+    ) -> None:
+        with pytest.raises(ExperimentNotInitializedError):
+            base_experiment.runs_to_dataframe(include_validation=True)
+
+        base_experiment.init()
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2, include_validation=True)
+        default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
+        base_experiment.run(
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            default_metrics_name=default_metrics_name,
+            n_jobs=1,
+        )
+        base_experiment.run(
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            default_metrics_name=default_metrics_name,
+            n_jobs=1,
+        )
+        df = base_experiment.runs_to_dataframe(include_validation=True)
+
+        assert len(df.columns) == 9
+        assert Counter(df.columns) == Counter(
+            [
+                "run_id",
+                "accuracy",
+                "precision",
+                "recall",
+                "f1_score",
+                "accuracy_validation",
+                "precision_validation",
+                "recall_validation",
+                "f1_score_validation",
+            ]
+        )
         assert len(df) == 2
 
     def test_save_experiment(
