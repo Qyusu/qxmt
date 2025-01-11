@@ -153,7 +153,7 @@ class QRiggeRegressor(BaseKernelModel):
             raise ValueError("The model is not trained yet.")
         else:
             kernel_pred_X, _ = self.kernel.compute_matrix(
-                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Test"
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label=bar_label
             )
         return self.model.predict(kernel_pred_X)
 
