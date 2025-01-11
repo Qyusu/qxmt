@@ -403,7 +403,6 @@ class TestExperimentResults:
         )
         df = base_experiment.runs_to_dataframe(include_validation=True)
 
-        assert len(df.columns) == 9
         assert Counter(df.columns) == Counter(
             [
                 "run_id",
