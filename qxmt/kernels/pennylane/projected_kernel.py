@@ -132,7 +132,7 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
+        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
         x1_result = qnode(x1)
         x2_result = qnode(x2)
 

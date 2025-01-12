@@ -59,10 +59,7 @@ class BaseDevice:
         self.shots = shots
         self.random_seed = random_seed
         self.logger = logger
-        self._set_device()
-
-    def __call__(self) -> Any:
-        return self.device
+        self.real_device = None
 
     def _get_ibmq_real_device(self, backend_name: Optional[str]) -> IBMBackend | BackendV2:
         """Get the IBM Quantum real device.
@@ -97,7 +94,7 @@ class BaseDevice:
         import pennylane as qml
 
         backend = self._get_ibmq_real_device(self.backend_name)
-        self.device = qml.device(
+        self.real_device = qml.device(
             name=self.device_name,
             backend=backend,
             wires=backend.num_qubits,
@@ -108,28 +105,26 @@ class BaseDevice:
             f'(backend="{backend.name}", n_qubits={backend.num_qubits}, shots={self.shots})'
         )
 
-    def _set_simulator_by_pennylane(self) -> None:
+    def _get_simulator_by_pennylane(self) -> Any:
         """Set PennyLane simulator."""
         import pennylane as qml
 
-        self.device = qml.device(
+        return qml.device(
             name=self.device_name,
             wires=self.n_qubits,
             shots=self.shots,
             seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
         )
 
-    def _set_device(self) -> None:
-        """Set quantum device.
-
-        Raises:
-            InvalidPlatformError: platform is not implemented.
-        """
+    def get_device(self) -> Any:
         if self.platform == "pennylane":
-            if self.device_name in IBMQ_REAL_DEVICES:
+            if (self.device_name in IBMQ_REAL_DEVICES) and (self.real_device is None):
                 self._set_ibmq_real_device_by_pennylane()
+                return self.real_device
+            elif (self.device_name in IBMQ_REAL_DEVICES) and (self.real_device is not None):
+                return self.real_device
             else:
-                self._set_simulator_by_pennylane()
+                return self._get_simulator_by_pennylane()
         else:
             raise InvalidPlatformError(f'"{self.platform}" is not implemented.')
 
@@ -160,7 +155,11 @@ class BaseDevice:
         """
         if self.is_simulator():
             raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
-        return self.device.service
+
+        if self.real_device is None:
+            raise IBMQSettingError(f'The device ("{self.device_name}") is not set.')
+
+        return self.real_device.service
 
     def get_backend(self) -> IBMBackend | BackendV2:
         """Get the IBM Quantum real device backend.
@@ -170,7 +169,11 @@ class BaseDevice:
         """
         if self.is_simulator():
             raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
-        return self.device.backend
+
+        if self.real_device is None:
+            raise IBMQSettingError(f'The device ("{self.device_name}") is not set.')
+
+        return self.real_device.backend
 
     def get_backend_name(self) -> str:
         """Get the IBM Quantum real device backend name.

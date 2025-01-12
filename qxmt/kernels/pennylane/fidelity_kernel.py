@@ -77,7 +77,8 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
+        # qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
+        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
         result = qnode(x1, x2)
 
         if self.is_sampling:
