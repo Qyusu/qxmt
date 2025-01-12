@@ -73,7 +73,7 @@ class TestRunExperiment:
                 id="default.qubit and FidelityKernel",
             ),
             pytest.param(
-                "lightling.qubit",
+                "lightning.qubit",
                 "FidelityKernel",
                 id="lightling.qubit and FidelityKernel",
             ),
@@ -102,9 +102,12 @@ class TestRunExperiment:
         # update config
         base_config_path = "tests/integration/configs/state_vector_simulator.yaml"
         base_config = ExperimentConfig(path=base_config_path)
-        config = base_config.model_copy(
-            update={"device.device_name": device_name, "kernel.implement_name": kernel_name}
+        updated_device = base_config.device.model_copy(update={"device_name": device_name})
+        updated_kernel = (
+            base_config.kernel.model_copy(update={"implement_name": kernel_name}) if base_config.kernel else None
         )
+        config = base_config.model_copy(update={"device": updated_device, "kernel": updated_kernel})
+
         _, _ = experiment.run(config_source=config)
 
         # expected result of each pattern
