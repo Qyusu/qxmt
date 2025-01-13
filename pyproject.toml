@@ -51,6 +51,7 @@ pytest-xdist = "^3.6.1"
 pennylane-lightning = "^0.39.0"
 pennylane-qulacs = {extras = ["cpu"], version = "^0.39.0"}
 python-dotenv = "^1.0.1"
+amazon-braket-pennylane-plugin = "^1.31.0"
 
 
 [tool.poetry.group.docs.dependencies]

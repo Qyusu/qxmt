@@ -4,6 +4,7 @@ from logging import Logger
 from typing import Any, Optional
 
 import numpy as np
+import pennylane as qml
 from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
@@ -13,6 +14,7 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 IBMQ_REAL_DEVICES = ["qiskit.remote"]
+AMAZON_BRACKETS_DEVICES = ["braket.local.qubit"]
 
 
 class BaseDevice:
@@ -91,8 +93,6 @@ class BaseDevice:
 
     def _set_ibmq_real_device_by_pennylane(self) -> None:
         """Set IBM Quantum real device by PennyLane."""
-        import pennylane as qml
-
         backend = self._get_ibmq_real_device(self.backend_name)
         self.real_device = qml.device(
             name=self.device_name,
@@ -107,14 +107,20 @@ class BaseDevice:
 
     def _get_simulator_by_pennylane(self) -> Any:
         """Set PennyLane simulator."""
-        import pennylane as qml
-
-        return qml.device(
-            name=self.device_name,
-            wires=self.n_qubits,
-            shots=self.shots,
-            seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
-        )
+        if self.device_name in AMAZON_BRACKETS_DEVICES:
+            # Amazon Braket device not support the random seed
+            return qml.device(
+                name=self.device_name,
+                wires=self.n_qubits,
+                shots=self.shots,
+            )
+        else:
+            return qml.device(
+                name=self.device_name,
+                wires=self.n_qubits,
+                shots=self.shots,
+                seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
+            )
 
     def get_device(self) -> Any:
         if self.platform == "pennylane":

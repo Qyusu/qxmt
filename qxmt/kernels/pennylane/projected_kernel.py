@@ -118,7 +118,7 @@ class ProjectedKernel(BaseKernel):
                 qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
         if self.is_sampling:
-            return qml.sample(wires=range(self.n_qubits))
+            return qml.sample(op=qml.PauliZ(wires=self.n_qubits))
         else:
             return qml.probs(wires=range(self.n_qubits))
 

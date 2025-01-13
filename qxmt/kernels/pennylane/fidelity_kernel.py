@@ -63,7 +63,7 @@ class FidelityKernel(BaseKernel):
         qml.adjoint(self.feature_map)(x2)  # type: ignore
 
         if self.is_sampling:
-            return qml.sample(wires=range(self.n_qubits))
+            return qml.sample(op=qml.PauliZ(wires=self.n_qubits))
         else:
             return qml.probs(wires=range(self.n_qubits))
 
