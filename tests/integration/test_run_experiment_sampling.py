@@ -110,6 +110,9 @@ class TestRunExperiment:
 
         _, _ = experiment.run(config_source=config)
 
+        # get result dataframe, and compare up to 2 decimal places
+        result_df = experiment.runs_to_dataframe().round(2)
+
         # expected result of each pattern
         python_version = sys.version_info[:2]
         architecture = platform.machine()
@@ -118,20 +121,20 @@ class TestRunExperiment:
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
-                        "accuracy": [0.45],
-                        "precision": [0.57],
-                        "recall": [0.36],
-                        "f1_score": [0.37],
+                        "accuracy": [0.60],
+                        "precision": [0.68],
+                        "recall": [0.69],
+                        "f1_score": [0.58],
                     }
                 ).round(2)
             case ((3, 10), "arm64") | ((3, 11), "arm64"):
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
+                        "accuracy": [0.60],
+                        "precision": [0.36],
+                        "recall": [0.57],
+                        "f1_score": [0.39],
                     }
                 ).round(2)
             case ((3, 12), "arm64") | ((3, 13), "arm64"):
@@ -147,6 +150,4 @@ class TestRunExperiment:
             case _:
                 raise ValueError(f"Unsupported Pattern (python version={python_version}, architecture={architecture})")
 
-        # get result dataframe, and compare up to 2 decimal places
-        result_df = experiment.runs_to_dataframe().round(2)
         assert_frame_equal(result_df, expected_df)

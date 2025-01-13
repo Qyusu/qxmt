@@ -5,7 +5,7 @@ import pytest
 from pytest_mock import MockFixture
 
 from qxmt.devices.base import BaseDevice
-from qxmt.exceptions import IBMQSettingError, InvalidPlatformError
+from qxmt.exceptions import IBMQSettingError
 
 
 @pytest.fixture
