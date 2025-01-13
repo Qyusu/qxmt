@@ -9,7 +9,10 @@ import qxmt
 from qxmt.configs import ExperimentConfig
 from qxmt.datasets import Dataset
 from qxmt.experiment import RunArtifact, RunRecord
+from qxmt.logger import set_default_logger
 from qxmt.models import BaseMLModel
+
+LOGGER = set_default_logger(__name__)
 
 
 class TestRunExperiment:
@@ -110,7 +113,11 @@ class TestRunExperiment:
 
         # get result dataframe
         # compare up to 2 decimal places
-        result_df = experiment.runs_to_dataframe().round(2)
+        result_df = experiment.runs_to_dataframe(include_validation=True).round(2)
+        LOGGER.error(result_df["accuracy_validation"])
+        LOGGER.error(result_df["precision_validation"])
+        LOGGER.error(result_df["recall_validation"])
+        LOGGER.error(result_df["f1_score_validation"])
         if platform.machine() == "x86_64":
             expected_df = pd.DataFrame(
                 {
@@ -119,6 +126,10 @@ class TestRunExperiment:
                     "precision": [0.57],
                     "recall": [0.36],
                     "f1_score": [0.37],
+                    "accuracy_validation": [0.40],
+                    "precision_validation": [0.29],
+                    "recall_validation": [0.36],
+                    "f1_score_validation": [0.30],
                 }
             ).round(2)
         elif platform.machine() == "arm64":
@@ -129,6 +140,10 @@ class TestRunExperiment:
                     "precision": [0.30],
                     "recall": [0.41],
                     "f1_score": [0.35],
+                    "accuracy_validation": [0.40],
+                    "precision_validation": [0.29],
+                    "recall_validation": [0.36],
+                    "f1_score_validation": [0.30],
                 }
             ).round(2)
         else:
