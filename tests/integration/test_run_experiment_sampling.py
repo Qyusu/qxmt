@@ -10,10 +10,7 @@ import qxmt
 from qxmt.configs import ExperimentConfig
 from qxmt.datasets import Dataset
 from qxmt.experiment import RunArtifact, RunRecord
-from qxmt.logger import set_default_logger
 from qxmt.models import BaseMLModel
-
-LOGGER = set_default_logger(__name__)
 
 
 class TestRunExperiment:
@@ -115,14 +112,6 @@ class TestRunExperiment:
 
         # get result dataframe, and compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe().round(2)
-        LOGGER.info(f"accuracy: {result_df['accuracy'].values}")
-        LOGGER.info(f"precision: {result_df['precision'].values}")
-        LOGGER.info(f"recall: {result_df['recall'].values}")
-        LOGGER.info(f"f1_score: {result_df['f1_score'].values}")
-        LOGGER.info(f"accuracy_validation: {result_df['accuracy_validation'].values}")
-        LOGGER.info(f"precision_validation: {result_df['precision_validation'].values}")
-        LOGGER.info(f"recall_validation: {result_df['recall_validation'].values}")
-        LOGGER.info(f"f1_score_validation: {result_df['f1_score_validation'].values}")
 
         # expected result of each pattern
         python_version = sys.version_info[:2]
