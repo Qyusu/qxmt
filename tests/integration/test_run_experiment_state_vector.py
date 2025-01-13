@@ -110,25 +110,33 @@ class TestRunExperiment:
 
         # get result dataframe
         # compare up to 2 decimal places
-        result_df = experiment.runs_to_dataframe().round(2)
+        result_df = experiment.runs_to_dataframe(include_validation=True).round(2)
         if platform.machine() == "x86_64":
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
-                    "accuracy": [0.45],
-                    "precision": [0.57],
-                    "recall": [0.36],
-                    "f1_score": [0.37],
+                    "accuracy": [0.60],
+                    "precision": [0.68],
+                    "recall": [0.69],
+                    "f1_score": [0.58],
+                    "accuracy_validation": [0.30],
+                    "precision_validation": [0.12],
+                    "recall_validation": [0.25],
+                    "f1_score_validation": [0.17],
                 }
             ).round(2)
         elif platform.machine() == "arm64":
             expected_df = pd.DataFrame(
                 {
                     "run_id": [1],
-                    "accuracy": [0.50],
-                    "precision": [0.30],
-                    "recall": [0.41],
-                    "f1_score": [0.35],
+                    "accuracy": [0.60],
+                    "precision": [0.36],
+                    "recall": [0.57],
+                    "f1_score": [0.39],
+                    "accuracy_validation": [0.40],
+                    "precision_validation": [0.29],
+                    "recall_validation": [0.36],
+                    "f1_score_validation": [0.30],
                 }
             ).round(2)
         else:

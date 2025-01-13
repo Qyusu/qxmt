@@ -425,7 +425,7 @@ class Experiment:
 
         if (dataset.X_val is not None) and (dataset.y_val is not None):
             validation_start_dt = datetime.now()
-            validation_predicted = model.predict(dataset.X_test, bar_label="Validation")
+            validation_predicted = model.predict(dataset.X_val, bar_label="Validation")
             validation_end_dt = datetime.now()
             validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
             validation_evaluation = self.run_evaluation(
