@@ -116,7 +116,6 @@ class TestRunExperiment:
         # expected result of each pattern
         python_version = sys.version_info[:2]
         architecture = platform.machine()
-        LOGGER.info(f"Python version: {python_version}, Architecture: {architecture}")
         match (python_version, architecture):
             case ((3, 10), "x86_64") | ((3, 11), "x86_64") | ((3, 12), "x86_64") | ((3, 13), "x86_64"):
                 expected_df = pd.DataFrame(
