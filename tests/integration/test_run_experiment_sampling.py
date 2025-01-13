@@ -119,10 +119,6 @@ class TestRunExperiment:
         LOGGER.info(f"precision: {result_df['precision'].values}")
         LOGGER.info(f"recall: {result_df['recall'].values}")
         LOGGER.info(f"f1_score: {result_df['f1_score'].values}")
-        LOGGER.info(f"accuracy_validation: {result_df['accuracy_validation'].values}")
-        LOGGER.info(f"precision_validation: {result_df['precision_validation'].values}")
-        LOGGER.info(f"recall_validation: {result_df['recall_validation'].values}")
-        LOGGER.info(f"f1_score_validation: {result_df['f1_score_validation'].values}")
 
         # expected result of each pattern
         python_version = sys.version_info[:2]
@@ -133,20 +129,20 @@ class TestRunExperiment:
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
-                        "accuracy": [0.45],
-                        "precision": [0.57],
-                        "recall": [0.36],
-                        "f1_score": [0.37],
+                        "accuracy": [0.60],
+                        "precision": [0.68],
+                        "recall": [0.69],
+                        "f1_score": [0.58],
                     }
                 ).round(2)
             case ((3, 10), "arm64") | ((3, 11), "arm64"):
                 expected_df = pd.DataFrame(
                     {
                         "run_id": [1],
-                        "accuracy": [0.40],
-                        "precision": [0.55],
-                        "recall": [0.33],
-                        "f1_score": [0.35],
+                        "accuracy": [0.60],
+                        "precision": [0.36],
+                        "recall": [0.57],
+                        "f1_score": [0.39],
                     }
                 ).round(2)
             case ((3, 12), "arm64") | ((3, 13), "arm64"):
