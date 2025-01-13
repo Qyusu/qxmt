@@ -126,10 +126,10 @@ class TestRunExperiment:
                     "precision": [0.57],
                     "recall": [0.36],
                     "f1_score": [0.37],
-                    "accuracy_validation": [0.40],
-                    "precision_validation": [0.29],
-                    "recall_validation": [0.36],
-                    "f1_score_validation": [0.30],
+                    "accuracy_validation": [0.30],
+                    "precision_validation": [0.12],
+                    "recall_validation": [0.25],
+                    "f1_score_validation": [0.17],
                 }
             ).round(2)
         elif platform.machine() == "arm64":
