@@ -9,7 +9,8 @@ from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError
 
 
 @pytest.fixture
-def ibmq_real_device() -> BaseDevice:
+def ibmq_real_device(mocker: MockFixture) -> BaseDevice:
+    mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
     return BaseDevice(
         platform="pennylane",
         device_name="qiskit.remote",
@@ -130,9 +131,6 @@ class TestIBMQProperty:
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
 
     def test_get_backend_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        # mock for environment variable
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
-
         # mock for real device
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
@@ -157,7 +155,6 @@ class TestIBMQProperty:
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
 
     def test_get_backend_name_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
         mock_backend.name = "ibmq_test_backend"
@@ -170,7 +167,6 @@ class TestIBMQProperty:
         assert backend_name == "ibmq_test_backend"
 
     def test_real_device_case(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
         mock_backend.name = "ibmq_test_backend"
