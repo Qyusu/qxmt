@@ -103,7 +103,7 @@ class ProjectedKernel(BaseKernel):
 
         return projected_exp_value
 
-    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP:
+    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
@@ -117,8 +117,11 @@ class ProjectedKernel(BaseKernel):
             for i in range(self.n_qubits):
                 qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
-        if self.is_sampling:
-            return qml.sample(op=qml.PauliZ(wires=self.n_qubits))
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # Amazon Braket does not support directry sample by computational basis
+            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
+        elif self.is_sampling:
+            return qml.sample(wires=self.n_qubits)
         else:
             return qml.probs(wires=range(self.n_qubits))
 
@@ -136,7 +139,15 @@ class ProjectedKernel(BaseKernel):
         x1_result = qnode(x1)
         x2_result = qnode(x2)
 
-        if self.is_sampling:
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # PauliZ basis convert to computational basis (-1->1, 1->0)
+            x1_binary_result = (np.array(x1_result).T == -1).astype(int)
+            x2_binary_result = (np.array(x2_result).T == -1).astype(int)
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
+            x1_probs = sample_results_to_probs(x1_binary_result, self.n_qubits, cast(int, self.device.shots))
+            x2_probs = sample_results_to_probs(x2_binary_result, self.n_qubits, cast(int, self.device.shots))
+        elif self.is_sampling:
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             x1_probs = sample_results_to_probs(x1_result, self.n_qubits, cast(int, self.device.shots))

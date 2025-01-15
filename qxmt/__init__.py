@@ -12,6 +12,7 @@ from qxmt.configs import (
     SplitConfig,
 )
 from qxmt.exceptions import (
+    AmazonBraketSettingError,
     DeviceSettingError,
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
@@ -29,6 +30,7 @@ from qxmt.exceptions import (
 from qxmt.experiment.experiment import Experiment
 
 __all__ = [
+    "AmazonBraketSettingError",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",

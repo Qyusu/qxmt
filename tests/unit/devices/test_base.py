@@ -89,7 +89,7 @@ class TestIBMQProperty:
         assert simulator_device.get_provider() == ""
 
         # Real Machine
-        assert ibmq_real_device.get_provider() == "IBM"
+        assert ibmq_real_device.get_provider() == "IBM_Quantum"
 
     def test_get_service_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         mock_service = mocker.Mock()

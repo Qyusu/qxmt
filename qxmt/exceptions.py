@@ -34,6 +34,10 @@ class IBMQSettingError(Exception):
     pass
 
 
+class AmazonBraketSettingError(Exception):
+    pass
+
+
 class ModelSettingError(Exception):
     pass
 
