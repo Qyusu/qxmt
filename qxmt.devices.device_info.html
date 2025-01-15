@@ -457,7 +457,7 @@
 <h1>qxmt.devices.device_info module<a class="headerlink" href="#qxmt-devices-device-info-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.device_info.</span></span><span class="sig-name descname"><span class="pre">IBMQDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.device_info.</span></span><span class="sig-name descname"><span class="pre">RemoteDeviceStatus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -493,6 +493,21 @@
 
 <dl class="py function">
 <dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.devices.device_info.</span></span><span class="sig-name descname"><span class="pre">get_amazon_braket_available_devices</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the available Amazon Braket devices.
+Each device has the name, number of qubits, and status (Online or Offline).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of Amazon Braket devices</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[RemoteDeviceStatus]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
 <span class="sig-prename descclassname"><span class="pre">qxmt.devices.device_info.</span></span><span class="sig-name descname"><span class="pre">get_ibmq_available_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">service</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Get the available IBMQ devices.
 Each device has the name, number of qubits, and status (Online or Offline).</p>
@@ -504,7 +519,7 @@ Each device has the name, number of qubits, and status (Online or Offline).</p>
 <dd class="field-even"><p>list of IBMQ devices</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>list[IBMQDevice]</p>
+<dd class="field-odd"><p>list[RemoteDeviceStatus]</p>
 </dd>
 </dl>
 </dd></dl>
