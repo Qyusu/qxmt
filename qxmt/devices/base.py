@@ -26,6 +26,7 @@ IBMQ_REAL_DEVICES = ["qiskit.remote"]
 AMAZON_BRACKET_DEVICES = ["braket.local.qubit"]
 AMAZON_BRACKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
 AMAZON_BRACKET_REMOTE_DEVICES = ["braket.aws.qubit"]
+AMAZON_BRAKET_DEVICES = AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
 
 
 class AmazonBackendType(Enum):
@@ -85,6 +86,12 @@ class BaseDevice:
         This method accesses the IBM Quantum API,
         then please set the IBM Quantum account on environment variables "IBMQ_API_KEY".
         If the backend name is not provided, the least busy backend is selected.
+
+        Args:
+            backend_name (Optional[str]): backend name for the IBM Quantum real device
+
+        Returns:
+            IBMBackend | BackendV2: IBM Quantum real device backend
         """
         ibm_api_key = os.getenv(IBMQ_API_KEY)
         if ibm_api_key is None:
@@ -123,6 +130,11 @@ class BaseDevice:
         )
 
     def _get_amazon_local_simulator_by_pennylane(self) -> Any:
+        """Get Amazon Braket local simulator by PennyLane.
+
+        Returns:
+            Any: quantum device instance for Amazon Braket local simulator
+        """
         if self.backend_name is None:
             self.logger.info("Backend name is not provided. Select the state vector backend.")
             self.backend_name = "braket_sv"
@@ -139,6 +151,11 @@ class BaseDevice:
         )
 
     def _get_amazon_remote_device_by_pennylane(self) -> Any:
+        """Get Amazon Braket remote device by PennyLane.
+
+        Returns:
+            Any: quantum device instance for Amazon Braket remote device
+        """
         if self.backend_name is None:
             raise AmazonBraketSettingError("Amazon Braket device needs the backend name.")
 
@@ -153,10 +170,15 @@ class BaseDevice:
             device_arn=device_arn.value,
             wires=self.n_qubits,
             shots=self.shots,
+            parallel=True,
         )
 
     def _get_simulator_by_pennylane(self) -> Any:
-        """Set PennyLane simulator."""
+        """Get simulator by PennlyLane.
+
+        Returns:
+            Any: quantum simulator instance
+        """
         if self.device_name in AMAZON_BRACKET_DEVICES:
             # Amazon Braket local simulator
             return self._get_amazon_local_simulator_by_pennylane()
@@ -173,6 +195,11 @@ class BaseDevice:
             )
 
     def get_device(self) -> Any:
+        """Get the quantum device instace.
+
+        Returns:
+            Any: quantum device instance
+        """
         if self.platform == "pennylane":
             if (self.device_name in IBMQ_REAL_DEVICES) and (self.real_device is None):
                 self._set_ibmq_real_device_by_pennylane()
@@ -207,7 +234,7 @@ class BaseDevice:
         Returns:
             bool: True if the device is an Amazon Braket device, False otherwise
         """
-        return self.device_name in AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
+        return self.device_name in AMAZON_BRAKET_DEVICES
 
     def get_provider(self) -> str:
         """Get real machine provider name.
