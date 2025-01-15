@@ -2,10 +2,11 @@ import os
 from datetime import datetime
 from enum import Enum
 from logging import Logger
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, cast
 
 import numpy as np
 import pennylane as qml
+from braket.aws import AwsDevice
 from braket.devices import Devices
 from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
@@ -104,7 +105,7 @@ class BaseDevice:
             self._set_ibmq_settings()
 
         if self.is_amazon_device(device_type="remote"):
-            self._set_amazon_braket_settings
+            self._set_amazon_braket_settings()
 
     def _set_ibmq_settings(self) -> None:
         """Set the IBM Quantum account settings.
@@ -116,6 +117,29 @@ class BaseDevice:
         self.ibm_api_key = os.getenv(IBMQ_API_KEY)
         if self.ibm_api_key is None:
             raise IBMQSettingError(f"Environmet variable for IBMQ not set: {IBMQ_API_KEY}")
+
+    def _check_ibmq_availability(self, backend: IBMBackend | BackendV2) -> None:
+        """Check the IBM Quantum real device availability.
+        This method checks the device status and the number of qubits.
+
+        Args:
+            backend (IBMBackend | BackendV2): IBM Quantum real device backend
+        """
+        if isinstance(backend, IBMBackend):
+            is_online = backend.status().operational
+        elif isinstance(backend, BackendV2):
+            # BackendV2 does not have the status method, then always return True
+            is_online = True
+
+        max_qubits = backend.num_qubits
+        is_enough_qubits = self.n_qubits <= max_qubits
+
+        if not (is_online and is_enough_qubits):
+            raise IBMQSettingError(
+                f'The device ("{self.device_name}") is not available. '
+                f"Please check the device status and the number of qubits. "
+                f"(is_online={is_online}, is_enough_qubits={is_enough_qubits} (max_qubits={max_qubits}))"
+            )
 
     def _get_ibmq_real_device(self, backend_name: Optional[str]) -> IBMBackend | BackendV2:
         """Get the IBM Quantum real device.
@@ -143,10 +167,15 @@ class BaseDevice:
         else:
             backend = service.backend(backend_name)
 
+        self._check_ibmq_availability(backend)
+
         return backend
 
     def _set_ibmq_real_device_by_pennylane(self) -> None:
         """Set IBM Quantum real device by PennyLane."""
+        if self.shots is None:
+            raise IBMQSettingError("Real quantum machine must set the shots.")
+
         backend = self._get_ibmq_real_device(self.backend_name)
         self.real_device = qml.device(
             name=self.device_name,
@@ -183,6 +212,23 @@ class BaseDevice:
         if missing:
             raise AmazonBraketSettingError(f"Environment variables for Amazon Braket not set: {', '.join(missing)}")
 
+    def _check_amazon_braket_availability(self, device: AwsDevice) -> None:
+        """Check the Amazon Braket device availability.
+        This method checks the device status and the number of qubits.
+
+        Args:
+            device (AwsDevice): Amazon Braket device instance
+        """
+        is_online = device.status == "ONLINE"
+        max_qubits = int(device.properties.provider.maximumQubitCount)  # type: ignore
+        is_enough_qubits = self.n_qubits <= max_qubits
+        if not (is_online and is_enough_qubits):
+            raise AmazonBraketSettingError(
+                f'The device ("{self.device_name}") is not available. '
+                f"Please check the device status and the number of qubits. "
+                f"(is_online={is_online}, is_enough_qubits={is_enough_qubits} (max_qubits={max_qubits}))"
+            )
+
     def _get_amazon_local_simulator_by_pennylane(self) -> Any:
         """Get Amazon Braket local simulator by PennyLane.
 
@@ -217,6 +263,8 @@ class BaseDevice:
             device_arn = AmazonBackendType[self.backend_name.lower()].value
         except KeyError:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket device.')
+
+        self._check_amazon_braket_availability(AwsDevice(device_arn.value))
 
         # Amazon Braket device not support the random seed
         return qml.device(

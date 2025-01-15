@@ -1,3 +1,4 @@
+from braket.aws import AwsDevice
 from pydantic import BaseModel
 from qiskit_ibm_runtime import QiskitRuntimeService
 
@@ -6,8 +7,11 @@ from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import InvalidQunatumDeviceError
 from qxmt.types import QuantumDeviceType
 
+STATUS_ONLINE = "ONLINE"
+STATUS_OFFLINE = "OFFLINE"
 
-class IBMQDevice(BaseModel):
+
+class RemoteDeviceStatus(BaseModel):
     name: str
     n_qubits: int
     status: str
@@ -49,7 +53,7 @@ def get_number_of_qubits(device: BaseDevice | QuantumDeviceType) -> int:
         raise InvalidQunatumDeviceError(f"Device {device} is not supported.")
 
 
-def get_ibmq_available_devices(service: QiskitRuntimeService) -> list[IBMQDevice]:
+def get_ibmq_available_devices(service: QiskitRuntimeService) -> list[RemoteDeviceStatus]:
     """Get the available IBMQ devices.
     Each device has the name, number of qubits, and status (Online or Offline).
 
@@ -57,14 +61,33 @@ def get_ibmq_available_devices(service: QiskitRuntimeService) -> list[IBMQDevice
         service (QiskitRuntimeService): authorized IBMQ service
 
     Returns:
-        list[IBMQDevice]: list of IBMQ devices
+        list[RemoteDeviceStatus]: list of IBMQ devices
     """
     device_list = []
     for backend in service.backends():
         backend_name = backend.name
         qubits = backend.num_qubits
-        status = "Online" if backend.status().operational else "Offline"
-        device = IBMQDevice(name=backend_name, n_qubits=qubits, status=status)
+        status = STATUS_ONLINE if backend.status().operational else STATUS_OFFLINE
+        device = RemoteDeviceStatus(name=backend_name, n_qubits=qubits, status=status)
         device_list.append(device)
+
+    return device_list
+
+
+def get_amazon_braket_available_devices() -> list[RemoteDeviceStatus]:
+    """Get the available Amazon Braket devices.
+    Each device has the name, number of qubits, and status (Online or Offline).
+
+    Returns:
+        list[RemoteDeviceStatus]: list of Amazon Braket devices
+    """
+    device_list = []
+    devices = AwsDevice.get_devices()
+    for device in devices:
+        name = device.name
+        n_qubits = device.properties.paradigm.qubitCount  # type: ignore
+        status = STATUS_ONLINE if device.status == STATUS_ONLINE else STATUS_OFFLINE
+        device_status = RemoteDeviceStatus(name=name, n_qubits=n_qubits, status=status)
+        device_list.append(device_status)
 
     return device_list

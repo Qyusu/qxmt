@@ -100,12 +100,6 @@ class DeviceConfig(BaseModel):
             raise ValueError('The "shots" must be set to save the shot results.')
         return self
 
-    # @model_validator(mode="after")
-    # def check_real_machine_setting(self) -> "DeviceConfig":
-    #     if (self.backend_name is not None) and (self.shots is None):
-    #         raise ValueError("Real quantum machine must set the shots.")
-    #     return self
-
 
 class FeatureMapConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
