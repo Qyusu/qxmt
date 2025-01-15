@@ -1,0 +1,66 @@
+description: "This is a template configuration file for the QXMT framework."
+
+global_settings:
+  random_seed: &global_seed 42
+  task_type: "classification"
+
+dataset:
+  generate:
+    generate_method: "linear"
+    params: {
+      "n_samples": 1000,
+      "n_features": 2,
+      "n_classes": 3,
+    }
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
+  features: null
+  raw_preprocess_logic:
+    module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_each_class"
+    params:
+      n_samples: 10
+      labels: [0, 1]
+      random_seed: *global_seed
+  transform_logic:
+    module_name: "qxmt.datasets.transform.reduction_by_pca"
+    implement_name: "dimension_reduction_by_pca"
+    params:
+      n_components: 2
+      random_seed: *global_seed
+      normalize: true
+
+device:
+  platform: "pennylane"
+  device_name: "braket.aws.qubit"
+  backend_name: "sv1"
+  n_qubits: 2
+  shots: 1
+
+feature_map:
+  module_name: "qxmt.feature_maps.pennylane"
+  implement_name: "ZZFeatureMap"
+  params:
+    reps: 2
+
+kernel:
+  module_name: "qxmt.kernels.pennylane"
+  implement_name: "FidelityKernel"
+  params: {}
+
+model:
+  name: "qsvc"
+  params:
+    C: 1.0
+    gamma:  "scale"
+
+evaluation:
+  default_metrics:
+  - "accuracy"
+  - "precision"
+  - "recall"
+  - "f1_score"
+  custom_metrics: []

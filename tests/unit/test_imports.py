@@ -1,6 +1,7 @@
 from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
+    "AmazonBraketSettingError",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
