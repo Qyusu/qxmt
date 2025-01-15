@@ -220,8 +220,8 @@ class BaseDevice:
             device (AwsDevice): Amazon Braket device instance
         """
         is_online = device.status == "ONLINE"
-        max_qubits = int(device.properties.provider.maximumQubitCount)  # type: ignore
-        is_enough_qubits = self.n_qubits <= max_qubits
+        max_qubits = int(device.properties.paradigm.qubitCount)  # type: ignore
+        is_enough_qubits = bool(self.n_qubits <= max_qubits)
         if not (is_online and is_enough_qubits):
             raise AmazonBraketSettingError(
                 f'The device ("{self.device_name}") is not available. '
