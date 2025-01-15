@@ -4,13 +4,19 @@ from typing import Optional
 import pytest
 from pytest_mock import MockFixture
 
+from qxmt.constants import (
+    AWS_ACCESS_KEY_ID,
+    AWS_DEFAULT_REGION,
+    AWS_SECRET_ACCESS_KEY,
+    IBMQ_API_KEY,
+)
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError
 
 
 @pytest.fixture
 def ibmq_real_device(mocker: MockFixture) -> BaseDevice:
-    mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
+    mocker.patch.dict(os.environ, {IBMQ_API_KEY: "test_key"})
     return BaseDevice(
         platform="pennylane",
         device_name="qiskit.remote",
@@ -21,11 +27,36 @@ def ibmq_real_device(mocker: MockFixture) -> BaseDevice:
 
 
 @pytest.fixture
-def amazon_simulator_device() -> BaseDevice:
+def amazon_local_simulator_device() -> BaseDevice:
     return BaseDevice(
         platform="pennylane",
         device_name="braket.local.qubit",
-        backend_name=None,
+        backend_name="braket_sv",
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_remote_simulator_device() -> BaseDevice:
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
+        backend_name="sv1",
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_remote_real_device(mocker: MockFixture) -> BaseDevice:
+    mocker.patch.dict(os.environ, {AWS_ACCESS_KEY_ID: "test_key"})
+    mocker.patch.dict(os.environ, {AWS_SECRET_ACCESS_KEY: "test_secret"})
+    mocker.patch.dict(os.environ, {AWS_DEFAULT_REGION: "us-west-2"})
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
+        backend_name="ionq",
         n_qubits=5,
         shots=1024,
     )
@@ -193,7 +224,7 @@ class TestIBMQProperty:
 
 
 class TestAmazonProperty:
-    def test_get_amazon_local_simulator_by_pennylane(self) -> None:
+    def test_get_amazon_local_simulator_by_pennylane(self, amazon_local_simulator_device: BaseDevice) -> None:
         # Error case: backend_name is not supported
         with pytest.raises(AmazonBraketSettingError) as exc_info:
             BaseDevice(
@@ -206,7 +237,7 @@ class TestAmazonProperty:
 
         assert '"not_supported" is not supported Amazon Braket local simulator.' in str(exc_info.value)
 
-        # Pass case: backend_name is None
+        # Pass case: backend_name is None. Set the default backend name.
         device = BaseDevice(
             platform="pennylane",
             device_name="braket.local.qubit",
@@ -218,17 +249,11 @@ class TestAmazonProperty:
         assert device.backend_name == "braket_sv"
 
         # Pass case: backend_name is supported
-        device = BaseDevice(
-            platform="pennylane",
-            device_name="braket.local.qubit",
-            backend_name="braket_sv",
-            n_qubits=5,
-            shots=1024,
-        )
-        device._get_amazon_local_simulator_by_pennylane()
-        assert device.backend_name == "braket_sv"
+        assert amazon_local_simulator_device.backend_name == "braket_sv"
 
-    def test_get_amazon_remote_device_by_pennylane(self) -> None:
+    def test_get_amazon_remote_device_by_pennylane(
+        self, amazon_remote_simulator_device: BaseDevice, amazon_remote_real_device: BaseDevice
+    ) -> None:
         # Error case: backend_name is None
         with pytest.raises(AmazonBraketSettingError) as exc_info:
             BaseDevice(
@@ -252,3 +277,9 @@ class TestAmazonProperty:
             )._get_amazon_remote_device_by_pennylane()
 
         assert '"not_supported" is not supported Amazon Braket device.' in str(exc_info.value)
+
+        # Pass case: backend_name is supported (simulator)
+        assert amazon_remote_simulator_device.backend_name == "sv1"
+
+        # Pass case: backend_name is supported (real device)
+        assert amazon_remote_real_device.backend_name == "ionq"
