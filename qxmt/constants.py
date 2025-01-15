@@ -28,7 +28,7 @@ DEFAULT_EXP_DB_FILE: Path = Path("experiment.json")
 # set default config file name.
 DEFAULT_EXP_CONFIG_FILE: Path = Path("config.yaml")
 
-# set environment variable name alias
+# set alias for environment variable name
 IBMQ_API_KEY: str = "IBMQ_API_KEY"
 AWS_ACCESS_KEY_ID: str = "AWS_ACCESS_KEY_ID"
 AWS_SECRET_ACCESS_KEY: str = "AWS_SECRET_ACCESS_KEY"
