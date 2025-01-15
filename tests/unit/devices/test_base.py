@@ -126,16 +126,23 @@ class TestBaseDeviceMethod:
         assert ibmq_real_device.is_simulator() is False
 
     def test_get_provider(
-        self, simulator_device: BaseDevice, ibmq_real_device: BaseDevice, amazon_simulator_device: BaseDevice
+        self,
+        simulator_device: BaseDevice,
+        ibmq_real_device: BaseDevice,
+        amazon_local_simulator_device: BaseDevice,
+        amazon_remote_simulator_device: BaseDevice,
+        amazon_remote_real_device: BaseDevice,
     ) -> None:
-        # Simulator
+        # Pennylane Original Simulator
         assert simulator_device.get_provider() == ""
 
-        # IBMQ Real Machine
+        # IBMQ
         assert ibmq_real_device.get_provider() == "IBM_Quantum"
 
-        # Amazon Braket Simulator
-        assert amazon_simulator_device.get_provider() == "Amazon_Braket"
+        # Amazon Braket
+        assert amazon_local_simulator_device.get_provider() == "Amazon_Braket"
+        assert amazon_remote_simulator_device.get_provider() == "Amazon_Braket"
+        assert amazon_remote_real_device.get_provider() == "Amazon_Braket"
 
 
 class TestIBMQProperty:
