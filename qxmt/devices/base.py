@@ -23,8 +23,9 @@ LOGGER = set_default_logger(__name__)
 IBMQ_PROVIDER_NAME = "IBM_Quantum"
 AMAZON_PROVIDER_NAME = "Amazon_Braket"
 IBMQ_REAL_DEVICES = ["qiskit.remote"]
-AMAZON_BRACKETS_DEVICES = ["braket.local.qubit"]
-AMAZON_BRACKETS_REMOTE_DEVICES = ["braket.aws.qubit"]
+AMAZON_BRACKET_DEVICES = ["braket.local.qubit"]
+AMAZON_BRACKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
+AMAZON_BRACKET_REMOTE_DEVICES = ["braket.aws.qubit"]
 
 
 class AmazonBackendType(Enum):
@@ -121,15 +122,32 @@ class BaseDevice:
             f'(backend="{backend.name}", n_qubits={backend.num_qubits}, shots={self.shots})'
         )
 
+    def _get_amazon_local_simulator_by_pennylane(self) -> Any:
+        if self.backend_name is None:
+            self.logger.info("Backend name is not provided. Select the state vector backend.")
+            self.backend_name = "braket_sv"
+
+        if self.backend_name not in AMAZON_BRACKET_LOCAL_BACKENDS:
+            raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket local simulator.')
+
+        # Amazon Braket device not support the random seed
+        return qml.device(
+            name=self.device_name,
+            wires=self.n_qubits,
+            backend=self.backend_name,
+            shots=self.shots,
+        )
+
     def _get_amazon_remote_device_by_pennylane(self) -> Any:
         if self.backend_name is None:
-            raise IBMQSettingError("Amazon Braket device needs the backend name.")
+            raise AmazonBraketSettingError("Amazon Braket device needs the backend name.")
 
         try:
             device_arn = AmazonBackendType[self.backend_name.lower()].value
         except KeyError:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket device.')
 
+        # Amazon Braket device not support the random seed
         return qml.device(
             name=self.device_name,
             device_arn=device_arn.value,
@@ -139,18 +157,11 @@ class BaseDevice:
 
     def _get_simulator_by_pennylane(self) -> Any:
         """Set PennyLane simulator."""
-        if self.device_name in AMAZON_BRACKETS_DEVICES:
+        if self.device_name in AMAZON_BRACKET_DEVICES:
             # Amazon Braket local simulator
-            # Amazon Braket device not support the random seed
-            return qml.device(
-                name=self.device_name,
-                wires=self.n_qubits,
-                backend="braket_sv",
-                shots=self.shots,
-            )
-        elif self.device_name in AMAZON_BRACKETS_REMOTE_DEVICES:
+            return self._get_amazon_local_simulator_by_pennylane()
+        elif self.device_name in AMAZON_BRACKET_REMOTE_DEVICES:
             # Amazon Braket remote simulator
-            # Amazon Braket device not support the random seed
             return self._get_amazon_remote_device_by_pennylane()
         else:
             # PennyLane original simulator
@@ -179,6 +190,7 @@ class BaseDevice:
         Returns:
             bool: True if the device is a simulator, False otherwise
         """
+        # [TODO]: Implement the Amazon Braket simulator
         return self.device_name not in IBMQ_REAL_DEVICES
 
     def is_ibmq_device(self) -> bool:
@@ -195,7 +207,7 @@ class BaseDevice:
         Returns:
             bool: True if the device is an Amazon Braket device, False otherwise
         """
-        return self.device_name in AMAZON_BRACKETS_DEVICES + AMAZON_BRACKETS_REMOTE_DEVICES
+        return self.device_name in AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
 
     def get_provider(self) -> str:
         """Get real machine provider name.

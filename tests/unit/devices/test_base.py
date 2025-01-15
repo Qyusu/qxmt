@@ -1,11 +1,11 @@
 import os
-from typing import Any, Optional
+from typing import Optional
 
 import pytest
 from pytest_mock import MockFixture
 
 from qxmt.devices.base import BaseDevice
-from qxmt.exceptions import IBMQSettingError
+from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError
 
 
 @pytest.fixture
@@ -13,6 +13,17 @@ def ibmq_real_device() -> BaseDevice:
     return BaseDevice(
         platform="pennylane",
         device_name="qiskit.remote",
+        backend_name=None,
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_simulator_device() -> BaseDevice:
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
         backend_name=None,
         n_qubits=5,
         shots=1024,
@@ -82,15 +93,20 @@ class TestBaseDeviceMethod:
         # Real Machine
         assert ibmq_real_device.is_simulator() is False
 
-
-class TestIBMQProperty:
-    def test_get_provider(self, simulator_device: BaseDevice, ibmq_real_device: BaseDevice) -> None:
+    def test_get_provider(
+        self, simulator_device: BaseDevice, ibmq_real_device: BaseDevice, amazon_simulator_device: BaseDevice
+    ) -> None:
         # Simulator
         assert simulator_device.get_provider() == ""
 
-        # Real Machine
+        # IBMQ Real Machine
         assert ibmq_real_device.get_provider() == "IBM_Quantum"
 
+        # Amazon Braket Simulator
+        assert amazon_simulator_device.get_provider() == "Amazon_Braket"
+
+
+class TestIBMQProperty:
     def test_get_service_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
@@ -178,3 +194,65 @@ class TestIBMQProperty:
             simulator_device.get_ibmq_job_ids()
 
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
+
+
+class TestAmazonProperty:
+    def test_get_amazon_local_simulator_by_pennylane(self) -> None:
+        # Error case: backend_name is not supported
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.local.qubit",
+                backend_name="not_supported",
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_local_simulator_by_pennylane()
+
+        assert '"not_supported" is not supported Amazon Braket local simulator.' in str(exc_info.value)
+
+        # Pass case: backend_name is None
+        device = BaseDevice(
+            platform="pennylane",
+            device_name="braket.local.qubit",
+            backend_name=None,
+            n_qubits=5,
+            shots=1024,
+        )
+        device._get_amazon_local_simulator_by_pennylane()
+        assert device.backend_name == "braket_sv"
+
+        # Pass case: backend_name is supported
+        device = BaseDevice(
+            platform="pennylane",
+            device_name="braket.local.qubit",
+            backend_name="braket_sv",
+            n_qubits=5,
+            shots=1024,
+        )
+        device._get_amazon_local_simulator_by_pennylane()
+        assert device.backend_name == "braket_sv"
+
+    def test_get_amazon_remote_device_by_pennylane(self) -> None:
+        # Error case: backend_name is None
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.aws.qubit",
+                backend_name=None,
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_remote_device_by_pennylane()
+
+        assert "Amazon Braket device needs the backend name." in str(exc_info.value)
+
+        # Error case: backend_name is not supported
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.aws.qubit",
+                backend_name="not_supported",
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_remote_device_by_pennylane()
+
+        assert '"not_supported" is not supported Amazon Braket device.' in str(exc_info.value)

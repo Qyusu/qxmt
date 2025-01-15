@@ -31,11 +31,12 @@ dataset:
     params:
       n_components: 2
       random_seed: *global_seed
-      # normalize: true
+      normalize: true
 
 device:
   platform: "pennylane"
   device_name: "braket.local.qubit"
+  backend_name: "braket_sv"
   n_qubits: 2
   shots: 1024
 
