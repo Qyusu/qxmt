@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from enum import Enum
 from logging import Logger
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 import numpy as np
 import pennylane as qml
@@ -10,7 +10,12 @@ from braket.devices import Devices
 from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
-from qxmt.constants import IBMQ_API_KEY
+from qxmt.constants import (
+    AWS_ACCESS_KEY_ID,
+    AWS_DEFAULT_REGION,
+    AWS_SECRET_ACCESS_KEY,
+    IBMQ_API_KEY,
+)
 from qxmt.exceptions import (
     AmazonBraketSettingError,
     IBMQSettingError,
@@ -33,6 +38,16 @@ class AmazonBackendType(Enum):
     sv1 = Devices.Amazon.SV1
     dm1 = Devices.Amazon.DM1
     tn1 = Devices.Amazon.TN1
+    ionq = Devices.IonQ.Aria1  # default IonQ device
+    ionq_aria1 = Devices.IonQ.Aria1
+    ionq_aria2 = Devices.IonQ.Aria2
+    ionq_forte1 = Devices.IonQ.Forte1
+    iqm = Devices.IQM.Garnet  # default IQM device
+    iqm_garnet = Devices.IQM.Garnet
+    quera = Devices.QuEra.Aquila  # default QuEra device
+    quera_aquila = Devices.QuEra.Aquila
+    rigetti = Devices.Rigetti.Ankaa2  # default Rigetti device
+    rigetti_ankaa2 = Devices.Rigetti.Ankaa2
 
 
 class BaseDevice:
@@ -80,6 +95,27 @@ class BaseDevice:
         self.random_seed = random_seed
         self.logger = logger
         self.real_device = None
+        self.ibm_api_key = None
+        self.aws_access_key_id = None
+        self.aws_secret_access_key = None
+        self.aws_default_region = None
+
+        if self.is_ibmq_device():
+            self._set_ibmq_settings()
+
+        if self.is_amazon_device(device_type="remote"):
+            self._set_amazon_braket_settings
+
+    def _set_ibmq_settings(self) -> None:
+        """Set the IBM Quantum account settings.
+        This method check the IBM Quantum account settings on the environment variables.
+
+        Raises:
+            IBMQSettingError: IBM Quantum API key is not set to the environment variables
+        """
+        self.ibm_api_key = os.getenv(IBMQ_API_KEY)
+        if self.ibm_api_key is None:
+            raise IBMQSettingError(f"Environmet variable for IBMQ not set: {IBMQ_API_KEY}")
 
     def _get_ibmq_real_device(self, backend_name: Optional[str]) -> IBMBackend | BackendV2:
         """Get the IBM Quantum real device.
@@ -93,15 +129,9 @@ class BaseDevice:
         Returns:
             IBMBackend | BackendV2: IBM Quantum real device backend
         """
-        ibm_api_key = os.getenv(IBMQ_API_KEY)
-        if ibm_api_key is None:
-            raise IBMQSettingError(
-                f'IBM Quantum account is not set. Please set the "{IBMQ_API_KEY}" environment variable.'
-            )
-
         QiskitRuntimeService.save_account(
             channel="ibm_quantum",
-            token=ibm_api_key,
+            token=self.ibm_api_key,
             overwrite=True,
             set_as_default=True,
         )
@@ -128,6 +158,30 @@ class BaseDevice:
             "Set IBM Quantum real device: "
             f'(backend="{backend.name}", n_qubits={backend.num_qubits}, shots={self.shots})'
         )
+
+    def _set_amazon_braket_settings(self) -> None:
+        """Set the Amazon Braket account settings.
+        This method check the Amazon Braket account settings on the environment variables.
+
+        Raises:
+            AmazonBraketSettingError: Amazon Braket account settings are not set to the environment variables
+        """
+        self.aws_access_key_id = os.getenv(AWS_ACCESS_KEY_ID)
+        self.aws_secret_access_key = os.getenv(AWS_SECRET_ACCESS_KEY)
+        self.aws_default_region = os.getenv(AWS_DEFAULT_REGION)
+
+        missing = [
+            name
+            for name, value in [
+                (AWS_ACCESS_KEY_ID, self.aws_access_key_id),
+                (AWS_SECRET_ACCESS_KEY, self.aws_secret_access_key),
+                (AWS_DEFAULT_REGION, self.aws_default_region),
+            ]
+            if value is None
+        ]
+
+        if missing:
+            raise AmazonBraketSettingError(f"Environment variables for Amazon Braket not set: {', '.join(missing)}")
 
     def _get_amazon_local_simulator_by_pennylane(self) -> Any:
         """Get Amazon Braket local simulator by PennyLane.
@@ -228,13 +282,18 @@ class BaseDevice:
         """
         return self.device_name in IBMQ_REAL_DEVICES
 
-    def is_amazon_device(self) -> bool:
+    def is_amazon_device(self, device_type: Literal["local", "remote", "all"] = "all") -> bool:
         """Check the device is an Amazon Braket device.
 
         Returns:
             bool: True if the device is an Amazon Braket device, False otherwise
         """
-        return self.device_name in AMAZON_BRAKET_DEVICES
+        if device_type == "local":
+            return self.device_name in AMAZON_BRACKET_LOCAL_BACKENDS
+        elif device_type == "remote":
+            return self.device_name in AMAZON_BRACKET_REMOTE_DEVICES
+        elif device_type == "all":
+            return self.device_name in AMAZON_BRAKET_DEVICES
 
     def get_provider(self) -> str:
         """Get real machine provider name.
