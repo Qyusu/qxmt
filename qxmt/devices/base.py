@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from enum import Enum
 from logging import Logger
-from typing import Any, Literal, Optional, cast
+from typing import Any, Literal, Optional
 
 import numpy as np
 import pennylane as qml
