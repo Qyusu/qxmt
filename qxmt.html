@@ -429,7 +429,6 @@
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig"><code class="docutils literal notranslate"><span class="pre">DeviceConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.backend_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.backend_name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_real_machine_setting"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_real_machine_setting()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_save_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_save_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.device_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.device_name</span></code></a></li>
@@ -531,6 +530,7 @@
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.exceptions">qxmt.exceptions module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.DeviceSettingError"><code class="docutils literal notranslate"><span class="pre">DeviceSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
@@ -553,6 +553,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.types">qxmt.types module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -566,7 +567,6 @@
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig"><code class="docutils literal notranslate"><span class="pre">DeviceConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.backend_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.backend_name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_real_machine_setting"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_real_machine_setting()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_save_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_save_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.device_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.device_name</span></code></a></li>
@@ -842,16 +842,6 @@
 <dt class="sig sig-object py" id="qxmt.configs.DeviceConfig.backend_name">
 <span class="sig-name descname"><span class="pre">backend_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.DeviceConfig.backend_name" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.configs.DeviceConfig.check_real_machine_setting">
-<span class="sig-name descname"><span class="pre">check_real_machine_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.DeviceConfig.check_real_machine_setting" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a></p>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.configs.DeviceConfig.check_save_shots">
@@ -1426,6 +1416,12 @@ This is useful if you want to do some validation that requires the entire model 
 <section id="module-qxmt.exceptions">
 <span id="qxmt-exceptions-module"></span><h2>qxmt.exceptions module<a class="headerlink" href="#module-qxmt.exceptions" title="Link to this heading">#</a></h2>
 <dl class="py exception">
+<dt class="sig sig-object py" id="qxmt.exceptions.AmazonBraketSettingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.exceptions.</span></span><span class="sig-name descname"><span class="pre">AmazonBraketSettingError</span></span><a class="headerlink" href="#qxmt.exceptions.AmazonBraketSettingError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
 <dt class="sig sig-object py" id="qxmt.exceptions.DeviceSettingError">
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.exceptions.</span></span><span class="sig-name descname"><span class="pre">DeviceSettingError</span></span><a class="headerlink" href="#qxmt.exceptions.DeviceSettingError" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
@@ -1531,6 +1527,12 @@ This is useful if you want to do some validation that requires the entire model 
 </section>
 <section id="module-qxmt">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt" title="Link to this heading">#</a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="qxmt.AmazonBraketSettingError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">AmazonBraketSettingError</span></span><a class="headerlink" href="#qxmt.AmazonBraketSettingError" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.DatasetConfig">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">openml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_preprocess_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.DatasetConfig" title="Link to this definition">#</a></dt>
@@ -1612,16 +1614,6 @@ This is useful if you want to do some validation that requires the entire model 
 <dt class="sig sig-object py" id="qxmt.DeviceConfig.backend_name">
 <span class="sig-name descname"><span class="pre">backend_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.DeviceConfig.backend_name" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.DeviceConfig.check_real_machine_setting">
-<span class="sig-name descname"><span class="pre">check_real_machine_setting</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.DeviceConfig.check_real_machine_setting" title="Link to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a></p>
-</dd>
-</dl>
-</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.DeviceConfig.check_save_shots">
@@ -2511,7 +2503,6 @@ This is useful if you want to do some validation that requires the entire model 
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig"><code class="docutils literal notranslate"><span class="pre">DeviceConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.backend_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.backend_name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_real_machine_setting"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_real_machine_setting()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_save_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_save_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.check_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DeviceConfig.device_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.device_name</span></code></a></li>
@@ -2613,6 +2604,7 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.exceptions">qxmt.exceptions module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.DeviceSettingError"><code class="docutils literal notranslate"><span class="pre">DeviceSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentNotInitializedError"><code class="docutils literal notranslate"><span class="pre">ExperimentNotInitializedError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.exceptions.ExperimentRunSettingError"><code class="docutils literal notranslate"><span class="pre">ExperimentRunSettingError</span></code></a></li>
@@ -2635,6 +2627,7 @@ This is useful if you want to do some validation that requires the entire model 
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.types">qxmt.types module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -2648,7 +2641,6 @@ This is useful if you want to do some validation that requires the entire model 
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig"><code class="docutils literal notranslate"><span class="pre">DeviceConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.backend_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.backend_name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_real_machine_setting"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_real_machine_setting()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_save_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_save_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.check_shots"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.check_shots()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DeviceConfig.device_name"><code class="docutils literal notranslate"><span class="pre">DeviceConfig.device_name</span></code></a></li>
