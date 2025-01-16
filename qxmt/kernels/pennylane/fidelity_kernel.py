@@ -54,6 +54,11 @@ class FidelityKernel(BaseKernel):
         """
 
         super().__init__(device, feature_map)
+        self.qnode = None
+
+    def _initialize_qnode(self) -> None:
+        if self.qnode is None:
+            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
 
     def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
         if self.feature_map is None:
@@ -80,8 +85,11 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
-        result = qnode(x1, x2)
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
+
+        result = self.qnode(x1, x2)
 
         if (self.is_sampling) and (self.device.is_amazon_device()):
             # PauliZ basis convert to computational basis (-1->1, 1->0)
