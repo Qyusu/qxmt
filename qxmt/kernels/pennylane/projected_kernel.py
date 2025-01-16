@@ -64,6 +64,11 @@ class ProjectedKernel(BaseKernel):
         self.n_qubits = device.n_qubits
         self.gamma = gamma
         self.projection = projection
+        self.qnode = None
+
+    def _initialize_qnode(self) -> None:
+        if self.qnode is None:
+            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
 
     def _process_measurement_results(self, results: list[float]) -> np.ndarray:
         """Process the measurement results based on the projection method.
@@ -135,9 +140,12 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
-        x1_result = qnode(x1)
-        x2_result = qnode(x2)
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
+
+        x1_result = self.qnode(x1)
+        x2_result = self.qnode(x2)
 
         if (self.is_sampling) and (self.device.is_amazon_device()):
             # PauliZ basis convert to computational basis (-1->1, 1->0)
