@@ -1,19 +1,62 @@
 import os
-from typing import Any, Optional
+from typing import Optional
 
 import pytest
 from pytest_mock import MockFixture
 
+from qxmt.constants import (
+    AWS_ACCESS_KEY_ID,
+    AWS_DEFAULT_REGION,
+    AWS_SECRET_ACCESS_KEY,
+    IBMQ_API_KEY,
+)
 from qxmt.devices.base import BaseDevice
-from qxmt.exceptions import IBMQSettingError
+from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError
 
 
 @pytest.fixture
-def ibmq_real_device() -> BaseDevice:
+def ibmq_real_device(mocker: MockFixture) -> BaseDevice:
+    mocker.patch.dict(os.environ, {IBMQ_API_KEY: "test_key"})
     return BaseDevice(
         platform="pennylane",
         device_name="qiskit.remote",
         backend_name=None,
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_local_simulator_device() -> BaseDevice:
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
+        backend_name="braket_sv",
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_remote_simulator_device() -> BaseDevice:
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
+        backend_name="sv1",
+        n_qubits=5,
+        shots=1024,
+    )
+
+
+@pytest.fixture
+def amazon_remote_real_device(mocker: MockFixture) -> BaseDevice:
+    mocker.patch.dict(os.environ, {AWS_ACCESS_KEY_ID: "test_key"})
+    mocker.patch.dict(os.environ, {AWS_SECRET_ACCESS_KEY: "test_secret"})
+    mocker.patch.dict(os.environ, {AWS_DEFAULT_REGION: "us-west-2"})
+    return BaseDevice(
+        platform="pennylane",
+        device_name="braket.local.qubit",
+        backend_name="ionq",
         n_qubits=5,
         shots=1024,
     )
@@ -82,15 +125,27 @@ class TestBaseDeviceMethod:
         # Real Machine
         assert ibmq_real_device.is_simulator() is False
 
-
-class TestIBMQProperty:
-    def test_get_provider(self, simulator_device: BaseDevice, ibmq_real_device: BaseDevice) -> None:
-        # Simulator
+    def test_get_provider(
+        self,
+        simulator_device: BaseDevice,
+        ibmq_real_device: BaseDevice,
+        amazon_local_simulator_device: BaseDevice,
+        amazon_remote_simulator_device: BaseDevice,
+        amazon_remote_real_device: BaseDevice,
+    ) -> None:
+        # Pennylane Original Simulator
         assert simulator_device.get_provider() == ""
 
-        # Real Machine
-        assert ibmq_real_device.get_provider() == "IBM"
+        # IBMQ
+        assert ibmq_real_device.get_provider() == "IBM_Quantum"
 
+        # Amazon Braket
+        assert amazon_local_simulator_device.get_provider() == "Amazon_Braket"
+        assert amazon_remote_simulator_device.get_provider() == "Amazon_Braket"
+        assert amazon_remote_real_device.get_provider() == "Amazon_Braket"
+
+
+class TestIBMQProperty:
     def test_get_service_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
@@ -114,9 +169,6 @@ class TestIBMQProperty:
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
 
     def test_get_backend_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        # mock for environment variable
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
-
         # mock for real device
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
@@ -141,7 +193,6 @@ class TestIBMQProperty:
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
 
     def test_get_backend_name_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
         mock_backend.name = "ibmq_test_backend"
@@ -154,7 +205,6 @@ class TestIBMQProperty:
         assert backend_name == "ibmq_test_backend"
 
     def test_real_device_case(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
-        mocker.patch.dict(os.environ, {"IBMQ_API_KEY": "test_key"})
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
         mock_backend.name = "ibmq_test_backend"
@@ -178,3 +228,65 @@ class TestIBMQProperty:
             simulator_device.get_ibmq_job_ids()
 
         assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
+
+
+class TestAmazonProperty:
+    def test_get_amazon_local_simulator_by_pennylane(self, amazon_local_simulator_device: BaseDevice) -> None:
+        # Error case: backend_name is not supported
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.local.qubit",
+                backend_name="not_supported",
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_local_simulator_by_pennylane()
+
+        assert '"not_supported" is not supported Amazon Braket local simulator.' in str(exc_info.value)
+
+        # Pass case: backend_name is None. Set the default backend name.
+        device = BaseDevice(
+            platform="pennylane",
+            device_name="braket.local.qubit",
+            backend_name=None,
+            n_qubits=5,
+            shots=1024,
+        )
+        device._get_amazon_local_simulator_by_pennylane()
+        assert device.backend_name == "braket_sv"
+
+        # Pass case: backend_name is supported
+        assert amazon_local_simulator_device.backend_name == "braket_sv"
+
+    def test_get_amazon_remote_device_by_pennylane(
+        self, amazon_remote_simulator_device: BaseDevice, amazon_remote_real_device: BaseDevice
+    ) -> None:
+        # Error case: backend_name is None
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.aws.qubit",
+                backend_name=None,
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_remote_device_by_pennylane()
+
+        assert "Amazon Braket device needs the backend name." in str(exc_info.value)
+
+        # Error case: backend_name is not supported
+        with pytest.raises(AmazonBraketSettingError) as exc_info:
+            BaseDevice(
+                platform="pennylane",
+                device_name="braket.aws.qubit",
+                backend_name="not_supported",
+                n_qubits=5,
+                shots=1024,
+            )._get_amazon_remote_device_by_pennylane()
+
+        assert '"not_supported" is not supported Amazon Braket device.' in str(exc_info.value)
+
+        # Pass case: backend_name is supported (simulator)
+        assert amazon_remote_simulator_device.backend_name == "sv1"
+
+        # Pass case: backend_name is supported (real device)
+        assert amazon_remote_real_device.backend_name == "ionq"

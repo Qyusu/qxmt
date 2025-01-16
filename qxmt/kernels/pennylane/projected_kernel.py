@@ -64,6 +64,11 @@ class ProjectedKernel(BaseKernel):
         self.n_qubits = device.n_qubits
         self.gamma = gamma
         self.projection = projection
+        self.qnode = None
+
+    def _initialize_qnode(self) -> None:
+        if self.qnode is None:
+            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
 
     def _process_measurement_results(self, results: list[float]) -> np.ndarray:
         """Process the measurement results based on the projection method.
@@ -103,7 +108,7 @@ class ProjectedKernel(BaseKernel):
 
         return projected_exp_value
 
-    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP:
+    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
@@ -117,8 +122,11 @@ class ProjectedKernel(BaseKernel):
             for i in range(self.n_qubits):
                 qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
-        if self.is_sampling:
-            return qml.sample(wires=range(self.n_qubits))
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # Amazon Braket does not support directry sample by computational basis
+            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
+        elif self.is_sampling:
+            return qml.sample(wires=self.n_qubits)
         else:
             return qml.probs(wires=range(self.n_qubits))
 
@@ -132,11 +140,22 @@ class ProjectedKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
-        x1_result = qnode(x1)
-        x2_result = qnode(x2)
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
 
-        if self.is_sampling:
+        x1_result = self.qnode(x1)
+        x2_result = self.qnode(x2)
+
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # PauliZ basis convert to computational basis (-1->1, 1->0)
+            x1_binary_result = (np.array(x1_result).T == -1).astype(int)
+            x2_binary_result = (np.array(x2_result).T == -1).astype(int)
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
+            x1_probs = sample_results_to_probs(x1_binary_result, self.n_qubits, cast(int, self.device.shots))
+            x2_probs = sample_results_to_probs(x2_binary_result, self.n_qubits, cast(int, self.device.shots))
+        elif self.is_sampling:
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             x1_probs = sample_results_to_probs(x1_result, self.n_qubits, cast(int, self.device.shots))

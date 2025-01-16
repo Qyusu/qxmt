@@ -1,6 +1,7 @@
 from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
+    "AmazonBraketSettingError",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -34,4 +35,4 @@ def test_all_imports() -> None:
 
 
 def test_version() -> None:
-    assert __version__ == "0.4.3"
+    assert __version__ == "0.4.4"

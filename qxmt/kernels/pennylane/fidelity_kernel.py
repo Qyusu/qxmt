@@ -54,15 +54,23 @@ class FidelityKernel(BaseKernel):
         """
 
         super().__init__(device, feature_map)
+        self.qnode = None
 
-    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP:
+    def _initialize_qnode(self) -> None:
+        if self.qnode is None:
+            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
+
+    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
         self.feature_map(x1)
         qml.adjoint(self.feature_map)(x2)  # type: ignore
 
-        if self.is_sampling:
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # Amazon Braket does not support directry sample by computational basis
+            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
+        elif self.is_sampling:
             return qml.sample(wires=range(self.n_qubits))
         else:
             return qml.probs(wires=range(self.n_qubits))
@@ -77,11 +85,19 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
-        # qnode = qml.QNode(self._circuit, device=self.device(), cache=False)  # type: ignore
-        qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)  # type: ignore
-        result = qnode(x1, x2)
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
 
-        if self.is_sampling:
+        result = self.qnode(x1, x2)
+
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # PauliZ basis convert to computational basis (-1->1, 1->0)
+            binary_result = (np.array(result).T == -1).astype(int)
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
+            probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
+        elif self.is_sampling:
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
