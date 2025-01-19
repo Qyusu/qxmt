@@ -163,10 +163,10 @@ class TestIBMQProperty:
         assert service == mock_service
 
     def test_get_service_simulator(self, simulator_device: BaseDevice) -> None:
-        with pytest.raises(IBMQSettingError) as exc_info:
-            simulator_device.get_service()
+        with pytest.raises(ValueError) as exc_info:
+            simulator_device.get_backend()
 
-        assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
+        assert "This method is only available for IBM Quantum devices." in str(exc_info.value)
 
     def test_get_backend_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         # mock for real device
@@ -187,10 +187,10 @@ class TestIBMQProperty:
         assert backend == mock_backend
 
     def test_get_backend_simulator(self, simulator_device: BaseDevice) -> None:
-        with pytest.raises(IBMQSettingError) as exc_info:
+        with pytest.raises(ValueError) as exc_info:
             simulator_device.get_backend()
 
-        assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
+        assert "This method is only available for IBM Quantum devices." in str(exc_info.value)
 
     def test_get_backend_name_real_device(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         mock_service = mocker.Mock()
@@ -204,7 +204,7 @@ class TestIBMQProperty:
         backend_name = ibmq_real_device.get_backend_name()
         assert backend_name == "ibmq_test_backend"
 
-    def test_real_device_case(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
+    def test_get_job_ids(self, mocker: MockFixture, ibmq_real_device: BaseDevice) -> None:
         mock_service = mocker.Mock()
         mock_backend = mocker.Mock()
         mock_backend.name = "ibmq_test_backend"
@@ -220,14 +220,8 @@ class TestIBMQProperty:
 
         ibmq_real_device.real_device = mock_real_device
 
-        job_ids = ibmq_real_device.get_ibmq_job_ids(created_after=None, created_before=None)
+        job_ids = ibmq_real_device.get_job_ids(created_after=None, created_before=None)
         assert job_ids == ["job1", "job2"]
-
-    def test_simulator_case(self, simulator_device: BaseDevice) -> None:
-        with pytest.raises(IBMQSettingError) as exc_info:
-            simulator_device.get_ibmq_job_ids()
-
-        assert 'The device ("default.qubit") is a simulator.' in str(exc_info.value)
 
 
 class TestAmazonProperty:
@@ -290,3 +284,40 @@ class TestAmazonProperty:
 
         # Pass case: backend_name is supported (real device)
         assert amazon_remote_real_device.backend_name == "ionq"
+
+    def test_get_backend_name(
+        self,
+        amazon_local_simulator_device: BaseDevice,
+        amazon_remote_simulator_device: BaseDevice,
+        amazon_remote_real_device: BaseDevice,
+    ) -> None:
+        local_backend_name = amazon_local_simulator_device.get_backend_name()
+        assert local_backend_name == "braket_sv"
+
+        simulator_backend_name = amazon_remote_simulator_device.get_backend_name()
+        assert simulator_backend_name == "sv1"
+
+        real_backend_name = amazon_remote_real_device.get_backend_name()
+        assert real_backend_name == "ionq"
+
+    def test_get_job_ids(self, mocker: MockFixture, amazon_remote_real_device: BaseDevice) -> None:
+        from datetime import datetime, timezone
+
+        mock_boto3_client = mocker.patch("boto3.client")
+        mock_braket = mocker.Mock()
+        mock_boto3_client.return_value = mock_braket
+
+        job_1 = "arn:aws:braket:task/1234"
+        job_2 = "arn:aws:braket:task/5678"
+        mock_braket.search_quantum_tasks.return_value = {
+            "quantumTasks": [
+                {"quantumTaskArn": job_1},
+                {"quantumTaskArn": job_2},
+            ]
+        }
+
+        created_after = datetime(2024, 1, 1, 0, 0, 0, tzinfo=timezone.utc)
+        created_before = datetime(2024, 12, 31, 23, 59, 59, tzinfo=timezone.utc)
+
+        job_ids = amazon_remote_real_device.get_job_ids(created_after=created_after, created_before=created_before)
+        assert job_ids == [job_1, job_2]
