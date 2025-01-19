@@ -1,6 +1,5 @@
 import os
 from datetime import datetime, timezone
-from enum import Enum
 from logging import Logger
 from typing import Any, Literal, Optional
 
@@ -8,7 +7,6 @@ import boto3
 import numpy as np
 import pennylane as qml
 from braket.aws import AwsDevice
-from braket.devices import Devices
 from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
@@ -18,6 +16,16 @@ from qxmt.constants import (
     AWS_SECRET_ACCESS_KEY,
     IBMQ_API_KEY,
 )
+from qxmt.devices.amazon import (
+    AMAZON_BRACKET_DEVICES,
+    AMAZON_BRACKET_LOCAL_BACKENDS,
+    AMAZON_BRACKET_REMOTE_DEVICES,
+    AMAZON_BRAKET_DEVICES,
+    AMAZON_BRAKET_SIMULATOR_BACKENDS,
+    AMAZON_PROVIDER_NAME,
+    AmazonBackendType,
+)
+from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME, IBMQ_REAL_DEVICES
 from qxmt.exceptions import (
     AmazonBraketSettingError,
     IBMQSettingError,
@@ -26,31 +34,6 @@ from qxmt.exceptions import (
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
-
-IBMQ_PROVIDER_NAME = "IBM_Quantum"
-AMAZON_PROVIDER_NAME = "Amazon_Braket"
-IBMQ_REAL_DEVICES = ["qiskit.remote"]
-AMAZON_BRACKET_DEVICES = ["braket.local.qubit"]
-AMAZON_BRACKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
-AMAZON_BRACKET_REMOTE_DEVICES = ["braket.aws.qubit"]
-AMAZON_BRAKET_DEVICES = AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
-AMAZON_BRAKET_SIMULATOR_BACKENDS = AMAZON_BRACKET_LOCAL_BACKENDS + ["sv1", "dm1", "tn1"]
-
-
-class AmazonBackendType(Enum):
-    sv1 = Devices.Amazon.SV1
-    dm1 = Devices.Amazon.DM1
-    tn1 = Devices.Amazon.TN1
-    ionq = Devices.IonQ.Aria1  # default IonQ device
-    ionq_aria1 = Devices.IonQ.Aria1
-    ionq_aria2 = Devices.IonQ.Aria2
-    ionq_forte1 = Devices.IonQ.Forte1
-    iqm = Devices.IQM.Garnet  # default IQM device
-    iqm_garnet = Devices.IQM.Garnet
-    quera = Devices.QuEra.Aquila  # default QuEra device
-    quera_aquila = Devices.QuEra.Aquila
-    rigetti = Devices.Rigetti.Ankaa2  # default Rigetti device
-    rigetti_ankaa2 = Devices.Rigetti.Ankaa2
 
 
 class BaseDevice:
