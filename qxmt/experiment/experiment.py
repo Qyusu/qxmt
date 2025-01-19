@@ -34,7 +34,7 @@ from qxmt.exceptions import (
 from qxmt.experiment.schema import (
     Evaluations,
     ExperimentDB,
-    RealMachine,
+    RemoteMachine,
     RunArtifact,
     RunRecord,
     RunTime,
@@ -418,15 +418,15 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        train_start_dt = datetime.now()
+        train_start_dt = datetime.now(TZ)
         model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
-        train_end_dt = datetime.now()
+        train_end_dt = datetime.now(TZ)
         train_seconds = (train_end_dt - train_start_dt).total_seconds()
 
         if (dataset.X_val is not None) and (dataset.y_val is not None):
-            validation_start_dt = datetime.now()
+            validation_start_dt = datetime.now(TZ)
             validation_predicted = model.predict(dataset.X_val, bar_label="Validation")
-            validation_end_dt = datetime.now()
+            validation_end_dt = datetime.now(TZ)
             validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
             validation_evaluation = self.run_evaluation(
                 task_type=task_type,
@@ -439,9 +439,9 @@ class Experiment:
             validation_seconds = None
             validation_evaluation = None
 
-        test_start_dt = datetime.now()
+        test_start_dt = datetime.now(TZ)
         test_predicted = model.predict(dataset.X_test, bar_label="Test")
-        test_end_dt = datetime.now()
+        test_end_dt = datetime.now(TZ)
         test_seconds = (test_end_dt - test_start_dt).total_seconds()
         test_evaluation = self.run_evaluation(
             task_type=task_type,
@@ -452,19 +452,21 @@ class Experiment:
         )
 
         device = cast(BaseKernelModel, model).kernel.device
-        if not device.is_simulator():
-            train_job_ids = device.get_ibmq_job_ids(created_after=train_start_dt, created_before=train_end_dt)
-            validation_job_ids = device.get_ibmq_job_ids(
-                created_after=validation_start_dt, created_before=validation_end_dt
+        if device.is_remote():
+            train_job_ids = device.get_job_ids(created_after=train_start_dt, created_before=train_end_dt)
+            validation_job_ids = (
+                device.get_job_ids(created_after=validation_start_dt, created_before=validation_end_dt)
+                if validation_evaluation
+                else []
             )
-            test_job_ids = device.get_ibmq_job_ids(created_after=test_start_dt, created_before=test_end_dt)
-            real_machine_log = RealMachine(
+            test_job_ids = device.get_job_ids(created_after=test_start_dt, created_before=test_end_dt)
+            remote_machine_log = RemoteMachine(
                 provider=device.get_provider(),
                 backend=device.get_backend_name(),
                 job_ids=train_job_ids + validation_job_ids + test_job_ids,
             )
         else:
-            real_machine_log = None
+            remote_machine_log = None
 
         if add_results:
             model.save(save_model_path)
@@ -491,7 +493,7 @@ class Experiment:
         record = RunRecord(
             run_id=self.current_run_id,
             desc=desc,
-            real_machine=real_machine_log,
+            remote_machine=remote_machine_log,
             commit_id=commit_id,
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),

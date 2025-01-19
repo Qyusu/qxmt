@@ -7,7 +7,7 @@ from qxmt.datasets.schema import Dataset
 from qxmt.models.base import BaseMLModel
 
 
-class RealMachine(BaseModel):
+class RemoteMachine(BaseModel):
     provider: str
     backend: str
     job_ids: list[str]
@@ -29,7 +29,7 @@ class RunRecord(BaseModel):
 
     run_id: int
     desc: str
-    real_machine: Optional[RealMachine] = None
+    remote_machine: Optional[RemoteMachine] = None
     commit_id: str
     config_file_name: Path
     execution_time: str

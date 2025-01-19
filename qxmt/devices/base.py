@@ -1,9 +1,10 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from enum import Enum
 from logging import Logger
 from typing import Any, Literal, Optional
 
+import boto3
 import numpy as np
 import pennylane as qml
 from braket.aws import AwsDevice
@@ -33,6 +34,7 @@ AMAZON_BRACKET_DEVICES = ["braket.local.qubit"]
 AMAZON_BRACKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
 AMAZON_BRACKET_REMOTE_DEVICES = ["braket.aws.qubit"]
 AMAZON_BRAKET_DEVICES = AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
+AMAZON_BRAKET_SIMULATOR_BACKENDS = AMAZON_BRACKET_LOCAL_BACKENDS + ["sv1", "dm1", "tn1"]
 
 
 class AmazonBackendType(Enum):
@@ -319,8 +321,15 @@ class BaseDevice:
         Returns:
             bool: True if the device is a simulator, False otherwise
         """
-        # [TODO]: Implement the Amazon Braket simulator
-        return self.device_name not in IBMQ_REAL_DEVICES
+        return (self.device_name not in IBMQ_REAL_DEVICES) or (self.backend_name in AMAZON_BRAKET_SIMULATOR_BACKENDS)
+
+    def is_remote(self) -> bool:
+        """Check the device is a remote device.
+
+        Returns:
+            bool: True if the device is a remote device, False otherwise
+        """
+        return (self.device_name in IBMQ_REAL_DEVICES) or (self.device_name in AMAZON_BRACKET_REMOTE_DEVICES)
 
     def is_ibmq_device(self) -> bool:
         """Check the device is an IBM Quantum device.
@@ -361,12 +370,22 @@ class BaseDevice:
 
         Returns:
             QiskitRuntimeService: IBM Quantum service
+
+        Raises:
+            ValueError: This method is only available for IBM Quantum devices
+            IBMQSettingError: Simulator device is not supported
+            IBMQSettingError: The real device is not set
         """
+        if not self.is_ibmq_device():
+            raise ValueError("This method is only available for IBM Quantum devices.")
+
         if self.is_simulator():
-            raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
+            raise IBMQSettingError(
+                f'The device ("{self.device_name}") is a simulator. This method is only available for real devices.'
+            )
 
         if self.real_device is None:
-            raise IBMQSettingError(f'The device ("{self.device_name}") is not set.')
+            raise IBMQSettingError(f'The real device ("{self.device_name}") is not set.')
 
         return self.real_device.service
 
@@ -375,9 +394,19 @@ class BaseDevice:
 
         Returns:
             IBMBackend | BackendV2: IBM Quantum real device backend
+
+        Raises:
+            ValueError: This method is only available for IBM Quantum devices
+            IBMQSettingError: Simulator device is not supported
+            IBMQSettingError: The real device is not set
         """
+        if not self.is_ibmq_device():
+            raise ValueError("This method is only available for IBM Quantum devices.")
+
         if self.is_simulator():
-            raise IBMQSettingError(f'The device ("{self.device_name}") is a simulator.')
+            raise IBMQSettingError(
+                f'The device ("{self.device_name}") is a simulator. This method is only available for real devices.'
+            )
 
         if self.real_device is None:
             raise IBMQSettingError(f'The device ("{self.device_name}") is not set.')
@@ -385,18 +414,29 @@ class BaseDevice:
         return self.real_device.backend
 
     def get_backend_name(self) -> str:
-        """Get the IBM Quantum real device backend name.
+        """Get the real or remote backend name.
 
         Returns:
-            str: IBM Quantum real device backend name
+            str: backend name
         """
-        backend = self.get_backend()
-        return backend.name
+        if self.is_ibmq_device() and self.real_device is not None:
+            backend = self.get_backend()
+            backend_name = backend.name
+        elif self.is_amazon_device() and self.backend_name is not None:
+            backend_name = self.backend_name
+        else:
+            raise ValueError("The backend name is not set.")
 
-    def get_ibmq_job_ids(
+        return backend_name
+
+    def _get_ibmq_job_ids(
         self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
     ) -> list[str]:
         """Get the IBM Quantum job IDs.
+
+        Args:
+            created_after (Optional[datetime]): created datetime of the jobs. If None, start time filter is not applied.
+            created_before (Optional[datetime]): finished datetime of the jobs. If None, end time filter is not applied.
 
         Returns:
             list[str]: IBM Quantum job IDs
@@ -409,3 +449,49 @@ class BaseDevice:
         jobs = service.jobs(backend_name=backend.name, created_after=created_after, created_before=created_before)
 
         return [job.job_id() for job in jobs]
+
+    def _get_amazon_job_ids(
+        self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
+    ) -> list[str]:
+        """Get the Amazon Braket job IDs.
+        Amazon Braket API requires "ISO 8601" format for the datetime filter.
+        The "created_after" and "created_before" are converted in this method.
+
+        Args:
+            created_after (Optional[datetime]): created datetime of the jobs. If None, start time filter is not applied.
+            created_before (Optional[datetime]): finished datetime of the jobs. If None, end time filter is not applied.
+
+        Returns:
+            list[str]: Amazon Braket job IDs
+        """
+        braket = boto3.client("braket")
+        created_after_utc = created_after.astimezone(timezone.utc).isoformat() if created_after is not None else None
+        created_before_utc = created_before.astimezone(timezone.utc).isoformat() if created_before is not None else None
+
+        if created_after_utc is not None and created_before_utc is not None:
+            filters = [{"name": "createdAt", "operator": "BETWEEN", "values": [created_after_utc, created_before_utc]}]
+        elif created_after_utc is not None and created_before_utc is None:
+            filters = [{"name": "createdAt", "operator": "GTE", "values": [created_after_utc]}]
+        elif created_after_utc is None and created_before_utc is not None:
+            filters = [{"name": "createdAt", "operator": "LTE", "values": [created_before_utc]}]
+        else:
+            filters = []
+
+        response = braket.search_quantum_tasks(filters=filters)
+
+        return [task["quantumTaskArn"] for task in response.get("quantumTasks", [])]
+
+    def get_job_ids(
+        self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
+    ) -> list[str]:
+        """Get the job IDs.
+
+        Returns:
+            list[str]: job IDs
+        """
+        if self.is_ibmq_device():
+            return self._get_ibmq_job_ids(created_after=created_after, created_before=created_before)
+        elif self.is_amazon_device():
+            return self._get_amazon_job_ids(created_after=created_after, created_before=created_before)
+        else:
+            return []
