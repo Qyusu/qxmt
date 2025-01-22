@@ -3,10 +3,6 @@
     <img src="./data/images/tool_icon.png" title="QXMT" width="65%">
 </p>
 
-<p align="center" style="font-family: 'Times New Roman', Times, serif; font-size:40px;">
-    Quantum Experiment Management Tool
-</p>
-
 <div align="center">
     <a href="https://img.shields.io/badge/License-MIT-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a>
     <a href="https://img.shields.io/pypi/pyversions/qxmt"><img src="https://img.shields.io/pypi/pyversions/qxmt" alt="PyPI - Python Version"></a>
@@ -22,7 +18,7 @@
 
 ---
 
-QXMT is an open-source tool designed for managing experiments in quantum machine learning. Its primary focus is on minimizing the cost of managing experiments and ensuring reproducibility. To reduce costs, QXMT aims to minimize the amount of implementation code needed for experiment management, allowing developers and researchers to focus on implementing new experiments. For reproducibility, QXMT manages experimental configurations via configuration files, enabling not only the original developers but also collaborators to easily reproduce the same results without significant additional effort.
+QXMT (Quantum Experiment Management Tool) is an open-source tool designed for managing experiments in quantum machine learning. Its primary focus is on minimizing the cost of managing experiments and ensuring reproducibility. To reduce costs, QXMT aims to minimize the amount of implementation code needed for experiment management, allowing developers and researchers to focus on implementing new experiments. For reproducibility, QXMT manages experimental configurations via configuration files, enabling not only the original developers but also collaborators to easily reproduce the same results without significant additional effort.
 
 QXMT includes a variety of datasets, machine learning models, and visualization methods to support experiment management. By using these components together, users can avoid the need to develop entire workflows from scratch while also ensuring that experiments can be evaluated under consistent conditions. These default features will continue to be expanded in future updates.
 
