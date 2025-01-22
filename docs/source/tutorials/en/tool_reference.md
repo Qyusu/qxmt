@@ -139,6 +139,65 @@ device:
   shots: 1024
 ```
 
+### 3.3 Specifying the Real Quantum Computers
+Quantum computers can be accessed through [Amazon Braket](https://aws.amazon.com/braket/) and [IBM Quantum](https://quantum.ibm.com/). Note that both physical quantum computers and remote simulators require payment based on usage. Be sure to review the pricing details provided by each service provider in advance.
+
+#### 3.3.1 Using Amazon Braket
+Amazon Braket allows access to quantum computers and simulators provided by various vendors. The configuration file setup is consistent regardless of whether a quantum computer or simulator is used. Since accessing Amazon Braket requires integration with AWS, complete the account setup and configure the following three environment variables beforehand:
+
+``` bash
+AWS_ACCESS_KEY_ID="xxx"
+AWS_SECRET_ACCESS_KEY="xxx"
+AWS_DEFAULT_REGION="xxx"
+```
+
+Once the environment variables are configured, the quantum computing tasks can be executed in the same manner as when using the local simulator, simply by updating the configuration settings. In the configuration file, set the `device_name` to `"braket.aws.qubit"`, and specify the desired backend in the `backend_name` field.
+
+As of QXMT v0.4.5, the following backends can be specified in the configuration:
+
+| Provider | Device | Type | Config Setting Name |
+|---------|---------|---------|---------|
+| AWS | SV1 | Simulator | sv1 |
+| AWS | DM1 | Simulator | dm1 |
+| AWS | TN1 | Simulator | tn1 |
+| IonQ | default (Aria-1) | QPU | ionq |
+| IonQ | Aria-1 | QPU | ionq_aria1 |
+| IonQ | Aria-2 | QPU | ionq_aria2 |
+| IonQ | Forte-1 | QPU | ionq_forte1 |
+| IQM | default (Garnet) | QPU | iqm |
+| IQM | Garnet | QPU | iqm_garnet |
+| QuEra | default (Aquila) | QPU | quera |
+| QuEra | Aquila | QPU | quera_aquila |
+| Rigetti | default (Ankaa-2) | QPU | rigetti |
+| Rigetti | Ankaa-2 | QPU | rigetti_ankaa2 |
+
+Available backends may vary depending on the region and time of access. For detailed information, please refer to [the official Amazon Braket documentation](https://docs.aws.amazon.com/braket/latest/developerguide/braket-devices.html).
+
+``` yaml
+device:
+  platform: "pennylane"
+  device_name: "braket.aws.qubit"
+  backend_name: "iqm"
+  n_qubits: 2
+  shots: 1024
+```
+※ For the complete structure of the configuration, refer to [this template](https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-amazon-braket-real.yaml).
+
+#### 3.3.2 Using IBM Quantum
+For IBMQ, execution is similarly possible by setting the API key issued after account creation as the environment variable `"IBMQ_API_KEY"`.
+
+In the configuration file, set `device_name` to `"qiskit.remote"` and specify the desired backend in the `backend_name` field. If `backend_name` is set to `null`, the backend with the shortest wait time will be automatically selected based on the number of pending jobs.
+
+``` yaml
+device:
+  platform: "pennylane"
+  device_name: "qiskit.remote"
+  backend_name: null
+  n_qubits: 2
+  shots: 128
+```
+※ For the complete structure of the configuration, refer to [this template](https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-ibmq-real.yaml)
+
 ---
 
 ## 4. Feature Map
