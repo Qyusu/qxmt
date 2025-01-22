@@ -370,8 +370,12 @@ class BaseKernel(ABC):
             save_path (Optional[str | Path], optional): save path for the plot. Defaults to None.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
         """
-        train_kernel, _ = self.compute_matrix(x_train, x_train, return_shots_resutls=False, n_jobs=n_jobs)
-        test_kernel, _ = self.compute_matrix(x_test, x_train, return_shots_resutls=False, n_jobs=n_jobs)
+        train_kernel, _ = self.compute_matrix(
+            x_train, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Train"
+        )
+        test_kernel, _ = self.compute_matrix(
+            x_test, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Test"
+        )
 
         fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
