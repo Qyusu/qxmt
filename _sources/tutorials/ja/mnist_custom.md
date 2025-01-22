@@ -182,7 +182,6 @@ dataset:
     data_path: "data/mnist_784/dataset_X.npy"
     label_path: "data/mnist_784/dataset_y.npy"
     label_name: null
-  random_seed: *global_seed
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -203,7 +202,7 @@ dataset:
 
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: null
 
@@ -287,5 +286,5 @@ plot_metrics_side_by_side(
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/02 |
-| QXMT| v0.3.7 |
+| document | 2025/01/22 |
+| QXMT| v0.4.5 |

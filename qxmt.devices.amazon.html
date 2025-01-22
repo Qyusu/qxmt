@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.datasets.raw_preprocess package &#8212; qxmt 0.4.5 documentation</title>
+    <title>qxmt.devices.amazon module &#8212; qxmt 0.4.5 documentation</title>
   
   
   
@@ -44,11 +44,11 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.datasets.raw_preprocess';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.devices.amazon';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.datasets.raw_preprocess.sampling module" href="qxmt.datasets.raw_preprocess.sampling.html" />
-    <link rel="prev" title="qxmt.datasets.file.loader module" href="qxmt.datasets.file.loader.html" />
+    <link rel="next" title="qxmt.devices.ibmq module" href="qxmt.devices.ibmq.html" />
+    <link rel="prev" title="qxmt.devices.base module" href="qxmt.devices.base.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -140,7 +140,7 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
 </ul>
@@ -154,7 +154,7 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.file.loader.html">qxmt.datasets.file.loader module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">qxmt.datasets.raw_preprocess package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
 </ul>
@@ -168,9 +168,9 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.schema.html">qxmt.datasets.schema module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.devices.html">qxmt.devices package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.devices.html">qxmt.devices package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.base.html">qxmt.devices.base module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.amazon.html">qxmt.devices.amazon module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.devices.amazon module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.ibmq.html">qxmt.devices.ibmq module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.builder.html">qxmt.devices.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.device_info.html">qxmt.devices.device_info module</a></li>
@@ -329,7 +329,7 @@
       
       
       
-      <li><a href="_sources/qxmt.datasets.raw_preprocess.rst" target="_blank"
+      <li><a href="_sources/qxmt.devices.amazon.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -392,9 +392,7 @@
 <button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
 </button>
-<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</button>
+
 </div></div>
       
     </div>
@@ -405,25 +403,11 @@
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>qxmt.datasets.raw_preprocess package</h1>
+    <h1>qxmt.devices.amazon module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class"><code class="docutils literal notranslate"><span class="pre">sampling_by_each_class()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num"><code class="docutils literal notranslate"><span class="pre">sampling_by_num()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess">Module contents</a></li>
-</ul>
-            </nav>
         </div>
     </div>
 </div>
@@ -471,68 +455,79 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="qxmt-datasets-raw-preprocess-package">
-<h1>qxmt.datasets.raw_preprocess package<a class="headerlink" href="#qxmt-datasets-raw-preprocess-package" title="Link to this heading">#</a></h1>
-<section id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
-</ul>
-</div>
-</section>
-<section id="module-qxmt.datasets.raw_preprocess.sampling">
-<span id="qxmt-datasets-raw-preprocess-sampling-module"></span><h2>qxmt.datasets.raw_preprocess.sampling module<a class="headerlink" href="#module-qxmt.datasets.raw_preprocess.sampling" title="Link to this heading">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.raw_preprocess.sampling.</span></span><span class="sig-name descname"><span class="pre">sampling_by_each_class</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class" title="Link to this definition">#</a></dt>
-<dd><p>Data sampling by each class</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – input data</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em>) – label of input data</p></li>
-<li><p><strong>n_samples</strong> (<em>int</em>) – number of samples to be extracted</p></li>
-<li><p><strong>labels</strong> (<em>list</em><em>[</em><em>int</em><em>]</em>) – labels to be extracted</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em>) – random seed</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>sampled data</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
-</dd>
-</dl>
+  <section id="qxmt-devices-amazon-module">
+<h1>qxmt.devices.amazon module<a class="headerlink" href="#qxmt-devices-amazon-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.amazon.</span></span><span class="sig-name descname"><span class="pre">AmazonBackendType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">dm1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_Amazon.DM1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ionq</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IonQ.Aria1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ionq_aria1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IonQ.Aria1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ionq_aria2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IonQ.Aria2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">ionq_forte1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IonQ.Forte1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">iqm</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IQM.Garnet</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">iqm_garnet</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_IQM.Garnet</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">quera</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_QuEra.Aquila</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">quera_aquila</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_QuEra.Aquila</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">rigetti</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_Rigetti.Ankaa2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">rigetti_ankaa2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_Rigetti.Ankaa2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">sv1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_Amazon.SV1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">tn1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">_Amazon.TN1</span></em></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="qxmt.datasets.raw_preprocess.sampling.sampling_by_num">
-<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.raw_preprocess.sampling.</span></span><span class="sig-name descname"><span class="pre">sampling_by_num</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_samples</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num" title="Link to this definition">#</a></dt>
-<dd><p>Data sampling by number of samples</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<em>np.ndarray</em>) – input data</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em>) – label of input data</p></li>
-<li><p><strong>n_samples</strong> (<em>int</em>) – number of samples to be extracted</p></li>
-<li><p><strong>random_seed</strong> (<em>int</em>) – random seed</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>sampled data</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>RAW_DATASET_TYPE</p>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="module-qxmt.datasets.raw_preprocess">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets.raw_preprocess" title="Link to this heading">#</a></h2>
-</section>
 </section>
 
 
@@ -547,20 +542,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.datasets.file.loader.html"
+       href="qxmt.devices.base.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.datasets.file.loader module</p>
+        <p class="prev-next-title">qxmt.devices.base module</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.datasets.raw_preprocess.sampling.html"
+       href="qxmt.devices.ibmq.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.datasets.raw_preprocess.sampling module</p>
+        <p class="prev-next-title">qxmt.devices.ibmq module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -570,28 +565,6 @@
             </div>
             
             
-              
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess.sampling">qxmt.datasets.raw_preprocess.sampling module</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_each_class"><code class="docutils literal notranslate"><span class="pre">sampling_by_each_class()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.raw_preprocess.sampling.sampling_by_num"><code class="docutils literal notranslate"><span class="pre">sampling_by_num()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.raw_preprocess">Module contents</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>

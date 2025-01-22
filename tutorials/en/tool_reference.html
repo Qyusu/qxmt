@@ -169,6 +169,8 @@
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.devices.html">qxmt.devices package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.base.html">qxmt.devices.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.amazon.html">qxmt.devices.amazon module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.ibmq.html">qxmt.devices.ibmq module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.builder.html">qxmt.devices.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.devices.device_info.html">qxmt.devices.device_info module</a></li>
 </ul>
@@ -586,7 +588,7 @@ Several tutorials use <code class="docutils literal notranslate"><span class="pr
 <p>Below is an example of configuration settings for using <code class="docutils literal notranslate"><span class="pre">lightning.qubit</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">device</span><span class="p">:</span>
   <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
-  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;lightning.qubit&quot;</span>
+  <span class="n">device_name</span><span class="p">:</span> <span class="s2">&quot;lightning.qubit&quot;</span>
   <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
   <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
 </pre></div>
@@ -607,14 +609,14 @@ The <code class="docutils literal notranslate"><span class="pre">shots</span></c
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># State Vector形式</span>
 <span class="n">device</span><span class="p">:</span>
   <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
-  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">device_name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
   <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
   <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
 
 <span class="c1"># Sampling形式</span>
 <span class="n">device</span><span class="p">:</span>
   <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
-  <span class="n">name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
+  <span class="n">device_name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
   <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
   <span class="n">shots</span><span class="p">:</span> <span class="mi">1024</span>
 </pre></div>
@@ -825,10 +827,10 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2024/12/14</p></td>
+<td><p>2025/01/22</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.3.7</p></td>
+<td><p>v0.4.5</p></td>
 </tr>
 </tbody>
 </table>

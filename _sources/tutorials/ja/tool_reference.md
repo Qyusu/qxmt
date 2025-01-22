@@ -102,7 +102,7 @@ QXMTでは各プラットフォームから提供されているシミュレー�
 ```
 device:
   platform: "pennylane"
-  name: "lightning.qubit"
+  device_name: "lightning.qubit"
   n_qubits: 2
   shots: null
 ```
@@ -124,14 +124,14 @@ QXMTでは、deviceのconfigで`shots`の値を設定するかどうかで、各
 # State Vector形式
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: null
 
 # Sampling形式
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: 1024
 ```
@@ -352,5 +352,5 @@ print(f"Accuracy: {score}")
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/14 |
-| QXMT| v0.3.7 |
+| document | 2025/01/22 |
+| QXMT| v0.4.5 |

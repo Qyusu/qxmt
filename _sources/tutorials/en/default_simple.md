@@ -78,7 +78,6 @@ dataset:
       "n_features": 2,
       "n_classes": 2,
     }
-  random_seed: *global_seed
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -90,7 +89,7 @@ dataset:
 
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: null
 
@@ -234,5 +233,5 @@ plot_2d_decision_boundaries(
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/02 |
-| QXMT| v0.3.7 |
+| document | 2025/01/22 |
+| QXMT| v0.4.5 |
