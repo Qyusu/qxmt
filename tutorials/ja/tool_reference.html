@@ -426,10 +426,15 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 シミュレータの指定</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.2 シミュレータの実行モードを指定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3 量子コンピュータ実機の利用</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#amazon-braket">3.3.1 Amazon Braketの利用</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ibm-quantum">3.3.2 IBM Quantumの利用</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">4.1 Feature Mapの可視化</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">4.2 NPQCの利用</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">4.3 YZCXの利用</a></li>
 </ul>
@@ -440,7 +445,7 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">6.1 Cross Validationによるモデルの評価</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
@@ -622,12 +627,128 @@ State Vector方式では、状態ベクトルに対してゲートを行列演�
 </pre></div>
 </div>
 </section>
+<section id="id6">
+<h3>3.3 量子コンピュータ実機の利用<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<p>量子コンピュータの実機を<a class="reference external" href="https://aws.amazon.com/braket/">Amazon Braket</a>と<a class="reference external" href="https://quantum.ibm.com/">IBM Quantum</a>経由で利用することができます。実機およびリモートのシミュレータでは、利用量に応じて課金が必要となります。事前に各種プロバイダーの料金表を確認して下さい。</p>
+<section id="amazon-braket">
+<h4>3.3.1 Amazon Braketの利用<a class="headerlink" href="#amazon-braket" title="Link to this heading">#</a></h4>
+<p>Amazon Braketでは、様々なプロバイダーから提供されている量子コンピュータの実機およびシミュレータが利用できます。どちらを利用する場合でも、configファイルの設定方法は共通となります。Amazon Braketを利用する際にはAWS経由でアクセスする必要があるためアカウント作成後、以下の3つの環境変数を事前に設定して下さい。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
+<span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
+<span class="nv">AWS_DEFAULT_REGION</span><span class="o">=</span><span class="s2">&quot;xxx&quot;</span>
+</pre></div>
+</div>
+<p>環境変数の設定が完了すると、configの設定のみでローカルのシミュレータで実行していた時と同様の手順で実行することが可能です。configには、<code class="docutils literal notranslate"><span class="pre">device_name</span></code>を<code class="docutils literal notranslate"><span class="pre">&quot;braket.aws.qubit&quot;</span></code>に設定したのち、<code class="docutils literal notranslate"><span class="pre">backend_name</span></code>に利用したいバックエンドを指定します。</p>
+<p>QXMTのv0.4.5では、以下のバックエンドをconfigで指定することができます。</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>プロバイダー</p></th>
+<th class="head"><p>デバイス名</p></th>
+<th class="head"><p>タイプ</p></th>
+<th class="head"><p>config設定名</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>AWS</p></td>
+<td><p>SV1</p></td>
+<td><p>Simulator</p></td>
+<td><p>sv1</p></td>
+</tr>
+<tr class="row-odd"><td><p>AWS</p></td>
+<td><p>DM1</p></td>
+<td><p>Simulator</p></td>
+<td><p>dm1</p></td>
+</tr>
+<tr class="row-even"><td><p>AWS</p></td>
+<td><p>TN1</p></td>
+<td><p>Simulator</p></td>
+<td><p>tn1</p></td>
+</tr>
+<tr class="row-odd"><td><p>IonQ</p></td>
+<td><p>default (Aria-1)</p></td>
+<td><p>QPU</p></td>
+<td><p>ionq</p></td>
+</tr>
+<tr class="row-even"><td><p>IonQ</p></td>
+<td><p>Aria-1</p></td>
+<td><p>QPU</p></td>
+<td><p>ionq_aria1</p></td>
+</tr>
+<tr class="row-odd"><td><p>IonQ</p></td>
+<td><p>Aria-2</p></td>
+<td><p>QPU</p></td>
+<td><p>ionq_aria2</p></td>
+</tr>
+<tr class="row-even"><td><p>IonQ</p></td>
+<td><p>Forte-1</p></td>
+<td><p>QPU</p></td>
+<td><p>ionq_forte1</p></td>
+</tr>
+<tr class="row-odd"><td><p>IQM</p></td>
+<td><p>default (Garnet)</p></td>
+<td><p>QPU</p></td>
+<td><p>iqm</p></td>
+</tr>
+<tr class="row-even"><td><p>IQM</p></td>
+<td><p>Garnet</p></td>
+<td><p>QPU</p></td>
+<td><p>iqm_garnet</p></td>
+</tr>
+<tr class="row-odd"><td><p>QuEra</p></td>
+<td><p>default (Aquila)</p></td>
+<td><p>QPU</p></td>
+<td><p>quera</p></td>
+</tr>
+<tr class="row-even"><td><p>QuEra</p></td>
+<td><p>Aquila</p></td>
+<td><p>QPU</p></td>
+<td><p>quera_aquila</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rigetti</p></td>
+<td><p>default (Ankaa-2)</p></td>
+<td><p>QPU</p></td>
+<td><p>rigetti</p></td>
+</tr>
+<tr class="row-even"><td><p>Rigetti</p></td>
+<td><p>Ankaa-2</p></td>
+<td><p>QPU</p></td>
+<td><p>rigetti_ankaa2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>利用可能なバックエンドは、リージョンや時間帯によっても異なるため<a class="reference external" href="https://docs.aws.amazon.com/ja_jp/braket/latest/developerguide/braket-devices.html">Amazon Braketの公式ドキュメント</a>を参照して下さい。</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">device</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pennylane&quot;</span>
+<span class="w">  </span><span class="nt">device_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;braket.aws.qubit&quot;</span>
+<span class="w">  </span><span class="nt">backend_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;iqm&quot;</span>
+<span class="w">  </span><span class="nt">n_qubits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">shots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1024</span>
+</pre></div>
+</div>
+<p>※ configの全体像は<a class="reference external" href="https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-amazon-braket-real.yaml">こちらのテンプレート</a>を参照して下さい。</p>
+</section>
+<section id="ibm-quantum">
+<h4>3.3.2 IBM Quantumの利用<a class="headerlink" href="#ibm-quantum" title="Link to this heading">#</a></h4>
+<p>IBMQについても、アカウント作成後に発行したキーを環境変数<code class="docutils literal notranslate"><span class="pre">&quot;IBMQ_API_KEY&quot;</span></code>に設定することで同様に実行可能です。
+configには、<code class="docutils literal notranslate"><span class="pre">device_name</span></code>を<code class="docutils literal notranslate"><span class="pre">&quot;qiskit.remote&quot;</span></code>に設定したのち、<code class="docutils literal notranslate"><span class="pre">backend_name</span></code>に利用したいバックエンドを指定します。<code class="docutils literal notranslate"><span class="pre">backend_name</span></code>を<code class="docutils literal notranslate"><span class="pre">null</span></code>に設定した場合には、待機しているジョブ数をもとに最も待ち時間が短いバックエンドが選択されます。</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">device</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">platform</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pennylane&quot;</span>
+<span class="w">  </span><span class="nt">device_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qiskit.remote&quot;</span>
+<span class="w">  </span><span class="nt">backend_name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">n_qubits</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">  </span><span class="nt">shots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128</span>
+</pre></div>
+</div>
+<p>※ configの全体像は<a class="reference external" href="https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-ibmq-real.yaml">こちらのテンプレート</a>を参照して下さい。</p>
+</section>
+</section>
 </section>
 <hr class="docutils" />
 <section id="feature-map">
 <h2>4. Feature Map<a class="headerlink" href="#feature-map" title="Link to this heading">#</a></h2>
-<section id="id6">
-<h3>4.1 Feature Mapの可視化<a class="headerlink" href="#id6" title="Link to this heading">#</a></h3>
+<section id="id7">
+<h3>4.1 Feature Mapの可視化<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
 <p>作成した特徴マップの量子回路を可視化する方法を紹介します。
 まず、可視化したい特徴マップのインスタンスにアクセスします。インスタンスへは大きく二つの方法でアクセスする方法があります。</p>
 <p>一つ目の方法は、<code class="docutils literal notranslate"><span class="pre">run</span></code>の実行結果として返ってくるArtifact経由で特徴マップのインスタンスを取得する方法です。</p>
@@ -757,8 +878,8 @@ M0 =
 </ul>
 <p>QXMTのCross Validationでは、内部的にsckit-learnの<code class="docutils literal notranslate"><span class="pre">cross_val_score</span></code>を実行しています。そのため、sckit-learnの<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.cross_val_score.html">ドキュメント</a>に記載のその他のパラメータについても設定することが可能です。よく使うものとして評価指標は<code class="docutils literal notranslate"><span class="pre">scoring</span></code>パラメータで設定することができます。デフォルトでは、scikit-learnで定義されたモデルごとのデフォルト指標が利用されます (SVCの場合はaccuracy)。任意の指標を利用したい場合は、「<a class="reference external" href="https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers">String name scorers</a>」を参照してください。</p>
 </section>
-<section id="id7">
-<h3>6.2 機械学習モデルのハイパーパラメータ探索<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
+<section id="id8">
+<h3>6.2 機械学習モデルのハイパーパラメータ探索<a class="headerlink" href="#id8" title="Link to this heading">#</a></h3>
 <p>機械学習のモデルのハイパーパラメータを探索する方法について紹介します。こちらもconfigの追加設定は必要ありません。実行結果は、探索の結果得られたパラーメータの値をdict形式で得ることができます。また、探索時に<code class="docutils literal notranslate"><span class="pre">refit</span></code>パラメータを<code class="docutils literal notranslate"><span class="pre">True</span></code>に設定することで探索結果のパラメータでモデルを学習した結果を得ることもできます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
 
@@ -882,10 +1003,15 @@ M0 =
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">3.1 シミュレータの指定</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">3.2 シミュレータの実行モードを指定</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3.3 量子コンピュータ実機の利用</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#amazon-braket">3.3.1 Amazon Braketの利用</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ibm-quantum">3.3.2 IBM Quantumの利用</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-map">4. Feature Map</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.1 Feature Mapの可視化</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">4.1 Feature Mapの可視化</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#npqc">4.2 NPQCの利用</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#yzcx">4.3 YZCXの利用</a></li>
 </ul>
@@ -896,7 +1022,7 @@ M0 =
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cross-validation">6.1 Cross Validationによるモデルの評価</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">6.2 機械学習モデルのハイパーパラメータ探索</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
