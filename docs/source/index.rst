@@ -23,7 +23,7 @@ Make sure you have Python 3.10 or more recent version installed. If you need LLM
 
 Limitation
 ==================
-QXMT is a newly released tool, and its features are currently limited. We are currently developing with the assumption of usage in [PennyLane](https://github.com/PennyLaneAI/pennylane). PennyLane allows the use of simulators from other quantum libraries as plugins. Please refer to the [documentation](https://qyusu.github.io/qxmt/tutorials/en/tool_reference.html#specifying-the-simulator) for details on how to use them. Additionally, as of now, support for real quantum hardware is limited to [IBMQ](https://quantum.ibm.com/) and [Amazon Braket](https://aws.amazon.com/braket).
+QXMT is a newly released tool, and its features are currently limited. We are currently developing with the assumption of usage in `PennyLane <https://github.com/PennyLaneAI/pennylane>`__. PennyLane allows the use of simulators from other quantum libraries as plugins. Please refer to the `documentation <https://qyusu.github.io/qxmt/tutorials/en/tool_reference.html#specifying-the-simulator>`__ for details on how to use them. Additionally, as of now, support for real quantum hardware is limited to `IBMQ <https://quantum.ibm.com/>`__ and `Amazon Braket <https://aws.amazon.com/braket>`__.
 
 Even if your environment is not listed, you can still manage experiments by implementing according to the interfaces provided by QXMT. For details on how to implement these interfaces, please refer to the documentation.
 
