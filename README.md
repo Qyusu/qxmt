@@ -3,6 +3,10 @@
     <img src="./data/images/tool_icon.png" title="QXMT" width="65%">
 </p>
 
+<p align="center" style="font-family: 'Times New Roman', Times, serif; font-size:40px;">
+    Quantum Experiment Management Tool
+</p>
+
 <div align="center">
     <a href="https://img.shields.io/badge/License-MIT-blue.svg"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="MIT License"></a>
     <a href="https://img.shields.io/pypi/pyversions/qxmt"><img src="https://img.shields.io/pypi/pyversions/qxmt" alt="PyPI - Python Version"></a>
