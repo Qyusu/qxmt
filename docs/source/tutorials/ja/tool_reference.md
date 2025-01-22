@@ -102,7 +102,7 @@ QXMTでは各プラットフォームから提供されているシミュレー�
 ```
 device:
   platform: "pennylane"
-  name: "lightning.qubit"
+  device_name: "lightning.qubit"
   n_qubits: 2
   shots: null
 ```
@@ -124,17 +124,76 @@ QXMTでは、deviceのconfigで`shots`の値を設定するかどうかで、各
 # State Vector形式
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: null
 
 # Sampling形式
 device:
   platform: "pennylane"
-  name: "default.qubit"
+  device_name: "default.qubit"
   n_qubits: 2
   shots: 1024
 ```
+
+### 3.3 量子コンピュータ実機の利用
+量子コンピュータの実機を[Amazon Braket](https://aws.amazon.com/braket/)と[IBM Quantum](https://quantum.ibm.com/)経由で利用することができます。実機およびリモートのシミュレータでは、利用量に応じて課金が必要となります。事前に各種プロバイダーの料金表を確認して下さい。
+
+#### 3.3.1 Amazon Braketの利用
+Amazon Braketでは、様々なプロバイダーから提供されている量子コンピュータの実機およびシミュレータが利用できます。どちらを利用する場合でも、configファイルの設定方法は共通となります。Amazon Braketを利用する際にはAWS経由でアクセスする必要があるためアカウント作成後、以下の3つの環境変数を事前に設定して下さい。
+
+``` bash
+AWS_ACCESS_KEY_ID="xxx"
+AWS_SECRET_ACCESS_KEY="xxx"
+AWS_DEFAULT_REGION="xxx"
+```
+
+環境変数の設定が完了すると、configの設定のみでローカルのシミュレータで実行していた時と同様の手順で実行することが可能です。configには、`device_name`を`"braket.aws.qubit"`に設定したのち、`backend_name`に利用したいバックエンドを指定します。
+
+QXMTのv0.4.5では、以下のバックエンドをconfigで指定することができます。
+
+| プロバイダー | デバイス名 | タイプ | config設定名 |
+|---------|---------|---------|---------|
+| AWS | SV1 | Simulator | sv1 |
+| AWS | DM1 | Simulator | dm1 |
+| AWS | TN1 | Simulator | tn1 |
+| IonQ | default (Aria-1) | QPU | ionq |
+| IonQ | Aria-1 | QPU | ionq_aria1 |
+| IonQ | Aria-2 | QPU | ionq_aria2 |
+| IonQ | Forte-1 | QPU | ionq_forte1 |
+| IQM | default (Garnet) | QPU | iqm |
+| IQM | Garnet | QPU | iqm_garnet |
+| QuEra | default (Aquila) | QPU | quera |
+| QuEra | Aquila | QPU | quera_aquila |
+| Rigetti | default (Ankaa-2) | QPU | rigetti |
+| Rigetti | Ankaa-2 | QPU | rigetti_ankaa2 |
+
+利用可能なバックエンドは、リージョンや時間帯によっても異なるため[Amazon Braketの公式ドキュメント](https://docs.aws.amazon.com/ja_jp/braket/latest/developerguide/braket-devices.html)を参照して下さい。
+
+``` yaml
+device:
+  platform: "pennylane"
+  device_name: "braket.aws.qubit"
+  backend_name: "iqm"
+  n_qubits: 2
+  shots: 1024
+```
+※ configの全体像は[こちらのテンプレート](https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-amazon-braket-real.yaml)を参照して下さい。
+
+
+#### 3.3.2 IBM Quantumの利用
+IBMQについても、アカウント作成後に発行したキーを環境変数`"IBMQ_API_KEY"`に設定することで同様に実行可能です。
+configには、`device_name`を`"qiskit.remote"`に設定したのち、`backend_name`に利用したいバックエンドを指定します。`backend_name`を`null`に設定した場合には、待機しているジョブ数をもとに最も待ち時間が短いバックエンドが選択されます。
+
+``` yaml
+device:
+  platform: "pennylane"
+  device_name: "qiskit.remote"
+  backend_name: null
+  n_qubits: 2
+  shots: 128
+```
+※ configの全体像は[こちらのテンプレート](https://github.com/Qyusu/qxmt/blob/main/configs/plugins/template-ibmq-real.yaml)を参照して下さい。
 
 ---
 
@@ -352,5 +411,5 @@ print(f"Accuracy: {score}")
 
 | Environment | Version |
 |----------|----------|
-| document | 2024/12/14 |
-| QXMT| v0.3.7 |
+| document | 2025/01/22 |
+| QXMT| v0.4.5 |

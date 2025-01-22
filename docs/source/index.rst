@@ -3,12 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to qxmt's documentation!
+Welcome to QXMT documentation!
 ================================
 
-QXMT is an open-source experiment management tool for quantum machine learning. The development focus is on low-cost experiment management and ensuring reproducibility. For low-cost management, the goal is to minimize the implementation code required for managing experiments, allowing developers and researchers to focus solely on new experimental implementations. To ensure reproducibility, QXMT manages experimental information as configuration file, enabling not only the original developer but also collaborators to reproduce the same experimental results without investing significant time.
+QXMT is an open-source tool designed for managing experiments in quantum machine learning. Its primary focus is on minimizing the cost of managing experiments and ensuring reproducibility. To reduce costs, QXMT aims to minimize the amount of implementation code needed for experiment management, allowing developers and researchers to focus on implementing new experiments. For reproducibility, QXMT manages experimental configurations via configuration files, enabling not only the original developers but also collaborators to easily reproduce the same results without significant additional effort.
 
-QXMT provides several datasets, machine learning models, and visualization methods to facilitate experiment management. By combining these, users can not only avoid developing the entire workflow themselves but also ensure that many people can evaluate their experiments based on the same standards. These default features will be continuously expanded in future development.
+QXMT includes a variety of datasets, machine learning models, and visualization methods to support experiment management. By using these components together, users can avoid the need to develop entire workflows from scratch while also ensuring that experiments can be evaluated under consistent conditions. These default features will continue to be expanded in future updates.
 
 Installation
 ==================
@@ -18,24 +18,14 @@ To install QXMT package, you can use `pip`, the Python package installer. Run th
 
    pip install qxmt
 
-Make sure you have Python 3.11 or more recent version installed. If you need LLM mode or more detailed instructions, please refer to `the official PyPI page <https://pypi.org/project/qxmt/>`__.
+Make sure you have Python 3.10 or more recent version installed. If you need LLM mode or more detailed instructions, please refer to `the official PyPI page <https://pypi.org/project/qxmt/>`__.
 
 
 Limitation
 ==================
-QXMT is newly released, and the available features are still limited. The quantum libraries and devices that have been tested are listed below. For future development plans, please refer to the roadmap. Even in environments not listed below, you can manage experiments by implementing according to the interfaces provided by QXMT. For details on how to implement, please refer to the documentation.
+QXMT is a newly released tool, and its features are currently limited. We are currently developing with the assumption of usage in [PennyLane](https://github.com/PennyLaneAI/pennylane). PennyLane allows the use of simulators from other quantum libraries as plugins. Please refer to the [documentation](https://qyusu.github.io/qxmt/tutorials/en/tool_reference.html#specifying-the-simulator) for details on how to use them. Additionally, as of now, support for real quantum hardware is limited to [IBMQ](https://quantum.ibm.com/) and [Amazon Braket](https://aws.amazon.com/braket).
 
-+-------------------------------------------------------------------+------------+--------------+
-| Quantum Library                                                   | Simulator  | Real Machine |
-+-------------------------------------------------------------------+------------+--------------+
-| `pennylane <https://github.com/PennyLaneAI/pennylane>`_           |    ✅      |     ❌       |
-+-------------------------------------------------------------------+------------+--------------+
-| `Qulacs <https://github.com/qulacs/qulacs>`_                      |    ❌      |     ❌       |
-+-------------------------------------------------------------------+------------+--------------+
-| `Qiskit <https://github.com/Qiskit/qiskit>`_                      |    ❌      |     ❌       |
-+-------------------------------------------------------------------+------------+--------------+
-| `Cirq <https://github.com/quantumlib/Cirq>`_                      |    ❌      |     ❌       |
-+-------------------------------------------------------------------+------------+--------------+
+Even if your environment is not listed, you can still manage experiments by implementing according to the interfaces provided by QXMT. For details on how to implement these interfaces, please refer to the documentation.
 
 Contents
 ==================
