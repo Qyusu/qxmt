@@ -88,12 +88,15 @@ class BaseKernel(ABC):
             return cast(BaseFeatureMap, feature_map)
 
     @abstractmethod
-    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+    def _compute_matrix_by_state_vector(
+        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = ""
+    ) -> np.ndarray:
         """Compute kernel value between two samples.
 
         Args:
             x1_array (np.ndarray): array of all sample
             x2_array (np.ndarray): array of all sample
+            bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
 
         Returns:
             np.ndarray: kernel value and probability distribution
@@ -301,7 +304,7 @@ class BaseKernel(ABC):
             tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
         """
         if self.device.is_simulator() and not self.is_sampling:
-            kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2)
+            kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2, bar_label=bar_label)
             return kernel_matrix, None
         elif self.device.is_simulator():
             return self._compute_matrix_by_simulator(x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label)

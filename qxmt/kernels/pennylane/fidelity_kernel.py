@@ -4,6 +4,7 @@ import numpy as np
 import pennylane as qml
 from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
+from rich.progress import track
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
@@ -87,7 +88,9 @@ class FidelityKernel(BaseKernel):
 
         return qml.state()
 
-    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+    def _compute_matrix_by_state_vector(
+        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = ""
+    ) -> np.ndarray:
         """Compute the kernel matrix based on the state vector.
         This method is only available in the non-sampling mode.
         Each kernel value computed by theoritically probability distribution by state vector.
@@ -95,6 +98,7 @@ class FidelityKernel(BaseKernel):
         Args:
             x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
             x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
+            bar_label (str): label for progress bar
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -108,13 +112,15 @@ class FidelityKernel(BaseKernel):
 
         state_memory_1 = {}
         state_memory_2 = {}
+        bar_label = f" ({bar_label})" if bar_label else ""
         for i, x in enumerate(x1_array):
             if i not in state_memory_1:
                 state_memory_1[i] = self.qnode(x)
                 if np.array_equal(x, x2_array[i]):
                     state_memory_2[i] = state_memory_1[i]
+
         kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
-        for i, _ in enumerate(x1_array):
+        for i in track(range(len(x1_array)), description=f"Computing Kernel Matrix{bar_label}"):
             for j, x2 in enumerate(x2_array):
                 if j not in state_memory_2:
                     state_memory_2[j] = self.qnode(x2)

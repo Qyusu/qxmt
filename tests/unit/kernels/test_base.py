@@ -33,7 +33,9 @@ class SimpleKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
-    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+    def _compute_matrix_by_state_vector(
+        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = ""
+    ) -> np.ndarray:
         self.feature_map(x1_array[0])
         kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
         for i, x1 in enumerate(x1_array):
