@@ -88,7 +88,20 @@ class BaseKernel(ABC):
             return cast(BaseFeatureMap, feature_map)
 
     @abstractmethod
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+        """Compute kernel value between two samples.
+
+        Args:
+            x1_array (np.ndarray): array of all sample
+            x2_array (np.ndarray): array of all sample
+
+        Returns:
+            np.ndarray: kernel value and probability distribution
+        """
+        pass
+
+    @abstractmethod
+    def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute kernel value between two samples.
 
         Args:
@@ -122,7 +135,7 @@ class BaseKernel(ABC):
             Exception: error in the self.compute() method
         """
         try:
-            result = self.compute(x_array_1, x_array_2)
+            result = self._compute_by_sampling(x_array_1, x_array_2)
             progress_queue.put(1)
             return i, j, result
         except Exception as e:
@@ -215,7 +228,7 @@ class BaseKernel(ABC):
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
     ) -> tuple[int, int, tuple[float | list[float], np.ndarray]]:
-        result = self.compute(x_array_1, x_array_2)
+        result = self._compute_by_sampling(x_array_1, x_array_2)
         return i, j, result
 
     def _compute_matrix_by_ibmq(
@@ -287,7 +300,10 @@ class BaseKernel(ABC):
         Returns:
             tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
         """
-        if self.device.is_simulator():
+        if self.device.is_simulator() and not self.is_sampling:
+            kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2)
+            return kernel_matrix, None
+        elif self.device.is_simulator():
             return self._compute_matrix_by_simulator(x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label)
         else:
             return self._compute_matrix_by_ibmq(x_array_1, x_array_2, return_shots_resutls)

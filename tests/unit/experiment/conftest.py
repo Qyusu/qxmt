@@ -25,7 +25,11 @@ class TestKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def _compute_matrix_by_state_vector(self, x1: np.ndarray, x2: np.ndarray) -> np.ndarray:
+        kernel_value = np.dot(x1, x2.T)
+        return kernel_value
+
+    def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         kernel_value = np.dot(x1, x2)
         probs = np.array([0.2, 0.1, 0.4, 0.3])  # dummy probs
         return kernel_value, probs

@@ -2,8 +2,8 @@ from typing import Callable, cast
 
 import numpy as np
 import pennylane as qml
-from pennylane.measurements.probs import ProbabilityMP
 from pennylane.measurements.sample import SampleMP
+from pennylane.measurements.state import StateMP
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
@@ -55,12 +55,18 @@ class FidelityKernel(BaseKernel):
 
         super().__init__(device, feature_map)
         self.qnode = None
+        self.state_memory_1 = {}
+        self.state_memory_2 = {}
 
     def _initialize_qnode(self) -> None:
-        if self.qnode is None:
-            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
+        if (self.qnode is None) and (self.is_sampling):
+            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False, diff_method=None)
+        elif (self.qnode is None) and (not self.is_sampling):
+            self.qnode = qml.QNode(
+                self._circuit_state_vector, device=self.device.get_device(), cache=False, diff_method=None
+            )
 
-    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
+    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> SampleMP | list[SampleMP]:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
@@ -70,13 +76,59 @@ class FidelityKernel(BaseKernel):
         if (self.is_sampling) and (self.device.is_amazon_device()):
             # Amazon Braket does not support directry sample by computational basis
             return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        elif self.is_sampling:
-            return qml.sample(wires=range(self.n_qubits))
         else:
-            return qml.probs(wires=range(self.n_qubits))
+            return qml.sample(wires=range(self.n_qubits))
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def _circuit_state_vector(self, x: np.ndarray) -> StateMP:
+        if self.feature_map is None:
+            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
+
+        self.feature_map(x)
+
+        return qml.state()
+
+    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+        """Compute the kernel matrix based on the state vector.
+        This method is only available in the non-sampling mode.
+        Each kernel value computed by theoritically probability distribution by state vector.
+
+        Args:
+            x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
+            x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
+
+        Returns:
+            np.ndarray: computed kernel matrix
+        """
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
+
+        if len(x1_array) > len(x2_array):
+            x1_array, x2_array = x2_array, x1_array
+
+        state_memory_1 = {}
+        state_memory_2 = {}
+        for i, x in enumerate(x1_array):
+            if i not in state_memory_1:
+                state_memory_1[i] = self.qnode(x)
+                if np.array_equal(x, x2_array[i]):
+                    state_memory_2[i] = state_memory_1[i]
+        kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
+        for i, _ in enumerate(x1_array):
+            for j, x2 in enumerate(x2_array):
+                if j not in state_memory_2:
+                    state_memory_2[j] = self.qnode(x2)
+                kernel_matrix[i, j] = np.abs(np.dot(np.conj(state_memory_1[i]), state_memory_2[j])) ** 2
+
+        if len(x1_array) > len(x2_array):
+            kernel_matrix = kernel_matrix.T
+
+        return kernel_matrix
+
+    def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
+        This method is only available in the sampling mode.
+        Each kernel value computed by sampling the quantum circuit.
 
         Args:
             x1 (np.ndarray): numpy array representing the first data point
@@ -85,25 +137,25 @@ class FidelityKernel(BaseKernel):
         Returns:
             tuple[float, np.ndarray]: fidelity kernel value and probability distribution
         """
+        if not self.is_sampling:
+            raise ValueError("_compute_by_sampling method is only available in sampling mode.")
+
         self._initialize_qnode()
         if self.qnode is None:
             raise RuntimeError("QNode is not initialized.")
 
-        result = self.qnode(x1, x2)
-
         if (self.is_sampling) and (self.device.is_amazon_device()):
+            result = self.qnode(x1, x2)
             # PauliZ basis convert to computational basis (-1->1, 1->0)
             binary_result = (np.array(result).T == -1).astype(int)
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
-        elif self.is_sampling:
+        else:
+            result = self.qnode(x1, x2)
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            # use theoretical probability distribution
-            probs = np.array(result)
 
         kernel_value = probs[0]  # get |0..0> state probability
 

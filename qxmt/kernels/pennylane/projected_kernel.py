@@ -2,8 +2,8 @@ from typing import Callable, Literal, cast
 
 import numpy as np
 import pennylane as qml
-from pennylane.measurements.probs import ProbabilityMP
 from pennylane.measurements.sample import SampleMP
+from pennylane.measurements.state import StateMP
 
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
@@ -65,6 +65,8 @@ class ProjectedKernel(BaseKernel):
         self.gamma = gamma
         self.projection = projection
         self.qnode = None
+        self.state_memory_1 = {}
+        self.state_memory_2 = {}
 
     def _initialize_qnode(self) -> None:
         if self.qnode is None:
@@ -108,7 +110,7 @@ class ProjectedKernel(BaseKernel):
 
         return projected_exp_value
 
-    def _circuit(self, x: np.ndarray) -> ProbabilityMP | SampleMP | list[SampleMP]:
+    def _circuit(self, x: np.ndarray) -> SampleMP | list[SampleMP] | StateMP:
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for FidelityKernel.")
 
@@ -128,10 +130,53 @@ class ProjectedKernel(BaseKernel):
         elif self.is_sampling:
             return qml.sample(wires=self.n_qubits)
         else:
-            return qml.probs(wires=range(self.n_qubits))
+            return qml.state()
 
-    def compute(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
+    def _compute_matrix_by_state_vector(self, x1_array: np.ndarray, x2_array: np.ndarray) -> np.ndarray:
+        """Compute the kernel matrix based on the state vector.
+        This method is only available in the non-sampling mode.
+        Each kernel value computed by theoritically probability distribution by state vector.
+
+        Args:
+            x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
+            x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
+
+        Returns:
+            np.ndarray: computed kernel matrix
+        """
+        self._initialize_qnode()
+        if self.qnode is None:
+            raise RuntimeError("QNode is not initialized.")
+
+        if len(x1_array) > len(x2_array):
+            x1_array, x2_array = x2_array, x1_array
+
+        state_memory_1 = {}
+        state_memory_2 = {}
+        for i, x in enumerate(x1_array):
+            if i not in state_memory_1:
+                state_memory_1[i] = self.qnode(x)
+                if np.array_equal(x, x2_array[i]):
+                    state_memory_2[i] = state_memory_1[i]
+        kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
+        for i, _ in enumerate(x1_array):
+            for j, x2 in enumerate(x2_array):
+                if j not in state_memory_2:
+                    state_memory_2[j] = self.qnode(x2)
+
+                x1_projected = self._calculate_expected_values(np.abs(state_memory_1[i]) ** 2)
+                x2_projected = self._calculate_expected_values(np.abs(state_memory_2[j]) ** 2)
+                kernel_matrix[i, j] = np.exp(-self.gamma * np.sum((x1_projected - x2_projected) ** 2))
+
+        if len(x1_array) > len(x2_array):
+            kernel_matrix = kernel_matrix.T
+
+        return kernel_matrix
+
+    def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the projected kernel value between two data points.
+        This method is only available in the sampling mode.
+        Each kernel value computed by sampling the quantum circuit.
 
         Args:
             x1 (np.ndarray): numpy array representing the first data point
@@ -155,15 +200,11 @@ class ProjectedKernel(BaseKernel):
             # shots must be over 0 when sampling mode
             x1_probs = sample_results_to_probs(x1_binary_result, self.n_qubits, cast(int, self.device.shots))
             x2_probs = sample_results_to_probs(x2_binary_result, self.n_qubits, cast(int, self.device.shots))
-        elif self.is_sampling:
+        else:
             # convert the sample results to probability distribution
             # shots must be over 0 when sampling mode
             x1_probs = sample_results_to_probs(x1_result, self.n_qubits, cast(int, self.device.shots))
             x2_probs = sample_results_to_probs(x2_result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            # use theoretical probability distribution
-            x1_probs = np.array(x1_result)
-            x2_probs = np.array(x2_result)
 
         # compute expected values for projection operators
         x1_projected = self._calculate_expected_values(x1_probs)

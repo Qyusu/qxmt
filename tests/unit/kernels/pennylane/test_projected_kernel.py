@@ -23,19 +23,19 @@ class TestProjectedKernel:
     @pytest.mark.parametrize(
         ["projection", "x1", "x2", "expected", "expected_error"],
         [
-            ("x", np.array([0, 1]), np.array([1, 0]), 1.0, None),
-            ("y", np.array([0, 1]), np.array([1, 0]), 1.0, None),
-            ("z", np.array([0, 1]), np.array([1, 0]), 0.00034, None),
-            ("invalid_projection", np.array([0, 1]), np.array([1, 0]), None, ValueError),
+            ("x", np.array([[0, 1]]), np.array([[1, 0]]), np.array([[1.0]]), None),
+            ("y", np.array([[0, 1]]), np.array([[1, 0]]), np.array([[1.0]]), None),
+            ("z", np.array([[0, 1]]), np.array([[1, 0]]), np.array([[0.00034]]), None),
+            ("invalid_projection", np.array([[0, 1]]), np.array([[1, 0]]), None, ValueError),
         ],
     )
-    def test_compute(
+    def test_compute_matrix_by_state_vector(
         self,
         device: BaseDevice,
         x1: np.ndarray,
         x2: np.ndarray,
         projection: str,
-        expected: Optional[float],
+        expected: Optional[np.ndarray],
         expected_error: Optional[Type[Exception]],
     ) -> None:
         if expected_error is not None:
@@ -53,6 +53,12 @@ class TestProjectedKernel:
                 gamma=1.0,
                 projection=projection,  # type: ignore
             )
-            # [TODO]: currently, projected kernel not support probs
-            kernel_value, probs = projected_kernel.compute(x1, x2)
-            assert round(kernel_value, 5) == expected
+            kernel_matrix = projected_kernel._compute_matrix_by_state_vector(x1, x2)
+
+            if expected is None:
+                assert kernel_matrix is None
+            else:
+                assert np.array_equal(np.round(kernel_matrix, 5), expected)
+
+    def test_compute_by_sampling(self, device: BaseDevice) -> None:
+        pass
