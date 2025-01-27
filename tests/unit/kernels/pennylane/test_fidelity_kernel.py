@@ -17,9 +17,11 @@ def fidelity_kernel() -> FidelityKernel:
 
 
 class TestFidelityKernel:
-    def test_compute(self, fidelity_kernel: FidelityKernel) -> None:
-        x1 = np.array([0, 1])
-        x2 = np.array([1, 0])
-        kernel_value, probs = fidelity_kernel.compute(x1, x2)
-        assert kernel_value == 1.0
-        assert (probs == np.array([1.0, 0.0, 0.0, 0.0])).all()
+    def test_compute_matrix_by_state_vector(self, fidelity_kernel: FidelityKernel) -> None:
+        x1 = np.array([[0, 1]])
+        x2 = np.array([[1, 0]])
+        kernel_matrix = fidelity_kernel._compute_matrix_by_state_vector(x1, x2)
+        assert np.array_equal(kernel_matrix, np.array([[1.0]]))
+
+    def test_compute_by_sampling(self, fidelity_kernel: FidelityKernel) -> None:
+        pass
