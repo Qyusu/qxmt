@@ -27,15 +27,17 @@ class ModelBuilder:
         >>> model = ModelBuilder(config).build()
     """
 
-    def __init__(self, config: ExperimentConfig, n_jobs: int = DEFAULT_N_JOBS) -> None:
+    def __init__(self, config: ExperimentConfig, n_jobs: int = DEFAULT_N_JOBS, show_progress: bool = True) -> None:
         """Initialize the model builder.
 
         Args:
             config (ExperimentConfig): Configuration for the experiment.
             n_jobs (int): number of jobs for parallel computation
+            show_progress (bool): flag for showing progress bar
         """
         self.config: ExperimentConfig = config
         self.n_jobs: int = n_jobs
+        self.show_progress: bool = show_progress
         self.device: BaseDevice
         self.feature_map: BaseFeatureMap
         self.kernel: BaseKernel
@@ -87,11 +89,17 @@ class ModelBuilder:
         """Set quantum model."""
         match self.config.model.name:
             case "qsvc":
-                self.model = QSVC(kernel=self.kernel, n_jobs=self.n_jobs, **self.config.model.params)
+                self.model = QSVC(
+                    kernel=self.kernel, n_jobs=self.n_jobs, show_progress=self.show_progress, **self.config.model.params
+                )
             case "qsvr":
-                self.model = QSVR(kernel=self.kernel, n_jobs=self.n_jobs, **self.config.model.params)
+                self.model = QSVR(
+                    kernel=self.kernel, n_jobs=self.n_jobs, show_progress=self.show_progress, **self.config.model.params
+                )
             case "qrigge":
-                self.model = QRiggeRegressor(kernel=self.kernel, n_jobs=self.n_jobs, **self.config.model.params)
+                self.model = QRiggeRegressor(
+                    kernel=self.kernel, n_jobs=self.n_jobs, show_progress=self.show_progress, **self.config.model.params
+                )
             case _:
                 raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
 

@@ -87,15 +87,18 @@ class BaseKernelModel(BaseMLModel):
     The user can use any Feature Map or Kernel to be used, as long as it follows the interface of the BaseKernel class.
     """
 
-    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS) -> None:
+    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, show_progress: bool = True) -> None:
         """Initialize the kernel model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
+            n_jobs (int): number of parallel jobs. Defaults to DEFAULT_N_JOBS.
+            show_progress (bool): flag for showing progress bar. Defaults to True.
         """
         super().__init__()
         self.kernel = kernel
         self.n_jobs = n_jobs
+        self.show_progress = show_progress
 
     def get_feature_map(self) -> BaseFeatureMap:
         """Get the feature map of the model.
@@ -125,6 +128,7 @@ class BaseKernelModel(BaseMLModel):
             x_array_2,
             return_shots_resutls=False,
             n_jobs=self.n_jobs,
+            show_progress=self.show_progress,
         )
 
         return kernel_matrix
@@ -141,7 +145,7 @@ class BaseKernelModel(BaseMLModel):
             x_array_1 (np.ndarray): array of samples (ex: training data)
             x_array_2 (np.ndarray): array of samples (ex: test data)
         """
-        self.kernel.plot_matrix(x_array_1, x_array_2, n_jobs=self.n_jobs)
+        self.kernel.plot_matrix(x_array_1, x_array_2, n_jobs=self.n_jobs, show_progress=self.show_progress)
 
     def plot_train_test_kernel_matrix(
         self,
@@ -155,4 +159,4 @@ class BaseKernelModel(BaseMLModel):
             x_train (np.ndarray): array of training samples
             x_test (np.ndarray): array of testing samples
         """
-        self.kernel.plot_train_test_matrix(x_train, x_test, n_jobs=self.n_jobs)
+        self.kernel.plot_train_test_matrix(x_train, x_test, n_jobs=self.n_jobs, show_progress=self.show_progress)

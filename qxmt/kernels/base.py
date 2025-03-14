@@ -89,7 +89,7 @@ class BaseKernel(ABC):
 
     @abstractmethod
     def _compute_matrix_by_state_vector(
-        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = ""
+        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = "", show_progress: bool = True
     ) -> np.ndarray:
         """Compute kernel value between two samples.
 
@@ -97,6 +97,7 @@ class BaseKernel(ABC):
             x1_array (np.ndarray): array of all sample
             x2_array (np.ndarray): array of all sample
             bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
+            show_progress (bool, optional): whether to show progress bar. Defaults to True.
 
         Returns:
             np.ndarray: kernel value and probability distribution
@@ -117,7 +118,7 @@ class BaseKernel(ABC):
         pass
 
     def _compute_entry_by_simulator(
-        self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: mp.Queue
+        self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: Optional[mp.Queue]
     ) -> tuple[int, int, tuple[float, np.ndarray] | Exception]:
         """Compute each entry of the kernel matrix.
         This method is used for parallel computation of the kernel matrix.
@@ -128,7 +129,7 @@ class BaseKernel(ABC):
             j (int): column index of kernel matrix
             x_array_1 (np.ndarray): input array 1 that index i for kernel computation
             x_array_2 (np.ndarray): input array 2 that index j for kernel computation
-            progress_queue (mp.Queue): queue for tracking the progress
+            progress_queue (Optional[mp.Queue]): progress queue for tracking the progress
 
         Returns:
             tuple[int, int, tuple[float, np.ndarray] | Exception]:
@@ -139,10 +140,12 @@ class BaseKernel(ABC):
         """
         try:
             result = self._compute_by_sampling(x_array_1, x_array_2)
-            progress_queue.put(1)
+            if progress_queue is not None:
+                progress_queue.put(1)
             return i, j, result
         except Exception as e:
-            progress_queue.put(1)
+            if progress_queue is not None:
+                progress_queue.put(1)
             return i, j, e
 
     def _compute_matrix_by_simulator(
@@ -152,6 +155,7 @@ class BaseKernel(ABC):
         return_shots_resutls: bool,
         n_jobs: int = DEFAULT_N_JOBS,
         bar_label: str = "",
+        show_progress: bool = True,
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
         """Default implementation of kernel matrix computation.
         Due to the parallel computation, raise an error is delayed until the end of the computation.
@@ -162,6 +166,7 @@ class BaseKernel(ABC):
             return_shots_resutls (bool): return the shot results.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
             bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
+            show_progress (bool, optional): whether to show progress bar. Defaults to True.
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -176,32 +181,41 @@ class BaseKernel(ABC):
 
         # parallel computation for each entry of the kernel matrix
         tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
-        with mp.Manager() as manager:
-            progress_queue = manager.Queue()
-            with Progress() as progress:
-                bar_label = f" ({bar_label})" if bar_label else ""
-                task_progress = progress.add_task(f"Computing Kernel Matrix{bar_label}", total=len(tasks))
 
-                with mp.Pool(processes=n_jobs) as pool:
-                    results = pool.starmap_async(
-                        self._compute_entry_by_simulator,
-                        [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
-                    )
+        if show_progress:
+            with mp.Manager() as manager:
+                progress_queue = manager.Queue()
+                with Progress() as progress:
+                    bar_label = f" ({bar_label})" if bar_label else ""
+                    task_progress = progress.add_task(f"Computing Kernel Matrix{bar_label}", total=len(tasks))
 
-                    # track progress
-                    completed = 0
-                    while not progress.finished:
-                        progress_queue.get()
-                        completed += 1
-                        progress.update(task_progress, completed=completed)
+                    with mp.Pool(processes=n_jobs) as pool:
+                        results = pool.starmap_async(
+                            self._compute_entry_by_simulator,
+                            [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
+                        )
 
-                    # get all process results
-                    results.wait()
-                    final_results = results.get()
+                        # track progress
+                        completed = 0
+                        while not progress.finished:
+                            progress_queue.get()
+                            completed += 1
+                            progress.update(task_progress, completed=completed)
 
-                    # finalize progress bar
-                    progress.update(task_progress, completed=len(tasks))
-                    progress.refresh()
+                        # get all process results
+                        results.wait()
+                        final_results = results.get()
+
+                        # finalize progress bar
+                        progress.update(task_progress, completed=len(tasks))
+                        progress.refresh()
+        else:
+            with mp.Pool(processes=n_jobs) as pool:
+                results = pool.starmap(
+                    self._compute_entry_by_simulator,
+                    [(i, j, x_array_1, x_array_2, None) for (i, j, x_array_1, x_array_2) in tasks],
+                )
+                final_results = results
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:
@@ -288,6 +302,7 @@ class BaseKernel(ABC):
         return_shots_resutls: bool = False,
         n_jobs: int = DEFAULT_N_JOBS,
         bar_label: str = "",
+        show_progress: bool = True,
     ) -> tuple[np.ndarray, Optional[np.ndarray]]:
         """Compute the kernel matrix for given samples.
         The kernel matrix is computed by simulator or IBM Quantum real device.
@@ -299,15 +314,18 @@ class BaseKernel(ABC):
             n_jobs (int, optional): parallel computation for each entry of the kernel matrix.
                 This value only valid for simulator mode. Defaults to DEFAULT_N_JOBS.
             bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
+            show_progress (bool, optional): whether to show progress bar. Defaults to True.
 
         Returns:
             tuple[np.ndarray, Optional[np.ndarray]]: computed kernel matrix and shot results
         """
         if self.device.is_simulator() and not self.is_sampling:
-            kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2, bar_label=bar_label)
+            kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2, bar_label, show_progress)
             return kernel_matrix, None
         elif self.device.is_simulator():
-            return self._compute_matrix_by_simulator(x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label)
+            return self._compute_matrix_by_simulator(
+                x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label, show_progress
+            )
         else:
             return self._compute_matrix_by_ibmq(x_array_1, x_array_2, return_shots_resutls)
 
@@ -353,6 +371,7 @@ class BaseKernel(ABC):
         x_array_2: np.ndarray,
         save_path: Optional[str | Path] = None,
         n_jobs: int = DEFAULT_N_JOBS,
+        show_progress: bool = True,
     ) -> None:
         """Plot kernel matrix for given samples.
         Caluculation of kernel values is performed in parallel.
@@ -362,9 +381,12 @@ class BaseKernel(ABC):
             x_array_2 (np.ndarray): array of samples (ex: test data)
             save_path (Optional[str | Path], optional): save path for the plot. Defaults to None.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
+            show_progress (bool, optional): whether to show progress bar. Defaults to True.
         """
 
-        kernel_matrix, _ = self.compute_matrix(x_array_1, x_array_2, return_shots_resutls=False, n_jobs=n_jobs)
+        kernel_matrix, _ = self.compute_matrix(
+            x_array_1, x_array_2, return_shots_resutls=False, n_jobs=n_jobs, show_progress=show_progress
+        )
         plt.imshow(np.asmatrix(kernel_matrix), interpolation="nearest", origin="upper", cmap="viridis")
         plt.colorbar()
         plt.title("Kernel matrix")
@@ -379,6 +401,7 @@ class BaseKernel(ABC):
         x_test: np.ndarray,
         save_path: Optional[str | Path] = None,
         n_jobs: int = DEFAULT_N_JOBS,
+        show_progress: bool = True,
     ) -> None:
         """Plot kernel matrix for training and testing data.
         Caluculation of kernel values is performed in parallel.
@@ -388,12 +411,13 @@ class BaseKernel(ABC):
             x_test (np.ndarray): array of testing samples
             save_path (Optional[str | Path], optional): save path for the plot. Defaults to None.
             n_jobs (int, optional): number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.
+            show_progress (bool, optional): whether to show progress bar. Defaults to True.
         """
         train_kernel, _ = self.compute_matrix(
-            x_train, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Train"
+            x_train, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Train", show_progress=show_progress
         )
         test_kernel, _ = self.compute_matrix(
-            x_test, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Test"
+            x_test, x_train, return_shots_resutls=False, n_jobs=n_jobs, bar_label="Test", show_progress=show_progress
         )
 
         fig, axs = plt.subplots(1, 2, figsize=(10, 5))

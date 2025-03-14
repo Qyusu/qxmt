@@ -25,7 +25,9 @@ class TestKernel(BaseKernel):
     def __init__(self, device: BaseDevice, feature_map: Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
 
-    def _compute_matrix_by_state_vector(self, x1: np.ndarray, x2: np.ndarray, bar_label: str = "") -> np.ndarray:
+    def _compute_matrix_by_state_vector(
+        self, x1: np.ndarray, x2: np.ndarray, bar_label: str = "", show_progress: bool = True
+    ) -> np.ndarray:
         kernel_value = np.dot(x1, x2.T)
         return kernel_value
 
