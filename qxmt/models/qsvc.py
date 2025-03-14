@@ -40,14 +40,16 @@ class QSVC(BaseKernelModel):
         np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
     """
 
-    def __init__(self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, **kwargs: Any) -> None:
+    def __init__(
+        self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, show_progress: bool = True, **kwargs: Any
+    ) -> None:
         """Initialize the QSVC model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
             n_jobs (int): number of jobs for parallel computation
         """
-        super().__init__(kernel, n_jobs)
+        super().__init__(kernel, n_jobs, show_progress)
         self.fit_X: Optional[np.ndarray] = None
         self.model = SVC(kernel="precomputed", **kwargs)
 
@@ -74,7 +76,9 @@ class QSVC(BaseKernelModel):
         Returns:
             np.ndarray: numpy array of scores
         """
-        kernel_X, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
+        kernel_X, _ = self.kernel.compute_matrix(
+            X, X, return_shots_resutls=False, n_jobs=self.n_jobs, show_progress=self.show_progress
+        )
         scores = cross_val_score(estimator=self.model, X=kernel_X, y=y, n_jobs=self.n_jobs, **kwargs)
 
         return scores
@@ -107,7 +111,9 @@ class QSVC(BaseKernelModel):
             dict[str, Any]: best hyperparameters
         """
         search_model = copy.deepcopy(self.model)
-        X_kernel, _ = self.kernel.compute_matrix(X, X, return_shots_resutls=False, n_jobs=self.n_jobs)
+        X_kernel, _ = self.kernel.compute_matrix(
+            X, X, return_shots_resutls=False, n_jobs=self.n_jobs, show_progress=self.show_progress
+        )
 
         if "scoring" not in search_args.keys():
             search_args["scoring"] = "accuracy"
@@ -146,13 +152,23 @@ class QSVC(BaseKernelModel):
         self.fit_X = X
         if save_shots_path is not None:
             kernel_train_X, shots_matrix = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=True, n_jobs=self.n_jobs, bar_label="Train"
+                self.fit_X,
+                self.fit_X,
+                return_shots_resutls=True,
+                n_jobs=self.n_jobs,
+                bar_label="Train",
+                show_progress=self.show_progress,
             )
             if shots_matrix is not None:
                 self.kernel.save_shots_results(shots_matrix, save_shots_path)
         else:
             kernel_train_X, _ = self.kernel.compute_matrix(
-                self.fit_X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label="Train"
+                self.fit_X,
+                self.fit_X,
+                return_shots_resutls=False,
+                n_jobs=self.n_jobs,
+                bar_label="Train",
+                show_progress=self.show_progress,
             )
         self.model.fit(kernel_train_X, y, **kwargs)
 
@@ -170,16 +186,22 @@ class QSVC(BaseKernelModel):
             raise ValueError("The model is not trained yet.")
         else:
             kernel_pred_X, _ = self.kernel.compute_matrix(
-                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, bar_label=bar_label
+                X,
+                self.fit_X,
+                return_shots_resutls=False,
+                n_jobs=self.n_jobs,
+                bar_label=bar_label,
+                show_progress=self.show_progress,
             )
         return self.model.predict(kernel_pred_X)
 
-    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+    def predict_proba(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
         """Predict the probability of target value with given features.
         This method is only available for SVC with probability=True.
 
         Args:
             X (np.ndarray): numpy array of features
+            bar_label (str): label for progress bar. Defaults to "".
 
         Returns:
             np.ndarray: numpy array of predicted probabilities
@@ -187,7 +209,14 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs)
+            kernel_pred_X, _ = self.kernel.compute_matrix(
+                X,
+                self.fit_X,
+                return_shots_resutls=False,
+                n_jobs=self.n_jobs,
+                bar_label=bar_label,
+                show_progress=self.show_progress,
+            )
         return self.model.predict_proba(kernel_pred_X)
 
     def decision_function(self, X: np.ndarray) -> np.ndarray:
@@ -202,7 +231,9 @@ class QSVC(BaseKernelModel):
         if self.fit_X is None:
             raise ValueError("The model is not trained yet.")
         else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs)
+            kernel_pred_X, _ = self.kernel.compute_matrix(
+                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, show_progress=self.show_progress
+            )
         return self.model.decision_function(kernel_pred_X)
 
     def save(self, path: str | Path) -> None:

@@ -22,5 +22,5 @@ class AmazonBackendType(Enum):
     iqm_garnet = Devices.IQM.Garnet
     quera = Devices.QuEra.Aquila  # default QuEra device
     quera_aquila = Devices.QuEra.Aquila
-    rigetti = Devices.Rigetti.Ankaa2  # default Rigetti device
-    rigetti_ankaa2 = Devices.Rigetti.Ankaa2
+    rigetti = Devices.Rigetti.Ankaa3  # default Rigetti device
+    rigetti_ankaa3 = Devices.Rigetti.Ankaa3

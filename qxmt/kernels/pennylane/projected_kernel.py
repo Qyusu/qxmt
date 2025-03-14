@@ -134,7 +134,7 @@ class ProjectedKernel(BaseKernel):
             return qml.state()
 
     def _compute_matrix_by_state_vector(
-        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = ""
+        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = "", show_progress: bool = True
     ) -> np.ndarray:
         """Compute the kernel matrix based on the state vector.
         This method is only available in the non-sampling mode.
@@ -144,6 +144,7 @@ class ProjectedKernel(BaseKernel):
             x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
             x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
             bar_label (str): label for progress bar
+            show_progress (bool): flag for showing progress bar
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -166,7 +167,13 @@ class ProjectedKernel(BaseKernel):
                     state_memory_2[i] = state_memory_1[i]
 
         kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
-        for i in track(range(len(x1_array)), description=f"Computing Kernel Matrix{bar_label}"):
+
+        if show_progress:
+            iterator = track(range(len(x1_array)), description=f"Computing Kernel Matrix{bar_label}")
+        else:
+            iterator = range(len(x1_array))
+
+        for i in iterator:
             for j, x2 in enumerate(x2_array):
                 if j not in state_memory_2:
                     x2_state = self.qnode(x2)
