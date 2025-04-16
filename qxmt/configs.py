@@ -16,12 +16,12 @@ from qxmt.constants import PROJECT_ROOT_DIR
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
-    model_type: Literal["kernel", "vqe"]
+    model_type: Literal["qkernel", "vqe"]
     task_type: Literal["classification", "regression"]
 
     @model_validator(mode="after")
     def check_task_type_for_kernel(self) -> Any:
-        if self.model_type == "kernel" and self.task_type is None:
+        if self.model_type == "qkernel" and self.task_type is None:
             raise ValueError("task_type must be specified when model_type is 'kernel'")
         return self
 
