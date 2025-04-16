@@ -476,16 +476,7 @@ document.write(`
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.builder.</span></span><span class="sig-name descname"><span class="pre">ModelBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Builder class for quantum machine learning models.
-This class is responsible for building quantum machine learning models.
-Absorb differences among various platforms, Feature Maps, and Kernels,
-and build models that can be handled as a common interface within the library.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentConfig</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.models.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelBuilder</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">ExperimentConfig</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="s2">&quot;configs/my_run.yaml&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">model</span> <span class="o">=</span> <span class="n">ModelBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
-</pre></div>
-</div>
+This class is responsible for building quantum machine learning models.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -497,35 +488,8 @@ and build models that can be handled as a common interface within the library.</
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the model builder.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a>) – Configuration for the experiment.</p></li>
-<li><p><strong>n_jobs</strong> (<em>int</em>) – number of jobs for parallel computation</p></li>
-<li><p><strong>show_progress</strong> (<em>bool</em>) – flag for showing progress bar</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><dl class="simple">
-<dt>Build quantum model by following steps:</dt><dd><ol class="arabic simple">
-<li><p>Set quantum device</p></li>
-<li><p>Set quantum feature map</p></li>
-<li><p>Set quantum kernel</p></li>
-<li><p>Set quantum model</p></li>
-</ol>
-</dd>
-</dl>
-<dl class="field-list simple">
+<dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><em>BaseMLModel</em></p>
 </dd>

@@ -868,7 +868,7 @@ document.write(`
 <span class="sig-name descname"><span class="pre">check_save_shots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.DeviceConfig.check_save_shots" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Any</em></p>
+<dd class="field-odd"><p><em>Self</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1180,14 +1180,14 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
 <li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'kernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1219,7 +1219,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1378,7 +1378,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.SplitConfig.check_ratio" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Any</em></p>
+<dd class="field-odd"><p><em>Self</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1656,7 +1656,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_save_shots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.DeviceConfig.check_save_shots" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Any</em></p>
+<dd class="field-odd"><p><em>Self</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2263,14 +2263,14 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
 <li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'kernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -2302,7 +2302,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2458,7 +2458,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.SplitConfig.check_ratio" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><em>Any</em></p>
+<dd class="field-odd"><p><em>Self</em></p>
 </dd>
 </dl>
 </dd></dl>
