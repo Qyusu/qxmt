@@ -4,8 +4,6 @@ from typing import Any, Optional
 import matplotlib.pyplot as plt
 import numpy as np
 
-from qxmt.datasets.schema import Dataset
-
 
 def plot_residual(
     y_true: np.ndarray,

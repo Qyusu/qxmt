@@ -4,7 +4,7 @@ from typing import Callable
 import numpy as np
 from pytest_mock import MockFixture
 
-from qxmt.models import QRiggeRegressor
+from qxmt.models.qkernels import QRiggeRegressor
 
 KernelRigge_PARAMS = [
     "alpha",

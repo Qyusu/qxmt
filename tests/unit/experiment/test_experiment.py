@@ -18,7 +18,7 @@ from qxmt.exceptions import (
     ExperimentSettingError,
     ReproductionError,
 )
-from qxmt.models import BaseMLModel
+from qxmt.models.qkernels import BaseMLModel
 from qxmt.utils import save_experiment_config_to_yaml
 
 
@@ -281,7 +281,7 @@ class TestExperimentRun:
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
-        mocker.patch("qxmt.models.ModelBuilder.build", return_value=state_vec_model)
+        mocker.patch("qxmt.models.qkernels.KernelModelBuilder.build", return_value=state_vec_model)
 
         # initialization error check
         assert base_experiment.current_run_id == 0
@@ -319,7 +319,7 @@ class TestExperimentRun:
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
-        mocker.patch("qxmt.models.ModelBuilder.build", return_value=shots_model)
+        mocker.patch("qxmt.models.qkernels.KernelModelBuilder.build", return_value=shots_model)
 
         # initialization error check
         assert base_experiment.current_run_id == 0

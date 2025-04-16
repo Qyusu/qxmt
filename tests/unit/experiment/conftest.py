@@ -9,7 +9,7 @@ from qxmt import DatasetConfig, Experiment, GenerateDataConfig, SplitConfig
 from qxmt.datasets import Dataset
 from qxmt.devices import BaseDevice
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVC, BaseMLModel
+from qxmt.models.qkernels import QSVC, BaseMLModel
 
 DEVICE_STATEVC = BaseDevice(
     platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None

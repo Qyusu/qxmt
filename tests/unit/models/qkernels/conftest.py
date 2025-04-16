@@ -6,7 +6,7 @@ import pytest
 
 from qxmt.devices.base import BaseDevice
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVC, QSVR, QRiggeRegressor
+from qxmt.models.qkernels import QSVC, QSVR, QRiggeRegressor
 
 # [TODO]: add test for state vector device
 DEVICE = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=1024)

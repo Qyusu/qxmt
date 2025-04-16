@@ -40,8 +40,8 @@ from qxmt.experiment.schema import (
     RunTime,
 )
 from qxmt.logger import set_default_logger
-from qxmt.models.base import BaseKernelModel, BaseMLModel
 from qxmt.models.builder import ModelBuilder
+from qxmt.models.qkernels.base import BaseKernelModel, BaseMLModel
 from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
