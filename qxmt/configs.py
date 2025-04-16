@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Literal, Optional
+from typing import Any, Literal, Optional, Self
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -10,6 +10,7 @@ from qxmt.constants import PROJECT_ROOT_DIR
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
+    model_type: Literal["qkernel"]
     task_type: Literal["classification", "regression"]
 
 
@@ -57,7 +58,7 @@ class SplitConfig(BaseModel):
     shuffle: bool = Field(default=True)
 
     @model_validator(mode="after")
-    def check_ratio(self) -> "SplitConfig":
+    def check_ratio(self) -> Self:
         ratios = [self.train_ratio, self.validation_ratio, self.test_ratio]
         if sum(ratios) != 1:
             raise ValueError("The sum of the ratios must be 1.")
@@ -95,7 +96,7 @@ class DeviceConfig(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def check_save_shots(self) -> "DeviceConfig":
+    def check_save_shots(self) -> Self:
         if (self.shots is None) and (self.save_shots_results):
             raise ValueError('The "shots" must be set to save the shot results.')
         return self
