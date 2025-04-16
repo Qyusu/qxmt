@@ -10,7 +10,14 @@ from qxmt.constants import PROJECT_ROOT_DIR
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
-    task_type: Literal["classification", "regression"]
+    model_type: Literal["kernel", "vqe"]
+    task_type: Optional[Literal["classification", "regression"]] = None
+
+    @model_validator(mode="after")
+    def check_task_type_for_kernel(self) -> Any:
+        if self.model_type == "kernel" and self.task_type is None:
+            raise ValueError("task_type must be specified when model_type is 'kernel'")
+        return self
 
 
 class OpenMLConfig(BaseModel):
@@ -57,11 +64,10 @@ class SplitConfig(BaseModel):
     shuffle: bool = Field(default=True)
 
     @model_validator(mode="after")
-    def check_ratio(self) -> "SplitConfig":
+    def check_ratio(self) -> Any:
         ratios = [self.train_ratio, self.validation_ratio, self.test_ratio]
         if sum(ratios) != 1:
             raise ValueError("The sum of the ratios must be 1.")
-
         return self
 
 
@@ -95,7 +101,7 @@ class DeviceConfig(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def check_save_shots(self) -> "DeviceConfig":
+    def check_save_shots(self) -> Any:
         if (self.shots is None) and (self.save_shots_results):
             raise ValueError('The "shots" must be set to save the shot results.')
         return self
