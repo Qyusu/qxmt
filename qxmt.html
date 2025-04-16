@@ -499,7 +499,9 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.check_task_type_for_kernel"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.check_task_type_for_kernel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
@@ -653,7 +655,9 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.check_task_type_for_kernel"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.check_task_type_for_kernel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
@@ -864,7 +868,7 @@ document.write(`
 <span class="sig-name descname"><span class="pre">check_save_shots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.DeviceConfig.check_save_shots" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a></p>
+<dd class="field-odd"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1176,21 +1180,37 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
+<li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'kernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.check_task_type_for_kernel">
+<span class="sig-name descname"><span class="pre">check_task_type_for_kernel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.check_task_type_for_kernel" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Any</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.model_config">
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.model_config" title="Link to this definition">#</a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.model_type">
+<span class="sig-name descname"><span class="pre">model_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kernel'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vqe'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.model_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.random_seed">
@@ -1199,7 +1219,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1358,7 +1378,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.SplitConfig.check_ratio" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.SplitConfig" title="qxmt.configs.SplitConfig"><em>SplitConfig</em></a></p>
+<dd class="field-odd"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1636,7 +1656,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_save_shots</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.DeviceConfig.check_save_shots" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a></p>
+<dd class="field-odd"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2243,21 +2263,37 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
+<li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'kernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.check_task_type_for_kernel">
+<span class="sig-name descname"><span class="pre">check_task_type_for_kernel</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig.check_task_type_for_kernel" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>Any</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.model_config">
 <span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.model_config" title="Link to this definition">#</a></dt>
 <dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
 </dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.model_type">
+<span class="sig-name descname"><span class="pre">model_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'kernel'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'vqe'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.model_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.random_seed">
@@ -2266,7 +2302,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2422,7 +2458,7 @@ This is useful if you want to do some validation that requires the entire model 
 <span class="sig-name descname"><span class="pre">check_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.SplitConfig.check_ratio" title="Link to this definition">#</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="#qxmt.configs.SplitConfig" title="qxmt.configs.SplitConfig"><em>SplitConfig</em></a></p>
+<dd class="field-odd"><p><em>Any</em></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2573,7 +2609,9 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.check_task_type_for_kernel"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.check_task_type_for_kernel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.model_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
@@ -2727,7 +2765,9 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.check_task_type_for_kernel"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.check_task_type_for_kernel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_config"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.model_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.model_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.random_seed"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.random_seed</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
