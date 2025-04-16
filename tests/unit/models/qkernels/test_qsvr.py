@@ -4,7 +4,7 @@ from typing import Callable
 import numpy as np
 import pytest
 
-from qxmt.models import QSVR
+from qxmt.models.qkernels import QSVR
 
 SVR_PARAMS = [
     "kernel",

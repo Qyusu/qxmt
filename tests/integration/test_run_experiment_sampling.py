@@ -10,7 +10,7 @@ import qxmt
 from qxmt.configs import ExperimentConfig
 from qxmt.datasets import Dataset
 from qxmt.experiment import RunArtifact, RunRecord
-from qxmt.models import BaseMLModel
+from qxmt.models.qkernels import BaseMLModel
 
 
 class TestRunExperiment:
