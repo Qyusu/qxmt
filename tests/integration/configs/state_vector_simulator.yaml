@@ -2,6 +2,7 @@ description: "This is an integration test for running an experiment by the state
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "classification"
 
 dataset:

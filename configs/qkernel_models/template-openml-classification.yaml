@@ -2,14 +2,15 @@ description: "This is a template configuration file for the QXMT framework."
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "classification"
 
 dataset:
-  file:
-    # full path or relative path from the root of the project
-    data_path: "data/openml/mnist_784/dataset_X.npy"
-    label_path: "data/openml/mnist_784/dataset_y.npy"
-    label_name: null
+  openml:
+    name: "mnist_784"
+    id: 554
+    return_format: "numpy"
+    save_path: "data/openml/mnist_784/dataset.npy"
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -44,14 +45,16 @@ feature_map:
 
 kernel:
   module_name: "qxmt.kernels.pennylane"
-  implement_name: "FidelityKernel"
-  params: {}
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "z"
 
 model:
   name: "qsvc"
   params:
     C: 1.0
-    gamma:  "scale"
+    gamma: "scale"
 
 evaluation:
   default_metrics:

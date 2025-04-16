@@ -2,14 +2,15 @@ description: "This is a template configuration file for the QXMT framework."
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "regression"
 
 dataset:
-  openml:
-    name: "california_housing"
-    id: 43939
-    return_format: "numpy"
-    save_path: "data/openml/california_housing/dataset.npz"
+  file:
+    # full path or relative path from the root of the project
+    data_path: "data/openml/california_housing/dataset.npz"
+    label_path: null
+    label_name: null
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -50,10 +51,9 @@ kernel:
     projection: "z"
 
 model:
-  name: "qsvr"
+  name: "qrigge"
   params:
-    C: 1.0
-    gamma: "scale"
+    alpha: 0.1
 
 evaluation:
   default_metrics:

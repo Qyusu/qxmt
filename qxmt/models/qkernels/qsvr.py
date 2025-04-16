@@ -5,22 +5,22 @@ from typing import Any, Callable, Optional
 import dill
 import numpy as np
 from sklearn.model_selection import cross_val_score
-from sklearn.svm import SVC
+from sklearn.svm import SVR
 
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels.base import BaseKernel
-from qxmt.models.base import BaseKernelModel
 from qxmt.models.hyperparameter_search.search import HyperParameterSearch
+from qxmt.models.qkernels.base import BaseKernelModel
 
 
-class QSVC(BaseKernelModel):
-    """Quantum Support Vector Classification (QSVC) model.
-    This class wraps the sklearn.svm.SVC class to provide a QSVC model.
-    Then, many methods use the same interface as the sklearn.svm.SVC class.
-    References: https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html
+class QSVR(BaseKernelModel):
+    """Quantum Support Vector Regression (QSVR) model.
+    This class wraps the sklearn.svm.SVR class to provide a QSVR model.
+    Then, many methods use the same interface as the sklearn.svm.SVR class.
+    References: https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVR.html
 
     Examples:
-        >>> from qxmt.models.qsvc import QSVC
+        >>> from qxmt.models.qsvc import QSVR
         >>> from qxmt.kernels.pennylane import FidelityKernel
         >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig
@@ -34,24 +34,25 @@ class QSVC(BaseKernelModel):
         >>> device = DeviceBuilder(config).build()
         >>> feature_map = ZZFeatureMap(2, 2)
         >>> kernel = FidelityKernel(device, feature_map)
-        >>> model = QSVC(kernel=kernel)
+        >>> model = QSVR(kernel=kernel)
         >>> model.fit(X_train, y_train)
         >>> model.predict(X_test)
-        np.array([0, 1, 0, 1, 0, 1, 0, 1, 0, 1])
+        np.array([-0.5441202 , -0.19483975, -0.19773099, -0.24928479,  0.12222858])
     """
 
     def __init__(
         self, kernel: BaseKernel, n_jobs: int = DEFAULT_N_JOBS, show_progress: bool = True, **kwargs: Any
     ) -> None:
-        """Initialize the QSVC model.
+        """Initialize the QSVR model.
 
         Args:
             kernel (BaseKernel): kernel instance of BaseKernel class
             n_jobs (int): number of jobs for parallel computation
+            show_progress (bool): flag for showing progress bar
         """
         super().__init__(kernel, n_jobs, show_progress)
         self.fit_X: Optional[np.ndarray] = None
-        self.model = SVC(kernel="precomputed", **kwargs)
+        self.model = SVR(kernel="precomputed", **kwargs)
 
     def __getattr__(self, name: str) -> Any:
         # if the attribute is in the model, return it
@@ -66,8 +67,8 @@ class QSVC(BaseKernelModel):
         y: np.ndarray,
         **kwargs: Any,
     ) -> np.ndarray:
-        """Cross validation score of the QSVC model.
-        Default to use the Accuracy score.
+        """Cross validation score of the QSVR model.
+        Default to use the R^2 score.
 
         Args:
             X (np.ndarray): numpy array of features
@@ -93,7 +94,7 @@ class QSVC(BaseKernelModel):
         objective: Optional[Callable] = None,
         refit: bool = True,
     ) -> dict[str, Any]:
-        """Search the best hyperparameters for the QSVC model.
+        """Search the best hyperparameters for the QSVR model.
 
         Args:
             X (np.ndarray): dataset for search
@@ -116,7 +117,7 @@ class QSVC(BaseKernelModel):
         )
 
         if "scoring" not in search_args.keys():
-            search_args["scoring"] = "accuracy"
+            search_args["scoring"] = "r2"
 
         searcher = HyperParameterSearch(
             X=X_kernel,
@@ -177,7 +178,7 @@ class QSVC(BaseKernelModel):
 
         Args:
             X (np.ndarray): numpy array of features
-            bar_label (str): label for progress bar. Defaults to "".
+            bar_label (str): label for progress bar. Defaults to ""
 
         Returns:
             np.ndarray: numpy array of predicted values
@@ -195,47 +196,6 @@ class QSVC(BaseKernelModel):
             )
         return self.model.predict(kernel_pred_X)
 
-    def predict_proba(self, X: np.ndarray, bar_label: str = "") -> np.ndarray:
-        """Predict the probability of target value with given features.
-        This method is only available for SVC with probability=True.
-
-        Args:
-            X (np.ndarray): numpy array of features
-            bar_label (str): label for progress bar. Defaults to "".
-
-        Returns:
-            np.ndarray: numpy array of predicted probabilities
-        """
-        if self.fit_X is None:
-            raise ValueError("The model is not trained yet.")
-        else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(
-                X,
-                self.fit_X,
-                return_shots_resutls=False,
-                n_jobs=self.n_jobs,
-                bar_label=bar_label,
-                show_progress=self.show_progress,
-            )
-        return self.model.predict_proba(kernel_pred_X)
-
-    def decision_function(self, X: np.ndarray) -> np.ndarray:
-        """Predict the decision function value with given features.
-
-        Args:
-            X (np.ndarray): numpy array of features
-
-        Returns:
-            np.ndarray: numpy array of decision function values
-        """
-        if self.fit_X is None:
-            raise ValueError("The model is not trained yet.")
-        else:
-            kernel_pred_X, _ = self.kernel.compute_matrix(
-                X, self.fit_X, return_shots_resutls=False, n_jobs=self.n_jobs, show_progress=self.show_progress
-            )
-        return self.model.decision_function(kernel_pred_X)
-
     def save(self, path: str | Path) -> None:
         """Save the model to the given path.
 
@@ -246,14 +206,14 @@ class QSVC(BaseKernelModel):
         # AttributeError: Can't pickle local object 'BaseKernel._to_fm_instance.<locals>.CustomFeatureMap'
         dill.dump(self.model, open(path, "wb"))
 
-    def load(self, path: str | Path) -> "QSVC":
+    def load(self, path: str | Path) -> "QSVR":
         """Load the trained model from the given path.
 
         Args:
             path (str | Path): path to load the model
 
         Returns:
-            QSVC: loaded QSVC model
+            QSVR: loaded QSVC model
         """
         # [TODO] Use pickle of joblib
         return dill.load(open(path, "rb"))

@@ -4,7 +4,7 @@ from typing import Callable
 import numpy as np
 import pytest
 
-from qxmt.models import QSVC
+from qxmt.models.qkernels import QSVC
 
 SVC_PARAMS = [
     "kernel",

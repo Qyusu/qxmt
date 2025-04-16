@@ -1,5 +1,11 @@
+import sys
 from pathlib import Path
 from typing import Any, Literal, Optional
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -11,7 +17,7 @@ class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
     model_type: Literal["kernel", "vqe"]
-    task_type: Optional[Literal["classification", "regression"]] = None
+    task_type: Literal["classification", "regression"]
 
     @model_validator(mode="after")
     def check_task_type_for_kernel(self) -> Any:
@@ -64,7 +70,7 @@ class SplitConfig(BaseModel):
     shuffle: bool = Field(default=True)
 
     @model_validator(mode="after")
-    def check_ratio(self) -> Any:
+    def check_ratio(self) -> Self:
         ratios = [self.train_ratio, self.validation_ratio, self.test_ratio]
         if sum(ratios) != 1:
             raise ValueError("The sum of the ratios must be 1.")
@@ -101,7 +107,7 @@ class DeviceConfig(BaseModel):
         return value
 
     @model_validator(mode="after")
-    def check_save_shots(self) -> Any:
+    def check_save_shots(self) -> Self:
         if (self.shots is None) and (self.save_shots_results):
             raise ValueError('The "shots" must be set to save the shot results.')
         return self

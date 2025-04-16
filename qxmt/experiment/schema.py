@@ -4,7 +4,7 @@ from typing import Optional
 from pydantic import BaseModel, ConfigDict
 
 from qxmt.datasets.schema import Dataset
-from qxmt.models.base import BaseMLModel
+from qxmt.models.qkernels.base import BaseMLModel
 
 
 class RemoteMachine(BaseModel):
