@@ -2,11 +2,10 @@ import types
 
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_N_JOBS
-from qxmt.devices.base import BaseDevice
-from qxmt.devices.builder import DeviceBuilder
+from qxmt.devices import BaseDevice, DeviceBuilder
 from qxmt.exceptions import InvalidModelNameError
-from qxmt.feature_maps.base import BaseFeatureMap
-from qxmt.kernels.base import BaseKernel
+from qxmt.feature_maps import BaseFeatureMap
+from qxmt.kernels import BaseKernel
 from qxmt.models.qkernels.base import BaseMLModel
 from qxmt.models.qkernels.qrigge import QRiggeRegressor
 from qxmt.models.qkernels.qsvc import QSVC
@@ -86,7 +85,7 @@ class KernelModelBuilder:
             raise TypeError("Kernel must be a BaseKernel instance.")
 
     def _set_model(self) -> None:
-        """Set quantum model."""
+        """Set quantum kernel machine learning model."""
         match self.config.model.name:
             case "qsvc":
                 self.model = QSVC(

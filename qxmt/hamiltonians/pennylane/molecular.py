@@ -5,7 +5,7 @@ import pennylane as qml
 from pennylane.ops.op_math import Sum
 
 from qxmt.constants import PENNYLANE_PLATFORM
-from qxmt.hamiltonians.base import BaseHamiltonian
+from qxmt.hamiltonians import BaseHamiltonian
 
 
 class MolecularHamiltonian(BaseHamiltonian):
@@ -34,7 +34,7 @@ class MolecularHamiltonian(BaseHamiltonian):
     def __init__(
         self,
         symbols: list[str],
-        coordinates: np.ndarray,
+        coordinates: np.ndarray | list[float],
         charge: int = 0,
         multi: int = 1,
         basis_name: str = "sto-3g",
@@ -45,7 +45,7 @@ class MolecularHamiltonian(BaseHamiltonian):
     ) -> None:
         super().__init__(platform=PENNYLANE_PLATFORM)
         self.symbols: list[str] = symbols
-        self.coordinates: np.ndarray = coordinates
+        self.coordinates: np.ndarray = np.array(coordinates)
         self.charge: int = charge
         self.multi: int = multi
         self.basis_name: str = basis_name

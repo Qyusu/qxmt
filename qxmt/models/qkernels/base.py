@@ -5,8 +5,8 @@ from typing import Any
 import numpy as np
 
 from qxmt.constants import DEFAULT_N_JOBS
-from qxmt.feature_maps.base import BaseFeatureMap
-from qxmt.kernels.base import BaseKernel
+from qxmt.feature_maps import BaseFeatureMap
+from qxmt.kernels import BaseKernel
 
 
 class BaseMLModel(ABC):

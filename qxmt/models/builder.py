@@ -1,7 +1,6 @@
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_N_JOBS
-from qxmt.models.qkernels.base import BaseMLModel
-from qxmt.models.qkernels.builder import KernelModelBuilder
+from qxmt.models.qkernels import BaseMLModel, KernelModelBuilder
 
 
 class ModelBuilder:

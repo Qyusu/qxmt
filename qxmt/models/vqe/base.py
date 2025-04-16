@@ -6,9 +6,9 @@ import numpy as np
 import pennylane as qml
 from pennylane.workflow.qnode import QNode, SupportedDiffMethods
 
-from qxmt.ansatze.base import BaseAnsatz
-from qxmt.devices.base import BaseDevice
-from qxmt.hamiltonians.base import BaseHamiltonian
+from qxmt.ansatze import BaseAnsatz
+from qxmt.devices import BaseDevice
+from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)

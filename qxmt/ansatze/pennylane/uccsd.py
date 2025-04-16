@@ -3,7 +3,7 @@ from typing import cast
 import numpy as np
 import pennylane as qml
 
-from qxmt.ansatze.base import BaseVQEAnsatz
+from qxmt.ansatze import BaseVQEAnsatz
 from qxmt.devices.base import BaseDevice
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 

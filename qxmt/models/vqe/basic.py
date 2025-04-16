@@ -6,9 +6,9 @@ from pennylane.measurements import ExpectationMP
 from pennylane.ops.op_math import Sum
 from pennylane.workflow.qnode import SupportedDiffMethods
 
-from qxmt.ansatze.base import BaseAnsatz
-from qxmt.devices.base import BaseDevice
-from qxmt.hamiltonians.base import BaseHamiltonian
+from qxmt.ansatze import BaseAnsatz
+from qxmt.devices import BaseDevice
+from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
 from qxmt.models.vqe.base import BaseVQE
 

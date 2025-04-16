@@ -89,6 +89,14 @@ class DatasetConfig(BaseModel):
     transform_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
 
 
+class HamiltonianConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    module_name: str
+    implement_name: str
+    params: Optional[dict[str, Any]] = None
+
+
 class DeviceConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -129,13 +137,24 @@ class KernelConfig(BaseModel):
     params: Optional[dict[str, Any]] = None
 
 
+class AnsatzConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    module_name: str
+    implement_name: str
+    params: Optional[dict[str, Any]] = None
+
+
 class ModelConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     name: str
     params: dict[str, Any]
+    # Only need when model_type is "kernel"
     feature_map: Optional[FeatureMapConfig] = None
     kernel: Optional[KernelConfig] = None
+    # Only need when model_type is "vqe"
+    diff_method: Optional[str] = None
 
 
 class EvaluationConfig(BaseModel):
@@ -151,10 +170,12 @@ class ExperimentConfig(BaseModel):
     path: Path | str = ""
     description: str = ""
     global_settings: GlobalSettingsConfig
-    dataset: DatasetConfig
+    dataset: Optional[DatasetConfig] = None
+    hamiltonian: Optional[HamiltonianConfig] = None
     device: DeviceConfig
     feature_map: Optional[FeatureMapConfig] = None
     kernel: Optional[KernelConfig] = None
+    ansatz: Optional[AnsatzConfig] = None
     model: ModelConfig
     evaluation: EvaluationConfig
 
@@ -184,9 +205,11 @@ class ExperimentConfig(BaseModel):
             "description": config.get("description"),
             "global_settings": config.get("global_settings"),
             "dataset": config.get("dataset"),
+            "hamiltonian": config.get("hamiltonian"),
             "device": config.get("device"),
             "feature_map": config.get("feature_map"),
             "kernel": config.get("kernel"),
+            "ansatz": config.get("ansatz"),
             "model": config.get("model"),
             "evaluation": config.get("evaluation"),
         }
