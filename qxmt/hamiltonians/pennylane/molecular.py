@@ -18,8 +18,12 @@ class MolecularHamiltonian(BaseHamiltonian):
         symbols: List of atomic symbols (e.g., ['H', 'H'] for H2).
         coordinates: Array of atomic coordinates in Angstroms.
         charge: Total charge of the molecule. Defaults to 0.
+        multi: Multiplicity of the molecule. Defaults to 1.
+        basis_name: Basis set name. Only supported ["sto-3g", "6-31g", "6-311g", "cc-pvdz"]. Defaults to "sto-3g".
+        method: Method to use for the calculation. Only supported ["dhf", "pyscf", "openfermion"]. Defaults to "dhf".
         active_electrons: Number of active electrons. If None, uses all electrons.
         active_orbitals: Number of active orbitals. If None, uses all orbitals.
+        mapping: Mapping to use for the calculation. Defaults to "jordan_wigner".
 
     Attributes:
         hamiltonian: PennyLane Hamiltonian operator.
@@ -32,15 +36,23 @@ class MolecularHamiltonian(BaseHamiltonian):
         symbols: list[str],
         coordinates: np.ndarray,
         charge: int = 0,
+        multi: int = 1,
+        basis_name: str = "sto-3g",
+        method: str = "dhf",
         active_electrons: Optional[int] = None,
         active_orbitals: Optional[int] = None,
+        mapping: str = "jordan_wigner",
     ) -> None:
         super().__init__(platform=PENNYLANE_PLATFORM)
         self.symbols: list[str] = symbols
         self.coordinates: np.ndarray = coordinates
         self.charge: int = charge
+        self.multi: int = multi
+        self.basis_name: str = basis_name
+        self.method: str = method
         self.active_electrons: Optional[int] = active_electrons
         self.active_orbitals: Optional[int] = active_orbitals
+        self.mapping: str = mapping
         self.hamiltonian: Sum
         self.n_qubits: int
         self.molecule: qml.qchem.Molecule
@@ -54,9 +66,19 @@ class MolecularHamiltonian(BaseHamiltonian):
         2. Constructs the molecular Hamiltonian using PennyLane's quantum chemistry module
         3. Sets the number of qubits required for the simulation
         """
-        self.molecule = qml.qchem.Molecule(self.symbols, self.coordinates, charge=self.charge)
+        self.molecule = qml.qchem.Molecule(
+            self.symbols,
+            self.coordinates,
+            charge=self.charge,
+            mult=self.multi,
+            basis_name=self.basis_name,
+        )
         hamiltonian, n_qubits = qml.qchem.molecular_hamiltonian(
-            molecule=self.molecule, active_electrons=self.active_electrons, active_orbitals=self.active_orbitals
+            molecule=self.molecule,
+            method=self.method,
+            active_electrons=self.active_electrons,
+            active_orbitals=self.active_orbitals,
+            mapping=self.mapping,
         )
         self.hamiltonian = hamiltonian
         self.n_qubits = n_qubits
