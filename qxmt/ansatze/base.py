@@ -5,8 +5,8 @@ from typing import Any
 import matplotlib.pyplot as plt
 import numpy as np
 
-from qxmt.devices.base import BaseDevice
-from qxmt.hamiltonians.base import BaseHamiltonian
+from qxmt.devices import BaseDevice
+from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)

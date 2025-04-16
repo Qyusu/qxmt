@@ -2,8 +2,8 @@ from typing import Any, Optional
 
 from qxmt.ansatze import BaseAnsatz
 from qxmt.configs import AnsatzConfig
-from qxmt.devices.base import BaseDevice
-from qxmt.hamiltonians.base import BaseHamiltonian
+from qxmt.devices import BaseDevice
+from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.utils import load_object_from_yaml
 
 

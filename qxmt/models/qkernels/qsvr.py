@@ -10,7 +10,7 @@ from sklearn.svm import SVR
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels import BaseKernel
 from qxmt.models.hyperparameter_search import HyperParameterSearch
-from qxmt.models.qkernels.base import BaseKernelModel
+from qxmt.models.qkernels import BaseKernelModel
 
 
 class QSVR(BaseKernelModel):

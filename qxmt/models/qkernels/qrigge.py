@@ -10,7 +10,7 @@ from sklearn.model_selection import cross_val_score
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.kernels import BaseKernel
 from qxmt.models.hyperparameter_search import HyperParameterSearch
-from qxmt.models.qkernels.base import BaseKernelModel
+from qxmt.models.qkernels import BaseKernelModel
 
 
 class QRiggeRegressor(BaseKernelModel):

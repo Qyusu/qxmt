@@ -6,10 +6,7 @@ from qxmt.devices import BaseDevice, DeviceBuilder
 from qxmt.exceptions import InvalidModelNameError
 from qxmt.feature_maps import BaseFeatureMap
 from qxmt.kernels import BaseKernel
-from qxmt.models.qkernels.base import BaseMLModel
-from qxmt.models.qkernels.qrigge import QRiggeRegressor
-from qxmt.models.qkernels.qsvc import QSVC
-from qxmt.models.qkernels.qsvr import QSVR
+from qxmt.models.qkernels import QSVC, QSVR, BaseMLModel, QRiggeRegressor
 from qxmt.utils import load_object_from_yaml
 
 

@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-from qxmt.datasets.schema import Dataset
+from qxmt.datasets import Dataset
 
 DEFAULT_FEATURE_COLS = ["feature_1", "feature_2"]
 
