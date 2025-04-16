@@ -17,7 +17,7 @@ class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
     model_type: Literal["qkernel", "vqe"]
-    task_type: Literal["classification", "regression"]
+    task_type: Literal["classification", "regression"] | None = None
 
     @model_validator(mode="after")
     def check_task_type_for_kernel(self) -> Any:

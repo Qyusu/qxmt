@@ -299,7 +299,8 @@ class Experiment:
 
     def run_evaluation(
         self,
-        task_type: str,
+        model_type: str,
+        task_type: Optional[str],
         actual: np.ndarray,
         predicted: np.ndarray,
         default_metrics_name: Optional[list[str]],
@@ -308,6 +309,8 @@ class Experiment:
         """Run evaluation for the current run.
 
         Args:
+            model_type (str): type of the model (qkernel or vqe)
+            task_type (Optional[str]): type of the qkernel task (classification or regression)
             actual (np.ndarray): array of actual values
             predicted (np.ndarray): array of predicted values
             default_metrics_name (Optional[list[str]]): list of default metrics name
@@ -316,23 +319,24 @@ class Experiment:
         Returns:
             dict: evaluation result
         """
-        match task_type:
-            case "classification":
-                evaluation = ClassificationEvaluation(
-                    actual=actual,
-                    predicted=predicted,
-                    default_metrics_name=default_metrics_name,
-                    custom_metrics=custom_metrics,
-                )
-            case "regression":
-                evaluation = RegressionEvaluation(
-                    actual=actual,
-                    predicted=predicted,
-                    default_metrics_name=default_metrics_name,
-                    custom_metrics=custom_metrics,
-                )
-            case _:
-                raise ValueError(f"Invalid task_type: {task_type}")
+        if model_type == "qkernel" and task_type == "classification":
+            evaluation = ClassificationEvaluation(
+                actual=actual,
+                predicted=predicted,
+                default_metrics_name=default_metrics_name,
+                custom_metrics=custom_metrics,
+            )
+        elif model_type == "qkernel" and task_type == "regression":
+            evaluation = RegressionEvaluation(
+                actual=actual,
+                predicted=predicted,
+                default_metrics_name=default_metrics_name,
+                custom_metrics=custom_metrics,
+            )
+        elif model_type == "vqe":
+            pass
+        else:
+            raise ValueError(f"Invalid model_type: {model_type}, task_type: {task_type}")
 
         evaluation.evaluate()
 
@@ -371,6 +375,7 @@ class Experiment:
         save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
 
         artifact, record = self._run_from_instance(
+            model_type=config.global_settings.model_type,
             task_type=config.global_settings.task_type,
             dataset=dataset,
             model=model,
@@ -389,7 +394,8 @@ class Experiment:
 
     def _run_from_instance(
         self,
-        task_type: str,
+        model_type: str,
+        task_type: Optional[str],
         dataset: Dataset,
         model: BaseMLModel,
         save_shots_path: Optional[str | Path],
@@ -405,6 +411,7 @@ class Experiment:
         """Run the experiment from the dataset and model instance.
 
         Args:
+            model_type (str): type of the model (qkernel or vqe)
             task_type (str): type of the task (classification or regression)
             dataset (Dataset): dataset object
             model (BaseMLModel): model object
@@ -431,6 +438,7 @@ class Experiment:
             validation_end_dt = datetime.now(TZ)
             validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
             validation_evaluation = self.run_evaluation(
+                model_type=model_type,
                 task_type=task_type,
                 actual=dataset.y_val,
                 predicted=validation_predicted,
@@ -446,6 +454,7 @@ class Experiment:
         test_end_dt = datetime.now(TZ)
         test_seconds = (test_end_dt - test_start_dt).total_seconds()
         test_evaluation = self.run_evaluation(
+            model_type=model_type,
             task_type=task_type,
             actual=dataset.y_test,
             predicted=test_predicted,
@@ -511,6 +520,7 @@ class Experiment:
 
     def run(
         self,
+        model_type: Optional[str] = None,
         task_type: Optional[str] = None,
         dataset: Optional[Dataset] = None,
         model: Optional[BaseMLModel] = None,
@@ -537,7 +547,8 @@ class Experiment:
         It is more flexible but requires a config file.
 
         Args:
-            task_type (str, optional): type of the task (classification or regression). Defaults to None.
+            model_type (str, optional): type of the model (qkernel or vqe). Defaults to None.
+            task_type (str, optional): type of the qkernel task (classification or regression). Defaults to None.
             dataset (Dataset): the dataset object.
             model (BaseMLModel): the model object.
             config_source (ExperimentConfig, str | Path, optional): config source can be either an `ExperimentConfig`
@@ -584,14 +595,15 @@ class Experiment:
                     add_results=add_results,
                 )
             elif (dataset is not None) and (model is not None):
-                if task_type is None:
+                if model_type is None:
                     raise ExperimentRunSettingError(
                         """
-                        task_type must be provided when dataset and model are provided.
-                        Please provide task_type="classification" or "regression".
+                        model_type must be provided when dataset and model are provided.
+                        Please provide model_type="qkernel" or "vqe".
                         """
                     )
                 artifact, record = self._run_from_instance(
+                    model_type=model_type,
                     task_type=task_type,
                     dataset=dataset,
                     model=model,
