@@ -1,5 +1,11 @@
+import sys
 from pathlib import Path
-from typing import Any, Literal, Optional, Self
+from typing import Any, Literal, Optional
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
