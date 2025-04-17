@@ -155,6 +155,7 @@ class ModelConfig(BaseModel):
     kernel: Optional[KernelConfig] = None
     # Only need when model_type is "vqe"
     diff_method: Optional[str] = None
+    optimizer_settings: Optional[dict[str, Any]] = None
 
 
 class EvaluationConfig(BaseModel):

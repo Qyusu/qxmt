@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Any
+from typing import Any, Optional
 
 import numpy as np
 import pennylane as qml
@@ -12,6 +12,7 @@ from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
+DEFAULT_OPTIMIZER_STEPSIZE = 0.5
 
 
 class BaseVQE(ABC):
@@ -26,6 +27,7 @@ class BaseVQE(ABC):
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
+        optimizer_settings: Settings for the optimizer.
         logger: Logger object for output. Defaults to module-level logger.
 
     Attributes:
@@ -39,15 +41,18 @@ class BaseVQE(ABC):
         device: BaseDevice,
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
-        diff_method: SupportedDiffMethods = "adjoint",
+        diff_method: Optional[str] = "adjoint",
+        optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         self.device = device
         self.hamiltonian = hamiltonian
         self.ansatz = ansatz
-        self.diff_method: SupportedDiffMethods = diff_method
+        self.diff_method: Optional[str] = diff_method
+        self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.logger: Logger = logger
         self.qnode: QNode
+        self.optimizer: Any
         self.params_history: list[np.ndarray] = []
         self.cost_history: list[float] = []
         self._initialize_qnode()
@@ -89,6 +94,70 @@ class BaseVQE(ABC):
             during the optimization process.
         """
         pass
+
+    def _set_optimizer(self) -> None:
+        """Set the optimizer based on the optimizer settings.
+
+        This method sets the optimizer based on the optimizer settings.
+        If no optimizer settings are provided, it uses the default optimizer.
+        Otherwise, it uses the optimizer specified in the settings.
+        """
+        if self.optimizer_settings is None:
+            self.optimizer = qml.GradientDescentOptimizer(stepsize=DEFAULT_OPTIMIZER_STEPSIZE)
+            self.logger.info("No optimizer settings provided. Using gradient descent optimizer.")
+            return
+        else:
+            optimizer_name = self.optimizer_settings.get("name")
+            optimizer_params = self.optimizer_settings.get("params", {})
+
+        match optimizer_name:
+            case "AdagradOptimizer" | "Adagrad":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.AdagradOptimizer.html
+                self.optimizer = qml.AdagradOptimizer(**optimizer_params)
+            case "AdamOptimizer" | "Adam":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.AdamOptimizer.html
+                self.optimizer = qml.AdamOptimizer(**optimizer_params)
+            case "AdaptiveOptimizer" | "Adaptive":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.AdaptiveOptimizer.html
+                self.optimizer = qml.AdaptiveOptimizer(**optimizer_params)
+            case "GradientDescentOptimizer" | "GradientDescent":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.GradientDescentOptimizer.html
+                self.optimizer = qml.GradientDescentOptimizer(**optimizer_params)
+            case "MomentumOptimizer" | "Momentum":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumOptimizer.html
+                self.optimizer = qml.MomentumOptimizer(**optimizer_params)
+            case "MomentumQNGOptimizer" | "MomentumQNG":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumQNGOptimizer.html
+                self.optimizer = qml.MomentumQNGOptimizer(**optimizer_params)
+            case "NesterovMomentumOptimizer" | "NesterovMomentum":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.NesterovMomentumOptimizer.html
+                self.optimizer = qml.NesterovMomentumOptimizer(**optimizer_params)
+            case "QNGOptimizer" | "QNG":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.QNGOptimizer.html
+                self.optimizer = qml.QNGOptimizer(**optimizer_params)
+            case "QNSPSAOptimizer" | "QNSPSA":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.QNSPSAOptimizer.html
+                self.optimizer = qml.QNSPSOptimizer(**optimizer_params)
+            case "RMSPropOptimizer" | "RMSProp":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.RMSPropOptimizer.html
+                self.optimizer = qml.RMSPropOptimizer(**optimizer_params)
+            case "RiemannianGradientOptimizer" | "RiemannianGradient":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.RiemannianGradientOptimizer.html
+                self.optimizer = qml.RiemannianGradientOptimizer(**optimizer_params)
+            case "RotoselectOptimizer" | "Rotoselect":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.RotoselectOptimizer.html
+                self.optimizer = qml.RotoselectOptimizer(**optimizer_params)
+            case "RotosolveOptimizer" | "Rotosolve":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.RotosolveOptimizer.html
+                self.optimizer = qml.RotosolveOptimizer(**optimizer_params)
+            case "SPSAOptimizer" | "SPSA":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.SPSAOptimizer.html
+                self.optimizer = qml.SPSAOptimizer(**optimizer_params)
+            case "ShotAdaptiveOptimizer" | "ShotAdaptive":
+                # https://docs.pennylane.ai/en/stable/code/api/pennylane.ShotAdaptiveOptimizer.html
+                self.optimizer = qml.ShotAdaptiveOptimizer(**optimizer_params)
+            case _:
+                raise NotImplementedError(f'Optimizer "{optimizer_name}" is not implemented yet.')
 
     def is_optimized(self) -> bool:
         """Check if the optimization process has been completed.

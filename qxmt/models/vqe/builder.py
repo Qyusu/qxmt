@@ -41,7 +41,13 @@ class VQEBuilder:
     def _set_model(self) -> None:
         match self.config.model.name:
             case "basic":
-                self.model = BasicVQE(self.device, self.hamiltonian, self.ansatz)
+                self.model = BasicVQE(
+                    self.device,
+                    self.hamiltonian,
+                    self.ansatz,
+                    self.config.model.diff_method,
+                    self.config.model.optimizer_settings,
+                )
             case _:
                 raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
 

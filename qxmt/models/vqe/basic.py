@@ -1,5 +1,5 @@
 from logging import Logger
-from typing import Any, Optional
+from typing import Any, Optional, cast
 
 import pennylane as qml
 from pennylane.measurements import ExpectationMP
@@ -29,6 +29,7 @@ class BasicVQE(BaseVQE):
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
+        optimizer_settings: Settings for the optimizer.
         logger: Logger object for output. Defaults to module-level logger.
 
     Attributes:
@@ -41,10 +42,11 @@ class BasicVQE(BaseVQE):
         device: BaseDevice,
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
-        diff_method: SupportedDiffMethods = "adjoint",
+        diff_method: Optional[str] = "adjoint",
+        optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
-        super().__init__(device, hamiltonian, ansatz, diff_method, logger)
+        super().__init__(device, hamiltonian, ansatz, diff_method, optimizer_settings, logger)
 
     def _initialize_qnode(self) -> None:
         """Initialize the QNode for VQE.
@@ -67,13 +69,12 @@ class BasicVQE(BaseVQE):
         self.qnode = qml.QNode(
             func=circuit_with_measurement,
             device=self.device.get_device(),
-            diff_method=self.diff_method,
+            diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
 
     def optimize(
         self,
         init_params: qml.numpy.ndarray,
-        optimizer: Optional[Any] = None,
         max_steps: int = 100,
         verbose: bool = True,
     ) -> None:
@@ -84,7 +85,6 @@ class BasicVQE(BaseVQE):
 
         Args:
             init_params: Initial parameters for the ansatz.
-            optimizer: Optimizer to use. If None, uses GradientDescentOptimizer with default stepsize.
             max_steps: Maximum number of optimization steps. Defaults to 100.
             verbose: Whether to output progress during optimization. Defaults to True.
 
@@ -92,13 +92,11 @@ class BasicVQE(BaseVQE):
             The optimization history (cost and parameters) is stored in the class attributes
             cost_history and params_history.
         """
-        if optimizer is None:
-            optimizer = qml.GradientDescentOptimizer(stepsize=DEFAULT_STEPSIZE)
-
+        self._set_optimizer()
         self.logger.info(f"Optimizing ansatz with {len(init_params)} parameters through {max_steps} steps")
         params = init_params
         for i in range(max_steps):
-            params, cost = optimizer.step_and_cost(self.qnode, params)
+            params, cost = self.optimizer.step_and_cost(self.qnode, params)
             self.cost_history.append(cost)
             self.params_history.append(params)
             if verbose:
