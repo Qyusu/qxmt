@@ -41,14 +41,14 @@ class BaseVQE(ABC):
         device: BaseDevice,
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
-        diff_method: Optional[str] = "adjoint",
+        diff_method: Optional[SupportedDiffMethods] = "adjoint",
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         self.device = device
         self.hamiltonian = hamiltonian
         self.ansatz = ansatz
-        self.diff_method: Optional[str] = diff_method
+        self.diff_method: Optional[SupportedDiffMethods] = diff_method
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.logger: Logger = logger
         self.qnode: QNode
@@ -74,7 +74,6 @@ class BaseVQE(ABC):
     def optimize(
         self,
         init_params: qml.numpy.ndarray,
-        optimizer: Any,
         max_steps: int,
         verbose: bool,
     ) -> None:
@@ -85,7 +84,6 @@ class BaseVQE(ABC):
 
         Args:
             init_params: Initial parameters for the ansatz.
-            optimizer: Optimizer to use for parameter updates.
             max_steps: Maximum number of optimization steps.
             verbose: Whether to print progress during optimization.
 

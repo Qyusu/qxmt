@@ -1,3 +1,7 @@
+from typing import cast
+
+from pennylane.workflow.qnode import SupportedDiffMethods
+
 from qxmt.ansatze import AnsatzBuilder, BaseAnsatz
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_N_JOBS
@@ -45,7 +49,7 @@ class VQEBuilder:
                     self.device,
                     self.hamiltonian,
                     self.ansatz,
-                    self.config.model.diff_method,
+                    cast(SupportedDiffMethods, self.config.model.diff_method),
                     self.config.model.optimizer_settings,
                 )
             case _:

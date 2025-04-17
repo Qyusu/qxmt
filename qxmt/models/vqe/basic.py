@@ -42,7 +42,7 @@ class BasicVQE(BaseVQE):
         device: BaseDevice,
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
-        diff_method: Optional[str] = "adjoint",
+        diff_method: Optional[SupportedDiffMethods] = "adjoint",
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
