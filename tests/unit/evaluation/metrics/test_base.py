@@ -31,7 +31,7 @@ class TestBaseMetric:
 
     def test_set_score(self, dummy_values: tuple[np.ndarray, np.ndarray]) -> None:
         metric = DummyMetric()
-        metric.set_score(dummy_values[0], dummy_values[1])
+        metric.set_score(actual=dummy_values[0], predicted=dummy_values[1])
 
         assert metric.score == 5.0
 
@@ -41,7 +41,7 @@ class TestBaseMetric:
         with pytest.raises(ValueError):
             metric.output_score()
 
-        metric.set_score(dummy_values[0], dummy_values[1])
+        metric.set_score(actual=dummy_values[0], predicted=dummy_values[1])
         with caplog.at_level(INFO):
             metric.output_score()
         assert "dummy: 5.00\n" in caplog.text
