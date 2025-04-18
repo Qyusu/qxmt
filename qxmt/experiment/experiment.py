@@ -41,6 +41,7 @@ from qxmt.experiment.schema import (
 from qxmt.logger import set_default_logger
 from qxmt.models import ModelBuilder
 from qxmt.models.qkernels import BaseKernelModel, BaseMLModel
+from qxmt.models.vqe import BaseVQE
 from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
@@ -320,15 +321,13 @@ class Experiment:
         """
         if model_type == "qkernel" and task_type == "classification":
             evaluation = ClassificationEvaluation(
-                actual=actual,
-                predicted=predicted,
+                params={"actual": actual, "predicted": predicted},
                 default_metrics_name=default_metrics_name,
                 custom_metrics=custom_metrics,
             )
         elif model_type == "qkernel" and task_type == "regression":
             evaluation = RegressionEvaluation(
-                actual=actual,
-                predicted=predicted,
+                params={"actual": actual, "predicted": predicted},
                 default_metrics_name=default_metrics_name,
                 custom_metrics=custom_metrics,
             )
@@ -365,33 +364,40 @@ class Experiment:
         Returns:
             tuple[RunArtifact, RunRecord]: artifact and record of the current run_id
         """
-        # create dataset instance from pre defined raw_preprocess_logic and transform_logic
-        dataset = DatasetBuilder(config=config).build()
+        model_type = config.global_settings.model_type
 
-        # create model instance from the config
-        model = ModelBuilder(config=config, n_jobs=n_jobs, show_progress=show_progress).build()
-        save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
-        save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
+        if model_type == "qkernel":
+            # create dataset instance from pre defined raw_preprocess_logic and transform_logic
+            dataset = DatasetBuilder(config=config).build()
 
-        artifact, record = self._run_from_instance(
-            model_type=config.global_settings.model_type,
-            task_type=config.global_settings.task_type,
-            dataset=dataset,
-            model=model,
-            save_shots_path=save_shots_path,
-            save_model_path=save_model_path,
-            default_metrics_name=config.evaluation.default_metrics,
-            custom_metrics=config.evaluation.custom_metrics,
-            desc=config.description,
-            commit_id=commit_id,
-            config_file_name=DEFAULT_EXP_CONFIG_FILE,
-            repo_path=repo_path,
-            add_results=add_results,
-        )
+            # create model instance from the config
+            model = ModelBuilder(config=config, n_jobs=n_jobs, show_progress=show_progress).build()
+            save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
+            save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
+
+            artifact, record = self._run_qkernel_from_instance(
+                model_type=config.global_settings.model_type,
+                task_type=config.global_settings.task_type,
+                dataset=dataset,
+                model=cast(BaseMLModel, model),
+                save_shots_path=save_shots_path,
+                save_model_path=save_model_path,
+                default_metrics_name=config.evaluation.default_metrics,
+                custom_metrics=config.evaluation.custom_metrics,
+                desc=config.description,
+                commit_id=commit_id,
+                config_file_name=DEFAULT_EXP_CONFIG_FILE,
+                repo_path=repo_path,
+                add_results=add_results,
+            )
+        elif model_type == "vqe":
+            pass
+        else:
+            raise ValueError(f"Invalid model_type: {model_type}")
 
         return artifact, record
 
-    def _run_from_instance(
+    def _run_qkernel_from_instance(
         self,
         model_type: str,
         task_type: Optional[str],
@@ -413,7 +419,7 @@ class Experiment:
             model_type (str): type of the model (qkernel or vqe)
             task_type (str): type of the task (classification or regression)
             dataset (Dataset): dataset object
-            model (BaseMLModel): model object
+            model (BaseMLModel | BaseVQE): model object
             save_model_path (str | Path): path to save the model
             default_metrics_name (Optional[list[str]]): list of default metrics name
             custom_metrics (Optional[list[dict[str, Any]]]): list of user defined custom metric configurations
@@ -517,6 +523,24 @@ class Experiment:
 
         return artifact, record
 
+    def _run_vqe_from_instance(
+        self,
+        model_type: str,
+        task_type: Optional[str],
+        dataset: Dataset,
+        model: BaseVQE,
+        save_shots_path: Optional[str | Path],
+        save_model_path: str | Path,
+        default_metrics_name: Optional[list[str]],
+        custom_metrics: Optional[list[dict[str, Any]]],
+        desc: str,
+        commit_id: str,
+        config_file_name: Path,
+        repo_path: Optional[str] = None,
+        add_results: bool = True,
+    ) -> tuple[RunArtifact, RunRecord]:
+        raise NotImplementedError("VQE run is not implemented yet.")
+
     def run(
         self,
         model_type: Optional[str] = None,
@@ -601,23 +625,28 @@ class Experiment:
                         Please provide model_type="qkernel" or "vqe".
                         """
                     )
-                artifact, record = self._run_from_instance(
-                    model_type=model_type,
-                    task_type=task_type,
-                    dataset=dataset,
-                    model=model,
-                    save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
-                    save_model_path=current_run_dirc / DEFAULT_MODEL_NAME,
-                    default_metrics_name=default_metrics_name,
-                    custom_metrics=custom_metrics,
-                    desc=desc,
-                    commit_id=commit_id,
-                    config_file_name=Path(""),
-                    repo_path=repo_path,
-                    add_results=add_results,
-                )
+                elif model_type == "qkernel":
+                    artifact, record = self._run_qkernel_from_instance(
+                        model_type=model_type,
+                        task_type=task_type,
+                        dataset=dataset,
+                        model=model,
+                        save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
+                        save_model_path=current_run_dirc / DEFAULT_MODEL_NAME,
+                        default_metrics_name=default_metrics_name,
+                        custom_metrics=custom_metrics,
+                        desc=desc,
+                        commit_id=commit_id,
+                        config_file_name=Path(""),
+                        repo_path=repo_path,
+                        add_results=add_results,
+                    )
+                elif model_type == "vqe":
+                    raise NotImplementedError("VQE run is not implemented yet.")
+                else:
+                    raise ValueError(f"Invalid model_type: {model_type}")
             else:
-                raise ExperimentRunSettingError("Either dataset and model or config must be provided.")
+                raise ExperimentRunSettingError("Either config or dataset and model must be provided.")
         except Exception as e:
             self.logger.error(f"Error occurred during the run: {e}")
             if add_results:

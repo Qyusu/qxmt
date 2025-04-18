@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict
 
 from qxmt.datasets.schema import Dataset
 from qxmt.models.qkernels import BaseMLModel
+from qxmt.models.vqe import BaseVQE
 
 
 class RemoteMachine(BaseModel):
@@ -42,7 +43,7 @@ class RunArtifact(BaseModel):
 
     run_id: int
     dataset: Dataset
-    model: BaseMLModel
+    model: BaseMLModel | BaseVQE
 
 
 class ExperimentDB(BaseModel):
