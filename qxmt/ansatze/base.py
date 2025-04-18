@@ -27,6 +27,7 @@ class BaseAnsatz(ABC):
 
     def __init__(self, device: BaseDevice) -> None:
         self.device = device
+        self.n_params: int
 
     @abstractmethod
     def circuit(self, *args, **kwargs) -> None:

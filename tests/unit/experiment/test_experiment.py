@@ -183,7 +183,11 @@ class TestExperimentRun:
         # only default metrics
         custom_metrics = None
         evaluation = base_experiment.run_evaluation(
-            "qkernel", "classification", actual, predicted, default_metrics_name, custom_metrics
+            "qkernel",
+            "classification",
+            {"actual": actual, "predicted": predicted},
+            default_metrics_name,
+            custom_metrics,
         )
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
         assert len(evaluation) == 4
@@ -193,7 +197,11 @@ class TestExperimentRun:
         # default and custom metrics
         custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
         evaluation = base_experiment.run_evaluation(
-            "qkernel", "classification", actual, predicted, default_metrics_name, custom_metrics
+            "qkernel",
+            "classification",
+            {"actual": actual, "predicted": predicted},
+            default_metrics_name,
+            custom_metrics,
         )
         acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
         assert len(evaluation) == 5

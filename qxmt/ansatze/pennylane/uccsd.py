@@ -49,6 +49,7 @@ class UCCSDAnsatz(BaseVQEAnsatz):
         self.wires = range(self.hamiltonian.get_n_qubits())
         self.prepare_hf_state()
         self.prepare_excitation_wires()
+        self.n_params = len(self.singles) + len(self.doubles)
 
     def prepare_hf_state(self) -> None:
         """Prepare the Hartree-Fock reference state.

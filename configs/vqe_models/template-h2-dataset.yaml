@@ -39,8 +39,7 @@ model:
 
 evaluation:
   default_metrics:
-  - "accuracy"
-  - "precision"
-  - "recall"
-  - "f1_score"
+  - "optimized_energy"
+  - "hf_energy"
+  - "fci_energy"
   custom_metrics: []

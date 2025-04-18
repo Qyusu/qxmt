@@ -74,7 +74,7 @@ class BasicVQE(BaseVQE):
 
     def optimize(
         self,
-        init_params: qml.numpy.ndarray,
+        init_params: Optional[qml.numpy.ndarray] = None,
         max_steps: int = 100,
         verbose: bool = True,
     ) -> None:
@@ -92,8 +92,11 @@ class BasicVQE(BaseVQE):
             The optimization history (cost and parameters) is stored in the class attributes
             cost_history and params_history.
         """
+        if init_params is None:
+            init_params = qml.numpy.zeros(self.ansatz.n_params)
         self._set_optimizer()
-        self.logger.info(f"Optimizing ansatz with {len(init_params)} parameters through {max_steps} steps")
+        self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {max_steps} steps")
+
         params = init_params
         for i in range(max_steps):
             params, cost = self.optimizer.step_and_cost(self.qnode, params)

@@ -101,10 +101,10 @@ def save_experiment_config_to_yaml(
     """
     save_config = copy.deepcopy(config)
 
-    if save_config.dataset.openml is not None:
+    if save_config.dataset is not None and save_config.dataset.openml is not None:
         save_config.dataset.openml.save_path = str(save_config.dataset.openml.save_path)
 
-    if save_config.dataset.file is not None:
+    if save_config.dataset is not None and save_config.dataset.file is not None:
         save_config.dataset.file.data_path = str(save_config.dataset.file.data_path)
         save_config.dataset.file.label_path = str(save_config.dataset.file.label_path)
 

@@ -20,9 +20,17 @@ class RunTime(BaseModel):
     test_seconds: float
 
 
+class VQERunTime(BaseModel):
+    optimize_seconds: float
+
+
 class Evaluations(BaseModel):
     validation: Optional[dict[str, float]]
     test: dict[str, float]
+
+
+class VQEEvaluations(BaseModel):
+    optimized: dict[str, float]
 
 
 class RunRecord(BaseModel):
@@ -34,15 +42,15 @@ class RunRecord(BaseModel):
     commit_id: str
     config_file_name: Path
     execution_time: str
-    runtime: RunTime
-    evaluations: Evaluations
+    runtime: RunTime | VQERunTime
+    evaluations: Evaluations | VQEEvaluations
 
 
 class RunArtifact(BaseModel):
     model_config = ConfigDict(frozen=True, arbitrary_types_allowed=True, extra="forbid")
 
     run_id: int
-    dataset: Dataset
+    dataset: Optional[Dataset]
     model: BaseMLModel | BaseVQE
 
 
