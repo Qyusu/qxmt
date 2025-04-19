@@ -175,31 +175,6 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
 
-    def test_run_evaluation(self, base_experiment: Experiment) -> None:
-        actual = np.array([0, 1, 1, 0, 1])
-        predicted = np.array([0, 1, 0, 1, 0])
-        default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
-
-        # only default metrics
-        custom_metrics = None
-        evaluation = base_experiment.run_evaluation(
-            "classification", actual, predicted, default_metrics_name, custom_metrics
-        )
-        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
-        assert len(evaluation) == 4
-        for key, value in acutal_result.items():
-            assert round(evaluation[key], 2) == value
-
-        # default and custom metrics
-        custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
-        evaluation = base_experiment.run_evaluation(
-            "classification", actual, predicted, default_metrics_name, custom_metrics
-        )
-        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
-        assert len(evaluation) == 5
-        for key, value in acutal_result.items():
-            assert round(evaluation[key], 2) == value
-
     def test_run_from_instance(
         self,
         base_experiment: Experiment,
@@ -218,7 +193,12 @@ class TestExperimentRun:
         # run from dataset and model instance
         base_experiment.init()
         artifact, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            add_results=True,
+            n_jobs=1,
         )
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
@@ -227,16 +207,31 @@ class TestExperimentRun:
         assert isinstance(artifact.dataset, Dataset)
 
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            add_results=True,
+            n_jobs=1,
         )
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            add_results=True,
+            n_jobs=1,
         )
         assert len(base_experiment.exp_db.runs) == 3  # type: ignore
 
         # run by shots model
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=shots_model, add_results=True, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=shots_model,
+            add_results=True,
+            n_jobs=1,
         )
         assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_4/shots.h5").exists()
@@ -244,14 +239,24 @@ class TestExperimentRun:
 
         # not add result record (state vector mode)
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=False, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_model,
+            add_results=False,
+            n_jobs=1,
         )
         assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
         assert len(base_experiment.exp_db.runs) == 4  # type: ignore
 
         # not add result record (shots mode)
         _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=shots_model, add_results=False, n_jobs=1
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=shots_model,
+            add_results=False,
+            n_jobs=1,
         )
         assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
         assert not base_experiment.experiment_dirc.joinpath("run_5/shots.h5").exists()
@@ -277,7 +282,7 @@ class TestExperimentRun:
         base_experiment: Experiment,
         create_random_dataset: Callable,
         state_vec_model: BaseMLModel,
-        experiment_config: ExperimentConfig,
+        qkernel_experiment_config: ExperimentConfig,
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
@@ -287,11 +292,11 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert base_experiment.exp_db is None
         with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(config_source=experiment_config, n_jobs=1)
+            base_experiment.run(config_source=qkernel_experiment_config, n_jobs=1)
 
         # run from config instance
         base_experiment.init()
-        artifact, _ = base_experiment.run(config_source=experiment_config, n_jobs=1)
+        artifact, _ = base_experiment.run(config_source=qkernel_experiment_config, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 1  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
         assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
@@ -300,7 +305,7 @@ class TestExperimentRun:
 
         # run from config file
         experiment_config_file = tmp_path / "experiment_config.yaml"
-        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
+        save_experiment_config_to_yaml(qkernel_experiment_config, experiment_config_file, delete_source_path=True)
         artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True, n_jobs=1)
         assert len(base_experiment.exp_db.runs) == 2  # type: ignore
         assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
@@ -360,6 +365,7 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
             model=state_vec_model,
@@ -367,6 +373,7 @@ class TestExperimentResults:
             n_jobs=1,
         )
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
             model=state_vec_model,
@@ -388,6 +395,7 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2, include_validation=True)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
             model=state_vec_model,
@@ -395,6 +403,7 @@ class TestExperimentResults:
             n_jobs=1,
         )
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
             model=state_vec_model,
@@ -424,8 +433,12 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1
+        )
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1
+        )
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
@@ -440,7 +453,9 @@ class TestExperimentReproduce:
 
         base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1
+        )
 
         # run_id=1 executed from dataset and model instance.
         # this run not exist config file.

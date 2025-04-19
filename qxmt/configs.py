@@ -16,8 +16,14 @@ from qxmt.constants import PROJECT_ROOT_DIR
 class GlobalSettingsConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
     random_seed: int
-    model_type: Literal["qkernel"]
-    task_type: Literal["classification", "regression"]
+    model_type: Literal["qkernel", "vqe"]
+    task_type: Literal["classification", "regression"] | None = None
+
+    @model_validator(mode="after")
+    def check_task_type_for_kernel(self) -> Any:
+        if self.model_type == "qkernel" and self.task_type is None:
+            raise ValueError("task_type must be specified when model_type is 'kernel'")
+        return self
 
 
 class OpenMLConfig(BaseModel):
@@ -68,7 +74,6 @@ class SplitConfig(BaseModel):
         ratios = [self.train_ratio, self.validation_ratio, self.test_ratio]
         if sum(ratios) != 1:
             raise ValueError("The sum of the ratios must be 1.")
-
         return self
 
 
@@ -82,6 +87,14 @@ class DatasetConfig(BaseModel):
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
     transform_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None
+
+
+class HamiltonianConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    module_name: str
+    implement_name: str
+    params: Optional[dict[str, Any]] = None
 
 
 class DeviceConfig(BaseModel):
@@ -124,13 +137,25 @@ class KernelConfig(BaseModel):
     params: Optional[dict[str, Any]] = None
 
 
+class AnsatzConfig(BaseModel):
+    model_config = ConfigDict(frozen=True, extra="forbid")
+
+    module_name: str
+    implement_name: str
+    params: Optional[dict[str, Any]] = None
+
+
 class ModelConfig(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
     name: str
     params: dict[str, Any]
+    # Only need when model_type is "kernel"
     feature_map: Optional[FeatureMapConfig] = None
     kernel: Optional[KernelConfig] = None
+    # Only need when model_type is "vqe"
+    diff_method: Optional[str] = None
+    optimizer_settings: Optional[dict[str, Any]] = None
 
 
 class EvaluationConfig(BaseModel):
@@ -146,10 +171,12 @@ class ExperimentConfig(BaseModel):
     path: Path | str = ""
     description: str = ""
     global_settings: GlobalSettingsConfig
-    dataset: DatasetConfig
+    dataset: Optional[DatasetConfig] = None
+    hamiltonian: Optional[HamiltonianConfig] = None
     device: DeviceConfig
     feature_map: Optional[FeatureMapConfig] = None
     kernel: Optional[KernelConfig] = None
+    ansatz: Optional[AnsatzConfig] = None
     model: ModelConfig
     evaluation: EvaluationConfig
 
@@ -179,9 +206,11 @@ class ExperimentConfig(BaseModel):
             "description": config.get("description"),
             "global_settings": config.get("global_settings"),
             "dataset": config.get("dataset"),
+            "hamiltonian": config.get("hamiltonian"),
             "device": config.get("device"),
             "feature_map": config.get("feature_map"),
             "kernel": config.get("kernel"),
+            "ansatz": config.get("ansatz"),
             "model": config.get("model"),
             "evaluation": config.get("evaluation"),
         }

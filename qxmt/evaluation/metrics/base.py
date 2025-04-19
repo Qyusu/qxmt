@@ -2,8 +2,6 @@ from abc import ABC, abstractmethod
 from logging import Logger
 from typing import Any, Optional
 
-import numpy as np
-
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
@@ -42,12 +40,10 @@ class BaseMetric(ABC):
 
     @staticmethod
     @abstractmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> float:
+    def evaluate(**kwargs: Any) -> float:
         """define evaluation method for each metric.
 
         Args:
-            actual (np.ndarray): array of actual value
-            predicted (np.ndarray): array of predicted value
             **kwargs (dict): additional arguments
 
         Returns:
@@ -55,15 +51,13 @@ class BaseMetric(ABC):
         """
         pass
 
-    def set_score(self, actual: np.ndarray, predicted: np.ndarray, **kwargs: Any) -> None:
+    def set_score(self, **kwargs: Any) -> None:
         """Evaluated the score and set it to the score attribute.
 
         Args:
-            actual (np.ndarray): array of actual value
-            predicted (np.ndarray): array of predicted value
             **kwargs (dict): additional arguments
         """
-        self.score = self.evaluate(actual, predicted, **kwargs)
+        self.score = self.evaluate(**kwargs)
 
     def output_score(self, logger: Logger = LOGGER) -> None:
         """Output the evaluated score on standard output.

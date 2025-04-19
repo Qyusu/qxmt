@@ -7,7 +7,7 @@ import seaborn as sns
 
 from qxmt.constants import DEFAULT_COLOR_MAP
 from qxmt.decorators import notify_long_running
-from qxmt.models.qkernels.qsvc import QSVC
+from qxmt.models.qkernels import QSVC
 
 
 def plot_2d_predicted_result(
