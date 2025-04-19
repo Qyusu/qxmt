@@ -125,9 +125,11 @@ class ExperimentRepository:
             InvalidFileExtensionError: If the file does not have a .json extension.
         """
         exp_file_path = Path(exp_file_path)
+        self.check_json_extension(exp_file_path)
+
         if not exp_file_path.exists():
             raise FileNotFoundError(f"{exp_file_path} does not exist.")
-        self.check_json_extension(exp_file_path)
+
         with open(exp_file_path, "r") as json_file:
             exp_data = json.load(json_file)
         return ExperimentDB(**exp_data)

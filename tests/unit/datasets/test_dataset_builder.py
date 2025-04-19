@@ -31,19 +31,22 @@ def custom_transform(
 
 
 class TestSetCustomRawPreprocessLogic:
-    def test_set_custom_raw_preprocess_logic(self, experiment_config: ExperimentConfig) -> None:
+    def test_set_custom_raw_preprocess_logic(self, qkernel_experiment_config: ExperimentConfig) -> None:
+        if qkernel_experiment_config.dataset is None:
+            pytest.skip("Dataset is None")
+
         # empty custom raw preprocess logic
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": {}})}
+            config=qkernel_experiment_config.model_copy(
+                update={"dataset": qkernel_experiment_config.dataset.model_copy(update={"raw_preprocess_logic": {}})}
             )
         )
         assert builder.custom_raw_preprocess_list is None
 
         # None custom raw preprocess logic
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": None})}
+            config=qkernel_experiment_config.model_copy(
+                update={"dataset": qkernel_experiment_config.dataset.model_copy(update={"raw_preprocess_logic": None})}
             )
         )
         assert builder.custom_raw_preprocess_list is None
@@ -51,8 +54,10 @@ class TestSetCustomRawPreprocessLogic:
         # one custom raw preprocess logic
         one_logic = {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}}
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": one_logic})}
+            config=qkernel_experiment_config.model_copy(
+                update={
+                    "dataset": qkernel_experiment_config.dataset.model_copy(update={"raw_preprocess_logic": one_logic})
+                }
             )
         )
         assert builder.custom_raw_preprocess_list is not None
@@ -64,8 +69,12 @@ class TestSetCustomRawPreprocessLogic:
             {"module_name": __name__, "implement_name": "custom_raw_preprocess", "params": {}},
         ]
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"raw_preprocess_logic": multi_logic})}
+            config=qkernel_experiment_config.model_copy(
+                update={
+                    "dataset": qkernel_experiment_config.dataset.model_copy(
+                        update={"raw_preprocess_logic": multi_logic}
+                    )
+                }
             )
         )
         assert builder.custom_raw_preprocess_list is not None
@@ -73,19 +82,22 @@ class TestSetCustomRawPreprocessLogic:
 
 
 class TestSetCustomTransformLogic:
-    def test_set_custom_transform_logic(self, experiment_config: ExperimentConfig) -> None:
+    def test_set_custom_transform_logic(self, qkernel_experiment_config: ExperimentConfig) -> None:
+        if qkernel_experiment_config.dataset is None:
+            pytest.skip("Dataset is None")
+
         # empty custom transform logic
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": {}})}
+            config=qkernel_experiment_config.model_copy(
+                update={"dataset": qkernel_experiment_config.dataset.model_copy(update={"transform_logic": {}})}
             )
         )
         assert builder.custom_transform_list is None
 
         # None custom transform logic
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": None})}
+            config=qkernel_experiment_config.model_copy(
+                update={"dataset": qkernel_experiment_config.dataset.model_copy(update={"transform_logic": None})}
             )
         )
         assert builder.custom_transform_list is None
@@ -93,8 +105,8 @@ class TestSetCustomTransformLogic:
         # one custom transform logic
         one_logic = {"module_name": __name__, "implement_name": "custom_transform", "params": {}}
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": one_logic})}
+            config=qkernel_experiment_config.model_copy(
+                update={"dataset": qkernel_experiment_config.dataset.model_copy(update={"transform_logic": one_logic})}
             )
         )
         assert builder.custom_transform_list is not None
@@ -106,8 +118,10 @@ class TestSetCustomTransformLogic:
             {"module_name": __name__, "implement_name": "custom_transform", "params": {}},
         ]
         builder = DatasetBuilder(
-            config=experiment_config.model_copy(
-                update={"dataset": experiment_config.dataset.model_copy(update={"transform_logic": multi_logic})}
+            config=qkernel_experiment_config.model_copy(
+                update={
+                    "dataset": qkernel_experiment_config.dataset.model_copy(update={"transform_logic": multi_logic})
+                }
             )
         )
         assert builder.custom_transform_list is not None
@@ -343,9 +357,9 @@ FILE_DATE_CONFIG = {
 
 
 @pytest.fixture(scope="function")
-def default_file_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+def default_file_builder(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
     dataset_config = DatasetConfig(**FILE_DATE_CONFIG["dataset"])
-    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+    return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 GEN_DATA_CONFIG_WITH_VAL = {
@@ -366,15 +380,21 @@ GEN_DATA_CONFIG_NO_VAL = {
 
 
 @pytest.fixture(scope="function")
-def default_gen_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+def default_gen_builder(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
+    if qkernel_experiment_config.dataset is None:
+        pytest.skip("Dataset is None")
+
     dataset_config = DatasetConfig(**GEN_DATA_CONFIG_WITH_VAL["dataset"])
-    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+    return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 @pytest.fixture(scope="function")
-def default_gen_builder_no_val(experiment_config: ExperimentConfig) -> DatasetBuilder:
+def default_gen_builder_no_val(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
+    if qkernel_experiment_config.dataset is None:
+        pytest.skip("Dataset is None")
+
     dataset_config = DatasetConfig(**GEN_DATA_CONFIG_NO_VAL["dataset"])
-    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+    return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 CUSTOM_CONFIG = {
@@ -389,9 +409,9 @@ CUSTOM_CONFIG = {
 
 
 @pytest.fixture(scope="function")
-def custom_builder(experiment_config: ExperimentConfig) -> DatasetBuilder:
+def custom_builder(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
     dataset_config = DatasetConfig(**CUSTOM_CONFIG["dataset"])
-    return DatasetBuilder(config=experiment_config.model_copy(update={"dataset": dataset_config}))
+    return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
 class TestBuilder:

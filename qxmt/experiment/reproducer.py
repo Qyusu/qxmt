@@ -75,20 +75,13 @@ class Reproducer:
 
         # Optional commit‑id consistency check
         if check_commit_id:
-            current_commit = get_commit_id() if IS_GIT_AVAILABLE else ""
-            if current_commit != run_record.commit_id:
-                self.logger.warning(
-                    'Current commit_id="%s" differs from run_id=%d commit_id="%s".',
-                    current_commit,
-                    run_id,
-                    run_record.commit_id,
-                )
+            self._check_commit_id(run_id, run_record)
 
         # Runs executed via instance‑mode cannot be reproduced
         if run_record.config_file_name == Path(""):
             raise ReproductionError(
-                "run_id=%d does not have a config file path. This run executed from instance. "
-                "Run from instance mode not supported for reproduction." % run_id
+                f"run_id={run_id} does not have a config file path. This run executed from instance. "
+                "Run from instance mode not supported for reproduction."
             )
 
         # Execute a new run with the saved config (results are *not* stored)
@@ -113,13 +106,19 @@ class Reproducer:
             new_eval = reproduced_result.evaluations.optimized
         else:
             raise ValueError(
-                "Invalid evaluation types: %s vs %s"
-                % (type(run_record.evaluations), type(reproduced_result.evaluations))
+                f"Invalid evaluation types: {type(run_record.evaluations)} vs {type(reproduced_result.evaluations)}"
             )
 
         self._validate_evaluation(original_eval, new_eval, tol)
         self.logger.info("Reproduce model successful. Evaluation results match run_id=%d.", run_id)
         return reproduced_artifact, reproduced_result
+
+    def _check_commit_id(self, run_id: int, run_record: RunRecord) -> None:
+        current_commit = get_commit_id() if IS_GIT_AVAILABLE else ""
+        if current_commit != run_record.commit_id:
+            self.logger.warning(
+                f'Current commit_id="{current_commit}" differs from run_id={run_id} commit_id="{run_record.commit_id}".'
+            )
 
     @staticmethod
     def _validate_evaluation(
@@ -148,5 +147,5 @@ class Reproducer:
 
         if invalid:
             raise ValueError(
-                "Evaluation results differ between logging and reproduction (invalid metrics: %s)." % invalid
+                f"Evaluation results differ between logging and reproduction (invalid metrics: {invalid})."
             )

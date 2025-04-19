@@ -15,10 +15,15 @@ from qxmt import (
     SplitConfig,
 )
 
-DEFAULT_GLOBAL_SETTINGS = GlobalSettingsConfig(
+DEFAULT_QKERNEL_GLOBAL_SETTINGS = GlobalSettingsConfig(
     random_seed=42,
     model_type="qkernel",
     task_type="classification",
+)
+
+DEFAULT_VQE_GLOBAL_SETTINGS = GlobalSettingsConfig(
+    random_seed=42,
+    model_type="vqe",
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
@@ -41,11 +46,28 @@ DEFAULT_EVALUATION_CONFIG = EvaluationConfig(default_metrics=["accuracy", "preci
 
 
 @pytest.fixture(scope="function")
-def experiment_config(**kwargs: Any) -> ExperimentConfig:
+def qkernel_experiment_config(**kwargs: Any) -> ExperimentConfig:
     default_values = {
         "path": ".",
         "description": "test",
-        "global_settings": DEFAULT_GLOBAL_SETTINGS,
+        "global_settings": DEFAULT_QKERNEL_GLOBAL_SETTINGS,
+        "dataset": DEFAULT_DATASET_CONFIG,
+        "device": DEFAULT_DEVICE_CONFIG,
+        "feature_map": DEFAULT_FEATUREMAP_CONFIG,
+        "kernel": DEFAULT_KERNEL_CONFIG,
+        "model": DEFAULT_MODEL_CONFIG,
+        "evaluation": DEFAULT_EVALUATION_CONFIG,
+    }
+    default_values.update(kwargs)
+    return ExperimentConfig(**default_values)
+
+
+@pytest.fixture(scope="function")
+def vqe_experiment_config(**kwargs: Any) -> ExperimentConfig:
+    default_values = {
+        "path": ".",
+        "description": "test",
+        "global_settings": DEFAULT_QKERNEL_GLOBAL_SETTINGS,
         "dataset": DEFAULT_DATASET_CONFIG,
         "device": DEFAULT_DEVICE_CONFIG,
         "feature_map": DEFAULT_FEATUREMAP_CONFIG,
@@ -62,7 +84,7 @@ def shots_experiment_config(**kwargs: Any) -> ExperimentConfig:
     default_values = {
         "path": ".",
         "description": "test",
-        "global_settings": DEFAULT_GLOBAL_SETTINGS,
+        "global_settings": DEFAULT_QKERNEL_GLOBAL_SETTINGS,
         "dataset": DEFAULT_DATASET_CONFIG,
         "device": SHOTS_DEVICE_CONFIG,
         "feature_map": DEFAULT_FEATUREMAP_CONFIG,
