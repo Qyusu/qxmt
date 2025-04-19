@@ -1,6 +1,4 @@
-import json
 import os
-import shutil
 from datetime import datetime
 from logging import Logger
 from pathlib import Path
@@ -19,34 +17,25 @@ from qxmt.constants import (
     LLM_MODEL_PATH,
     TZ,
 )
-from qxmt.datasets import Dataset, DatasetBuilder
-from qxmt.evaluation import (
-    ClassificationEvaluation,
-    RegressionEvaluation,
-    VQEEvaluation,
-)
+from qxmt.datasets import Dataset
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
     ExperimentSettingError,
-    InvalidFileExtensionError,
-    JsonEncodingError,
-    ReproductionError,
 )
+from qxmt.experiment.executor import QKernelExecutor, VQEExecutor
+from qxmt.experiment.repository import ExperimentRepository
+from qxmt.experiment.reproducer import Reproducer
 from qxmt.experiment.schema import (
     Evaluations,
     ExperimentDB,
-    RemoteMachine,
     RunArtifact,
     RunRecord,
-    RunTime,
     VQEEvaluations,
-    VQERunTime,
 )
 from qxmt.logger import set_default_logger
-from qxmt.models import ModelBuilder
-from qxmt.models.qkernels import BaseKernelModel, BaseMLModel
-from qxmt.models.vqe import BaseVQE, VQEBuilder
+from qxmt.models.qkernels import BaseMLModel
+from qxmt.models.vqe import BaseVQE
 from qxmt.utils import (
     get_commit_id,
     get_git_add_code,
@@ -68,51 +57,57 @@ VQE_MODEL_TYPE_NAME: str = "vqe"
 
 
 class Experiment:
-    """Experiment class for managing quantum machine learning experiments and their run data.
+    """Manage the life-cycle of quantum machine-learning experiments.
 
-    The Experiment class provides a comprehensive framework for:
-    - Initializing and managing quantum machine learning experiments
-    - Running experiments with different configurations
-    - Tracking and storing experiment results
-    - Reproducing previous experiments
-    - Managing experiment artifacts and metadata
+    The Experiment class is the centerpiece of the *Quantum eXperiment Management Tool* (QXMT).
+    It orchestrates creation and loading of experiment directories, execution of runs,
+    persistence and aggregation of results, and ensures reproducibility. Every
+    side-effect that touches the file-system is delegated to
+    :class:`qxmt.experiment.repository.ExperimentRepository`, so this class can focus on
+    business logic.
 
-    All experiment data is stored in an ExperimentDB instance, which is saved as a JSON file
-    in the experiment directory (root_experiment_dirc/experiments/your_exp_name/experiment.json).
+    Responsibilities:
+        1. **Initialization / Loading**
+           * :py:meth:`init`  - create a new experiment directory and an empty `ExperimentDB`.
+           * :py:meth:`load`  - load an existing experiment from a JSON file.
+        2. **Run management**
+           * :py:meth:`run`  - execute an experiment run with QKernel or VQE models (supports both
+             config-based and instance-based workflows).
+           * :py:meth:`_run_setup` / :py:meth:`_run_backfill` - create and rollback run directories.
+        3. **Result handling**
+           * :py:meth:`runs_to_dataframe` - convert `RunRecord`s into a `pandas.DataFrame` for easy analysis.
+           * :py:meth:`save_experiment` - persist the `ExperimentDB` to disk.
+           * :py:meth:`get_run_record` - retrieve a single `RunRecord` by *run_id*.
+        4. **Reproducibility**
+           * :py:meth:`reproduce` - re-execute a past run and validate that results match.
 
-    The Experiment class supports two main modes of operation:
+    Example:
+        ```python
+        from qxmt.experiment import Experiment
 
-    1. **Config-based Mode**:
-    This mode uses a YAML configuration file to define experiment settings.
-    It provides full tracking of experiment settings, results, and enables model reproduction.
-    This is the recommended approach for production use.
+        exp = Experiment(name="my_exp").init()
+        artifact, record = exp.run(
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset_instance,
+            model=model_instance,
+        )
 
-    2. **Instance-based Mode**:
-    This mode directly accepts dataset and model instances.
-    While simpler to use, it does not track experiment settings and is primarily intended
-    for quick testing, debugging, or ad-hoc experiments.
+        # Aggregate results
+        df = exp.runs_to_dataframe()
+        ```
 
-    The class supports both quantum kernel models (QKernel) and Variational Quantum Eigensolver (VQE) models,
-    with appropriate evaluation metrics for each type.
-
-    Examples:
-        >>> import qxmt
-        >>> # Initialize experiment with auto-generated description
-        >>> exp = qxmt.Experiment(
-        ...     name="my_qsvm_algorithm",
-        ...     desc='''This is an experiment for testing a new QSVM algorithm.
-        ...     The experiment evaluates performance across multiple datasets.''',
-        ...     auto_gen_mode=True,
-        ... ).init()
-
-        >>> # Run experiment using config file
-        >>> config_path = "../configs/template.yaml"
-        >>> artifact, result = exp.run(config_source=config_path)
-
-        >>> # View experiment results
-        >>> exp.runs_to_dataframe()
-            run_id	accuracy	precision	recall	f1_score
-        0	     1	    0.45	     0.53	  0.66	    0.59
+    Attributes:
+        name (str | None): Experiment name. If *None*, a timestamped name is generated.
+        desc (str | None): Human-readable description. When `auto_gen_mode` is enabled and the value is an
+            empty string, an LLM can generate it automatically.
+        auto_gen_mode (bool): Whether to generate run descriptions with an LLM.
+        root_experiment_dirc (pathlib.Path): Root directory where all experiments are stored.
+        experiment_dirc (pathlib.Path): Directory assigned to this particular experiment.
+        current_run_id (int): ID of the next run to be executed (zero-based).
+        exp_db (ExperimentDB | None): In-memory database object holding experiment meta-data.
+        logger (logging.Logger): Logger instance to report progress and warnings.
+        _repo (ExperimentRepository): Internal repository that encapsulates all filesystem & persistence operations.
     """
 
     def __init__(
@@ -134,25 +129,17 @@ class Experiment:
         - Logger configuration
 
         Args:
-            name (Optional[str], optional):
-                Name of the experiment. If None, a default name will be generated
+            name (Optional[str]): Name of the experiment. If None, a default name will be generated
                 using the current timestamp. Defaults to None.
-            desc (Optional[str], optional):
-                Description of the experiment. Used for documentation and search purposes.
-                If None and auto_gen_mode is True, a description will be generated.
-                Defaults to None.
-            auto_gen_mode (bool, optional):
-                Whether to use the DescriptionGenerator for automatic description generation.
-                Requires the "USE_LLM" environment variable to be set to True.
-                Defaults to USE_LLM.
-            root_experiment_dirc (str | Path, optional):
-                Root directory where experiment data will be stored.
+            desc (Optional[str]): Description of the experiment. Used for documentation and search purposes.
+                If None and auto_gen_mode is True, a description will be generated. Defaults to None.
+            auto_gen_mode (bool): Whether to use the DescriptionGenerator for automatic description generation.
+                Requires the "USE_LLM" environment variable to be set to True. Defaults to USE_LLM.
+            root_experiment_dirc (str | Path): Root directory where experiment data will be stored.
                 Defaults to DEFAULT_EXP_DIRC.
-            llm_model_path (str, optional):
-                Path to the LLM model used for description generation.
+            llm_model_path (str): Path to the LLM model used for description generation.
                 Defaults to LLM_MODEL_PATH.
-            logger (Logger, optional):
-                Logger instance for handling warning and error messages.
+            logger (Logger): Logger instance for handling warning and error messages.
                 Defaults to LOGGER.
 
         Note:
@@ -167,6 +154,8 @@ class Experiment:
         self.experiment_dirc: Path
         self.exp_db: Optional[ExperimentDB] = None
         self.logger: Logger = logger
+        # Repository handles all filesystem & persistence side‑effects
+        self._repo = ExperimentRepository(logger)
 
         if (not USE_LLM) and (self.auto_gen_mode):
             self.logger.warning(
@@ -180,24 +169,25 @@ class Experiment:
     @staticmethod
     def _generate_default_name() -> str:
         """Generate a default name for the experiment.
-        Default name is the current date and time in the format of
-        "YYYYMMDDHHMMSSffffff"
+
+        Default name is the current date and time in the format of "YYYYMMDDHHMMSSffffff".
 
         Returns:
-            str: generated default name
+            str: Generated default name.
         """
         return datetime.now(TZ).strftime("%Y%m%d%H%M%S%f")
-
-    @staticmethod
-    def _check_json_extension(file_path: str | Path) -> None:
-        if Path(file_path).suffix.lower() != ".json":
-            raise InvalidFileExtensionError(f"File '{file_path}' does not have a '.json' extension.")
 
     def init(self) -> "Experiment":
         """Initialize the experiment directory and DB.
 
+        Creates a new experiment directory and initializes an empty ExperimentDB.
+        The directory will be created under root_experiment_dirc with the experiment name.
+
         Returns:
-            Experiment: initialized experiment
+            Experiment: Initialized experiment instance.
+
+        Raises:
+            ExperimentSettingError: If the experiment directory already exists.
         """
         if self.name is None:
             self.name = self._generate_default_name()
@@ -225,25 +215,22 @@ class Experiment:
         """Load existing experiment data from a json file.
 
         Args:
-            exp_dirc (str | Path): path to the experiment directory
-
-        Raises:
-            FileNotFoundError: if the experiment file does not exist
-            ExperimentSettingError: if the experiment directory does not exist
+            exp_dirc (str | Path): Path to the experiment directory.
+            exp_file_name (str | Path): Name of the experiment file. Defaults to DEFAULT_EXP_DB_FILE.
 
         Returns:
-            Experiment: loaded experiment
+            Experiment: Loaded experiment instance.
+
+        Raises:
+            FileNotFoundError: If the experiment file does not exist.
+            ExperimentSettingError: If the experiment directory does not exist.
         """
         exp_file_path = Path(exp_dirc) / exp_file_name
         if not exp_file_path.exists():
             raise FileNotFoundError(f"{exp_file_path} does not exist.")
 
-        self._check_json_extension(exp_file_path)
-        with open(exp_file_path, "r") as json_file:
-            exp_data = json.load(json_file)
-
-        # set the experiment data from the json file
-        self.exp_db = ExperimentDB(**exp_data)
+        # Load via repository
+        self.exp_db = self._repo.load(exp_file_path)
 
         # update the experiment name, description, working directory, and experiment directory
         # if the loaded data is different from the current settings
@@ -283,7 +270,7 @@ class Experiment:
         """Check if the experiment is initialized.
 
         Raises:
-            ExperimentNotInitializedError: if the experiment is not initialized
+            ExperimentNotInitializedError: If the experiment is not initialized.
         """
         if self.exp_db is None:
             raise ExperimentNotInitializedError(
@@ -293,32 +280,19 @@ class Experiment:
     def _run_setup(self) -> Path:
         """Set up the directory structure for a new experiment run.
 
-        This method creates a new run directory and updates the current run ID.
+        Creates a new run directory and updates the current run ID.
         The directory structure follows the pattern: experiment_dirc/run_{run_id}
 
         Returns:
-            Path:
-                Path to the newly created run directory.
+            Path: Path to the newly created run directory.
 
         Raises:
-            Exception:
-                If an error occurs while creating the run directory.
-
-        Note:
-            - The run ID is automatically incremented.
-            - If the run directory already exists, an error is raised.
-            - The method ensures proper directory structure for storing run artifacts.
+            Exception: If an error occurs while creating the run directory.
         """
+        # Delegate to repository – keeps Experiment free from FS details
         current_run_id = self.current_run_id + 1
-        try:
-            current_run_dirc = self.experiment_dirc / f"run_{current_run_id}"
-            current_run_dirc.mkdir(parents=True)
-        except Exception as e:
-            self.logger.error(f"Error creating run directory: {e}")
-            raise
-
+        current_run_dirc = self._repo.create_run_dir(self.experiment_dirc, current_run_id)
         self.current_run_id = current_run_id
-
         return current_run_dirc
 
     def _run_backfill(self) -> None:
@@ -333,168 +307,19 @@ class Experiment:
             - It ensures that failed runs don't leave behind incomplete artifacts.
             - The method maintains the integrity of the experiment's run sequence.
         """
-        run_dirc = self.experiment_dirc / f"run_{self.current_run_id}"
-        if run_dirc.exists():
-            shutil.rmtree(run_dirc)
-
+        # Repository handles rollback deletion
+        self._repo.remove_run_dir(self.experiment_dirc, self.current_run_id)
         self.current_run_id -= 1
-
-    def run_evaluation(
-        self,
-        model_type: str,
-        task_type: Optional[str],
-        params: dict[str, Any],
-        default_metrics_name: Optional[list[str]],
-        custom_metrics: Optional[list[dict[str, Any]]],
-    ) -> dict:
-        """Run evaluation for the current run.
-
-        Args:
-            model_type (str): type of the model (qkernel or vqe)
-            task_type (Optional[str]): type of the qkernel task (classification or regression)
-            actual (np.ndarray): array of actual values
-            predicted (np.ndarray): array of predicted values
-            default_metrics_name (Optional[list[str]]): list of default metrics name
-            custom_metrics (Optional[list[dict[str, Any]]]): list of user defined custom metric configurations
-
-        Returns:
-            dict: evaluation result
-        """
-        if model_type == QKERNEL_MODEL_TYPE_NAME and task_type == "classification":
-            evaluation = ClassificationEvaluation(
-                params=params,
-                default_metrics_name=default_metrics_name,
-                custom_metrics=custom_metrics,
-            )
-        elif model_type == QKERNEL_MODEL_TYPE_NAME and task_type == "regression":
-            evaluation = RegressionEvaluation(
-                params=params,
-                default_metrics_name=default_metrics_name,
-                custom_metrics=custom_metrics,
-            )
-        elif model_type == VQE_MODEL_TYPE_NAME:
-            evaluation = VQEEvaluation(
-                params=params,
-                default_metrics_name=default_metrics_name,
-                custom_metrics=custom_metrics,
-            )
-        else:
-            raise ValueError(f"Invalid model_type: {model_type}, task_type: {task_type}")
-
-        evaluation.evaluate()
-
-        return evaluation.to_dict()
-
-    def _run_from_config(
-        self,
-        config: ExperimentConfig,
-        commit_id: str,
-        run_dirc: str | Path,
-        n_jobs: int,
-        show_progress: bool = True,
-        repo_path: Optional[str] = None,
-        add_results: bool = True,
-    ) -> tuple[RunArtifact, RunRecord]:
-        """Execute an experiment run using configuration settings.
-
-        This method handles the execution of an experiment based on configuration settings, including:
-        - Dataset and model initialization
-        - Model training and evaluation
-        - Result tracking and storage
-        - Configuration file management
-
-        Args:
-            config (ExperimentConfig):
-                Configuration settings for the experiment.
-            commit_id (str):
-                Git commit ID for version tracking.
-            run_dirc (str | Path):
-                Directory path for storing run results.
-            n_jobs (int):
-                Number of parallel jobs for processing.
-            show_progress (bool, optional):
-                Whether to display progress bars. Defaults to True.
-            repo_path (Optional[str], optional):
-                Path to git repository. Defaults to None.
-            add_results (bool, optional):
-                Whether to save run results. Defaults to True.
-
-        Returns:
-            tuple[RunArtifact, RunRecord]:
-                A tuple containing the run artifact and record.
-
-        Raises:
-            ValueError:
-                If the model type specified in config is invalid.
-
-        Note:
-            - The method supports both QKernel and VQE model types.
-            - The configuration file is saved in the run directory.
-            - Model-specific evaluation metrics are automatically handled.
-        """
-        model_type = config.global_settings.model_type
-
-        if model_type == QKERNEL_MODEL_TYPE_NAME:
-            # create dataset instance from pre defined raw_preprocess_logic and transform_logic
-            dataset = DatasetBuilder(config=config).build()
-
-            # create model instance from the config
-            model = ModelBuilder(config=config, n_jobs=n_jobs, show_progress=show_progress).build()
-            save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
-            save_model_path = Path(run_dirc) / DEFAULT_MODEL_NAME
-
-            artifact, record = self._run_qkernel_from_instance(
-                model_type=config.global_settings.model_type,
-                task_type=config.global_settings.task_type,
-                dataset=dataset,
-                model=cast(BaseMLModel, model),
-                save_shots_path=save_shots_path,
-                save_model_path=save_model_path,
-                default_metrics_name=config.evaluation.default_metrics,
-                custom_metrics=config.evaluation.custom_metrics,
-                desc=config.description,
-                commit_id=commit_id,
-                config_file_name=DEFAULT_EXP_CONFIG_FILE,
-                repo_path=repo_path,
-                add_results=add_results,
-            )
-        elif model_type == VQE_MODEL_TYPE_NAME:
-            model = VQEBuilder(config=config, n_jobs=n_jobs).build()
-            save_shots_path = Path(run_dirc) / DEFAULT_SHOT_RESULTS_NAME if add_results else None
-            artifact, record = self._run_vqe_from_instance(
-                model_type=config.global_settings.model_type,
-                model=cast(BaseVQE, model),
-                save_shots_path=save_shots_path,
-                default_metrics_name=config.evaluation.default_metrics,
-                custom_metrics=config.evaluation.custom_metrics,
-                desc=config.description,
-                commit_id=commit_id,
-                config_file_name=DEFAULT_EXP_CONFIG_FILE,
-                repo_path=repo_path,
-                add_results=add_results,
-            )
-        else:
-            raise ValueError(f"Invalid model_type: {model_type}")
-
-        return artifact, record
 
     def _get_auto_description(self, desc: str, repo_path: Optional[str] = None) -> str:
         """Generate an automatic description for a run if none is provided.
 
-        This method handles automatic description generation when:
-        - The description is empty
-        - Auto-generation mode is enabled
-        - Git is available for version tracking
-
         Args:
-            desc (str):
-                Current description of the run.
-            repo_path (Optional[str], optional):
-                Path to git repository. Defaults to None.
+            desc (str): Current description of the run.
+            repo_path (Optional[str]): Path to git repository. Defaults to None.
 
         Returns:
-            str:
-                Generated description if conditions are met, otherwise the original description.
+            str: Generated description if conditions are met, otherwise the original description.
 
         Note:
             - Requires git to be available for generating meaningful descriptions.
@@ -514,248 +339,6 @@ class Experiment:
                 )
                 desc = ""
         return desc
-
-    def _run_qkernel_from_instance(
-        self,
-        model_type: str,
-        task_type: Optional[str],
-        dataset: Dataset,
-        model: BaseMLModel,
-        save_shots_path: Optional[str | Path],
-        save_model_path: str | Path,
-        default_metrics_name: Optional[list[str]],
-        custom_metrics: Optional[list[dict[str, Any]]],
-        desc: str,
-        commit_id: str,
-        config_file_name: Path,
-        repo_path: Optional[str] = None,
-        add_results: bool = True,
-    ) -> tuple[RunArtifact, RunRecord]:
-        """Execute a QKernel experiment run.
-
-        This method handles the execution of a QKernel experiment, including:
-        - Model training and prediction
-        - Validation and test evaluation
-        - Remote machine logging (if applicable)
-        - Artifact and record creation
-
-        Args:
-            model_type (str):
-                Type of the model (must be 'qkernel').
-            task_type (Optional[str]):
-                Type of the task ('classification' or 'regression').
-            dataset (Dataset):
-                Dataset instance containing training, validation, and test data.
-            model (BaseMLModel):
-                QKernel model instance to run.
-            save_shots_path (Optional[str | Path]):
-                Path to save shot results. If None, results are not saved.
-            save_model_path (str | Path):
-                Path to save the trained model.
-            default_metrics_name (Optional[list[str]]):
-                List of default metrics to evaluate.
-            custom_metrics (Optional[list[dict[str, Any]]]):
-                List of custom metric configurations.
-            desc (str):
-                Description of the run.
-            commit_id (str):
-                Git commit ID for version tracking.
-            config_file_name (Path):
-                Name of the configuration file.
-            repo_path (Optional[str], optional):
-                Path to git repository. Defaults to None.
-            add_results (bool, optional):
-                Whether to save run results. Defaults to True.
-
-        Returns:
-            tuple[RunArtifact, RunRecord]:
-                A tuple containing the run artifact and record.
-
-        Raises:
-            ValueError:
-                If model_type is not 'qkernel' or task_type is invalid.
-
-        Note:
-            - The method supports both classification and regression tasks.
-            - Validation metrics are only computed if validation data is provided.
-            - Remote machine logging is automatically handled for quantum devices.
-            - The method saves both the model and shot results if add_results is True.
-        """
-        train_start_dt = datetime.now(TZ)
-        model.fit(X=dataset.X_train, y=dataset.y_train, save_shots_path=save_shots_path)
-        train_end_dt = datetime.now(TZ)
-        train_seconds = (train_end_dt - train_start_dt).total_seconds()
-
-        if (dataset.X_val is not None) and (dataset.y_val is not None):
-            validation_start_dt = datetime.now(TZ)
-            validation_predicted = model.predict(dataset.X_val, bar_label="Validation")
-            validation_end_dt = datetime.now(TZ)
-            validation_seconds = (validation_end_dt - validation_start_dt).total_seconds()
-            validation_evaluation = self.run_evaluation(
-                model_type=model_type,
-                task_type=task_type,
-                params={"actual": dataset.y_val, "predicted": validation_predicted},
-                default_metrics_name=default_metrics_name,
-                custom_metrics=custom_metrics,
-            )
-        else:
-            validation_seconds = None
-            validation_evaluation = None
-
-        test_start_dt = datetime.now(TZ)
-        test_predicted = model.predict(dataset.X_test, bar_label="Test")
-        test_end_dt = datetime.now(TZ)
-        test_seconds = (test_end_dt - test_start_dt).total_seconds()
-        test_evaluation = self.run_evaluation(
-            model_type=model_type,
-            task_type=task_type,
-            params={"actual": dataset.y_test, "predicted": test_predicted},
-            default_metrics_name=default_metrics_name,
-            custom_metrics=custom_metrics,
-        )
-
-        # get remote quantum machine log
-        device = cast(BaseKernelModel, model).kernel.device
-        if device.is_remote():
-            train_job_ids = device.get_job_ids(created_after=train_start_dt, created_before=train_end_dt)
-            validation_job_ids = (
-                device.get_job_ids(created_after=validation_start_dt, created_before=validation_end_dt)
-                if validation_evaluation
-                else []
-            )
-            test_job_ids = device.get_job_ids(created_after=test_start_dt, created_before=test_end_dt)
-            remote_machine_log = RemoteMachine(
-                provider=device.get_provider(),
-                backend=device.get_backend_name(),
-                job_ids=train_job_ids + validation_job_ids + test_job_ids,
-            )
-        else:
-            remote_machine_log = None
-
-        if add_results:
-            model.save(save_model_path)
-
-        artifact = RunArtifact(
-            run_id=self.current_run_id,
-            dataset=dataset,
-            model=model,
-        )
-
-        record = RunRecord(
-            run_id=self.current_run_id,
-            desc=self._get_auto_description(desc, repo_path),
-            remote_machine=remote_machine_log,
-            commit_id=commit_id,
-            config_file_name=config_file_name,
-            execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            runtime=RunTime(
-                train_seconds=train_seconds,
-                validation_seconds=validation_seconds,
-                test_seconds=test_seconds,
-            ),
-            evaluations=Evaluations(validation=validation_evaluation, test=test_evaluation),
-        )
-
-        return artifact, record
-
-    def _run_vqe_from_instance(
-        self,
-        model_type: str,
-        model: BaseVQE,
-        save_shots_path: Optional[str | Path],
-        default_metrics_name: Optional[list[str]],
-        custom_metrics: Optional[list[dict[str, Any]]],
-        desc: str,
-        commit_id: str,
-        config_file_name: Path,
-        repo_path: Optional[str] = None,
-        add_results: bool = True,
-    ) -> tuple[RunArtifact, RunRecord]:
-        """Execute a VQE (Variational Quantum Eigensolver) experiment run.
-
-        This method handles the execution of a VQE experiment, including:
-        - Model optimization
-        - Result evaluation
-        - Artifact and record creation
-        - Remote machine logging (if applicable)
-
-        Args:
-            model_type (str):
-                Type of the model (must be 'vqe').
-            model (BaseVQE):
-                VQE model instance to run.
-            save_shots_path (Optional[str | Path]):
-                Path to save shot results. If None, results are not saved.
-            default_metrics_name (Optional[list[str]]):
-                List of default metrics to evaluate.
-            custom_metrics (Optional[list[dict[str, Any]]]):
-                List of custom metric configurations.
-            desc (str):
-                Description of the run.
-            commit_id (str):
-                Git commit ID for version tracking.
-            config_file_name (Path):
-                Name of the configuration file.
-            repo_path (Optional[str], optional):
-                Path to git repository. Defaults to None.
-            add_results (bool, optional):
-                Whether to save run results. Defaults to True.
-
-        Returns:
-            tuple[RunArtifact, RunRecord]:
-                A tuple containing the run artifact and record.
-
-        Raises:
-            NotImplementedError:
-                If remote machine execution is attempted (not yet supported for VQE).
-            ValueError:
-                If model_type is not 'vqe'.
-
-        Note:
-            - The method currently does not support remote machine execution.
-            - Optimization parameters (init_params, max_steps) are hardcoded and may be
-              moved to configuration in future versions.
-            - The method automatically handles evaluation metrics for VQE models.
-        """
-        optimize_start_dt = datetime.now(TZ)
-        # [TODO]: receive init_params from the config or argments
-        model.optimize(init_params=None, max_steps=20, verbose=True)
-        optimize_end_dt = datetime.now(TZ)
-        optimize_seconds = (optimize_end_dt - optimize_start_dt).total_seconds()
-        evaluations = self.run_evaluation(
-            model_type=model_type,
-            task_type=None,
-            params={"cost_history": model.cost_history, "hamiltonian": model.hamiltonian},
-            default_metrics_name=default_metrics_name,
-            custom_metrics=custom_metrics,
-        )
-
-        # get remote quantum machine log
-        if model.device.is_remote():
-            raise NotImplementedError("Remote machine is not supported for VQE.")
-        else:
-            remote_machine_log = None
-
-        artifact = RunArtifact(
-            run_id=self.current_run_id,
-            dataset=None,
-            model=model,
-        )
-
-        record = RunRecord(
-            run_id=self.current_run_id,
-            desc=self._get_auto_description(desc, repo_path),
-            remote_machine=remote_machine_log,
-            commit_id=commit_id,
-            config_file_name=config_file_name,
-            execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            runtime=VQERunTime(
-                optimize_seconds=optimize_seconds,
-            ),
-            evaluations=VQEEvaluations(optimized=evaluations),
-        )
-
-        return artifact, record
 
     def run(
         self,
@@ -778,54 +361,30 @@ class Experiment:
         1. Config-based mode: Using a configuration file or ExperimentConfig instance
         2. Instance-based mode: Directly providing dataset and model instances
 
-        The method handles:
-        - Experiment setup and directory creation
-        - Model training and evaluation
-        - Result tracking and storage
-        - Artifact management
-        - Git integration (if available)
-
         Args:
-            model_type (Optional[str], optional):
-                Type of model to use ('qkernel' or 'vqe').
+            model_type (Optional[str]): Type of model to use ('qkernel' or 'vqe').
                 Required for instance-based mode. Defaults to None.
-            task_type (Optional[str], optional):
-                Type of task for QKernel models ('classification' or 'regression').
+            task_type (Optional[str]): Type of task for QKernel models ('classification' or 'regression').
                 Required for QKernel models. Defaults to None.
-            dataset (Optional[Dataset], optional):
-                Dataset instance for instance-based mode. Defaults to None.
-            model (Optional[BaseMLModel | BaseVQE], optional):
-                Model instance for instance-based mode. Defaults to None.
-            config_source (Optional[ExperimentConfig | str | Path], optional):
-                Configuration source for config-based mode.
-                Can be an ExperimentConfig instance or path to config file.
-                Defaults to None.
-            default_metrics_name (Optional[list[str]], optional):
-                List of default metrics to evaluate. Defaults to None.
-            custom_metrics (Optional[list[dict[str, Any]]], optional):
-                List of custom metric configurations. Defaults to None.
-            n_jobs (int, optional):
-                Number of parallel jobs for processing. Defaults to DEFAULT_N_JOBS.
-            show_progress (bool, optional):
-                Whether to display progress bars. Defaults to True.
-            desc (str, optional):
-                Description of the run. Defaults to "".
-            repo_path (Optional[str], optional):
-                Path to git repository for version tracking. Defaults to None.
-            add_results (bool, optional):
-                Whether to save run results and artifacts. Defaults to True.
+            dataset (Optional[Dataset]): Dataset instance for instance-based mode. Defaults to None.
+            model (Optional[BaseMLModel | BaseVQE]): Model instance for instance-based mode. Defaults to None.
+            config_source (Optional[ExperimentConfig | str | Path]): Configuration source for config-based mode.
+                Can be an ExperimentConfig instance or path to config file. Defaults to None.
+            default_metrics_name (Optional[list[str]]): List of default metrics to evaluate. Defaults to None.
+            custom_metrics (Optional[list[dict[str, Any]]]): List of custom metric configurations. Defaults to None.
+            n_jobs (int): Number of parallel jobs for processing. Defaults to DEFAULT_N_JOBS.
+            show_progress (bool): Whether to display progress bars. Defaults to True.
+            desc (str): Description of the run. Defaults to "".
+            repo_path (Optional[str]): Path to git repository for version tracking. Defaults to None.
+            add_results (bool): Whether to save run results and artifacts. Defaults to True.
 
         Returns:
-            tuple[RunArtifact, RunRecord]:
-                A tuple containing the run artifact and record.
+            tuple[RunArtifact, RunRecord]: A tuple containing the run artifact and record.
 
         Raises:
-            ExperimentNotInitializedError:
-                If the experiment has not been initialized.
-            ExperimentRunSettingError:
-                If required parameters are missing or invalid.
-            ValueError:
-                If model_type is invalid.
+            ExperimentNotInitializedError: If the experiment has not been initialized.
+            ExperimentRunSettingError: If required parameters are missing or invalid.
+            ValueError: If model_type is invalid.
 
         Note:
             - For config-based mode, the configuration file will be saved in the run directory.
@@ -842,32 +401,54 @@ class Experiment:
             commit_id = ""
 
         try:
+            # ------------------------------------------------------------------
+            # Config‑based mode
+            # ------------------------------------------------------------------
             if config_source is not None:
-                if isinstance(config_source, str | Path):
+                if isinstance(config_source, (str, Path)):
                     config = ExperimentConfig(path=config_source)
                 else:
                     config = config_source
 
-                artifact, record = self._run_from_config(
-                    config=config,
-                    commit_id=commit_id,
-                    run_dirc=current_run_dirc,
-                    n_jobs=n_jobs,
-                    show_progress=show_progress,
-                    repo_path=repo_path,
-                    add_results=add_results,
-                )
+                model_type_cfg = config.global_settings.model_type
+                if model_type_cfg == QKERNEL_MODEL_TYPE_NAME:
+                    executor = QKernelExecutor(self)
+                    artifact, record = executor.run_from_config(
+                        config=config,
+                        commit_id=commit_id,
+                        run_dirc=current_run_dirc,
+                        n_jobs=n_jobs,
+                        show_progress=show_progress,
+                        repo_path=repo_path,
+                        add_results=add_results,
+                    )
+                elif model_type_cfg == VQE_MODEL_TYPE_NAME:
+                    executor = VQEExecutor(self)
+                    artifact, record = executor.run_from_config(
+                        config=config,
+                        commit_id=commit_id,
+                        run_dirc=current_run_dirc,
+                        n_jobs=n_jobs,
+                        show_progress=show_progress,
+                        repo_path=repo_path,
+                        add_results=add_results,
+                    )
+                else:
+                    raise ValueError(f"Invalid model_type: {model_type_cfg}")
+
+            # ------------------------------------------------------------------
+            # Instance‑based mode
+            # ------------------------------------------------------------------
             elif (dataset is not None) and (model is not None):
                 if model_type is None:
                     raise ExperimentRunSettingError(
-                        f"""
-                        model_type must be provided when dataset and model are provided.
-                        Please provide model_type={QKERNEL_MODEL_TYPE_NAME} or {VQE_MODEL_TYPE_NAME}.
-                        """
+                        "model_type must be provided when dataset and model are provided. "
+                        f"Please provide model_type={QKERNEL_MODEL_TYPE_NAME} or {VQE_MODEL_TYPE_NAME}."
                     )
-                elif model_type == QKERNEL_MODEL_TYPE_NAME:
-                    artifact, record = self._run_qkernel_from_instance(
-                        model_type=model_type,
+
+                if model_type == QKERNEL_MODEL_TYPE_NAME:
+                    executor = QKernelExecutor(self)
+                    artifact, record = executor.run_from_instance(
                         task_type=task_type,
                         dataset=dataset,
                         model=cast(BaseMLModel, model),
@@ -882,8 +463,8 @@ class Experiment:
                         add_results=add_results,
                     )
                 elif model_type == VQE_MODEL_TYPE_NAME:
-                    artifact, record = self._run_vqe_from_instance(
-                        model_type=model_type,
+                    executor = VQEExecutor(self)
+                    artifact, record = executor.run_from_instance(
                         model=cast(BaseVQE, model),
                         save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
                         default_metrics_name=default_metrics_name,
@@ -920,30 +501,19 @@ class Experiment:
     def runs_to_dataframe(self, include_validation: bool = False) -> pd.DataFrame:
         """Convert experiment run records into a pandas DataFrame.
 
-        This method transforms the experiment's run records into a structured DataFrame,
-        making it easier to analyze and compare results across different runs.
-        The DataFrame includes:
-        - Run IDs
-        - Evaluation metrics for test data
-        - Optional validation metrics (if include_validation is True)
-
         Args:
-            include_validation (bool, optional):
-                Whether to include validation metrics in the DataFrame.
+            include_validation (bool): Whether to include validation metrics in the DataFrame.
                 Defaults to False.
 
         Returns:
-            pd.DataFrame:
-                A DataFrame containing run results with the following columns:
+            pd.DataFrame: A DataFrame containing run results with the following columns:
                 - run_id: The ID of each run
                 - [metric_name]: Evaluation metrics for test data
                 - [metric_name]_validation: Validation metrics (if include_validation is True)
 
         Raises:
-            ExperimentNotInitializedError:
-                If the experiment has not been initialized.
-            ValueError:
-                If the run records contain invalid evaluation types.
+            ExperimentNotInitializedError: If the experiment has not been initialized.
+            ValueError: If the run records contain invalid evaluation types.
 
         Note:
             - The DataFrame will be empty if no runs have been recorded.
@@ -985,36 +555,27 @@ class Experiment:
         """Save the experiment data to a json file.
 
         Args:
-            exp_file (str | Path, optional):
-                name of the file to save the experiment data.Defaults to DEFAULT_EXP_DB_FILE.
+            exp_file (str | Path): Name of the file to save the experiment data.
+                Defaults to DEFAULT_EXP_DB_FILE.
 
         Raises:
-            ExperimentNotInitializedError: if the experiment is not initialized
+            ExperimentNotInitializedError: If the experiment is not initialized.
         """
-
-        def custom_encoder(obj: Any) -> str:
-            if isinstance(obj, Path):
-                return str(obj)
-            raise JsonEncodingError(f"Object of type {type(obj).__name__} is not JSON serializable")
-
-        self._is_initialized()
         save_path = self.experiment_dirc / exp_file
-        self._check_json_extension(save_path)
-        exp_data = json.loads(self.exp_db.model_dump_json())  # type: ignore
-        with open(save_path, "w") as json_file:
-            json.dump(exp_data, json_file, indent=4, default=custom_encoder)
+        self._repo.save(self.exp_db, save_path)  # type: ignore[arg-type]
 
     def get_run_record(self, runs: list[RunRecord], run_id: int) -> RunRecord:
         """Get the run record of the target run_id.
 
         Args:
-            run_id (int): target run_id
-
-        Raises:
-            ValueError: if the run record does not exist
+            runs (list[RunRecord]): List of run records to search.
+            run_id (int): Target run_id.
 
         Returns:
-            RunRecord: target run record
+            RunRecord: Target run record.
+
+        Raises:
+            ValueError: If the run record does not exist.
         """
         self._is_initialized()
         for run_record in runs:
@@ -1024,74 +585,23 @@ class Experiment:
         # if the target run_id does not exist
         raise ValueError(f"Run record of run_id={run_id} does not exist.")
 
-    def _validate_evaluation(
-        self, logging_evaluation: dict[str, float], reproduction_evaluation: dict[str, float], tol: float
-    ) -> None:
-        """Validate the consistency between original and reproduced evaluation results.
-
-        This method compares evaluation metrics between the original run and its reproduction,
-        ensuring that the results are within the specified tolerance.
-
-        Args:
-            logging_evaluation (dict[str, float]):
-                Evaluation metrics from the original run.
-            reproduction_evaluation (dict[str, float]):
-                Evaluation metrics from the reproduced run.
-            tol (float):
-                Tolerance threshold for comparing metrics.
-
-        Raises:
-            ValueError:
-                If any metric differs beyond the specified tolerance or if metrics are missing.
-
-        Note:
-            - The comparison is performed for all metrics in the original evaluation.
-            - Missing metrics in the reproduction are treated as errors.
-            - The tolerance is applied to the absolute difference between values.
-        """
-        invalid_dict: dict[str, str] = {}
-        for key, value in logging_evaluation.items():
-            reproduction_value = reproduction_evaluation.get(key, None)
-            if reproduction_value is None:
-                raise ValueError(f"Reproduction evaluation of {key} is not found.")
-            elif abs(value - reproduction_value) > tol:
-                invalid_dict[key] = f"{value} -> {reproduction_value}"
-
-        if len(invalid_dict) > 0:
-            raise ValueError(
-                f"Evaluation results are different between logging and reproduction (invalid metrics: {invalid_dict})."
-            )
-
     def reproduce(self, run_id: int, check_commit_id: bool = False, tol: float = 1e-6) -> tuple[RunArtifact, RunRecord]:
         """Reproduce a previous experiment run using its configuration.
 
-        This method recreates a previous experiment run by:
-        1. Loading the original configuration
-        2. Re-running the experiment with the same settings
-        3. Validating the results against the original run
-        4. Optionally checking git commit consistency
-
         Args:
-            run_id (int):
-                ID of the run to reproduce.
-            check_commit_id (bool, optional):
-                Whether to verify that the current git commit matches the original run.
+            run_id (int): ID of the run to reproduce.
+            check_commit_id (bool): Whether to verify that the current git commit matches the original run.
                 Defaults to False.
-            tol (float, optional):
-                Tolerance for comparing evaluation metrics between original and reproduced runs.
+            tol (float): Tolerance for comparing evaluation metrics between original and reproduced runs.
                 Defaults to 1e-6.
 
         Returns:
-            tuple[RunArtifact, RunRecord]:
-                A tuple containing the reproduced run's artifact and record.
+            tuple[RunArtifact, RunRecord]: A tuple containing the reproduced run's artifact and record.
 
         Raises:
-            ExperimentNotInitializedError:
-                If the experiment has not been initialized.
-            ReproductionError:
-                If the run was executed in instance-based mode (no config file available).
-            ValueError:
-                If the reproduced results differ significantly from the original run.
+            ExperimentNotInitializedError: If the experiment has not been initialized.
+            ReproductionError: If the run was executed in instance-based mode (no config file available).
+            ValueError: If the reproduced results differ significantly from the original run.
 
         Note:
             - Only runs executed in config-based mode can be reproduced.
@@ -1100,40 +610,4 @@ class Experiment:
             - If check_commit_id is True and the current commit differs from the original,
               a warning will be logged but the reproduction will continue.
         """
-        self._is_initialized()
-        run_record = self.get_run_record(self.exp_db.runs, run_id)  # type: ignore
-
-        if check_commit_id:
-            commit_id = get_commit_id() if IS_GIT_AVAILABLE else ""
-            if commit_id != run_record.commit_id:
-                self.logger.warning(
-                    f'Current commit_id="{commit_id}" is different from'
-                    f'the run_id={run_id} commit_id="{run_record.commit_id}".'
-                )
-        if run_record.config_file_name == Path(""):
-            raise ReproductionError(
-                f"run_id={run_id} does not have a config file path. This run executed from instance."
-                "Run from instance mode not supported for reproduction."
-            )
-
-        config_path = Path(f"{self.experiment_dirc}/run_{run_id}/{DEFAULT_EXP_CONFIG_FILE}")
-        reproduced_artifact, reproduced_result = self.run(config_source=config_path, add_results=False)
-
-        if isinstance(run_record.evaluations, Evaluations) and isinstance(reproduced_result.evaluations, Evaluations):
-            logging_evaluation = run_record.evaluations.test
-            reproduced_evaluation = reproduced_result.evaluations.test
-        elif isinstance(run_record.evaluations, VQEEvaluations) and isinstance(
-            reproduced_result.evaluations, VQEEvaluations
-        ):
-            logging_evaluation = run_record.evaluations.optimized
-            reproduced_evaluation = reproduced_result.evaluations.optimized
-        else:
-            raise ValueError(
-                f"""Invalid run_record.evaluations: {type(run_record.evaluations)},
-                reproduced_result.evaluations: {type(reproduced_result.evaluations)}"""
-            )
-
-        self._validate_evaluation(logging_evaluation, reproduced_evaluation, tol=tol)
-        self.logger.info(f"Reproduce model is successful. Evaluation results are the same as run_id={run_id}.")
-
-        return reproduced_artifact, reproduced_result
+        return Reproducer(self).reproduce(run_id, check_commit_id=check_commit_id, tol=tol)
