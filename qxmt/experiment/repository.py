@@ -59,7 +59,7 @@ class ExperimentRepository:
             run_dirc.mkdir(parents=True)
         except FileExistsError:
             raise Exception(f"Run directory '{run_dirc}' already exists.")
-        except Exception as e:  # pragma: no cover – surface original error
+        except Exception as e:
             self._logger.error(f"Error creating run directory: {e}")
             raise
         return run_dirc
@@ -88,9 +88,6 @@ class ExperimentRepository:
             JsonEncodingError: If the object contains non-serializable data.
             InvalidFileExtensionError: If the save path does not have a .json extension.
         """
-        self.check_json_extension(save_path)
-        # Convert pydantic model to python dict first to avoid Path issues
-        exp_data = json.loads(exp_db.model_dump_json())
 
         def custom_encoder(obj: Any) -> str:
             """Custom JSON encoder for handling Path objects.
@@ -107,6 +104,10 @@ class ExperimentRepository:
             if isinstance(obj, Path):
                 return str(obj)
             raise JsonEncodingError(f"Object of type {type(obj).__name__} is not JSON serializable")
+
+        self.check_json_extension(save_path)
+        # Convert pydantic model to python dict first to avoid Path issues
+        exp_data = json.loads(exp_db.model_dump_json())
 
         with open(save_path, "w") as json_file:
             json.dump(exp_data, json_file, indent=4, default=custom_encoder)

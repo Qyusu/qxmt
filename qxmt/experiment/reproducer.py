@@ -110,7 +110,7 @@ class Reproducer:
             )
 
         self._validate_evaluation(original_eval, new_eval, tol)
-        self.logger.info("Reproduce model successful. Evaluation results match run_id=%d.", run_id)
+        self.logger.info(f"Reproduce model successful. Evaluation results match run_id={run_id}.")
         return reproduced_artifact, reproduced_result
 
     def _check_commit_id(self, run_id: int, run_record: RunRecord) -> None:

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Optional, cast
@@ -37,7 +38,7 @@ if TYPE_CHECKING:  # pragma: no cover
 LOGGER = set_default_logger(__name__)
 
 
-class RunExecutorBase:
+class RunExecutorBase(ABC):
     """Abstract base class for experiment run executors.
 
     This class provides common functionality and attributes for concrete executor
@@ -58,6 +59,16 @@ class RunExecutorBase:
         self.exp = experiment  # hold reference for common helpers/loggers
         self.logger = experiment.logger
         self.eval_factory = EvaluationFactory
+
+    @abstractmethod
+    def run_from_config(self, *args: Any, **kwargs: Any) -> tuple[RunArtifact, RunRecord]:
+        """Run a model using configuration settings."""
+        pass
+
+    @abstractmethod
+    def run_from_instance(self, *args: Any, **kwargs: Any) -> tuple[RunArtifact, RunRecord]:
+        """Run a model using a pre-built instance."""
+        pass
 
 
 class QKernelExecutor(RunExecutorBase):
