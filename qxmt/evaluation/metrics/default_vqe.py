@@ -27,7 +27,7 @@ class FinalCost(BaseMetric):
         return cost_history[-1]
 
 
-class HF_Energy(BaseMetric):
+class HFEnergy(BaseMetric):
     """Metric for calculating the Hartree-Fock (HF) energy.
 
     This metric computes the Hartree-Fock energy using the molecular Hamiltonian.
@@ -49,7 +49,7 @@ class HF_Energy(BaseMetric):
         return hamiltonian.get_hf_energy()
 
 
-class FCI_Energy(BaseMetric):
+class FCIEnergy(BaseMetric):
     """Metric for calculating the Full Configuration Interaction (FCI) energy.
 
     This metric computes the FCI energy using the molecular Hamiltonian.
@@ -82,6 +82,6 @@ DEFAULT_VQE_METRICS_NAME = Literal[
 
 NAME2VQE_METRIC: dict[str, Type[BaseMetric]] = {
     "final_cost": FinalCost,
-    "hf_energy": HF_Energy,
-    "fci_energy": FCI_Energy,
+    "hf_energy": HFEnergy,
+    "fci_energy": FCIEnergy,
 }
