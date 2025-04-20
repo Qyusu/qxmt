@@ -29,7 +29,7 @@ from qxmt.experiment.schema import (
 from qxmt.logger import set_default_logger
 from qxmt.models import ModelBuilder
 from qxmt.models.qkernels import BaseKernelModel, BaseMLModel
-from qxmt.models.vqe import BaseVQE, VQEBuilder
+from qxmt.models.vqe import BaseVQE, VQEModelBuilder
 
 if TYPE_CHECKING:  # pragma: no cover
     from qxmt.configs import ExperimentConfig
@@ -270,7 +270,7 @@ class VQEExecutor(RunExecutorBase):
         Returns:
             tuple[RunArtifact, RunRecord]: Tuple containing the run artifact and record.
         """
-        model = VQEBuilder(config=config, n_jobs=n_jobs).build()
+        model = VQEModelBuilder(config=config, n_jobs=n_jobs).build()
         save_shots_path = run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None
         return self.run_from_instance(
             model=model,
