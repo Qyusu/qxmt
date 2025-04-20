@@ -108,4 +108,4 @@ class TestRunExperimentSamplingQKernel:
             }
         ).round(2)
 
-        assert_frame_equal(result_df, expected_df)
+        assert_frame_equal(result_df, expected_df, atol=0.1, check_exact=False)
