@@ -439,44 +439,35 @@ class Experiment:
             # ------------------------------------------------------------------
             # Instance‑based mode
             # ------------------------------------------------------------------
-            elif (dataset is not None) and (model is not None):
-                if model_type is None:
-                    raise ExperimentRunSettingError(
-                        "model_type must be provided when dataset and model are provided. "
-                        f"Please provide model_type={QKERNEL_MODEL_TYPE_NAME} or {VQE_MODEL_TYPE_NAME}."
-                    )
-
-                if model_type == QKERNEL_MODEL_TYPE_NAME:
-                    executor = QKernelExecutor(self)
-                    artifact, record = executor.run_from_instance(
-                        task_type=task_type,
-                        dataset=dataset,
-                        model=cast(BaseMLModel, model),
-                        save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
-                        save_model_path=current_run_dirc / DEFAULT_MODEL_NAME,
-                        default_metrics_name=default_metrics_name,
-                        custom_metrics=custom_metrics,
-                        desc=desc,
-                        commit_id=commit_id,
-                        config_file_name=Path(""),
-                        repo_path=repo_path,
-                        add_results=add_results,
-                    )
-                elif model_type == VQE_MODEL_TYPE_NAME:
-                    executor = VQEExecutor(self)
-                    artifact, record = executor.run_from_instance(
-                        model=cast(BaseVQE, model),
-                        save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
-                        default_metrics_name=default_metrics_name,
-                        custom_metrics=custom_metrics,
-                        desc=desc,
-                        commit_id=commit_id,
-                        config_file_name=Path(""),
-                        repo_path=repo_path,
-                        add_results=add_results,
-                    )
-                else:
-                    raise ValueError(f"Invalid model_type: {model_type}")
+            elif (model_type == QKERNEL_MODEL_TYPE_NAME) and (dataset is not None) and (model is not None):
+                executor = QKernelExecutor(self)
+                artifact, record = executor.run_from_instance(
+                    task_type=task_type,
+                    dataset=dataset,
+                    model=cast(BaseMLModel, model),
+                    save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
+                    save_model_path=current_run_dirc / DEFAULT_MODEL_NAME,
+                    default_metrics_name=default_metrics_name,
+                    custom_metrics=custom_metrics,
+                    desc=desc,
+                    commit_id=commit_id,
+                    config_file_name=Path(""),
+                    repo_path=repo_path,
+                    add_results=add_results,
+                )
+            elif (model_type == VQE_MODEL_TYPE_NAME) and (model is not None):
+                executor = VQEExecutor(self)
+                artifact, record = executor.run_from_instance(
+                    model=cast(BaseVQE, model),
+                    save_shots_path=current_run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None,
+                    default_metrics_name=default_metrics_name,
+                    custom_metrics=custom_metrics,
+                    desc=desc,
+                    commit_id=commit_id,
+                    config_file_name=Path(""),
+                    repo_path=repo_path,
+                    add_results=add_results,
+                )
             else:
                 raise ExperimentRunSettingError("Either config or dataset and model must be provided.")
         except Exception as e:
@@ -521,7 +512,7 @@ class Experiment:
             - The method automatically handles both QKernel and VQE evaluation types.
         """
         self._is_initialized()
-        if self.exp_db.runs is None:  # type: ignore
+        if not self.exp_db.runs:  # type: ignore
             return pd.DataFrame()
 
         if isinstance(cast(ExperimentDB, self.exp_db).runs[0].evaluations, Evaluations):
