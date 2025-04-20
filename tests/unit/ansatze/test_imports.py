@@ -1,6 +1,6 @@
 from qxmt.ansatze import __all__
 
-EXPECTED_ALL = ["BaseAnsatz"]
+EXPECTED_ALL = ["BaseAnsatz", "BaseVQEAnsatz", "AnsatzBuilder"]
 
 
 def test_all_imports() -> None:
