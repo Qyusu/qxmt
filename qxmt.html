@@ -432,6 +432,13 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.configs">qxmt.configs module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.model_config"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.module_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.params"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -464,12 +471,14 @@ document.write(`
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.ansatz"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.ansatz</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.hamiltonian"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.hamiltonian</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
@@ -506,6 +515,13 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.model_config"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.module_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.params"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig"><code class="docutils literal notranslate"><span class="pre">KernelConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">KernelConfig.implement_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">KernelConfig.model_config</span></code></a></li>
@@ -514,10 +530,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig"><code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.diff_method"><code class="docutils literal notranslate"><span class="pre">ModelConfig.diff_method</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ModelConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ModelConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ModelConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.name"><code class="docutils literal notranslate"><span class="pre">ModelConfig.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.optimizer_settings"><code class="docutils literal notranslate"><span class="pre">ModelConfig.optimizer_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.params"><code class="docutils literal notranslate"><span class="pre">ModelConfig.params</span></code></a></li>
 </ul>
 </li>
@@ -572,6 +590,13 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.types">qxmt.types module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.model_config"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.module_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.params"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -604,25 +629,35 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.name"><code class="docutils literal notranslate"><span class="pre">Experiment.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.desc"><code class="docutils literal notranslate"><span class="pre">Experiment.desc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.auto_gen_mode"><code class="docutils literal notranslate"><span class="pre">Experiment.auto_gen_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.root_experiment_dirc"><code class="docutils literal notranslate"><span class="pre">Experiment.root_experiment_dirc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.experiment_dirc"><code class="docutils literal notranslate"><span class="pre">Experiment.experiment_dirc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.current_run_id"><code class="docutils literal notranslate"><span class="pre">Experiment.current_run_id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.exp_db"><code class="docutils literal notranslate"><span class="pre">Experiment.exp_db</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.logger"><code class="docutils literal notranslate"><span class="pre">Experiment.logger</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment._repo"><code class="docutils literal notranslate"><span class="pre">Experiment._repo</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load"><code class="docutils literal notranslate"><span class="pre">Experiment.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.reproduce"><code class="docutils literal notranslate"><span class="pre">Experiment.reproduce()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run_evaluation"><code class="docutils literal notranslate"><span class="pre">Experiment.run_evaluation()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.runs_to_dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.runs_to_dataframe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.save_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.save_experiment()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.ansatz"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.ansatz</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.hamiltonian"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.hamiltonian</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
@@ -662,6 +697,13 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.model_config"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.module_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.params"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.IBMQSettingError"><code class="docutils literal notranslate"><span class="pre">IBMQSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InvalidFileExtensionError"><code class="docutils literal notranslate"><span class="pre">InvalidFileExtensionError</span></code></a></li>
@@ -677,10 +719,12 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig"><code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.diff_method"><code class="docutils literal notranslate"><span class="pre">ModelConfig.diff_method</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ModelConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ModelConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ModelConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.name"><code class="docutils literal notranslate"><span class="pre">ModelConfig.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.optimizer_settings"><code class="docutils literal notranslate"><span class="pre">ModelConfig.optimizer_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.params"><code class="docutils literal notranslate"><span class="pre">ModelConfig.params</span></code></a></li>
 </ul>
 </li>
@@ -781,6 +825,42 @@ document.write(`
 </section>
 <section id="module-qxmt.configs">
 <span id="qxmt-configs-module"></span><h2>qxmt.configs module<a class="headerlink" href="#module-qxmt.configs" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.configs.AnsatzConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">AnsatzConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.AnsatzConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.AnsatzConfig.implement_name">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.configs.AnsatzConfig.implement_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.AnsatzConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.configs.AnsatzConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.AnsatzConfig.module_name">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.configs.AnsatzConfig.module_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.AnsatzConfig.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.AnsatzConfig.params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.DatasetConfig">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">openml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_preprocess_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.DatasetConfig" title="Link to this definition">#</a></dt>
@@ -956,7 +1036,7 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ExperimentConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -964,10 +1044,12 @@ document.write(`
 <li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>description</strong> (<em>str</em>)</p></li>
 <li><p><strong>global_settings</strong> (<a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><em>GlobalSettingsConfig</em></a>)</p></li>
-<li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><em>HamiltonianConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>ansatz</strong> (<a class="reference internal" href="#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><em>AnsatzConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>model</strong> (<a class="reference internal" href="#qxmt.configs.ModelConfig" title="qxmt.configs.ModelConfig"><em>ModelConfig</em></a>)</p></li>
 <li><p><strong>evaluation</strong> (<a class="reference internal" href="#qxmt.configs.EvaluationConfig" title="qxmt.configs.EvaluationConfig"><em>EvaluationConfig</em></a>)</p></li>
 </ul>
@@ -996,8 +1078,13 @@ This case the data is a dictionary with the configuration data.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><span class="pre">AnsatzConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.ansatz" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.dataset">
-<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1023,6 +1110,11 @@ This case the data is a dictionary with the configuration data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.global_settings">
 <span class="sig-name descname"><span class="pre">global_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><span class="pre">GlobalSettingsConfig</span></a></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.global_settings" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.ExperimentConfig.hamiltonian">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><span class="pre">HamiltonianConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ExperimentConfig.hamiltonian" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1180,14 +1272,14 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
 <li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'qkernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -1219,7 +1311,43 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.configs.HamiltonianConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">HamiltonianConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.HamiltonianConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.HamiltonianConfig.implement_name">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.configs.HamiltonianConfig.implement_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.HamiltonianConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#qxmt.configs.HamiltonianConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.HamiltonianConfig.module_name">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.configs.HamiltonianConfig.module_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.HamiltonianConfig.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.HamiltonianConfig.params" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1262,7 +1390,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.configs.ModelConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ModelConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.configs.ModelConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1271,9 +1399,16 @@ This is useful if you want to do some validation that requires the entire model 
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>diff_method</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.ModelConfig.diff_method">
+<span class="sig-name descname"><span class="pre">diff_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ModelConfig.diff_method" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ModelConfig.feature_map">
 <span class="sig-name descname"><span class="pre">feature_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><span class="pre">FeatureMapConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ModelConfig.feature_map" title="Link to this definition">#</a></dt>
@@ -1293,6 +1428,11 @@ This is useful if you want to do some validation that requires the entire model 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.configs.ModelConfig.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.configs.ModelConfig.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.configs.ModelConfig.optimizer_settings">
+<span class="sig-name descname"><span class="pre">optimizer_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.configs.ModelConfig.optimizer_settings" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1570,6 +1710,42 @@ This is useful if you want to do some validation that requires the entire model 
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="qxmt.AnsatzConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">AnsatzConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.AnsatzConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.AnsatzConfig.implement_name">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.AnsatzConfig.implement_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.AnsatzConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em><a class="headerlink" href="#qxmt.AnsatzConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.AnsatzConfig.module_name">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.AnsatzConfig.module_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.AnsatzConfig.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.AnsatzConfig.params" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="qxmt.DatasetConfig">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">openml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_preprocess_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.DatasetConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
@@ -1752,41 +1928,51 @@ This is useful if you want to do some validation that requires the entire model 
 <dt class="sig sig-object py" id="qxmt.Experiment">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Experiment class for managing the experiment and each run data.
-The Experiment class provides methods for initializing the experiment,
-running the experiment, saving the experiment data, and reproducing the model.</p>
-<p>All experiment data is stored in the ExperimentDB instance.
-It is save in local directory as a json file (root_experiment_dirc/experiments/your_exp_name/experiment.json).</p>
-<p>Experiment can be initialized and strated from scratch by calling the <cite>init()</cite> method.
-Anthoer way is to load the existing experiment data from the json file (experiment.json)
-by calling the <cite>load_experiment()</cite> method.</p>
-<p>The Experiment class can be used in two ways:
-1. <strong>Provide config_path</strong>:
-This method accepts the path to the config file or config instance.
-It is more flexible but requires a YAML base config file.
-This method tracks the experiment settings, result and can reproduce the model.
-Officially, we recommend using the config file method.</p>
-<p>2. <strong>Directly provide dataset and model instance</strong>:
-This method directly accepts dataset and model instances.
-It is easy to use but does “NOT” track the experiment settings.
-This method is useful for adhoc experiments, quick testing or debugging.</p>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
-<span class="gp">... </span>       <span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_qsvm_algorithm&quot;</span><span class="p">,</span>
-<span class="gp">... </span>      <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;This is a experiment for new qsvm algorithm.</span>
-<span class="gp">... </span><span class="s2">       This experiment is applied and evaluated on multiple datasets.</span>
-<span class="gp">... </span><span class="s2">       &quot;&quot;&quot;</span><span class="p">,</span>
-<span class="gp">... </span>       <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-<span class="gp">... </span>   <span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/template.yaml&quot;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
-<span class="go">    run_id      accuracy        precision       recall  f1_score</span>
-<span class="go">0            1      0.45             0.53         0.66      0.59</span>
-</pre></div>
-</div>
+<p>Manage the life-cycle of quantum machine-learning experiments.</p>
+<p>The Experiment class is the centerpiece of the <em>Quantum eXperiment Management Tool</em> (QXMT).
+It orchestrates creation and loading of experiment directories, execution of runs,
+persistence and aggregation of results, and ensures reproducibility. Every
+side-effect that touches the file-system is delegated to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">qxmt.experiment.repository.ExperimentRepository</span></code>, so this class can focus on
+business logic.</p>
+<dl>
+<dt>Responsibilities:</dt><dd><ol class="arabic">
+<li><p><strong>Initialization / Loading</strong>
+* <a class="reference internal" href="#qxmt.Experiment.init" title="qxmt.Experiment.init"><code class="xref py py-meth docutils literal notranslate"><span class="pre">init()</span></code></a>  - create a new experiment directory and an empty <cite>ExperimentDB</cite>.
+* <a class="reference internal" href="#qxmt.Experiment.load" title="qxmt.Experiment.load"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code></a>  - load an existing experiment from a JSON file.</p></li>
+<li><p><strong>Run management</strong>
+* <a class="reference internal" href="#qxmt.Experiment.run" title="qxmt.Experiment.run"><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code></a>  - execute an experiment run with QKernel or VQE models (supports both</p>
+<blockquote>
+<div><p>config-based and instance-based workflows).</p>
+</div></blockquote>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_setup()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_backfill()</span></code> - create and rollback run directories.</p></li>
+</ul>
+</li>
+<li><p><strong>Result handling</strong>
+* <a class="reference internal" href="#qxmt.Experiment.runs_to_dataframe" title="qxmt.Experiment.runs_to_dataframe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">runs_to_dataframe()</span></code></a> - convert <cite>RunRecord`s into a `pandas.DataFrame</cite> for easy analysis.
+* <a class="reference internal" href="#qxmt.Experiment.save_experiment" title="qxmt.Experiment.save_experiment"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_experiment()</span></code></a> - persist the <cite>ExperimentDB</cite> to disk.
+* <a class="reference internal" href="#qxmt.Experiment.get_run_record" title="qxmt.Experiment.get_run_record"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_run_record()</span></code></a> - retrieve a single <cite>RunRecord</cite> by <em>run_id</em>.</p></li>
+<li><p><strong>Reproducibility</strong>
+* <a class="reference internal" href="#qxmt.Experiment.reproduce" title="qxmt.Experiment.reproduce"><code class="xref py py-meth docutils literal notranslate"><span class="pre">reproduce()</span></code></a> - re-execute a past run and validate that results match.</p></li>
+</ol>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
+from qxmt.experiment import Experiment</p>
+<p>exp = Experiment(name=”my_exp”).init()
+artifact, record = exp.run(</p>
+<blockquote>
+<div><p>model_type=”qkernel”,
+task_type=”classification”,
+dataset=dataset_instance,
+model=model_instance,</p>
+</div></blockquote>
+<p>)</p>
+<p># Aggregate results
+df = exp.runs_to_dataframe()
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1799,33 +1985,142 @@ This method is useful for adhoc experiments, quick testing or debugging.</p>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#qxmt.Experiment.name" title="Link to this definition">#</a></dt>
+<dd><p>Experiment name. If <em>None</em>, a timestamped name is generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.desc">
+<span class="sig-name descname"><span class="pre">desc</span></span><a class="headerlink" href="#qxmt.Experiment.desc" title="Link to this definition">#</a></dt>
+<dd><p>Human-readable description. When <cite>auto_gen_mode</cite> is enabled and the value is an
+empty string, an LLM can generate it automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.auto_gen_mode">
+<span class="sig-name descname"><span class="pre">auto_gen_mode</span></span><a class="headerlink" href="#qxmt.Experiment.auto_gen_mode" title="Link to this definition">#</a></dt>
+<dd><p>Whether to generate run descriptions with an LLM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.root_experiment_dirc">
+<span class="sig-name descname"><span class="pre">root_experiment_dirc</span></span><a class="headerlink" href="#qxmt.Experiment.root_experiment_dirc" title="Link to this definition">#</a></dt>
+<dd><p>Root directory where all experiments are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.experiment_dirc">
+<span class="sig-name descname"><span class="pre">experiment_dirc</span></span><a class="headerlink" href="#qxmt.Experiment.experiment_dirc" title="Link to this definition">#</a></dt>
+<dd><p>Directory assigned to this particular experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.current_run_id">
+<span class="sig-name descname"><span class="pre">current_run_id</span></span><a class="headerlink" href="#qxmt.Experiment.current_run_id" title="Link to this definition">#</a></dt>
+<dd><p>ID of the next run to be executed (zero-based).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.exp_db">
+<span class="sig-name descname"><span class="pre">exp_db</span></span><a class="headerlink" href="#qxmt.Experiment.exp_db" title="Link to this definition">#</a></dt>
+<dd><p>In-memory database object holding experiment meta-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ExperimentDB | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment.logger">
+<span class="sig-name descname"><span class="pre">logger</span></span><a class="headerlink" href="#qxmt.Experiment.logger" title="Link to this definition">#</a></dt>
+<dd><p>Logger instance to report progress and warnings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>logging.Logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.Experiment._repo">
+<span class="sig-name descname"><span class="pre">_repo</span></span><a class="headerlink" href="#qxmt.Experiment._repo" title="Link to this definition">#</a></dt>
+<dd><p>Internal repository that encapsulates all filesystem &amp; persistence operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ExperimentRepository</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.Experiment.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.__init__" title="Link to this definition">#</a></dt>
-<dd><p>Initialize the Experiment class.
-Set the experiment name, description,
-and other settings such as auto_gen_mode, root_experiment_dirc and logger.
-auto_gen_mode controls whether to use the DescriptionGenerator by LLM.
-If use, set environemnt variable “USE_LLM” to True.
-root_experiment_dirc is the root directory to save the experiment data.
-Each artifact and result store in the subdirectory of the root directory.</p>
+<dd><p>Initialize the Experiment class with experiment settings and configuration.</p>
+<p>This method sets up the basic configuration for the experiment, including:
+- Experiment name and description
+- Auto-generation mode for descriptions
+- Experiment directory structure
+- LLM model path (if using auto-generation)
+- Logger configuration</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – experiment name. If None, generate by execution time. Defaults to None.</p></li>
-<li><p><strong>desc</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – description of the experiment.
-The purpose is search, memo, etc not used in the code. Defaults to None.</p></li>
-<li><p><strong>auto_gen_mode</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to use the DescriptionGenerator
-for generating the description of each run. Defaults to USE_LLM.</p></li>
-<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – root directory to save the experiment data. Defaults to DEFAULT_EXP_DIRC.</p></li>
-<li><p><strong>llm_model_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the LLM model. Defaults to LLM_MODEL_PATH.</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em><em>, </em><em>optional</em>) – logger instance for warning or error messages. Defaults to LOGGER.</p></li>
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Name of the experiment. If None, a default name will be generated
+using the current timestamp. Defaults to None.</p></li>
+<li><p><strong>desc</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Description of the experiment. Used for documentation and search purposes.
+If None and auto_gen_mode is True, a description will be generated. Defaults to None.</p></li>
+<li><p><strong>auto_gen_mode</strong> (<em>bool</em>) – Whether to use the DescriptionGenerator for automatic description generation.
+Requires the “USE_LLM” environment variable to be set to True. Defaults to USE_LLM.</p></li>
+<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Root directory where experiment data will be stored.
+Defaults to DEFAULT_EXP_DIRC.</p></li>
+<li><p><strong>llm_model_path</strong> (<em>str</em>) – Path to the LLM model used for description generation.
+Defaults to LLM_MODEL_PATH.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – Logger instance for handling warning and error messages.
+Defaults to LOGGER.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If auto_gen_mode is True but USE_LLM is False, a warning will be logged
+and auto_gen_mode will be automatically set to False.</p>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -1835,18 +2130,18 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>run_id</strong> (<em>int</em>) – target run_id</p></li>
-<li><p><strong>runs</strong> (<em>list</em><em>[</em><em>RunRecord</em><em>]</em>)</p></li>
+<li><p><strong>runs</strong> (<em>list</em><em>[</em><em>RunRecord</em><em>]</em>) – List of run records to search.</p></li>
+<li><p><strong>run_id</strong> (<em>int</em>) – Target run_id.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Target run record.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RunRecord</p>
+</dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – if the run record does not exist</p>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>target run record</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>RunRecord</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If the run record does not exist.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1855,12 +2150,17 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dt class="sig sig-object py" id="qxmt.Experiment.init">
 <span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.init" title="Link to this definition">#</a></dt>
 <dd><p>Initialize the experiment directory and DB.</p>
+<p>Creates a new experiment directory and initializes an empty ExperimentDB.
+The directory will be created under root_experiment_dirc with the experiment name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>initialized experiment</p>
+<dd class="field-odd"><p>Initialized experiment instance.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference internal" href="#qxmt.Experiment" title="qxmt.Experiment">Experiment</a></p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.ExperimentSettingError" title="qxmt.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – If the experiment directory already exists.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1872,132 +2172,154 @@ for generating the description of each run. Defaults to USE_LLM.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>exp_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the experiment directory</p></li>
-<li><p><strong>exp_file_name</strong> (<em>str</em><em> | </em><em>Path</em>)</p></li>
+<li><p><strong>exp_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the experiment directory.</p></li>
+<li><p><strong>exp_file_name</strong> (<em>str</em><em> | </em><em>Path</em>) – Name of the experiment file. Defaults to DEFAULT_EXP_DB_FILE.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loaded experiment instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#qxmt.Experiment" title="qxmt.Experiment">Experiment</a></p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>FileNotFoundError</strong> – if the experiment file does not exist</p></li>
-<li><p><a class="reference internal" href="#qxmt.ExperimentSettingError" title="qxmt.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – if the experiment directory does not exist</p></li>
+<li><p><strong>FileNotFoundError</strong> – If the experiment file does not exist.</p></li>
+<li><p><a class="reference internal" href="#qxmt.ExperimentSettingError" title="qxmt.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – If the experiment directory does not exist.</p></li>
 </ul>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>loaded experiment</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#qxmt.Experiment" title="qxmt.Experiment">Experiment</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.Experiment.reproduce">
-<span class="sig-name descname"><span class="pre">reproduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_commit_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.reproduce" title="Link to this definition">#</a></dt>
-<dd><p>Reproduce the target run_id model from config file.
-If the target run_id does not have a config file path, raise an error.
-Reoroduce method not supported for the run executed from the instance.</p>
+<span class="sig-name descname"><span class="pre">reproduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_commit_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.reproduce" title="Link to this definition">#</a></dt>
+<dd><p>Reproduce a previous experiment run using its configuration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>run_id</strong> (<em>int</em>) – target run_id</p></li>
-<li><p><strong>check_commit_id</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to check the commit_id. Defaults to False.</p></li>
+<li><p><strong>run_id</strong> (<em>int</em>) – ID of the run to reproduce.</p></li>
+<li><p><strong>check_commit_id</strong> (<em>bool</em>) – Whether to verify that the current git commit matches the original run.
+Defaults to False.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – Tolerance for comparing evaluation metrics between original and reproduced runs.
+Defaults to 1e-6.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>artifact and record of the reproduced run_id</p>
+<dd class="field-even"><p>A tuple containing the reproduced run’s artifact and record.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ReproductinoError</strong> – if the run_id does not have a config file path</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
+<li><p><a class="reference internal" href="#qxmt.ReproductionError" title="qxmt.ReproductionError"><strong>ReproductionError</strong></a> – If the run was executed in instance-based mode (no config file available).</p></li>
+<li><p><strong>ValueError</strong> – If the reproduced results differ significantly from the original run.</p></li>
+</ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Only runs executed in config-based mode can be reproduced.</p></li>
+<li><p>The method will raise an error if the reproduced results differ from the original
+beyond the specified tolerance.</p></li>
+<li><p>If check_commit_id is True and the current commit differs from the original,
+a warning will be logged but the reproduction will continue.</p></li>
+</ul>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.Experiment.run">
-<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.run" title="Link to this definition">#</a></dt>
-<dd><p>Start a new run for the experiment.</p>
-<p>The <cite>run()</cite> method can be called in two ways:</p>
-<p>1. <strong>Provide dataset and model instance</strong>:
-This method directly accepts dataset and model instances.
-It is easy to use but less flexible and does “NOT” track the experiment settings.</p>
-<p>2. <strong>Provide config_path</strong>:
-This method accepts the path to the config file or config instance.
-It is more flexible but requires a config file.</p>
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.run" title="Link to this definition">#</a></dt>
+<dd><p>Execute a new experiment run with the specified configuration.</p>
+<p>This method supports two main modes of operation:
+1. Config-based mode: Using a configuration file or ExperimentConfig instance
+2. Instance-based mode: Directly providing dataset and model instances</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>task_type</strong> (<em>str</em><em>, </em><em>optional</em>) – type of the task (classification or regression). Defaults to None.</p></li>
-<li><p><strong>dataset</strong> (<em>Dataset</em>) – the dataset object.</p></li>
-<li><p><strong>model</strong> (<em>BaseMLModel</em>) – the model object.</p></li>
-<li><p><strong>config_source</strong> (<a class="reference internal" href="#qxmt.ExperimentConfig" title="qxmt.ExperimentConfig"><em>ExperimentConfig</em></a><em>, </em><em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – config source can be either an <cite>ExperimentConfig</cite>
-instance or the path to a config file. If a path is provided, it loads and creates an
-<cite>ExperimentConfig</cite> instance. Defaults to None.</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – list of default metrics names. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – list of user defined custom metric configurations. Defaults to None.</p></li>
-<li><p><strong>n_jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – number of jobs for parallel processing. Defaults to DEFAULT_N_JOBS.</p></li>
-<li><p><strong>show_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to show the progress bar. Defaults to True.</p></li>
-<li><p><strong>desc</strong> (<em>str</em><em>, </em><em>optional</em>) – description of the run. Defaults to “”.</p></li>
-<li><p><strong>repo_path</strong> (<em>str</em><em>, </em><em>optional</em>) – path to the git repository. Defaults to None.</p></li>
-<li><p><strong>add_results</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to add the run record to the experiment. Defaults to True.</p></li>
+<li><p><strong>model_type</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Type of model to use (‘qkernel’ or ‘vqe’).
+Required for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>task_type</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Type of task for QKernel models (‘classification’ or ‘regression’).
+Required for QKernel models. Defaults to None.</p></li>
+<li><p><strong>dataset</strong> (<em>Optional</em><em>[</em><em>Dataset</em><em>]</em>) – Dataset instance for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>BaseMLModel</em><em> | </em><em>BaseVQE</em><em>]</em>) – Model instance for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>config_source</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="#qxmt.ExperimentConfig" title="qxmt.ExperimentConfig"><em>ExperimentConfig</em></a><em> | </em><em>str</em><em> | </em><em>Path</em><em>]</em>) – Configuration source for config-based mode.
+Can be an ExperimentConfig instance or path to config file. Defaults to None.</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of default metrics to evaluate. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – List of custom metric configurations. Defaults to None.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – Number of parallel jobs for processing. Defaults to DEFAULT_N_JOBS.</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em>) – Whether to display progress bars. Defaults to True.</p></li>
+<li><p><strong>desc</strong> (<em>str</em>) – Description of the run. Defaults to “”.</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Path to git repository for version tracking. Defaults to None.</p></li>
+<li><p><strong>add_results</strong> (<em>bool</em>) – Whether to save run results and artifacts. Defaults to True.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Returns a tuple containing the artifact and run record of the current run_id.</p>
+<dd class="field-even"><p>A tuple containing the run artifact and record.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – Raised if the experiment is not initialized.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.Experiment.run_evaluation">
-<span class="sig-name descname"><span class="pre">run_evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.run_evaluation" title="Link to this definition">#</a></dt>
-<dd><p>Run evaluation for the current run.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual values</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted values</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – list of default metrics name</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – list of user defined custom metric configurations</p></li>
-<li><p><strong>task_type</strong> (<em>str</em>)</p></li>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
+<li><p><a class="reference internal" href="#qxmt.ExperimentRunSettingError" title="qxmt.ExperimentRunSettingError"><strong>ExperimentRunSettingError</strong></a> – If required parameters are missing or invalid.</p></li>
+<li><p><strong>ValueError</strong> – If model_type is invalid.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>evaluation result</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For config-based mode, the configuration file will be saved in the run directory.</p></li>
+<li><p>For instance-based mode, model_type must be specified.</p></li>
+<li><p>If git is available, the commit ID will be tracked.</p></li>
+</ul>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.Experiment.runs_to_dataframe">
 <span class="sig-name descname"><span class="pre">runs_to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.Experiment.runs_to_dataframe" title="Link to this definition">#</a></dt>
-<dd><p>Convert the run data to a pandas DataFrame.</p>
+<dd><p>Convert experiment run records into a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>include_validation</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to include the validation results. Defaults to False.</p>
+<dd class="field-odd"><p><strong>include_validation</strong> (<em>bool</em>) – Whether to include validation metrics in the DataFrame.
+Defaults to False.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame of run data</p>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing run results with the following columns:</dt><dd><ul class="simple">
+<li><p>run_id: The ID of each run</p></li>
+<li><p>[metric_name]: Evaluation metrics for test data</p></li>
+<li><p>[metric_name]_validation: Validation metrics (if include_validation is True)</p></li>
+</ul>
+</dd>
+</dl>
+</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ValueError</strong> – If the run records contain invalid evaluation types.</p></li>
+</ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The DataFrame will be empty if no runs have been recorded.</p></li>
+<li><p>Validation metrics are only included if they were computed during the run.</p></li>
+<li><p>The method automatically handles both QKernel and VQE evaluation types.</p></li>
+</ul>
+</div>
 </dd></dl>
 
 <dl class="py method">
@@ -2006,10 +2328,11 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <dd><p>Save the experiment data to a json file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em><em>, </em><em>optional</em>) – name of the file to save the experiment data.Defaults to DEFAULT_EXP_DB_FILE.</p>
+<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em>) – Name of the file to save the experiment data.
+Defaults to DEFAULT_EXP_DB_FILE.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – if the experiment is not initialized</p>
+<dd class="field-even"><p><a class="reference internal" href="#qxmt.ExperimentNotInitializedError" title="qxmt.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment is not initialized.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -2021,7 +2344,7 @@ instance or the path to a config file. If a path is provided, it loads and creat
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ExperimentConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2029,10 +2352,12 @@ instance or the path to a config file. If a path is provided, it loads and creat
 <li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>description</strong> (<em>str</em>)</p></li>
 <li><p><strong>global_settings</strong> (<a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><em>GlobalSettingsConfig</em></a>)</p></li>
-<li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><em>HamiltonianConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>ansatz</strong> (<a class="reference internal" href="#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><em>AnsatzConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>model</strong> (<a class="reference internal" href="#qxmt.configs.ModelConfig" title="qxmt.configs.ModelConfig"><em>ModelConfig</em></a>)</p></li>
 <li><p><strong>evaluation</strong> (<a class="reference internal" href="#qxmt.configs.EvaluationConfig" title="qxmt.configs.EvaluationConfig"><em>EvaluationConfig</em></a>)</p></li>
 </ul>
@@ -2061,8 +2386,13 @@ This case the data is a dictionary with the configuration data.</p>
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ExperimentConfig.ansatz">
+<span class="sig-name descname"><span class="pre">ansatz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><span class="pre">AnsatzConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.ansatz" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.dataset">
-<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em><a class="headerlink" href="#qxmt.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.dataset" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2088,6 +2418,11 @@ This case the data is a dictionary with the configuration data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ExperimentConfig.global_settings">
 <span class="sig-name descname"><span class="pre">global_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><span class="pre">GlobalSettingsConfig</span></a></em><a class="headerlink" href="#qxmt.ExperimentConfig.global_settings" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ExperimentConfig.hamiltonian">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><span class="pre">HamiltonianConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ExperimentConfig.hamiltonian" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2263,14 +2598,14 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.GlobalSettingsConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
 <li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'qkernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -2302,7 +2637,43 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.GlobalSettingsConfig.task_type">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.GlobalSettingsConfig.task_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.HamiltonianConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">HamiltonianConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.HamiltonianConfig" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.HamiltonianConfig.implement_name">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.HamiltonianConfig.implement_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.HamiltonianConfig.model_config">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em><a class="headerlink" href="#qxmt.HamiltonianConfig.model_config" title="Link to this definition">#</a></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.HamiltonianConfig.module_name">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.HamiltonianConfig.module_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.HamiltonianConfig.params">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.HamiltonianConfig.params" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -2387,7 +2758,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py" id="qxmt.ModelConfig">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ModelConfig" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ModelConfig" title="Link to this definition">#</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2396,9 +2767,16 @@ This is useful if you want to do some validation that requires the entire model 
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>diff_method</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ModelConfig.diff_method">
+<span class="sig-name descname"><span class="pre">diff_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ModelConfig.diff_method" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ModelConfig.feature_map">
 <span class="sig-name descname"><span class="pre">feature_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><span class="pre">FeatureMapConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ModelConfig.feature_map" title="Link to this definition">#</a></dt>
@@ -2418,6 +2796,11 @@ This is useful if you want to do some validation that requires the entire model 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="qxmt.ModelConfig.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#qxmt.ModelConfig.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ModelConfig.optimizer_settings">
+<span class="sig-name descname"><span class="pre">optimizer_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#qxmt.ModelConfig.optimizer_settings" title="Link to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -2542,6 +2925,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#subpackages">Subpackages</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.configs">qxmt.configs module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.model_config"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.module_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.AnsatzConfig.params"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -2574,12 +2964,14 @@ This is useful if you want to do some validation that requires the entire model 
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.ansatz"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.ansatz</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.hamiltonian"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.hamiltonian</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
@@ -2616,6 +3008,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.model_config"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.module_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.HamiltonianConfig.params"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig"><code class="docutils literal notranslate"><span class="pre">KernelConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">KernelConfig.implement_name</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.KernelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">KernelConfig.model_config</span></code></a></li>
@@ -2624,10 +3023,12 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig"><code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.diff_method"><code class="docutils literal notranslate"><span class="pre">ModelConfig.diff_method</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ModelConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ModelConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ModelConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.name"><code class="docutils literal notranslate"><span class="pre">ModelConfig.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.optimizer_settings"><code class="docutils literal notranslate"><span class="pre">ModelConfig.optimizer_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.configs.ModelConfig.params"><code class="docutils literal notranslate"><span class="pre">ModelConfig.params</span></code></a></li>
 </ul>
 </li>
@@ -2682,6 +3083,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.types">qxmt.types module</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt">Module contents</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AmazonBraketSettingError"><code class="docutils literal notranslate"><span class="pre">AmazonBraketSettingError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.model_config"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.module_name"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.AnsatzConfig.params"><code class="docutils literal notranslate"><span class="pre">AnsatzConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig"><code class="docutils literal notranslate"><span class="pre">DatasetConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.features"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.features</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.DatasetConfig.file"><code class="docutils literal notranslate"><span class="pre">DatasetConfig.file</span></code></a></li>
@@ -2714,25 +3122,35 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment"><code class="docutils literal notranslate"><span class="pre">Experiment</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.name"><code class="docutils literal notranslate"><span class="pre">Experiment.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.desc"><code class="docutils literal notranslate"><span class="pre">Experiment.desc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.auto_gen_mode"><code class="docutils literal notranslate"><span class="pre">Experiment.auto_gen_mode</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.root_experiment_dirc"><code class="docutils literal notranslate"><span class="pre">Experiment.root_experiment_dirc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.experiment_dirc"><code class="docutils literal notranslate"><span class="pre">Experiment.experiment_dirc</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.current_run_id"><code class="docutils literal notranslate"><span class="pre">Experiment.current_run_id</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.exp_db"><code class="docutils literal notranslate"><span class="pre">Experiment.exp_db</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.logger"><code class="docutils literal notranslate"><span class="pre">Experiment.logger</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment._repo"><code class="docutils literal notranslate"><span class="pre">Experiment._repo</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.__init__"><code class="docutils literal notranslate"><span class="pre">Experiment.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.get_run_record"><code class="docutils literal notranslate"><span class="pre">Experiment.get_run_record()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.init"><code class="docutils literal notranslate"><span class="pre">Experiment.init()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.load"><code class="docutils literal notranslate"><span class="pre">Experiment.load()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.reproduce"><code class="docutils literal notranslate"><span class="pre">Experiment.reproduce()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run"><code class="docutils literal notranslate"><span class="pre">Experiment.run()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.run_evaluation"><code class="docutils literal notranslate"><span class="pre">Experiment.run_evaluation()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.runs_to_dataframe"><code class="docutils literal notranslate"><span class="pre">Experiment.runs_to_dataframe()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.Experiment.save_experiment"><code class="docutils literal notranslate"><span class="pre">Experiment.save_experiment()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.__init__"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.__init__()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.ansatz"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.ansatz</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.dataset"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.dataset</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.description"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.description</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.device"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.device</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.evaluation"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.evaluation</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.global_settings"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.global_settings</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.hamiltonian"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.hamiltonian</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.load_from_path"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.load_from_path()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ExperimentConfig.model"><code class="docutils literal notranslate"><span class="pre">ExperimentConfig.model</span></code></a></li>
@@ -2772,6 +3190,13 @@ This is useful if you want to do some validation that requires the entire model 
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.GlobalSettingsConfig.task_type"><code class="docutils literal notranslate"><span class="pre">GlobalSettingsConfig.task_type</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.implement_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.implement_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.model_config"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.model_config</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.module_name"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.module_name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.HamiltonianConfig.params"><code class="docutils literal notranslate"><span class="pre">HamiltonianConfig.params</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.IBMQSettingError"><code class="docutils literal notranslate"><span class="pre">IBMQSettingError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InputShapeError"><code class="docutils literal notranslate"><span class="pre">InputShapeError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.InvalidFileExtensionError"><code class="docutils literal notranslate"><span class="pre">InvalidFileExtensionError</span></code></a></li>
@@ -2787,10 +3212,12 @@ This is useful if you want to do some validation that requires the entire model 
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig"><code class="docutils literal notranslate"><span class="pre">ModelConfig</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.diff_method"><code class="docutils literal notranslate"><span class="pre">ModelConfig.diff_method</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.feature_map"><code class="docutils literal notranslate"><span class="pre">ModelConfig.feature_map</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.kernel"><code class="docutils literal notranslate"><span class="pre">ModelConfig.kernel</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.model_config"><code class="docutils literal notranslate"><span class="pre">ModelConfig.model_config</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.name"><code class="docutils literal notranslate"><span class="pre">ModelConfig.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.optimizer_settings"><code class="docutils literal notranslate"><span class="pre">ModelConfig.optimizer_settings</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ModelConfig.params"><code class="docutils literal notranslate"><span class="pre">ModelConfig.params</span></code></a></li>
 </ul>
 </li>

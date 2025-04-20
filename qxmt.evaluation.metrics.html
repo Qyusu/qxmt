@@ -448,6 +448,18 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FCIEnergy"><code class="docutils literal notranslate"><span class="pre">FCIEnergy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FCIEnergy.evaluate"><code class="docutils literal notranslate"><span class="pre">FCIEnergy.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FinalCost"><code class="docutils literal notranslate"><span class="pre">FinalCost</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FinalCost.evaluate"><code class="docutils literal notranslate"><span class="pre">FinalCost.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.HFEnergy"><code class="docutils literal notranslate"><span class="pre">HFEnergy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.HFEnergy.evaluate"><code class="docutils literal notranslate"><span class="pre">HFEnergy.evaluate()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.MeanAbsoluteError"><code class="docutils literal notranslate"><span class="pre">MeanAbsoluteError</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.MeanAbsoluteError.__init__"><code class="docutils literal notranslate"><span class="pre">MeanAbsoluteError.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.MeanAbsoluteError.evaluate"><code class="docutils literal notranslate"><span class="pre">MeanAbsoluteError.evaluate()</span></code></a></li>
@@ -642,15 +654,11 @@ Provide a common interface within the QXMT library by absorbing differences betw
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.metrics.BaseMetric.evaluate">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
 <dd><p>define evaluation method for each metric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
-</ul>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>evaluated score</p>
@@ -680,15 +688,11 @@ Provide a common interface within the QXMT library by absorbing differences betw
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.metrics.BaseMetric.set_score">
-<span class="sig-name descname"><span class="pre">set_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.BaseMetric.set_score" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.BaseMetric.set_score" title="Link to this definition">#</a></dt>
 <dd><p>Evaluated the score and set it to the score attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
-</ul>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
@@ -750,6 +754,107 @@ Provide a common interface within the QXMT library by absorbing differences betw
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>F1 score</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.FCIEnergy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.metrics.</span></span><span class="sig-name descname"><span class="pre">FCIEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'fci_energy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.FCIEnergy" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
+<p>Metric for calculating the Full Configuration Interaction (FCI) energy.</p>
+<p>This metric computes the FCI energy using the molecular Hamiltonian.
+The FCI energy represents the exact solution within the given basis set.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.FCIEnergy.evaluate">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.FCIEnergy.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Get the precomputed Full Configuration Interaction energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – The molecular Hamiltonian object</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The FCI energy value, or None if not available</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.FinalCost">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.metrics.</span></span><span class="sig-name descname"><span class="pre">FinalCost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'final_cost'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.FinalCost" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
+<p>Metric for calculating the final cost from VQE optimization history.</p>
+<p>This metric extracts the last cost value from the cost history, representing
+the final cost obtained from the VQE algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.FinalCost.evaluate">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cost_history</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.FinalCost.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Calculate the final cost.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cost_history</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – List of cost values from VQE optimization</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The final cost value</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.HFEnergy">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.metrics.</span></span><span class="sig-name descname"><span class="pre">HFEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'hf_energy'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.HFEnergy" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMetric</span></code></a></p>
+<p>Metric for calculating the Hartree-Fock (HF) energy.</p>
+<p>This metric computes the Hartree-Fock energy using the molecular Hamiltonian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>name</strong> (<em>str</em>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.evaluation.metrics.HFEnergy.evaluate">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.HFEnergy.evaluate" title="Link to this definition">#</a></dt>
+<dd><p>Get the precomputed Hartree-Fock energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – The molecular Hamiltonian object</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The Hartree-Fock energy value</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>float</p>
@@ -1123,6 +1228,18 @@ Provide a common interface within the QXMT library by absorbing differences betw
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.F1Score"><code class="docutils literal notranslate"><span class="pre">F1Score</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.F1Score.__init__"><code class="docutils literal notranslate"><span class="pre">F1Score.__init__()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.F1Score.evaluate"><code class="docutils literal notranslate"><span class="pre">F1Score.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FCIEnergy"><code class="docutils literal notranslate"><span class="pre">FCIEnergy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FCIEnergy.evaluate"><code class="docutils literal notranslate"><span class="pre">FCIEnergy.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FinalCost"><code class="docutils literal notranslate"><span class="pre">FinalCost</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.FinalCost.evaluate"><code class="docutils literal notranslate"><span class="pre">FinalCost.evaluate()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.HFEnergy"><code class="docutils literal notranslate"><span class="pre">HFEnergy</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.HFEnergy.evaluate"><code class="docutils literal notranslate"><span class="pre">HFEnergy.evaluate()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.evaluation.metrics.MeanAbsoluteError"><code class="docutils literal notranslate"><span class="pre">MeanAbsoluteError</span></code></a><ul class="nav section-nav flex-column">

@@ -473,6 +473,42 @@ document.write(`
 <h1>qxmt.configs module<a class="headerlink" href="#qxmt-configs-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">AnsatzConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid',</span> <span class="pre">'frozen':</span> <span class="pre">True}</span></em></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">DatasetConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">openml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">split</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raw_preprocess_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transform_logic</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
@@ -646,7 +682,7 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ExperimentConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_settings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluation</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -654,10 +690,12 @@ document.write(`
 <li><p><strong>path</strong> (<em>Path</em><em> | </em><em>str</em>)</p></li>
 <li><p><strong>description</strong> (<em>str</em>)</p></li>
 <li><p><strong>global_settings</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><em>GlobalSettingsConfig</em></a>)</p></li>
-<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a>)</p></li>
+<li><p><strong>dataset</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><em>DatasetConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>hamiltonian</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><em>HamiltonianConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>device</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.DeviceConfig" title="qxmt.configs.DeviceConfig"><em>DeviceConfig</em></a>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>ansatz</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><em>AnsatzConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>model</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.ModelConfig" title="qxmt.configs.ModelConfig"><em>ModelConfig</em></a>)</p></li>
 <li><p><strong>evaluation</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.EvaluationConfig" title="qxmt.configs.EvaluationConfig"><em>EvaluationConfig</em></a>)</p></li>
 </ul>
@@ -687,7 +725,12 @@ This case the data is a dictionary with the configuration data.</p>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a></em></dt>
+<span class="sig-name descname"><span class="pre">ansatz</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.AnsatzConfig" title="qxmt.configs.AnsatzConfig"><span class="pre">AnsatzConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">dataset</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.DatasetConfig" title="qxmt.configs.DatasetConfig"><span class="pre">DatasetConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -713,6 +756,11 @@ This case the data is a dictionary with the configuration data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">global_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.GlobalSettingsConfig" title="qxmt.configs.GlobalSettingsConfig"><span class="pre">GlobalSettingsConfig</span></a></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.HamiltonianConfig" title="qxmt.configs.HamiltonianConfig"><span class="pre">HamiltonianConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -870,14 +918,14 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">GlobalSettingsConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>random_seed</strong> (<em>int</em>)</p></li>
 <li><p><strong>model_type</strong> (<em>Literal</em><em>[</em><em>'qkernel'</em><em>, </em><em>'vqe'</em><em>]</em>)</p></li>
-<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>]</em>)</p></li>
+<li><p><strong>task_type</strong> (<em>Literal</em><em>[</em><em>'classification'</em><em>, </em><em>'regression'</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -909,7 +957,43 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span></em></dt>
+<span class="sig-name descname"><span class="pre">task_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'classification'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'regression'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">HamiltonianConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">implement_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>module_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>implement_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">implement_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'extra':</span> <span class="pre">'forbid'}</span></em></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">module_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">params</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -952,7 +1036,7 @@ This is useful if you want to do some validation that requires the entire model 
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.configs.</span></span><span class="sig-name descname"><span class="pre">ModelConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kernel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_settings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -961,9 +1045,16 @@ This is useful if you want to do some validation that requires the entire model 
 <li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
 <li><p><strong>feature_map</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><em>FeatureMapConfig</em></a><em> | </em><em>None</em>)</p></li>
 <li><p><strong>kernel</strong> (<a class="reference internal" href="qxmt.html#qxmt.configs.KernelConfig" title="qxmt.configs.KernelConfig"><em>KernelConfig</em></a><em> | </em><em>None</em>)</p></li>
+<li><p><strong>diff_method</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">diff_method</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">feature_map</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="qxmt.html#qxmt.configs.FeatureMapConfig" title="qxmt.configs.FeatureMapConfig"><span class="pre">FeatureMapConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
@@ -983,6 +1074,11 @@ This is useful if you want to do some validation that requires the entire model 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">optimizer_settings</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">

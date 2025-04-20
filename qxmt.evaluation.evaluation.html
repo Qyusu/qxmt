@@ -473,13 +473,14 @@ document.write(`
 <h1>qxmt.evaluation.evaluation module<a class="headerlink" href="#qxmt-evaluation-evaluation-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">ClassificationEvaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">ClassificationEvaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluation</span></code></p>
+<p>Evaluation class specifically for classification tasks.</p>
+<p>Inherits from Evaluation and uses classification-specific metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>predicted</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
 <li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
@@ -499,17 +500,46 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">Evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">Evaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Evaluation class for model evaluation.
-This class is used to evaluate the model performance by comparing the actual and predicted values.
-Evaluation metrics are defined by default and custom metrics.
-Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
+<p>A class for evaluating model performance using various metrics.</p>
+<p>This class provides functionality to evaluate model predictions against actual values
+using both default and custom metrics. Results can be accessed as dictionaries or pandas DataFrames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEFAULT_METRICS_NAME</span></span></dt>
+<dd><p>List of default metric names</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">NAME2METRIC</span></span></dt>
+<dd><p>Mapping of metric names to metric classes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[str, Type[<a class="reference internal" href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric" title="qxmt.evaluation.metrics.BaseMetric">BaseMetric</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Examples</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.evaluation.evaluation</span><span class="w"> </span><span class="kn">import</span> <span class="n">Evaluation</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">actual</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span> <span class="o">=</span> <span class="n">Evaluation</span><span class="p">(</span><span class="n">actual</span><span class="p">,</span> <span class="n">predicted</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;actual&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="s2">&quot;predicted&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span> <span class="o">=</span> <span class="n">Evaluation</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">evaluate</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">evaluation</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 <span class="go">{&#39;accuracy&#39;: 0.6666666666666666, &#39;precision&#39;: 0.6666666666666666, &#39;recall&#39;: 1.0, &#39;f1_score&#39;: 0.8}</span>
@@ -518,16 +548,6 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <span class="go">0  0.666667   0.666667     1.0       0.8</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>predicted</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p></li>
-<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>] </em><em>| </em><em>None</em>)</p></li>
-</ul>
-</dd>
-</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">DEFAULT_METRICS_NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em></dt>
@@ -540,15 +560,14 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the evaluation class.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the evaluation class with parameters and metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – numpy array of actual values</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – numpy array of predicted values</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by default. Defaults to None.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – metrics name list defined by user custom. Defaults to None.</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Dictionary containing evaluation parameters</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – List of default metric names to use. If None, uses class default metrics.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – List of custom metric configurations. Each metric must be a subclass of BaseMetric.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -560,7 +579,7 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Evaluate default and custom metrics.</p>
+<dd><p>Evaluate all default and custom metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -574,10 +593,10 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dd><p>Initialize and validate custom metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – list of custom metrics. Defaults to None.</p>
+<dd class="field-odd"><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – List of custom metric configurations</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – if the metric is not subclass of BaseMetric</p>
+<dd class="field-even"><p><strong>ValueError</strong> – If any custom metric is not a subclass of BaseMetric</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -590,11 +609,11 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <span class="sig-name descname"><span class="pre">init_default_metrics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Initialize and validate default metrics.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – if the metric is not implemented</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of default metric names to use</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>)</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If any specified metric is not implemented</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -605,13 +624,16 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">set_evaluation_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metrics</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Evaluate default metrics.</p>
+<dd><p>Calculate scores for a list of metrics using the evaluation parameters.</p>
+<p>This method evaluates each metric using only the parameters it requires.
+If a metric requires parameters that are not available in self.params,
+a KeyError will be raised.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – if the metric is not implemented</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.metrics.html#qxmt.evaluation.metrics.BaseMetric" title="qxmt.evaluation.metrics.BaseMetric"><em>BaseMetric</em></a><em>]</em>) – List of metrics to evaluate</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><em>BaseMetric</em></a><em>]</em>)</p>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – If a required parameter is missing from self.params</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -622,16 +644,16 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_columns_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Convert evaluation metrics to DataFrame.</p>
+<dd><p>Convert evaluation results to a pandas DataFrame.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – id of the evaluation (ex: run_id). Defaults to None.</p></li>
-<li><p><strong>id_columns_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – name of the id column. Defaults to None.</p></li>
+<li><p><strong>id</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Identifier for the evaluation (e.g., run_id)</p></li>
+<li><p><strong>id_columns_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – Name of the ID column in the DataFrame</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame of evaluation metrics</p>
+<dd class="field-even"><p>DataFrame containing evaluation metrics</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>pd.DataFrame</p>
@@ -642,16 +664,16 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Convert evaluation metrics to dictionary.</p>
+<dd><p>Convert evaluation results to a dictionary.</p>
 <dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary containing metric names as keys and their scores as values</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – if the metrics are not evaluated yet</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>dictionary of evaluation metrics</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p><strong>ValueError</strong> – If metrics have not been evaluated yet</p>
 </dd>
 </dl>
 </dd></dl>
@@ -660,13 +682,14 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">RegressionEvaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">RegressionEvaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluation</span></code></p>
+<p>Evaluation class specifically for regression tasks.</p>
+<p>Inherits from Evaluation and uses regression-specific metrics.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>ndarray</em>)</p></li>
-<li><p><strong>predicted</strong> (<em>ndarray</em>)</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
 <li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><em>BaseMetric</em></a><em>]</em>)</p></li>
 </ul>
@@ -680,6 +703,33 @@ Furthermore, the result can be accessed as a dictionary or DataFrame.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">NAME2METRIC</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><span class="pre">BaseMetric</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'mean_absolute_error':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.defaults_regression.MeanAbsoluteError'&gt;,</span> <span class="pre">'r2_score':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.defaults_regression.R2Score'&gt;,</span> <span class="pre">'root_mean_squared_error':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.defaults_regression.RootMeanSquaredError'&gt;}</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.evaluation.evaluation.</span></span><span class="sig-name descname"><span class="pre">VQEEvaluation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Evaluation</span></code></p>
+<p>Evaluation class specifically for Variational Quantum Eigensolver (VQE) tasks.</p>
+<p>Inherits from Evaluation and uses VQE-specific metrics.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>)</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>)</p></li>
+<li><p><strong>custom_metrics</strong> (<em>list</em><em>[</em><a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><em>BaseMetric</em></a><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DEFAULT_METRICS_NAME</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['final_cost',</span> <span class="pre">'hf_energy',</span> <span class="pre">'fci_energy']</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">NAME2METRIC</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="qxmt.evaluation.metrics.base.html#qxmt.evaluation.metrics.base.BaseMetric" title="qxmt.evaluation.metrics.base.BaseMetric"><span class="pre">BaseMetric</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fci_energy':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.default_vqe.FCIEnergy'&gt;,</span> <span class="pre">'final_cost':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.default_vqe.FinalCost'&gt;,</span> <span class="pre">'hf_energy':</span> <span class="pre">&lt;class</span> <span class="pre">'qxmt.evaluation.metrics.default_vqe.HFEnergy'&gt;}</span></em></dt>
 <dd></dd></dl>
 
 </dd></dl>

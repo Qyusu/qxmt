@@ -532,15 +532,11 @@ Provide a common interface within the QXMT library by absorbing differences betw
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.metrics.base.BaseMetric.evaluate">
-<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.base.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.base.BaseMetric.evaluate" title="Link to this definition">#</a></dt>
 <dd><p>define evaluation method for each metric.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
-</ul>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>evaluated score</p>
@@ -570,15 +566,11 @@ Provide a common interface within the QXMT library by absorbing differences betw
 
 <dl class="py method">
 <dt class="sig sig-object py" id="qxmt.evaluation.metrics.base.BaseMetric.set_score">
-<span class="sig-name descname"><span class="pre">set_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actual</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicted</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.base.BaseMetric.set_score" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">set_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.evaluation.metrics.base.BaseMetric.set_score" title="Link to this definition">#</a></dt>
 <dd><p>Evaluated the score and set it to the score attribute.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>actual</strong> (<em>np.ndarray</em>) – array of actual value</p></li>
-<li><p><strong>predicted</strong> (<em>np.ndarray</em>) – array of predicted value</p></li>
-<li><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p></li>
-</ul>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>dict</em>) – additional arguments</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>

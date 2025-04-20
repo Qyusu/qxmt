@@ -434,7 +434,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.reduction_by_pca.dimension_reduction_by_pca"><code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.transform">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.transform">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.dimension_reduction_by_pca"><code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.normalization"><code class="docutils literal notranslate"><span class="pre">normalization()</span></code></a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -527,6 +531,58 @@ document.write(`
 </section>
 <section id="module-qxmt.datasets.transform">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets.transform" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.transform.dimension_reduction_by_pca">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.transform.</span></span><span class="sig-name descname"><span class="pre">dimension_reduction_by_pca</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_components</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.transform.dimension_reduction_by_pca" title="Link to this definition">#</a></dt>
+<dd><p>Dimension reduction by PCA</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – numpy array of training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – numpy array of training label</p></li>
+<li><p><strong>X_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>y_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – numpy array of testing data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – numpy array of testing label</p></li>
+<li><p><strong>n_components</strong> (<em>int</em>) – number of components to keep</p></li>
+<li><p><strong>random_seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – random seed for PCA</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em>) – whether to normalize the output after PCA</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of processed dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="qxmt.datasets.transform.normalization">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.transform.</span></span><span class="sig-name descname"><span class="pre">normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'StandardScaler'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.transform.normalization" title="Link to this definition">#</a></dt>
+<dd><p>Normalization of dataset by StandardScaler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – numpy array of training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – numpy array of training label</p></li>
+<li><p><strong>X_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>y_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – numpy array of testing data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – numpy array of testing label</p></li>
+<li><p><strong>scaler_type</strong> (<em>Literal</em><em>[</em><em>'StandardScaler'</em><em>, </em><em>'MinMaxScaler'</em><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of normalized dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -580,7 +636,11 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.reduction_by_pca.dimension_reduction_by_pca"><code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.transform">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.transform">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.dimension_reduction_by_pca"><code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.transform.normalization"><code class="docutils literal notranslate"><span class="pre">normalization()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
