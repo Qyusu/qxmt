@@ -19,7 +19,7 @@ hamiltonian:
 
 device:
   platform: "pennylane"
-  device_name: "lightning.qubit"
+  device_name: "default.qubit"
   n_qubits: 4
   shots: null
   random_seed: *global_seed
@@ -31,7 +31,7 @@ ansatz:
 
 model:
   name: "basic"
-  diff_method: "adjoint"
+  diff_method: "best"
   optimizer_settings:
     name: "Adam"
     params:

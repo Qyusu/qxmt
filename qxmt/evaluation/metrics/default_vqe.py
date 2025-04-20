@@ -4,30 +4,30 @@ from qxmt.evaluation.metrics.base import BaseMetric
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 
 
-class OptimizedEnergy(BaseMetric):
-    """Metric for calculating the final optimized energy from VQE optimization history.
+class FinalCost(BaseMetric):
+    """Metric for calculating the final cost from VQE optimization history.
 
-    This metric extracts the last energy value from the cost history, representing
-    the final optimized energy obtained from the VQE algorithm.
+    This metric extracts the last cost value from the cost history, representing
+    the final cost obtained from the VQE algorithm.
     """
 
-    def __init__(self, name: str = "optimized_energy") -> None:
+    def __init__(self, name: str = "final_cost") -> None:
         super().__init__(name)
 
     @staticmethod
     def evaluate(cost_history: list[float], **kwargs: Any) -> float:
-        """Calculate the final optimized energy.
+        """Calculate the final cost.
 
         Args:
-            cost_history (list[float]): List of energy values from VQE optimization
+            cost_history (list[float]): List of cost values from VQE optimization
 
         Returns:
-            float: The final optimized energy value
+            float: The final cost value
         """
         return cost_history[-1]
 
 
-class HF_Energy(BaseMetric):
+class HFEnergy(BaseMetric):
     """Metric for calculating the Hartree-Fock (HF) energy.
 
     This metric computes the Hartree-Fock energy using the molecular Hamiltonian.
@@ -49,7 +49,7 @@ class HF_Energy(BaseMetric):
         return hamiltonian.get_hf_energy()
 
 
-class FCI_Energy(BaseMetric):
+class FCIEnergy(BaseMetric):
     """Metric for calculating the Full Configuration Interaction (FCI) energy.
 
     This metric computes the FCI energy using the molecular Hamiltonian.
@@ -74,14 +74,14 @@ class FCI_Energy(BaseMetric):
 
 # set default vqe metrics name list for evaluation
 DEFAULT_VQE_METRICS_NAME = Literal[
-    "optimized_energy",
+    "final_cost",
     "hf_energy",
     "fci_energy",
 ]
 
 
 NAME2VQE_METRIC: dict[str, Type[BaseMetric]] = {
-    "optimized_energy": OptimizedEnergy,
-    "hf_energy": HF_Energy,
-    "fci_energy": FCI_Energy,
+    "final_cost": FinalCost,
+    "hf_energy": HFEnergy,
+    "fci_energy": FCIEnergy,
 }

@@ -2,6 +2,7 @@ from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
     "AmazonBraketSettingError",
+    "AnsatzConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -10,6 +11,7 @@ EXPECTED_ALL = [
     "FileConfig",
     "GenerateDataConfig",
     "GlobalSettingsConfig",
+    "HamiltonianConfig",
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",

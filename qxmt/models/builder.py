@@ -1,7 +1,7 @@
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_N_JOBS
 from qxmt.models.qkernels import BaseMLModel, KernelModelBuilder
-from qxmt.models.vqe import BaseVQE, VQEBuilder
+from qxmt.models.vqe import BaseVQE, VQEModelBuilder
 
 
 class ModelBuilder:
@@ -20,6 +20,6 @@ class ModelBuilder:
             case "qkernel":
                 return KernelModelBuilder(self.config, self.n_jobs, self.show_progress).build()
             case "vqe":
-                return VQEBuilder(self.config, self.n_jobs).build()
+                return VQEModelBuilder(self.config, self.n_jobs).build()
             case _:
                 raise ValueError(f"Invalid model type: {model_type}")

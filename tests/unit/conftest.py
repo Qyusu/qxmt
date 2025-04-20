@@ -3,6 +3,7 @@ from typing import Any
 import pytest
 
 from qxmt import (
+    AnsatzConfig,
     DatasetConfig,
     DeviceConfig,
     EvaluationConfig,
@@ -10,6 +11,7 @@ from qxmt import (
     FeatureMapConfig,
     GenerateDataConfig,
     GlobalSettingsConfig,
+    HamiltonianConfig,
     KernelConfig,
     ModelConfig,
     SplitConfig,
@@ -19,11 +21,6 @@ DEFAULT_QKERNEL_GLOBAL_SETTINGS = GlobalSettingsConfig(
     random_seed=42,
     model_type="qkernel",
     task_type="classification",
-)
-
-DEFAULT_VQE_GLOBAL_SETTINGS = GlobalSettingsConfig(
-    random_seed=42,
-    model_type="vqe",
 )
 
 DEFAULT_DATASET_CONFIG = DatasetConfig(
@@ -63,23 +60,6 @@ def qkernel_experiment_config(**kwargs: Any) -> ExperimentConfig:
 
 
 @pytest.fixture(scope="function")
-def vqe_experiment_config(**kwargs: Any) -> ExperimentConfig:
-    default_values = {
-        "path": ".",
-        "description": "test",
-        "global_settings": DEFAULT_QKERNEL_GLOBAL_SETTINGS,
-        "dataset": DEFAULT_DATASET_CONFIG,
-        "device": DEFAULT_DEVICE_CONFIG,
-        "feature_map": DEFAULT_FEATUREMAP_CONFIG,
-        "kernel": DEFAULT_KERNEL_CONFIG,
-        "model": DEFAULT_MODEL_CONFIG,
-        "evaluation": DEFAULT_EVALUATION_CONFIG,
-    }
-    default_values.update(kwargs)
-    return ExperimentConfig(**default_values)
-
-
-@pytest.fixture(scope="function")
 def shots_experiment_config(**kwargs: Any) -> ExperimentConfig:
     default_values = {
         "path": ".",
@@ -91,6 +71,47 @@ def shots_experiment_config(**kwargs: Any) -> ExperimentConfig:
         "kernel": DEFAULT_KERNEL_CONFIG,
         "model": DEFAULT_MODEL_CONFIG,
         "evaluation": DEFAULT_EVALUATION_CONFIG,
+    }
+    default_values.update(kwargs)
+    return ExperimentConfig(**default_values)
+
+
+@pytest.fixture(scope="function")
+def vqe_experiment_config(**kwargs: Any) -> ExperimentConfig:
+    default_values = {
+        "path": ".",
+        "description": "test",
+        "global_settings": GlobalSettingsConfig(
+            random_seed=42,
+            model_type="vqe",
+        ),
+        "device": DeviceConfig(platform="pennylane", device_name="default.qubit", n_qubits=4, shots=None),
+        "hamiltonian": HamiltonianConfig(
+            module_name="qxmt.hamiltonians.pennylane",
+            implement_name="MolecularHamiltonian",
+            params={
+                "symbols": ["H", "H"],
+                "coordinates": [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]],
+                "charge": 0,
+                "multi": 1,
+                "basis_name": "STO-3G",
+                "active_electrons": 2,
+                "active_orbitals": 2,
+                "unit": "angstrom",
+            },
+        ),
+        "ansatz": AnsatzConfig(
+            module_name="qxmt.ansatze.pennylane",
+            implement_name="UCCSDAnsatz",
+            params={},
+        ),
+        "model": ModelConfig(
+            name="basic",
+            diff_method="adjoint",
+            optimizer_settings={"name": "Adam", "params": {"stepsize": 0.01, "beta1": 0.9, "beta2": 0.999}},
+            params={},
+        ),
+        "evaluation": EvaluationConfig(default_metrics=["final_cost", "hf_energy"], custom_metrics=[]),
     }
     default_values.update(kwargs)
     return ExperimentConfig(**default_values)

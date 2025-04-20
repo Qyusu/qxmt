@@ -1,11 +1,9 @@
-import json
 from pathlib import Path
 from unittest.mock import Mock
 
 import pytest
-from pytest_mock import MockFixture
 
-from qxmt.exceptions import InvalidFileExtensionError, JsonEncodingError
+from qxmt.exceptions import InvalidFileExtensionError
 from qxmt.experiment.repository import ExperimentRepository
 from qxmt.experiment.schema import ExperimentDB
 

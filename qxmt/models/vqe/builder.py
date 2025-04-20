@@ -12,7 +12,7 @@ from qxmt.models.vqe.base import BaseVQE
 from qxmt.models.vqe.basic import BasicVQE
 
 
-class VQEBuilder:
+class VQEModelBuilder:
     """Builder class for VQE models."""
 
     def __init__(self, config: ExperimentConfig, n_jobs: int = DEFAULT_N_JOBS) -> None:
