@@ -1,5 +1,5 @@
 from logging import Logger
-from typing import Literal, Optional
+from typing import Literal, Optional, get_args
 
 import pennylane as qml
 from pennylane import numpy as qnp
@@ -10,6 +10,11 @@ from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
+
+SUPPORTED_BASIS_NAMES = Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"]
+SUPPORTED_UNITS = Literal["angstrom", "bohr"]
+SUPPORTED_METHODS = Literal["dhf", "pyscf", "openfermion"]
+SUPPORTED_MAPPINGS = Literal["jordan_wigner", "bravyi_kitaev", "parity"]
 
 
 class MolecularHamiltonian(BaseHamiltonian):
@@ -43,15 +48,15 @@ class MolecularHamiltonian(BaseHamiltonian):
         molname: Optional[str] = None,
         bondlength: Optional[float | str] = None,
         symbols: Optional[list[str]] = None,
-        coordinates: Optional[qnp.tensor | list[float]] = None,
+        coordinates: Optional[qnp.tensor | list[float] | list[list[float]]] = None,
         charge: int = 0,
         multi: int = 1,
-        basis_name: Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"] = "STO-3G",
-        unit: Literal["angstrom", "bohr"] = "angstrom",
-        method: Literal["dhf", "pyscf", "openfermion"] = "dhf",
+        basis_name: SUPPORTED_BASIS_NAMES = "STO-3G",
+        unit: SUPPORTED_UNITS = "angstrom",
+        method: SUPPORTED_METHODS = "dhf",
         active_electrons: Optional[int] = None,
         active_orbitals: Optional[int] = None,
-        mapping: Literal["jordan_wigner", "bravyi_kitaev", "parity"] = "jordan_wigner",
+        mapping: SUPPORTED_MAPPINGS = "jordan_wigner",
         logger: Logger = LOGGER,
     ) -> None:
         super().__init__(platform=PENNYLANE_PLATFORM)
@@ -59,17 +64,17 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.molname: Optional[str] = molname
         self.bondlength: Optional[float | str] = bondlength
         self.symbols: Optional[list[str]] = symbols
-        self.coordinates: Optional[qnp.tensor | list[float]] = (
+        self.coordinates: Optional[qnp.tensor | list[float] | list[list[float]]] = (
             qnp.array(coordinates, requires_grad=False) if isinstance(coordinates, list) else coordinates
         )  # type: ignore
         self.charge: int = charge
         self.multi: int = multi
-        self.basis_name: Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"] = basis_name
-        self.unit: Literal["angstrom", "bohr"] = unit
-        self.method: Literal["dhf", "pyscf", "openfermion"] = method
+        self.basis_name: SUPPORTED_BASIS_NAMES = basis_name
+        self.unit: SUPPORTED_UNITS = unit
+        self.method: SUPPORTED_METHODS = method
         self.active_electrons: Optional[int] = active_electrons
         self.active_orbitals: Optional[int] = active_orbitals
-        self.mapping: Literal["jordan_wigner", "bravyi_kitaev", "parity"] = mapping
+        self.mapping: SUPPORTED_MAPPINGS = mapping
         self.logger: Logger = logger
         self.hamiltonian: Sum
         self.n_qubits: int
@@ -77,6 +82,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.hf_energy: float
         self.fci_energy: Optional[float] = None
         self._dataset: list = []
+
         self._initialize_hamiltonian()
         self._set_hf_energy()
         self._set_fci_energy()
@@ -144,7 +150,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         Returns:
             float: Hartree-Fock energy.
         """
-        self.hf_energy = qml.qchem.hf_energy(self.molecule)()
+        self.hf_energy = float(qml.qchem.hf_energy(self.molecule)())
 
     def _set_fci_energy(self) -> None:
         """Set the FCI energy of the molecule.
@@ -159,7 +165,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         if self.molname is not None:
             if not self._dataset:
                 raise ValueError("Dataset is not loaded. Please load the dataset first.")
-            self.fci_energy = self._dataset[0].fci_energy
+            self.fci_energy = float(self._dataset[0].fci_energy)
         else:
             self.logger.warning("FCI energy is not available for the given molecule. Setting to None.")
             self.fci_energy = None
