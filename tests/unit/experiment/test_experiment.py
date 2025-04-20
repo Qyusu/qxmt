@@ -145,15 +145,15 @@ class TestLoadExperiment:
         assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
 
-class CustomMetric(BaseMetric):
-    def __init__(self, name: str = "custom") -> None:
-        super().__init__(name)
+# class CustomMetric(BaseMetric):
+#     def __init__(self, name: str = "custom") -> None:
+#         super().__init__(name)
 
-    @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
-        score = actual[0] + predicted[0]
+#     @staticmethod
+#     def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
+#         score = actual[0] + predicted[0]
 
-        return float(score)
+#         return float(score)
 
 
 class TestExperimentRun:

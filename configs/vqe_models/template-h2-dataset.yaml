@@ -39,7 +39,7 @@ model:
 
 evaluation:
   default_metrics:
-  - "optimized_energy"
+  - "final_cost"
   - "hf_energy"
   - "fci_energy"
   custom_metrics: []

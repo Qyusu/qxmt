@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Callable
 
 import pytest
@@ -8,10 +7,7 @@ from qxmt import Experiment
 from qxmt.configs import ExperimentConfig
 from qxmt.datasets import Dataset
 from qxmt.exceptions import ExperimentNotInitializedError, ReproductionError
-from qxmt.experiment.reproducer import IS_GIT_AVAILABLE, Reproducer
-from qxmt.experiment.schema import Evaluations, RunRecord, RunTime
 from qxmt.models.qkernels import BaseMLModel
-from qxmt.utils import get_commit_id, save_experiment_config_to_yaml
 
 
 class TestReproducer:
