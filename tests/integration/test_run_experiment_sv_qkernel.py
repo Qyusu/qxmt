@@ -12,10 +12,10 @@ from qxmt.experiment import RunArtifact, RunRecord
 from qxmt.models.qkernels import BaseMLModel
 
 
-class TestRunExperiment:
-    def test_run_experiment_by_state_vector_simulator_from_config_file(self, tmp_path: Path) -> None:
+class TestRunExperimentStateVectorQKernel:
+    def test_run_experiment_from_config_file(self, tmp_path: Path) -> None:
         experiment = qxmt.Experiment(
-            name="integration_test_by_state_vector_simulator_from_config_file",
+            name="integration_test_sv_qkernel",
             root_experiment_dirc=tmp_path / "experiments",
             desc="""
             This is an integration test for running an experiment by the state vector simulator from config file.
@@ -24,10 +24,10 @@ class TestRunExperiment:
         ).init()
 
         # check to create the experiment directory
-        assert (tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file").exists()
+        assert (tmp_path / "experiments/integration_test_sv_qkernel").exists()
 
         # run by config file
-        config_path = "tests/integration/configs/state_vector_simulator.yaml"
+        config_path = "tests/integration/configs/simulator_sv_qkernel.yaml"
         artifact, result = experiment.run(config_source=config_path)
 
         # check return values
@@ -39,15 +39,9 @@ class TestRunExperiment:
         assert len(experiment.exp_db.runs) == 1  # type: ignore
 
         # check saved artifacts
-        assert (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_1/config.yaml"
-        ).exists()
-        assert (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_1/model.pkl"
-        ).exists()
-        assert not (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_1/shots.h5"
-        ).exists()
+        assert (tmp_path / "experiments/integration_test_sv_qkernel/run_1/config.yaml").exists()
+        assert (tmp_path / "experiments/integration_test_sv_qkernel/run_1/model.pkl").exists()
+        assert not (tmp_path / "experiments/integration_test_sv_qkernel/run_1/shots.h5").exists()
 
         # check update run id
         artifact, result = experiment.run(config_source=config_path)
@@ -55,15 +49,9 @@ class TestRunExperiment:
         assert len(experiment.exp_db.runs) == 2  # type: ignore
 
         # check saved artifacts
-        assert (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_2/config.yaml"
-        ).exists()
-        assert (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_2/model.pkl"
-        ).exists()
-        assert not (
-            tmp_path / "experiments/integration_test_by_state_vector_simulator_from_config_file/run_2/shots.h5"
-        ).exists()
+        assert (tmp_path / "experiments/integration_test_sv_qkernel/run_2/config.yaml").exists()
+        assert (tmp_path / "experiments/integration_test_sv_qkernel/run_2/model.pkl").exists()
+        assert not (tmp_path / "experiments/integration_test_sv_qkernel/run_2/shots.h5").exists()
 
     @pytest.mark.parametrize(
         "device_name, kernel_name",
@@ -89,7 +77,7 @@ class TestRunExperiment:
         self, device_name: str, kernel_name: str, tmp_path: Path
     ) -> None:
         experiment = qxmt.Experiment(
-            name="integration_test_by_state_vector_simulator_from_config_instance",
+            name="integration_test_sv_qkernel",
             root_experiment_dirc=tmp_path / "experiments",
             desc="""
             This is an integration test for running an experiment by the state vector simulator from config instance.
@@ -98,7 +86,7 @@ class TestRunExperiment:
         ).init()
 
         # update config
-        base_config_path = "tests/integration/configs/state_vector_simulator.yaml"
+        base_config_path = "tests/integration/configs/simulator_sv_qkernel.yaml"
         base_config = ExperimentConfig(path=base_config_path)
         updated_device = base_config.device.model_copy(update={"device_name": device_name})
         updated_kernel = (

@@ -57,7 +57,6 @@ class DatasetBuilder:
             logger (Logger, optional): logger for output messages. Defaults to LOGGER.
         """
         self.config: ExperimentConfig = config
-        self.task_type: str = config.global_settings.task_type
         self.random_seed: int = config.global_settings.random_seed
         self.logger: Logger = logger
         self.custom_raw_preprocess_list = self._set_custom_raw_process_list()
@@ -70,7 +69,7 @@ class DatasetBuilder:
         Returns:
             Optional[list[Callable]]: list of custom raw preprocess functions
         """
-        raw_process_list = self.config.dataset.raw_preprocess_logic
+        raw_process_list = self.config.dataset.raw_preprocess_logic  # type: ignore
         if (raw_process_list is None) or (len(raw_process_list) == 0):
             return None
 
@@ -92,7 +91,7 @@ class DatasetBuilder:
         Returns:
             Optional[list[Callable]]: list of custom transform functions
         """
-        transform_list = self.config.dataset.transform_logic
+        transform_list = self.config.dataset.transform_logic  # type: ignore
         if (transform_list is None) or (len(transform_list) == 0):
             return None
 
@@ -199,11 +198,11 @@ class DatasetBuilder:
         Returns:
             RAW_DATASET_TYPE: features and labels of the dataset
         """
-        dataset_type = self._get_dataset_type(self.config.dataset)
+        dataset_type = self._get_dataset_type(self.config.dataset)  # type: ignore
 
         match dataset_type:
             case "openml":
-                openml_config = cast(OpenMLConfig, self.config.dataset.openml)
+                openml_config = cast(OpenMLConfig, self.config.dataset.openml)  # type: ignore
                 X, y = OpenMLDataLoader(
                     name=openml_config.name,
                     id=openml_config.id,
@@ -213,16 +212,16 @@ class DatasetBuilder:
                 X = cast(np.ndarray, X)
                 y = cast(np.ndarray, y)
             case "file":
-                file_config = cast(FileConfig, self.config.dataset.file)
+                file_config = cast(FileConfig, self.config.dataset.file)  # type: ignore
                 X, y = FileDataLoader(
                     data_path=file_config.data_path,
                     label_path=file_config.label_path,
                     label_name=file_config.label_name,
                 ).load()
             case "generate":
-                generate_config = cast(GenerateDataConfig, self.config.dataset.generate)
+                generate_config = cast(GenerateDataConfig, self.config.dataset.generate)  # type: ignore
                 X, y = GeneratedDataLoader(
-                    task_type=self.task_type,
+                    task_type=self.config.global_settings.task_type,  # type: ignore
                     generate_method=generate_config.generate_method,
                     random_seed=self.random_seed,
                     params=generate_config.params or {},
@@ -273,7 +272,7 @@ class DatasetBuilder:
         Returns:
             PROCESSCED_DATASET_TYPE: train and test split of dataset (features and labels)
         """
-        split_config = self.config.dataset.split
+        split_config = self.config.dataset.split  # type: ignore
         val_and_test_ratio = split_config.validation_ratio + split_config.test_ratio
         shuffle = split_config.shuffle
 
@@ -378,5 +377,5 @@ class DatasetBuilder:
             y_val=y_val_trs,
             X_test=X_test_trs,
             y_test=y_test_trs,
-            config=self.config.dataset,
+            config=self.config.dataset,  # type: ignore
         )

@@ -9,9 +9,9 @@ dataset:
   generate:
     generate_method: "linear"
     params: {
-      "n_samples": 1000,
+      "n_samples": 10000,
       "n_features": 2,
-      "n_classes": 3,
+      "n_classes": 3
     }
   split:
     train_ratio: 0.8

@@ -271,6 +271,7 @@ class VQEExecutor(RunExecutorBase):
             tuple[RunArtifact, RunRecord]: Tuple containing the run artifact and record.
         """
         model = VQEModelBuilder(config=config, n_jobs=n_jobs).build()
+        # [TODO]: implement save shots logic
         save_shots_path = run_dirc / DEFAULT_SHOT_RESULTS_NAME if add_results else None
         return self.run_from_instance(
             model=model,
