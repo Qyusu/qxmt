@@ -5,3 +5,4 @@ qxmt.evaluation.metrics.defaults\_classification module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

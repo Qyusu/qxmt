@@ -9,6 +9,9 @@ EXPECTED_ALL = [
     "MeanAbsoluteError",
     "RootMeanSquaredError",
     "R2Score",
+    "FCIEnergy",
+    "FinalCost",
+    "HFEnergy",
 ]
 
 

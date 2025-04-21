@@ -165,28 +165,28 @@ class TestSaveExperimentConfigToYaml:
     def test_save_experiment_config_to_yaml_default(
         self,
         tmp_path: Path,
-        experiment_config: ExperimentConfig,
+        qkernel_experiment_config: ExperimentConfig,
     ) -> None:
         config_file = tmp_path / "config.yaml"
-        save_experiment_config_to_yaml(experiment_config, config_file, delete_source_path=False)
+        save_experiment_config_to_yaml(qkernel_experiment_config, config_file, delete_source_path=False)
 
         with open(config_file, "r") as file:
             loaded_config = yaml.safe_load(file)
         loaded_config = ExperimentConfig(**loaded_config)
 
-        for field in experiment_config.model_dump().keys():
+        for field in qkernel_experiment_config.model_dump().keys():
             if field == "dataset":
                 # [TODO]: handle str or Path type
                 continue
-            assert getattr(loaded_config, field) == getattr(experiment_config, field)
+            assert getattr(loaded_config, field) == getattr(qkernel_experiment_config, field)
 
     def test_save_experiment_config_to_yaml_delete_path(
         self,
         tmp_path: Path,
-        experiment_config: ExperimentConfig,
+        qkernel_experiment_config: ExperimentConfig,
     ) -> None:
         config_file = tmp_path / "config.yaml"
-        save_experiment_config_to_yaml(experiment_config, config_file, delete_source_path=True)
+        save_experiment_config_to_yaml(qkernel_experiment_config, config_file, delete_source_path=True)
 
         with open(config_file, "r") as file:
             loaded_config = yaml.safe_load(file)
@@ -194,9 +194,9 @@ class TestSaveExperimentConfigToYaml:
         assert "path" not in loaded_config
         loaded_config = ExperimentConfig(path="", **loaded_config)
 
-        for field in experiment_config.model_dump().keys():
+        for field in qkernel_experiment_config.model_dump().keys():
             if field == "path":
                 # config path is not saved in the yaml file.
                 continue
             else:
-                assert getattr(loaded_config, field) == getattr(experiment_config, field)
+                assert getattr(loaded_config, field) == getattr(qkernel_experiment_config, field)

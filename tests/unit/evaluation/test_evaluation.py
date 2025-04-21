@@ -47,8 +47,7 @@ class TestClassificationEvaluation:
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         custom_metrics = None
         return ClassificationEvaluation(
-            actual=actual,
-            predicted=predicted,
+            params={"actual": actual, "predicted": predicted},
             default_metrics_name=default_metrics_name,
             custom_metrics=custom_metrics,
         )
@@ -58,8 +57,7 @@ class TestClassificationEvaluation:
         actual = np.array([0, 1, 1, 0, 1])
         predicted = np.array([0, 1, 0, 1, 0])
         return ClassificationEvaluation(
-            actual=actual,
-            predicted=predicted,
+            params={"actual": actual, "predicted": predicted},
             default_metrics_name=["accuracy", "precision", "recall", "f1_score"],
             custom_metrics=[{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}],
         )
@@ -71,18 +69,20 @@ class TestClassificationEvaluation:
 
         # default_metrics_name is None
         default_name_none_evaluation = ClassificationEvaluation(
-            actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=None
+            params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])}, default_metrics_name=None
         )
         assert len(default_name_none_evaluation.default_metrics) == DEFAULT_CLF_METRICS_NUM
 
         # value error if metric is not implemented
         with pytest.raises(ValueError):
             ClassificationEvaluation(
-                actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=["not_implemented"]
+                params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])},
+                default_metrics_name=["not_implemented"],
             )
 
             ClassificationEvaluation(
-                actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=["not_implemented"]
+                params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])},
+                default_metrics_name=["not_implemented"],
             )
 
     def test_init_custom_metrics(
@@ -99,8 +99,7 @@ class TestClassificationEvaluation:
         # value error if custom metrics is not BaseMetric instance
         with pytest.raises(ValueError):
             ClassificationEvaluation(
-                actual=np.array([0, 1]),
-                predicted=np.array([0, 1]),
+                params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])},
                 custom_metrics=[{"module_name": __name__, "implement_name": "ErrorCustomMetric", "params": {}}],
             )
 
@@ -180,8 +179,7 @@ class TestRegressionEvaluation:
         default_metrics_name = ["mean_absolute_error", "root_mean_squared_error", "r2_score"]
         custom_metrics = None
         return RegressionEvaluation(
-            actual=actual,
-            predicted=predicted,
+            params={"actual": actual, "predicted": predicted},
             default_metrics_name=default_metrics_name,
             custom_metrics=custom_metrics,
         )
@@ -193,16 +191,18 @@ class TestRegressionEvaluation:
 
         # default_metrics_name is None
         default_name_none_evaluation = RegressionEvaluation(
-            actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=None
+            params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])}, default_metrics_name=None
         )
         assert len(default_name_none_evaluation.default_metrics) == DEFAULT_REG_METRICS_NUM
 
         # value error if metric is not implemented
         with pytest.raises(ValueError):
             RegressionEvaluation(
-                actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=["not_implemented"]
+                params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])},
+                default_metrics_name=["not_implemented"],
             )
 
             RegressionEvaluation(
-                actual=np.array([0, 1]), predicted=np.array([0, 1]), default_metrics_name=["not_implemented"]
+                params={"actual": np.array([0, 1]), "predicted": np.array([0, 1])},
+                default_metrics_name=["not_implemented"],
             )

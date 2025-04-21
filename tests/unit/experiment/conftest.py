@@ -6,15 +6,13 @@ import pennylane as qml
 import pytest
 
 from qxmt import DatasetConfig, Experiment, GenerateDataConfig, SplitConfig
+from qxmt.ansatze.pennylane.uccsd import UCCSDAnsatz
 from qxmt.datasets import Dataset
 from qxmt.devices import BaseDevice
+from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 from qxmt.kernels import BaseKernel
-from qxmt.models import QSVC, BaseMLModel
-
-DEVICE_STATEVC = BaseDevice(
-    platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None
-)
-DEVICE_SHOTS = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=5)
+from qxmt.models.qkernels import QSVC, BaseMLModel
+from qxmt.models.vqe import BasicVQE
 
 
 def empty_feature_map(x: np.ndarray) -> None:
@@ -38,15 +36,60 @@ class TestKernel(BaseKernel):
 
 
 @pytest.fixture(scope="function")
-def state_vec_model() -> BaseMLModel:
-    kernel = TestKernel(device=DEVICE_STATEVC, feature_map=empty_feature_map)
+def state_vec_qkernel_model() -> BaseMLModel:
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
+    kernel = TestKernel(device=device, feature_map=empty_feature_map)
     return QSVC(kernel=kernel, n_jobs=1)
 
 
 @pytest.fixture(scope="function")
-def shots_model() -> BaseMLModel:
-    kernel = TestKernel(device=DEVICE_SHOTS, feature_map=empty_feature_map)
+def shots_qkernel_model() -> BaseMLModel:
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=5)
+    kernel = TestKernel(device=device, feature_map=empty_feature_map)
     return QSVC(kernel=kernel, n_jobs=1)
+
+
+@pytest.fixture(scope="function")
+def hamiltonian() -> MolecularHamiltonian:
+    return MolecularHamiltonian(
+        symbols=["H", "H"],
+        coordinates=[[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]],
+        charge=0,
+        multi=1,
+        basis_name="STO-3G",
+        active_electrons=2,
+        active_orbitals=2,
+    )
+
+
+@pytest.fixture(scope="function")
+def ansatz(hamiltonian: MolecularHamiltonian) -> UCCSDAnsatz:
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=4, shots=None)
+    return UCCSDAnsatz(device=device, hamiltonian=hamiltonian)
+
+
+@pytest.fixture(scope="function")
+def state_vec_vqe_model(hamiltonian: MolecularHamiltonian, ansatz: UCCSDAnsatz) -> BasicVQE:
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=4, shots=None)
+    return BasicVQE(
+        device=device,
+        hamiltonian=hamiltonian,
+        ansatz=ansatz,
+        diff_method="adjoint",
+        optimizer_settings=None,
+    )
+
+
+@pytest.fixture(scope="function")
+def shots_vqe_model(hamiltonian: MolecularHamiltonian, ansatz: UCCSDAnsatz) -> BasicVQE:
+    device = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=4, shots=5)
+    return BasicVQE(
+        device=device,
+        hamiltonian=hamiltonian,
+        ansatz=ansatz,
+        diff_method="adjoint",
+        optimizer_settings=None,
+    )
 
 
 @pytest.fixture(scope="function")

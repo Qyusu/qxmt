@@ -1,0 +1,63 @@
+description: "This is a template configuration file for the QXMT framework."
+
+global_settings:
+  random_seed: &global_seed 42
+  model_type: "qkernel"
+  task_type: "regression"
+
+dataset:
+  file:
+    # full path or relative path from the root of the project
+    data_path: "data/openml/california_housing/dataset.npz"
+    label_path: null
+    label_name: null
+  split:
+    train_ratio: 0.8
+    validation_ratio: 0.0
+    test_ratio: 0.2
+    shuffle: true
+  features: null
+  raw_preprocess_logic:
+  - module_name: "qxmt.datasets.raw_preprocess.filter"
+    implement_name: "filter_by_categorical"
+    params:
+      drop_na: true
+  - module_name: "qxmt.datasets.raw_preprocess.sampling"
+    implement_name: "sampling_by_num"
+    params:
+      n_samples: 100
+      random_seed: *global_seed
+  transform_logic:
+    module_name: "qxmt.datasets.transform.normalizer"
+    implement_name: "normalization"
+
+device:
+  platform: "pennylane"
+  device_name: "default.qubit"
+  n_qubits: 8
+  shots: null
+
+feature_map:
+  module_name: "qxmt.feature_maps.pennylane"
+  implement_name: "ZZFeatureMap"
+  params:
+    reps: 2
+
+kernel:
+  module_name: "qxmt.kernels.pennylane"
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "z"
+
+model:
+  name: "qrigge"
+  params:
+    alpha: 0.1
+
+evaluation:
+  default_metrics:
+  - "mean_absolute_error"
+  - "root_mean_squared_error"
+  - "r2_score"
+  custom_metrics: []

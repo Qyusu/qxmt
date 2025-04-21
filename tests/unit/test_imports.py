@@ -2,6 +2,7 @@ from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
     "AmazonBraketSettingError",
+    "AnsatzConfig",
     "DatasetConfig",
     "DeviceConfig",
     "EvaluationConfig",
@@ -10,6 +11,7 @@ EXPECTED_ALL = [
     "FileConfig",
     "GenerateDataConfig",
     "GlobalSettingsConfig",
+    "HamiltonianConfig",
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
@@ -35,4 +37,4 @@ def test_all_imports() -> None:
 
 
 def test_version() -> None:
-    assert __version__ == "0.4.7"
+    assert __version__ == "0.5.0"

@@ -8,12 +8,14 @@ Subpackages
 .. toctree::
    :maxdepth: 1
 
+   qxmt.ansatze
    qxmt.datasets
    qxmt.devices
    qxmt.evaluation
    qxmt.experiment
    qxmt.feature_maps
    qxmt.generators
+   qxmt.hamiltonians
    qxmt.kernels
    qxmt.models
    qxmt.utils
@@ -31,58 +33,58 @@ Submodules
    qxmt.logger
    qxmt.types
 
-qxmt.configs module
--------------------
+.. qxmt.configs module
+.. -------------------
 
-.. automodule:: qxmt.configs
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.configs
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-qxmt.constants module
----------------------
+.. qxmt.constants module
+.. ---------------------
 
-.. automodule:: qxmt.constants
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.constants
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-qxmt.decorators module
-----------------------
+.. qxmt.decorators module
+.. ----------------------
 
-.. automodule:: qxmt.decorators
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.decorators
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-qxmt.exceptions module
-----------------------
+.. qxmt.exceptions module
+.. ----------------------
 
-.. automodule:: qxmt.exceptions
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.exceptions
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-qxmt.logger module
-------------------
+.. qxmt.logger module
+.. ------------------
 
-.. automodule:: qxmt.logger
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.logger
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-qxmt.types module
------------------
+.. qxmt.types module
+.. -----------------
 
-.. automodule:: qxmt.types
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt.types
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:
 
-Module contents
----------------
+.. Module contents
+.. ---------------
 
-.. automodule:: qxmt
-   :members:
-   :undoc-members:
-   :show-inheritance:
+.. .. automodule:: qxmt
+..    :members:
+..    :undoc-members:
+..    :show-inheritance:

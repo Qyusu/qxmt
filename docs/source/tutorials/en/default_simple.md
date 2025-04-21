@@ -68,6 +68,7 @@ description: "Configuration file for the simple example"
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "classification"
 
 dataset:
@@ -105,7 +106,6 @@ kernel:
   params: {}
 
 model:
-  name: "qsvc"
   params:
     C: 1.0
     gamma: 0.05

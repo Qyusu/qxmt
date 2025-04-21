@@ -4,6 +4,7 @@ EXPECTED_ALL = [
     "Evaluation",
     "ClassificationEvaluation",
     "RegressionEvaluation",
+    "VQEEvaluation",
 ]
 
 

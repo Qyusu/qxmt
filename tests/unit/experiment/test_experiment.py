@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import Callable
 
 import numpy as np
+import pandas as pd
 import pytest
 from pytest_mock import MockFixture
 
@@ -18,7 +19,9 @@ from qxmt.exceptions import (
     ExperimentSettingError,
     ReproductionError,
 )
-from qxmt.models import BaseMLModel
+from qxmt.experiment.schema import RunArtifact, RunRecord
+from qxmt.models.qkernels import BaseMLModel
+from qxmt.models.vqe import BaseVQE
 from qxmt.utils import save_experiment_config_to_yaml
 
 
@@ -44,19 +47,44 @@ class TestExperimentSettings:
         assert base_experiment.current_run_id == 0
         assert base_experiment.experiment_dirc.exists()
 
+    def test_generate_default_name(self) -> None:
+        assert len(Experiment._generate_default_name()) == 20
+
 
 class TestExperimentInit:
-    def test_init(self, base_experiment: Experiment, tmp_path: Path) -> None:
-        assert base_experiment.exp_db is None
+    def test_init_with_default_settings(self, tmp_path: Path) -> None:
+        exp = Experiment(root_experiment_dirc=tmp_path).init()
+        assert exp.exp_db is not None
+        assert isinstance(exp.exp_db.name, str)
+        assert exp.exp_db.desc == ""
+        assert exp.exp_db.working_dirc == Path.cwd()
+        assert exp.exp_db.experiment_dirc == tmp_path / exp.name  # type: ignore
+        assert exp.exp_db.runs == []
+        assert exp.experiment_dirc.exists()
 
+    def test_init_with_custom_settings(self, base_experiment: Experiment, tmp_path: Path) -> None:
         base_experiment.init()
-        exp_db = base_experiment.exp_db
-        assert exp_db.name == "test_exp"  # type: ignore
-        assert exp_db.desc == "test experiment"  # type: ignore
-        assert exp_db.experiment_dirc == tmp_path / "test_exp"  # type: ignore
+        assert base_experiment.exp_db is not None
+        assert base_experiment.exp_db.name == "test_exp"
+        assert base_experiment.exp_db.desc == "test experiment"
+        assert base_experiment.exp_db.working_dirc == Path.cwd()
+        assert base_experiment.exp_db.experiment_dirc == tmp_path / "test_exp"
+        assert base_experiment.exp_db.runs == []
+        assert base_experiment.experiment_dirc.exists()
+
+    def test_init_with_existing_directory(self, tmp_path: Path) -> None:
+        exp = Experiment(name="existing_exp", root_experiment_dirc=tmp_path).init()
+        assert exp.experiment_dirc.exists()
+
+        (exp.experiment_dirc / "dummy.txt").touch()
+        with pytest.raises(ExperimentSettingError) as exc_info:
+            _ = Experiment(name="existing_exp", root_experiment_dirc=tmp_path).init()
+
+        assert str(exc_info.value) == f"Experiment directory '{exp.experiment_dirc}' already exists."
 
 
 class TestLoadExperiment:
+    # [TODO]: mock repository.load method
     def set_dummy_experiment_data(self, experiment_dirc: Path) -> None:
         dummy_experiment_dict = {
             "name": "load_exp",
@@ -114,15 +142,17 @@ class TestLoadExperiment:
     def test_load(self, tmp_path: Path) -> None:
         self.set_dummy_experiment_data(tmp_path)
 
-        # Error pattern (not exist experiment file)
-        with pytest.raises(FileNotFoundError):
+        # error pattern 1: experiment file does not exist
+        with pytest.raises(FileNotFoundError) as exc_info:
             Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "not_exist_exp")
+        assert str(exc_info.value) == f"{tmp_path}/not_exist_exp/{DEFAULT_EXP_DB_FILE} does not exist."
 
-        # Error pattern (not exist experiment directory)
-        with pytest.raises(ExperimentSettingError):
-            Experiment(name="not_exist").load(exp_dirc=tmp_path / "load_exp")
+        # error pattern 2: experiment directory does not exist
+        with pytest.raises(ExperimentSettingError) as exc_info:
+            Experiment(name="not_exist", root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "load_exp")
+        assert str(exc_info.value) == f"Experiment directory '{tmp_path}/not_exist' does not exist."
 
-        # Default pattern
+        # pattern 1: load default settings
         loaded_exp = Experiment(root_experiment_dirc=tmp_path).load(exp_dirc=tmp_path / "load_exp")
         assert loaded_exp.name == "load_exp"
         assert loaded_exp.desc == "load experiment"
@@ -131,11 +161,13 @@ class TestLoadExperiment:
         assert loaded_exp.current_run_id == 2
         assert len(loaded_exp.exp_db.runs) == 2  # type: ignore
 
-        # Update Setting Pattern
+        # pattern 2: confirm updated settings
         (tmp_path / "update_exp").mkdir(parents=True, exist_ok=True)
         updated_exp = Experiment(name="update_exp", desc="update experiment", root_experiment_dirc=tmp_path).load(
             exp_dirc=tmp_path / "load_exp"
         )
+
+        # confirm updated settings
         assert updated_exp.name == "update_exp"
         assert updated_exp.desc == "update experiment"
         assert updated_exp.root_experiment_dirc == tmp_path
@@ -144,16 +176,8 @@ class TestLoadExperiment:
         assert updated_exp.exp_db.working_dirc == Path.cwd()  # type: ignore
         assert len(updated_exp.exp_db.runs) == 2  # type: ignore
 
-
-class CustomMetric(BaseMetric):
-    def __init__(self, name: str = "custom") -> None:
-        super().__init__(name)
-
-    @staticmethod
-    def evaluate(actual: np.ndarray, predicted: np.ndarray) -> float:
-        score = actual[0] + predicted[0]
-
-        return float(score)
+        # confirm experiment data is saved
+        assert (updated_exp.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
 
 
 class TestExperimentRun:
@@ -162,214 +186,106 @@ class TestExperimentRun:
         assert base_experiment.current_run_id == 0
         assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
 
-        base_experiment._run_setup()
+        current_run_dirc = base_experiment._run_setup()
         assert base_experiment.current_run_id == 1
-        assert base_experiment.experiment_dirc.joinpath("run_1").exists()
+        assert current_run_dirc == base_experiment.experiment_dirc / "run_1"
 
     def test__run_backfill(self, base_experiment: Experiment) -> None:
-        base_experiment.init()
+        exp = base_experiment.init()
+        exp.current_run_id = 1
 
-        with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=None, model=None, n_jobs=1)
+        run_dirc = exp.experiment_dirc / "run_1"
+        run_dirc.mkdir()
 
-        assert base_experiment.current_run_id == 0
-        assert not base_experiment.experiment_dirc.joinpath("run_1").exists()
+        exp._run_backfill()
+        assert not run_dirc.exists()
+        assert exp.current_run_id == 0
 
-    def test_run_evaluation(self, base_experiment: Experiment) -> None:
-        actual = np.array([0, 1, 1, 0, 1])
-        predicted = np.array([0, 1, 0, 1, 0])
-        default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
-
-        # only default metrics
-        custom_metrics = None
-        evaluation = base_experiment.run_evaluation(
-            "classification", actual, predicted, default_metrics_name, custom_metrics
-        )
-        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4}
-        assert len(evaluation) == 4
-        for key, value in acutal_result.items():
-            assert round(evaluation[key], 2) == value
-
-        # default and custom metrics
-        custom_metrics = [{"module_name": __name__, "implement_name": "CustomMetric", "params": {}}]
-        evaluation = base_experiment.run_evaluation(
-            "classification", actual, predicted, default_metrics_name, custom_metrics
-        )
-        acutal_result = {"accuracy": 0.4, "precision": 0.5, "recall": 0.33, "f1_score": 0.4, "custom": 0.0}
-        assert len(evaluation) == 5
-        for key, value in acutal_result.items():
-            assert round(evaluation[key], 2) == value
-
-    def test_run_from_instance(
-        self,
-        base_experiment: Experiment,
-        create_random_dataset: Callable,
-        state_vec_model: BaseMLModel,
-        shots_model: BaseMLModel,
+    def test_run_with_config(
+        self, mocker: MockFixture, tmp_path: Path, qkernel_experiment_config: ExperimentConfig
     ) -> None:
+        mock_qkernel_executor = mocker.patch("qxmt.experiment.experiment.QKernelExecutor")
+        mock_executor_instance = mock_qkernel_executor.return_value
+        mock_artifact = mocker.Mock(spec=RunArtifact)
+        mock_record = mocker.Mock(spec=RunRecord)
+        mock_executor_instance.run_from_config.return_value = (mock_artifact, mock_record)
+
+        exp = Experiment(name="test_exp", root_experiment_dirc=tmp_path).init()
+        config_path = tmp_path / "config.yaml"
+        save_experiment_config_to_yaml(qkernel_experiment_config, config_path)
+        artifact, record = exp.run(config_source=config_path)
+
+        assert mock_qkernel_executor.called
+        mock_executor_instance.run_from_config.assert_called_once()
+        assert artifact == mock_artifact
+        assert record == mock_record
+        assert exp.current_run_id == 1
+        assert len(exp.exp_db.runs) == 1  # type: ignore
+
+    def test_run_with_instance(self, mocker: MockFixture, tmp_path: Path, create_random_dataset: Callable) -> None:
+        mock_qkernel_executor = mocker.patch("qxmt.experiment.experiment.QKernelExecutor")
+        mock_executor_instance = mock_qkernel_executor.return_value
+        mock_artifact = mocker.Mock(spec=RunArtifact)
+        mock_record = mocker.Mock(spec=RunRecord)
+        mock_executor_instance.run_from_instance.return_value = (mock_artifact, mock_record)
+
+        exp = Experiment(name="test_exp", root_experiment_dirc=tmp_path).init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
+        model = mocker.Mock(spec=BaseMLModel)
+        artifact, record = exp.run(model_type="qkernel", task_type="classification", dataset=dataset, model=model)
 
-        # initialization error check
-        assert base_experiment.current_run_id == 0
-        assert base_experiment.exp_db is None
-        with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(dataset=dataset, model=state_vec_model, n_jobs=1)
+        assert mock_qkernel_executor.called
+        mock_executor_instance.run_from_instance.assert_called_once()
+        assert artifact == mock_artifact
+        assert record == mock_record
+        assert exp.current_run_id == 1
+        assert len(exp.exp_db.runs) == 1  # type: ignore
 
-        # run from dataset and model instance
-        base_experiment.init()
-        artifact, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
-        )
-        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
-        assert not base_experiment.experiment_dirc.joinpath("run_1/shots.h5").exists()
-        assert isinstance(artifact.model, BaseMLModel)
-        assert isinstance(artifact.dataset, Dataset)
+    def test_run_missing_parameters(self, mocker: MockFixture, tmp_path: Path) -> None:
+        exp = Experiment(name="test_exp", root_experiment_dirc=tmp_path).init()
 
-        _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
-        )
-        _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=True, n_jobs=1
-        )
-        assert len(base_experiment.exp_db.runs) == 3  # type: ignore
-
-        # run by shots model
-        _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=shots_model, add_results=True, n_jobs=1
-        )
-        assert base_experiment.experiment_dirc.joinpath("run_4/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_4/shots.h5").exists()
-        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
-
-        # not add result record (state vector mode)
-        _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=state_vec_model, add_results=False, n_jobs=1
-        )
-        assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
-        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
-
-        # not add result record (shots mode)
-        _, _ = base_experiment.run(
-            task_type="classification", dataset=dataset, model=shots_model, add_results=False, n_jobs=1
-        )
-        assert not base_experiment.experiment_dirc.joinpath("run_5/model.pkl").exists()
-        assert not base_experiment.experiment_dirc.joinpath("run_5/shots.h5").exists()
-        assert len(base_experiment.exp_db.runs) == 4  # type: ignore
-
-        # invalid arguments patterm
+        # not set model_type
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run()
+            exp.run(dataset=mocker.Mock(), model=mocker.Mock())
 
+        # not set dataset
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=dataset)
+            exp.run(model_type="qkernel", model=mocker.Mock())
 
+        # not set model
         with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(model=state_vec_model)
-
-        with pytest.raises(ExperimentRunSettingError):
-            base_experiment.run(dataset=dataset, model=state_vec_model)
-
-    def test_run_from_config_state_vec(
-        self,
-        mocker: MockFixture,
-        tmp_path: Path,
-        base_experiment: Experiment,
-        create_random_dataset: Callable,
-        state_vec_model: BaseMLModel,
-        experiment_config: ExperimentConfig,
-    ) -> None:
-        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
-        mocker.patch("qxmt.models.ModelBuilder.build", return_value=state_vec_model)
-
-        # initialization error check
-        assert base_experiment.current_run_id == 0
-        assert base_experiment.exp_db is None
-        with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(config_source=experiment_config, n_jobs=1)
-
-        # run from config instance
-        base_experiment.init()
-        artifact, _ = base_experiment.run(config_source=experiment_config, n_jobs=1)
-        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
-        assert isinstance(artifact.model, BaseMLModel)
-        assert isinstance(artifact.dataset, Dataset)
-
-        # run from config file
-        experiment_config_file = tmp_path / "experiment_config.yaml"
-        save_experiment_config_to_yaml(experiment_config, experiment_config_file, delete_source_path=True)
-        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True, n_jobs=1)
-        assert len(base_experiment.exp_db.runs) == 2  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_2/config.yaml").exists()
-        assert isinstance(artifact.model, BaseMLModel)
-        assert isinstance(artifact.dataset, Dataset)
-
-    def test_run_from_config_shots(
-        self,
-        mocker: MockFixture,
-        tmp_path: Path,
-        base_experiment: Experiment,
-        create_random_dataset: Callable,
-        shots_model: BaseMLModel,
-        shots_experiment_config: ExperimentConfig,
-    ) -> None:
-        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        mocker.patch("qxmt.datasets.DatasetBuilder.build", return_value=dataset)
-        mocker.patch("qxmt.models.ModelBuilder.build", return_value=shots_model)
-
-        # initialization error check
-        assert base_experiment.current_run_id == 0
-        assert base_experiment.exp_db is None
-        with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.run(config_source=shots_experiment_config, n_jobs=1)
-
-        # run from config instance
-        base_experiment.init()
-        artifact, _ = base_experiment.run(config_source=shots_experiment_config, n_jobs=1)
-        assert len(base_experiment.exp_db.runs) == 1  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_1/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_1/shots.h5").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_1/config.yaml").exists()
-        assert isinstance(artifact.model, BaseMLModel)
-        assert isinstance(artifact.dataset, Dataset)
-
-        # run from config file
-        experiment_config_file = tmp_path / "experiment_config.yaml"
-        save_experiment_config_to_yaml(shots_experiment_config, experiment_config_file, delete_source_path=True)
-        artifact, _ = base_experiment.run(config_source=experiment_config_file, add_results=True, n_jobs=1)
-        assert len(base_experiment.exp_db.runs) == 2  # type: ignore
-        assert base_experiment.experiment_dirc.joinpath("run_2/model.pkl").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_2/shots.h5").exists()
-        assert base_experiment.experiment_dirc.joinpath("run_2/config.yaml").exists()
-        assert isinstance(artifact.model, BaseMLModel)
-        assert isinstance(artifact.dataset, Dataset)
+            exp.run(model_type="qkernel", dataset=mocker.Mock())
 
 
 class TestExperimentResults:
-    def test_runs_to_dataframe(
-        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
-    ) -> None:
+    def test_runs_to_dataframe_empty(self, base_experiment: Experiment) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.runs_to_dataframe()
 
         base_experiment.init()
+        df = base_experiment.runs_to_dataframe()
+        assert df.empty
+        assert isinstance(df, pd.DataFrame)
+
+    def test_runs_to_dataframe_qkernel(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
+    ) -> None:
+        base_experiment.init()
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
-            model=state_vec_model,
+            model=state_vec_qkernel_model,
             default_metrics_name=default_metrics_name,
             n_jobs=1,
         )
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
-            model=state_vec_model,
+            model=state_vec_qkernel_model,
             default_metrics_name=default_metrics_name,
             n_jobs=1,
         )
@@ -377,9 +293,10 @@ class TestExperimentResults:
 
         assert Counter(df.columns) == Counter(["run_id", "accuracy", "precision", "recall", "f1_score"])
         assert len(df) == 2
+        assert all(df["run_id"] == [1, 2])
 
-    def test_runs_to_dataframe_with_validation(
-        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
+    def test_runs_to_dataframe_qkernel_with_validation(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
     ) -> None:
         with pytest.raises(ExperimentNotInitializedError):
             base_experiment.runs_to_dataframe(include_validation=True)
@@ -388,16 +305,18 @@ class TestExperimentResults:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2, include_validation=True)
         default_metrics_name = ["accuracy", "precision", "recall", "f1_score"]
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
-            model=state_vec_model,
+            model=state_vec_qkernel_model,
             default_metrics_name=default_metrics_name,
             n_jobs=1,
         )
         base_experiment.run(
+            model_type="qkernel",
             task_type="classification",
             dataset=dataset,
-            model=state_vec_model,
+            model=state_vec_qkernel_model,
             default_metrics_name=default_metrics_name,
             n_jobs=1,
         )
@@ -417,38 +336,90 @@ class TestExperimentResults:
             ]
         )
         assert len(df) == 2
+        assert all(df["run_id"] == [1, 2])
+
+    def test_runs_to_dataframe_vqe(self, base_experiment: Experiment, state_vec_vqe_model: BaseVQE) -> None:
+        base_experiment.init()
+        default_metrics_name = ["final_cost", "hf_energy"]
+        base_experiment.run(
+            model_type="vqe",
+            model=state_vec_vqe_model,
+            default_metrics_name=default_metrics_name,
+            n_jobs=1,
+        )
+        df = base_experiment.runs_to_dataframe()
+
+        assert Counter(df.columns) == Counter(["run_id", "final_cost", "hf_energy"])
+        assert len(df) == 1
+        assert df["run_id"].iloc[0] == 1
+
+    def test_runs_to_dataframe_custom_metrics(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
+    ) -> None:
+        # [TODO]: custom metric receive from BaseMetric class not from config file
+        pass
+
+    def test_runs_to_dataframe_invalid_evaluation_type(self, base_experiment: Experiment, mocker: MockFixture) -> None:
+        base_experiment.init()
+        mock_run = mocker.Mock()
+        mock_run.evaluations = "invalid_type"
+        base_experiment.exp_db.runs = [mock_run]  # type: ignore
+
+        with pytest.raises(ValueError, match="Invalid run_record.evaluations"):
+            base_experiment.runs_to_dataframe()
+
+    def test_get_run_record(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
+    ) -> None:
+        base_experiment.init()
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
+        base_experiment.run(
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_qkernel_model,
+            n_jobs=1,
+        )
+        base_experiment.run(
+            model_type="qkernel",
+            task_type="classification",
+            dataset=dataset,
+            model=state_vec_qkernel_model,
+            n_jobs=1,
+        )
+
+        run_record = base_experiment.get_run_record(base_experiment.exp_db.runs, 1)  # type: ignore
+        assert run_record.run_id == 1
+
+        with pytest.raises(ValueError, match="Run record of run_id=3 does not exist."):
+            base_experiment.get_run_record(base_experiment.exp_db.runs, 3)  # type: ignore
 
     def test_save_experiment(
-        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
     ) -> None:
         dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
 
         base_experiment.init()
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_qkernel_model, n_jobs=1
+        )
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_qkernel_model, n_jobs=1
+        )
         base_experiment.save_experiment()
 
         assert (base_experiment.experiment_dirc / DEFAULT_EXP_DB_FILE).exists()
 
-
-class TestExperimentReproduce:
-    def test_reproduce(
-        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_model: BaseMLModel
+    def test_save_experiment_custom_filename(
+        self, base_experiment: Experiment, create_random_dataset: Callable, state_vec_qkernel_model: BaseMLModel
     ) -> None:
-        with pytest.raises(ExperimentNotInitializedError):
-            base_experiment.reproduce(run_id=1)
+        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
+        custom_filename = "custom_experiment.json"
 
         base_experiment.init()
-        dataset = create_random_dataset(data_num=100, feature_num=5, class_num=2)
-        base_experiment.run(task_type="classification", dataset=dataset, model=state_vec_model, n_jobs=1)
+        base_experiment.run(
+            model_type="qkernel", task_type="classification", dataset=dataset, model=state_vec_qkernel_model, n_jobs=1
+        )
+        base_experiment.save_experiment(exp_file=custom_filename)
 
-        # run_id=1 executed from dataset and model instance.
-        # this run not exist config file.
-        with pytest.raises(ReproductionError):
-            base_experiment.reproduce(run_id=1)
-
-        # run_id=2 is not exist in the experiment.
-        with pytest.raises(ValueError):
-            base_experiment.reproduce(run_id=2)
-
-        # [TODO]: reproduce method not update experiment db and run_id.
+        assert (base_experiment.experiment_dirc / custom_filename).exists()

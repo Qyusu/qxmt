@@ -6,10 +6,10 @@ from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
 from rich.progress import track
 
-from qxmt.devices.base import BaseDevice
+from qxmt.devices import BaseDevice
 from qxmt.exceptions import ModelSettingError
-from qxmt.feature_maps.base import BaseFeatureMap
-from qxmt.kernels.base import BaseKernel
+from qxmt.feature_maps import BaseFeatureMap
+from qxmt.kernels import BaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
 

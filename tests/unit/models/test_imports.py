@@ -1,13 +1,6 @@
 from qxmt.models import __all__
 
-EXPECTED_ALL = [
-    "BaseMLModel",
-    "BaseKernelModel",
-    "ModelBuilder",
-    "QSVC",
-    "QSVR",
-    "QRiggeRegressor",
-]
+EXPECTED_ALL = ["ModelBuilder"]
 
 
 def test_all_imports() -> None:
