@@ -473,7 +473,7 @@ document.write(`
 <h1>qxmt.visualization.plot_dataset module<a class="headerlink" href="#qxmt-visualization-plot-dataset-module" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_dataset.</span></span><span class="sig-name descname"><span class="pre">plot_2d_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_dataset.</span></span><span class="sig-name descname"><span class="pre">plot_2d_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Train</span> <span class="pre">Dataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Test</span> <span class="pre">Dataset'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Ploat dataset on 2D plane.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -481,10 +481,10 @@ document.write(`
 <li><p><strong>dataset</strong> (<em>Dataset</em>) – Dataset object. It contains train and test data.</p></li>
 <li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>tuple</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
 <li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
-<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.
-train_title (str, optional): title of train dataset. Defaults to “Train Dataset”.
-test_title (str, optional): title of test dataset. Defaults to “Test Dataset”.</p></li>
+<li><p><strong>train_title</strong> (<em>str</em><em>, </em><em>optional</em>) – title of train dataset. Defaults to “Train Dataset”.</p></li>
+<li><p><strong>test_title</strong> (<em>str</em><em>, </em><em>optional</em>) – title of test dataset. Defaults to “Test Dataset”.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for scatter plot.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
