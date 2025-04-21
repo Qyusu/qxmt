@@ -9,6 +9,10 @@ from qxmt.visualization.plot_regression_performance import (
     plot_actual_vs_predicted,
     plot_residual,
 )
+from qxmt.visualization.plot_vqe_performance import (
+    plot_energy_difference_by_bond_length,
+    plot_pec,
+)
 
 __all__ = [
     "plot_2d_decision_boundaries",
@@ -19,4 +23,6 @@ __all__ = [
     "plot_optimization_history",
     "plot_residual",
     "plot_actual_vs_predicted",
+    "plot_energy_difference_by_bond_length",
+    "plot_pec",
 ]

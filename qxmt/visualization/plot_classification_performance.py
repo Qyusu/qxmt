@@ -16,9 +16,9 @@ def plot_2d_predicted_result(
     y_pred: np.ndarray,
     feature_cols: Optional[list[str]] = None,
     axis: list[int] = [0, 1],
-    title: Optional[str] = None,
-    truth_label: Optional[str] = None,
-    pred_label: Optional[str] = None,
+    title: str = '"Groud Truth" VS "Predicted"',
+    truth_label: str = "Ground Truth",
+    pred_label: str = "Predicted",
     colors: Optional[dict[int, tuple[float, float, float]]] = None,
     class_labels: Optional[dict[int, str]] = None,
     save_path: Optional[str | Path] = None,
@@ -32,9 +32,9 @@ def plot_2d_predicted_result(
         y_pred (np.ndarray): predicted labels.
         feature_cols (Optional[list[str]], optional): feature column names. Defaults to None.
         axis (list[int], optional): axis to plot (target feature col index). Defaults to [0, 1].
-        title (Optional[str], optional): title of the plot. Defaults to None.
-        truth_label (Optional[str], optional): label of ground truth. Defaults to "Ground Truth".
-        pred_label (Optional[str], optional): label of predicted. Defaults to "Predicted".
+        title (str, optional): title of the plot. Defaults to '"Groud Truth" VS "Predicted"'.
+        truth_label (str, optional): label of ground truth. Defaults to "Ground Truth".
+        pred_label (str, optional): label of predicted. Defaults to "Predicted".
         colors (Optional[dict[int, tuple[float, float, float]]], optional): color of each class. Defaults to None.
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
         save_path (Optional[str | Path], optional): save path of graph. Defaults to None.
@@ -88,10 +88,8 @@ def plot_2d_predicted_result(
         color_labels.append(color_label)
 
     # legend for markers, it is empty because we want to show only labels
-    truth_label = truth_label if truth_label is not None else "Ground Truth"
-    predict_label = pred_label if pred_label is not None else "Predicted"
     truth_label_handle = plt.scatter([], [], label=truth_label, marker="o", facecolor="none", color="black")
-    predict_label_handle = plt.scatter([], [], label=predict_label, marker="x", color="black")
+    predict_label_handle = plt.scatter([], [], label=pred_label, marker="x", color="black")
     marker_legend = plt.legend(
         title="marker type",
         handles=[truth_label_handle, predict_label_handle],
@@ -104,8 +102,6 @@ def plot_2d_predicted_result(
 
     plt.xlabel(f"{feature_cols[axis[0]]}")
     plt.ylabel(f"{feature_cols[axis[1]]}")
-
-    title = title if title is not None else '"Groud Truth" VS "Predicted"'
     plt.title(title)
 
     if save_path is not None:
@@ -122,8 +118,8 @@ def plot_2d_decision_boundaries(
     grid_resolution: int = 100,
     support_vectors: bool = True,
     feature_cols: Optional[list[str]] = None,
-    title: Optional[str] = None,
-    cmap: Optional[str] = DEFAULT_COLOR_MAP,
+    title: str = "Decision boundaries of QSVC",
+    cmap: str = DEFAULT_COLOR_MAP,
     save_path: Optional[str | Path] = None,
 ) -> None:
     """Plot decision boundaries of QSVC on 2D plane.
@@ -135,7 +131,7 @@ def plot_2d_decision_boundaries(
         grid_resolution (int, optional): Resolution of the grid. Defaults to 100.
         support_vectors (bool, optional): Plot support vectors or not. Defaults to True.
         feature_cols (Optional[list[str]], optional): Feature column names. Defaults to None.
-        title (Optional[str], optional): Title of the plot. Defaults to "Decision boundaries of QSVC".
+        title (str, optional): Title of the plot. Defaults to "Decision boundaries of QSVC".
         cmap (str, optional): Color map for the plot. Defaults to DEFAULT_COLOR_MAP.
         save_path (Optional[str | Path], optional): Save path of the graph. Defaults to None.
     """
@@ -202,8 +198,6 @@ def plot_2d_decision_boundaries(
     plt.xlabel(f"{feature_cols[0]}")
     plt.ylabel(f"{feature_cols[1]}")
     ax.legend(*scatter.legend_elements(), loc="upper right", title="Class", bbox_to_anchor=(1.2, 1))
-
-    title = title if title is not None else "Decision boundaries of QSVC"
     ax.set_title(title)
 
     if save_path is not None:

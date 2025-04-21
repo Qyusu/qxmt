@@ -9,6 +9,8 @@ EXPECTED_ALL = [
     "plot_optimization_history",
     "plot_residual",
     "plot_actual_vs_predicted",
+    "plot_energy_difference_by_bond_length",
+    "plot_pec",
 ]
 
 
