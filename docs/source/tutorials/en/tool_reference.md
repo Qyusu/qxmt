@@ -77,10 +77,10 @@ In the example below, a process is defined that first applies `normalization` to
 
 ``` python
 transform_logic:
-- module_name: qxmt.datasets.transform.normalization
+- module_name: qxmt.datasets.transform.normalizer
   implement_name: normalization
   params: null
-- module_name: qxmt.datasets.transform.reduction_by_pca
+- module_name: qxmt.datasets.transform.reducer
   implement_name: dimension_reduction_by_pca
   params:
     n_components: 2

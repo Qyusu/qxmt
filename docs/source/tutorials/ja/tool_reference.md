@@ -46,7 +46,7 @@ reproduced_artifact, reproduced_result = experiment.reproduce(run_id=1, check_co
 
 ## 2. Dataset
 
-### 2.1OpenMLを用いたデータセットの読み込み
+### 2.1 OpenMLを用いたデータセットの読み込み
 QXMTではデータセットの準備を簡略化するために[OpenML](https://www.openml.org/)のAPIをconfigファイル経由で利用できるようになっています。ここでは、利用したいデータセットを検索しconfigに設定して利用するまでの流れを紹介します。
 
 実験で「Fashion-MNIST」のデータセットを利用したいとします。その場合は、まずOpenMLの[データセット検索ページ](https://www.openml.org/search?type=data&sort=runs&status=active)で利用し該当するデータセットを探し、詳細ページへ移動します。詳細ページに移動すると以下のようなデータセットの情報を確認することができます。この中の「ID」をconfigに記載します (今回の場合はID="40996")。
@@ -81,10 +81,10 @@ yamlにおけるリストの表記方法はいくつかパターンがありま�
 
 ``` python
 transform_logic:
-- module_name: qxmt.datasets.transform.normalization
+- module_name: qxmt.datasets.transform.normalizer
   implement_name: normalization
   params: null
-- module_name: qxmt.datasets.transform.reduction_by_pca
+- module_name: qxmt.datasets.transform.reducer
   implement_name: dimension_reduction_by_pca
   params:
     n_components: 2
