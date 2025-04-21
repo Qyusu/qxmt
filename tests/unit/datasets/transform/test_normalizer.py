@@ -1,6 +1,6 @@
 import numpy as np
 
-from qxmt.datasets.transform.normalization import normalization
+from qxmt.datasets.transform.normalizer import normalization
 
 
 class TestNormalization:

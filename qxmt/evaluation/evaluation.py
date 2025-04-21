@@ -3,10 +3,6 @@ from typing import Any, Optional, Type, get_args
 import pandas as pd
 
 from qxmt.evaluation.metrics.base import BaseMetric
-from qxmt.evaluation.metrics.default_vqe import (
-    DEFAULT_VQE_METRICS_NAME,
-    NAME2VQE_METRIC,
-)
 from qxmt.evaluation.metrics.defaults_classification import (
     DEFAULT_CLF_METRICS_NAME,
     NAME2CLF_METRIC,
@@ -14,6 +10,10 @@ from qxmt.evaluation.metrics.defaults_classification import (
 from qxmt.evaluation.metrics.defaults_regression import (
     DEFAULT_REG_METRICS_NAME,
     NAME2REG_METRIC,
+)
+from qxmt.evaluation.metrics.defaults_vqe import (
+    DEFAULT_VQE_METRICS_NAME,
+    NAME2VQE_METRIC,
 )
 from qxmt.utils import load_object_from_yaml
 

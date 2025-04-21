@@ -9,11 +9,3 @@ Submodules
 
    qxmt.datasets.generate.linear
    qxmt.datasets.generate.loader
-
-Module contents
----------------
-
-.. automodule:: qxmt.datasets.generate
-   :members:
-   :undoc-members:
-   :show-inheritance:

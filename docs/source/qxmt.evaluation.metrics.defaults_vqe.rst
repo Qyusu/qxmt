@@ -1,7 +1,7 @@
-qxmt.datasets.transform.normalization module
+qxmt.evaluation.metrics.defaults\_vqe module
 ============================================
 
-.. automodule:: qxmt.datasets.transform.normalization
+.. automodule:: qxmt.evaluation.metrics.defaults_vqe
    :members:
    :undoc-members:
    :show-inheritance:
