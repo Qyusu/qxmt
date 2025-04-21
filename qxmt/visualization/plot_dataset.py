@@ -14,6 +14,8 @@ def plot_2d_dataset(
     dataset: Dataset,
     colors: Optional[dict[int, tuple]] = None,
     class_labels: Optional[dict[int, str]] = None,
+    train_title: Optional[str] = None,
+    test_title: Optional[str] = None,
     save_path: Optional[str | Path] = None,
     **kwargs: Any,
 ) -> None:
@@ -23,10 +25,10 @@ def plot_2d_dataset(
         dataset (Dataset): Dataset object. It contains train and test data.
         colors (Optional[dict[int, tuple]], optional): color of each class. Defaults to None.
         class_labels (Optional[dict[int, str]], optional): label of each class. Defaults to None.
-        save_path (Optional[str], optional): save path of graph. Defaults to None.
-        **kwargs (Any): additional arguments for plot.
-            train_title (str, optional): title of train dataset. Defaults to "Train Dataset".
-            test_title (str, optional): title of test dataset. Defaults to "Test Dataset".
+        train_title (Optional[str], optional): title of train dataset. Defaults to "Train Dataset".
+        test_title (Optional[str], optional): title of test dataset. Defaults to "Test Dataset".
+        save_path (Optional[str | Path], optional): save path of graph. Defaults to None.
+        **kwargs (Any): additional arguments for scatter plot.
     """
     if dataset.config.features is not None:
         feature_cols = dataset.config.features
@@ -54,11 +56,12 @@ def plot_2d_dataset(
             subset[:, 1],
             color=colors.get(class_value),
             label=class_labels.get(class_value),
+            **kwargs,
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
         plt.legend(title="Class")
-        plt.title(str(kwargs.get("train_title", "Train Dataset")))
+        plt.title(train_title if train_title is not None else "Train Dataset")
 
     plt.subplot(1, 2, 2)
     for class_value in np.unique(dataset.y_test):
@@ -68,11 +71,12 @@ def plot_2d_dataset(
             subset[:, 1],
             color=colors.get(class_value),
             label=class_labels.get(class_value),
+            **kwargs,
         )
         plt.xlabel(f"{feature_cols[0]}")
         plt.ylabel(f"{feature_cols[1]}")
         plt.legend(title="Class")
-        plt.title(str(kwargs.get("test_title", "Test Dataset")))
+        plt.title(test_title if test_title is not None else "Test Dataset")
 
     if save_path is not None:
         plt.savefig(save_path, bbox_inches="tight", pad_inches=0.1)

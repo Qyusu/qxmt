@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from pathlib import Path
 from typing import TYPE_CHECKING, Tuple
 
@@ -8,7 +6,8 @@ from qxmt.exceptions import ReproductionError
 from qxmt.experiment.schema import Evaluations, RunArtifact, RunRecord, VQEEvaluations
 from qxmt.utils import get_commit_id, is_git_available
 
-if TYPE_CHECKING:  # forward ref to avoid circular import
+if TYPE_CHECKING:  # pragma: no cover
+    # to avoid circular import
     from qxmt.experiment.experiment import Experiment
 
 IS_GIT_AVAILABLE = is_git_available()
@@ -26,7 +25,7 @@ class Reproducer:
         logger: Logger instance for logging operations.
     """
 
-    def __init__(self, experiment: "Experiment") -> None:  # type: ignore[name-defined]
+    def __init__(self, experiment: "Experiment") -> None:
         """Initialize the Reproducer.
 
         Args:
