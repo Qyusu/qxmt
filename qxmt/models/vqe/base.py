@@ -26,6 +26,8 @@ class BaseVQE(ABC):
         device: Quantum device to use for the VQE calculation.
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
+        max_steps: Maximum number of optimization steps. Defaults to 20.
+        verbose: Whether to output progress during optimization. Defaults to True.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
         optimizer_settings: Settings for the optimizer.
         logger: Logger object for output. Defaults to module-level logger.
@@ -42,6 +44,8 @@ class BaseVQE(ABC):
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
         diff_method: Optional[SupportedDiffMethods] = "adjoint",
+        max_steps: int = 20,
+        verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
@@ -49,6 +53,8 @@ class BaseVQE(ABC):
         self.hamiltonian = hamiltonian
         self.ansatz = ansatz
         self.diff_method: Optional[SupportedDiffMethods] = diff_method
+        self.max_steps: int = max_steps
+        self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.logger: Logger = logger
         self.qnode: QNode
@@ -71,21 +77,15 @@ class BaseVQE(ABC):
         pass
 
     @abstractmethod
-    def optimize(
-        self,
-        init_params: qml.numpy.ndarray,
-        max_steps: int,
-        verbose: bool,
-    ) -> None:
+    def optimize(self, init_params: Any) -> None:
         """Optimize the ansatz parameters to find the ground state.
 
         This method must be implemented by subclasses to perform the parameter
         optimization process.
 
         Args:
-            init_params: Initial parameters for the ansatz.
-            max_steps: Maximum number of optimization steps.
-            verbose: Whether to print progress during optimization.
+            init_params: Initial parameters for the ansatz. This array must be calculate gradientable
+                with the optimizer.
 
         Note:
             The implementation should update params_history and cost_history

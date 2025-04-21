@@ -38,7 +38,9 @@ model:
       stepsize: 0.01
       beta1: 0.9
       beta2: 0.999
-  params: {}
+  params:
+    max_steps: 20
+    verbose: true
 
 evaluation:
   default_metrics:

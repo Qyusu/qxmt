@@ -29,6 +29,8 @@ class BasicVQE(BaseVQE):
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
+        max_steps: Maximum number of optimization steps. Defaults to 20.
+        verbose: Whether to output progress during optimization. Defaults to True.
         optimizer_settings: Settings for the optimizer.
         logger: Logger object for output. Defaults to module-level logger.
 
@@ -43,10 +45,12 @@ class BasicVQE(BaseVQE):
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
         diff_method: Optional[SupportedDiffMethods] = "adjoint",
+        max_steps: int = 20,
+        verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
-        super().__init__(device, hamiltonian, ansatz, diff_method, optimizer_settings, logger)
+        super().__init__(device, hamiltonian, ansatz, diff_method, max_steps, verbose, optimizer_settings, logger)
 
     def _initialize_qnode(self) -> None:
         """Initialize the QNode for VQE.
@@ -72,12 +76,7 @@ class BasicVQE(BaseVQE):
             diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
 
-    def optimize(
-        self,
-        init_params: Optional[qml.numpy.ndarray] = None,
-        max_steps: int = 100,
-        verbose: bool = True,
-    ) -> None:
+    def optimize(self, init_params: Optional[qml.numpy.ndarray] = None) -> None:
         """Optimize the ansatz parameters to find the ground state.
 
         This method performs gradient-based optimization of the ansatz parameters
@@ -85,8 +84,6 @@ class BasicVQE(BaseVQE):
 
         Args:
             init_params: Initial parameters for the ansatz.
-            max_steps: Maximum number of optimization steps. Defaults to 100.
-            verbose: Whether to output progress during optimization. Defaults to True.
 
         Note:
             The optimization history (cost and parameters) is stored in the class attributes
@@ -94,15 +91,19 @@ class BasicVQE(BaseVQE):
         """
         if init_params is None:
             init_params = qml.numpy.zeros(self.ansatz.n_params)
+
+        if not isinstance(init_params, qml.numpy.ndarray):
+            raise ValueError("init_params must be a PennyLane numpy array to enable gradient calculations.")
+
         self._set_optimizer()
-        self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {max_steps} steps")
+        self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {self.max_steps} steps")
 
         params = init_params
-        for i in range(max_steps):
+        for i in range(self.max_steps):
             params, cost = self.optimizer.step_and_cost(self.qnode, params)
             self.cost_history.append(cost)
             self.params_history.append(params)
-            if verbose:
+            if self.verbose:
                 self.logger.info(f"Step {i+1}: Cost = {cost}")
 
         self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")

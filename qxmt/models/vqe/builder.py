@@ -46,11 +46,13 @@ class VQEModelBuilder:
         match self.config.model.name:
             case "basic":
                 self.model = BasicVQE(
-                    self.device,
-                    self.hamiltonian,
-                    self.ansatz,
-                    cast(SupportedDiffMethods, self.config.model.diff_method),
-                    self.config.model.optimizer_settings,
+                    device=self.device,
+                    hamiltonian=self.hamiltonian,
+                    ansatz=self.ansatz,
+                    diff_method=cast(SupportedDiffMethods, self.config.model.diff_method),
+                    max_steps=self.config.model.params.get("max_steps", 20),
+                    verbose=self.config.model.params.get("verbose", True),
+                    optimizer_settings=self.config.model.optimizer_settings,
                 )
             case _:
                 raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')

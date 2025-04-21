@@ -320,7 +320,7 @@ class VQEExecutor(RunExecutorBase):
         """
         # Optimise the VQE model
         optimise_start = datetime.now(TZ)
-        model.optimize(init_params=None, max_steps=20, verbose=True)
+        model.optimize(init_params=None)
         optimise_end = datetime.now(TZ)
         optimise_seconds = (optimise_end - optimise_start).total_seconds()
 
