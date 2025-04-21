@@ -1,6 +1,6 @@
 import numpy as np
 
-from qxmt.datasets.transform.reduction_by_pca import dimension_reduction_by_pca
+from qxmt.datasets.transform.reducer import dimension_reduction_by_pca
 
 
 class TestDimensionReduction:

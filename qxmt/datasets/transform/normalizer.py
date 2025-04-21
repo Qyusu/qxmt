@@ -17,7 +17,7 @@ def normalization(
     y_test: np.ndarray,
     scaler_type: SCALER_TYPE = "StandardScaler",
 ) -> PROCESSCED_DATASET_TYPE:
-    """Normalization of dataset by StandardScaler
+    """Normalization of dataset by StandardScaler or MinMaxScaler
 
     Args:
         X_train (np.ndarray): numpy array of training data

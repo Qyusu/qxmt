@@ -5,3 +5,4 @@ qxmt.datasets.generate.loader module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

@@ -10,11 +10,4 @@ Submodules
    qxmt.evaluation.metrics.base
    qxmt.evaluation.metrics.defaults_classification
    qxmt.evaluation.metrics.defaults_regression
-
-Module contents
----------------
-
-.. automodule:: qxmt.evaluation.metrics
-   :members:
-   :undoc-members:
-   :show-inheritance:
+   qxmt.evaluation.metrics.defaults_vqe

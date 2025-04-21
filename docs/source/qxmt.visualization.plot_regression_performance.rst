@@ -5,3 +5,4 @@ qxmt.visualization.plot\_regression\_performance module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

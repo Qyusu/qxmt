@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from qxmt.evaluation.metrics.default_vqe import FCIEnergy, FinalCost, HFEnergy
+from qxmt.evaluation.metrics.defaults_vqe import FCIEnergy, FinalCost, HFEnergy
 
 
 class TestFinalCost:

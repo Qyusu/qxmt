@@ -84,7 +84,7 @@ experiment = qxmt.Experiment(
 # run experiment. each experiment defined in config file or instance.
 # see documentation for details on instance mode
 # run from config
-artifact, result = experiment.run(config_source="configs/template-openml.yaml")
+artifact, result = experiment.run(config_source="configs/qkernel_models/template-openml-classification.yaml")
 
 # get instance of each experiment artifact
 dataset = artifact.dataset
@@ -108,7 +108,7 @@ experiment = qxmt.Experiment().load_experiment(
 reproduction_model = experiment.reproduce(run_id=1)
 
 # run new experiment
-artifact, result = experiment.run(config_source="configs/template-openml.yaml")
+artifact, result = experiment.run(config_source="configs/qkernel_models/template-openml-classification.yaml")
 
 # output result
 experiment.runs_to_dataframe()

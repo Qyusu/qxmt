@@ -67,47 +67,65 @@ class Experiment:
     business logic.
 
     Responsibilities:
-        1. **Initialization / Loading**
-           * :py:meth:`init`  - create a new experiment directory and an empty `ExperimentDB`.
-           * :py:meth:`load`  - load an existing experiment from a JSON file.
-        2. **Run management**
-           * :py:meth:`run`  - execute an experiment run with QKernel or VQE models (supports both
-             config-based and instance-based workflows).
-           * :py:meth:`_run_setup` / :py:meth:`_run_backfill` - create and rollback run directories.
-        3. **Result handling**
-           * :py:meth:`runs_to_dataframe` - convert `RunRecord`s into a `pandas.DataFrame` for easy analysis.
-           * :py:meth:`save_experiment` - persist the `ExperimentDB` to disk.
-           * :py:meth:`get_run_record` - retrieve a single `RunRecord` by *run_id*.
-        4. **Reproducibility**
-           * :py:meth:`reproduce` - re-execute a past run and validate that results match.
+
+    1. **Initialization / Loading**
+
+       * :py:meth:`init` - create a new experiment directory and an empty `ExperimentDB`.
+       * :py:meth:`load` - load an existing experiment from a JSON file.
+
+    2. **Run management**
+
+       * :py:meth:`run` - execute an experiment run with QKernel or VQE models (supports both
+         config-based and instance-based workflows).
+       * :py:meth:`_run_setup` / :py:meth:`_run_backfill` - create and rollback run directories.
+
+    3. **Result handling**
+
+       * :py:meth:`runs_to_dataframe` - convert `RunRecord`s into a `pandas.DataFrame` for easy analysis.
+       * :py:meth:`save_experiment` - persist the `ExperimentDB` to disk.
+       * :py:meth:`get_run_record` - retrieve a single `RunRecord` by *run_id*.
+
+    4. **Reproducibility**
+
+       * :py:meth:`reproduce` - re-execute a past run and validate that results match.
 
     Example:
-        ```python
-        from qxmt.experiment import Experiment
 
-        exp = Experiment(name="my_exp").init()
-        artifact, record = exp.run(
-            model_type="qkernel",
-            task_type="classification",
-            dataset=dataset_instance,
-            model=model_instance,
-        )
+        .. code-block:: python
 
-        # Aggregate results
-        df = exp.runs_to_dataframe()
-        ```
+            from qxmt.experiment import Experiment
+
+            exp = Experiment(name="my_exp").init()
+            artifact, record = exp.run(
+                model_type="qkernel",
+                task_type="classification",
+                dataset=dataset_instance,
+                model=model_instance,
+            )
+
+            # Aggregate results
+            df = exp.runs_to_dataframe()
 
     Attributes:
-        name (str | None): Experiment name. If *None*, a timestamped name is generated.
-        desc (str | None): Human-readable description. When `auto_gen_mode` is enabled and the value is an
+        name (str | None):
+            Experiment name. If *None*, a timestamped name is generated.
+        desc (str | None):
+            Human-readable description. When `auto_gen_mode` is enabled and the value is an
             empty string, an LLM can generate it automatically.
-        auto_gen_mode (bool): Whether to generate run descriptions with an LLM.
-        root_experiment_dirc (pathlib.Path): Root directory where all experiments are stored.
-        experiment_dirc (pathlib.Path): Directory assigned to this particular experiment.
-        current_run_id (int): ID of the next run to be executed (zero-based).
-        exp_db (ExperimentDB | None): In-memory database object holding experiment meta-data.
-        logger (logging.Logger): Logger instance to report progress and warnings.
-        _repo (ExperimentRepository): Internal repository that encapsulates all filesystem & persistence operations.
+        auto_gen_mode (bool):
+            Whether to generate run descriptions with an LLM.
+        root_experiment_dirc (pathlib.Path):
+            Root directory where all experiments are stored.
+        experiment_dirc (pathlib.Path):
+            Directory assigned to this particular experiment.
+        current_run_id (int):
+            ID of the next run to be executed (zero-based).
+        exp_db (ExperimentDB | None):
+            In-memory database object holding experiment meta-data.
+        logger (logging.Logger):
+            Logger instance to report progress and warnings.
+        _repo (ExperimentRepository):
+            Internal repository that encapsulates all filesystem & persistence operations.
     """
 
     def __init__(
