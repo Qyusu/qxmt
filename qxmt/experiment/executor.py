@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from abc import ABC, abstractmethod
 from datetime import datetime
 from pathlib import Path
@@ -32,8 +30,9 @@ from qxmt.models.qkernels import BaseKernelModel, BaseMLModel
 from qxmt.models.vqe import BaseVQE, VQEModelBuilder
 
 if TYPE_CHECKING:  # pragma: no cover
+    # avoid circular import
     from qxmt.configs import ExperimentConfig
-    from qxmt.experiment.experiment import Experiment  # avoid circular import
+    from qxmt.experiment.experiment import Experiment
 
 LOGGER = set_default_logger(__name__)
 
