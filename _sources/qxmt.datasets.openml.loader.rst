@@ -5,3 +5,4 @@ qxmt.datasets.openml.loader module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

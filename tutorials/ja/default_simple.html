@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>デフォルトのデータセットとモデルのみを利用したシンプルなケース &#8212; qxmt 0.4.7 documentation</title>
+    <title>デフォルトのデータセットとモデルのみを利用したシンプルなケース &#8212; qxmt 0.5.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=8d261304"></script>
+    <script src="../../_static/documentation_options.js?v=e4e9a439"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -131,7 +131,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.4.7 documentation</p>
+    <p class="title logo__title">qxmt 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -149,6 +149,15 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qxmt.html">QXMT reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.ansatze.pennylane.uccsd.html">qxmt.ansatze.pennylane.uccsd module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.ansatze.base.html">qxmt.ansatze.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.ansatze.builder.html">qxmt.ansatze.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
@@ -169,8 +178,8 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.transform.normalization.html">qxmt.datasets.transform.normalization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.transform.normalizer.html">qxmt.datasets.transform.normalizer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.transform.reducer.html">qxmt.datasets.transform.reducer module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -190,13 +199,18 @@
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.evaluation.metrics.defaults_vqe.html">qxmt.evaluation.metrics.defaults_vqe module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.experiment.html">qxmt.experiment package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.evaluation_factory.html">qxmt.experiment.evaluation_factory module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.executor.html">qxmt.experiment.executor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.experiment.html">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.repository.html">qxmt.experiment.repository module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.reproducer.html">qxmt.experiment.reproducer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
 </ul>
 </details></li>
@@ -216,6 +230,15 @@
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.hamiltonians.html">qxmt.hamiltonians package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.hamiltonians.pennylane.html">qxmt.hamiltonians.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.hamiltonians.pennylane.molecular.html">qxmt.hamiltonians.pennylane.molecular module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.hamiltonians.base.html">qxmt.hamiltonians.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.hamiltonians.builder.html">qxmt.hamiltonians.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
@@ -231,11 +254,21 @@
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.base.html">qxmt.models.base module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.models.qkernels.html">qxmt.models.qkernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.qkernels.base.html">qxmt.models.qkernels.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.qkernels.builder.html">qxmt.models.qkernels.builder module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.qkernels.qrigge.html">qxmt.models.qkernels.qrigge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.qkernels.qsvc.html">qxmt.models.qkernels.qsvc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.qkernels.qsvr.html">qxmt.models.qkernels.qsvr module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.models.vqe.html">qxmt.models.vqe package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.vqe.base.html">qxmt.models.vqe.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.vqe.basic.html">qxmt.models.vqe.basic module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.models.vqe.builder.html">qxmt.models.vqe.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.builder.html">qxmt.models.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qsvc.html">qxmt.models.qsvc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qsvr.html">qxmt.models.qsvr module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -244,10 +277,12 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_optimization_performance.html">qxmt.visualization.plot_optimization_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../qxmt.visualization.plot_vqe_performance.html">qxmt.visualization.plot_vqe_performance module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.configs.html">qxmt.configs module</a></li>
@@ -550,6 +585,7 @@ document.write(`
 
 <span class="nt">global_settings</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">random_seed</span><span class="p">:</span><span class="w"> </span><span class="nl">&amp;global_seed</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">42</span>
+<span class="w">  </span><span class="nt">model_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qkernel&quot;</span>
 <span class="w">  </span><span class="nt">task_type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;classification&quot;</span>
 
 <span class="nt">dataset</span><span class="p">:</span>
@@ -588,7 +624,6 @@ document.write(`
 
 <span class="nt">model</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qsvc&quot;</span>
-<span class="w">  </span><span class="nt">file_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;model.pkl&quot;</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">C</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
 <span class="w">    </span><span class="nt">gamma</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.05</span>

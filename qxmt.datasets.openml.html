@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.datasets.openml package &#8212; qxmt 0.4.7 documentation</title>
+    <title>qxmt.datasets.openml package &#8212; qxmt 0.5.0 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=8d261304"></script>
+    <script src="_static/documentation_options.js?v=e4e9a439"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.4.7 documentation</p>
+    <p class="title logo__title">qxmt 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -151,6 +151,15 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.uccsd.html">qxmt.ansatze.pennylane.uccsd module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.base.html">qxmt.ansatze.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.builder.html">qxmt.ansatze.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active has-children"><a class="current reference internal" href="#">qxmt.datasets.openml package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
@@ -171,8 +180,8 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalization.html">qxmt.datasets.transform.normalization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalizer.html">qxmt.datasets.transform.normalizer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reducer.html">qxmt.datasets.transform.reducer module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -192,13 +201,18 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_vqe.html">qxmt.evaluation.metrics.defaults_vqe module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.experiment.html">qxmt.experiment package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.evaluation_factory.html">qxmt.experiment.evaluation_factory module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.executor.html">qxmt.experiment.executor module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.experiment.html">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.repository.html">qxmt.experiment.repository module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.reproducer.html">qxmt.experiment.reproducer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
 </ul>
 </details></li>
@@ -218,6 +232,15 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.hamiltonians.html">qxmt.hamiltonians package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.hamiltonians.pennylane.html">qxmt.hamiltonians.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.hamiltonians.pennylane.molecular.html">qxmt.hamiltonians.pennylane.molecular module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.base.html">qxmt.hamiltonians.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.builder.html">qxmt.hamiltonians.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
@@ -233,11 +256,21 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.qkernels.html">qxmt.models.qkernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.base.html">qxmt.models.qkernels.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.builder.html">qxmt.models.qkernels.builder module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qrigge.html">qxmt.models.qkernels.qrigge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvc.html">qxmt.models.qkernels.qsvc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvr.html">qxmt.models.qkernels.qsvr module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.vqe.html">qxmt.models.vqe package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.base.html">qxmt.models.vqe.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.basic.html">qxmt.models.vqe.basic module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.builder.html">qxmt.models.vqe.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvc.html">qxmt.models.qsvc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvr.html">qxmt.models.qsvr module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -246,10 +279,12 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_optimization_performance.html">qxmt.visualization.plot_optimization_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_vqe_performance.html">qxmt.visualization.plot_vqe_performance module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.configs.html">qxmt.configs module</a></li>
@@ -430,14 +465,6 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.openml">Module contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader.__init__"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader.load"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader.load()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
             </nav>
         </div>
@@ -497,93 +524,6 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="module-qxmt.datasets.openml">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.datasets.openml" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="qxmt.datasets.openml.OpenMLDataLoader">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.openml.</span></span><span class="sig-name descname"><span class="pre">OpenMLDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_format='numpy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.openml.loader</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.openml.OpenMLDataLoader" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class loads a dataset from OpenML (<a class="reference external" href="https://www.openml.org/">https://www.openml.org/</a>) and converts it to the specified return format.
-OpenML is an online platform for sharing datasets and machine learning experiments.
-Identifier of the dataset can be specified by the dataset name or ID.
-If the name is specified, search the OpenML database to get the dataset ID and load the latest version.
-The dataset ID can be search in officail OpenML website (<a class="reference external" href="https://www.openml.org/search">https://www.openml.org/search</a>).
-ID has a higher priority than the name.</p>
-<p>Supported return formats:
-- numpy: return as a tuple of numpy arrays.
-- pandas: return as a pandas DataFrame.</p>
-<p>Supported save formats:
-- numpy: .npz, .npy
-- pandas: .csv, .tsv</p>
-<p class="rubric">Examples</p>
-<p>Load the dataset “mnist_784” from OpenML and save it as a numpy file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">OpenMLDataLoader</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mnist_784&quot;</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;data/mnist.npz&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="go">X = np.array([[0, 0, 0, ..., 0, 0, 0], ..]), y = np.array([5, 0, 4, ..., 4, 5, 6])</span>
-</pre></div>
-</div>
-<p>Load the dataset id=554 (“mnist_784”) from OpenML and save it as a pandas DataFrame.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">OpenMLDataLoader</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">554</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;data/mnist.csv&quot;</span><span class="p">,</span> <span class="n">return_format</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="go">data = pd.DataFrame([[0, 0, 0, ..., 0, 0, 0], .., [5, 0, 4, ..., 4, 5, 6]])</span>
-</pre></div>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>save_path</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>return_format</strong> (<em>str</em>)</p></li>
-<li><p><strong>use_cache</strong> (<em>bool</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.datasets.openml.OpenMLDataLoader.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_format='numpy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.openml.loader</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.openml.OpenMLDataLoader.__init__" title="Link to this definition">#</a></dt>
-<dd><p>Initialize the OpenML dataset loader.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_identifier</strong> (<em>str</em><em> | </em><em>int</em>) – dataset name or ID. If the name is specified, the latest version is used.</p></li>
-<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>  |  </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the loaded dataset.
-If the value is None, the dataset is not saved. Defaults to None.</p></li>
-<li><p><strong>return_format</strong> (<em>str</em><em>, </em><em>optional</em>) – return format of the loaded dataset. Defaults to “numpy”.</p></li>
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>use_cache</strong> (<em>bool</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="qxmt.datasets.openml.OpenMLDataLoader.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.datasets.openml.OpenMLDataLoader.load" title="Link to this definition">#</a></dt>
-<dd><p>Load the dataset from OpenML. Then, convert the dataset to the specified return format.
-The loaded dataset is saved to the specified path if it is not None.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – unsupported return format</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>loaded dataset</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray | None] | pd.DataFrame</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 </section>
 
 
@@ -632,14 +572,6 @@ The loaded dataset is saved to the specified path if it is not None.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.datasets.openml">Module contents</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader.__init__"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader.__init__()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.datasets.openml.OpenMLDataLoader.load"><code class="docutils literal notranslate"><span class="pre">OpenMLDataLoader.load()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
 </ul>
   </nav></div>
 

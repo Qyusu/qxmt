@@ -5,3 +5,4 @@ qxmt.datasets.file.loader module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

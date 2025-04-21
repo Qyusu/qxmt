@@ -5,3 +5,4 @@ qxmt.datasets.generate.linear module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:

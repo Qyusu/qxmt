@@ -174,6 +174,7 @@ description: "Configuration file for the custom MNIST case"
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "classification"
 
 dataset:

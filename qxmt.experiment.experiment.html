@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.experiment.experiment module &#8212; qxmt 0.4.7 documentation</title>
+    <title>qxmt.experiment.experiment module &#8212; qxmt 0.5.0 documentation</title>
   
   
   
@@ -37,15 +37,15 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=8d261304"></script>
+    <script src="_static/documentation_options.js?v=e4e9a439"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.experiment.experiment';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.experiment.schema module" href="qxmt.experiment.schema.html" />
-    <link rel="prev" title="qxmt.experiment package" href="qxmt.experiment.html" />
+    <link rel="next" title="qxmt.experiment.repository module" href="qxmt.experiment.repository.html" />
+    <link rel="prev" title="qxmt.experiment.executor module" href="qxmt.experiment.executor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.4.7 documentation</p>
+    <p class="title logo__title">qxmt 0.5.0 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -151,6 +151,15 @@
     <div class="bd-toc-item navbar-nav active">
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.uccsd.html">qxmt.ansatze.pennylane.uccsd module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.base.html">qxmt.ansatze.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.builder.html">qxmt.ansatze.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
@@ -171,8 +180,8 @@
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reduction_by_pca.html">qxmt.datasets.transform.reduction_by_pca module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalization.html">qxmt.datasets.transform.normalization module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalizer.html">qxmt.datasets.transform.normalizer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reducer.html">qxmt.datasets.transform.reducer module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
@@ -192,13 +201,18 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_vqe.html">qxmt.evaluation.metrics.defaults_vqe module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.experiment.html">qxmt.experiment package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.evaluation_factory.html">qxmt.experiment.evaluation_factory module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.executor.html">qxmt.experiment.executor module</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.repository.html">qxmt.experiment.repository module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.reproducer.html">qxmt.experiment.reproducer module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
 </ul>
 </details></li>
@@ -218,6 +232,15 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.hamiltonians.html">qxmt.hamiltonians package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.hamiltonians.pennylane.html">qxmt.hamiltonians.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.hamiltonians.pennylane.molecular.html">qxmt.hamiltonians.pennylane.molecular module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.base.html">qxmt.hamiltonians.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.builder.html">qxmt.hamiltonians.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
@@ -233,11 +256,21 @@
 <li class="toctree-l4"><a class="reference internal" href="qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.base.html">qxmt.models.base module</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.qkernels.html">qxmt.models.qkernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.base.html">qxmt.models.qkernels.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.builder.html">qxmt.models.qkernels.builder module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qrigge.html">qxmt.models.qkernels.qrigge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvc.html">qxmt.models.qkernels.qsvc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvr.html">qxmt.models.qkernels.qsvr module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.vqe.html">qxmt.models.vqe package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.base.html">qxmt.models.vqe.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.basic.html">qxmt.models.vqe.basic module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.builder.html">qxmt.models.vqe.builder module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvc.html">qxmt.models.qsvc module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qsvr.html">qxmt.models.qsvr module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.models.qrigge.html">qxmt.models.qrigge module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -246,10 +279,12 @@
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_optimization_performance.html">qxmt.visualization.plot_optimization_performance module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_vqe_performance.html">qxmt.visualization.plot_vqe_performance module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2"><a class="reference internal" href="qxmt.configs.html">qxmt.configs module</a></li>
@@ -482,44 +517,49 @@ persistence and aggregation of results, and ensures reproducibility. Every
 side-effect that touches the file-system is delegated to
 <code class="xref py py-class docutils literal notranslate"><span class="pre">qxmt.experiment.repository.ExperimentRepository</span></code>, so this class can focus on
 business logic.</p>
-<dl>
-<dt>Responsibilities:</dt><dd><ol class="arabic">
-<li><p><strong>Initialization / Loading</strong>
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">init()</span></code>  - create a new experiment directory and an empty <cite>ExperimentDB</cite>.
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code>  - load an existing experiment from a JSON file.</p></li>
-<li><p><strong>Run management</strong>
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code>  - execute an experiment run with QKernel or VQE models (supports both</p>
-<blockquote>
-<div><p>config-based and instance-based workflows).</p>
-</div></blockquote>
+<p>Responsibilities:</p>
+<ol class="arabic simple">
+<li><p><strong>Initialization / Loading</strong></p>
 <ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">init()</span></code> - create a new experiment directory and an empty <cite>ExperimentDB</cite>.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code> - load an existing experiment from a JSON file.</p></li>
+</ul>
+</li>
+<li><p><strong>Run management</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> - execute an experiment run with QKernel or VQE models (supports both
+config-based and instance-based workflows).</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_setup()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_backfill()</span></code> - create and rollback run directories.</p></li>
 </ul>
 </li>
-<li><p><strong>Result handling</strong>
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">runs_to_dataframe()</span></code> - convert <cite>RunRecord`s into a `pandas.DataFrame</cite> for easy analysis.
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">save_experiment()</span></code> - persist the <cite>ExperimentDB</cite> to disk.
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_run_record()</span></code> - retrieve a single <cite>RunRecord</cite> by <em>run_id</em>.</p></li>
-<li><p><strong>Reproducibility</strong>
-* <code class="xref py py-meth docutils literal notranslate"><span class="pre">reproduce()</span></code> - re-execute a past run and validate that results match.</p></li>
+<li><p><strong>Result handling</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">runs_to_dataframe()</span></code> - convert <cite>RunRecord`s into a `pandas.DataFrame</cite> for easy analysis.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_experiment()</span></code> - persist the <cite>ExperimentDB</cite> to disk.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_run_record()</span></code> - retrieve a single <cite>RunRecord</cite> by <em>run_id</em>.</p></li>
+</ul>
+</li>
+<li><p><strong>Reproducibility</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">reproduce()</span></code> - re-execute a past run and validate that results match.</p></li>
+</ul>
+</li>
 </ol>
-</dd>
-</dl>
 <p class="rubric">Example</p>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a>python
-from qxmt.experiment import Experiment</p>
-<p>exp = Experiment(name=”my_exp”).init()
-artifact, record = exp.run(</p>
-<blockquote>
-<div><p>model_type=”qkernel”,
-task_type=”classification”,
-dataset=dataset_instance,
-model=model_instance,</p>
-</div></blockquote>
-<p>)</p>
-<p># Aggregate results
-df = exp.runs_to_dataframe()
-<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Experiment</span>
+
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_exp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">artifact</span><span class="p">,</span> <span class="n">record</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;qkernel&quot;</span><span class="p">,</span>
+    <span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">dataset_instance</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model_instance</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Aggregate results</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -704,10 +744,10 @@ The directory will be created under root_experiment_dirc with the experiment nam
 <dd class="field-odd"><p>Initialized experiment instance.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
+<dd class="field-even"><p>Experiment</p>
 </dd>
 <dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentSettingError" title="qxmt.exceptions.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – If the experiment directory already exists.</p>
+<dd class="field-odd"><p><strong>ExperimentSettingError</strong> – If the experiment directory already exists.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -727,12 +767,12 @@ The directory will be created under root_experiment_dirc with the experiment nam
 <dd class="field-even"><p>Loaded experiment instance.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="qxmt.html#qxmt.Experiment" title="qxmt.experiment.experiment.Experiment">Experiment</a></p>
+<dd class="field-odd"><p>Experiment</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
 <li><p><strong>FileNotFoundError</strong> – If the experiment file does not exist.</p></li>
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentSettingError" title="qxmt.exceptions.ExperimentSettingError"><strong>ExperimentSettingError</strong></a> – If the experiment directory does not exist.</p></li>
+<li><p><strong>ExperimentSettingError</strong> – If the experiment directory does not exist.</p></li>
 </ul>
 </dd>
 </dl>
@@ -760,8 +800,8 @@ Defaults to 1e-6.</p></li>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ReproductionError" title="qxmt.exceptions.ReproductionError"><strong>ReproductionError</strong></a> – If the run was executed in instance-based mode (no config file available).</p></li>
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ReproductionError</strong> – If the run was executed in instance-based mode (no config file available).</p></li>
 <li><p><strong>ValueError</strong> – If the reproduced results differ significantly from the original run.</p></li>
 </ul>
 </dd>
@@ -794,7 +834,7 @@ Required for instance-based mode. Defaults to None.</p></li>
 Required for QKernel models. Defaults to None.</p></li>
 <li><p><strong>dataset</strong> (<em>Optional</em><em>[</em><em>Dataset</em><em>]</em>) – Dataset instance for instance-based mode. Defaults to None.</p></li>
 <li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>BaseMLModel</em><em> | </em><em>BaseVQE</em><em>]</em>) – Model instance for instance-based mode. Defaults to None.</p></li>
-<li><p><strong>config_source</strong> (<em>Optional</em><em>[</em><a class="reference internal" href="qxmt.html#qxmt.configs.ExperimentConfig" title="qxmt.configs.ExperimentConfig"><em>ExperimentConfig</em></a><em> | </em><em>str</em><em> | </em><em>Path</em><em>]</em>) – Configuration source for config-based mode.
+<li><p><strong>config_source</strong> (<em>Optional</em><em>[</em><em>ExperimentConfig</em><em> | </em><em>str</em><em> | </em><em>Path</em><em>]</em>) – Configuration source for config-based mode.
 Can be an ExperimentConfig instance or path to config file. Defaults to None.</p></li>
 <li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of default metrics to evaluate. Defaults to None.</p></li>
 <li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – List of custom metric configurations. Defaults to None.</p></li>
@@ -813,8 +853,8 @@ Can be an ExperimentConfig instance or path to config file. Defaults to None.</p
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentRunSettingError" title="qxmt.exceptions.ExperimentRunSettingError"><strong>ExperimentRunSettingError</strong></a> – If required parameters are missing or invalid.</p></li>
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ExperimentRunSettingError</strong> – If required parameters are missing or invalid.</p></li>
 <li><p><strong>ValueError</strong> – If model_type is invalid.</p></li>
 </ul>
 </dd>
@@ -854,7 +894,7 @@ Defaults to False.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
 <li><p><strong>ValueError</strong> – If the run records contain invalid evaluation types.</p></li>
 </ul>
 </dd>
@@ -879,7 +919,7 @@ Defaults to False.</p>
 Defaults to DEFAULT_EXP_DB_FILE.</p>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><a class="reference internal" href="qxmt.html#qxmt.exceptions.ExperimentNotInitializedError" title="qxmt.exceptions.ExperimentNotInitializedError"><strong>ExperimentNotInitializedError</strong></a> – If the experiment is not initialized.</p>
+<dd class="field-even"><p><strong>ExperimentNotInitializedError</strong> – If the experiment is not initialized.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>None</p>
@@ -903,20 +943,20 @@ Defaults to DEFAULT_EXP_DB_FILE.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.experiment.html"
+       href="qxmt.experiment.executor.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.experiment package</p>
+        <p class="prev-next-title">qxmt.experiment.executor module</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.experiment.schema.html"
+       href="qxmt.experiment.repository.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.experiment.schema module</p>
+        <p class="prev-next-title">qxmt.experiment.repository module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

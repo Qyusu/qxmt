@@ -5,3 +5,4 @@ qxmt.evaluation.metrics.defaults\_regression module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
