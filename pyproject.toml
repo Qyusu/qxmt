@@ -41,6 +41,7 @@ amazon-braket-sdk = "^1.90.2"
 pyscf = "^2.8.0"
 aiohttp = "^3.11.16"
 fsspec = "^2025.3.2"
+scipy = "^1.15.2"
 
 
 [tool.poetry.group.dev.dependencies]
