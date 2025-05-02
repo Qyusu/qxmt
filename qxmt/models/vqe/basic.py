@@ -1,6 +1,7 @@
 from logging import Logger
 from typing import Any, Optional, cast
 
+import numpy as np
 import pennylane as qml
 from pennylane.measurements import ExpectationMP
 from pennylane.ops.op_math import Sum
@@ -91,27 +92,36 @@ class BasicVQE(BaseVQE):
             diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
 
-    def optimize(self, init_params: Optional[qml.numpy.ndarray] = None) -> None:
-        """Optimize the ansatz parameters to find the ground state.
-
-        This method performs gradient-based optimization of the ansatz parameters
-        to minimize the expectation value of the Hamiltonian.
+    def _optimize_scipy(self, init_params: Optional[np.ndarray]) -> None:
+        """Optimize the ansatz parameters using scipy.
 
         Args:
-            init_params: Initial parameters for the ansatz.
+            init_params (np.ndarray): Initial parameters for the ansatz.
+        """
+        if init_params is None:
+            init_params = np.zeros(self.ansatz.n_params)
 
-        Note:
-            The optimization history (cost and parameters) is stored in the class attributes
-            cost_history and params_history.
+        step_num = {"step": 0}
+
+        def cost_function(params):
+            cost = self.qnode(params)
+            self.cost_history.append(float(cost))
+            self.params_history.append(params.copy())
+            step_num["step"] += 1
+            if self.verbose:
+                self.logger.info(f"Step {step_num['step']}: Cost = {cost}")
+            return float(cost)
+
+        self.optimizer(init_params, cost_function, tol=self.tol, options={"maxiter": self.max_steps})
+
+    def _optimize_pennylane(self, init_params: Optional[qml.numpy.ndarray]) -> None:
+        """Optimize the ansatz parameters using Pennylane.
+
+        Args:
+            init_params (qml.numpy.ndarray): Initial parameters for the ansatz.
         """
         if init_params is None:
             init_params = qml.numpy.zeros(self.ansatz.n_params)
-
-        if not isinstance(init_params, qml.numpy.ndarray):
-            raise ValueError("init_params must be a PennyLane numpy array to enable gradient calculations.")
-
-        self._set_optimizer()
-        self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {self.max_steps} steps")
 
         params = init_params
         for i in range(self.max_steps):
@@ -122,7 +132,30 @@ class BasicVQE(BaseVQE):
                 self.logger.info(f"Step {i+1}: Cost = {cost}")
 
             if i > self.min_steps and abs(self.cost_history[-1] - self.cost_history[-2]) < self.tol:
-                self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")
+                self.logger.info(f"Optimization finished at step {i+1}.")
                 break
+
+    def optimize(self, init_params: Optional[qml.numpy.ndarray | np.ndarray] = None) -> None:
+        """Optimize the ansatz parameters to find the ground state.
+
+        This method performs gradient-based optimization of the ansatz parameters
+        to minimize the expectation value of the Hamiltonian.
+
+        Args:
+            init_params (Optional[qml.numpy.ndarray | np.ndarray]): Initial parameters for the ansatz.
+                If None, the ansatz parameters are initialized to zero.
+
+        Note:
+            The optimization history (cost and parameters) is stored in the class attributes
+            cost_history and params_history.
+        """
+        self._set_optimizer()
+        self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {self.max_steps} steps")
+
+        optimizer_name = self.optimizer_settings.get("name", "") if self.optimizer_settings else ""
+        if optimizer_name.startswith("scipy."):
+            self._optimize_scipy(init_params)
+        else:
+            self._optimize_pennylane(init_params)
 
         self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")
