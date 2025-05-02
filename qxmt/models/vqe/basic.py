@@ -29,7 +29,9 @@ class BasicVQE(BaseVQE):
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
-        max_steps: Maximum number of optimization steps. Defaults to 20.
+        max_steps: Maximum number of optimization steps. Defaults to 100.
+        min_steps: Minimum number of optimization steps. Defaults to 1/10 of max_steps.
+        tol: Tolerance for the optimization. Defaults to 1e-6.
         verbose: Whether to output progress during optimization. Defaults to True.
         optimizer_settings: Settings for the optimizer.
         logger: Logger object for output. Defaults to module-level logger.
@@ -45,12 +47,25 @@ class BasicVQE(BaseVQE):
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
         diff_method: Optional[SupportedDiffMethods] = "adjoint",
-        max_steps: int = 20,
+        max_steps: int = 100,
+        min_steps: Optional[int] = None,
+        tol: float = 1e-6,
         verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
-        super().__init__(device, hamiltonian, ansatz, diff_method, max_steps, verbose, optimizer_settings, logger)
+        super().__init__(
+            device=device,
+            hamiltonian=hamiltonian,
+            ansatz=ansatz,
+            diff_method=diff_method,
+            max_steps=max_steps,
+            min_steps=min_steps,
+            tol=tol,
+            verbose=verbose,
+            optimizer_settings=optimizer_settings,
+            logger=logger,
+        )
 
     def _initialize_qnode(self) -> None:
         """Initialize the QNode for VQE.
@@ -105,5 +120,9 @@ class BasicVQE(BaseVQE):
             self.params_history.append(params)
             if self.verbose:
                 self.logger.info(f"Step {i+1}: Cost = {cost}")
+
+            if i > self.min_steps and abs(self.cost_history[-1] - self.cost_history[-2]) < self.tol:
+                self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")
+                break
 
         self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")

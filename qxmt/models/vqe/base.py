@@ -26,7 +26,9 @@ class BaseVQE(ABC):
         device: Quantum device to use for the VQE calculation.
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
-        max_steps: Maximum number of optimization steps. Defaults to 20.
+        max_steps: Maximum number of optimization steps. Defaults to 100.
+        min_steps: Minimum number of optimization steps. Defaults to 1/10 of max_steps.
+        tol: Tolerance for the optimization. Defaults to 1e-6.
         verbose: Whether to output progress during optimization. Defaults to True.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
         optimizer_settings: Settings for the optimizer.
@@ -44,7 +46,9 @@ class BaseVQE(ABC):
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
         diff_method: Optional[SupportedDiffMethods] = "adjoint",
-        max_steps: int = 20,
+        max_steps: int = 100,
+        min_steps: Optional[int] = None,
+        tol: float = 1e-6,
         verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
@@ -54,6 +58,8 @@ class BaseVQE(ABC):
         self.ansatz = ansatz
         self.diff_method: Optional[SupportedDiffMethods] = diff_method
         self.max_steps: int = max_steps
+        self.min_steps: int = min_steps if min_steps is not None else int(max_steps * 0.1)
+        self.tol: float = tol
         self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.logger: Logger = logger
