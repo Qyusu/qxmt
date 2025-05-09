@@ -575,10 +575,17 @@ document.write(`
 <ul class="simple">
 <li><p><strong>description</strong>: Runに対しての説明を記載します。上記「1. 実験の設定」で記載したdescriptionは実験全体に対しての説明であり、今回はrunに対する説明となります。こちらの値を空文字列とし、<code class="docutils literal notranslate"><span class="pre">auto_gen_mode=True</span></code>に設定するとLLMで自動生成したdescriptionが設定されます。</p></li>
 <li><p><strong>dataset</strong>: runで利用するデータセットを指定します。<code class="docutils literal notranslate"><span class="pre">type</span></code>には”file”、”generate”、”openml”があり、”file”を指定した場合には自身で用意したデータセットを利用し、”generate”が指定された場合はダミーデータが生成され、”openml”を指定して場合はOpenMLのAPIを利用して指定したデータセットのダウンロードを行います。今回のチュートリアルでは”generate”モードを利用しますが、より実践に近い”file”や”openml”モードについては別のチュートリアルで紹介しています。</p></li>
-<li><p><strong>device</strong>:　シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています。</p></li>
+<li><p><strong>global_settings</strong>: グローバル設定パラメータを定義します：</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code>: 再現性のためのシード値を設定します</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_type</span></code>: 使用する量子モデルのタイプを指定します（現在は “qkernel” または “vqe” をサポート）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">task_type</span></code>: qkernelモデルの場合、タスクが “classification”（分類）か “regression”（回帰）かを指定します</p></li>
+</ul>
+</li>
+<li><p><strong>device</strong>: シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています。</p></li>
 <li><p><strong>feature_map</strong>: 量子特徴マップを利用する場合には、その特徴マップが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されている特徴マップを利用します。</p></li>
 <li><p><strong>kernel</strong>: カーネルベースのモデルを利用する場合には、そのカーネルが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されているカーネルを利用します。</p></li>
-<li><p><strong>model</strong>: 利用する機械学習モデルとそのパラメータ、保存時のファイル名を指定します。今回はデフォルトで用意されているSVMモデルを利用します。</p></li>
+<li><p><strong>model</strong>: 利用する機械学習モデルとそのパラメータを指定します。量子カーネルモデルの場合、利用可能なオプションには “qsvc”（分類用）、”qsvr”（回帰用）、”qrigge”（回帰用）があります。モデルの実装はglobal_settingsの<code class="docutils literal notranslate"><span class="pre">model_type</span></code>に基づいて自動的に選択されます。</p></li>
 <li><p><strong>evaluation</strong>: デフォルトで用意されている評価指標のうち利用する指標名のリストを指定します</p></li>
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">example&quot;</span>
@@ -736,16 +743,16 @@ document.write(`
 <p><strong>バージョン情報</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Environment</p></th>
-<th class="head"><p>Version</p></th>
+<tr class="row-odd"><th class="head"><p>環境</p></th>
+<th class="head"><p>バージョン</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>document</p></td>
-<td><p>2025/01/22</p></td>
+<tr class="row-even"><td><p>ドキュメント</p></td>
+<td><p>2025/05/09</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.4.5</p></td>
+<td><p>v0.5.0</p></td>
 </tr>
 </tbody>
 </table>
