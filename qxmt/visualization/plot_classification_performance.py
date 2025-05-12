@@ -137,11 +137,6 @@ def plot_2d_decision_boundaries(
     """
     assert X.shape[0] == len(y), "Length of X and y must be the same."
 
-    if isinstance(model, QSVC):
-        is_multi_class = len(model.classes_) > 2
-    else:
-        is_multi_class = len(np.unique(y)) > 2
-
     if X.shape[1] != 2:
         raise ValueError("This function only supports 2D datasets.")
 
@@ -163,6 +158,7 @@ def plot_2d_decision_boundaries(
 
     # Compute predictions over the grid
     Z = model.predict(grid_points)
+    is_multi_class = len(model.classes_) > 2
     if not is_multi_class:
         decision_function = model.decision_function(grid_points)
 
