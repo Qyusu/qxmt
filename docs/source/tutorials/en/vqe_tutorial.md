@@ -2,43 +2,44 @@
 
 In this tutorial, you will learn how to use QXMT's Variational Quantum Eigensolver (VQE) module for quantum chemistry calculations. VQE is a hybrid quantum-classical algorithm designed to find the ground state energy of molecules, which is a fundamental problem in quantum chemistry.
 
-## 1. Understanding VQE Configuration
+## 1. VQE Configuration
 
 QXMT's VQE module requires specific configuration elements that differ from the quantum kernel models. Here's an overview of the key components:
 
-- **global_settings**: Defines global configuration parameters including:
+- **global_settings**:
   - `random_seed`: Sets a seed for reproducibility
   - `model_type`: Must be set to "vqe" to use the VQE module
 
-- **hamiltonian**: Specifies the molecular Hamiltonian to be solved:
+- **hamiltonian**:
   - `module_name`: Module containing the Hamiltonian implementation
   - `implement_name`: Class name of the Hamiltonian implementation
   - `params`: Parameters for the Hamiltonian, such as molecule specification
 
-- **device**: Configures the quantum device for running simulations:
+- **device**:
   - `platform`: Currently supports "pennylane"
   - `device_name`: Device to use (e.g., "lightning.qubit")
   - `n_qubits`: Number of qubits required for the simulation
   - `shots`: Number of measurement shots (null for exact simulation)
 
-- **ansatz**: Specifies the variational ansatz to use:
+- **ansatz**:
   - `module_name`: Module containing the ansatz implementation
   - `implement_name`: Class name of the ansatz implementation
   - `params`: Parameters for the ansatz
 
-- **model**: Specifies the VQE model implementation and optimization settings:
+- **model**:
   - `name`: Model implementation (currently "basic")
   - `diff_method`: Differentiation method for optimization (e.g., "adjoint")
-  - `optimizer_settings`: Configuration for the classical optimizer
+  - `optimizer_settings`: Optimizer settings. The type of optimizer can be specified using the `name` value, which can be any optimizer available in PennyLane or SciPy (detailed in [6.3 Optimizer Settings](./tool_reference.md#63-optimizer-settings)).
   - `params`: Additional parameters like maximum iterations
 
-- **evaluation**: Lists the evaluation metrics to be used:
+- **evaluation**:
   - `default_metrics`: Metrics like "final_cost" and "hf_energy"
   - `custom_metrics`: Any custom metrics to be calculated
 
 ## 2. Example Configuration for H2 Molecule
 
-Here's an example configuration for calculating the ground state energy of an H2 molecule:
+Below is an example configuration for calculating the ground state energy of an H2 molecule.
+There are two methods of configuration. The first method is to directly specify the molecule name.
 
 ```yaml
 description: "VQE calculation for H2 molecule"
@@ -90,7 +91,7 @@ evaluation:
   custom_metrics: []
 ```
 
-You can also specify the molecule structure explicitly:
+The second method is to explicitly specify the molecular structure. Please note that in this method, the FCI Energy value is currently not supported, so the evaluation results will show `fci_energy=None`.
 
 ```yaml
 hamiltonian:
@@ -106,8 +107,6 @@ hamiltonian:
     active_orbitals: 2
     unit: "angstrom"
 ```
-
-NOTE: Currently, the explicit mode does not support FCI energy evaluation.
 
 ## 3. Running a VQE Calculation
 
@@ -151,7 +150,7 @@ experiment.runs_to_dataframe()
 # 0	1	-1.136227	-1.116759	-1.137284
 ```
 
-## 4. Visualizing Optimization Progress
+## 4. Visualizing Optimization History
 
 QXMT provides functionality to visualize the optimization progress during VQE calculations. You can plot the energy convergence as follows:
 
