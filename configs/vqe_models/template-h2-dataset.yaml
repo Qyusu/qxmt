@@ -17,7 +17,7 @@ hamiltonian:
 device:
   platform: "pennylane"
   device_name: "lightning.qubit"
-  n_qubits: 4
+  n_qubits: 10
   shots: null
   random_seed: *global_seed
 
@@ -36,7 +36,8 @@ model:
       beta1: 0.9
       beta2: 0.999
   params:
-    max_steps: 20
+    max_steps: 500
+    tol: 1e-6
     verbose: false
 
 

@@ -66,8 +66,7 @@ class ProjectedKernel(BaseKernel):
         self.gamma = gamma
         self.projection = projection
         self.qnode = None
-        self.state_memory_1 = {}
-        self.state_memory_2 = {}
+        self.state_memory = {}
 
     def _initialize_qnode(self) -> None:
         if self.qnode is None:
@@ -153,36 +152,24 @@ class ProjectedKernel(BaseKernel):
         if self.qnode is None:
             raise RuntimeError("QNode is not initialized.")
 
-        if len(x1_array) > len(x2_array):
-            x1_array, x2_array = x2_array, x1_array
+        unique_inputs = set([tuple(x) for x in x1_array] + [tuple(x) for x in x2_array])
+        if show_progress:
+            bar_label = f" ({bar_label})" if bar_label else ""
+            iterator = track(unique_inputs, description=f"Computing Kernel Matrix{bar_label}")
+        else:
+            iterator = unique_inputs
 
-        state_memory_1 = {}
-        state_memory_2 = {}
-        bar_label = f" ({bar_label})" if bar_label else ""
-        for i, x in enumerate(x1_array):
-            if i not in state_memory_1:
-                x_state = self.qnode(x)
-                state_memory_1[i] = self._calculate_expected_values(np.abs(x_state) ** 2)
-                if np.array_equal(x, x2_array[i]):
-                    state_memory_2[i] = state_memory_1[i]
+        for x_tuple in iterator:
+            if x_tuple not in self.state_memory:
+                x_state = self.qnode(np.array(x_tuple))
+                self.state_memory[x_tuple] = self._calculate_expected_values(np.abs(x_state) ** 2)
 
         kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
-
-        if show_progress:
-            iterator = track(range(len(x1_array)), description=f"Computing Kernel Matrix{bar_label}")
-        else:
-            iterator = range(len(x1_array))
-
-        for i in iterator:
+        for i, x1 in enumerate(x1_array):
             for j, x2 in enumerate(x2_array):
-                if j not in state_memory_2:
-                    x2_state = self.qnode(x2)
-                    state_memory_2[j] = self._calculate_expected_values(np.abs(x2_state) ** 2)
-
-                kernel_matrix[i, j] = np.exp(-self.gamma * np.sum((state_memory_1[i] - state_memory_2[j]) ** 2))
-
-        if len(x1_array) > len(x2_array):
-            kernel_matrix = kernel_matrix.T
+                kernel_matrix[i, j] = np.exp(
+                    -self.gamma * np.sum((self.state_memory[tuple(x1)] - self.state_memory[tuple(x2)]) ** 2)
+                )
 
         return kernel_matrix
 

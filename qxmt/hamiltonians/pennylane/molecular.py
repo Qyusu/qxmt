@@ -1,5 +1,6 @@
+from enum import Enum, auto
 from logging import Logger
-from typing import Literal, Optional, get_args
+from typing import Literal, Optional
 
 import pennylane as qml
 from pennylane import numpy as qnp
@@ -11,10 +12,17 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
+DATA_MODULE_NAME = "qchem"
 SUPPORTED_BASIS_NAMES = Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"]
 SUPPORTED_UNITS = Literal["angstrom", "bohr"]
 SUPPORTED_METHODS = Literal["dhf", "pyscf", "openfermion"]
 SUPPORTED_MAPPINGS = Literal["jordan_wigner", "bravyi_kitaev", "parity"]
+
+
+class InitializationType(Enum):
+    DATASET = auto()
+    DIRECT_MOLECULE = auto()
+    INVALID = auto()
 
 
 class MolecularHamiltonian(BaseHamiltonian):
@@ -87,6 +95,18 @@ class MolecularHamiltonian(BaseHamiltonian):
         self._set_hf_energy()
         self._set_fci_energy()
 
+    def _determine_initialization_type(self) -> InitializationType:
+        """Determine the initialization type based on the provided parameters.
+
+        Returns:
+            InitializationType: The type of initialization.
+        """
+        if self.molname is not None and self.bondlength is not None:
+            return InitializationType.DATASET
+        elif self.symbols is not None and self.coordinates is not None:
+            return InitializationType.DIRECT_MOLECULE
+        return InitializationType.INVALID
+
     def _validate_bondlength(self) -> None:
         """Validate the bond length for the specified molecule and basis set.
 
@@ -100,9 +120,20 @@ class MolecularHamiltonian(BaseHamiltonian):
             ValueError: If the provided bond length is not in the list of valid values
                        for the given molecule and basis set.
         """
-        valid_bondlengths = qml.data.list_datasets()["qchem"][self.molname][self.basis_name]
+        valid_bondlengths = qml.data.list_datasets()[DATA_MODULE_NAME][self.molname][self.basis_name]
         if str(self.bondlength) not in valid_bondlengths:
             raise ValueError(f"Invalid bondlength: {self.bondlength}. Valid bondlengths are {valid_bondlengths}")
+
+    def _exist_dataset_cache(self) -> bool:
+        """Check if the dataset is cached in PennyLane's dataset cache.
+
+        Returns:
+            bool: True if the dataset is cached, False otherwise.
+        """
+        datasets = qml.data.list_datasets()
+        cache_key = f"{DATA_MODULE_NAME}/{self.molname}/{self.basis_name}/{self.bondlength}"
+        cached_datasets = datasets.get(DATA_MODULE_NAME, {}).get("cache", [])
+        return cache_key in cached_datasets
 
     def _initialize_hamiltonian(self) -> None:
         """Initialize the molecular Hamiltonian.
@@ -115,14 +146,15 @@ class MolecularHamiltonian(BaseHamiltonian):
         3. Sets the number of qubits required for the simulation
         4. Raises ValueError if neither dataset nor atomic information is provided
         """
-        if self.molname is not None and self.bondlength is not None:
+        init_type = self._determine_initialization_type()
+        if init_type == InitializationType.DATASET:
             self._validate_bondlength()
-            if not self._dataset:
+            if not self._exist_dataset_cache():
                 self._dataset = qml.data.load(
-                    "qchem", molname=self.molname, basis=self.basis_name, bondlength=self.bondlength
+                    DATA_MODULE_NAME, molname=self.molname, basis=self.basis_name, bondlength=self.bondlength
                 )
             self.molecule = self._dataset[0].molecule
-        elif self.symbols is not None and self.coordinates is not None:
+        elif init_type == InitializationType.DIRECT_MOLECULE:
             self.molecule = qml.qchem.Molecule(
                 self.symbols,
                 self.coordinates,

@@ -10,8 +10,9 @@ def plot_optimization_history(
     cost_label: Optional[str] = None,
     baseline_label: Optional[str] = None,
     marker: str = "o",
+    markersize: int = 5,
     title: str = "Optimization History",
-    x_tick_interval: int = 5,
+    step_num: int = 10,
     x_label: str = "Step",
     y_label: str = "Cost",
     grid: bool = False,
@@ -26,8 +27,9 @@ def plot_optimization_history(
         cost_label (Optional[str], optional): The label of the cost history. Defaults to None.
         baseline_label (Optional[str], optional): The label of the baseline cost. Defaults to None.
         marker (str, optional): The marker of the cost history. Defaults to "o".
+        markersize (int, optional): The size of the marker. Defaults to 5.
         title (str, optional): The title of the plot. Defaults to "Optimization History".
-        x_tick_interval (int, optional): The interval of the x-axis ticks. Defaults to 5.
+        step_num (int, optional): The number of steps to show on the x-axis. Defaults to 10.
         x_label (str, optional): The label of the x-axis. Defaults to "Step".
         y_label (str, optional): The label of the y-axis. Defaults to "Cost".
         save_path (Optional[str | Path], optional): The path to save the plot. Defaults to None.
@@ -35,9 +37,10 @@ def plot_optimization_history(
     """
     step_num = len(cost_history)
     plt.figure(figsize=(7, 5), tight_layout=True)
-    plt.plot(range(step_num), cost_history, marker=marker, label=cost_label, **kwargs)
+    plt.plot(range(step_num), cost_history, marker=marker, markersize=markersize, label=cost_label, **kwargs)
     if baseline_cost is not None:
         plt.axhline(y=baseline_cost, color="black", linestyle="--", label=baseline_label)
+    x_tick_interval = max(1, step_num // 10)
     x_ticks = range(0, step_num, x_tick_interval)
     plt.xticks(x_ticks)
 

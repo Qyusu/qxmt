@@ -26,7 +26,9 @@ class BaseVQE(ABC):
         device: Quantum device to use for the VQE calculation.
         hamiltonian: Hamiltonian to find the ground state of.
         ansatz: Quantum circuit ansatz to use.
-        max_steps: Maximum number of optimization steps. Defaults to 20.
+        max_steps: Maximum number of optimization steps. Defaults to 100.
+        min_steps: Minimum number of optimization steps. Defaults to 1/10 of max_steps.
+        tol: Tolerance for the optimization. Defaults to 1e-6.
         verbose: Whether to output progress during optimization. Defaults to True.
         diff_method: Method to use for differentiation. Defaults to "adjoint".
         optimizer_settings: Settings for the optimizer.
@@ -44,7 +46,9 @@ class BaseVQE(ABC):
         hamiltonian: BaseHamiltonian,
         ansatz: BaseAnsatz,
         diff_method: Optional[SupportedDiffMethods] = "adjoint",
-        max_steps: int = 20,
+        max_steps: int = 100,
+        min_steps: Optional[int] = None,
+        tol: float = 1e-6,
         verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
@@ -54,6 +58,8 @@ class BaseVQE(ABC):
         self.ansatz = ansatz
         self.diff_method: Optional[SupportedDiffMethods] = diff_method
         self.max_steps: int = max_steps
+        self.min_steps: int = min_steps if min_steps is not None else int(max_steps * 0.1)
+        self.tol: float = tol
         self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.logger: Logger = logger
@@ -93,6 +99,20 @@ class BaseVQE(ABC):
         """
         pass
 
+    def is_optimized(self) -> bool:
+        """Check if the optimization process has been completed.
+
+        Returns:
+            bool: True if optimization has been performed (cost_history is not empty),
+                 False otherwise.
+
+        Note:
+            This is a simple check that only verifies if any optimization steps
+            have been taken. It does not check if the optimization has converged
+            to a satisfactory solution.
+        """
+        return len(self.cost_history) > 0
+
     def _set_optimizer(self) -> None:
         """Set the optimizer based on the optimizer settings.
 
@@ -101,13 +121,37 @@ class BaseVQE(ABC):
         Otherwise, it uses the optimizer specified in the settings.
         """
         if self.optimizer_settings is None:
-            self.optimizer = qml.GradientDescentOptimizer(stepsize=DEFAULT_OPTIMIZER_STEPSIZE)
-            self.logger.info("No optimizer settings provided. Using gradient descent optimizer.")
+            self._set_default_optimizer()
             return
-        else:
-            optimizer_name = self.optimizer_settings.get("name")
-            optimizer_params = self.optimizer_settings.get("params", {})
 
+        optimizer_name = self.optimizer_settings.get("name", "")
+        optimizer_params = self.optimizer_settings.get("params", {}) or {}
+
+        if optimizer_name.startswith("scipy."):
+            self._set_scipy_optimizer(optimizer_name, optimizer_params)
+        else:
+            self._set_pennylane_optimizer(optimizer_name, optimizer_params)
+
+    def _set_default_optimizer(self) -> None:
+        """Set the default gradient descent optimizer."""
+        self.optimizer = qml.GradientDescentOptimizer(stepsize=DEFAULT_OPTIMIZER_STEPSIZE)
+        self.logger.info("No optimizer settings provided. Using gradient descent optimizer.")
+
+    def _set_scipy_optimizer(self, optimizer_name: str, optimizer_params: dict) -> None:
+        """Set up a SciPy optimizer."""
+        from scipy.optimize import minimize
+
+        method = optimizer_name.replace("scipy.", "")
+        self.optimizer = lambda params, cost_fn, **kwargs: minimize(
+            x0=params,
+            fun=cost_fn,
+            method=method,
+            **optimizer_params,
+            **kwargs,
+        ).x
+
+    def _set_pennylane_optimizer(self, optimizer_name: str, optimizer_params: dict) -> None:
+        """Set up a Pennylane optimizer."""
         match optimizer_name:
             case "AdagradOptimizer" | "Adagrad":
                 # https://docs.pennylane.ai/en/stable/code/api/pennylane.AdagradOptimizer.html
@@ -156,17 +200,3 @@ class BaseVQE(ABC):
                 self.optimizer = qml.ShotAdaptiveOptimizer(**optimizer_params)
             case _:
                 raise NotImplementedError(f'Optimizer "{optimizer_name}" is not implemented yet.')
-
-    def is_optimized(self) -> bool:
-        """Check if the optimization process has been completed.
-
-        Returns:
-            bool: True if optimization has been performed (cost_history is not empty),
-                 False otherwise.
-
-        Note:
-            This is a simple check that only verifies if any optimization steps
-            have been taken. It does not check if the optimization has converged
-            to a satisfactory solution.
-        """
-        return len(self.cost_history) > 0

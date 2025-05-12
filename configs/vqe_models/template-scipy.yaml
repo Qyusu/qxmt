@@ -8,14 +8,11 @@ hamiltonian:
   module_name: "qxmt.hamiltonians.pennylane"
   implement_name: "MolecularHamiltonian"
   params:
-    symbols: ["H", "H"]
-    coordinates: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
-    charge: 0
-    multi: 1
+    molname: "H4"
     basis_name: "STO-3G"
-    active_electrons: 2
-    active_orbitals: 2
-    unit: "angstrom"
+    bondlength: 1.1
+    active_electrons: 4
+    active_orbitals: 4
 
 device:
   platform: "pennylane"
@@ -33,18 +30,17 @@ model:
   name: "basic"
   diff_method: "adjoint"
   optimizer_settings:
-    name: "Adam"
-    params:
-      stepsize: 0.01
-      beta1: 0.9
-      beta2: 0.999
+    name: "scipy.BFGS"
+    params: null
   params:
     max_steps: 500
     tol: 1e-6
     verbose: true
 
+
 evaluation:
   default_metrics:
   - "final_cost"
   - "hf_energy"
+  - "fci_energy"
   custom_metrics: []
