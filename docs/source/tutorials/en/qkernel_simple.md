@@ -2,7 +2,7 @@
 
 In this tutorial, you will learn how to manage experiments in quantum machine learning using QXMT's default features with quantum kernel models. QXMT offers commonly used datasets, preprocessing methods, quantum machine learning models, and evaluation metrics as part of its default functionality. By leveraging these built-in features, you can efficiently establish a baseline during the early stages of your experiments.
 
-QXMT organizes experiments using the following directory structure:
+QXMT manages experiments by the following directory structure:
 
 - **data**: Contains the raw data used in the experiments.
 - **config**: Holds YAML files that define the configurations for each experiment run.
@@ -64,7 +64,7 @@ In this section, we will explain the configuration items based on the config fil
 - **device**: Configures the quantum device for running simulations. Currently, config-based settings support only PennyLane.
 - **feature_map**: If using a quantum feature map, specify the module name (`module_name`) and class name (`implement_name`) where the feature map is implemented. Any required parameters can be specified in `params` as a dictionary. In this tutorial, we will use the default feature maps provided.
 - **kernel**: If using a kernel-based model, specify the module name (`module_name`) and class name (`implement_name`) where the kernel is implemented. Required parameters can be specified in `params` as a dictionary. In this tutorial, we will use the default kernel provided.
-- **model**: Specifies the machine learning model to be used, along with its parameters. For quantum kernel models, available options include "qsvc" (for classification), "qsvr" (for regression), and "qrigge" (for regression). The model implementation is automatically selected based on the `model_type` in global_settings.
+- **model**: Specifies the machine learning model to be used, along with its parameters. For quantum kernel models, available options include "qsvc" (for classification), "qsvr" (for regression), and "qrigge" (for regression).
 - **evaluation**: Lists the evaluation metrics to be used, chosen from the default set of metrics provided.
 
 ``` yaml
@@ -124,8 +124,8 @@ evaluation:
   custom_metrics: []
 ```
 
-## 3. Executing the Run
-In this step, you will execute the Run configured in Step 2. There are two methods to execute a Run: by passing the configuration as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the file path.
+## 3. Executing the "Run"
+In this step, you will execute the "Run" (Experiment) configured in Step 2. There are two methods to execute a Run: by passing the configuration as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the file path.
 
 ``` python
 config_path = "../configs/simple.yaml"
@@ -134,7 +134,7 @@ config_path = "../configs/simple.yaml"
 artifact_1, result_1 = experiment.run(config_source=config_path)
 ```
 
-When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method by specifying only the configuration. When a Run is executed, it returns an `artifact` and a `result`. The `artifact` includes the dataset (`artifact.dataset`) and machine learning model (`artifact.model`) used in the Run. The `result` contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.
+When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method. When a Run is executed, it returns an `artifact` and a `result`. The `artifact` includes the dataset (`artifact.dataset`) and machine learning model (`artifact.model`) used in the Run. The `result` contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.
 
 Next, we will demonstrate how to execute a Run by passing the configuration as an instance. This method is useful for making on-the-fly adjustments to model parameters and is particularly beneficial when exploring the structure of a model.
 
@@ -238,5 +238,5 @@ plot_2d_decision_boundaries(
 
 | Environment | Version |
 |----------|----------|
-| document | 2025/05/09 |
-| QXMT| v0.5.0 |
+| document | 2025/05/12 |
+| QXMT| v0.5.1 |
