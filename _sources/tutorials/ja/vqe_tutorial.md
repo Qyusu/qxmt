@@ -2,43 +2,44 @@
 
 このチュートリアルでは、量子化学計算のためのQXMTのVariational Quantum Eigensolver (VQE) モジュールの使用方法について学びます。VQEは分子の基底状態エネルギーを求めるために設計されたハイブリッド量子古典アルゴリズムであり、量子化学における基本的な問題です。
 
-## 1. VQE設定の理解
+## 1. VQEのconfig設定
 
-QXMTのVQEモジュールは、量子カーネルモデルとは異なる特定の設定要素が必要です。以下に主要なコンポーネントの概要を示します：
+QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定が必要です。以下に主要なコンポーネントの概要を示します。
 
-- **global_settings**: グローバル設定パラメータを定義します：
-  - `random_seed`: 再現性のためのシード値を設定します
-  - `model_type`: VQEモジュールを使用するには "vqe" に設定する必要があります
+- **global_settings**:
+  - `random_seed`: ランダムシード
+  - `model_type`: VQEモジュールを使用する場合は "vqe" に設定
 
-- **hamiltonian**: 解くべき分子ハミルトニアンを指定します：
+- **hamiltonian**:
   - `module_name`: ハミルトニアンの実装を含むモジュール
   - `implement_name`: ハミルトニアン実装のクラス名
-  - `params`: 分子指定などのハミルトニアンのパラメータ
+  - `params`: ハミルトニアンのパラメータ
 
-- **device**: シミュレーションを実行する量子デバイスを設定します：
-  - `platform`: 現在は "pennylane" をサポート
-  - `device_name`: 使用するデバイス（例："lightning.qubit"）
-  - `n_qubits`: シミュレーションに必要な量子ビット数
-  - `shots`: 測定ショット数（正確なシミュレーションの場合はnull）
+- **device**:
+  - `platform`: 現在は"pennylane"のみサポート
+  - `device_name`: デバイスの種類（例："lightning.qubit"）
+  - `n_qubits`: qubit数
+  - `shots`: 測定ショット数（State Vectorを利用する場合はnull）
 
-- **ansatz**: 使用する変分アンザッツを指定します：
-  - `module_name`: アンザッツの実装を含むモジュール
-  - `implement_name`: アンザッツ実装のクラス名
-  - `params`: アンザッツのパラメータ
+- **ansatz**:
+  - `module_name`: Ansatzの実装を含むモジュール名
+  - `implement_name`: Ansatzを実装したクラス名
+  - `params`: Ansatzのパラメータ
 
-- **model**: VQEモデルの実装と最適化設定を指定します：
-  - `name`: モデル実装（現在は "basic"）
+- **model**:
+  - `name`: VQEの種類（現在は"basic"のみ対応）
   - `diff_method`: 最適化のための微分方法（例："adjoint"）
-  - `optimizer_settings`: 古典的オプティマイザの設定
-  - `params`: 最大反復回数などの追加パラメータ
+  - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: [6.3 Optimizerの設定](./tool_reference.md#63-optimizerの設定))。
+  - `params`: 最大繰り返し数などの追加パラメータ
 
-- **evaluation**: 使用する評価指標を列挙します：
+- **evaluation**:
   - `default_metrics`: "final_cost"や"hf_energy"などの指標
   - `custom_metrics`: 計算する任意のカスタム指標
 
-## 2. H₂分子の設定例
+## 2. H2分子の設定例
 
-以下はH₂分子の基底状態エネルギーを計算するための設定例です：
+以下は、H2分子の基底状態エネルギーを計算するためのconfigの設定例です。
+設定方法は2種類あります。一つ目は、直接分子の名前を指定する方法です。
 
 ```yaml
 description: "H2分子のVQE計算"
@@ -90,7 +91,7 @@ evaluation:
   custom_metrics: []
 ```
 
-分子構造を明示的に指定することもできます：
+もう一つの方法は、分子構造を明示的に指定する方法です。こちらの方法では、現在FCI Energyの値がサポートされていないため、Evaluationの結果において、`fci_energy=None`となる点に注意してください。
 
 ```yaml
 hamiltonian:
@@ -109,7 +110,7 @@ hamiltonian:
 
 ## 3. VQE計算の実行
 
-VQE計算を実行するには、量子カーネルモデルと同じ実験フレームワークを使用できます：
+VQE計算を実行するには、量子カーネルモデルと共通の実験フレームワークを使用できます。
 
 ```python
 import qxmt
@@ -149,9 +150,9 @@ experiment.runs_to_dataframe()
 # 0	1	-1.136227	-1.116759	-1.137284
 ```
 
-## 4. 最適化の進行状況の可視化
+## 4. 最適化の履歴を可視化
 
-QXMTはVQE計算中の最適化の進行状況を可視化する機能を提供しています。以下のようにエネルギー収束をプロットできます：
+QXMTはVQE計算中の最適化の進行状況を可視化する機能を提供しています。以下のようにエネルギー収束をプロットできます。
 
 ```python
 from qxmt.visualization import plot_optimization_history
@@ -178,5 +179,5 @@ plot_optimization_history(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/09 |
-| QXMT| v0.5.0 |
+| ドキュメント | 2025/05/12 |
+| QXMT| v0.5.1 |

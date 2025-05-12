@@ -465,7 +465,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 実験の設定</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 実行設定</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">3. Runの実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">3. 「Run」の実行</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4. 結果の可視化</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.1 データセットのラベル分布の可視化</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.2 評価指標の比較</a></li>
@@ -524,11 +524,11 @@ document.write(`
   <section id="id1">
 <h1>デフォルトのデータセットと量子カーネルモデルのみを使用した簡単な例<a class="headerlink" href="#id1" title="Link to this heading">#</a></h1>
 <p>このチュートリアルでは、QXMTのデフォルト機能を使用して量子カーネルモデルによる量子機械学習の実験を管理する方法を学びます。QXMTは、一般的に使用されるデータセット、前処理方法、量子機械学習モデル、および評価指標をデフォルト機能として提供しています。これらの組み込み機能を活用することで、実験の初期段階でベースラインを効率的に確立できます。</p>
-<p>QXMTは以下のディレクトリ構造を使用して実験を整理します：</p>
+<p>QXMTは以下のディレクトリ構造で実験を管理します：</p>
 <ul class="simple">
-<li><p><strong>data</strong>：実験で使用される生データを含みます。</p></li>
-<li><p><strong>config</strong>：各実験実行の設定を定義するYAMLファイルを保持します。</p></li>
-<li><p><strong>experiments</strong>：プログラムによって段階的に保存される実験の情報と結果を含みます。各フォルダは実験の名前（後述）によって整理され、実際の実行結果を保存する個々の「run」フォルダを含みます。</p></li>
+<li><p><strong>data</strong>：実験で使用されるrawデータ</p></li>
+<li><p><strong>config</strong>：各実験実行の設定を定義するYAMLファイル</p></li>
+<li><p><strong>experiments</strong>：プログラムによって段階的に保存される実験の情報と結果を保存。各フォルダは実験の名前（後述）によって整理され、実際の実行結果を保存する個々の「run」フォルダを含みます。</p></li>
 </ul>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>&lt;your_project&gt;
 ├──<span class="w"> </span>data
@@ -583,10 +583,10 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">task_type</span></code>: 量子カーネルモデルの場合、タスクが “classification”（分類）か “regression”（回帰）かを指定します</p></li>
 </ul>
 </li>
-<li><p><strong>device</strong>: シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています。</p></li>
-<li><p><strong>feature_map</strong>: 量子特徴マップを利用する場合には、その特徴マップが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されている特徴マップを利用します。</p></li>
-<li><p><strong>kernel</strong>: カーネルベースのモデルを利用する場合には、そのカーネルが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されているカーネルを利用します。</p></li>
-<li><p><strong>model</strong>: 利用する機械学習モデルとそのパラメータを指定します。量子カーネルモデルの場合、利用可能なオプションには “qsvc”（分類用）、”qsvr”（回帰用）、”qrigge”（回帰用）があります。モデルの実装はglobal_settingsの<code class="docutils literal notranslate"><span class="pre">model_type</span></code>に基づいて自動的に選択されます。</p></li>
+<li><p><strong>device</strong>: シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では<code class="docutils literal notranslate"><span class="pre">pennylane</span></code>のみ対応しています</p></li>
+<li><p><strong>feature_map</strong>: 量子特徴マップを利用する場合には、その特徴マップが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されている特徴マップを利用します</p></li>
+<li><p><strong>kernel</strong>: カーネルベースのモデルを利用する場合には、そのカーネルが実装されているモジュール名 (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>)とクラス名 (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>)を指定します。<code class="docutils literal notranslate"><span class="pre">params</span></code>内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されているカーネルを利用します</p></li>
+<li><p><strong>model</strong>: 利用する機械学習モデルとそのパラメータを指定します。量子カーネルモデルの場合、利用可能なオプションには “qsvc”（分類用）、”qsvr”（回帰用）、”qrigge”（回帰用）があります</p></li>
 <li><p><strong>evaluation</strong>: デフォルトで用意されている評価指標のうち利用する指標名のリストを指定します</p></li>
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">example&quot;</span>
@@ -647,15 +647,15 @@ document.write(`
 </div>
 </section>
 <section id="run">
-<h2>3. Runの実行<a class="headerlink" href="#run" title="Link to this heading">#</a></h2>
-<p>このステップでは、ステップ2で設定したRunを実行します。Runを実行するには、設定をファイルパスとして渡す方法と、インスタンスとして渡す方法の2つがあります。まず、ファイルパスを指定して実行する方法を示します。</p>
+<h2>3. 「Run」の実行<a class="headerlink" href="#run" title="Link to this heading">#</a></h2>
+<p>このステップでは、ステップ2で設定した「Run」(実験)を実行します。「Run」を実行するには、設定をファイルパスとして渡す方法と、インスタンスとして渡す方法の2つがあります。まず、ファイルパスを指定して実行する方法を示します。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/simple.yaml&quot;</span>
 
 <span class="c1"># input config file</span>
 <span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Runを実行する際には、さまざまな追加引数を指定できますが、ここでは設定のみを指定する最もシンプルな方法を紹介します。Runが実行されると、<code class="docutils literal notranslate"><span class="pre">artifact</span></code>と<code class="docutils literal notranslate"><span class="pre">result</span></code>が返されます。<code class="docutils literal notranslate"><span class="pre">artifact</span></code>には、Runで使用されたデータセット（<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>）と機械学習モデル（<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>）が含まれます。<code class="docutils literal notranslate"><span class="pre">result</span></code>には、Run設定とモデル評価結果が含まれます。これらは、次の章で紹介する可視化や、その後のモデル開発中の分析に使用できます。</p>
+<p>Runを実行する際には、さまざまな追加引数を指定できますが、ここでは最もシンプルな方法を紹介します。Runが実行されると、<code class="docutils literal notranslate"><span class="pre">artifact</span></code>と<code class="docutils literal notranslate"><span class="pre">result</span></code>が返されます。<code class="docutils literal notranslate"><span class="pre">artifact</span></code>には、Runで使用されたデータセット（<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>）と機械学習モデル（<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>）が含まれます。<code class="docutils literal notranslate"><span class="pre">result</span></code>には、Run設定とモデル評価結果が含まれます。これらは、次の章で紹介する可視化や、その後のモデル開発中の分析に使用できます。</p>
 <p>次に、設定をインスタンスとして渡してRunを実行する方法を示します。この方法は、モデルパラメータをその場で調整するのに便利であり、モデルの構造を探索する際に特に有益です。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentConfig</span>
 
@@ -750,10 +750,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>ドキュメント</p></td>
-<td><p>2025/05/09</p></td>
+<td><p>2025/05/12</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.5.0</p></td>
+<td><p>v0.5.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -791,7 +791,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1. 実験の設定</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2. 実行設定</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">3. Runの実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run">3. 「Run」の実行</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">4. 結果の可視化</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">4.1 データセットのラベル分布の可視化</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">4.2 評価指標の比較</a></li>

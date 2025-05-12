@@ -497,6 +497,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation-via-cross-validation">6.1 Model Evaluation via Cross Validation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-search-for-machine-learning-models">6.2 Hyperparameter Search for Machine Learning Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-settings">6.3 Optimizer Settings</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>
@@ -661,14 +662,14 @@ For example, to use <code class="docutils literal notranslate"><span class="pre"
 <p>In the <strong>Sampling mode</strong>, sampling is performed based on the probability amplitudes obtained from the matrix operations to determine the final measurement results. While noise and other factors are not considered, this mode allows for simulation behavior closer to that of real quantum hardware.</p>
 <p>In QXMT, the execution mode can be specified by configuring the <code class="docutils literal notranslate"><span class="pre">shots</span></code> value in the device’s configuration.
 The <code class="docutils literal notranslate"><span class="pre">shots</span></code> parameter represents the number of measurements, and as the value increases, the results converge toward those of the State Vector mode.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># State Vector形式</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># State Vector Mode</span>
 <span class="n">device</span><span class="p">:</span>
   <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
   <span class="n">device_name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
   <span class="n">n_qubits</span><span class="p">:</span> <span class="mi">2</span>
   <span class="n">shots</span><span class="p">:</span> <span class="n">null</span>
 
-<span class="c1"># Sampling形式</span>
+<span class="c1"># Sampling Mode</span>
 <span class="n">device</span><span class="p">:</span>
   <span class="n">platform</span><span class="p">:</span> <span class="s2">&quot;pennylane&quot;</span>
   <span class="n">device_name</span><span class="p">:</span> <span class="s2">&quot;default.qubit&quot;</span>
@@ -689,7 +690,7 @@ The <code class="docutils literal notranslate"><span class="pre">shots</span></c
 </pre></div>
 </div>
 <p>Once the environment variables are configured, the quantum computing tasks can be executed in the same manner as when using the local simulator, simply by updating the configuration settings. In the configuration file, set the <code class="docutils literal notranslate"><span class="pre">device_name</span></code> to <code class="docutils literal notranslate"><span class="pre">&quot;braket.aws.qubit&quot;</span></code>, and specify the desired backend in the <code class="docutils literal notranslate"><span class="pre">backend_name</span></code> field.</p>
-<p>As of QXMT v0.4.5, the following backends can be specified in the configuration:</p>
+<p>The following backends can be specified in the configuration:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
 <tr class="row-odd"><th class="head"><p>Provider</p></th>
@@ -982,6 +983,89 @@ M0 =
 <li><p><strong>refit</strong>: Whether to train the model with the parameters found during the search (True/False)</p></li>
 </ul>
 </section>
+<section id="optimizer-settings">
+<h3>6.3 Optimizer Settings<a class="headerlink" href="#optimizer-settings" title="Link to this heading">#</a></h3>
+<p>When using VQE, you can specify the optimizer for optimization calculations through the configuration. Currently, we support optimizers provided by PennyLane and SciPy. The optimizer can be specified in the configuration using <code class="docutils literal notranslate"><span class="pre">optimizer_settings.name</span></code>. If the <code class="docutils literal notranslate"><span class="pre">name</span></code> value starts with <code class="docutils literal notranslate"><span class="pre">scipy.</span></code>, the SciPy optimizer will be used; otherwise, the PennyLane optimizer will be used.</p>
+<p>For available optimizers in SciPy, please refer to <a class="reference external" href="https://docs.scipy.org/doc/scipy/tutorial/optimize.html">this page</a>. To use a SciPy optimizer, add <code class="docutils literal notranslate"><span class="pre">scipy.</span></code> to the beginning of the name specified by <code class="docutils literal notranslate"><span class="pre">method=</span></code> in the linked page, and specify it in <code class="docutils literal notranslate"><span class="pre">optimizer_settings.name</span></code> of the configuration as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">model</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;basic&quot;</span>
+<span class="w">  </span><span class="nt">diff_method</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;adjoint&quot;</span>
+<span class="w">  </span><span class="nt">optimizer_settings</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;scipy.BFGS&quot;</span>
+<span class="w">    </span><span class="nt">params</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">null</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">max_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<span class="w">    </span><span class="nt">tol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1e-6</span>
+<span class="w">    </span><span class="nt">verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+<p>For using PennyLane optimizers, please refer to the table below to find the appropriate one.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Optimizer</p></th>
+<th class="head"><p>Configuration Name</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.AdagradOptimizer.html">AdagradOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AdagradOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Adagrad</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.AdamOptimizer.html">AdamOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AdamOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Adam</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.AdaptiveOptimizer.html">AdaptiveOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">AdaptiveOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Adaptive</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.GradientDescentOptimizer.html">GradientDescentOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GradientDescentOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">GradientDescent</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumOptimizer.html">MomentumOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MomentumOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Momentum</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumQNGOptimizer.html">MomentumQNGOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">MomentumQNGOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">MomentumQNG</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.NesterovMomentumOptimizer.html">NesterovMomentumOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">NesterovMomentumOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">NesterovMomentum</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.QNGOptimizer.html">QNGOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">QNGOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">QNG</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.QNSPSAOptimizer.html">QNSPSAOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">QNSPSAOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">QNSPSA</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.RMSPropOptimizer.html">RMSPropOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RMSPropOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">RMSProp</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.RiemannianGradientOptimizer.html">RiemannianGradientOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RiemannianGradientOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">RiemannianGradient</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.RotoselectOptimizer.html">RotoselectOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RotoselectOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Rotoselect</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.RotosolveOptimizer.html">RotosolveOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">RotosolveOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">Rotosolve</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.SPSAOptimizer.html">SPSAOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">SPSAOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">SPSA</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.ShotAdaptiveOptimizer.html">ShotAdaptiveOptimizer</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ShotAdaptiveOptimizer</span></code> or <code class="docutils literal notranslate"><span class="pre">ShotAdaptive</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The settings in the configuration file as follows:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">optimizer_settings</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Adam&quot;</span>
+<span class="w">  </span><span class="nt">params</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">stepsize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.01</span>
+<span class="w">    </span><span class="nt">beta1</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.9</span>
+<span class="w">    </span><span class="nt">beta2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.999</span>
+</pre></div>
+</div>
+<p>For detailed information about each optimizer’s parameters and behavior, please refer to the <a class="reference external" href="https://docs.pennylane.ai/en/stable/introduction/optimizers.html">PennyLane documentation</a>.</p>
+</section>
 </section>
 <hr class="docutils" />
 <section id="reference">
@@ -998,10 +1082,10 @@ M0 =
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2025/01/22</p></td>
+<td><p>2025/05/12</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.4.5</p></td>
+<td><p>v0.5.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -1078,6 +1162,7 @@ M0 =
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model">6. Model</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#model-evaluation-via-cross-validation">6.1 Model Evaluation via Cross Validation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hyperparameter-search-for-machine-learning-models">6.2 Hyperparameter Search for Machine Learning Models</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optimizer-settings">6.3 Optimizer Settings</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reference">Reference</a></li>

@@ -150,7 +150,7 @@ AWS_DEFAULT_REGION="xxx"
 
 環境変数の設定が完了すると、configの設定のみでローカルのシミュレータで実行していた時と同様の手順で実行することが可能です。configには、`device_name`を`"braket.aws.qubit"`に設定したのち、`backend_name`に利用したいバックエンドを指定します。
 
-QXMTのv0.4.5では、以下のバックエンドをconfigで指定することができます。
+以下のバックエンドをconfigで指定することができます。
 
 | プロバイダー | デバイス名 | タイプ | config設定名 |
 |---------|---------|---------|---------|
@@ -398,6 +398,62 @@ print(f"Accuracy: {score}")
 - **objective**: 探索時に利用する目的関数 (Noneの場合は、モデルに定義されているデフォルト指標を利用。詳細：[String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers))
 - **refit**: 探索後、結果のパラメータでモデルの学習を行うかどうか (True/False)
 
+### 6.3 Optimizerの設定
+VQEを利用する場合には最適化計算で利用するOptimizerをconfig経由で指定することができます。現在は、PennyLaneとSciPyから提供されているOptimizerをサポートしています。Optimizerの設定は、configの`optimizer_settings.name`にて指定することができます。`name`の値が`scipy.`で始まる場合に、SciPyのOptimizerが利用され、それ以外の場合はPennyLaneのものが利用されます。
+
+SciPyで利用可能なOptimizerは[こちらのページ](https://docs.scipy.org/doc/scipy/tutorial/optimize.html)を参考にしてください。リンク先のページで`method=`で指定されている名前の先頭に`scipy.`を加えて、以下のようにconfigの`optimizer_settings.name`に指定することで利用可能です。
+
+```yaml
+model:
+  name: "basic"
+  diff_method: "adjoint"
+  optimizer_settings:
+    name: "scipy.BFGS"
+    params: null
+  params:
+    max_steps: 500
+    tol: 1e-6
+    verbose: true
+```
+
+PennyLaneのOptimizerを利用する場合は、以下の表を参考に該当するものを探してください。
+
+| Optimizer | config設定名 |
+|---------|---------|
+| [AdagradOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdagradOptimizer.html) | `AdagradOptimizer` or `Adagrad` |
+| [AdamOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdamOptimizer.html) | `AdamOptimizer` or `Adam` |
+| [AdaptiveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdaptiveOptimizer.html) | `AdaptiveOptimizer` or `Adaptive` |
+| [GradientDescentOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.GradientDescentOptimizer.html) | `GradientDescentOptimizer` or `GradientDescent` |
+| [MomentumOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumOptimizer.html) | `MomentumOptimizer` or `Momentum` |
+| [MomentumQNGOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumQNGOptimizer.html) | `MomentumQNGOptimizer` or `MomentumQNG` |
+| [NesterovMomentumOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.NesterovMomentumOptimizer.html) | `NesterovMomentumOptimizer` or `NesterovMomentum` |
+| [QNGOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.QNGOptimizer.html) | `QNGOptimizer` or `QNG` |
+| [QNSPSAOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.QNSPSAOptimizer.html) | `QNSPSAOptimizer` or `QNSPSA` |
+| [RMSPropOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RMSPropOptimizer.html) | `RMSPropOptimizer` or `RMSProp` |
+| [RiemannianGradientOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RiemannianGradientOptimizer.html) | `RiemannianGradientOptimizer` or `RiemannianGradient` |
+| [RotoselectOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RotoselectOptimizer.html) | `RotoselectOptimizer` or `Rotoselect` |
+| [RotosolveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RotosolveOptimizer.html) | `RotosolveOptimizer` or `Rotosolve` |
+| [SPSAOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.SPSAOptimizer.html) | `SPSAOptimizer` or `SPSA` |
+| [ShotAdaptiveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.ShotAdaptiveOptimizer.html) | `ShotAdaptiveOptimizer` or `ShotAdaptive` |
+
+configファイルでは以下のように設定します。
+
+```yaml
+model:
+  name: "basic"
+  diff_method: "adjoint"
+  optimizer_settings:
+    name: "Adam"
+    params:
+      stepsize: 0.01
+      beta1: 0.9
+      beta2: 0.999
+  params:
+    max_steps: 500
+    tol: 1e-6
+    verbose: true
+```
+
 ---
 
 ## Reference
@@ -409,7 +465,7 @@ print(f"Accuracy: {score}")
 
 **バージョン情報**
 
-| Environment | Version |
+| 環境 | バージョン |
 |----------|----------|
-| document | 2025/01/22 |
-| QXMT| v0.4.5 |
+| ドキュメント | 2025/05/12 |
+| QXMT| v0.5.1 |

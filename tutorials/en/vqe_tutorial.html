@@ -465,10 +465,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-vqe-configuration">1. Understanding VQE Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration-for-h2-molecule">2. Example Configuration for H₂ Molecule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqe-configuration">1. VQE Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration-for-h2-molecule">2. Example Configuration for H2 Molecule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-vqe-calculation">3. Running a VQE Calculation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-optimization-progress">4. Visualizing Optimization Progress</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-optimization-history">4. Visualizing Optimization History</a></li>
 </ul>
             </nav>
         </div>
@@ -521,24 +521,24 @@ document.write(`
   <section id="using-the-vqe-module-for-quantum-chemistry-calculations">
 <h1>Using the VQE Module for Quantum Chemistry Calculations<a class="headerlink" href="#using-the-vqe-module-for-quantum-chemistry-calculations" title="Link to this heading">#</a></h1>
 <p>In this tutorial, you will learn how to use QXMT’s Variational Quantum Eigensolver (VQE) module for quantum chemistry calculations. VQE is a hybrid quantum-classical algorithm designed to find the ground state energy of molecules, which is a fundamental problem in quantum chemistry.</p>
-<section id="understanding-vqe-configuration">
-<h2>1. Understanding VQE Configuration<a class="headerlink" href="#understanding-vqe-configuration" title="Link to this heading">#</a></h2>
+<section id="vqe-configuration">
+<h2>1. VQE Configuration<a class="headerlink" href="#vqe-configuration" title="Link to this heading">#</a></h2>
 <p>QXMT’s VQE module requires specific configuration elements that differ from the quantum kernel models. Here’s an overview of the key components:</p>
 <ul class="simple">
-<li><p><strong>global_settings</strong>: Defines global configuration parameters including:</p>
+<li><p><strong>global_settings</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code>: Sets a seed for reproducibility</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">model_type</span></code>: Must be set to “vqe” to use the VQE module</p></li>
 </ul>
 </li>
-<li><p><strong>hamiltonian</strong>: Specifies the molecular Hamiltonian to be solved:</p>
+<li><p><strong>hamiltonian</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code>: Module containing the Hamiltonian implementation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">implement_name</span></code>: Class name of the Hamiltonian implementation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: Parameters for the Hamiltonian, such as molecule specification</p></li>
 </ul>
 </li>
-<li><p><strong>device</strong>: Configures the quantum device for running simulations:</p>
+<li><p><strong>device</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">platform</span></code>: Currently supports “pennylane”</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">device_name</span></code>: Device to use (e.g., “lightning.qubit”)</p></li>
@@ -546,22 +546,22 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">shots</span></code>: Number of measurement shots (null for exact simulation)</p></li>
 </ul>
 </li>
-<li><p><strong>ansatz</strong>: Specifies the variational ansatz to use:</p>
+<li><p><strong>ansatz</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code>: Module containing the ansatz implementation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">implement_name</span></code>: Class name of the ansatz implementation</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: Parameters for the ansatz</p></li>
 </ul>
 </li>
-<li><p><strong>model</strong>: Specifies the VQE model implementation and optimization settings:</p>
+<li><p><strong>model</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: Model implementation (currently “basic”)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">diff_method</span></code>: Differentiation method for optimization (e.g., “adjoint”)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">optimizer_settings</span></code>: Configuration for the classical optimizer</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer_settings</span></code>: Optimizer settings. The type of optimizer can be specified using the <code class="docutils literal notranslate"><span class="pre">name</span></code> value, which can be any optimizer available in PennyLane or SciPy (detailed in <a class="reference internal" href="tool_reference.html#63-optimizer-settings"><span class="std std-ref">6.3 Optimizer Settings</span></a>).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: Additional parameters like maximum iterations</p></li>
 </ul>
 </li>
-<li><p><strong>evaluation</strong>: Lists the evaluation metrics to be used:</p>
+<li><p><strong>evaluation</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">default_metrics</span></code>: Metrics like “final_cost” and “hf_energy”</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">custom_metrics</span></code>: Any custom metrics to be calculated</p></li>
@@ -570,8 +570,9 @@ document.write(`
 </ul>
 </section>
 <section id="example-configuration-for-h2-molecule">
-<h2>2. Example Configuration for H₂ Molecule<a class="headerlink" href="#example-configuration-for-h2-molecule" title="Link to this heading">#</a></h2>
-<p>Here’s an example configuration for calculating the ground state energy of an H₂ molecule:</p>
+<h2>2. Example Configuration for H2 Molecule<a class="headerlink" href="#example-configuration-for-h2-molecule" title="Link to this heading">#</a></h2>
+<p>Below is an example configuration for calculating the ground state energy of an H2 molecule.
+There are two methods of configuration. The first method is to directly specify the molecule name.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;VQE</span><span class="nv"> </span><span class="s">calculation</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">H2</span><span class="nv"> </span><span class="s">molecule&quot;</span>
 
 <span class="nt">global_settings</span><span class="p">:</span>
@@ -621,7 +622,7 @@ document.write(`
 <span class="w">  </span><span class="nt">custom_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </pre></div>
 </div>
-<p>You can also specify the molecule structure explicitly:</p>
+<p>The second method is to explicitly specify the molecular structure. Please note that in this method, the FCI Energy value is currently not supported, so the evaluation results will show <code class="docutils literal notranslate"><span class="pre">fci_energy=None</span></code>.</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hamiltonian</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">module_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qxmt.hamiltonians.pennylane&quot;</span>
 <span class="w">  </span><span class="nt">implement_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MolecularHamiltonian&quot;</span>
@@ -636,7 +637,6 @@ document.write(`
 <span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;angstrom&quot;</span>
 </pre></div>
 </div>
-<p>NOTE: Currently, the explicit mode does not support FCI energy evaluation.</p>
 </section>
 <section id="running-a-vqe-calculation">
 <h2>3. Running a VQE Calculation<a class="headerlink" href="#running-a-vqe-calculation" title="Link to this heading">#</a></h2>
@@ -678,8 +678,8 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="visualizing-optimization-progress">
-<h2>4. Visualizing Optimization Progress<a class="headerlink" href="#visualizing-optimization-progress" title="Link to this heading">#</a></h2>
+<section id="visualizing-optimization-history">
+<h2>4. Visualizing Optimization History<a class="headerlink" href="#visualizing-optimization-history" title="Link to this heading">#</a></h2>
 <p>QXMT provides functionality to visualize the optimization progress during VQE calculations. You can plot the energy convergence as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_history</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.models.vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseVQE</span>
@@ -707,10 +707,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2025/05/09</p></td>
+<td><p>2025/05/12</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.5.0</p></td>
+<td><p>v0.5.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -763,10 +763,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#understanding-vqe-configuration">1. Understanding VQE Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration-for-h2-molecule">2. Example Configuration for H₂ Molecule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqe-configuration">1. VQE Configuration</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-configuration-for-h2-molecule">2. Example Configuration for H2 Molecule</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-vqe-calculation">3. Running a VQE Calculation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-optimization-progress">4. Visualizing Optimization Progress</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-optimization-history">4. Visualizing Optimization History</a></li>
 </ul>
   </nav></div>
 

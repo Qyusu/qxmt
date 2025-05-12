@@ -467,7 +467,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">1. Experiment Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-configuration">2. Run Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-run">3. Executing the Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-run">3. Executing the “Run”</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-results">4. Visualization of Results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-label-distribution-of-the-dataset">4.1 Visualizing the Label Distribution of the Dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-evaluation-metrics">4.2 Comparison of Evaluation Metrics</a></li>
@@ -526,7 +526,7 @@ document.write(`
   <section id="simple-case-using-only-the-default-dataset-and-quantum-kernel-model">
 <h1>Simple Case Using Only the Default Dataset and Quantum Kernel Model<a class="headerlink" href="#simple-case-using-only-the-default-dataset-and-quantum-kernel-model" title="Link to this heading">#</a></h1>
 <p>In this tutorial, you will learn how to manage experiments in quantum machine learning using QXMT’s default features with quantum kernel models. QXMT offers commonly used datasets, preprocessing methods, quantum machine learning models, and evaluation metrics as part of its default functionality. By leveraging these built-in features, you can efficiently establish a baseline during the early stages of your experiments.</p>
-<p>QXMT organizes experiments using the following directory structure:</p>
+<p>QXMT manages experiments by the following directory structure:</p>
 <ul class="simple">
 <li><p><strong>data</strong>: Contains the raw data used in the experiments.</p></li>
 <li><p><strong>config</strong>: Holds YAML files that define the configurations for each experiment run.</p></li>
@@ -588,7 +588,7 @@ document.write(`
 <li><p><strong>device</strong>: Configures the quantum device for running simulations. Currently, config-based settings support only PennyLane.</p></li>
 <li><p><strong>feature_map</strong>: If using a quantum feature map, specify the module name (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>) and class name (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>) where the feature map is implemented. Any required parameters can be specified in <code class="docutils literal notranslate"><span class="pre">params</span></code> as a dictionary. In this tutorial, we will use the default feature maps provided.</p></li>
 <li><p><strong>kernel</strong>: If using a kernel-based model, specify the module name (<code class="docutils literal notranslate"><span class="pre">module_name</span></code>) and class name (<code class="docutils literal notranslate"><span class="pre">implement_name</span></code>) where the kernel is implemented. Required parameters can be specified in <code class="docutils literal notranslate"><span class="pre">params</span></code> as a dictionary. In this tutorial, we will use the default kernel provided.</p></li>
-<li><p><strong>model</strong>: Specifies the machine learning model to be used, along with its parameters. For quantum kernel models, available options include “qsvc” (for classification), “qsvr” (for regression), and “qrigge” (for regression). The model implementation is automatically selected based on the <code class="docutils literal notranslate"><span class="pre">model_type</span></code> in global_settings.</p></li>
+<li><p><strong>model</strong>: Specifies the machine learning model to be used, along with its parameters. For quantum kernel models, available options include “qsvc” (for classification), “qsvr” (for regression), and “qrigge” (for regression).</p></li>
 <li><p><strong>evaluation</strong>: Lists the evaluation metrics to be used, chosen from the default set of metrics provided.</p></li>
 </ul>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">simple</span><span class="nv"> </span><span class="s">example&quot;</span>
@@ -649,15 +649,15 @@ document.write(`
 </div>
 </section>
 <section id="executing-the-run">
-<h2>3. Executing the Run<a class="headerlink" href="#executing-the-run" title="Link to this heading">#</a></h2>
-<p>In this step, you will execute the Run configured in Step 2. There are two methods to execute a Run: by passing the configuration as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the file path.</p>
+<h2>3. Executing the “Run”<a class="headerlink" href="#executing-the-run" title="Link to this heading">#</a></h2>
+<p>In this step, you will execute the “Run” (Experiment) configured in Step 2. There are two methods to execute a Run: by passing the configuration as a file path or by passing it as an instance. First, we will demonstrate how to execute it by specifying the file path.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/simple.yaml&quot;</span>
 
 <span class="c1"># input config file</span>
 <span class="n">artifact_1</span><span class="p">,</span> <span class="n">result_1</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method by specifying only the configuration. When a Run is executed, it returns an <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and a <code class="docutils literal notranslate"><span class="pre">result</span></code>. The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> includes the dataset (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>) and machine learning model (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>) used in the Run. The <code class="docutils literal notranslate"><span class="pre">result</span></code> contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.</p>
+<p>When executing a Run, you can specify various additional arguments, but in this case, we will introduce the simplest method. When a Run is executed, it returns an <code class="docutils literal notranslate"><span class="pre">artifact</span></code> and a <code class="docutils literal notranslate"><span class="pre">result</span></code>. The <code class="docutils literal notranslate"><span class="pre">artifact</span></code> includes the dataset (<code class="docutils literal notranslate"><span class="pre">artifact.dataset</span></code>) and machine learning model (<code class="docutils literal notranslate"><span class="pre">artifact.model</span></code>) used in the Run. The <code class="docutils literal notranslate"><span class="pre">result</span></code> contains the Run settings and model evaluation results. These can be used for visualization, as introduced in the next chapter, or for analysis during subsequent model development.</p>
 <p>Next, we will demonstrate how to execute a Run by passing the configuration as an instance. This method is useful for making on-the-fly adjustments to model parameters and is particularly beneficial when exploring the structure of a model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentConfig</span>
 
@@ -752,10 +752,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>document</p></td>
-<td><p>2025/05/09</p></td>
+<td><p>2025/05/12</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.5.0</p></td>
+<td><p>v0.5.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -811,7 +811,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#experiment-setup">1. Experiment Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-configuration">2. Run Configuration</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-run">3. Executing the Run</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-the-run">3. Executing the “Run”</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization-of-results">4. Visualization of Results</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#visualizing-the-label-distribution-of-the-dataset">4.1 Visualizing the Label Distribution of the Dataset</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#comparison-of-evaluation-metrics">4.2 Comparison of Evaluation Metrics</a></li>

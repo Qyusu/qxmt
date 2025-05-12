@@ -124,14 +124,14 @@ In QXMT, the execution mode can be specified by configuring the `shots` value in
 The `shots` parameter represents the number of measurements, and as the value increases, the results converge toward those of the State Vector mode.
 
 ```
-# State Vector形式
+# State Vector Mode
 device:
   platform: "pennylane"
   device_name: "default.qubit"
   n_qubits: 2
   shots: null
 
-# Sampling形式
+# Sampling Mode
 device:
   platform: "pennylane"
   device_name: "default.qubit"
@@ -153,7 +153,7 @@ AWS_DEFAULT_REGION="xxx"
 
 Once the environment variables are configured, the quantum computing tasks can be executed in the same manner as when using the local simulator, simply by updating the configuration settings. In the configuration file, set the `device_name` to `"braket.aws.qubit"`, and specify the desired backend in the `backend_name` field.
 
-As of QXMT v0.4.5, the following backends can be specified in the configuration:
+The following backends can be specified in the configuration:
 
 | Provider | Device | Type | Config Setting Name |
 |---------|---------|---------|---------|
@@ -401,6 +401,57 @@ print(f"Accuracy: {score}")
 - **objective**: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)
 - **refit**: Whether to train the model with the parameters found during the search (True/False)
 
+### 6.3 Optimizer Settings
+When using VQE, you can specify the optimizer for optimization calculations through the configuration. Currently, we support optimizers provided by PennyLane and SciPy. The optimizer can be specified in the configuration using `optimizer_settings.name`. If the `name` value starts with `scipy.`, the SciPy optimizer will be used; otherwise, the PennyLane optimizer will be used.
+
+For available optimizers in SciPy, please refer to [this page](https://docs.scipy.org/doc/scipy/tutorial/optimize.html). To use a SciPy optimizer, add `scipy.` to the beginning of the name specified by `method=` in the linked page, and specify it in `optimizer_settings.name` of the configuration as follows:
+
+```yaml
+model:
+  name: "basic"
+  diff_method: "adjoint"
+  optimizer_settings:
+    name: "scipy.BFGS"
+    params: null
+  params:
+    max_steps: 500
+    tol: 1e-6
+    verbose: true
+```
+
+For using PennyLane optimizers, please refer to the table below to find the appropriate one.
+
+| Optimizer | Configuration Name |
+|---------|---------|
+| [AdagradOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdagradOptimizer.html) | `AdagradOptimizer` or `Adagrad` |
+| [AdamOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdamOptimizer.html) | `AdamOptimizer` or `Adam` |
+| [AdaptiveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.AdaptiveOptimizer.html) | `AdaptiveOptimizer` or `Adaptive` |
+| [GradientDescentOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.GradientDescentOptimizer.html) | `GradientDescentOptimizer` or `GradientDescent` |
+| [MomentumOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumOptimizer.html) | `MomentumOptimizer` or `Momentum` |
+| [MomentumQNGOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.MomentumQNGOptimizer.html) | `MomentumQNGOptimizer` or `MomentumQNG` |
+| [NesterovMomentumOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.NesterovMomentumOptimizer.html) | `NesterovMomentumOptimizer` or `NesterovMomentum` |
+| [QNGOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.QNGOptimizer.html) | `QNGOptimizer` or `QNG` |
+| [QNSPSAOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.QNSPSAOptimizer.html) | `QNSPSAOptimizer` or `QNSPSA` |
+| [RMSPropOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RMSPropOptimizer.html) | `RMSPropOptimizer` or `RMSProp` |
+| [RiemannianGradientOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RiemannianGradientOptimizer.html) | `RiemannianGradientOptimizer` or `RiemannianGradient` |
+| [RotoselectOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RotoselectOptimizer.html) | `RotoselectOptimizer` or `Rotoselect` |
+| [RotosolveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.RotosolveOptimizer.html) | `RotosolveOptimizer` or `Rotosolve` |
+| [SPSAOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.SPSAOptimizer.html) | `SPSAOptimizer` or `SPSA` |
+| [ShotAdaptiveOptimizer](https://docs.pennylane.ai/en/stable/code/api/pennylane.ShotAdaptiveOptimizer.html) | `ShotAdaptiveOptimizer` or `ShotAdaptive` |
+
+The settings in the configuration file as follows:
+
+```yaml
+optimizer_settings:
+  name: "Adam"
+  params:
+    stepsize: 0.01
+    beta1: 0.9
+    beta2: 0.999
+```
+
+For detailed information about each optimizer's parameters and behavior, please refer to the [PennyLane documentation](https://docs.pennylane.ai/en/stable/introduction/optimizers.html).
+
 ---
 
 ## Reference
@@ -414,5 +465,5 @@ print(f"Accuracy: {score}")
 
 | Environment | Version |
 |----------|----------|
-| document | 2025/01/22 |
-| QXMT| v0.4.5 |
+| document | 2025/05/12 |
+| QXMT| v0.5.1 |

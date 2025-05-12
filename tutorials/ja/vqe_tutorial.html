@@ -463,10 +463,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. VQE設定の理解</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h2">2. H₂分子の設定例</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. VQE計算の実行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4. 最適化の進行状況の可視化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqeconfig">1. VQEのconfig設定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h2">2. H2分子の設定例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. VQE計算の実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4. 最適化の履歴を可視化</a></li>
 </ul>
             </nav>
         </div>
@@ -519,47 +519,47 @@ document.write(`
   <section id="vqe">
 <h1>量子化学計算のためのVQEモジュールの使用方法<a class="headerlink" href="#vqe" title="Link to this heading">#</a></h1>
 <p>このチュートリアルでは、量子化学計算のためのQXMTのVariational Quantum Eigensolver (VQE) モジュールの使用方法について学びます。VQEは分子の基底状態エネルギーを求めるために設計されたハイブリッド量子古典アルゴリズムであり、量子化学における基本的な問題です。</p>
-<section id="id1">
-<h2>1. VQE設定の理解<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
-<p>QXMTのVQEモジュールは、量子カーネルモデルとは異なる特定の設定要素が必要です。以下に主要なコンポーネントの概要を示します：</p>
+<section id="vqeconfig">
+<h2>1. VQEのconfig設定<a class="headerlink" href="#vqeconfig" title="Link to this heading">#</a></h2>
+<p>QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定が必要です。以下に主要なコンポーネントの概要を示します。</p>
 <ul class="simple">
-<li><p><strong>global_settings</strong>: グローバル設定パラメータを定義します：</p>
+<li><p><strong>global_settings</strong>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code>: 再現性のためのシード値を設定します</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">model_type</span></code>: VQEモジュールを使用するには “vqe” に設定する必要があります</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">random_seed</span></code>: ランダムシード</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model_type</span></code>: VQEモジュールを使用する場合は “vqe” に設定</p></li>
 </ul>
 </li>
-<li><p><strong>hamiltonian</strong>: 解くべき分子ハミルトニアンを指定します：</p>
+<li><p><strong>hamiltonian</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code>: ハミルトニアンの実装を含むモジュール</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">implement_name</span></code>: ハミルトニアン実装のクラス名</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: 分子指定などのハミルトニアンのパラメータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: ハミルトニアンのパラメータ</p></li>
 </ul>
 </li>
-<li><p><strong>device</strong>: シミュレーションを実行する量子デバイスを設定します：</p>
+<li><p><strong>device</strong>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">platform</span></code>: 現在は “pennylane” をサポート</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">device_name</span></code>: 使用するデバイス（例：”lightning.qubit”）</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code>: シミュレーションに必要な量子ビット数</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">shots</span></code>: 測定ショット数（正確なシミュレーションの場合はnull）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">platform</span></code>: 現在は”pennylane”のみサポート</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">device_name</span></code>: デバイスの種類（例：”lightning.qubit”）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">n_qubits</span></code>: qubit数</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shots</span></code>: 測定ショット数（State Vectorを利用する場合はnull）</p></li>
 </ul>
 </li>
-<li><p><strong>ansatz</strong>: 使用する変分アンザッツを指定します：</p>
+<li><p><strong>ansatz</strong>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code>: アンザッツの実装を含むモジュール</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">implement_name</span></code>: アンザッツ実装のクラス名</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: アンザッツのパラメータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">module_name</span></code>: Ansatzの実装を含むモジュール名</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">implement_name</span></code>: Ansatzを実装したクラス名</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: Ansatzのパラメータ</p></li>
 </ul>
 </li>
-<li><p><strong>model</strong>: VQEモデルの実装と最適化設定を指定します：</p>
+<li><p><strong>model</strong>:</p>
 <ul>
-<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: モデル実装（現在は “basic”）</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: VQEの種類（現在は”basic”のみ対応）</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">diff_method</span></code>: 最適化のための微分方法（例：”adjoint”）</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">optimizer_settings</span></code>: 古典的オプティマイザの設定</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: 最大反復回数などの追加パラメータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">optimizer_settings</span></code>: Optimizerの設定。Optimizerの種類は<code class="docutils literal notranslate"><span class="pre">name</span></code>の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: <a class="reference internal" href="tool_reference.html#63-optimizerの設定"><span class="std std-ref">6.3 Optimizerの設定</span></a>)。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: 最大繰り返し数などの追加パラメータ</p></li>
 </ul>
 </li>
-<li><p><strong>evaluation</strong>: 使用する評価指標を列挙します：</p>
+<li><p><strong>evaluation</strong>:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">default_metrics</span></code>: “final_cost”や”hf_energy”などの指標</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">custom_metrics</span></code>: 計算する任意のカスタム指標</p></li>
@@ -568,8 +568,9 @@ document.write(`
 </ul>
 </section>
 <section id="h2">
-<h2>2. H₂分子の設定例<a class="headerlink" href="#h2" title="Link to this heading">#</a></h2>
-<p>以下はH₂分子の基底状態エネルギーを計算するための設定例です：</p>
+<h2>2. H2分子の設定例<a class="headerlink" href="#h2" title="Link to this heading">#</a></h2>
+<p>以下は、H2分子の基底状態エネルギーを計算するためのconfigの設定例です。
+設定方法は2種類あります。一つ目は、直接分子の名前を指定する方法です。</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;H2分子のVQE計算&quot;</span>
 
 <span class="nt">global_settings</span><span class="p">:</span>
@@ -619,7 +620,7 @@ document.write(`
 <span class="w">  </span><span class="nt">custom_metrics</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 </pre></div>
 </div>
-<p>分子構造を明示的に指定することもできます：</p>
+<p>もう一つの方法は、分子構造を明示的に指定する方法です。こちらの方法では、現在FCI Energyの値がサポートされていないため、Evaluationの結果において、<code class="docutils literal notranslate"><span class="pre">fci_energy=None</span></code>となる点に注意してください。</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">hamiltonian</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">module_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;qxmt.hamiltonians.pennylane&quot;</span>
 <span class="w">  </span><span class="nt">implement_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;MolecularHamiltonian&quot;</span>
@@ -635,9 +636,9 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="id2">
-<h2>3. VQE計算の実行<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
-<p>VQE計算を実行するには、量子カーネルモデルと同じ実験フレームワークを使用できます：</p>
+<section id="id1">
+<h2>3. VQE計算の実行<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>VQE計算を実行するには、量子カーネルモデルと共通の実験フレームワークを使用できます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.experiment.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQEEvaluations</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
@@ -675,9 +676,9 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="id3">
-<h2>4. 最適化の進行状況の可視化<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
-<p>QXMTはVQE計算中の最適化の進行状況を可視化する機能を提供しています。以下のようにエネルギー収束をプロットできます：</p>
+<section id="id2">
+<h2>4. 最適化の履歴を可視化<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>QXMTはVQE計算中の最適化の進行状況を可視化する機能を提供しています。以下のようにエネルギー収束をプロットできます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_history</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.models.vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseVQE</span>
 
@@ -704,10 +705,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>ドキュメント</p></td>
-<td><p>2025/05/09</p></td>
+<td><p>2025/05/12</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.5.0</p></td>
+<td><p>v0.5.1</p></td>
 </tr>
 </tbody>
 </table>
@@ -742,10 +743,10 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. VQE設定の理解</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h2">2. H₂分子の設定例</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">3. VQE計算の実行</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">4. 最適化の進行状況の可視化</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vqeconfig">1. VQEのconfig設定</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#h2">2. H2分子の設定例</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3. VQE計算の実行</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">4. 最適化の履歴を可視化</a></li>
 </ul>
   </nav></div>
 
