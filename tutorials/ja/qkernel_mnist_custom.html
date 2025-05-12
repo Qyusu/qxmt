@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Practical Case with Custom Functions and the MNIST Dataset &#8212; qxmt 0.5.0 documentation</title>
+    <title>量子カーネルモデルのためのカスタム機能とMNISTデータセットを使用した実践的な例 &#8212; qxmt 0.5.0 documentation</title>
   
   
   
@@ -41,11 +41,9 @@
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/en/mnist_custom';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/ja/qkernel_mnist_custom';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Tool Reference" href="tool_reference.html" />
-    <link rel="prev" title="Simple Case Using Only the Default Dataset and Model" href="default_simple.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -108,6 +106,8 @@
       
       
       
+        
+      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -149,7 +149,7 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="current nav bd-sidenav">
+        <ul class="nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qxmt.html">QXMT reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -295,10 +295,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Practical Case with Custom Functions and the MNIST Dataset</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tool_reference.html">Tool Reference</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../en/tool_reference.html">Tool Reference</a></li>
 </ul>
 </details></li>
 </ul>
@@ -370,7 +368,7 @@
       
       
       
-      <li><a href="../../_sources/tutorials/en/mnist_custom.md" target="_blank"
+      <li><a href="../../_sources/tutorials/ja/qkernel_mnist_custom.md" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -454,7 +452,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Practical Case with Custom Functions and the MNIST Dataset</h1>
+    <h1>量子カーネルモデルのためのカスタム機能とMNISTデータセットを使用した実践的な例</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -464,15 +462,15 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">1. Preparing the Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-custom-features">2. Implementing Custom Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-dataset-processing-logic">2.1 Custom Definition of Dataset Processing Logic</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-feature-map">2.2 Custom Definition of Feature Map</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-evaluation-metrics">2.3 Custom Definition of Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. データセットの準備</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2. カスタム機能の実装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.1 データセット処理ロジックのカスタム定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.2 特徴マップのカスタム定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.3 評価指標のカスタム定義</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-run-settings">3. Configuring Run Settings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-experiments-and-evaluation">4. Executing Experiments and Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3. 実行設定の構成</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">4. 実験の実行と評価</a></li>
 </ul>
             </nav>
         </div>
@@ -522,13 +520,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="practical-case-with-custom-functions-and-the-mnist-dataset">
-<h1>Practical Case with Custom Functions and the MNIST Dataset<a class="headerlink" href="#practical-case-with-custom-functions-and-the-mnist-dataset" title="Link to this heading">#</a></h1>
-<p>In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you’re new to QXMT, it is recommended to start with the “<a class="reference internal" href="default_simple.html"><span class="std std-doc">Simple Case Using Only the Default Dataset and Model</span></a>” tutorial to gain an overall understanding.</p>
-<section id="preparing-the-dataset">
-<h2>1. Preparing the Dataset<a class="headerlink" href="#preparing-the-dataset" title="Link to this heading">#</a></h2>
-<p>To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the <code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code> method <a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">fetch_openml</a>.</p>
-<p>In this tutorial, the dataset used for the experiment is downloaded manually, but QXMT also provides a feature to download major datasets from <a class="reference external" href="https://www.openml.org/">OpenML</a> via a config file. For more details, refer to the tutorial that demonstrates how to use OpenML.</p>
+  <section id="mnist">
+<h1>量子カーネルモデルのためのカスタム機能とMNISTデータセットを使用した実践的な例<a class="headerlink" href="#mnist" title="Link to this heading">#</a></h1>
+<p>このチュートリアルでは、MNISTデータセットを使用したより実践的な例として、量子カーネルモデルのためのカスタム機能を紹介します。QXMTを初めて使用する場合は、全体的な理解を得るために「<a class="reference internal" href="qkernel_simple.html"><span class="std std-doc">デフォルトのデータセットと量子カーネルモデルのみを使用した簡単な例</span></a>」チュートリアルから始めることをお勧めします。</p>
+<section id="id1">
+<h2>1. データセットの準備<a class="headerlink" href="#id1" title="Link to this heading">#</a></h2>
+<p>実験の管理を開始するには、MNISTデータセットをダウンロードする必要があります。MNISTを含む主要なデータセットは、<code class="docutils literal notranslate"><span class="pre">scikit-learn</span></code>の<a class="reference external" href="https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html">fetch_openml</a>メソッドを使用して簡単にダウンロードできます。</p>
+<p>このチュートリアルでは、実験に使用するデータセットを手動でダウンロードしますが、QXMTは設定ファイルを介して<a class="reference external" href="https://www.openml.org/">OpenML</a>から主要なデータセットをダウンロードする機能も提供しています。詳細については、OpenMLの使用方法を示すチュートリアルを参照してください。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">datasets</span>
 
@@ -551,21 +549,21 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="implementing-custom-features">
-<h2>2. Implementing Custom Features<a class="headerlink" href="#implementing-custom-features" title="Link to this heading">#</a></h2>
-<p>In QXMT, custom features can be defined in the following five categories:</p>
+<section id="id2">
+<h2>2. カスタム機能の実装<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
+<p>QXMTでは、以下の5つのカテゴリでカスタム機能を定義できます：</p>
 <ul class="simple">
-<li><p><strong>Dataset</strong>: Preprocessing logic (<code class="docutils literal notranslate"><span class="pre">raw_preprocess_logic</span></code>) for filtering and removing outliers from the loaded dataset can be defined, along with transformation logic (<code class="docutils literal notranslate"><span class="pre">transform_logic</span></code>) for tasks like discretization and dimensionality reduction.</p></li>
-<li><p><strong>Feature Map</strong>: Custom feature maps can be defined as functions or quantum circuits.</p></li>
-<li><p><strong>Kernel</strong>: Custom kernel functions can be defined.</p></li>
-<li><p><strong>Model</strong>: Custom quantum machine learning models can be defined.</p></li>
-<li><p><strong>Evaluation</strong>: Custom evaluation metrics can be defined and tracked as logs for each experiment.</p></li>
+<li><p><strong>Dataset</strong>：ロードされたデータセットからのフィルタリングや外れ値の除去のための前処理ロジック（<code class="docutils literal notranslate"><span class="pre">raw_preprocess_logic</span></code>）と、離散化や次元削減などのタスクのための変換ロジック（<code class="docutils literal notranslate"><span class="pre">transform_logic</span></code>）を定義できます。</p></li>
+<li><p><strong>Feature Map</strong>：カスタム特徴マップを関数または量子回路として定義できます。</p></li>
+<li><p><strong>Kernel</strong>：カスタムカーネル関数を定義できます。</p></li>
+<li><p><strong>Model</strong>：カスタム量子機械学習モデルを定義できます。</p></li>
+<li><p><strong>Evaluation</strong>：カスタム評価指標を定義し、各実験のログとして追跡できます。</p></li>
 </ul>
-<p>This tutorial demonstrates how to implement and manage experiments in QXMT using three commonly used features: <code class="docutils literal notranslate"><span class="pre">Dataset</span></code>, <code class="docutils literal notranslate"><span class="pre">Feature</span> <span class="pre">Map</span></code>, and <code class="docutils literal notranslate"><span class="pre">Evaluation</span></code>. Other features can be similarly implemented, invoked, and managed, allowing for further exploration of those options.</p>
-<section id="custom-definition-of-dataset-processing-logic">
-<h3>2.1 Custom Definition of Dataset Processing Logic<a class="headerlink" href="#custom-definition-of-dataset-processing-logic" title="Link to this heading">#</a></h3>
-<p>For the dataset, two types of logic can be independently defined: preprocessing logic and transformation logic.</p>
-<p>We will first address the implementation of the preprocessing logic. This involves filtering the MNIST dataset to focus on specific labels from the ten total classes. Additionally, due to the significant computational complexity of quantum kernels, functionality to reduce the sample size of the data is also included.</p>
+<p>このチュートリアルでは、一般的に使用される3つの機能：<code class="docutils literal notranslate"><span class="pre">Dataset</span></code>、<code class="docutils literal notranslate"><span class="pre">Feature</span> <span class="pre">Map</span></code>、および<code class="docutils literal notranslate"><span class="pre">Evaluation</span></code>を使用して、QXMTで実験を実装および管理する方法を示します。他の機能も同様に実装、呼び出し、管理できるため、それらのオプションをさらに探索することができます。</p>
+<section id="id3">
+<h3>2.1 データセット処理ロジックのカスタム定義<a class="headerlink" href="#id3" title="Link to this heading">#</a></h3>
+<p>データセットについては、前処理ロジックと変換ロジックの2種類のロジックを独立して定義できます。</p>
+<p>まず、前処理ロジックの実装に取り組みます。これには、10クラス全体から特定のラベルに焦点を当てるためのMNISTデータセットのフィルタリングが含まれます。さらに、量子カーネルの計算複雑性が大きいため、データのサンプルサイズを削減する機能も含まれています。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/raw_preprocess_logic.py</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -582,7 +580,7 @@ document.write(`
     <span class="k">return</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span>
 </pre></div>
 </div>
-<p>Next, the transformation logic for the data will be implemented. In this step, PCA is used to perform dimensionality reduction on the input data. Since each MNIST image consists of 784 dimensions, the required number of qubits can be substantial. Therefore, the data is compressed using the <code class="docutils literal notranslate"><span class="pre">n_components</span></code> parameter to a manageable size based on the computing environment being used.</p>
+<p>次に、データの変換ロジックを実装します。このステップでは、PCAを使用して入力データの次元削減を行います。各MNIST画像は784次元で構成されているため、必要な量子ビット数が膨大になる可能性があります。したがって、使用するコンピューティング環境に基づいて、<code class="docutils literal notranslate"><span class="pre">n_components</span></code>パラメータを使用してデータを管理可能なサイズに圧縮します。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/transform_logic.py</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span>
@@ -617,10 +615,10 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="custom-definition-of-feature-map">
-<h3>2.2 Custom Definition of Feature Map<a class="headerlink" href="#custom-definition-of-feature-map" title="Link to this heading">#</a></h3>
-<p>QXMT provides basic feature maps, such as those constructed with Rotation Gates and the ZZFeatureMap, which can be used directly by specifying them in the configuration. However, in practical applications and research, more complex feature maps are often needed. Therefore, QXMT allows the implementation of custom feature maps that can be invoked via the configuration. This approach makes it easier to experiment with different feature map designs.</p>
-<p>In this tutorial, a quantum circuit using PennyLane is implemented as a feature map, applying the ZZFeatureMap followed by the XXFeatureMap. When defining a custom feature map, it is important to inherit from the abstract class <code class="docutils literal notranslate"><span class="pre">qxmt.feature_maps.BaseFeatureMap</span></code> to ensure compatibility and take advantage of QXMT’s various functionalities. If creating a class for each feature map is too cumbersome, you can also pass a function that implements the FeatureMap to the Kernel class. For more details, please refer to the API Reference.</p>
+<section id="id4">
+<h3>2.2 特徴マップのカスタム定義<a class="headerlink" href="#id4" title="Link to this heading">#</a></h3>
+<p>QXMTは、回転ゲートやZZFeatureMapなどの基本的な特徴マップを提供しており、設定で指定するだけで直接使用できます。ただし、実際のアプリケーションや研究では、より複雑な特徴マップが必要になることがよくあります。そのため、QXMTでは、設定を介して呼び出すことができるカスタム特徴マップの実装を可能にしています。このアプローチにより、さまざまな特徴マップデザインを実験しやすくなります。</p>
+<p>このチュートリアルでは、ZZFeatureMapに続いてXXFeatureMapを適用する特徴マップとして、PennyLaneを使用した量子回路を実装します。カスタム特徴マップを定義する際は、互換性を確保し、QXMTのさまざまな機能を活用するために、抽象クラス<code class="docutils literal notranslate"><span class="pre">qxmt.feature_maps.BaseFeatureMap</span></code>を継承することが重要です。各特徴マップにクラスを作成するのが面倒な場合は、FeatureMapを実装する関数をKernelクラスに渡すこともできます。詳細については、APIリファレンスを参照してください。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/feature_map.py</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -650,10 +648,10 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="custom-definition-of-evaluation-metrics">
-<h3>2.3 Custom Definition of Evaluation Metrics<a class="headerlink" href="#custom-definition-of-evaluation-metrics" title="Link to this heading">#</a></h3>
-<p>In this section, we will define a custom evaluation metric. While default metrics such as Accuracy, Precision, Recall, and F-Measure are provided, additional evaluation metrics are often required depending on specific goals. In such cases, you can manage experiments in the same way as with the default metrics using the method introduced here.</p>
-<p>In this tutorial, we will define specificity as an additional evaluation metric. When defining a custom evaluation metric, it should be implemented as a class that inherits from <code class="docutils literal notranslate"><span class="pre">qxmt.evaluation.BaseMetric</span></code>, and the logic for calculating the evaluation value should be implemented in the <code class="docutils literal notranslate"><span class="pre">evaluate</span></code> method.</p>
+<section id="id5">
+<h3>2.3 評価指標のカスタム定義<a class="headerlink" href="#id5" title="Link to this heading">#</a></h3>
+<p>このセクションでは、カスタム評価指標を定義します。精度、適合率、再現率、F値などのデフォルトの指標が提供されていますが、特定の目標に応じて追加の評価指標が必要になることがよくあります。そのような場合、ここで紹介する方法を使用して、デフォルトの指標と同じ方法で実験を管理できます。</p>
+<p>このチュートリアルでは、追加の評価指標として特異度を定義します。カスタム評価指標を定義する場合は、<code class="docutils literal notranslate"><span class="pre">qxmt.evaluation.BaseMetric</span></code>を継承するクラスとして実装し、評価値を計算するロジックを<code class="docutils literal notranslate"><span class="pre">evaluate</span></code>メソッドに実装する必要があります。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/custom/evaluation.py</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
@@ -674,12 +672,12 @@ document.write(`
         <span class="k">return</span> <span class="n">tn</span> <span class="o">/</span> <span class="p">(</span><span class="n">tn</span> <span class="o">+</span> <span class="n">fp</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The implementation of custom logic for the dataset, feature map, and evaluation metrics has been completed. The implemented logic can accept various parameters, which can be configured through the Run’s configuration, enabling easy execution of experiments under different conditions. More details will be introduced in Chapter 3.</p>
+<p>データセット、特徴マップ、および評価指標のカスタムロジックの実装が完了しました。実装されたロジックはさまざまなパラメータを受け入れることができ、Runの設定を通じて設定できるため、異なる条件下で実験を簡単に実行できます。詳細は第3章で紹介します。</p>
 </section>
 </section>
-<section id="configuring-run-settings">
-<h2>3. Configuring Run Settings<a class="headerlink" href="#configuring-run-settings" title="Link to this heading">#</a></h2>
-<p>This section explains the items that need to be configured in the configuration file to utilize the implemented custom methods. Areas that require additional configuration are marked with the <code class="docutils literal notranslate"><span class="pre">[SETUP]</span></code> tag. The primary configuration method involves specifying the path to the module where the custom logic is implemented, along with the function or class name. Parameters for each can also be documented under <code class="docutils literal notranslate"><span class="pre">params</span></code>, allowing them to be passed as arguments during execution.</p>
+<section id="id6">
+<h2>3. 実行設定の構成<a class="headerlink" href="#id6" title="Link to this heading">#</a></h2>
+<p>このセクションでは、実装されたカスタムメソッドを利用するために設定ファイルで構成する必要がある項目について説明します。追加の設定が必要な領域は<code class="docutils literal notranslate"><span class="pre">[SETUP]</span></code>タグでマークされています。主な設定方法は、カスタムロジックが実装されているモジュールへのパスと、関数またはクラス名を指定することです。各パラメータは<code class="docutils literal notranslate"><span class="pre">params</span></code>の下に文書化することもでき、実行中に引数として渡すことができます。</p>
 <div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="c1"># File: your_project/configs/custom.yaml</span>
 
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Configuration</span><span class="nv"> </span><span class="s">file</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">custom</span><span class="nv"> </span><span class="s">MNIST</span><span class="nv"> </span><span class="s">case&quot;</span>
@@ -746,11 +744,11 @@ document.write(`
 </pre></div>
 </div>
 </section>
-<section id="executing-experiments-and-evaluation">
-<h2>4. Executing Experiments and Evaluation<a class="headerlink" href="#executing-experiments-and-evaluation" title="Link to this heading">#</a></h2>
-<p>Finally, an instance of the QXMT experiment management system will be created, and the previously defined configuration file will be used to execute the Run.</p>
-<p>If an module import error occurs during execution, review the Python path and re-run the process.
-For example, if a custom module is implemented in <code class="docutils literal notranslate"><span class="pre">/root/hoge/your_project/custom/raw_preprocess_logic.py</span></code>, the Python path can be updated using the <code class="docutils literal notranslate"><span class="pre">sys.path.append(&quot;/root/hoge&quot;)</span></code> command.</p>
+<section id="id7">
+<h2>4. 実験の実行と評価<a class="headerlink" href="#id7" title="Link to this heading">#</a></h2>
+<p>最後に、QXMT実験管理システムのインスタンスを作成し、前に定義した設定ファイルを使用してRunを実行します。</p>
+<p>実行中にモジュールインポートエラーが発生した場合は、Pythonパスを確認して処理を再実行してください。
+例えば、カスタムモジュールが<code class="docutils literal notranslate"><span class="pre">/root/hoge/your_project/custom/raw_preprocess_logic.py</span></code>に実装されている場合、<code class="docutils literal notranslate"><span class="pre">sys.path.append(&quot;/root/hoge&quot;)</span></code>コマンドを使用してPythonパスを更新できます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
 
 <span class="c1"># initialize experiment for custom tutorial</span>
@@ -773,7 +771,7 @@ For example, if a custom module is implemented in <code class="docutils literal 
 <span class="c1"># 0	     1	    0.6	         0.66	  0.66	    0.66	       0.5</span>
 </pre></div>
 </div>
-<p>The results of the experiment, including the custom-defined evaluation metrics, will be visualized.</p>
+<p>カスタム定義された評価指標を含む実験結果が可視化されます。</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_metrics_side_by_side</span>
 
 <span class="c1"># get run result as dataframe</span>
@@ -790,19 +788,19 @@ For example, if a custom module is implemented in <code class="docutils literal 
 </div>
 <img src="../../_static/images/tutorials/custom/side_by_side.png" alt="評価指標の比較" title="評価指標の比較">
 <hr class="docutils" />
-<p><strong>Version Information</strong></p>
+<p><strong>バージョン情報</strong></p>
 <div class="pst-scrollable-table-container"><table class="table">
 <thead>
-<tr class="row-odd"><th class="head"><p>Environment</p></th>
-<th class="head"><p>Version</p></th>
+<tr class="row-odd"><th class="head"><p>環境</p></th>
+<th class="head"><p>バージョン</p></th>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>document</p></td>
-<td><p>2025/01/22</p></td>
+<tr class="row-even"><td><p>ドキュメント</p></td>
+<td><p>2025/05/09</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.4.5</p></td>
+<td><p>v0.5.0</p></td>
 </tr>
 </tbody>
 </table>
@@ -821,24 +819,6 @@ For example, if a custom module is implemented in <code class="docutils literal 
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="default_simple.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Simple Case Using Only the Default Dataset and Model</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="tool_reference.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Tool Reference</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -855,15 +835,15 @@ For example, if a custom module is implemented in <code class="docutils literal 
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-the-dataset">1. Preparing the Dataset</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementing-custom-features">2. Implementing Custom Features</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-dataset-processing-logic">2.1 Custom Definition of Dataset Processing Logic</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-feature-map">2.2 Custom Definition of Feature Map</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#custom-definition-of-evaluation-metrics">2.3 Custom Definition of Evaluation Metrics</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1. データセットの準備</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">2. カスタム機能の実装</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">2.1 データセット処理ロジックのカスタム定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">2.2 特徴マップのカスタム定義</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">2.3 評価指標のカスタム定義</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-run-settings">3. Configuring Run Settings</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#executing-experiments-and-evaluation">4. Executing Experiments and Evaluation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">3. 実行設定の構成</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">4. 実験の実行と評価</a></li>
 </ul>
   </nav></div>
 

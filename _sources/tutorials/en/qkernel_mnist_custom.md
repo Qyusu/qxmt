@@ -1,6 +1,6 @@
-# Practical Case with Custom Functions and the MNIST Dataset
+# Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models
 
-In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example. If you're new to QXMT, it is recommended to start with the "[Simple Case Using Only the Default Dataset and Model](./default_simple.md)" tutorial to gain an overall understanding.
+In this tutorial, we introduce a custom feature using the MNIST dataset as a more practical example for quantum kernel models. If you're new to QXMT, it is recommended to start with the "[Simple Case Using Only the Default Dataset and Quantum Kernel Model](./qkernel_simple.md)" tutorial to gain an overall understanding.
 
 ## 1. Preparing the Dataset
 To begin managing experiments, the MNIST dataset must be downloaded. Major datasets, including MNIST, can be easily downloaded using the `scikit-learn` method [fetch_openml](https://scikit-learn.org/stable/modules/generated/sklearn.datasets.fetch_openml.html).
@@ -287,5 +287,5 @@ plot_metrics_side_by_side(
 
 | Environment | Version |
 |----------|----------|
-| document | 2025/01/22 |
-| QXMT| v0.4.5 |
+| document | 2025/05/09 |
+| QXMT| v0.5.0 |

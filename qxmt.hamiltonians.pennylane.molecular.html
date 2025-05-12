@@ -296,8 +296,6 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/en/default_simple.html">Simple Case Using Only the Default Dataset and Model</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/en/mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/en/tool_reference.html">Tool Reference</a></li>
 </ul>
 </details></li>
@@ -506,6 +504,27 @@ document.write(`
                   
   <section id="qxmt-hamiltonians-pennylane-molecular-module">
 <h1>qxmt.hamiltonians.pennylane.molecular module<a class="headerlink" href="#qxmt-hamiltonians-pennylane-molecular-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">InitializationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DATASET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIRECT_MOLECULE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INVALID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">MolecularHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bondlength=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_name='STO-3G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit='angstrom'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method='dhf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_electrons=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_orbitals=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping='jordan_wigner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.hamiltonians.pennylane.molecular</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
