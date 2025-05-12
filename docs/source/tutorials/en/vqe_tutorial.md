@@ -36,9 +36,9 @@ QXMT's VQE module requires specific configuration elements that differ from the 
   - `default_metrics`: Metrics like "final_cost" and "hf_energy"
   - `custom_metrics`: Any custom metrics to be calculated
 
-## 2. Example Configuration for H₂ Molecule
+## 2. Example Configuration for H2 Molecule
 
-Here's an example configuration for calculating the ground state energy of an H₂ molecule:
+Here's an example configuration for calculating the ground state energy of an H2 molecule:
 
 ```yaml
 description: "VQE calculation for H2 molecule"
