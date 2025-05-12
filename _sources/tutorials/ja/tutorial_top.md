@@ -7,8 +7,9 @@
 ```{toctree}
 :maxdepth: 2
 
-./default_simple.md
-./mnist_custom.md
+./qkernel_simple.md
+./qkernel_mnist_custom.md
+./vqe_tutorial.md
 
 ```
 

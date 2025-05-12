@@ -106,8 +106,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -296,6 +294,9 @@
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../en/qkernel_simple.html">Simple Case Using Only the Default Dataset and Quantum Kernel Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../en/qkernel_mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../en/vqe_tutorial.html">Using the VQE Module for Quantum Chemistry Calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../en/tool_reference.html">Tool Reference</a></li>
 </ul>
 </details></li>
@@ -638,38 +639,60 @@ document.write(`
 <h2>3. VQE計算の実行<a class="headerlink" href="#id2" title="Link to this heading">#</a></h2>
 <p>VQE計算を実行するには、量子カーネルモデルと同じ実験フレームワークを使用できます：</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.experiment.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQEEvaluations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
-<span class="c1"># 実験の初期化</span>
+<span class="c1"># Initialize experiment</span>
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
     <span class="n">name</span><span class="o">=</span><span class="s2">&quot;vqe_h2_experiment&quot;</span><span class="p">,</span>
-    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;H2分子のVQE計算&quot;</span><span class="p">,</span>
+    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;VQE calculation for H2 molecule&quot;</span><span class="p">,</span>
     <span class="n">auto_gen_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
 
-<span class="c1"># VQE設定で実験を実行</span>
+<span class="c1"># Run the experiment with the VQE configuration</span>
 <span class="n">config_path</span> <span class="o">=</span> <span class="s2">&quot;../configs/vqe_h2.yaml&quot;</span>
 <span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 
-<span class="c1"># 結果へのアクセス</span>
-<span class="n">final_energy</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;final_cost&quot;</span><span class="p">]</span>
-<span class="n">hf_energy</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;hf_energy&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VQEエネルギー: </span><span class="si">{</span><span class="n">final_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HFエネルギー: </span><span class="si">{</span><span class="n">hf_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># Access the results</span>
+<span class="n">final_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;final_cost&quot;</span><span class="p">]</span>
+<span class="n">hf_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;hf_energy&quot;</span><span class="p">]</span>
+<span class="n">fci_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;fci_energy&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VQE Energy: </span><span class="si">{</span><span class="n">final_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HF Energy: </span><span class="si">{</span><span class="n">hf_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FCI Energy: </span><span class="si">{</span><span class="n">fci_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># output</span>
+<span class="c1"># Optimizing ansatz with 3 parameters through 20 steps</span>
+<span class="c1"># Optimization finished. Final cost: -1.13622722</span>
+<span class="c1"># VQE Energy: -1.1362272195288956</span>
+<span class="c1"># HF Energy: -1.11675922817382</span>
+<span class="c1"># FCI Energy: -1.1372838216460408</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="c1"># output</span>
+<span class="c1">#   run_id	final_cost	hf_energy	fci_energy</span>
+<span class="c1"># 0	1	-1.136227	-1.116759	-1.137284</span>
 </pre></div>
 </div>
 </section>
 <section id="id3">
 <h2>4. 最適化の進行状況の可視化<a class="headerlink" href="#id3" title="Link to this heading">#</a></h2>
 <p>QXMTはVQE計算中の最適化の進行状況を可視化する機能を提供しています。以下のようにエネルギー収束をプロットできます：</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_progress</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_history</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.models.vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseVQE</span>
 
-<span class="c1"># 最適化の進行状況をプロット</span>
-<span class="n">plot_optimization_progress</span><span class="p">(</span>
-    <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span>
+<span class="c1"># Plot the optimization history</span>
+<span class="n">plot_optimization_history</span><span class="p">(</span>
+    <span class="n">cost_history</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">BaseVQE</span><span class="p">,</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">cost_history</span><span class="p">,</span>
+    <span class="n">cost_label</span><span class="o">=</span><span class="s2">&quot;VQE Energy&quot;</span><span class="p">,</span>
+    <span class="n">baseline_cost</span><span class="o">=</span><span class="n">fci_energy</span><span class="p">,</span>
+    <span class="n">baseline_label</span><span class="o">=</span><span class="s2">&quot;FCI Energy&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Optimized Energy&quot;</span><span class="p">,</span>
     <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/optimization.png&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+<img src="../../_static/images/tutorials/vqe/optimization_history.png" alt="最適化の履歴" title="最適化の履歴">
 <p>これにより、最適化プロセス中のエネルギー収束を示すプロットが生成され、VQE計算の品質を評価するのに役立ちます。</p>
 <hr class="docutils" />
 <p><strong>バージョン情報</strong></p>

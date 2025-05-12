@@ -107,12 +107,16 @@ hamiltonian:
     unit: "angstrom"
 ```
 
+NOTE: Currently, the explicit mode does not support FCI energy evaluation.
+
 ## 3. Running a VQE Calculation
 
 To run a VQE calculation, you can use the same experiment framework as with quantum kernel models:
 
 ```python
 import qxmt
+from qxmt.experiment.schema import VQEEvaluations
+from typing import cast
 
 # Initialize experiment
 experiment = qxmt.Experiment(
@@ -126,10 +130,25 @@ config_path = "../configs/vqe_h2.yaml"
 artifact, result = experiment.run(config_source=config_path)
 
 # Access the results
-final_energy = result.metrics["final_cost"]
-hf_energy = result.metrics["hf_energy"]
+final_energy = cast(VQEEvaluations, result.evaluations).optimized["final_cost"]
+hf_energy = cast(VQEEvaluations, result.evaluations).optimized["hf_energy"]
+fci_energy = cast(VQEEvaluations, result.evaluations).optimized["fci_energy"]
 print(f"VQE Energy: {final_energy}")
 print(f"HF Energy: {hf_energy}")
+print(f"FCI Energy: {fci_energy}")
+# output
+# Optimizing ansatz with 3 parameters through 20 steps
+# Optimization finished. Final cost: -1.13622722
+# VQE Energy: -1.1362272195288956
+# HF Energy: -1.11675922817382
+# FCI Energy: -1.1372838216460408
+```
+
+```python
+experiment.runs_to_dataframe()
+# output
+#   run_id	final_cost	hf_energy	fci_energy
+# 0	1	-1.136227	-1.116759	-1.137284
 ```
 
 ## 4. Visualizing Optimization Progress
@@ -137,14 +156,22 @@ print(f"HF Energy: {hf_energy}")
 QXMT provides functionality to visualize the optimization progress during VQE calculations. You can plot the energy convergence as follows:
 
 ```python
-from qxmt.visualization import plot_optimization_progress
+from qxmt.visualization import plot_optimization_history
+from qxmt.models.vqe import BaseVQE
 
-# Plot the optimization progress
-plot_optimization_progress(
-    result=result,
+# Plot the optimization history
+plot_optimization_history(
+    cost_history=cast(BaseVQE, artifact.model).cost_history,
+    cost_label="VQE Energy",
+    baseline_cost=fci_energy,
+    baseline_label="FCI Energy",
+    y_label="Optimized Energy",
     save_path=experiment.experiment_dirc / f"run_{experiment.current_run_id}/optimization.png"
 )
 ```
+
+<img src="../../_static/images/tutorials/vqe/optimization_history.png" alt="history of optimization" title="history of optimization">
+
 
 This will generate a plot showing how the energy converges during the optimization process, helping you assess the quality of your VQE calculation.
 

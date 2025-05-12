@@ -44,6 +44,8 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/en/vqe_tutorial';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tool Reference" href="tool_reference.html" />
+    <link rel="prev" title="Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models" href="qkernel_mnist_custom.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -106,8 +108,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -149,7 +149,7 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../qxmt.html">QXMT reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -295,7 +295,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../qxmt.types.html">qxmt.types module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="qkernel_simple.html">Simple Case Using Only the Default Dataset and Quantum Kernel Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qkernel_mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Using the VQE Module for Quantum Chemistry Calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tool_reference.html">Tool Reference</a></li>
 </ul>
 </details></li>
@@ -633,11 +636,14 @@ document.write(`
 <span class="w">    </span><span class="nt">unit</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;angstrom&quot;</span>
 </pre></div>
 </div>
+<p>NOTE: Currently, the explicit mode does not support FCI energy evaluation.</p>
 </section>
 <section id="running-a-vqe-calculation">
 <h2>3. Running a VQE Calculation<a class="headerlink" href="#running-a-vqe-calculation" title="Link to this heading">#</a></h2>
 <p>To run a VQE calculation, you can use the same experiment framework as with quantum kernel models:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">qxmt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.experiment.schema</span><span class="w"> </span><span class="kn">import</span> <span class="n">VQEEvaluations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">cast</span>
 
 <span class="c1"># Initialize experiment</span>
 <span class="n">experiment</span> <span class="o">=</span> <span class="n">qxmt</span><span class="o">.</span><span class="n">Experiment</span><span class="p">(</span>
@@ -651,25 +657,45 @@ document.write(`
 <span class="n">artifact</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="n">experiment</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">config_source</span><span class="o">=</span><span class="n">config_path</span><span class="p">)</span>
 
 <span class="c1"># Access the results</span>
-<span class="n">final_energy</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;final_cost&quot;</span><span class="p">]</span>
-<span class="n">hf_energy</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;hf_energy&quot;</span><span class="p">]</span>
+<span class="n">final_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;final_cost&quot;</span><span class="p">]</span>
+<span class="n">hf_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;hf_energy&quot;</span><span class="p">]</span>
+<span class="n">fci_energy</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">VQEEvaluations</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">evaluations</span><span class="p">)</span><span class="o">.</span><span class="n">optimized</span><span class="p">[</span><span class="s2">&quot;fci_energy&quot;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;VQE Energy: </span><span class="si">{</span><span class="n">final_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HF Energy: </span><span class="si">{</span><span class="n">hf_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FCI Energy: </span><span class="si">{</span><span class="n">fci_energy</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># output</span>
+<span class="c1"># Optimizing ansatz with 3 parameters through 20 steps</span>
+<span class="c1"># Optimization finished. Final cost: -1.13622722</span>
+<span class="c1"># VQE Energy: -1.1362272195288956</span>
+<span class="c1"># HF Energy: -1.11675922817382</span>
+<span class="c1"># FCI Energy: -1.1372838216460408</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">experiment</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+<span class="c1"># output</span>
+<span class="c1">#   run_id	final_cost	hf_energy	fci_energy</span>
+<span class="c1"># 0	1	-1.136227	-1.116759	-1.137284</span>
 </pre></div>
 </div>
 </section>
 <section id="visualizing-optimization-progress">
 <h2>4. Visualizing Optimization Progress<a class="headerlink" href="#visualizing-optimization-progress" title="Link to this heading">#</a></h2>
 <p>QXMT provides functionality to visualize the optimization progress during VQE calculations. You can plot the energy convergence as follows:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_progress</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.visualization</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_optimization_history</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.models.vqe</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseVQE</span>
 
-<span class="c1"># Plot the optimization progress</span>
-<span class="n">plot_optimization_progress</span><span class="p">(</span>
-    <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">,</span>
+<span class="c1"># Plot the optimization history</span>
+<span class="n">plot_optimization_history</span><span class="p">(</span>
+    <span class="n">cost_history</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">BaseVQE</span><span class="p">,</span> <span class="n">artifact</span><span class="o">.</span><span class="n">model</span><span class="p">)</span><span class="o">.</span><span class="n">cost_history</span><span class="p">,</span>
+    <span class="n">cost_label</span><span class="o">=</span><span class="s2">&quot;VQE Energy&quot;</span><span class="p">,</span>
+    <span class="n">baseline_cost</span><span class="o">=</span><span class="n">fci_energy</span><span class="p">,</span>
+    <span class="n">baseline_label</span><span class="o">=</span><span class="s2">&quot;FCI Energy&quot;</span><span class="p">,</span>
+    <span class="n">y_label</span><span class="o">=</span><span class="s2">&quot;Optimized Energy&quot;</span><span class="p">,</span>
     <span class="n">save_path</span><span class="o">=</span><span class="n">experiment</span><span class="o">.</span><span class="n">experiment_dirc</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;run_</span><span class="si">{</span><span class="n">experiment</span><span class="o">.</span><span class="n">current_run_id</span><span class="si">}</span><span class="s2">/optimization.png&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
+<img src="../../_static/images/tutorials/vqe/optimization_history.png" alt="history of optimization" title="history of optimization">
 <p>This will generate a plot showing how the energy converges during the optimization process, helping you assess the quality of your VQE calculation.</p>
 <hr class="docutils" />
 <p><strong>Version Information</strong></p>
@@ -703,6 +729,24 @@ document.write(`
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="qkernel_mnist_custom.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="tool_reference.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tool Reference</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
