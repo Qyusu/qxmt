@@ -124,17 +124,6 @@ class MolecularHamiltonian(BaseHamiltonian):
         if str(self.bondlength) not in valid_bondlengths:
             raise ValueError(f"Invalid bondlength: {self.bondlength}. Valid bondlengths are {valid_bondlengths}")
 
-    def _exist_dataset_cache(self) -> bool:
-        """Check if the dataset is cached in PennyLane's dataset cache.
-
-        Returns:
-            bool: True if the dataset is cached, False otherwise.
-        """
-        datasets = qml.data.list_datasets()
-        cache_key = f"{DATA_MODULE_NAME}/{self.molname}/{self.basis_name}/{self.bondlength}"
-        cached_datasets = datasets.get(DATA_MODULE_NAME, {}).get("cache", [])
-        return cache_key in cached_datasets
-
     def _initialize_hamiltonian(self) -> None:
         """Initialize the molecular Hamiltonian.
 
@@ -149,10 +138,10 @@ class MolecularHamiltonian(BaseHamiltonian):
         init_type = self._determine_initialization_type()
         if init_type == InitializationType.DATASET:
             self._validate_bondlength()
-            if not self._exist_dataset_cache():
-                self._dataset = qml.data.load(
-                    DATA_MODULE_NAME, molname=self.molname, basis=self.basis_name, bondlength=self.bondlength
-                )
+            # force=False: if the dataset already exists, it will not be loaded again
+            self._dataset = qml.data.load(
+                DATA_MODULE_NAME, molname=self.molname, basis=self.basis_name, bondlength=self.bondlength, force=False
+            )
             self.molecule = self._dataset[0].molecule
         elif init_type == InitializationType.DIRECT_MOLECULE:
             self.molecule = qml.qchem.Molecule(
