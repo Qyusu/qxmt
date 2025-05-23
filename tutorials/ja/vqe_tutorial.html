@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>量子化学計算のためのVQEモジュールの使用方法 &#8212; qxmt 0.5.1 documentation</title>
+    <title>量子化学計算のためのVQEモジュールの使用方法 &#8212; qxmt 0.5.2 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=5f152624"></script>
+    <script src="../../_static/documentation_options.js?v=4861a642"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -131,7 +131,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.5.1 documentation</p>
+    <p class="title logo__title">qxmt 0.5.2 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -556,7 +556,12 @@ document.write(`
 <li><p><code class="docutils literal notranslate"><span class="pre">name</span></code>: VQEの種類（現在は”basic”のみ対応）</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">diff_method</span></code>: 最適化のための微分方法（例：”adjoint”）</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">optimizer_settings</span></code>: Optimizerの設定。Optimizerの種類は<code class="docutils literal notranslate"><span class="pre">name</span></code>の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: <a class="reference internal" href="tool_reference.html#63-optimizerの設定"><span class="std std-ref">6.3 Optimizerの設定</span></a>)。</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>: 最大繰り返し数などの追加パラメータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">params</span></code>:</p>
+<ul>
+<li><p>最大繰り返し数などの追加パラメータ</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">init_params</span></code>: パラメータの初期値を設定。”zero”, “random”, “custom”から選択。”custom”の場合は、<code class="docutils literal notranslate"><span class="pre">values</span></code>に値のリストを指定</p></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><p><strong>evaluation</strong>:</p>
@@ -610,6 +615,8 @@ document.write(`
 <span class="w">      </span><span class="nt">beta2</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.999</span>
 <span class="w">  </span><span class="nt">params</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">max_steps</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">20</span>
+<span class="w">    </span><span class="nt">init_params</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;zero&quot;</span>
 <span class="w">    </span><span class="nt">verbose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="nt">evaluation</span><span class="p">:</span>
@@ -705,10 +712,10 @@ document.write(`
 </thead>
 <tbody>
 <tr class="row-even"><td><p>ドキュメント</p></td>
-<td><p>2025/05/12</p></td>
+<td><p>2025/05/23</p></td>
 </tr>
 <tr class="row-odd"><td><p>QXMT</p></td>
-<td><p>v0.5.1</p></td>
+<td><p>v0.5.2</p></td>
 </tr>
 </tbody>
 </table>

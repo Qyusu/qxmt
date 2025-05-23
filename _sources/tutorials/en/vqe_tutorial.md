@@ -30,7 +30,10 @@ QXMT's VQE module requires specific configuration elements that differ from the 
   - `name`: Model implementation (currently "basic")
   - `diff_method`: Differentiation method for optimization (e.g., "adjoint")
   - `optimizer_settings`: Optimizer settings. The type of optimizer can be specified using the `name` value, which can be any optimizer available in PennyLane or SciPy (detailed in [6.3 Optimizer Settings](./tool_reference.md#63-optimizer-settings)).
-  - `params`: Additional parameters like maximum iterations
+  - `params`:
+    - Additional parameters like maximum iterations
+    - `init_params`: Set initial values for parameters. Choose from "zero", "random", or "custom". When "custom" is selected, specify a list of values in the `values` parameter.
+
 
 - **evaluation**:
   - `default_metrics`: Metrics like "final_cost" and "hf_energy"
@@ -81,6 +84,8 @@ model:
       beta2: 0.999
   params:
     max_steps: 20
+    init_params:
+      type: "zero"
     verbose: false
 
 evaluation:
@@ -180,5 +185,5 @@ This will generate a plot showing how the energy converges during the optimizati
 
 | Environment | Version |
 |----------|----------|
-| document | 2025/05/12 |
-| QXMT| v0.5.1 |
+| document | 2025/05/23 |
+| QXMT| v0.5.2 |
