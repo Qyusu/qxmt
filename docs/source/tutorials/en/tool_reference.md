@@ -465,5 +465,5 @@ For detailed information about each optimizer's parameters and behavior, please 
 
 | Environment | Version |
 |----------|----------|
-| document | 2025/05/12 |
-| QXMT| v0.5.1 |
+| document | 2025/05/23 |
+| QXMT| v0.5.2 |
