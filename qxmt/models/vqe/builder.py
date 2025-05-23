@@ -53,6 +53,7 @@ class VQEModelBuilder:
                     max_steps=self.config.model.params.get("max_steps", 20),
                     verbose=self.config.model.params.get("verbose", True),
                     optimizer_settings=self.config.model.optimizer_settings,
+                    init_params_config=self.config.model.params.get("init_params", None),
                 )
             case _:
                 raise InvalidModelNameError(f'"{self.config.model.name}" is not implemented.')
