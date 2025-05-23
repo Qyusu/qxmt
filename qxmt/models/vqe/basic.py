@@ -11,7 +11,7 @@ from qxmt.ansatze import BaseAnsatz
 from qxmt.devices import BaseDevice
 from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.logger import set_default_logger
-from qxmt.models.vqe.base import BaseVQE
+from qxmt.models.vqe.base import BaseVQE, OptimizerPlatform
 
 LOGGER = set_default_logger(__name__)
 
@@ -53,6 +53,7 @@ class BasicVQE(BaseVQE):
         tol: float = 1e-6,
         verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
+        init_params_config: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         super().__init__(
@@ -65,6 +66,7 @@ class BasicVQE(BaseVQE):
             tol=tol,
             verbose=verbose,
             optimizer_settings=optimizer_settings,
+            init_params_config=init_params_config,
             logger=logger,
         )
 
@@ -79,7 +81,7 @@ class BasicVQE(BaseVQE):
             ValueError: If the Hamiltonian is not a Sum instance.
         """
 
-        def circuit_with_measurement(params: qml.numpy.ndarray) -> ExpectationMP:
+        def circuit_with_measurement(params: qml.numpy.ndarray | np.ndarray) -> ExpectationMP:
             self.ansatz.circuit(params)
             if not isinstance(self.hamiltonian.hamiltonian, Sum):
                 raise ValueError("Hamiltonian must be a Sum instance.")
@@ -92,15 +94,12 @@ class BasicVQE(BaseVQE):
             diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
 
-    def _optimize_scipy(self, init_params: Optional[np.ndarray]) -> None:
+    def _optimize_scipy(self, init_params: np.ndarray) -> None:
         """Optimize the ansatz parameters using scipy.
 
         Args:
             init_params (np.ndarray): Initial parameters for the ansatz.
         """
-        if init_params is None:
-            init_params = np.zeros(self.ansatz.n_params)
-
         step_num = {"step": 0}
 
         def cost_function(params):
@@ -114,15 +113,12 @@ class BasicVQE(BaseVQE):
 
         self.optimizer(init_params, cost_function, tol=self.tol, options={"maxiter": self.max_steps})
 
-    def _optimize_pennylane(self, init_params: Optional[qml.numpy.ndarray]) -> None:
+    def _optimize_pennylane(self, init_params: qml.numpy.ndarray) -> None:
         """Optimize the ansatz parameters using Pennylane.
 
         Args:
             init_params (qml.numpy.ndarray): Initial parameters for the ansatz.
         """
-        if init_params is None:
-            init_params = qml.numpy.zeros(self.ansatz.n_params)
-
         params = init_params
         for i in range(self.max_steps):
             params, cost = self.optimizer.step_and_cost(self.qnode, params)
@@ -152,10 +148,13 @@ class BasicVQE(BaseVQE):
         self._set_optimizer()
         self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {self.max_steps} steps")
 
-        optimizer_name = self.optimizer_settings.get("name", "") if self.optimizer_settings else ""
-        if optimizer_name.startswith("scipy."):
+        if self.optimizer_platform == OptimizerPlatform.SCIPY:
+            if init_params is None:
+                init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
             self._optimize_scipy(init_params)
         else:
+            if init_params is None:
+                init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
             self._optimize_pennylane(init_params)
 
         self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")

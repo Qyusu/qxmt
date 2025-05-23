@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from enum import Enum
 from logging import Logger
 from typing import Any, Optional
 
@@ -13,6 +14,15 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 DEFAULT_OPTIMIZER_STEPSIZE = 0.5
+SCIPY_OPTIMIZER_PREFIX = "scipy."
+INIT_PARAMS_TYPE_ZEROS = "zeros"
+INIT_PARAMS_TYPE_RANDOM = "random"
+INIT_PARAMS_TYPE_CUSTOM = "custom"
+
+
+class OptimizerPlatform(Enum):
+    SCIPY = "scipy"
+    PENNYLANE = "pennylane"
 
 
 class BaseVQE(ABC):
@@ -51,6 +61,7 @@ class BaseVQE(ABC):
         tol: float = 1e-6,
         verbose: bool = True,
         optimizer_settings: Optional[dict[str, Any]] = None,
+        init_params_config: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         self.device = device
@@ -62,11 +73,13 @@ class BaseVQE(ABC):
         self.tol: float = tol
         self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
+        self.init_params_config: Optional[dict[str, Any]] = init_params_config
         self.logger: Logger = logger
         self.qnode: QNode
         self.optimizer: Any
         self.params_history: list[np.ndarray] = []
         self.cost_history: list[float] = []
+        self._set_optimizer_platform()
         self._initialize_qnode()
 
     @abstractmethod
@@ -98,6 +111,50 @@ class BaseVQE(ABC):
             during the optimization process.
         """
         pass
+
+    def _set_optimizer_platform(self) -> None:
+        """Set the optimizer platform based on the optimizer settings."""
+        optimizer_name = self.optimizer_settings.get("name", "") if self.optimizer_settings else ""
+        if optimizer_name.startswith(SCIPY_OPTIMIZER_PREFIX):
+            self.optimizer_platform = OptimizerPlatform.SCIPY
+        else:
+            self.optimizer_platform = OptimizerPlatform.PENNYLANE
+
+    def _parse_init_params(self, init_params_config: Optional[dict[str, Any]], n_params: int) -> np.ndarray:
+        """Parse the initial parameters based on the init_params_config.
+
+        Args:
+            init_params_config: Configuration for the initial parameters. If None, the default is zeros.
+            n_params: Number of parameters in the ansatz.
+
+        Returns:
+            Initial parameters for the ansatz.
+        """
+        if init_params_config is None or init_params_config.get("type") == INIT_PARAMS_TYPE_ZEROS:
+            return (
+                np.zeros(n_params)
+                if self.optimizer_platform == OptimizerPlatform.SCIPY
+                else qml.numpy.zeros(n_params, requires_grad=True)
+            )
+        elif init_params_config.get("type") == INIT_PARAMS_TYPE_RANDOM:
+            seed = init_params_config.get("random_seed", None)
+            rng = np.random.default_rng(seed)
+            return (
+                rng.random(n_params)
+                if self.optimizer_platform == OptimizerPlatform.SCIPY
+                else qml.numpy.random.rand(n_params, requires_grad=True)
+            )
+        elif init_params_config.get("type") == INIT_PARAMS_TYPE_CUSTOM:
+            values = init_params_config.get("values", None)
+            if values is None or len(values) != n_params:
+                raise ValueError("Custom init_params must provide a list of length n_params")
+            return (
+                np.array(values)
+                if self.optimizer_platform == OptimizerPlatform.SCIPY
+                else qml.numpy.array(values, requires_grad=True)
+            )
+        else:
+            raise ValueError(f"Unknown init_params type: {init_params_config.get('type')}")
 
     def is_optimized(self) -> bool:
         """Check if the optimization process has been completed.

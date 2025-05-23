@@ -30,7 +30,9 @@ QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定�
   - `name`: VQEの種類（現在は"basic"のみ対応）
   - `diff_method`: 最適化のための微分方法（例："adjoint"）
   - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: [6.3 Optimizerの設定](./tool_reference.md#63-optimizerの設定))。
-  - `params`: 最大繰り返し数などの追加パラメータ
+  - `params`:
+    - 最大繰り返し数などの追加パラメータ
+    - `init_params`: パラメータの初期値を設定。"zero", "random", "custom"から選択。"custom"の場合は、`values`に値のリストを指定
 
 - **evaluation**:
   - `default_metrics`: "final_cost"や"hf_energy"などの指標
@@ -81,6 +83,8 @@ model:
       beta2: 0.999
   params:
     max_steps: 20
+    init_params:
+      type: "zero"
     verbose: false
 
 evaluation:
@@ -179,5 +183,5 @@ plot_optimization_history(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/12 |
-| QXMT| v0.5.1 |
+| ドキュメント | 2025/05/23 |
+| QXMT| v0.5.2 |
