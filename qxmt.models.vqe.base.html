@@ -509,7 +509,7 @@ document.write(`
 <h1>qxmt.models.vqe.base module<a class="headerlink" href="#qxmt-models-vqe-base-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.vqe.base.</span></span><span class="sig-name descname"><span class="pre">BaseVQE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_method='adjoint'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_steps=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_steps=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol=1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_settings=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.vqe.base</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.vqe.base.</span></span><span class="sig-name descname"><span class="pre">BaseVQE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ansatz</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_method='adjoint'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_steps=100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_steps=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol=1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimizer_settings=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">init_params_config=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.models.vqe.base</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
 <p>Base class for Variational Quantum Eigensolver (VQE).</p>
 <p>This abstract base class provides the foundation for implementing VQE algorithms.
@@ -528,6 +528,7 @@ optimization history.</p>
 <li><p><strong>diff_method</strong> (<em>Literal</em><em>[</em><em>None</em><em>, </em><em>'best'</em><em>, </em><em>'device'</em><em>, </em><em>'backprop'</em><em>, </em><em>'adjoint'</em><em>, </em><em>'parameter-shift'</em><em>, </em><em>'hadamard'</em><em>, </em><em>'finite-diff'</em><em>, </em><em>'spsa'</em><em>] </em><em>| </em><em>None</em>) – Method to use for differentiation. Defaults to “adjoint”.</p></li>
 <li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Settings for the optimizer.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em>) – Logger object for output. Defaults to module-level logger.</p></li>
+<li><p><strong>init_params_config</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -594,6 +595,22 @@ with the optimizer.</p>
 during the optimization process.</p>
 </div>
 </dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.models.vqe.base.</span></span><span class="sig-name descname"><span class="pre">OptimizerPlatform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">PENNYLANE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'pennylane'</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">SCIPY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'scipy'</span></em></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
