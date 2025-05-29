@@ -11,7 +11,7 @@ from qxmt.constants import (
     AWS_DEFAULT_REGION,
     AWS_SECRET_ACCESS_KEY,
 )
-from qxmt.devices.base import BaseDevice, LOGGER
+from qxmt.logger import set_default_logger
 from qxmt.devices.amazon import (
     AMAZON_BRACKET_DEVICES,
     AMAZON_BRACKET_LOCAL_BACKENDS,
@@ -23,8 +23,10 @@ from qxmt.devices.amazon import (
 )
 from qxmt.exceptions import AmazonBraketSettingError
 
+LOGGER = set_default_logger(__name__)
 
-class AmazonBraketDevice(BaseDevice):
+
+class AmazonBraketDevice:
     """Amazon Braket device implementation for quantum computation.
     This class provides a concrete implementation of the BaseDevice for Amazon Braket.
     """
@@ -50,12 +52,18 @@ class AmazonBraketDevice(BaseDevice):
             random_seed (Optional[int]): random seed for the quantum device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        self.platform = platform
+        self.device_name = device_name
+        self.backend_name = backend_name
+        self.n_qubits = n_qubits
+        self.shots = shots
+        self.random_seed = random_seed
+        self.logger = logger
         self.aws_access_key_id = None
         self.aws_secret_access_key = None
         self.aws_default_region = None
 
-        if self.is_amazon_device(device_type="remote"):
+        if self.device_name in AMAZON_BRACKET_REMOTE_DEVICES:
             self._set_amazon_braket_settings()
 
     def _set_amazon_braket_settings(self) -> None:

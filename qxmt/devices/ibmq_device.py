@@ -7,12 +7,14 @@ from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
 from qxmt.constants import IBMQ_API_KEY
-from qxmt.devices.base import BaseDevice, LOGGER
+from qxmt.logger import set_default_logger
 from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME, IBMQ_REAL_DEVICES
 from qxmt.exceptions import IBMQSettingError
 
+LOGGER = set_default_logger(__name__)
 
-class IBMQDevice(BaseDevice):
+
+class IBMQDevice:
     """IBMQ device implementation for quantum computation.
     This class provides a concrete implementation of the BaseDevice for IBM Quantum.
     """
@@ -38,7 +40,13 @@ class IBMQDevice(BaseDevice):
             random_seed (Optional[int]): random seed for the quantum device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        self.platform = platform
+        self.device_name = device_name
+        self.backend_name = backend_name
+        self.n_qubits = n_qubits
+        self.shots = shots
+        self.random_seed = random_seed
+        self.logger = logger
         self.real_device = None
         self.ibm_api_key = None
         self._set_ibmq_settings()

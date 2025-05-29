@@ -1,4 +1,3 @@
-from abc import ABC, abstractmethod
 from datetime import datetime
 from logging import Logger
 from typing import Any, Literal, Optional
@@ -12,15 +11,19 @@ from qxmt.devices.amazon import (
     AMAZON_PROVIDER_NAME,
 )
 from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME, IBMQ_REAL_DEVICES
+from qxmt.exceptions import InvalidPlatformError
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
 
-class BaseDevice(ABC):
+class BaseDevice:
     """General-purpose device class for experiment.
     This class is abstracted to oversee multiple platforms.
     Provide a common interface within the QXMT library by absorbing differences between platforms.
+
+    This class maintains backward compatibility with the previous implementation
+    while delegating to the appropriate concrete implementation classes.
 
     Examples:
         >>> from qxmt.devices.base import BaseDevice
@@ -62,33 +65,43 @@ class BaseDevice(ABC):
         self.shots = shots
         self.random_seed = random_seed
         self.logger = logger
+        
+        if platform == "pennylane":
+            if device_name in IBMQ_REAL_DEVICES:
+                from qxmt.devices.ibmq_device import IBMQDevice
+                self._impl = IBMQDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+            elif device_name in AMAZON_BRAKET_DEVICES:
+                from qxmt.devices.amazon_device import AmazonBraketDevice
+                self._impl = AmazonBraketDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+            else:
+                from qxmt.devices.pennylane_device import PennyLaneDevice
+                self._impl = PennyLaneDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        else:
+            raise InvalidPlatformError(f'"{platform}" is not implemented.')
 
-    @abstractmethod
     def get_device(self) -> Any:
         """Get the quantum device instance.
 
         Returns:
             Any: quantum device instance
         """
-        pass
+        return self._impl.get_device()
 
-    @abstractmethod
     def is_simulator(self) -> bool:
         """Check if the device is a simulator or real machine.
 
         Returns:
             bool: True if the device is a simulator, False otherwise
         """
-        pass
+        return self._impl.is_simulator()
 
-    @abstractmethod
     def is_remote(self) -> bool:
         """Check if the device is a remote device.
 
         Returns:
             bool: True if the device is a remote device, False otherwise
         """
-        pass
+        return self._impl.is_remote()
 
     def get_provider(self) -> str:
         """Get real machine provider name.
@@ -96,7 +109,7 @@ class BaseDevice(ABC):
         Returns:
             str: provider name
         """
-        return ""
+        return self._impl.get_provider()
 
     def get_job_ids(
         self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
@@ -110,7 +123,7 @@ class BaseDevice(ABC):
         Returns:
             list[str]: job IDs
         """
-        return []
+        return self._impl.get_job_ids(created_after, created_before)
 
     def is_ibmq_device(self) -> bool:
         """Check if the device is an IBM Quantum device.

@@ -5,7 +5,7 @@ from typing import Any, Optional
 import numpy as np
 import pennylane as qml
 
-from qxmt.devices.base import BaseDevice, LOGGER
+from qxmt.logger import set_default_logger
 from qxmt.devices.amazon import (
     AMAZON_BRACKET_DEVICES,
     AMAZON_BRACKET_LOCAL_BACKENDS,
@@ -21,10 +21,12 @@ from qxmt.exceptions import (
     InvalidPlatformError,
 )
 
+LOGGER = set_default_logger(__name__)
 
-class PennyLaneDevice(BaseDevice):
+
+class PennyLaneDevice:
     """PennyLane device implementation for quantum computation.
-    This class provides a concrete implementation of the BaseDevice for PennyLane.
+    This class provides a concrete implementation for PennyLane devices.
     """
 
     def __init__(
@@ -48,7 +50,13 @@ class PennyLaneDevice(BaseDevice):
             random_seed (Optional[int]): random seed for the quantum device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        self.platform = platform
+        self.device_name = device_name
+        self.backend_name = backend_name
+        self.n_qubits = n_qubits
+        self.shots = shots
+        self.random_seed = random_seed
+        self.logger = logger
         self.real_device = None
 
     def get_device(self) -> Any:
@@ -79,3 +87,25 @@ class PennyLaneDevice(BaseDevice):
             bool: True if the device is a remote device, False otherwise
         """
         return False
+        
+    def get_provider(self) -> str:
+        """Get real machine provider name.
+
+        Returns:
+            str: provider name (empty for non-remote devices)
+        """
+        return ""
+
+    def get_job_ids(
+        self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
+    ) -> list[str]:
+        """Get the job IDs.
+
+        Args:
+            created_after (Optional[datetime]): created datetime of the jobs. If None, start time filter is not applied.
+            created_before (Optional[datetime]): finished datetime of the jobs. If None, end time filter is not applied.
+
+        Returns:
+            list[str]: job IDs (empty for non-remote devices)
+        """
+        return []
