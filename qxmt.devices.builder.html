@@ -509,10 +509,48 @@ document.write(`
 <h1>qxmt.devices.builder module<a class="headerlink" href="#qxmt-devices-builder-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.builder.</span></span><span class="sig-name descname"><span class="pre">DeviceBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.builder.</span></span><span class="sig-name descname"><span class="pre">DeviceBuilder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.builder</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Builder class for quantum devices.</p>
-<p class="rubric">Examples</p>
+<p>Builder class for quantum devices. This class abstracts the instantiation of quantum device objects
+across multiple platforms (e.g., PennyLane, IBMQ, Amazon Braket) based on a unified configuration.</p>
+<p>This builder enables users to create a device instance by simply providing a DeviceConfig, without
+worrying about the underlying platform-specific details.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>DeviceConfig</em>) – Configuration for the quantum device. This includes platform, device name,
+backend name, number of qubits, shots, and random seed.</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>) – Logger instance for logging.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BaseDevice</span></span></span></dt>
+<dd><p>Instantiates and returns a quantum device object corresponding to the specified platform and
+device name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>BaseDevice</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>An instance of a quantum device suitable for the specified platform and configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>BaseDevice</p>
+</dd>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>DeviceConfig</em>)</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceConfig</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceBuilder</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
@@ -526,18 +564,16 @@ document.write(`
 <span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
 </pre></div>
 </div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>DeviceConfig</em>)</p>
-</dd>
-</dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.builder</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Initialize the device builder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>DeviceConfig</em>) – Configuration for the quantum device. It is element of the ExperimentConfig.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>config</strong> (<em>DeviceConfig</em>) – Configuration for the quantum device. It is element of the ExperimentConfig.</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>)</p></li>
+</ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>None</p>
