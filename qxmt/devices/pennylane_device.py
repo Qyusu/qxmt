@@ -87,7 +87,7 @@ class PennyLaneDevice:
             bool: True if the device is a remote device, False otherwise
         """
         return False
-        
+
     def get_provider(self) -> str:
         """Get real machine provider name.
 
