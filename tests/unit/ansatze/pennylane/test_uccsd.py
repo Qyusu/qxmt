@@ -4,7 +4,7 @@ import pytest
 from pennylane.measurements import StateMP
 
 from qxmt.ansatze.pennylane.uccsd import UCCSDAnsatz
-from qxmt.devices.base import BaseDevice
+from qxmt.devices.pennylane_device import PennyLaneDevice
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 
 
@@ -23,7 +23,7 @@ class TestUCCSDAnsatz:
 
     @pytest.fixture(scope="function")
     def uccsd_ansatz(self, molecular_hamiltonian: MolecularHamiltonian) -> UCCSDAnsatz:
-        device = BaseDevice(
+        device = PennyLaneDevice(
             platform="pennylane",
             device_name="default.qubit",
             backend_name=None,

@@ -3,11 +3,11 @@ from enum import Enum
 from braket.devices import Devices
 
 AMAZON_PROVIDER_NAME = "Amazon_Braket"
-AMAZON_BRACKET_DEVICES = ["braket.local.qubit"]
-AMAZON_BRACKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
-AMAZON_BRACKET_REMOTE_DEVICES = ["braket.aws.qubit"]
-AMAZON_BRAKET_DEVICES = AMAZON_BRACKET_DEVICES + AMAZON_BRACKET_REMOTE_DEVICES
-AMAZON_BRAKET_SIMULATOR_BACKENDS = AMAZON_BRACKET_LOCAL_BACKENDS + ["sv1", "dm1", "tn1"]
+AMAZON_BRAKET_LOCAL_DEVICES = ["braket.local.qubit"]
+AMAZON_BRAKET_LOCAL_BACKENDS = ["default", "braket_sv", "braket_dm", "braket_ahs"]
+AMAZON_BRAKET_REMOTE_DEVICES = ["braket.aws.qubit"]
+AMAZON_BRAKET_DEVICES = AMAZON_BRAKET_LOCAL_DEVICES + AMAZON_BRAKET_REMOTE_DEVICES
+AMAZON_BRAKET_SIMULATOR_BACKENDS = AMAZON_BRAKET_LOCAL_BACKENDS + ["sv1", "dm1", "tn1"]
 
 
 class AmazonBackendType(Enum):

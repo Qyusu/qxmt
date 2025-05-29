@@ -1,8 +1,11 @@
 from qxmt.devices import __all__
 
 EXPECTED_ALL = [
-    "DeviceBuilder",
+    "AmazonBraketDevice",
     "BaseDevice",
+    "DeviceBuilder",
+    "IBMQDevice",
+    "PennyLaneDevice",
     "get_number_of_qubits",
     "get_platform_from_device",
 ]
