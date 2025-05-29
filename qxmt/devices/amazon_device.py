@@ -11,7 +11,7 @@ from qxmt.constants import (
     AWS_DEFAULT_REGION,
     AWS_SECRET_ACCESS_KEY,
 )
-from qxmt.devices.abstract_device import AbstractDevice, LOGGER
+from qxmt.devices.base import BaseDevice, LOGGER
 from qxmt.devices.amazon import (
     AMAZON_BRACKET_DEVICES,
     AMAZON_BRACKET_LOCAL_BACKENDS,
@@ -24,9 +24,9 @@ from qxmt.devices.amazon import (
 from qxmt.exceptions import AmazonBraketSettingError
 
 
-class AmazonBraketDevice(AbstractDevice):
+class AmazonBraketDevice(BaseDevice):
     """Amazon Braket device implementation for quantum computation.
-    This class provides a concrete implementation of the AbstractDevice for Amazon Braket.
+    This class provides a concrete implementation of the BaseDevice for Amazon Braket.
     """
 
     def __init__(
@@ -171,22 +171,6 @@ class AmazonBraketDevice(AbstractDevice):
             bool: True if the device is a remote device, False otherwise
         """
         return self.device_name in AMAZON_BRACKET_REMOTE_DEVICES
-
-    def is_amazon_device(self, device_type: Literal["local", "remote", "all"] = "all") -> bool:
-        """Check if the device is an Amazon Braket device.
-
-        Args:
-            device_type (Literal["local", "remote", "all"]): type of Amazon Braket device
-
-        Returns:
-            bool: True if the device is an Amazon Braket device, False otherwise
-        """
-        if device_type == "local":
-            return self.device_name in AMAZON_BRACKET_LOCAL_BACKENDS
-        elif device_type == "remote":
-            return self.device_name in AMAZON_BRACKET_REMOTE_DEVICES
-        elif device_type == "all":
-            return self.device_name in AMAZON_BRAKET_DEVICES
 
     def get_provider(self) -> str:
         """Get real machine provider name.

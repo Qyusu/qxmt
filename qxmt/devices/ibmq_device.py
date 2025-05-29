@@ -7,14 +7,14 @@ from qiskit.providers.backend import BackendV2
 from qiskit_ibm_runtime import IBMBackend, QiskitRuntimeService
 
 from qxmt.constants import IBMQ_API_KEY
-from qxmt.devices.abstract_device import AbstractDevice, LOGGER
+from qxmt.devices.base import BaseDevice, LOGGER
 from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME, IBMQ_REAL_DEVICES
 from qxmt.exceptions import IBMQSettingError
 
 
-class IBMQDevice(AbstractDevice):
+class IBMQDevice(BaseDevice):
     """IBMQ device implementation for quantum computation.
-    This class provides a concrete implementation of the AbstractDevice for IBM Quantum.
+    This class provides a concrete implementation of the BaseDevice for IBM Quantum.
     """
 
     def __init__(
