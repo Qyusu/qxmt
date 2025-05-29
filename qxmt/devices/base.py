@@ -65,16 +65,21 @@ class BaseDevice:
         self.shots = shots
         self.random_seed = random_seed
         self.logger = logger
-        
+
         if platform == "pennylane":
             if device_name in IBMQ_REAL_DEVICES:
                 from qxmt.devices.ibmq_device import IBMQDevice
+
                 self._impl = IBMQDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
             elif device_name in AMAZON_BRAKET_DEVICES:
                 from qxmt.devices.amazon_device import AmazonBraketDevice
-                self._impl = AmazonBraketDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+
+                self._impl = AmazonBraketDevice(
+                    platform, device_name, backend_name, n_qubits, shots, random_seed, logger
+                )
             else:
                 from qxmt.devices.pennylane_device import PennyLaneDevice
+
                 self._impl = PennyLaneDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
         else:
             raise InvalidPlatformError(f'"{platform}" is not implemented.')
@@ -149,12 +154,72 @@ class BaseDevice:
         elif device_type == "all":
             return self.device_name in AMAZON_BRAKET_DEVICES
 
+    def _get_amazon_local_simulator_by_pennylane(self) -> Any:
+        """Get Amazon Braket local simulator by PennyLane.
+
+        Returns:
+            Any: quantum device instance for Amazon Braket local simulator
+        """
+        if not self.is_amazon_device(device_type="local"):
+            raise ValueError("This method is only available for Amazon Braket local simulator devices.")
+
+        return (
+            self._impl._get_amazon_local_simulator_by_pennylane()
+            if hasattr(self._impl, "_get_amazon_local_simulator_by_pennylane")
+            else None
+        )
+
+    def _get_amazon_remote_device_by_pennylane(self) -> Any:
+        """Get Amazon Braket remote device by PennyLane.
+
+        Returns:
+            Any: quantum device instance for Amazon Braket remote device
+        """
+        if not self.is_amazon_device(device_type="remote"):
+            raise ValueError("This method is only available for Amazon Braket remote devices.")
+
+        return (
+            self._impl._get_amazon_remote_device_by_pennylane()
+            if hasattr(self._impl, "_get_amazon_remote_device_by_pennylane")
+            else None
+        )
+
+    def get_service(self) -> Any:
+        """Get the IBM Quantum service.
+
+        Returns:
+            Any: IBM Quantum service
+
+        Raises:
+            ValueError: This method is only available for IBM Quantum devices
+        """
+        if not self.is_ibmq_device():
+            raise ValueError("This method is only available for IBM Quantum devices.")
+
+        return self._impl.get_service() if hasattr(self._impl, "get_service") else None
+
+    def get_backend(self) -> Any:
+        """Get the IBM Quantum real device backend.
+
+        Returns:
+            Any: IBM Quantum real device backend
+
+        Raises:
+            ValueError: This method is only available for IBM Quantum devices
+        """
+        if not self.is_ibmq_device():
+            raise ValueError("This method is only available for IBM Quantum devices.")
+
+        return self._impl.get_backend() if hasattr(self._impl, "get_backend") else None
+
     def get_backend_name(self) -> str:
         """Get the real or remote backend name.
 
         Returns:
             str: backend name
         """
-        if self.backend_name is None:
+        if hasattr(self._impl, "get_backend_name"):
+            return self._impl.get_backend_name()
+        elif self.backend_name is None:
             raise ValueError("The backend name is not set.")
         return self.backend_name
