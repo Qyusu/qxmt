@@ -5,11 +5,12 @@ import pennylane as qml
 import pytest
 
 from qxmt.devices.base import BaseDevice
+from qxmt.devices.pennylane_device import PennyLaneDevice
 from qxmt.kernels import BaseKernel
 from qxmt.models.qkernels import QSVC, QSVR, QRiggeRegressor
 
 # [TODO]: add test for state vector device
-DEVICE = BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=1024)
+DEVICE = PennyLaneDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=1024)
 
 
 def empty_feature_map(x: np.ndarray) -> None:
