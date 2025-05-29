@@ -5,6 +5,7 @@ import pennylane as qml
 import pytest
 
 from qxmt.devices.base import BaseDevice
+from qxmt.devices.pennylane_device import PennyLaneDevice
 from qxmt.kernels.pennylane import ProjectedKernel
 
 
@@ -16,7 +17,7 @@ def encode_x_feature_map(x: np.ndarray) -> None:
 
 @pytest.fixture(scope="function")
 def device() -> BaseDevice:
-    return BaseDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
+    return PennyLaneDevice(platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=2, shots=None)
 
 
 class TestProjectedKernel:

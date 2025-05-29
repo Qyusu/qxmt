@@ -5,18 +5,19 @@ import numpy as np
 import pytest
 
 from qxmt.devices.base import BaseDevice
+from qxmt.devices.pennylane_device import PennyLaneDevice
 from qxmt.exceptions import DeviceSettingError
 from qxmt.kernels import BaseKernel
 
 N_QUBITS = 2
 SHOTS = 5
-STATE_VECTOR_DEVICE = BaseDevice(
+STATE_VECTOR_DEVICE = PennyLaneDevice(
     platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=N_QUBITS, shots=None
 )
-SAMPLING_DEVICE = BaseDevice(
+SAMPLING_DEVICE = PennyLaneDevice(
     platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=N_QUBITS, shots=SHOTS
 )
-MULTI_QUBITS_DEVICE = BaseDevice(
+MULTI_QUBITS_DEVICE = PennyLaneDevice(
     platform="pennylane", device_name="default.qubit", backend_name=None, n_qubits=5, shots=SHOTS
 )
 
