@@ -1,32 +1,27 @@
 import os
 from datetime import datetime, timezone
-from typing import Any, Literal, Optional
+from typing import Any, Optional
 
 import boto3
 import pennylane as qml
 from braket.aws import AwsDevice
 
-from qxmt.constants import (
-    AWS_ACCESS_KEY_ID,
-    AWS_DEFAULT_REGION,
-    AWS_SECRET_ACCESS_KEY,
-)
-from qxmt.logger import set_default_logger
+from qxmt.constants import AWS_ACCESS_KEY_ID, AWS_DEFAULT_REGION, AWS_SECRET_ACCESS_KEY
 from qxmt.devices.amazon import (
-    AMAZON_BRACKET_DEVICES,
-    AMAZON_BRACKET_LOCAL_BACKENDS,
-    AMAZON_BRACKET_REMOTE_DEVICES,
-    AMAZON_BRAKET_DEVICES,
+    AMAZON_BRAKET_LOCAL_BACKENDS,
+    AMAZON_BRAKET_REMOTE_DEVICES,
     AMAZON_BRAKET_SIMULATOR_BACKENDS,
     AMAZON_PROVIDER_NAME,
     AmazonBackendType,
 )
+from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import AmazonBraketSettingError
+from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
 
-class AmazonBraketDevice:
+class AmazonBraketDevice(BaseDevice):
     """Amazon Braket device implementation for quantum computation.
     This class provides a concrete implementation of the BaseDevice for Amazon Braket.
     """
@@ -52,18 +47,12 @@ class AmazonBraketDevice:
             random_seed (Optional[int]): random seed for the quantum device
             logger (Any): logger instance
         """
-        self.platform = platform
-        self.device_name = device_name
-        self.backend_name = backend_name
-        self.n_qubits = n_qubits
-        self.shots = shots
-        self.random_seed = random_seed
-        self.logger = logger
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
         self.aws_access_key_id = None
         self.aws_secret_access_key = None
         self.aws_default_region = None
 
-        if self.device_name in AMAZON_BRACKET_REMOTE_DEVICES:
+        if self.device_name in AMAZON_BRAKET_REMOTE_DEVICES:
             self._set_amazon_braket_settings()
 
     def _set_amazon_braket_settings(self) -> None:
@@ -114,10 +103,11 @@ class AmazonBraketDevice:
             Any: quantum device instance for Amazon Braket local simulator
         """
         if self.backend_name is None:
-            self.logger.info("Backend name is not provided. Select the state vector backend.")
-            self.backend_name = "braket_sv"
+            raise AmazonBraketSettingError(
+                f"Amazon Braket device needs the backend name. Please select in {AMAZON_BRAKET_LOCAL_BACKENDS}."
+            )
 
-        if self.backend_name not in AMAZON_BRACKET_LOCAL_BACKENDS:
+        if self.backend_name not in AMAZON_BRAKET_LOCAL_BACKENDS:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket local simulator.')
 
         return qml.device(
@@ -157,9 +147,9 @@ class AmazonBraketDevice:
         Returns:
             Any: quantum device instance
         """
-        if self.device_name in AMAZON_BRACKET_LOCAL_BACKENDS:
+        if self.device_name in AMAZON_BRAKET_LOCAL_BACKENDS:
             return self._get_amazon_local_simulator_by_pennylane()
-        elif self.device_name in AMAZON_BRACKET_REMOTE_DEVICES:
+        elif self.device_name in AMAZON_BRAKET_REMOTE_DEVICES:
             return self._get_amazon_remote_device_by_pennylane()
         else:
             raise AmazonBraketSettingError(f'"{self.device_name}" is not supported Amazon Braket device.')
@@ -178,7 +168,7 @@ class AmazonBraketDevice:
         Returns:
             bool: True if the device is a remote device, False otherwise
         """
-        return self.device_name in AMAZON_BRACKET_REMOTE_DEVICES
+        return self.device_name in AMAZON_BRAKET_REMOTE_DEVICES
 
     def get_provider(self) -> str:
         """Get real machine provider name.

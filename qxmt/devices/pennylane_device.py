@@ -1,30 +1,16 @@
-import os
 from datetime import datetime
 from typing import Any, Optional
 
 import numpy as np
 import pennylane as qml
 
+from qxmt.devices.base import BaseDevice
 from qxmt.logger import set_default_logger
-from qxmt.devices.amazon import (
-    AMAZON_BRACKET_DEVICES,
-    AMAZON_BRACKET_LOCAL_BACKENDS,
-    AMAZON_BRACKET_REMOTE_DEVICES,
-    AMAZON_BRAKET_DEVICES,
-    AMAZON_BRAKET_SIMULATOR_BACKENDS,
-    AMAZON_PROVIDER_NAME,
-)
-from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME, IBMQ_REAL_DEVICES
-from qxmt.exceptions import (
-    AmazonBraketSettingError,
-    IBMQSettingError,
-    InvalidPlatformError,
-)
 
 LOGGER = set_default_logger(__name__)
 
 
-class PennyLaneDevice:
+class PennyLaneDevice(BaseDevice):
     """PennyLane device implementation for quantum computation.
     This class provides a concrete implementation for PennyLane devices.
     """
@@ -50,13 +36,7 @@ class PennyLaneDevice:
             random_seed (Optional[int]): random seed for the quantum device
             logger (Any): logger instance
         """
-        self.platform = platform
-        self.device_name = device_name
-        self.backend_name = backend_name
-        self.n_qubits = n_qubits
-        self.shots = shots
-        self.random_seed = random_seed
-        self.logger = logger
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
         self.real_device = None
 
     def get_device(self) -> Any:
