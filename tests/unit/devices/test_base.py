@@ -112,7 +112,6 @@ class TestBaseDeviceMethod:
         else:
             assert device.random_seed == random_seed
 
-        self.real_device = None
 
     def test_get_device(self, mocker: MockFixture) -> None:
         # [TODO]: Implement this test
@@ -156,8 +155,8 @@ class TestIBMQProperty:
         mock_real_device.service = mock_service
         mock_real_device.backend = mock_backend
 
-        # set mock on real_device
-        ibmq_real_device.real_device = mock_real_device
+        # set mock on real_device through the implementation
+        ibmq_real_device._impl.real_device = mock_real_device
 
         service = ibmq_real_device.get_service()
         assert service == mock_service
@@ -176,13 +175,13 @@ class TestIBMQProperty:
         mock_real_device = mocker.Mock()
         mock_real_device.backend = mock_backend
 
-        # Error case: befor setting real_device
+        # Error case: before setting real_device
         with pytest.raises(IBMQSettingError) as exc_info:
             ibmq_real_device.get_backend()
-        assert 'The device ("qiskit.remote") is not set.' in str(exc_info.value)
+        assert 'The real device ("qiskit.remote") is not set.' in str(exc_info.value)
 
         # Pass case: after setting real_device
-        ibmq_real_device.real_device = mock_real_device
+        ibmq_real_device._impl.real_device = mock_real_device
         backend = ibmq_real_device.get_backend()
         assert backend == mock_backend
 
@@ -200,7 +199,7 @@ class TestIBMQProperty:
         mock_real_device = mocker.Mock()
         mock_real_device.backend = mock_backend
 
-        ibmq_real_device.real_device = mock_real_device
+        ibmq_real_device._impl.real_device = mock_real_device
         backend_name = ibmq_real_device.get_backend_name()
         assert backend_name == "ibmq_test_backend"
 
@@ -218,7 +217,7 @@ class TestIBMQProperty:
             mocker.Mock(job_id=lambda: "job2"),
         ]
 
-        ibmq_real_device.real_device = mock_real_device
+        ibmq_real_device._impl.real_device = mock_real_device
 
         job_ids = ibmq_real_device.get_job_ids(created_after=None, created_before=None)
         assert job_ids == ["job1", "job2"]
@@ -226,15 +225,20 @@ class TestIBMQProperty:
 
 class TestAmazonProperty:
     def test_get_amazon_local_simulator_by_pennylane(self, amazon_local_simulator_device: BaseDevice) -> None:
+        device_with_unsupported_backend = BaseDevice(
+            platform="pennylane",
+            device_name="braket.local.qubit",
+            backend_name="not_supported",
+            n_qubits=5,
+            shots=1024,
+        )
+        
+        from qxmt.devices.amazon_device import AmazonBraketDevice
+        amazon_impl = device_with_unsupported_backend._impl
+        
         # Error case: backend_name is not supported
         with pytest.raises(AmazonBraketSettingError) as exc_info:
-            BaseDevice(
-                platform="pennylane",
-                device_name="braket.local.qubit",
-                backend_name="not_supported",
-                n_qubits=5,
-                shots=1024,
-            )._get_amazon_local_simulator_by_pennylane()
+            amazon_impl._get_amazon_local_simulator_by_pennylane()
 
         assert '"not_supported" is not supported Amazon Braket local simulator.' in str(exc_info.value)
 
@@ -246,8 +250,9 @@ class TestAmazonProperty:
             n_qubits=5,
             shots=1024,
         )
-        device._get_amazon_local_simulator_by_pennylane()
-        assert device.backend_name == "braket_sv"
+        amazon_impl = device._impl
+        amazon_impl._get_amazon_local_simulator_by_pennylane()
+        assert amazon_impl.backend_name == "braket_sv"
 
         # Pass case: backend_name is supported
         assert amazon_local_simulator_device.backend_name == "braket_sv"
@@ -255,27 +260,36 @@ class TestAmazonProperty:
     def test_get_amazon_remote_device_by_pennylane(
         self, amazon_remote_simulator_device: BaseDevice, amazon_remote_real_device: BaseDevice
     ) -> None:
+        device_with_no_backend = BaseDevice(
+            platform="pennylane",
+            device_name="braket.aws.qubit",
+            backend_name=None,
+            n_qubits=5,
+            shots=1024,
+        )
+        
+        from qxmt.devices.amazon_device import AmazonBraketDevice
+        amazon_impl = device_with_no_backend._impl
+        
         # Error case: backend_name is None
         with pytest.raises(AmazonBraketSettingError) as exc_info:
-            BaseDevice(
-                platform="pennylane",
-                device_name="braket.aws.qubit",
-                backend_name=None,
-                n_qubits=5,
-                shots=1024,
-            )._get_amazon_remote_device_by_pennylane()
+            amazon_impl._get_amazon_remote_device_by_pennylane()
 
         assert "Amazon Braket device needs the backend name." in str(exc_info.value)
 
+        device_with_unsupported_backend = BaseDevice(
+            platform="pennylane",
+            device_name="braket.aws.qubit",
+            backend_name="not_supported",
+            n_qubits=5,
+            shots=1024,
+        )
+        
+        amazon_impl = device_with_unsupported_backend._impl
+        
         # Error case: backend_name is not supported
         with pytest.raises(AmazonBraketSettingError) as exc_info:
-            BaseDevice(
-                platform="pennylane",
-                device_name="braket.aws.qubit",
-                backend_name="not_supported",
-                n_qubits=5,
-                shots=1024,
-            )._get_amazon_remote_device_by_pennylane()
+            amazon_impl._get_amazon_remote_device_by_pennylane()
 
         assert '"not_supported" is not supported Amazon Braket device.' in str(exc_info.value)
 
