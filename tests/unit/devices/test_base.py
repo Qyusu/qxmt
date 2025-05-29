@@ -112,7 +112,6 @@ class TestBaseDeviceMethod:
         else:
             assert device.random_seed == random_seed
 
-
     def test_get_device(self, mocker: MockFixture) -> None:
         # [TODO]: Implement this test
         pass
@@ -232,10 +231,11 @@ class TestAmazonProperty:
             n_qubits=5,
             shots=1024,
         )
-        
+
         from qxmt.devices.amazon_device import AmazonBraketDevice
+
         amazon_impl = device_with_unsupported_backend._impl
-        
+
         # Error case: backend_name is not supported
         with pytest.raises(AmazonBraketSettingError) as exc_info:
             amazon_impl._get_amazon_local_simulator_by_pennylane()
@@ -267,10 +267,11 @@ class TestAmazonProperty:
             n_qubits=5,
             shots=1024,
         )
-        
+
         from qxmt.devices.amazon_device import AmazonBraketDevice
+
         amazon_impl = device_with_no_backend._impl
-        
+
         # Error case: backend_name is None
         with pytest.raises(AmazonBraketSettingError) as exc_info:
             amazon_impl._get_amazon_remote_device_by_pennylane()
@@ -284,9 +285,9 @@ class TestAmazonProperty:
             n_qubits=5,
             shots=1024,
         )
-        
+
         amazon_impl = device_with_unsupported_backend._impl
-        
+
         # Error case: backend_name is not supported
         with pytest.raises(AmazonBraketSettingError) as exc_info:
             amazon_impl._get_amazon_remote_device_by_pennylane()
