@@ -15,8 +15,6 @@ from qxmt.models.vqe.base import BaseVQE, OptimizerPlatform
 
 LOGGER = set_default_logger(__name__)
 
-DEFAULT_STEPSIZE = 0.5
-
 
 class BasicVQE(BaseVQE):
     """Basic implementation of the Variational Quantum Eigensolver (VQE).
@@ -104,14 +102,21 @@ class BasicVQE(BaseVQE):
 
         def cost_function(params):
             cost = self.qnode(params)
+            return float(cost)
+
+        def callback(params):
+            cost = self.qnode(params)
             self.cost_history.append(float(cost))
             self.params_history.append(params.copy())
             step_num["step"] += 1
             if self.verbose:
                 self.logger.info(f"Step {step_num['step']}: Cost = {cost}")
-            return float(cost)
 
-        self.optimizer(init_params, cost_function, tol=self.tol, options={"maxiter": self.max_steps})
+        self.optimizer(
+            init_params,
+            cost_function,
+            callback=callback,
+        )
 
     def _optimize_pennylane(self, init_params: qml.numpy.ndarray) -> None:
         """Optimize the ansatz parameters using Pennylane.

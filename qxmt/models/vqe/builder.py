@@ -51,6 +51,8 @@ class VQEModelBuilder:
                     ansatz=self.ansatz,
                     diff_method=cast(SupportedDiffMethods, self.config.model.diff_method),
                     max_steps=self.config.model.params.get("max_steps", 20),
+                    min_steps=self.config.model.params.get("min_steps", None),
+                    tol=self.config.model.params.get("tol", 1e-6),
                     verbose=self.config.model.params.get("verbose", True),
                     optimizer_settings=self.config.model.optimizer_settings,
                     init_params_config=self.config.model.params.get("init_params", None),

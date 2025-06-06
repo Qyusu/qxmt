@@ -1,21 +1,19 @@
-from abc import ABC, abstractmethod
 from datetime import datetime
-from logging import Logger
-from typing import Any, Literal, Optional
+from typing import Any, Optional
 
-from qxmt.devices.amazon import (
-    AMAZON_BRAKET_DEVICES,
-    AMAZON_BRAKET_LOCAL_DEVICES,
-    AMAZON_BRAKET_REMOTE_DEVICES,
-)
-from qxmt.devices.ibmq import IBMQ_REAL_DEVICES
+import numpy as np
+import pennylane as qml
+
+from qxmt.devices.base import BaseDevice
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
 
-class BaseDevice(ABC):
-    """Abstract base class for quantum devices."""
+class PennyLaneDevice(BaseDevice):
+    """PennyLane device implementation for quantum computation.
+    This class provides a concrete implementation for PennyLane devices.
+    """
 
     def __init__(
         self,
@@ -25,9 +23,9 @@ class BaseDevice(ABC):
         n_qubits: int,
         shots: Optional[int],
         random_seed: Optional[int] = None,
-        logger: Logger = LOGGER,
+        logger: Any = LOGGER,
     ) -> None:
-        """Initialize the quantum device.
+        """Initialize the PennyLane device.
 
         Args:
             platform (str): platform name (ex: pennylane, qulacs, etc.)
@@ -36,53 +34,48 @@ class BaseDevice(ABC):
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
             random_seed (Optional[int]): random seed for the quantum device
-            logger (Logger): logger instance
+            logger (Any): logger instance
         """
-        self.platform = platform
-        self.device_name = device_name
-        self.backend_name = backend_name
-        self.n_qubits = n_qubits
-        self.shots = shots
-        self.random_seed = random_seed
-        self.logger = logger
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        self.real_device = None
 
-    @abstractmethod
     def get_device(self) -> Any:
         """Get the quantum device instance.
 
         Returns:
             Any: quantum device instance
         """
-        pass
+        return qml.device(
+            name=self.device_name,
+            wires=self.n_qubits,
+            shots=self.shots,
+            seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
+        )
 
-    @abstractmethod
     def is_simulator(self) -> bool:
         """Check if the device is a simulator or real machine.
 
         Returns:
             bool: True if the device is a simulator, False otherwise
         """
-        pass
+        return True
 
-    @abstractmethod
     def is_remote(self) -> bool:
         """Check if the device is a remote device.
 
         Returns:
             bool: True if the device is a remote device, False otherwise
         """
-        pass
+        return False
 
-    @abstractmethod
     def get_provider(self) -> str:
         """Get real machine provider name.
 
         Returns:
-            str: provider name
+            str: provider name (empty for non-remote devices)
         """
-        pass
+        return ""
 
-    @abstractmethod
     def get_job_ids(
         self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
     ) -> list[str]:
@@ -93,30 +86,6 @@ class BaseDevice(ABC):
             created_before (Optional[datetime]): finished datetime of the jobs. If None, end time filter is not applied.
 
         Returns:
-            list[str]: job IDs
+            list[str]: job IDs (empty for non-remote devices)
         """
-        pass
-
-    def is_ibmq_device(self) -> bool:
-        """Check if the device is an IBM Quantum device.
-
-        Returns:
-            bool: True if the device is an IBM Quantum device, False otherwise
-        """
-        return self.device_name in IBMQ_REAL_DEVICES
-
-    def is_amazon_device(self, device_type: Literal["local", "remote", "all"] = "all") -> bool:
-        """Check if the device is an Amazon Braket device.
-
-        Args:
-            device_type (Literal["local", "remote", "all"]): type of Amazon Braket device
-
-        Returns:
-            bool: True if the device is an Amazon Braket device, False otherwise
-        """
-        if device_type == "local":
-            return self.device_name in AMAZON_BRAKET_LOCAL_DEVICES
-        elif device_type == "remote":
-            return self.device_name in AMAZON_BRAKET_REMOTE_DEVICES
-        elif device_type == "all":
-            return self.device_name in AMAZON_BRAKET_DEVICES
+        return []
