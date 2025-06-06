@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.datasets.openml.loader module &#8212; qxmt 0.5.3 documentation</title>
+    <title>qxmt.devices.pennylane_device module &#8212; qxmt 0.5.3 documentation</title>
   
   
   
@@ -41,11 +41,11 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.datasets.openml.loader';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.devices.pennylane_device';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="qxmt.datasets.generate package" href="qxmt.datasets.generate.html" />
-    <link rel="prev" title="qxmt.datasets.openml package" href="qxmt.datasets.openml.html" />
+    <link rel="next" title="qxmt.devices.builder module" href="qxmt.devices.builder.html" />
+    <link rel="prev" title="qxmt.devices.ibmq_device module" href="qxmt.devices.ibmq_device.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,9 +160,9 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.builder.html">qxmt.ansatze.builder module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l3 current active has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l4 current active"><a class="current reference internal" href="#">qxmt.datasets.openml.loader module</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -188,13 +188,13 @@
 <li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.schema.html">qxmt.datasets.schema module</a></li>
 </ul>
 </details></li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.devices.html">qxmt.devices package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.devices.html">qxmt.devices package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.base.html">qxmt.devices.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.amazon.html">qxmt.devices.amazon module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.amazon_device.html">qxmt.devices.amazon_device module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.ibmq.html">qxmt.devices.ibmq module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.ibmq_device.html">qxmt.devices.ibmq_device module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.pennylane_device.html">qxmt.devices.pennylane_device module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">qxmt.devices.pennylane_device module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.builder.html">qxmt.devices.builder module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.devices.device_info.html">qxmt.devices.device_info module</a></li>
 </ul>
@@ -374,7 +374,7 @@
       
       
       
-      <li><a href="_sources/qxmt.datasets.openml.loader.rst" target="_blank"
+      <li><a href="_sources/qxmt.devices.pennylane_device.rst" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -456,7 +456,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>qxmt.datasets.openml.loader module</h1>
+    <h1>qxmt.devices.pennylane_device module</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -508,64 +508,41 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="qxmt-datasets-openml-loader-module">
-<h1>qxmt.datasets.openml.loader module<a class="headerlink" href="#qxmt-datasets-openml-loader-module" title="Link to this heading">#</a></h1>
+  <section id="qxmt-devices-pennylane-device-module">
+<h1>qxmt.devices.pennylane_device module<a class="headerlink" href="#qxmt-devices-pennylane-device-module" title="Link to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.openml.loader.</span></span><span class="sig-name descname"><span class="pre">OpenMLDataLoader</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_format='numpy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.openml.loader</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>This class loads a dataset from OpenML (<a class="reference external" href="https://www.openml.org/">https://www.openml.org/</a>) and converts it to the specified return format.
-OpenML is an online platform for sharing datasets and machine learning experiments.
-Identifier of the dataset can be specified by the dataset name or ID.
-If the name is specified, search the OpenML database to get the dataset ID and load the latest version.
-The dataset ID can be search in officail OpenML website (<a class="reference external" href="https://www.openml.org/search">https://www.openml.org/search</a>).
-ID has a higher priority than the name.</p>
-<p>Supported return formats:
-- numpy: return as a tuple of numpy arrays.
-- pandas: return as a pandas DataFrame.</p>
-<p>Supported save formats:
-- numpy: .npz, .npy
-- pandas: .csv, .tsv</p>
-<p class="rubric">Examples</p>
-<p>Load the dataset “mnist_784” from OpenML and save it as a numpy file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">OpenMLDataLoader</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;mnist_784&quot;</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;data/mnist.npz&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="go">X = np.array([[0, 0, 0, ..., 0, 0, 0], ..]), y = np.array([5, 0, 4, ..., 4, 5, 6])</span>
-</pre></div>
-</div>
-<p>Load the dataset id=554 (“mnist_784”) from OpenML and save it as a pandas DataFrame.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">loader</span> <span class="o">=</span> <span class="n">OpenMLDataLoader</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">554</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="s2">&quot;data/mnist.csv&quot;</span><span class="p">,</span> <span class="n">return_format</span><span class="o">=</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">loader</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-<span class="go">data = pd.DataFrame([[0, 0, 0, ..., 0, 0, 0], .., [5, 0, 4, ..., 4, 5, 6]])</span>
-</pre></div>
-</div>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.pennylane_device.</span></span><span class="sig-name descname"><span class="pre">PennyLaneDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.pennylane_device</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDevice</span></code></p>
+<p>PennyLane device implementation for quantum computation.
+This class provides a concrete implementation for PennyLane devices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>save_path</strong> (<em>Path</em><em> | </em><em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>return_format</strong> (<em>str</em>)</p></li>
-<li><p><strong>use_cache</strong> (<em>bool</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+<li><p><strong>platform</strong> (<em>str</em>)</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>backend_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>shots</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_format='numpy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.datasets.openml.loader</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the OpenML dataset loader.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.pennylane_device</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the PennyLane device.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset_identifier</strong> (<em>str</em><em> | </em><em>int</em>) – dataset name or ID. If the name is specified, the latest version is used.</p></li>
-<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>  |  </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the loaded dataset.
-If the value is None, the dataset is not saved. Defaults to None.</p></li>
-<li><p><strong>return_format</strong> (<em>str</em><em>, </em><em>optional</em>) – return format of the loaded dataset. Defaults to “numpy”.</p></li>
-<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>id</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>use_cache</strong> (<em>bool</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+<li><p><strong>platform</strong> (<em>str</em>) – platform name (ex: pennylane, qulacs, etc.)</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – device name provided by the platform (ex: default.qubit, default.tensor, etc.)</p></li>
+<li><p><strong>backend_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – backend name for the real device</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>shots</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – number of shots for the quantum circuit</p></li>
+<li><p><strong>random_seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – random seed for the quantum device</p></li>
+<li><p><strong>logger</strong> (<em>Any</em>) – logger instance</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -576,18 +553,76 @@ If the value is None, the dataset is not saved. Defaults to None.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
-<dd><p>Load the dataset from OpenML. Then, convert the dataset to the specified return format.
-The loaded dataset is saved to the specified path if it is not None.</p>
+<span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the quantum device instance.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>ValueError</strong> – unsupported return format</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>quantum device instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_job_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">created_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the job IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>created_after</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – created datetime of the jobs. If None, start time filter is not applied.</p></li>
+<li><p><strong>created_before</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – finished datetime of the jobs. If None, end time filter is not applied.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>loaded dataset</p>
+<dd class="field-even"><p>job IDs (empty for non-remote devices)</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>tuple[np.ndarray, np.ndarray | None] | pd.DataFrame</p>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_provider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get real machine provider name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>provider name (empty for non-remote devices)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_remote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is a remote device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the device is a remote device, False otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_simulator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is a simulator or real machine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the device is a simulator, False otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
 </dd>
 </dl>
 </dd></dl>
@@ -608,20 +643,20 @@ The loaded dataset is saved to the specified path if it is not None.</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="qxmt.datasets.openml.html"
+       href="qxmt.devices.ibmq_device.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">qxmt.datasets.openml package</p>
+        <p class="prev-next-title">qxmt.devices.ibmq_device module</p>
       </div>
     </a>
     <a class="right-next"
-       href="qxmt.datasets.generate.html"
+       href="qxmt.devices.builder.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">qxmt.datasets.generate package</p>
+        <p class="prev-next-title">qxmt.devices.builder module</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
