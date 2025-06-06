@@ -185,6 +185,9 @@ class BaseVQE(ABC):
         optimizer_params = self.optimizer_settings.get("params", {}) or {}
 
         if optimizer_name.startswith("scipy."):
+            optimizer_params.setdefault("options", {})
+            optimizer_params["options"]["maxiter"] = self.max_steps
+            optimizer_params["tol"] = self.tol
             self._set_scipy_optimizer(optimizer_name, optimizer_params)
         else:
             self._set_pennylane_optimizer(optimizer_name, optimizer_params)
@@ -199,13 +202,17 @@ class BaseVQE(ABC):
         from scipy.optimize import minimize
 
         method = optimizer_name.replace("scipy.", "")
-        self.optimizer = lambda params, cost_fn, **kwargs: minimize(
-            x0=params,
-            fun=cost_fn,
-            method=method,
-            **optimizer_params,
-            **kwargs,
-        ).x
+
+        def scipy_optimizer(params, cost_fn, **kwargs):
+            return minimize(
+                x0=params,
+                fun=cost_fn,
+                method=method,
+                **optimizer_params,
+                **kwargs,
+            ).x
+
+        self.optimizer = scipy_optimizer
 
     def _set_pennylane_optimizer(self, optimizer_name: str, optimizer_params: dict) -> None:
         """Set up a Pennylane optimizer."""
