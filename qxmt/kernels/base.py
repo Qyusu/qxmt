@@ -208,6 +208,7 @@ class BaseKernel(ABC):
 
                         # finalize progress bar
                         progress.update(task_progress, completed=len(tasks))
+                        progress.stop_task(task_progress)
                         progress.refresh()
         else:
             with mp.Pool(processes=n_jobs) as pool:
