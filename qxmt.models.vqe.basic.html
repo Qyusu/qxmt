@@ -517,7 +517,8 @@ document.write(`
 <p>Basic implementation of the Variational Quantum Eigensolver (VQE).</p>
 <p>This class provides a basic implementation of VQE using PennyLane’s optimization tools.
 It supports gradient-based optimization of quantum circuits to find the ground state
-energy of a given Hamiltonian.</p>
+energy of a given Hamiltonian. SciPy optimizers can now use PennyLane’s automatic
+differentiation for efficient gradient computation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -529,12 +530,36 @@ energy of a given Hamiltonian.</p>
 <li><p><strong>min_steps</strong> (<em>int</em><em> | </em><em>None</em>) – Minimum number of optimization steps. Defaults to 1/10 of max_steps.</p></li>
 <li><p><strong>tol</strong> (<em>float</em>) – Tolerance for the optimization. Defaults to 1e-6.</p></li>
 <li><p><strong>verbose</strong> (<em>bool</em>) – Whether to output progress during optimization. Defaults to True.</p></li>
-<li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Settings for the optimizer.</p></li>
+<li><p><strong>optimizer_settings</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>) – Settings for the optimizer. For SciPy optimizers, you can
+set “gradient_method”: “numerical” to use SciPy’s numerical differentiation
+instead of PennyLane’s automatic differentiation.</p></li>
 <li><p><strong>logger</strong> (<em>Logger</em>) – Logger object for output. Defaults to module-level logger.</p></li>
 <li><p><strong>init_params_config</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>] </em><em>| </em><em>None</em>)</p></li>
 </ul>
 </dd>
 </dl>
+<p class="rubric">Example</p>
+<p>Using SciPy optimizer with PennyLane automatic differentiation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer_settings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;scipy.BFGS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;gradient_method&quot;</span><span class="p">:</span> <span class="s2">&quot;autodiff&quot;</span><span class="p">,</span>  <span class="c1"># Use PennyLane autodiff (default)</span>
+        <span class="s2">&quot;options&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;gtol&quot;</span><span class="p">:</span> <span class="mf">1e-6</span><span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="n">vqe</span> <span class="o">=</span> <span class="n">BasicVQE</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">,</span> <span class="n">ansatz</span><span class="p">,</span> <span class="n">optimizer_settings</span><span class="o">=</span><span class="n">optimizer_settings</span><span class="p">)</span>
+<span class="n">vqe</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Using SciPy numerical differentiation:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">optimizer_settings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;scipy.BFGS&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;gradient_method&quot;</span><span class="p">:</span> <span class="s2">&quot;numerical&quot;</span><span class="p">,</span>  <span class="c1"># Use SciPy numerical gradients</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">cost_history</span></span></dt>
