@@ -70,7 +70,7 @@ class BaseVQE(ABC):
         self.diff_method: Optional[SupportedDiffMethods] = diff_method
         self.max_steps: int = max_steps
         self.min_steps: int = min_steps if min_steps is not None else int(max_steps * 0.1)
-        self.tol: float = tol
+        self.tol: float = float(tol)
         self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.init_params_config: Optional[dict[str, Any]] = init_params_config
