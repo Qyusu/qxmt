@@ -21,7 +21,8 @@ class BasicVQE(BaseVQE):
 
     This class provides a basic implementation of VQE using PennyLane's optimization tools.
     It supports gradient-based optimization of quantum circuits to find the ground state
-    energy of a given Hamiltonian.
+    energy of a given Hamiltonian. SciPy optimizers can now use PennyLane's automatic
+    differentiation for efficient gradient computation.
 
     Args:
         device: Quantum device to use for the VQE.
@@ -32,8 +33,32 @@ class BasicVQE(BaseVQE):
         min_steps: Minimum number of optimization steps. Defaults to 1/10 of max_steps.
         tol: Tolerance for the optimization. Defaults to 1e-6.
         verbose: Whether to output progress during optimization. Defaults to True.
-        optimizer_settings: Settings for the optimizer.
+        optimizer_settings: Settings for the optimizer. For SciPy optimizers, you can
+            set "gradient_method": "numerical" to use SciPy's numerical differentiation
+            instead of PennyLane's automatic differentiation.
         logger: Logger object for output. Defaults to module-level logger.
+
+    Example:
+        Using SciPy optimizer with PennyLane automatic differentiation::
+
+            optimizer_settings = {
+                "name": "scipy.BFGS",
+                "params": {
+                    "gradient_method": "autodiff",  # Use PennyLane autodiff (default)
+                    "options": {"gtol": 1e-6}
+                }
+            }
+            vqe = BasicVQE(device, hamiltonian, ansatz, optimizer_settings=optimizer_settings)
+            vqe.optimize()
+
+        Using SciPy numerical differentiation::
+
+            optimizer_settings = {
+                "name": "scipy.BFGS",
+                "params": {
+                    "gradient_method": "numerical",  # Use SciPy numerical gradients
+                }
+            }
 
     Attributes:
         cost_history: List of cost values during optimization.

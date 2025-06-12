@@ -142,7 +142,7 @@ class BaseVQE(ABC):
             return (
                 rng.random(n_params)
                 if self.optimizer_platform == OptimizerPlatform.SCIPY
-                else qml.numpy.random.rand(n_params, requires_grad=True)
+                else qml.numpy.array(rng.random(n_params), requires_grad=True)
             )
         elif init_params_config.get("type") == INIT_PARAMS_TYPE_CUSTOM:
             values = init_params_config.get("values", None)
@@ -219,15 +219,39 @@ class BaseVQE(ABC):
         self.logger.info("No optimizer settings provided. Using gradient descent optimizer.")
 
     def _set_scipy_optimizer(self, optimizer_name: str, optimizer_params: dict) -> None:
-        """Set up a SciPy optimizer."""
+        """Set up a SciPy optimizer with PennyLane gradients.
+
+        This method sets up SciPy optimizers to use PennyLane's automatic differentiation
+        for gradient computation instead of SciPy's numerical differentiation.
+        """
         from scipy.optimize import minimize
 
         method = optimizer_name.replace("scipy.", "")
 
+        # Check gradient computation method (default: "autodiff")
+        gradient_method = optimizer_params.pop("gradient_method", "autodiff")
+
         def scipy_optimizer(params, cost_fn, **kwargs):
+            if gradient_method == "autodiff":
+                # Create gradient function using PennyLane's automatic differentiation
+                grad_fn = qml.grad(self.qnode)
+
+                def compute_gradient(params_array):
+                    """Wrapper function for gradient computation."""
+                    # Convert params to qml.numpy array with requires_grad for gradient computation
+                    qml_params = qml.numpy.array(params_array, requires_grad=True)
+                    grad = grad_fn(qml_params)
+                    return np.array(grad, dtype=float)
+
+                gradient_func = compute_gradient
+            else:
+                # Use SciPy's numerical differentiation (gradient_method == "numerical")
+                gradient_func = None
+
             return minimize(
                 x0=params,
                 fun=cost_fn,
+                jac=gradient_func,  # Use PennyLane gradients or None for numerical diff
                 method=method,
                 **optimizer_params,
                 **kwargs,
