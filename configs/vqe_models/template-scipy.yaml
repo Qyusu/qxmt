@@ -31,7 +31,8 @@ model:
   diff_method: "adjoint"
   optimizer_settings:
     name: "scipy.BFGS"
-    params: null
+    params:
+      gradient_method: "autodiff" # Use PennyLane autodiff (default), set to "numerical" to use SciPy numerical gradients
   params:
     max_steps: 500
     tol: 1e-6
