@@ -208,9 +208,10 @@ class QKernelExecutor(RunExecutorBase):
             train_job_ids = device.get_job_ids(created_after=train_start_dt, created_before=train_end_dt)
             val_job_ids = device.get_job_ids(created_after=val_start_dt, created_before=val_end_dt) if val_eval else []
             test_job_ids = device.get_job_ids(created_after=test_start_dt, created_before=test_end_dt)
+            # [TODO]: implement get_backend_name method in BaseDevice. Currently, only support real machine.
             remote_machine = RemoteMachine(
                 provider=device.get_provider(),
-                backend=device.get_backend_name(),
+                backend=device.get_backend_name(),  # type: ignore
                 job_ids=train_job_ids + val_job_ids + test_job_ids,
             )
         else:
