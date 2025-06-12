@@ -50,6 +50,21 @@ def test_parse_init_params_custom_invalid(build_vqe):
         vqe._parse_init_params({"type": "custom", "values": [1, 2]}, 3)
 
 
+def test_is_params_updated(build_vqe):
+    vqe = build_vqe()
+
+    # only initial params
+    assert not vqe.is_params_updated()
+
+    # length of params_history is 2
+    vqe.params_history.append(np.array([1, 2, 3]))
+    assert not vqe.is_params_updated()
+
+    # length of params_history is 3
+    vqe.params_history.append(np.array([4, 5, 6]))
+    assert vqe.is_params_updated()
+
+
 def test_is_optimized(build_vqe):
     vqe = build_vqe()
     assert not vqe.is_optimized()

@@ -22,6 +22,7 @@ class RunTime(BaseModel):
 
 class VQERunTime(BaseModel):
     optimize_seconds: float
+    n_parameters: int
 
 
 class Evaluations(BaseModel):

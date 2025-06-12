@@ -76,10 +76,19 @@ class PennyLaneDevice(BaseDevice):
         """
         return ""
 
+    def get_backend_name(self) -> str:
+        """Get real machine backend name.
+
+        Returns:
+            str: backend name (empty for non-remote devices)
+        """
+        return ""
+
     def get_job_ids(
         self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
     ) -> list[str]:
         """Get the job IDs.
+        Local machine does not have job IDs.
 
         Args:
             created_after (Optional[datetime]): created datetime of the jobs. If None, start time filter is not applied.

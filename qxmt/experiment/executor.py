@@ -344,7 +344,7 @@ class VQEExecutor(RunExecutorBase):
             commit_id=commit_id,
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            runtime=VQERunTime(optimize_seconds=optimise_seconds),
+            runtime=VQERunTime(optimize_seconds=optimise_seconds, n_parameters=model.ansatz.n_params),
             evaluations=VQEEvaluations(optimized=evaluations),
         )
         return artifact, record

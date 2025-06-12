@@ -15,18 +15,21 @@ def simulator_device() -> PennyLaneDevice:
 
 
 class TestPennyLaneDevice:
-    def test_get_device(self, simulator_device: PennyLaneDevice):
+    def test_get_device(self, simulator_device: PennyLaneDevice) -> None:
         device = simulator_device.get_device()
         assert device is not None
 
-    def test_is_simulator(self, simulator_device: PennyLaneDevice):
+    def test_is_simulator(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.is_simulator() is True
 
-    def test_is_remote(self, simulator_device: PennyLaneDevice):
+    def test_is_remote(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.is_remote() is False
 
-    def test_get_provider(self, simulator_device: PennyLaneDevice):
+    def test_get_provider(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.get_provider() == ""
 
-    def test_get_job_ids(self, simulator_device: PennyLaneDevice):
+    def test_get_backend_name(self, simulator_device: PennyLaneDevice) -> None:
+        assert simulator_device.get_backend_name() == ""
+
+    def test_get_job_ids(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.get_job_ids() == []

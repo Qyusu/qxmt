@@ -70,7 +70,7 @@ class BaseVQE(ABC):
         self.diff_method: Optional[SupportedDiffMethods] = diff_method
         self.max_steps: int = max_steps
         self.min_steps: int = min_steps if min_steps is not None else int(max_steps * 0.1)
-        self.tol: float = tol
+        self.tol: float = float(tol)
         self.verbose: bool = verbose
         self.optimizer_settings: Optional[dict[str, Any]] = optimizer_settings
         self.init_params_config: Optional[dict[str, Any]] = init_params_config
@@ -142,7 +142,7 @@ class BaseVQE(ABC):
             return (
                 rng.random(n_params)
                 if self.optimizer_platform == OptimizerPlatform.SCIPY
-                else qml.numpy.random.rand(n_params, requires_grad=True)
+                else qml.numpy.array(rng.random(n_params), requires_grad=True)
             )
         elif init_params_config.get("type") == INIT_PARAMS_TYPE_CUSTOM:
             values = init_params_config.get("values", None)
@@ -155,6 +155,27 @@ class BaseVQE(ABC):
             )
         else:
             raise ValueError(f"Unknown init_params type: {init_params_config.get('type')}")
+
+    def is_params_updated(self, threshold: float = 1e-8) -> bool:
+        """Check if parameters were actually updated during optimization.
+
+        Args:
+            threshold: Minimum change threshold to consider parameters as updated.
+
+        Returns:
+            bool: True if parameters changed more than threshold, False otherwise.
+        """
+        if len(self.params_history) < 2:
+            return False
+
+        # Compare first and last parameters
+        initial_params = self.params_history[0]
+        final_params = self.params_history[-1]
+
+        # Calculate L2 norm of parameter change
+        param_change = float(np.linalg.norm(final_params - initial_params))
+
+        return param_change > threshold
 
     def is_optimized(self) -> bool:
         """Check if the optimization process has been completed.
@@ -198,15 +219,39 @@ class BaseVQE(ABC):
         self.logger.info("No optimizer settings provided. Using gradient descent optimizer.")
 
     def _set_scipy_optimizer(self, optimizer_name: str, optimizer_params: dict) -> None:
-        """Set up a SciPy optimizer."""
+        """Set up a SciPy optimizer with PennyLane gradients.
+
+        This method sets up SciPy optimizers to use PennyLane's automatic differentiation
+        for gradient computation instead of SciPy's numerical differentiation.
+        """
         from scipy.optimize import minimize
 
         method = optimizer_name.replace("scipy.", "")
 
+        # Check gradient computation method (default: "autodiff")
+        gradient_method = optimizer_params.pop("gradient_method", "autodiff")
+
         def scipy_optimizer(params, cost_fn, **kwargs):
+            if gradient_method == "autodiff":
+                # Create gradient function using PennyLane's automatic differentiation
+                grad_fn = qml.grad(self.qnode)
+
+                def compute_gradient(params_array):
+                    """Wrapper function for gradient computation."""
+                    # Convert params to qml.numpy array with requires_grad for gradient computation
+                    qml_params = qml.numpy.array(params_array, requires_grad=True)
+                    grad = grad_fn(qml_params)
+                    return np.array(grad, dtype=float)
+
+                gradient_func = compute_gradient
+            else:
+                # Use SciPy's numerical differentiation (gradient_method == "numerical")
+                gradient_func = None
+
             return minimize(
                 x0=params,
                 fun=cost_fn,
+                jac=gradient_func,  # Use PennyLane gradients or None for numerical diff
                 method=method,
                 **optimizer_params,
                 **kwargs,
