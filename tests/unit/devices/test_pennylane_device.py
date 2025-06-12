@@ -28,5 +28,8 @@ class TestPennyLaneDevice:
     def test_get_provider(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.get_provider() == ""
 
+    def test_get_backend_name(self, simulator_device: PennyLaneDevice) -> None:
+        assert simulator_device.get_backend_name() == ""
+
     def test_get_job_ids(self, simulator_device: PennyLaneDevice) -> None:
         assert simulator_device.get_job_ids() == []

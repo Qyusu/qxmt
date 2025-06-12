@@ -83,6 +83,15 @@ class BaseDevice(ABC):
         pass
 
     @abstractmethod
+    def get_backend_name(self) -> str:
+        """Get real machine backend name.
+
+        Returns:
+            str: backend name
+        """
+        pass
+
+    @abstractmethod
     def get_job_ids(
         self, created_after: Optional[datetime] = None, created_before: Optional[datetime] = None
     ) -> list[str]:
