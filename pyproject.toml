@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qxmt"
-version = "0.5.3"  # using poetry-dynamic-versioning
+version = "0.5.4"  # using poetry-dynamic-versioning
 description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
