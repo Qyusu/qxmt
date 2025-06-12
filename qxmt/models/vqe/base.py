@@ -156,6 +156,27 @@ class BaseVQE(ABC):
         else:
             raise ValueError(f"Unknown init_params type: {init_params_config.get('type')}")
 
+    def is_params_updated(self, threshold: float = 1e-8) -> bool:
+        """Check if parameters were actually updated during optimization.
+
+        Args:
+            threshold: Minimum change threshold to consider parameters as updated.
+
+        Returns:
+            bool: True if parameters changed more than threshold, False otherwise.
+        """
+        if len(self.params_history) < 2:
+            return False
+
+        # Compare first and last parameters
+        initial_params = self.params_history[0]
+        final_params = self.params_history[-1]
+
+        # Calculate L2 norm of parameter change
+        param_change = float(np.linalg.norm(final_params - initial_params))
+
+        return param_change > threshold
+
     def is_optimized(self) -> bool:
         """Check if the optimization process has been completed.
 
