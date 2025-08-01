@@ -17,6 +17,7 @@ from qxmt.feature_maps.base import BaseFeatureMap, FeatureMapFromFunc
 from qxmt.kernels.sampling import generate_all_observable_states
 
 MAX_IBMQ_REQUEST_NUM = 3
+STATE_VECTOR_BLOCK_SIZE = 2048
 
 
 class BaseKernel(ABC):
@@ -89,7 +90,12 @@ class BaseKernel(ABC):
 
     @abstractmethod
     def _compute_matrix_by_state_vector(
-        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = "", show_progress: bool = True
+        self,
+        x1_array: np.ndarray,
+        x2_array: np.ndarray,
+        bar_label: str = "",
+        show_progress: bool = True,
+        block_size: int = STATE_VECTOR_BLOCK_SIZE,
     ) -> np.ndarray:
         """Compute kernel value between two samples.
 
@@ -98,6 +104,7 @@ class BaseKernel(ABC):
             x2_array (np.ndarray): array of all sample
             bar_label (str, optional): label for the progress bar. Defaults to empty string ("").
             show_progress (bool, optional): whether to show progress bar. Defaults to True.
+            block_size (int, optional): block size for the batch computation. Defaults to 2048.
 
         Returns:
             np.ndarray: kernel value and probability distribution
