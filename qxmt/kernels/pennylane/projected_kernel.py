@@ -10,6 +10,7 @@ from qxmt.devices import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
 from qxmt.kernels import BaseKernel
+from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
 from qxmt.kernels.sampling import sample_results_to_probs
 
 
@@ -133,7 +134,12 @@ class ProjectedKernel(BaseKernel):
             return qml.state()
 
     def _compute_matrix_by_state_vector(
-        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = "", show_progress: bool = True
+        self,
+        x1_array: np.ndarray,
+        x2_array: np.ndarray,
+        bar_label: str = "",
+        show_progress: bool = True,
+        block_size: int = STATE_VECTOR_BLOCK_SIZE,
     ) -> np.ndarray:
         """Compute the kernel matrix based on the state vector.
         This method is only available in the non-sampling mode.
@@ -144,6 +150,7 @@ class ProjectedKernel(BaseKernel):
             x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
             bar_label (str): label for progress bar
             show_progress (bool): flag for showing progress bar
+            block_size (int): block size for the batch computation
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -159,17 +166,37 @@ class ProjectedKernel(BaseKernel):
         else:
             iterator = unique_inputs
 
+        # compute the state vector for each data point
         for x_tuple in iterator:
             if x_tuple not in self.state_memory:
                 x_state = self.qnode(np.array(x_tuple))
                 self.state_memory[x_tuple] = self._calculate_expected_values(np.abs(x_state) ** 2)
 
-        kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
-        for i, x1 in enumerate(x1_array):
-            for j, x2 in enumerate(x2_array):
-                kernel_matrix[i, j] = np.exp(
-                    -self.gamma * np.sum((self.state_memory[tuple(x1)] - self.state_memory[tuple(x2)]) ** 2)
-                )
+        states1 = np.array([self.state_memory[tuple(x)] for x in x1_array])
+        states2 = np.array([self.state_memory[tuple(x)] for x in x2_array])
+
+        # batch compute the kernel matrix
+        n1 = len(states1)
+        n2 = len(states2)
+        kernel_matrix = np.zeros((n1, n2), dtype=np.float64)
+
+        for i_start in range(0, n1, block_size):
+            i_end = min(i_start + block_size, n1)
+            block1 = states1[i_start:i_end]
+            for j_start in range(0, n2, block_size):
+                j_end = min(j_start + block_size, n2)
+                block2 = states2[j_start:j_end]
+
+                # compute the squared Euclidean distance between blocks
+                # ||x - y||² = ||x||² + ||y||² - 2⟨x, y⟩
+                a_norm2 = np.sum(block1**2, axis=1).reshape(-1, 1)  # shape: (b1, 1)
+                b_norm2 = np.sum(block2**2, axis=1).reshape(1, -1)  # shape: (1, b2)
+                cross_term = np.dot(block1, block2.T)  # shape: (b1, b2)
+                sq_dist = a_norm2 + b_norm2 - 2 * cross_term
+
+                # RBF kernel
+                kernel_block = np.exp(-self.gamma * sq_dist)
+                kernel_matrix[i_start:i_end, j_start:j_end] = kernel_block
 
         return kernel_matrix
 
