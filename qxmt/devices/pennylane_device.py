@@ -9,6 +9,8 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
+PENNYLANE_GPU_DEVICES = ["lightning.gpu", "lightning.tensor"]
+
 
 class PennyLaneDevice(BaseDevice):
     """PennyLane device implementation for quantum computation.
@@ -45,12 +47,10 @@ class PennyLaneDevice(BaseDevice):
         Returns:
             Any: quantum device instance
         """
-        return qml.device(
-            name=self.device_name,
-            wires=self.n_qubits,
-            shots=self.shots,
-            seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
-        )
+        if self.device_name in PENNYLANE_GPU_DEVICES:
+            return self._get_gpu_device()
+        else:
+            return self._get_cpu_device()
 
     def is_simulator(self) -> bool:
         """Check if the device is a simulator or real machine.
@@ -98,3 +98,18 @@ class PennyLaneDevice(BaseDevice):
             list[str]: job IDs (empty for non-remote devices)
         """
         return []
+
+    def _get_cpu_device(self) -> Any:
+        return qml.device(
+            name=self.device_name,
+            wires=self.n_qubits,
+            shots=self.shots,
+            seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
+        )
+
+    def _get_gpu_device(self) -> Any:
+        return qml.device(
+            name=self.device_name,
+            wires=self.n_qubits,
+            shots=self.shots,
+        )
