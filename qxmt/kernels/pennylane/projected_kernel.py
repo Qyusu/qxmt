@@ -189,9 +189,9 @@ class ProjectedKernel(BaseKernel):
 
                 # compute the squared Euclidean distance between blocks
                 # ||x - y||² = ||x||² + ||y||² - 2⟨x, y⟩
-                a_norm2 = np.sum(block1**2, axis=1).reshape(-1, 1)  # shape: (b1, 1)
-                b_norm2 = np.sum(block2**2, axis=1).reshape(1, -1)  # shape: (1, b2)
-                cross_term = np.dot(block1, block2.T)  # shape: (b1, b2)
+                a_norm2 = np.sum(block1**2, axis=1).reshape(-1, 1)
+                b_norm2 = np.sum(block2**2, axis=1).reshape(1, -1)
+                cross_term = np.dot(block1, block2.T)
                 sq_dist = a_norm2 + b_norm2 - 2 * cross_term
 
                 # RBF kernel
