@@ -16,7 +16,7 @@ style = "pep440"
 
 
 [tool.poetry.dependencies]
-python = ">=3.10,<=3.13"
+python = ">=3.10,<3.13"
 pydantic = "^2.8.2"
 pandas = "^2.2.2"
 scikit-learn = "^1.5.1"
@@ -35,13 +35,15 @@ numpy = "~2.0.0"
 qiskit = "^1.2.4"
 qiskit-ibm-runtime = "0.29"
 pennylane-qiskit = "^0.39.1"
-qiskit-aer = "0.15.1"
+qiskit-aer = "0.17.1"
 amazon-braket-pennylane-plugin = "^1.31.2"
 amazon-braket-sdk = "^1.90.2"
 pyscf = "^2.8.0"
 aiohttp = "^3.11.16"
 fsspec = "^2025.3.2"
 scipy = "^1.15.2"
+openfermion = "^1.7.1"
+openfermionpyscf = "^0.5"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -74,3 +76,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 addopts="-n 3"
+markers = [
+    "serial: marks tests to run serially (not in parallel)",
+]
