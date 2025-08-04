@@ -35,7 +35,7 @@ numpy = "~2.0.0"
 qiskit = "^1.2.4"
 qiskit-ibm-runtime = "0.29"
 pennylane-qiskit = "^0.39.1"
-qiskit-aer = "0.16.4"
+qiskit-aer = "0.15.1"
 amazon-braket-pennylane-plugin = "^1.31.2"
 amazon-braket-sdk = "^1.90.2"
 pyscf = "^2.8.0"
@@ -76,3 +76,6 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
 addopts="-n 3"
+markers = [
+    "serial: marks tests to run serially (not in parallel)",
+]
