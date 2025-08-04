@@ -10,6 +10,7 @@ from qxmt.devices import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
 from qxmt.kernels import BaseKernel
+from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
 from qxmt.kernels.sampling import sample_results_to_probs
 
 
@@ -88,7 +89,12 @@ class FidelityKernel(BaseKernel):
         return qml.state()
 
     def _compute_matrix_by_state_vector(
-        self, x1_array: np.ndarray, x2_array: np.ndarray, bar_label: str = "", show_progress: bool = True
+        self,
+        x1_array: np.ndarray,
+        x2_array: np.ndarray,
+        bar_label: str = "",
+        show_progress: bool = True,
+        block_size: int = STATE_VECTOR_BLOCK_SIZE,
     ) -> np.ndarray:
         """Compute the kernel matrix based on the state vector.
         This method is only available in the non-sampling mode.
@@ -99,6 +105,7 @@ class FidelityKernel(BaseKernel):
             x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
             bar_label (str): label for progress bar
             show_progress (bool): flag for showing progress bar
+            block_size (int): block size for the batch computation
 
         Returns:
             np.ndarray: computed kernel matrix
@@ -114,16 +121,28 @@ class FidelityKernel(BaseKernel):
         else:
             iterator = unique_inputs
 
+        # compute the state vector for each data point
         for x_tuple in iterator:
             if x_tuple not in self.state_memory:
                 self.state_memory[x_tuple] = self.qnode(np.array(x_tuple))
 
-        kernel_matrix = np.zeros((len(x1_array), len(x2_array)))
-        for i, x1 in enumerate(x1_array):
-            for j, x2 in enumerate(x2_array):
-                kernel_matrix[i, j] = (
-                    np.abs(np.dot(np.conj(self.state_memory[tuple(x1)]), self.state_memory[tuple(x2)])) ** 2
-                )
+        states1 = np.array([self.state_memory[tuple(x)] for x in x1_array])
+        states2 = np.array([self.state_memory[tuple(x)] for x in x2_array])
+
+        # batch compute the kernel matrix
+        n1 = len(states1)
+        n2 = len(states2)
+        kernel_matrix = np.zeros((n1, n2), dtype=np.float64)
+        for i_start in range(0, n1, block_size):
+            i_end = min(i_start + block_size, n1)
+            block1 = states1[i_start:i_end]
+            for j_start in range(0, n2, block_size):
+                j_end = min(j_start + block_size, n2)
+                block2 = states2[j_start:j_end]
+
+                inner_block = np.dot(block1, np.conj(block2.T))
+                kernel_block = np.abs(inner_block) ** 2
+                kernel_matrix[i_start:i_end, j_start:j_end] = kernel_block
 
         return kernel_matrix
 

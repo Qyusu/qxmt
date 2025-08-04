@@ -3,6 +3,8 @@ from logging import Logger
 from typing import Literal, Optional
 
 import pennylane as qml
+from openfermion.chem.molecular_data import MolecularData
+from openfermionpyscf import run_pyscf
 from pennylane import numpy as qnp
 from pennylane.ops.op_math import Sum
 
@@ -92,8 +94,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         self._dataset: list = []
 
         self._initialize_hamiltonian()
-        self._set_hf_energy()
-        self._set_fci_energy()
+        self._set_reference_energies()
 
     def _determine_initialization_type(self) -> InitializationType:
         """Determine the initialization type based on the provided parameters.
@@ -165,31 +166,47 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.hamiltonian = hamiltonian
         self.n_qubits = n_qubits
 
-    def _set_hf_energy(self) -> None:
-        """Set the Hartree-Fock energy of the molecule.
+    def _set_reference_energies(self) -> None:
+        """Set the HF (Hartree-Fock) and FCI (Full Configuration Interaction) energy of the molecule.
 
-        Returns:
-            float: Hartree-Fock energy.
-        """
-        self.hf_energy = float(qml.qchem.hf_energy(self.molecule)())
-
-    def _set_fci_energy(self) -> None:
-        """Set the FCI energy of the molecule.
-        FCI energy is only available for molecules in the dataset.
-        If the molecule is directly specified, FCI energy is not available.
-
-        [TODO]: FCI energy get from pyscf
-
-        Returns:
-            float: FCI energy.
+        If the molecule is in the PennyLane dataset, the HF and FCI energy are set from the cached values by PennyLane.
+        If the molecule is not in the PennyLane dataset, the HF and FCI energy are computed by OpenFermionPySCF.
         """
         if self.molname is not None:
             if not self._dataset:
                 raise ValueError("Dataset is not loaded. Please load the dataset first.")
+            self.hf_energy = float(qml.qchem.hf_energy(self.molecule)())
             self.fci_energy = float(self._dataset[0].fci_energy)
         else:
-            self.logger.warning("FCI energy is not available for the given molecule. Setting to None.")
-            self.fci_energy = None
+            hf_energy, fci_energy = self._compute_energies_by_openfermionpyscf()
+            self.hf_energy = hf_energy
+            self.fci_energy = fci_energy
+
+    def _pennylane_molecule2openfermion(self) -> MolecularData:
+        """Convert the PennyLane molecule to OpenFermion molecule."""
+        geometry = list(zip(self.symbols, self.coordinates.tolist()))  # type: ignore
+        return MolecularData(geometry=geometry, basis=self.basis_name, multiplicity=self.multi, charge=self.charge)
+
+    def _compute_energies_by_openfermionpyscf(self) -> tuple[float, float]:
+        """Compute the HF and FCI energy by OpenFermionPySCF."""
+        openfermion_molecule = self._pennylane_molecule2openfermion()
+        energy = run_pyscf(
+            openfermion_molecule,
+            run_scf=True,
+            run_fci=True,
+            run_mp2=False,
+            run_ccsd=False,
+        )
+        hf_energy = energy.hf_energy
+        fci_energy = energy.fci_energy
+
+        if hf_energy is None:
+            raise ValueError("HF energy is not available for the given molecule.")
+
+        if fci_energy is None:
+            raise ValueError("FCI energy is not available for the given molecule.")
+
+        return float(hf_energy), float(fci_energy)  # type: ignore
 
     def get_hamiltonian(self) -> Sum:
         """Get the Hamiltonian operator.

@@ -138,11 +138,14 @@ class BaseVQE(ABC):
             )
         elif init_params_config.get("type") == INIT_PARAMS_TYPE_RANDOM:
             seed = init_params_config.get("random_seed", None)
+            max_value = init_params_config.get("max_value", 1.0)
+            min_value = init_params_config.get("min_value", 0.0)
             rng = np.random.default_rng(seed)
+            params = rng.uniform(min_value, max_value, n_params)
             return (
-                rng.random(n_params)
+                params
                 if self.optimizer_platform == OptimizerPlatform.SCIPY
-                else qml.numpy.array(rng.random(n_params), requires_grad=True)
+                else qml.numpy.array(params, requires_grad=True)
             )
         elif init_params_config.get("type") == INIT_PARAMS_TYPE_CUSTOM:
             values = init_params_config.get("values", None)

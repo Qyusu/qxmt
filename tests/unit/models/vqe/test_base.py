@@ -33,9 +33,23 @@ def test_parse_init_params_zeros(build_vqe):
 
 def test_parse_init_params_random(build_vqe):
     vqe = build_vqe(optimizer_settings={"name": "scipy.BFGS"})
-    params = vqe._parse_init_params({"type": "random", "random_seed": 42}, 3)
-    assert params.shape == (3,)
-    assert np.allclose(params, np.array([0.77395605, 0.43887844, 0.85859792]))
+
+    # check random seed
+    params1 = vqe._parse_init_params({"type": "random", "random_seed": 42}, 3)
+    params2 = vqe._parse_init_params({"type": "random", "random_seed": 42}, 3)
+    assert np.allclose(params1, params2)
+
+    # check defalt setting
+    params = vqe._parse_init_params({"type": "random"}, 3)
+    assert all(0.0 <= float(param) < 1.0 for param in params)
+
+    # check max_value and min_value works
+    max_value = 5.0
+    min_value = 0.0
+    params = vqe._parse_init_params(
+        {"type": "random", "random_seed": 42, "max_value": max_value, "min_value": min_value}, 3
+    )
+    assert all(min_value <= float(param) < max_value for param in params)
 
 
 def test_parse_init_params_custom(build_vqe):
