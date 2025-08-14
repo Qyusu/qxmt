@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Callable, cast
+from typing import Any, Callable, cast
 
 import numpy as np
 import pennylane as qml
@@ -197,6 +197,3 @@ class PennyLaneBaseKernel(BaseKernel):
                 raise ValueError(f"{method_name} requires exactly 2 arguments (x1, x2)")
             else:
                 raise ValueError(f"{method_name} requires exactly {expected_count} arguments")
-
-    # def get_circuit_spec(self, x: np.ndarray) -> dict[str, Any]:
-    #     return qml.specs(self.qnode)(x)  # type: ignore
