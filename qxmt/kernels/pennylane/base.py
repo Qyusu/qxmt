@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Callable, Optional, cast
+from typing import Callable, cast
 
 import numpy as np
 import pennylane as qml
@@ -7,7 +7,6 @@ from pennylane.measurements import SampleMP, StateMP
 from rich.progress import track
 
 from qxmt.devices.base import BaseDevice
-from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE, BaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
