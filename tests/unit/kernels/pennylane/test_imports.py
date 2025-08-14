@@ -1,6 +1,6 @@
 from qxmt.kernels.pennylane import __all__
 
-EXPECTED_ALL = ["FidelityKernel", "ProjectedKernel"]
+EXPECTED_ALL = ["PennyLaneBaseKernel", "FidelityKernel", "ProjectedKernel"]
 
 
 def test_all_imports() -> None:

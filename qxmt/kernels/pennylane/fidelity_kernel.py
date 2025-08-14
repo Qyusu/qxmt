@@ -1,20 +1,16 @@
-from typing import Callable, cast
+from typing import Callable
 
 import numpy as np
 import pennylane as qml
 from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
-from rich.progress import track
 
 from qxmt.devices import BaseDevice
-from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels import BaseKernel
-from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
-from qxmt.kernels.sampling import sample_results_to_probs
+from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
 
 
-class FidelityKernel(BaseKernel):
+class FidelityKernel(PennyLaneBaseKernel):
     """Fidelity kernel class.
     The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
     between two quantum states.
@@ -54,97 +50,47 @@ class FidelityKernel(BaseKernel):
             device (BaseDevice): device instance for quantum computation
             feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
         """
-
         super().__init__(device, feature_map)
-        self.qnode = None
-        self.state_memory = {}
 
-    def _initialize_qnode(self) -> None:
-        if (self.qnode is None) and (self.is_sampling):
-            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False, diff_method=None)
-        elif (self.qnode is None) and (not self.is_sampling):
-            self.qnode = qml.QNode(
-                self._circuit_state_vector, device=self.device.get_device(), cache=False, diff_method=None
-            )
-
-    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> SampleMP | list[SampleMP]:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
+    def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
+        self._validate_circuit_args(args, 2, "FidelityKernel._circuit_for_sampling")
+        x1, x2 = args
         self.feature_map(x1)
         qml.adjoint(self.feature_map)(x2)  # type: ignore
 
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            # Amazon Braket does not support directry sample by computational basis
-            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        else:
-            return qml.sample(wires=range(self.n_qubits))
+        return self._get_sampling_measurement()
 
-    def _circuit_state_vector(self, x: np.ndarray) -> StateMP:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
+    def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
+        self._validate_circuit_args(args, 1, "FidelityKernel._circuit_for_state_vector")
+        x = args[0]
         self.feature_map(x)
 
         return qml.state()
 
-    def _compute_matrix_by_state_vector(
-        self,
-        x1_array: np.ndarray,
-        x2_array: np.ndarray,
-        bar_label: str = "",
-        show_progress: bool = True,
-        block_size: int = STATE_VECTOR_BLOCK_SIZE,
-    ) -> np.ndarray:
-        """Compute the kernel matrix based on the state vector.
-        This method is only available in the non-sampling mode.
-        Each kernel value computed by theoritically probability distribution by state vector.
+    def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:
+        """Process the raw state vector for fidelity kernel computation.
 
         Args:
-            x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
-            x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
-            bar_label (str): label for progress bar
-            show_progress (bool): flag for showing progress bar
-            block_size (int): block size for the batch computation
+            state_vector (np.ndarray): Raw state vector from quantum circuit
 
         Returns:
-            np.ndarray: computed kernel matrix
+            np.ndarray: Raw state vector (no processing needed for fidelity kernel)
         """
-        self._initialize_qnode()
-        if self.qnode is None:
-            raise RuntimeError("QNode is not initialized.")
+        return state_vector
 
-        unique_inputs = set([tuple(x) for x in x1_array] + [tuple(x) for x in x2_array])
-        if show_progress:
-            bar_label = f" ({bar_label})" if bar_label else ""
-            iterator = track(unique_inputs, description=f"Computing Kernel Matrix{bar_label}")
-        else:
-            iterator = unique_inputs
+    def _compute_kernel_block(self, block1: np.ndarray, block2: np.ndarray) -> np.ndarray:
+        """Compute fidelity kernel values for blocks of states.
 
-        # compute the state vector for each data point
-        for x_tuple in iterator:
-            if x_tuple not in self.state_memory:
-                self.state_memory[x_tuple] = self.qnode(np.array(x_tuple))
+        Args:
+            block1 (np.ndarray): First block of state vectors
+            block2 (np.ndarray): Second block of state vectors
 
-        states1 = np.array([self.state_memory[tuple(x)] for x in x1_array])
-        states2 = np.array([self.state_memory[tuple(x)] for x in x2_array])
-
-        # batch compute the kernel matrix
-        n1 = len(states1)
-        n2 = len(states2)
-        kernel_matrix = np.zeros((n1, n2), dtype=np.float64)
-        for i_start in range(0, n1, block_size):
-            i_end = min(i_start + block_size, n1)
-            block1 = states1[i_start:i_end]
-            for j_start in range(0, n2, block_size):
-                j_end = min(j_start + block_size, n2)
-                block2 = states2[j_start:j_end]
-
-                inner_block = np.dot(block1, np.conj(block2.T))
-                kernel_block = np.abs(inner_block) ** 2
-                kernel_matrix[i_start:i_end, j_start:j_end] = kernel_block
-
-        return kernel_matrix
+        Returns:
+            np.ndarray: Computed fidelity kernel block
+        """
+        inner_block = np.dot(block1, np.conj(block2.T))
+        kernel_block = np.abs(inner_block) ** 2
+        return kernel_block
 
     def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
@@ -161,22 +107,8 @@ class FidelityKernel(BaseKernel):
         if not self.is_sampling:
             raise ValueError("_compute_by_sampling method is only available in sampling mode.")
 
-        self._initialize_qnode()
-        if self.qnode is None:
-            raise RuntimeError("QNode is not initialized.")
-
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            result = self.qnode(x1, x2)
-            # PauliZ basis convert to computational basis (-1->1, 1->0)
-            binary_result = (np.array(result).T == -1).astype(int)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            result = self.qnode(x1, x2)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
+        result = self.qnode(x1, x2)
+        probs = self._convert_sampling_results_to_probs(result)
 
         kernel_value = probs[0]  # get |0..0> state probability
 
