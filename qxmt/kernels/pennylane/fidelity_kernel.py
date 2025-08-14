@@ -107,10 +107,6 @@ class FidelityKernel(PennyLaneBaseKernel):
         if not self.is_sampling:
             raise ValueError("_compute_by_sampling method is only available in sampling mode.")
 
-        self._initialize_qnode()
-        if self.qnode is None:
-            raise RuntimeError("QNode is not initialized.")
-
         result = self.qnode(x1, x2)
         probs = self._convert_sampling_results_to_probs(result)
 

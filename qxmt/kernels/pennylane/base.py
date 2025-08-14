@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Callable, cast
+from typing import Callable, Optional, cast
 
 import numpy as np
 import pennylane as qml
@@ -21,8 +21,8 @@ class PennyLaneBaseKernel(BaseKernel):
 
     def __init__(self, device: BaseDevice, feature_map: BaseFeatureMap | Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
+        self._qnode: qml.QNode | None = None
         self.state_memory: dict[tuple[float, ...], float | np.ndarray] = {}
-        self._initialize_qnode()
 
     @abstractmethod
     def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
@@ -52,21 +52,18 @@ class PennyLaneBaseKernel(BaseKernel):
         """
         pass
 
-    def _initialize_qnode(self) -> None:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for PennyLaneBaseKernel.")
-
-        if self.is_sampling:
-            self.qnode = qml.QNode(
-                self._circuit_for_sampling, device=self.device.get_device(), cache=False, diff_method=None
-            )
-        else:
-            self.qnode = qml.QNode(
-                self._circuit_for_state_vector, device=self.device.get_device(), cache="auto", diff_method=None
-            )
-
-    def get_circuit_spec(self, x: np.ndarray) -> dict[str, Any]:
-        return qml.specs(self.qnode)(x)  # type: ignore
+    @property
+    def qnode(self) -> qml.QNode:
+        if self._qnode is None:
+            if self.is_sampling:
+                self._qnode = qml.QNode(
+                    self._circuit_for_sampling, device=self.device.get_device(), cache="auto", diff_method=None
+                )
+            else:
+                self._qnode = qml.QNode(
+                    self._circuit_for_state_vector, device=self.device.get_device(), cache="auto", diff_method=None
+                )
+        return self._qnode
 
     @abstractmethod
     def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:
@@ -154,12 +151,11 @@ class PennyLaneBaseKernel(BaseKernel):
         Returns:
             SampleMP | list[SampleMP]: Measurement instruction
         """
-        if (self.is_sampling) and (self.device.is_amazon_device()):
+        if self.device.is_amazon_device():
             # Amazon Braket does not support directly sample by computational basis
             return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
         else:
-            # return qml.sample(wires=range(self.n_qubits))
-            return qml.sample(wires=self.n_qubits)
+            return qml.sample(wires=range(self.n_qubits))
 
     def _convert_sampling_results_to_probs(self, result: list | np.ndarray) -> np.ndarray:
         """Convert sampling results to probability distribution.
@@ -170,12 +166,16 @@ class PennyLaneBaseKernel(BaseKernel):
         Returns:
             np.ndarray: Probability distribution
         """
-        if (self.is_sampling) and (self.device.is_amazon_device()):
+        if self.device.is_amazon_device():
             # PauliZ basis convert to computational basis (-1->1, 1->0)
             binary_result = (np.array(result).T == -1).astype(int)
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
             probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
         else:
             result_array = np.array(result) if isinstance(result, list) else result
+            # convert the sample results to probability distribution
+            # shots must be over 0 when sampling mode
             probs = sample_results_to_probs(result_array, self.n_qubits, cast(int, self.device.shots))
 
         return probs
@@ -198,3 +198,6 @@ class PennyLaneBaseKernel(BaseKernel):
                 raise ValueError(f"{method_name} requires exactly 2 arguments (x1, x2)")
             else:
                 raise ValueError(f"{method_name} requires exactly {expected_count} arguments")
+
+    # def get_circuit_spec(self, x: np.ndarray) -> dict[str, Any]:
+    #     return qml.specs(self.qnode)(x)  # type: ignore

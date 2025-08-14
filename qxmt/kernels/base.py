@@ -124,7 +124,7 @@ class BaseKernel(ABC):
         """
         pass
 
-    def _compute_entry_by_simulator(
+    def _compute_entry_by_sampling(
         self, i: int, j: int, x_array_1: np.ndarray, x_array_2: np.ndarray, progress_queue: Optional[mp.Queue]
     ) -> tuple[int, int, tuple[float, np.ndarray] | Exception]:
         """Compute each entry of the kernel matrix.
@@ -155,7 +155,7 @@ class BaseKernel(ABC):
                 progress_queue.put(1)
             return i, j, e
 
-    def _compute_matrix_by_simulator(
+    def _compute_matrix_by_sampling(
         self,
         x_array_1: np.ndarray,
         x_array_2: np.ndarray,
@@ -198,7 +198,7 @@ class BaseKernel(ABC):
 
                     with mp.Pool(processes=n_jobs) as pool:
                         results = pool.starmap_async(
-                            self._compute_entry_by_simulator,
+                            self._compute_entry_by_sampling,
                             [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
                         )
 
@@ -220,7 +220,7 @@ class BaseKernel(ABC):
         else:
             with mp.Pool(processes=n_jobs) as pool:
                 results = pool.starmap(
-                    self._compute_entry_by_simulator,
+                    self._compute_entry_by_sampling,
                     [(i, j, x_array_1, x_array_2, None) for (i, j, x_array_1, x_array_2) in tasks],
                 )
                 final_results = results
@@ -331,7 +331,7 @@ class BaseKernel(ABC):
             kernel_matrix = self._compute_matrix_by_state_vector(x_array_1, x_array_2, bar_label, show_progress)
             return kernel_matrix, None
         elif self.device.is_simulator():
-            return self._compute_matrix_by_simulator(
+            return self._compute_matrix_by_sampling(
                 x_array_1, x_array_2, return_shots_resutls, n_jobs, bar_label, show_progress
             )
         else:

@@ -171,9 +171,8 @@ class ProjectedKernel(PennyLaneBaseKernel):
         Returns:
             tuple[float, np.ndarray]: projected kernel value and probability distribution
         """
-        self._initialize_qnode()
-        if self.qnode is None:
-            raise RuntimeError("QNode is not initialized.")
+        if not self.is_sampling:
+            raise ValueError("_compute_by_sampling method is only available in sampling mode.")
 
         x1_result = self.qnode(x1)
         x2_result = self.qnode(x2)
