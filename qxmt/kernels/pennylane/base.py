@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Callable, cast
+from typing import Callable, cast
 
 import numpy as np
 import pennylane as qml

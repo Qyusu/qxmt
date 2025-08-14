@@ -22,6 +22,7 @@ class RunTime(BaseModel):
 
 class VQERunTime(BaseModel):
     optimize_seconds: float
+    circuit_depth: int
     n_parameters: int
 
 

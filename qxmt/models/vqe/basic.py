@@ -93,6 +93,13 @@ class BasicVQE(BaseVQE):
             logger=logger,
         )
 
+    def circuit_with_measurement(self, params: qml.numpy.ndarray | np.ndarray) -> ExpectationMP:
+        self.ansatz.circuit(params)
+        if not isinstance(self.hamiltonian.hamiltonian, Sum):
+            raise ValueError("Hamiltonian must be a Sum instance.")
+        else:
+            return qml.expval(self.hamiltonian.hamiltonian)
+
     def _initialize_qnode(self) -> None:
         """Initialize the QNode for VQE.
 
@@ -103,16 +110,8 @@ class BasicVQE(BaseVQE):
         Raises:
             ValueError: If the Hamiltonian is not a Sum instance.
         """
-
-        def circuit_with_measurement(params: qml.numpy.ndarray | np.ndarray) -> ExpectationMP:
-            self.ansatz.circuit(params)
-            if not isinstance(self.hamiltonian.hamiltonian, Sum):
-                raise ValueError("Hamiltonian must be a Sum instance.")
-            else:
-                return qml.expval(self.hamiltonian.hamiltonian)
-
         self.qnode = qml.QNode(
-            func=circuit_with_measurement,
+            func=self.circuit_with_measurement,
             device=self.device.get_device(),
             diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
@@ -178,13 +177,14 @@ class BasicVQE(BaseVQE):
         self._set_optimizer()
         self.logger.info(f"Optimizing ansatz with {self.ansatz.n_params} parameters through {self.max_steps} steps")
 
+        if init_params is None:
+            init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
+
+        self._set_circuit_specs(self.circuit_with_measurement, init_params)
+
         if self.optimizer_platform == OptimizerPlatform.SCIPY:
-            if init_params is None:
-                init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
             self._optimize_scipy(init_params)
         else:
-            if init_params is None:
-                init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
             self._optimize_pennylane(init_params)
 
         self.logger.info(f"Optimization finished. Final cost: {self.cost_history[-1]:.8f}")

@@ -3,7 +3,6 @@ from collections import Counter
 from pathlib import Path
 from typing import Callable
 
-import numpy as np
 import pandas as pd
 import pytest
 from pytest_mock import MockFixture
@@ -11,13 +10,10 @@ from pytest_mock import MockFixture
 from qxmt import Experiment
 from qxmt.configs import ExperimentConfig
 from qxmt.constants import DEFAULT_EXP_DB_FILE
-from qxmt.datasets import Dataset
-from qxmt.evaluation.metrics import BaseMetric
 from qxmt.exceptions import (
     ExperimentNotInitializedError,
     ExperimentRunSettingError,
     ExperimentSettingError,
-    ReproductionError,
 )
 from qxmt.experiment.schema import RunArtifact, RunRecord
 from qxmt.models.qkernels import BaseMLModel
