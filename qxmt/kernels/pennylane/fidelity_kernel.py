@@ -1,4 +1,4 @@
-from typing import Callable, cast
+from typing import Callable
 
 import numpy as np
 import pennylane as qml
@@ -7,8 +7,7 @@ from pennylane.measurements.state import StateMP
 
 from qxmt.devices import BaseDevice
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels.pennylane import PennyLaneBaseKernel
-from qxmt.kernels.sampling import sample_results_to_probs
+from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
 
 
 class FidelityKernel(PennyLaneBaseKernel):
@@ -54,23 +53,15 @@ class FidelityKernel(PennyLaneBaseKernel):
         super().__init__(device, feature_map)
 
     def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
-        if len(args) != 2:
-            raise ValueError("FidelityKernel._circuit_for_sampling requires exactly 2 arguments (x1, x2)")
-
+        self._validate_circuit_args(args, 2, "FidelityKernel._circuit_for_sampling")
         x1, x2 = args
         self.feature_map(x1)
         qml.adjoint(self.feature_map)(x2)  # type: ignore
 
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            # Amazon Braket does not support directry sample by computational basis
-            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        else:
-            return qml.sample(wires=range(self.n_qubits))
+        return self._get_sampling_measurement()
 
     def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
-        if len(args) != 1:
-            raise ValueError("FidelityKernel._circuit_for_state_vector requires exactly 1 argument (x)")
-
+        self._validate_circuit_args(args, 1, "FidelityKernel._circuit_for_state_vector")
         x = args[0]
         self.feature_map(x)
 
@@ -120,18 +111,8 @@ class FidelityKernel(PennyLaneBaseKernel):
         if self.qnode is None:
             raise RuntimeError("QNode is not initialized.")
 
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            result = self.qnode(x1, x2)
-            # PauliZ basis convert to computational basis (-1->1, 1->0)
-            binary_result = (np.array(result).T == -1).astype(int)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            result = self.qnode(x1, x2)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
+        result = self.qnode(x1, x2)
+        probs = self._convert_sampling_results_to_probs(result)
 
         kernel_value = probs[0]  # get |0..0> state probability
 

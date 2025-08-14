@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from typing import Any, Callable
+from typing import Any, Callable, cast
 
 import numpy as np
 import pennylane as qml
@@ -10,6 +10,7 @@ from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps.base import BaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE, BaseKernel
+from qxmt.kernels.sampling import sample_results_to_probs
 
 
 class PennyLaneBaseKernel(BaseKernel):
@@ -57,7 +58,7 @@ class PennyLaneBaseKernel(BaseKernel):
 
         if self.is_sampling:
             self.qnode = qml.QNode(
-                self._circuit_for_sampling, device=self.device.get_device(), cache="auto", diff_method=None
+                self._circuit_for_sampling, device=self.device.get_device(), cache=False, diff_method=None
             )
         else:
             self.qnode = qml.QNode(
@@ -146,3 +147,54 @@ class PennyLaneBaseKernel(BaseKernel):
                 kernel_matrix[i_start:i_end, j_start:j_end] = kernel_block
 
         return kernel_matrix
+
+    def _get_sampling_measurement(self) -> SampleMP | list[SampleMP]:
+        """Get appropriate sampling measurement based on device type.
+
+        Returns:
+            SampleMP | list[SampleMP]: Measurement instruction
+        """
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # Amazon Braket does not support directly sample by computational basis
+            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
+        else:
+            # return qml.sample(wires=range(self.n_qubits))
+            return qml.sample(wires=self.n_qubits)
+
+    def _convert_sampling_results_to_probs(self, result: list | np.ndarray) -> np.ndarray:
+        """Convert sampling results to probability distribution.
+
+        Args:
+            result: Raw sampling results from quantum circuit
+
+        Returns:
+            np.ndarray: Probability distribution
+        """
+        if (self.is_sampling) and (self.device.is_amazon_device()):
+            # PauliZ basis convert to computational basis (-1->1, 1->0)
+            binary_result = (np.array(result).T == -1).astype(int)
+            probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
+        else:
+            result_array = np.array(result) if isinstance(result, list) else result
+            probs = sample_results_to_probs(result_array, self.n_qubits, cast(int, self.device.shots))
+
+        return probs
+
+    def _validate_circuit_args(self, args: tuple[np.ndarray, ...], expected_count: int, method_name: str) -> None:
+        """Validate the number of arguments for circuit methods.
+
+        Args:
+            args: Arguments passed to circuit method
+            expected_count: Expected number of arguments
+            method_name: Name of the calling method for error message
+
+        Raises:
+            ValueError: If argument count doesn't match expected
+        """
+        if len(args) != expected_count:
+            if expected_count == 1:
+                raise ValueError(f"{method_name} requires exactly 1 argument (x)")
+            elif expected_count == 2:
+                raise ValueError(f"{method_name} requires exactly 2 arguments (x1, x2)")
+            else:
+                raise ValueError(f"{method_name} requires exactly {expected_count} arguments")

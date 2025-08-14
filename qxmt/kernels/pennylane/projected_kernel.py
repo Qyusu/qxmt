@@ -1,4 +1,4 @@
-from typing import Callable, Literal, cast
+from typing import Callable, Literal
 
 import numpy as np
 import pennylane as qml
@@ -7,8 +7,7 @@ from pennylane.measurements.state import StateMP
 
 from qxmt.devices import BaseDevice
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels.pennylane import PennyLaneBaseKernel
-from qxmt.kernels.sampling import sample_results_to_probs
+from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
 
 
 class ProjectedKernel(PennyLaneBaseKernel):
@@ -114,22 +113,14 @@ class ProjectedKernel(PennyLaneBaseKernel):
                 qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
     def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
-        if len(args) != 1:
-            raise ValueError("ProjectedKernel requires exactly 1 argument (x)")
-
+        self._validate_circuit_args(args, 1, "ProjectedKernel._circuit_for_sampling")
         x = args[0]
         self._circuit(x)
 
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            # Amazon Braket does not support directry sample by computational basis
-            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        else:
-            return qml.sample(wires=range(self.n_qubits))
+        return self._get_sampling_measurement()
 
     def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
-        if len(args) != 1:
-            raise ValueError("ProjectedKernel requires exactly 1 argument (x)")
-
+        self._validate_circuit_args(args, 1, "ProjectedKernel._circuit_for_state_vector")
         x = args[0]
         self._circuit(x)
 
@@ -187,19 +178,8 @@ class ProjectedKernel(PennyLaneBaseKernel):
         x1_result = self.qnode(x1)
         x2_result = self.qnode(x2)
 
-        if (self.is_sampling) and (self.device.is_amazon_device()):
-            # PauliZ basis convert to computational basis (-1->1, 1->0)
-            x1_binary_result = (np.array(x1_result).T == -1).astype(int)
-            x2_binary_result = (np.array(x2_result).T == -1).astype(int)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            x1_probs = sample_results_to_probs(x1_binary_result, self.n_qubits, cast(int, self.device.shots))
-            x2_probs = sample_results_to_probs(x2_binary_result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            x1_probs = sample_results_to_probs(x1_result, self.n_qubits, cast(int, self.device.shots))
-            x2_probs = sample_results_to_probs(x2_result, self.n_qubits, cast(int, self.device.shots))
+        x1_probs = self._convert_sampling_results_to_probs(x1_result)
+        x2_probs = self._convert_sampling_results_to_probs(x2_result)
 
         # compute expected values for projection operators
         x1_projected = self._calculate_expected_values(x1_probs)
