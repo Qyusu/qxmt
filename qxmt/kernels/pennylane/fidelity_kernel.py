@@ -4,12 +4,9 @@ import numpy as np
 import pennylane as qml
 from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
-from rich.progress import track
 
 from qxmt.devices import BaseDevice
-from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
 from qxmt.kernels.pennylane import PennyLaneBaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
@@ -79,63 +76,30 @@ class FidelityKernel(PennyLaneBaseKernel):
 
         return qml.state()
 
-    def _compute_matrix_by_state_vector(
-        self,
-        x1_array: np.ndarray,
-        x2_array: np.ndarray,
-        bar_label: str = "",
-        show_progress: bool = True,
-        block_size: int = STATE_VECTOR_BLOCK_SIZE,
-    ) -> np.ndarray:
-        """Compute the kernel matrix based on the state vector.
-        This method is only available in the non-sampling mode.
-        Each kernel value computed by theoritically probability distribution by state vector.
+    def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:
+        """Process the raw state vector for fidelity kernel computation.
 
         Args:
-            x1_array (np.ndarray): numpy array representing the all data points (ex: Train data)
-            x2_array (np.ndarray): numpy array representing the all data points (ex: Train data, Test data)
-            bar_label (str): label for progress bar
-            show_progress (bool): flag for showing progress bar
-            block_size (int): block size for the batch computation
+            state_vector (np.ndarray): Raw state vector from quantum circuit
 
         Returns:
-            np.ndarray: computed kernel matrix
+            np.ndarray: Raw state vector (no processing needed for fidelity kernel)
         """
-        self._initialize_qnode()
-        if self.qnode is None:
-            raise RuntimeError("QNode is not initialized.")
+        return state_vector
 
-        unique_inputs = set([tuple(x) for x in x1_array] + [tuple(x) for x in x2_array])
-        if show_progress:
-            bar_label = f" ({bar_label})" if bar_label else ""
-            iterator = track(unique_inputs, description=f"Computing Kernel Matrix{bar_label}")
-        else:
-            iterator = unique_inputs
+    def _compute_kernel_block(self, block1: np.ndarray, block2: np.ndarray) -> np.ndarray:
+        """Compute fidelity kernel values for blocks of states.
 
-        # compute the state vector for each data point
-        for x_tuple in iterator:
-            if x_tuple not in self.state_memory:
-                self.state_memory[x_tuple] = self.qnode(np.array(x_tuple))
+        Args:
+            block1 (np.ndarray): First block of state vectors
+            block2 (np.ndarray): Second block of state vectors
 
-        states1 = np.array([self.state_memory[tuple(x)] for x in x1_array])
-        states2 = np.array([self.state_memory[tuple(x)] for x in x2_array])
-
-        # batch compute the kernel matrix
-        n1 = len(states1)
-        n2 = len(states2)
-        kernel_matrix = np.zeros((n1, n2), dtype=np.float64)
-        for i_start in range(0, n1, block_size):
-            i_end = min(i_start + block_size, n1)
-            block1 = states1[i_start:i_end]
-            for j_start in range(0, n2, block_size):
-                j_end = min(j_start + block_size, n2)
-                block2 = states2[j_start:j_end]
-
-                inner_block = np.dot(block1, np.conj(block2.T))
-                kernel_block = np.abs(inner_block) ** 2
-                kernel_matrix[i_start:i_end, j_start:j_end] = kernel_block
-
-        return kernel_matrix
+        Returns:
+            np.ndarray: Computed fidelity kernel block
+        """
+        inner_block = np.dot(block1, np.conj(block2.T))
+        kernel_block = np.abs(inner_block) ** 2
+        return kernel_block
 
     def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
