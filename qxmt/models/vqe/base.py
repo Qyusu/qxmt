@@ -77,7 +77,7 @@ class BaseVQE(ABC):
         self.logger: Logger = logger
         self.qnode: QNode
         self.optimizer: Any
-        self.circuit_specs: dict[str, Any] | list[dict[str, Any]] = {}
+        self.circuit_specs: dict[str, Any] = {}
         self.params_history: list[np.ndarray] = []
         self.cost_history: list[float] = []
         self._set_optimizer_platform()
@@ -148,12 +148,12 @@ class BaseVQE(ABC):
         """
         return len(self.cost_history) > 0
 
-    def get_circuit_specs(self) -> dict[str, Any] | list[dict[str, Any]]:
+    def get_circuit_specs(self) -> dict[str, Any]:
         """Get the circuit specs.
         If circuit is not defined yet or failed to get specs, return empty dict.
 
         Returns:
-            dict[str, Any] | list[dict[str, Any]]: The circuit specs.
+            dict[str, Any]: The circuit specs.
         """
         return self.circuit_specs
 
@@ -324,7 +324,7 @@ class BaseVQE(ABC):
                 raise NotImplementedError(f'Optimizer "{optimizer_name}" is not implemented yet.')
 
     def _set_circuit_specs(self, circuit_func: Callable, init_params: np.ndarray) -> None:
-        """Get circuit specs by "qml.specs" method.
+        """Set circuit specs by "qml.specs" method.
         This method fixes the device to "default.qubit". It supports many type of qml.specs options.
 
         The specs are:
@@ -346,9 +346,6 @@ class BaseVQE(ABC):
             circuit_func: The circuit function to get the specs.
             init_params: The dummy parameters for the circuit.
                 It needs to match the shape of the ansatz parameters.
-
-        Returns:
-            dict[str, Any] | list[dict[str, Any]]: The circuit specs.
         """
         try:
             specs = qml.specs(
@@ -363,6 +360,9 @@ class BaseVQE(ABC):
                 ),
                 level=None,
             )(init_params)
+
+            if isinstance(specs, list):
+                specs = specs[0]
         except Exception as e:
             self.logger.warning(f"Failed to get circuit specs: {e}")
             specs = {}

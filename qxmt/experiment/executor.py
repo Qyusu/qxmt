@@ -337,6 +337,8 @@ class VQEExecutor(RunExecutorBase):
         remote_machine = None
 
         artifact = RunArtifact(run_id=self.exp.current_run_id, dataset=None, model=model)
+        circuit_specs = model.get_circuit_specs()
+        resources = circuit_specs.get("resources", {})
         record = RunRecord(
             run_id=self.exp.current_run_id,
             desc=self.exp._get_auto_description(desc, repo_path),
@@ -344,7 +346,11 @@ class VQEExecutor(RunExecutorBase):
             commit_id=commit_id,
             config_file_name=config_file_name,
             execution_time=datetime.now(TZ).strftime("%Y-%m-%d %H:%M:%S.%f %Z%z"),
-            runtime=VQERunTime(optimize_seconds=optimise_seconds, n_parameters=model.ansatz.n_params),
+            runtime=VQERunTime(
+                optimize_seconds=optimise_seconds,
+                circuit_depth=resources.depth if resources else 0,
+                n_parameters=model.ansatz.n_params,
+            ),
             evaluations=VQEEvaluations(optimized=evaluations),
         )
         return artifact, record
