@@ -9,12 +9,12 @@ from rich.progress import track
 from qxmt.devices import BaseDevice
 from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels import BaseKernel
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
+from qxmt.kernels.pennylane import PennyLaneBaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
 
-class FidelityKernel(BaseKernel):
+class FidelityKernel(PennyLaneBaseKernel):
     """Fidelity kernel class.
     The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
     between two quantum states.
@@ -54,23 +54,13 @@ class FidelityKernel(BaseKernel):
             device (BaseDevice): device instance for quantum computation
             feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
         """
-
         super().__init__(device, feature_map)
-        self.qnode = None
-        self.state_memory = {}
 
-    def _initialize_qnode(self) -> None:
-        if (self.qnode is None) and (self.is_sampling):
-            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False, diff_method=None)
-        elif (self.qnode is None) and (not self.is_sampling):
-            self.qnode = qml.QNode(
-                self._circuit_state_vector, device=self.device.get_device(), cache=False, diff_method=None
-            )
+    def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
+        if len(args) != 2:
+            raise ValueError("FidelityKernel._circuit_for_sampling requires exactly 2 arguments (x1, x2)")
 
-    def _circuit(self, x1: np.ndarray, x2: np.ndarray) -> SampleMP | list[SampleMP]:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
+        x1, x2 = args
         self.feature_map(x1)
         qml.adjoint(self.feature_map)(x2)  # type: ignore
 
@@ -80,10 +70,11 @@ class FidelityKernel(BaseKernel):
         else:
             return qml.sample(wires=range(self.n_qubits))
 
-    def _circuit_state_vector(self, x: np.ndarray) -> StateMP:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
+    def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
+        if len(args) != 1:
+            raise ValueError("FidelityKernel._circuit_for_state_vector requires exactly 1 argument (x)")
 
+        x = args[0]
         self.feature_map(x)
 
         return qml.state()

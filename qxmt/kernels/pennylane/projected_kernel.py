@@ -7,14 +7,13 @@ from pennylane.measurements.state import StateMP
 from rich.progress import track
 
 from qxmt.devices import BaseDevice
-from qxmt.exceptions import ModelSettingError
 from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels import BaseKernel
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
+from qxmt.kernels.pennylane import PennyLaneBaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
 
-class ProjectedKernel(BaseKernel):
+class ProjectedKernel(PennyLaneBaseKernel):
     """Projected kernel class.
     The projected kernel is a quantum kernel that projects the quantum state to a specific basis
     and computes the kernel value based on the projected measurement results.
@@ -66,12 +65,6 @@ class ProjectedKernel(BaseKernel):
         self.n_qubits = device.n_qubits
         self.gamma = gamma
         self.projection = projection
-        self.qnode = None
-        self.state_memory = {}
-
-    def _initialize_qnode(self) -> None:
-        if self.qnode is None:
-            self.qnode = qml.QNode(self._circuit, device=self.device.get_device(), cache=False)
 
     def _process_measurement_results(self, results: list[float]) -> np.ndarray:
         """Process the measurement results based on the projection method.
@@ -111,10 +104,7 @@ class ProjectedKernel(BaseKernel):
 
         return projected_exp_value
 
-    def _circuit(self, x: np.ndarray) -> SampleMP | list[SampleMP] | StateMP:
-        if self.feature_map is None:
-            raise ModelSettingError("Feature map must be provided for FidelityKernel.")
-
+    def _circuit(self, x: np.ndarray) -> None:
         self.feature_map(x)
 
         # apply projection operators for calculating the expected values by Z basis
@@ -125,13 +115,27 @@ class ProjectedKernel(BaseKernel):
             for i in range(self.n_qubits):
                 qml.RY(qml.numpy.array(np.pi / 2), wires=i)
 
+    def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
+        if len(args) != 1:
+            raise ValueError("ProjectedKernel requires exactly 1 argument (x)")
+
+        x = args[0]
+        self._circuit(x)
+
         if (self.is_sampling) and (self.device.is_amazon_device()):
             # Amazon Braket does not support directry sample by computational basis
             return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        elif self.is_sampling:
-            return qml.sample(wires=self.n_qubits)
         else:
-            return qml.state()
+            return qml.sample(wires=self.n_qubits)
+
+    def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
+        if len(args) != 1:
+            raise ValueError("ProjectedKernel requires exactly 1 argument (x)")
+
+        x = args[0]
+        self._circuit(x)
+
+        return qml.state()
 
     def _compute_matrix_by_state_vector(
         self,
