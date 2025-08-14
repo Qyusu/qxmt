@@ -16,8 +16,8 @@ class PennyLaneBaseKernel(BaseKernel):
 
     def __init__(self, device: BaseDevice, feature_map: BaseFeatureMap | Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
-        self.qnode: qml.QNode | None = None
         self.state_memory: dict[tuple[float, ...], float | np.ndarray] = {}
+        self._initialize_qnode()
 
     @abstractmethod
     def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
@@ -51,11 +51,11 @@ class PennyLaneBaseKernel(BaseKernel):
         if self.feature_map is None:
             raise ModelSettingError("Feature map must be provided for PennyLaneBaseKernel.")
 
-        if (self.qnode is None) and (self.is_sampling):
+        if self.is_sampling:
             self.qnode = qml.QNode(
                 self._circuit_for_sampling, device=self.device.get_device(), cache=False, diff_method=None
             )
-        elif (self.qnode is None) and (not self.is_sampling):
+        else:
             self.qnode = qml.QNode(
                 self._circuit_for_state_vector, device=self.device.get_device(), cache=False, diff_method=None
             )
