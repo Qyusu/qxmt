@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 from logging import Logger
-from typing import Any, Optional
+from typing import Any, Callable, Optional
 
 import numpy as np
 import pennylane as qml
@@ -77,6 +77,7 @@ class BaseVQE(ABC):
         self.logger: Logger = logger
         self.qnode: QNode
         self.optimizer: Any
+        self.circuit_specs: dict[str, Any] | list[dict[str, Any]] = {}
         self.params_history: list[np.ndarray] = []
         self.cost_history: list[float] = []
         self._set_optimizer_platform()
@@ -111,6 +112,50 @@ class BaseVQE(ABC):
             during the optimization process.
         """
         pass
+
+    def is_params_updated(self, threshold: float = 1e-8) -> bool:
+        """Check if parameters were actually updated during optimization.
+
+        Args:
+            threshold: Minimum change threshold to consider parameters as updated.
+
+        Returns:
+            bool: True if parameters changed more than threshold, False otherwise.
+        """
+        if len(self.params_history) < 2:
+            return False
+
+        # Compare first and last parameters
+        initial_params = self.params_history[0]
+        final_params = self.params_history[-1]
+
+        # Calculate L2 norm of parameter change
+        param_change = float(np.linalg.norm(final_params - initial_params))
+
+        return param_change > threshold
+
+    def is_optimized(self) -> bool:
+        """Check if the optimization process has been completed.
+
+        Returns:
+            bool: True if optimization has been performed (cost_history is not empty),
+                 False otherwise.
+
+        Note:
+            This is a simple check that only verifies if any optimization steps
+            have been taken. It does not check if the optimization has converged
+            to a satisfactory solution.
+        """
+        return len(self.cost_history) > 0
+
+    def get_circuit_specs(self) -> dict[str, Any] | list[dict[str, Any]]:
+        """Get the circuit specs.
+        If circuit is not defined yet or failed to get specs, return empty dict.
+
+        Returns:
+            dict[str, Any] | list[dict[str, Any]]: The circuit specs.
+        """
+        return self.circuit_specs
 
     def _set_optimizer_platform(self) -> None:
         """Set the optimizer platform based on the optimizer settings."""
@@ -158,41 +203,6 @@ class BaseVQE(ABC):
             )
         else:
             raise ValueError(f"Unknown init_params type: {init_params_config.get('type')}")
-
-    def is_params_updated(self, threshold: float = 1e-8) -> bool:
-        """Check if parameters were actually updated during optimization.
-
-        Args:
-            threshold: Minimum change threshold to consider parameters as updated.
-
-        Returns:
-            bool: True if parameters changed more than threshold, False otherwise.
-        """
-        if len(self.params_history) < 2:
-            return False
-
-        # Compare first and last parameters
-        initial_params = self.params_history[0]
-        final_params = self.params_history[-1]
-
-        # Calculate L2 norm of parameter change
-        param_change = float(np.linalg.norm(final_params - initial_params))
-
-        return param_change > threshold
-
-    def is_optimized(self) -> bool:
-        """Check if the optimization process has been completed.
-
-        Returns:
-            bool: True if optimization has been performed (cost_history is not empty),
-                 False otherwise.
-
-        Note:
-            This is a simple check that only verifies if any optimization steps
-            have been taken. It does not check if the optimization has converged
-            to a satisfactory solution.
-        """
-        return len(self.cost_history) > 0
 
     def _set_optimizer(self) -> None:
         """Set the optimizer based on the optimizer settings.
@@ -312,3 +322,49 @@ class BaseVQE(ABC):
                 self.optimizer = qml.ShotAdaptiveOptimizer(**optimizer_params)
             case _:
                 raise NotImplementedError(f'Optimizer "{optimizer_name}" is not implemented yet.')
+
+    def _set_circuit_specs(self, circuit_func: Callable, init_params: np.ndarray) -> None:
+        """Get circuit specs by "qml.specs" method.
+        This method fixes the device to "default.qubit". It supports many type of qml.specs options.
+
+        The specs are:
+            - resources (num_wires, num_gates, gate_types, gate_sizes, depth, shots)
+            - errors
+            - num_observables
+            - num_diagonalizing_gates
+            - num_trainable_params
+            - num_device_wires
+            - num_tape_wires
+            - device_name
+            - level
+            - gradient_options
+            - interface
+            - diff_method
+            - gradient_fn
+
+        Args:
+            circuit_func: The circuit function to get the specs.
+            init_params: The dummy parameters for the circuit.
+                It needs to match the shape of the ansatz parameters.
+
+        Returns:
+            dict[str, Any] | list[dict[str, Any]]: The circuit specs.
+        """
+        try:
+            specs = qml.specs(
+                qml.QNode(
+                    func=circuit_func,
+                    device=qml.device(
+                        name="default.qubit",
+                        wires=self.device.get_device().wires,
+                        shots=self.device.get_device().shots,
+                    ),
+                    diff_method="best",
+                ),
+                level=None,
+            )(init_params)
+        except Exception as e:
+            self.logger.warning(f"Failed to get circuit specs: {e}")
+            specs = {}
+
+        self.circuit_specs = specs
