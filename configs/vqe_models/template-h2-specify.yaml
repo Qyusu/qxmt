@@ -50,4 +50,5 @@ evaluation:
   default_metrics:
   - "final_cost"
   - "hf_energy"
+  - "fci_energy"
   custom_metrics: []
