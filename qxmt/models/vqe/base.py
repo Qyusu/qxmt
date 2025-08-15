@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 from logging import Logger
-from typing import Any, Callable, Optional
+from typing import Any, Optional
 
 import numpy as np
 import pennylane as qml
@@ -77,7 +77,7 @@ class BaseVQE(ABC):
         self.logger: Logger = logger
         self.qnode: QNode
         self.optimizer: Any
-        self.circuit_specs: dict[str, Any] = {}
+        self.circuit_depth: int = 0
         self.params_history: list[np.ndarray] = []
         self.cost_history: list[float] = []
         self._set_optimizer_platform()
@@ -148,14 +148,14 @@ class BaseVQE(ABC):
         """
         return len(self.cost_history) > 0
 
-    def get_circuit_specs(self) -> dict[str, Any]:
-        """Get the circuit specs.
-        If circuit is not defined yet or failed to get specs, return empty dict.
+    def get_circuit_depth(self) -> int:
+        """Get the circuit depth.
+        If circuit is not defined yet or failed to get depth, return 0.
 
         Returns:
-            dict[str, Any]: The circuit specs.
+            int: The circuit depth.
         """
-        return self.circuit_specs
+        return self.circuit_depth
 
     def _set_optimizer_platform(self) -> None:
         """Set the optimizer platform based on the optimizer settings."""
@@ -323,48 +323,34 @@ class BaseVQE(ABC):
             case _:
                 raise NotImplementedError(f'Optimizer "{optimizer_name}" is not implemented yet.')
 
-    def _set_circuit_specs(self, circuit_func: Callable, init_params: np.ndarray) -> None:
-        """Set circuit specs by "qml.specs" method.
-        This method fixes the device to "default.qubit". It supports many type of qml.specs options.
-
-        The specs are:
-            - resources (num_wires, num_gates, gate_types, gate_sizes, depth, shots)
-            - errors
-            - num_observables
-            - num_diagonalizing_gates
-            - num_trainable_params
-            - num_device_wires
-            - num_tape_wires
-            - device_name
-            - level
-            - gradient_options
-            - interface
-            - diff_method
-            - gradient_fn
+    def _set_circuit_depth(
+        self, qnode: QNode, init_params: np.ndarray, base_ops: set[str] = {"RX", "RZ", "CNOT"}
+    ) -> None:
+        """Set circuit depth that decomposes the circuit into base operations.
 
         Args:
-            circuit_func: The circuit function to get the specs.
+            qnode: The QNode to get the depth.
             init_params: The dummy parameters for the circuit.
                 It needs to match the shape of the ansatz parameters.
+            base_ops: The base operations to decompose the circuit into.
+                Default is Rotation+Entangler operations: {"RX", "RZ", "CNOT"}.
+
+        NOTE:
+            PennyLane default: {"PauliX", "Hadamard", "RX", "CNOT", "RZ"}
+            Clifford+T: {"H", "S", "T", "CNOT"}
+            IBM Q: {"RZ", "SX", "X", "CX"}
         """
         try:
-            specs = qml.specs(
-                qml.QNode(
-                    func=circuit_func,
-                    device=qml.device(
-                        name="default.qubit",
-                        wires=self.device.get_device().wires,
-                        shots=self.device.get_device().shots,
-                    ),
-                    diff_method="best",
-                ),
-                level=None,
-            )(init_params)
+            tape = qml.workflow.construct_tape(qnode)(init_params)
+            while True:
+                nxt = tape.expand(stop_at=lambda op: (op.name in base_ops) or (not op.has_decomposition))
+                if len(nxt.operations) == len(tape.operations):
+                    break
+                tape = nxt
 
-            if isinstance(specs, list):
-                specs = specs[0]
+            depth = tape.graph.get_depth()
         except Exception as e:
-            self.logger.warning(f"Failed to get circuit specs: {e}")
-            specs = {}
+            self.logger.warning(f"Failed to get circuit depth: {e}")
+            depth = 0
 
-        self.circuit_specs = specs
+        self.circuit_depth = depth
