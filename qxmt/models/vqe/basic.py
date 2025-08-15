@@ -180,7 +180,7 @@ class BasicVQE(BaseVQE):
         if init_params is None:
             init_params = self._parse_init_params(self.init_params_config, self.ansatz.n_params)
 
-        self._set_circuit_specs(self.circuit_with_measurement, init_params)
+        self._set_circuit_depth(self.qnode, init_params)
 
         if self.optimizer_platform == OptimizerPlatform.SCIPY:
             self._optimize_scipy(init_params)
