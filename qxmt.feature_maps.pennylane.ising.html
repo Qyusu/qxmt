@@ -511,6 +511,174 @@ document.write(`
                   
   <section id="qxmt-feature-maps-pennylane-ising-module">
 <h1>qxmt.feature_maps.pennylane.ising module<a class="headerlink" href="#qxmt-feature-maps-pennylane-ising-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">XXFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>XX feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.ising</span><span class="w"> </span><span class="kn">import</span> <span class="n">XXFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">XXFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──RX(0.33)─╭IsingXX(15.19)──RX(0.33)─╭IsingXX(15.19)─┤</span>
+<span class="go">1: ──RX(0.44)─╰IsingXX(15.19)──RX(0.44)─╰IsingXX(15.19)─┤</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the XX feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create quantum circuit of XX feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">YYFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>YY feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.ising</span><span class="w"> </span><span class="kn">import</span> <span class="n">YYFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">YYFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──H──RY(0.86)─╭IsingYY(11.23)──H──RY(0.86)─╭IsingYY(11.23)─┤</span>
+<span class="go">1: ──H──RY(0.68)─╰IsingYY(11.23)──H──RY(0.68)─╰IsingYY(11.23)─┤</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the YY feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create quantum circuit of YY feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.ising.</span></span><span class="sig-name descname"><span class="pre">ZZFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>ZZ feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.ising</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──H──RZ(0.88)─╭IsingZZ(13.28)──H──RZ(0.88)─╭IsingZZ(13.28)─┤</span>
+<span class="go">1: ──H──RZ(0.20)─╰IsingZZ(13.28)──H──RZ(0.20)─╰IsingZZ(13.28)─┤</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the ZZ feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create quantum circuit of ZZ feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -511,6 +511,169 @@ document.write(`
                   
   <section id="qxmt-devices-base-module">
 <h1>qxmt.devices.base module<a class="headerlink" href="#qxmt-devices-base-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.devices.base.</span></span><span class="sig-name descname"><span class="pre">BaseDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.base</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Abstract base class for quantum devices.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>platform</strong> (<em>str</em>)</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>backend_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>shots</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>random_seed</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">backend_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">random_seed=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.devices.base</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the quantum device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>platform</strong> (<em>str</em>) – platform name (ex: pennylane, qulacs, etc.)</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – device name provided by the platform (ex: default.qubit, default.tensor, etc.)</p></li>
+<li><p><strong>backend_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – backend name for the real device</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>shots</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – number of shots for the quantum circuit</p></li>
+<li><p><strong>random_seed</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – random seed for the quantum device</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – logger instance</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_backend_name</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get real machine backend name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>backend name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the quantum device instance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>quantum device instance</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Any</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_job_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">created_after</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_before</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the job IDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>created_after</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – created datetime of the jobs. If None, start time filter is not applied.</p></li>
+<li><p><strong>created_before</strong> (<em>Optional</em><em>[</em><em>datetime</em><em>]</em>) – finished datetime of the jobs. If None, end time filter is not applied.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>job IDs</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_provider</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get real machine provider name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>provider name</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_amazon_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is an Amazon Braket device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device_type</strong> (<em>Literal</em><em>[</em><em>&quot;local&quot;</em><em>, </em><em>&quot;remote&quot;</em><em>, </em><em>&quot;all&quot;</em><em>]</em>) – type of Amazon Braket device</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the device is an Amazon Braket device, False otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">is_ibmq_device</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is an IBM Quantum device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the device is an IBM Quantum device, False otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_remote</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is a remote device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the device is a remote device, False otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_simulator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Check if the device is a simulator or real machine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the device is a simulator, False otherwise</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

@@ -511,6 +511,63 @@ document.write(`
                   
   <section id="qxmt-visualization-plot-vqe-performance-module">
 <h1>qxmt.visualization.plot_vqe_performance module<a class="headerlink" href="#qxmt-visualization-plot-vqe-performance-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_vqe_performance.</span></span><span class="sig-name descname"><span class="pre">plot_energy_difference_by_bond_length</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseline_energy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_length_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">absolute</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Energy</span> <span class="pre">Difference</span> <span class="pre">by</span> <span class="pre">Bond</span> <span class="pre">Length'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Bond</span> <span class="pre">Length'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Energy</span> <span class="pre">Difference'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ticks_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot the energy difference between the VQE and the baseline energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cost_history</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The cost history of the VQE.</p></li>
+<li><p><strong>baseline_cost</strong> (<em>float</em>) – The baseline cost of the VQE.</p></li>
+<li><p><strong>bond_length_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The bond length list.</p></li>
+<li><p><strong>absolute</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to use the absolute value of the energy difference. Defaults to False.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – The title of the plot. Defaults to “Energy Difference by Bond Length”.</p></li>
+<li><p><strong>x_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the x-axis. Defaults to “Bond Length”.</p></li>
+<li><p><strong>y_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the y-axis. Defaults to “Energy Difference”.</p></li>
+<li><p><strong>grid</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the grid. Defaults to True.</p></li>
+<li><p><strong>x_ticks_points</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of points on the x-axis. Defaults to 10.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – The path to save the plot. Defaults to None.</p></li>
+<li><p><strong>energy_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>)</p></li>
+<li><p><strong>baseline_energy_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>)</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_vqe_performance.</span></span><span class="sig-name descname"><span class="pre">plot_pec</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_energy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fci_energy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bond_length_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Potential</span> <span class="pre">Energy</span> <span class="pre">Curve'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Bond</span> <span class="pre">Length'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Energy'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'HF'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fci_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'FCI'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vqe_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'VQE'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_ticks_points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot the Potential Energy Curve (PEC) of the VQE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>energy_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The energy list.</p></li>
+<li><p><strong>hf_energy_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The HF energy list.</p></li>
+<li><p><strong>fci_energy_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The FCI energy list.</p></li>
+<li><p><strong>bond_length_list</strong> (<em>list</em><em>[</em><em>float</em><em>]</em>) – The bond length list.</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – The title of the plot. Defaults to “Potential Energy Curve”.</p></li>
+<li><p><strong>x_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the x-axis. Defaults to “Bond Length”.</p></li>
+<li><p><strong>y_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the y-axis. Defaults to “Energy”.</p></li>
+<li><p><strong>hf_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the HF energy. Defaults to “HF”.</p></li>
+<li><p><strong>fci_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the FCI energy. Defaults to “FCI”.</p></li>
+<li><p><strong>vqe_label</strong> (<em>str</em><em>, </em><em>optional</em>) – The label of the VQE energy. Defaults to “VQE”.</p></li>
+<li><p><strong>grid</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to show the grid. Defaults to True.</p></li>
+<li><p><strong>x_ticks_points</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of points on the x-axis. Defaults to 10.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – The path to save the plot. Defaults to None.</p></li>
+<li><p><strong>kwargs</strong> (<em>Any</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

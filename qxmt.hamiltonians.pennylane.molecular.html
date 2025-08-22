@@ -511,6 +511,232 @@ document.write(`
                   
   <section id="qxmt-hamiltonians-pennylane-molecular-module">
 <h1>qxmt.hamiltonians.pennylane.molecular module<a class="headerlink" href="#qxmt-hamiltonians-pennylane-molecular-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">InitializationType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DATASET</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">DIRECT_MOLECULE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">INVALID</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">MolecularHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bondlength=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_name='STO-3G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit='angstrom'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method='dhf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_electrons=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_orbitals=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping='jordan_wigner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_energy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fci_energy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.hamiltonians.pennylane.molecular</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHamiltonian</span></code></p>
+<p>Molecular Hamiltonian for quantum chemistry calculations.</p>
+<p>This class represents a molecular Hamiltonian using PennyLane’s quantum chemistry module.
+It supports both full and active space calculations for molecular systems.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>molname</strong> (<em>str</em><em> | </em><em>None</em>) – Name of the molecule in PennyLane’s dataset.</p></li>
+<li><p><strong>bondlength</strong> (<em>float</em><em> | </em><em>str</em><em> | </em><em>None</em>) – Bond length of the molecule in Angstroms.</p></li>
+<li><p><strong>symbols</strong> (<em>list</em><em>[</em><em>str</em><em>] </em><em>| </em><em>None</em>) – List of atomic symbols (e.g., [‘H’, ‘H’] for H2).</p></li>
+<li><p><strong>coordinates</strong> (<em>tensor</em><em> | </em><em>list</em><em>[</em><em>float</em><em>] </em><em>| </em><em>list</em><em>[</em><em>list</em><em>[</em><em>float</em><em>]</em><em>] </em><em>| </em><em>None</em>) – Array of atomic coordinates in Angstroms.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – Total charge of the molecule. Defaults to 0.</p></li>
+<li><p><strong>multi</strong> (<em>int</em>) – Multiplicity of the molecule. Defaults to 1.</p></li>
+<li><p><strong>basis_name</strong> (<em>Literal</em><em>[</em><em>'STO-3G'</em><em>, </em><em>'6-31G'</em><em>, </em><em>'6-311G'</em><em>, </em><em>'CC-PVDZ'</em><em>]</em>) – Basis set name. Only supported [“sto-3g”, “6-31g”, “6-311g”, “cc-pvdz”]. Defaults to “sto-3g”.</p></li>
+<li><p><strong>unit</strong> (<em>Literal</em><em>[</em><em>'angstrom'</em><em>, </em><em>'bohr'</em><em>]</em>) – Unit of the coordinates. Only supported [“angstrom”, “bohr”]. Defaults to “angstrom”.</p></li>
+<li><p><strong>method</strong> (<em>Literal</em><em>[</em><em>'dhf'</em><em>, </em><em>'pyscf'</em><em>, </em><em>'openfermion'</em><em>]</em>) – Method to use for the calculation. Only supported [“dhf”, “pyscf”, “openfermion”]. Defaults to “dhf”.</p></li>
+<li><p><strong>active_electrons</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active electrons. If None, uses all electrons.</p></li>
+<li><p><strong>active_orbitals</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active orbitals. If None, uses all orbitals.</p></li>
+<li><p><strong>mapping</strong> (<em>Literal</em><em>[</em><em>'jordan_wigner'</em><em>, </em><em>'bravyi_kitaev'</em><em>, </em><em>'parity'</em><em>]</em>) – Mapping to use for the calculation. Defaults to “jordan_wigner”.</p></li>
+<li><p><strong>hf_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>fci_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span></dt>
+<dd><p>PennyLane Hamiltonian operator.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">n_qubits</span></span></dt>
+<dd><p>Number of qubits required for the simulation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">molecule</span></span></dt>
+<dd><p>PennyLane Molecule object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_active_electrons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of active electrons.</p>
+<p>If active_electrons is not specified, returns the total number of electrons.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of active electrons.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_active_orbitals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of active orbitals.</p>
+<p>If active_orbitals is not specified, returns the total number of molecular orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of active orbitals.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_active_spin_orbitals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of active spin orbitals.</p>
+<p>If active_orbitals is not specified, returns the total number of spin orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of active spin orbitals (2 * number of active orbitals).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_electrons</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the total number of electrons in the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Total number of electrons.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_fci_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the FCI energy of the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>FCI energy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_hamiltonian</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the Hamiltonian operator.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The molecular Hamiltonian operator.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sum</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_hf_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the Hartree-Fock energy of the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Hartree-Fock energy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_molecular_orbitals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of molecular orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of molecular orbitals.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_molecule</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the Molecule object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The molecule object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>qml.qchem.Molecule</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_n_qubits</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of qubits required for the simulation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of qubits.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_spin_orbitals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the number of spin orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Number of spin orbitals (2 * number of molecular orbitals).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

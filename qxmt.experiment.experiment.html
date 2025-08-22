@@ -511,6 +511,429 @@ document.write(`
                   
   <section id="qxmt-experiment-experiment-module">
 <h1>qxmt.experiment.experiment module<a class="headerlink" href="#qxmt-experiment-experiment-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.experiment.</span></span><span class="sig-name descname"><span class="pre">Experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Manage the life-cycle of quantum machine-learning experiments.</p>
+<p>The Experiment class is the centerpiece of the <em>Quantum eXperiment Management Tool</em> (QXMT).
+It orchestrates creation and loading of experiment directories, execution of runs,
+persistence and aggregation of results, and ensures reproducibility. Every
+side-effect that touches the file-system is delegated to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">qxmt.experiment.repository.ExperimentRepository</span></code>, so this class can focus on
+business logic.</p>
+<p>Responsibilities:</p>
+<ol class="arabic simple">
+<li><p><strong>Initialization / Loading</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">init()</span></code> - create a new experiment directory and an empty <cite>ExperimentDB</cite>.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">load()</span></code> - load an existing experiment from a JSON file.</p></li>
+</ul>
+</li>
+<li><p><strong>Run management</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">run()</span></code> - execute an experiment run with QKernel or VQE models (supports both
+config-based and instance-based workflows).</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_setup()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">_run_backfill()</span></code> - create and rollback run directories.</p></li>
+</ul>
+</li>
+<li><p><strong>Result handling</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">runs_to_dataframe()</span></code> - convert <cite>RunRecord`s into a `pandas.DataFrame</cite> for easy analysis.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_experiment()</span></code> - persist the <cite>ExperimentDB</cite> to disk.</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_run_record()</span></code> - retrieve a single <cite>RunRecord</cite> by <em>run_id</em>.</p></li>
+</ul>
+</li>
+<li><p><strong>Reproducibility</strong></p>
+<ul class="simple">
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">reproduce()</span></code> - re-execute a past run and validate that results match.</p></li>
+</ul>
+</li>
+</ol>
+<p class="rubric">Example</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.experiment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Experiment</span>
+
+<span class="n">exp</span> <span class="o">=</span> <span class="n">Experiment</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;my_exp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">init</span><span class="p">()</span>
+<span class="n">artifact</span><span class="p">,</span> <span class="n">record</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+    <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;qkernel&quot;</span><span class="p">,</span>
+    <span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">dataset_instance</span><span class="p">,</span>
+    <span class="n">model</span><span class="o">=</span><span class="n">model_instance</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Aggregate results</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="n">runs_to_dataframe</span><span class="p">()</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>desc</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>auto_gen_mode</strong> (<em>bool</em>)</p></li>
+<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>)</p></li>
+<li><p><strong>llm_model_path</strong> (<em>str</em>)</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">name</span></span></dt>
+<dd><p>Experiment name. If <em>None</em>, a timestamped name is generated.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">desc</span></span></dt>
+<dd><p>Human-readable description. When <cite>auto_gen_mode</cite> is enabled and the value is an
+empty string, an LLM can generate it automatically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">auto_gen_mode</span></span></dt>
+<dd><p>Whether to generate run descriptions with an LLM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">root_experiment_dirc</span></span></dt>
+<dd><p>Root directory where all experiments are stored.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">experiment_dirc</span></span></dt>
+<dd><p>Directory assigned to this particular experiment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pathlib.Path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">current_run_id</span></span></dt>
+<dd><p>ID of the next run to be executed (zero-based).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">exp_db</span></span></dt>
+<dd><p>In-memory database object holding experiment meta-data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ExperimentDB | None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">logger</span></span></dt>
+<dd><p>Logger instance to report progress and warnings.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>logging.Logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_repo</span></span></dt>
+<dd><p>Internal repository that encapsulates all filesystem &amp; persistence operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ExperimentRepository</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_gen_mode=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">root_experiment_dirc=PosixPath('/home/runner/work/qxmt/qxmt/experiments')</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llm_model_path='microsoft/Phi-3-mini-128k-instruct'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.experiment.experiment</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the Experiment class with experiment settings and configuration.</p>
+<p>This method sets up the basic configuration for the experiment, including:
+- Experiment name and description
+- Auto-generation mode for descriptions
+- Experiment directory structure
+- LLM model path (if using auto-generation)
+- Logger configuration</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Name of the experiment. If None, a default name will be generated
+using the current timestamp. Defaults to None.</p></li>
+<li><p><strong>desc</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Description of the experiment. Used for documentation and search purposes.
+If None and auto_gen_mode is True, a description will be generated. Defaults to None.</p></li>
+<li><p><strong>auto_gen_mode</strong> (<em>bool</em>) – Whether to use the DescriptionGenerator for automatic description generation.
+Requires the “USE_LLM” environment variable to be set to True. Defaults to USE_LLM.</p></li>
+<li><p><strong>root_experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Root directory where experiment data will be stored.
+Defaults to DEFAULT_EXP_DIRC.</p></li>
+<li><p><strong>llm_model_path</strong> (<em>str</em>) – Path to the LLM model used for description generation.
+Defaults to LLM_MODEL_PATH.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – Logger instance for handling warning and error messages.
+Defaults to LOGGER.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If auto_gen_mode is True but USE_LLM is False, a warning will be logged
+and auto_gen_mode will be automatically set to False.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_run_record</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">runs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Get the run record of the target run_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>runs</strong> (<em>list</em><em>[</em><em>RunRecord</em><em>]</em>) – List of run records to search.</p></li>
+<li><p><strong>run_id</strong> (<em>int</em>) – Target run_id.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Target run record.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>RunRecord</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the run record does not exist.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">init</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the experiment directory and DB.</p>
+<p>Creates a new experiment directory and initializes an empty ExperimentDB.
+The directory will be created under root_experiment_dirc with the experiment name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Initialized experiment instance.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Experiment</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ExperimentSettingError</strong> – If the experiment directory already exists.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('experiment.json')</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Load existing experiment data from a json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exp_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the experiment directory.</p></li>
+<li><p><strong>exp_file_name</strong> (<em>str</em><em> | </em><em>Path</em>) – Name of the experiment file. Defaults to DEFAULT_EXP_DB_FILE.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loaded experiment instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Experiment</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – If the experiment file does not exist.</p></li>
+<li><p><strong>ExperimentSettingError</strong> – If the experiment directory does not exist.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">reproduce</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">check_commit_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Reproduce a previous experiment run using its configuration.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>run_id</strong> (<em>int</em>) – ID of the run to reproduce.</p></li>
+<li><p><strong>check_commit_id</strong> (<em>bool</em>) – Whether to verify that the current git commit matches the original run.
+Defaults to False.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – Tolerance for comparing evaluation metrics between original and reproduced runs.
+Defaults to 1e-6.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the reproduced run’s artifact and record.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ReproductionError</strong> – If the run was executed in instance-based mode (no config file available).</p></li>
+<li><p><strong>ValueError</strong> – If the reproduced results differ significantly from the original run.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>Only runs executed in config-based mode can be reproduced.</p></li>
+<li><p>The method will raise an error if the reproduced results differ from the original
+beyond the specified tolerance.</p></li>
+<li><p>If check_commit_id is True and the current commit differs from the original,
+a warning will be logged but the reproduction will continue.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">run</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config_source</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">desc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">repo_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_results</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Execute a new experiment run with the specified configuration.</p>
+<p>This method supports two main modes of operation:
+1. Config-based mode: Using a configuration file or ExperimentConfig instance
+2. Instance-based mode: Directly providing dataset and model instances</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>model_type</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Type of model to use (‘qkernel’ or ‘vqe’).
+Required for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>task_type</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Type of task for QKernel models (‘classification’ or ‘regression’).
+Required for QKernel models. Defaults to None.</p></li>
+<li><p><strong>dataset</strong> (<em>Optional</em><em>[</em><em>Dataset</em><em>]</em>) – Dataset instance for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>model</strong> (<em>Optional</em><em>[</em><em>BaseMLModel</em><em> | </em><em>BaseVQE</em><em>]</em>) – Model instance for instance-based mode. Defaults to None.</p></li>
+<li><p><strong>config_source</strong> (<em>Optional</em><em>[</em><em>ExperimentConfig</em><em> | </em><em>str</em><em> | </em><em>Path</em><em>]</em>) – Configuration source for config-based mode.
+Can be an ExperimentConfig instance or path to config file. Defaults to None.</p></li>
+<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of default metrics to evaluate. Defaults to None.</p></li>
+<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – List of custom metric configurations. Defaults to None.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em>) – Number of parallel jobs for processing. Defaults to DEFAULT_N_JOBS.</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em>) – Whether to display progress bars. Defaults to True.</p></li>
+<li><p><strong>desc</strong> (<em>str</em>) – Description of the run. Defaults to “”.</p></li>
+<li><p><strong>repo_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Path to git repository for version tracking. Defaults to None.</p></li>
+<li><p><strong>add_results</strong> (<em>bool</em>) – Whether to save run results and artifacts. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tuple containing the run artifact and record.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[RunArtifact, RunRecord]</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ExperimentRunSettingError</strong> – If required parameters are missing or invalid.</p></li>
+<li><p><strong>ValueError</strong> – If model_type is invalid.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>For config-based mode, the configuration file will be saved in the run directory.</p></li>
+<li><p>For instance-based mode, model_type must be specified.</p></li>
+<li><p>If git is available, the commit ID will be tracked.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">runs_to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">include_validation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Convert experiment run records into a pandas DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>include_validation</strong> (<em>bool</em>) – Whether to include validation metrics in the DataFrame.
+Defaults to False.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A DataFrame containing run results with the following columns:</dt><dd><ul class="simple">
+<li><p>run_id: The ID of each run</p></li>
+<li><p>[metric_name]: Evaluation metrics for test data</p></li>
+<li><p>[metric_name]_validation: Validation metrics (if include_validation is True)</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>pd.DataFrame</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ExperimentNotInitializedError</strong> – If the experiment has not been initialized.</p></li>
+<li><p><strong>ValueError</strong> – If the run records contain invalid evaluation types.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p>The DataFrame will be empty if no runs have been recorded.</p></li>
+<li><p>Validation metrics are only included if they were computed during the run.</p></li>
+<li><p>The method automatically handles both QKernel and VQE evaluation types.</p></li>
+</ul>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save_experiment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">PosixPath('experiment.json')</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Save the experiment data to a json file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>exp_file</strong> (<em>str</em><em> | </em><em>Path</em>) – Name of the file to save the experiment data.
+Defaults to DEFAULT_EXP_DB_FILE.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ExperimentNotInitializedError</strong> – If the experiment is not initialized.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

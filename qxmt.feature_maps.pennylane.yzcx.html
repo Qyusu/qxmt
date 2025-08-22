@@ -511,6 +511,69 @@ document.write(`
                   
   <section id="qxmt-feature-maps-pennylane-yzcx-module">
 <h1>qxmt.feature_maps.pennylane.yzcx module<a class="headerlink" href="#qxmt-feature-maps-pennylane-yzcx-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.feature_maps.pennylane.yzcx.</span></span><span class="sig-name descname"><span class="pre">YZCXFeatureMap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseFeatureMap</span></code></p>
+<p>YZCX feature map class.
+Reference: <a class="reference external" href="https://arxiv.org/abs/2108.01039">https://arxiv.org/abs/2108.01039</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseFeatureMap</strong> (<em>_type_</em>) – base feature map class</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
+<li><p><strong>reps</strong> (<em>int</em>)</p></li>
+<li><p><strong>c</strong> (<em>float</em>)</p></li>
+<li><p><strong>seed</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.yzcx</span><span class="w"> </span><span class="kn">import</span> <span class="n">YZCXFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">YZCXFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">x_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0: ──RY(0.03)──RY(3.42)──RZ(0.05)──RZ(5.88)─╭●──RY(0.03)──RY(5.39)──RZ(0.05)──RZ(0.21)</span>
+<span class="go">1: ─────────────────────────────────────────╰X──RY(0.03)──RY(5.13)──RZ(0.05)──RZ(0.02)</span>
+<span class="go">──────────────────────────────────────────┤</span>
+<span class="go">──RY(0.03)───RY(4.58)──RZ(0.05)──RZ(1.10)─┤</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>“Initialize the YZCX feature map class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>reps</strong> (<em>int</em>) – number of repetitions</p></li>
+<li><p><strong>c</strong> (<em>float</em>) – scaling factor</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – random seed</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">feature_map</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Create quantum circuit of YZCX feature map.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

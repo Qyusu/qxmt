@@ -511,6 +511,68 @@ document.write(`
                   
   <section id="qxmt-kernels-sampling-module">
 <h1>qxmt.kernels.sampling module<a class="headerlink" href="#qxmt-kernels-sampling-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">generate_all_observable_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'01'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Generate all possible observable states for the given number of qubits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>state_pattern</strong> (<em>str</em><em>, </em><em>optional</em>) – pattern of the observable state. Defaults to “01”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>list of all possible observable states</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">sample_results_to_probs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_qubits</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shots</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">state_pattern</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'01'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Convert the sampling results to the probability of each</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>result</strong> (<em>np.ndarray</em>) – numpy array of sampling results</p></li>
+<li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
+<li><p><strong>shots</strong> (<em>int</em>) – number of shots</p></li>
+<li><p><strong>state_pattern</strong> (<em>str</em><em>, </em><em>optional</em>) – pattern of the observable state. Defaults to “01”.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>numpy array of the probability of each state</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.kernels.sampling.</span></span><span class="sig-name descname"><span class="pre">validate_sampling_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sampling_result</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">valid_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Validate the sampling resutls of each shots.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sampling_result</strong> (<em>np.ndarray</em>) – array of sampling results</p></li>
+<li><p><strong>valid_values</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – valid value of quantum state. Defaults to [0, 1].</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – invalid values in the sampling results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

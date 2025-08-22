@@ -511,6 +511,151 @@ document.write(`
                   
   <section id="qxmt-experiment-repository-module">
 <h1>qxmt.experiment.repository module<a class="headerlink" href="#qxmt-experiment-repository-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.repository.</span></span><span class="sig-name descname"><span class="pre">ExperimentRepository</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Repository class for handling experiment-related file system operations.</p>
+<p>This class is responsible for managing the persistence layer of experiments,
+including directory creation, file operations, and JSON serialization/deserialization.
+It separates side-effecting operations from the core business logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logger</strong> (<em>Logger</em>)</p>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">_logger</span></span></dt>
+<dd><p>Logger instance for logging operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>logging.Logger</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logger</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initializes the ExperimentRepository.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>logger</strong> (<em>logging.Logger</em>) – Logger instance for logging operations.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_json_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Validates if the given file has a .json extension.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the file to be checked.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>InvalidFileExtensionError</strong> – If the file does not have a .json extension.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">create_run_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Creates a new run directory under the experiment directory.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the experiment directory.</p></li>
+<li><p><strong>run_id</strong> (<em>int</em>) – ID of the run to create directory for.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Path to the created run directory.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Path</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>Exception</strong> – If the run directory already exists or if there’s an error
+    during directory creation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_file_path</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Loads experiment data from a JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>exp_file_path</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the JSON file containing experiment data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Loaded experiment database object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>ExperimentDB</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileNotFoundError</strong> – If the specified file does not exist.</p></li>
+<li><p><strong>InvalidFileExtensionError</strong> – If the file does not have a .json extension.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">remove_run_dir</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">experiment_dirc</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_id</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Removes a run directory.</p>
+<p>Used for rollback or back-fill operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>experiment_dirc</strong> (<em>str</em><em> | </em><em>Path</em>) – Path to the experiment directory.</p></li>
+<li><p><strong>run_id</strong> (<em>int</em>) – ID of the run whose directory should be removed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">exp_db</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Serializes experiment data into JSON format and saves it to disk.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exp_db</strong> (<em>ExperimentDB</em>) – Experiment database object to be serialized.</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – Path where the JSON file should be saved.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>JsonEncodingError</strong> – If the object contains non-serializable data.</p></li>
+<li><p><strong>InvalidFileExtensionError</strong> – If the save path does not have a .json extension.</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

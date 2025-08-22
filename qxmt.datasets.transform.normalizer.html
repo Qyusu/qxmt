@@ -511,6 +511,31 @@ document.write(`
                   
   <section id="qxmt-datasets-transform-normalizer-module">
 <h1>qxmt.datasets.transform.normalizer module<a class="headerlink" href="#qxmt-datasets-transform-normalizer-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.transform.normalizer.</span></span><span class="sig-name descname"><span class="pre">normalization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scaler_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'StandardScaler'</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Normalization of dataset by StandardScaler or MinMaxScaler</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>np.ndarray</em>) – numpy array of training data</p></li>
+<li><p><strong>y_train</strong> (<em>np.ndarray</em>) – numpy array of training label</p></li>
+<li><p><strong>X_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>y_val</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – numpy array of validation data. None if validation set is not used</p></li>
+<li><p><strong>X_test</strong> (<em>np.ndarray</em>) – numpy array of testing data</p></li>
+<li><p><strong>y_test</strong> (<em>np.ndarray</em>) – numpy array of testing label</p></li>
+<li><p><strong>scaler_type</strong> (<em>Literal</em><em>[</em><em>'StandardScaler'</em><em>, </em><em>'MinMaxScaler'</em><em>]</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>tuple of normalized dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PROCESSCED_DATASET_TYPE</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

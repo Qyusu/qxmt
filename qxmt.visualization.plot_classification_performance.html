@@ -511,6 +511,33 @@ document.write(`
                   
   <section id="qxmt-visualization-plot-classification-performance-module">
 <h1>qxmt.visualization.plot_classification_performance module<a class="headerlink" href="#qxmt-visualization-plot-classification-performance-module" title="Link to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_classification_performance.</span></span><span class="sig-name descname"><span class="pre">plot_2d_predicted_result</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">1]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'&quot;Groud</span> <span class="pre">Truth&quot;</span> <span class="pre">VS</span> <span class="pre">&quot;Predicted&quot;'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">truth_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Ground</span> <span class="pre">Truth'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pred_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Predicted'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">colors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_labels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot predicted result on 2D plane.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray</em>) – feature values.</p></li>
+<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – ground truth labels.</p></li>
+<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted labels.</p></li>
+<li><p><strong>feature_cols</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – feature column names. Defaults to None.</p></li>
+<li><p><strong>axis</strong> (<em>list</em><em>[</em><em>int</em><em>]</em><em>, </em><em>optional</em>) – axis to plot (target feature col index). Defaults to [0, 1].</p></li>
+<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the plot. Defaults to ‘“Groud Truth” VS “Predicted”’.</p></li>
+<li><p><strong>truth_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of ground truth. Defaults to “Ground Truth”.</p></li>
+<li><p><strong>pred_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of predicted. Defaults to “Predicted”.</p></li>
+<li><p><strong>colors</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>tuple</em><em>[</em><em>float</em><em>, </em><em>float</em><em>, </em><em>float</em><em>]</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – color of each class. Defaults to None.</p></li>
+<li><p><strong>class_labels</strong> (<em>Optional</em><em>[</em><em>dict</em><em>[</em><em>int</em><em>, </em><em>str</em><em>]</em><em>]</em><em>, </em><em>optional</em>) – label of each class. Defaults to None.</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for scatter plot.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

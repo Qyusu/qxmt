@@ -511,6 +511,92 @@ document.write(`
                   
   <section id="qxmt-datasets-schema-module">
 <h1>qxmt.datasets.schema module<a class="headerlink" href="#qxmt-datasets-schema-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">Dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_train</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>X_val</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>y_val</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>] </em><em>| </em><em>None</em>)</p></li>
+<li><p><strong>X_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>y_test</strong> (<em>Annotated</em><em>[</em><em>ndarray</em><em>, </em><em>PlainValidator</em><em>(</em><em>func=~qxmt.datasets.schema.validate</em><em>, </em><em>json_schema_input_type=~typing.Any</em><em>)</em><em>, </em><em>PlainSerializer</em><em>(</em><em>func=~qxmt.datasets.schema.serialize</em><em>, </em><em>return_type=PydanticUndefined</em><em>, </em><em>when_used=always</em><em>)</em><em>]</em>)</p></li>
+<li><p><strong>config</strong> (<em>DatasetConfig</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">X_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">X_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">X_val</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DatasetConfig</span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">model_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ClassVar</span><span class="p"><span class="pre">[</span></span><span class="pre">ConfigDict</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em></dt>
+<dd><p>Configuration for the model, should be a dictionary conforming to [<cite>ConfigDict</cite>][pydantic.config.ConfigDict].</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">y_test</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">y_train</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">y_val</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Annotated</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainValidator</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">validate</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">json_schema_input_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">Any</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PlainSerializer</span><span class="p"><span class="pre">(</span></span><span class="n"><span class="pre">func</span></span><span class="o"><span class="pre">=</span></span><span class="pre">serialize</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">return_type</span></span><span class="o"><span class="pre">=</span></span><span class="pre">PydanticUndefined</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">when_used</span></span><span class="o"><span class="pre">=</span></span><span class="pre">always</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>ndarray</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[list[float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">qxmt.datasets.schema.</span></span><span class="sig-name descname"><span class="pre">validate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v</span></span></em><span class="sig-paren">)</span></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> (<em>Any</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>ndarray</em></p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 

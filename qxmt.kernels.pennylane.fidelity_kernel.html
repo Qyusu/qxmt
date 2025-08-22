@@ -511,6 +511,62 @@ document.write(`
                   
   <section id="qxmt-kernels-pennylane-fidelity-kernel-module">
 <h1>qxmt.kernels.pennylane.fidelity_kernel module<a class="headerlink" href="#qxmt-kernels-pennylane-fidelity-kernel-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.pennylane.fidelity_kernel.</span></span><span class="sig-name descname"><span class="pre">FidelityKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PennyLaneBaseKernel</span></code></p>
+<p>Fidelity kernel class.
+The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
+between two quantum states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>BaseKernel</strong> (<em>_type_</em>) – base class of kernel</p></li>
+<li><p><strong>device</strong> (<em>BaseDevice</em>)</p></li>
+<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.kernels.pennylane.fidelity_kernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">FidelityKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">FidelityKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.14</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the FidelityKernel class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<em>BaseDevice</em>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 

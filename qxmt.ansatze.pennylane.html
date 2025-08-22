@@ -470,7 +470,21 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.ansatze.pennylane">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.hf_state"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.hf_state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.singles"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.singles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.doubles"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.doubles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.s_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.s_wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.d_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.d_wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.circuit"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.circuit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_excitation_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.prepare_excitation_wires()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_hf_state"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.prepare_hf_state()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -530,8 +544,140 @@ document.write(`
 </ul>
 </div>
 </section>
-<section id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Link to this heading">#</a></h2>
+<section id="module-qxmt.ansatze.pennylane">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-qxmt.ansatze.pennylane" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.ansatze.pennylane.</span></span><span class="sig-name descname"><span class="pre">UCCSDAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseVQEAnsatz</span></code></p>
+<p>Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz.</p>
+<p>This class implements the UCCSD ansatz for quantum chemistry calculations.
+UCCSD is a popular ansatz for quantum chemistry that includes single and double excitations
+from the Hartree-Fock reference state.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<em>BaseDevice</em>) – Quantum device to use for the ansatz.</p></li>
+<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – Molecular Hamiltonian to use for the ansatz.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.wires">
+<span class="sig-name descname"><span class="pre">wires</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.wires" title="Link to this definition">#</a></dt>
+<dd><p>List of qubit indices used in the circuit.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.hf_state">
+<span class="sig-name descname"><span class="pre">hf_state</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.hf_state" title="Link to this definition">#</a></dt>
+<dd><p>Hartree-Fock reference state.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.singles">
+<span class="sig-name descname"><span class="pre">singles</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.singles" title="Link to this definition">#</a></dt>
+<dd><p>List of single excitation indices.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.doubles">
+<span class="sig-name descname"><span class="pre">doubles</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.doubles" title="Link to this definition">#</a></dt>
+<dd><p>List of double excitation indices.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.s_wires">
+<span class="sig-name descname"><span class="pre">s_wires</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.s_wires" title="Link to this definition">#</a></dt>
+<dd><p>List of wire indices for single excitations.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.d_wires">
+<span class="sig-name descname"><span class="pre">d_wires</span></span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.d_wires" title="Link to this definition">#</a></dt>
+<dd><p>List of wire indices for double excitations.</p>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.pennylane</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultQubit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.hamiltonians.pennylane.molecular</span><span class="w"> </span><span class="kn">import</span> <span class="n">MolecularHamiltonian</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DefaultQubit</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">MolecularHamiltonian</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span> <span class="o">=</span> <span class="n">UCCSDAnsatz</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Number of parameters depends on the system</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span><span class="o">.</span><span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of parameters required depends on the number of single and double excitations,
+which is determined by the number of electrons and orbitals in the system.</p>
+</div>
+<p>URL: <a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html">https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html</a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.circuit">
+<span class="sig-name descname"><span class="pre">circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.circuit" title="Link to this definition">#</a></dt>
+<dd><p>Construct the UCCSD quantum circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>np.ndarray</em>) – Parameters for the UCCSD circuit. The length of this array
+should match the number of single and double excitations.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The UCCSD operation includes both single and double excitations from the
+Hartree-Fock reference state.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_excitation_wires">
+<span class="sig-name descname"><span class="pre">prepare_excitation_wires</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_excitation_wires" title="Link to this definition">#</a></dt>
+<dd><p>Prepare the excitation wires for single and double excitations.</p>
+<p>This method:
+1. Generates all possible single and double excitations from the Hartree-Fock state
+2. Converts these excitations to wire indices that can be used in the quantum circuit</p>
+<p>The results are stored in the following attributes:
+- self.singles: List of single excitation indices
+- self.doubles: List of double excitation indices
+- self.s_wires: List of wire indices for single excitations
+- self.d_wires: List of wire indices for double excitations</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of excitations depends on the number of electrons and orbitals in the system.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_hf_state">
+<span class="sig-name descname"><span class="pre">prepare_hf_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_hf_state" title="Link to this definition">#</a></dt>
+<dd><p>Prepare the Hartree-Fock reference state.</p>
+<p>This method creates the Hartree-Fock reference state using PennyLane’s qchem module.
+The Hartree-Fock state is a product state where the first n electrons occupy the lowest
+energy orbitals.</p>
+<p>The state is stored in self.hf_state as a numpy array.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of electrons and orbitals are obtained from the Hamiltonian.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
@@ -581,7 +727,21 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-contents">Module contents</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-qxmt.ansatze.pennylane">Module contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.hf_state"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.hf_state</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.singles"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.singles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.doubles"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.doubles</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.s_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.s_wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.d_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.d_wires</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.circuit"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.circuit()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_excitation_wires"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.prepare_excitation_wires()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#qxmt.ansatze.pennylane.UCCSDAnsatz.prepare_hf_state"><code class="docutils literal notranslate"><span class="pre">UCCSDAnsatz.prepare_hf_state()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

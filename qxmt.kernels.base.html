@@ -511,6 +511,165 @@ document.write(`
                   
   <section id="qxmt-kernels-base-module">
 <h1>qxmt.kernels.base module<a class="headerlink" href="#qxmt-kernels-base-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.kernels.base.</span></span><span class="sig-name descname"><span class="pre">BaseKernel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Base kernel class for quantum kernel computation.
+This class is used to compute the kernel value between two samples.
+If defining a custom kernel, inherit this class and implement the <cite>compute()</cite> method.
+The feature map used to compute the kernel value is defined in the constructor.
+It is possible to use a feature map instance or a function that defines the feature map circuit.</p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Callable</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.kernels.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseKernel</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.feature_maps.pennylane.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZZFeatureMap</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.configs</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceConfig</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDevice</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">DeviceBuilder</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">DeviceConfig</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;pennylane&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">n_qubits</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">shots</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DeviceBuilder</span><span class="p">(</span><span class="n">config</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">feature_map</span> <span class="o">=</span> <span class="n">ZZFeatureMap</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span><span class="w"> </span><span class="nc">CustomKernel</span><span class="p">(</span><span class="n">BaseKernel</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="n">BaseDevice</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="kc">None</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="k">def</span><span class="w"> </span><span class="nf">compute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span> <span class="o">=</span> <span class="n">CustomKernel</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">feature_map</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">kernel</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">)</span>
+<span class="go">0.28</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<em>BaseDevice</em>)</p></li>
+<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Initialize the kernel class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<em>BaseDevice</em>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">compute_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_shots_resutls</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Compute the kernel matrix for given samples.
+The kernel matrix is computed by simulator or IBM Quantum real device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>return_shots_resutls</strong> (<em>bool</em><em>, </em><em>optional</em>) – return the shot results. Defaults to False.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – parallel computation for each entry of the kernel matrix.
+This value only valid for simulator mode. Defaults to DEFAULT_N_JOBS.</p></li>
+<li><p><strong>bar_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label for the progress bar. Defaults to empty string (“”).</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to show progress bar. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>computed kernel matrix and shot results</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[np.ndarray, Optional[np.ndarray]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_array_1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_array_2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot kernel matrix for given samples.
+Caluculation of kernel values is performed in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_array_1</strong> (<em>np.ndarray</em>) – array of samples (ex: training data)</p></li>
+<li><p><strong>x_array_2</strong> (<em>np.ndarray</em>) – array of samples (ex: test data)</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to show progress bar. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_train_test_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_train</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_test</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_progress</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Plot kernel matrix for training and testing data.
+Caluculation of kernel values is performed in parallel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x_train</strong> (<em>np.ndarray</em>) – array of training samples</p></li>
+<li><p><strong>x_test</strong> (<em>np.ndarray</em>) – array of testing samples</p></li>
+<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em> | </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path for the plot. Defaults to None.</p></li>
+<li><p><strong>n_jobs</strong> (<em>int</em><em>, </em><em>optional</em>) – number of jobs for parallel computation. Defaults to DEFAULT_N_JOBS.</p></li>
+<li><p><strong>show_progress</strong> (<em>bool</em><em>, </em><em>optional</em>) – whether to show progress bar. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save_shots_results</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">probs_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Save the shot results to a file.
+probs_matrix contains the probability distribution of the observable states for each sample.
+expected shape of probs_matrix: (n_samples_1, n_samples_2, num_state)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>probs_matrix</strong> (<em>np.ndarray</em>) – probability distribution of the observable states</p></li>
+<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – save path for the shot results</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>DeviceSettingError</strong> – not sampling mode</p></li>
+<li><p><strong>ValueError</strong> – save path extension not “.h5”</p></li>
+<li><p><strong>ValueError</strong> – state labels and probs length mismatch</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
