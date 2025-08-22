@@ -511,69 +511,6 @@ document.write(`
                   
   <section id="qxmt-utils-yaml-module">
 <h1>qxmt.utils.yaml module<a class="headerlink" href="#qxmt-utils-yaml-module" title="Link to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">load_object_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dynamic_params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_cache</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Extract object from yaml configuration and convert it to a function or class instance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>dict</em>) – configuration of the object</p></li>
-<li><p><strong>dynamic_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dynamic parameters to be passed to the object. Defaults to {}.</p></li>
-<li><p><strong>use_cache</strong> (<em>bool</em><em>, </em><em>optional</em>) – use cache when loading the module. Defaults to False.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>ModuleNotFoundError</strong> – module not found in the path</p></li>
-<li><p><strong>AttributeError</strong> – object not found in the module</p></li>
-<li><p><strong>TypeError</strong> – object is not a class or function</p></li>
-</ul>
-</dd>
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>function or instance of the extracted object</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Any</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">load_yaml_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Load yaml from configuration file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to the configuration file</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>configuration</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.utils.yaml.</span></span><span class="sig-name descname"><span class="pre">save_experiment_config_to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">delete_source_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Save the experiment configuration to a yaml file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>config</strong> (<em>ExperimentConfig</em>) – experiment configuration</p></li>
-<li><p><strong>save_path</strong> (<em>str</em><em> | </em><em>Path</em>) – path to save the configuration file</p></li>
-<li><p><strong>delete_source_path</strong> (<em>bool</em><em>, </em><em>optional</em>) – delete the source path in the configuration. Defaults to True.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 

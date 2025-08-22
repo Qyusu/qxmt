@@ -511,53 +511,6 @@ document.write(`
                   
   <section id="qxmt-visualization-plot-regression-performance-module">
 <h1>qxmt.visualization.plot_regression_performance module<a class="headerlink" href="#qxmt-visualization-plot-regression-performance-module" title="Link to this heading">#</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_regression_performance.</span></span><span class="sig-name descname"><span class="pre">plot_actual_vs_predicted</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Actual</span> <span class="pre">vs</span> <span class="pre">Predicted</span> <span class="pre">Plot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Actual</span> <span class="pre">Values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Predicted</span> <span class="pre">Values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Plot actual vs predicted values.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – actual values of the data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted values of the data.</p></li>
-<li><p><strong>grid</strong> (<em>bool</em><em>, </em><em>optional</em>) – grid on the plot. Defaults to True.</p></li>
-<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the plot. Defaults to “Actual vs Predicted Plot”.</p></li>
-<li><p><strong>x_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of the x-axis. Defaults to “Actual Values”.</p></li>
-<li><p><strong>y_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of the y-axis. Defaults to “Predicted Values”.</p></li>
-<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>  |  </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py">
-<span class="sig-prename descclassname"><span class="pre">qxmt.visualization.plot_regression_performance.</span></span><span class="sig-name descname"><span class="pre">plot_residual</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y_true</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_pred</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Residual</span> <span class="pre">Plot'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Predicted</span> <span class="pre">Values'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Residuals'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Plot residuals vs predicted values.
-residuals caluculated by y_true - y_pred.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>y_true</strong> (<em>np.ndarray</em>) – actual values of the data.</p></li>
-<li><p><strong>y_pred</strong> (<em>np.ndarray</em>) – predicted values of the data.</p></li>
-<li><p><strong>grid</strong> (<em>bool</em><em>, </em><em>optional</em>) – grid on the plot. Defaults to True.</p></li>
-<li><p><strong>title</strong> (<em>str</em><em>, </em><em>optional</em>) – title of the plot. Defaults to “Residual Plot”.</p></li>
-<li><p><strong>x_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of the x-axis. Defaults to “Predicted Values”.</p></li>
-<li><p><strong>y_label</strong> (<em>str</em><em>, </em><em>optional</em>) – label of the y-axis. Defaults to “Residuals”.</p></li>
-<li><p><strong>save_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>  |  </em><em>Path</em><em>]</em><em>, </em><em>optional</em>) – save path of graph. Defaults to None.</p></li>
-<li><p><strong>**kwargs</strong> (<em>Any</em>) – additional arguments for plot.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 

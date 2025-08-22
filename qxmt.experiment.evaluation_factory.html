@@ -511,58 +511,6 @@ document.write(`
                   
   <section id="qxmt-experiment-evaluation-factory-module">
 <h1>qxmt.experiment.evaluation_factory module<a class="headerlink" href="#qxmt-experiment-evaluation-factory-module" title="Link to this heading">#</a></h1>
-<dl class="py class">
-<dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.experiment.evaluation_factory.</span></span><span class="sig-name descname"><span class="pre">EvaluationFactory</span></span></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Factory class that instantiates and executes appropriate evaluation.</p>
-<p>This class centralizes the mapping between (model_type, task_type) and concrete
-Evaluation implementation, decoupling Experiment/Executor classes from evaluation
-details and making it easy to add new metrics or model types.</p>
-<dl class="simple">
-<dt>Class Attributes:</dt><dd><p>QKERNEL_MODEL_TYPE_NAME (str): Constant representing the qkernel model type.
-VQE_MODEL_TYPE_NAME (str): Constant representing the VQE model type.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_metrics_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_metrics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Perform evaluation and return result as plain dictionary.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_type</strong> (<em>str</em>) – Type of the model to evaluate. Must be either “qkernel” or “vqe”.</p></li>
-<li><p><strong>task_type</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Type of the task. For qkernel, must be “classification” or
-“regression”. For vqe, must be None.</p></li>
-<li><p><strong>params</strong> (<em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em>) – Arguments forwarded to the evaluation class. For supervised tasks,
-should include “actual” and “predicted”. For VQE, should include “cost_history”.</p></li>
-<li><p><strong>default_metrics_name</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>str</em><em>]</em><em>]</em>) – List of default metric names to use.</p></li>
-<li><p><strong>custom_metrics</strong> (<em>Optional</em><em>[</em><em>list</em><em>[</em><em>dict</em><em>[</em><em>str</em><em>, </em><em>Any</em><em>]</em><em>]</em><em>]</em>) – List of custom metrics to use.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary containing the evaluation results.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict[str, Any]</p>
-</dd>
-<dt class="field-even">Raises<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>ValueError</strong> – If the combination of model_type and task_type is invalid.</p>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">result</span> <span class="o">=</span> <span class="n">EvaluationFactory</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;qkernel&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">task_type</span><span class="o">=</span><span class="s2">&quot;classification&quot;</span><span class="p">,</span>
-<span class="gp">... </span>    <span class="n">params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;actual&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;predicted&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]},</span>
-<span class="gp">... </span>    <span class="n">default_metrics_name</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;accuracy&quot;</span><span class="p">]</span>
-<span class="gp">... </span><span class="p">)</span>
-</pre></div>
-</div>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
