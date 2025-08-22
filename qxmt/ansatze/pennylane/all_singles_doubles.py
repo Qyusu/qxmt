@@ -8,11 +8,11 @@ from qxmt.devices import BaseDevice
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 
 
-class UCCSDAnsatz(BaseVQEAnsatz):
-    """Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz.
+class AllSinglesDoublesAnsatz(BaseVQEAnsatz):
+    """AllSinglesDoubles ansatz.
 
-    This class implements the UCCSD ansatz for quantum chemistry calculations.
-    UCCSD is a popular ansatz for quantum chemistry that includes single and double excitations
+    This class implements the AllSinglesDoubles ansatz for quantum chemistry calculations.
+    AllSinglesDoubles is a popular ansatz for quantum chemistry that includes all possible single and double excitations
     from the Hartree-Fock reference state.
 
     Args:
@@ -25,15 +25,9 @@ class UCCSDAnsatz(BaseVQEAnsatz):
         hf_state: Hartree-Fock reference state.
         singles: List of single excitation indices.
         doubles: List of double excitation indices.
-        s_wires: List of wire indices for single excitations.
-        d_wires: List of wire indices for double excitations.
-        n_params (int): Number of parameters for the UCCSD circuit.
+        n_params (int): Number of parameters for the AllSinglesDoubles circuit.
 
-    Note:
-        The number of parameters required depends on the number of single and double excitations,
-        which is determined by the number of electrons and orbitals in the system.
-
-    URL: https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html
+    URL: https://docs.pennylane.ai/en/stable/code/api/pennylane.AllSinglesDoubles.html
     """
 
     def __init__(self, device: BaseDevice, hamiltonian: MolecularHamiltonian) -> None:
@@ -41,7 +35,7 @@ class UCCSDAnsatz(BaseVQEAnsatz):
         self.hamiltonian = cast(MolecularHamiltonian, self.hamiltonian)
         self.wires = range(self.hamiltonian.get_n_qubits())
         self.prepare_hf_state()
-        self.prepare_excitation_wires()
+        self.prepare_excitation()
         self.n_params = len(self.singles) + len(self.doubles)
 
     def prepare_hf_state(self) -> None:
@@ -60,18 +54,14 @@ class UCCSDAnsatz(BaseVQEAnsatz):
             electrons=self.hamiltonian.get_active_electrons(), orbitals=self.hamiltonian.get_active_spin_orbitals()
         )
 
-    def prepare_excitation_wires(self) -> None:
-        """Prepare the excitation wires for single and double excitations.
+    def prepare_excitation(self) -> None:
+        """Prepare the single and double excitations.
 
-        This method:
-        1. Generates all possible single and double excitations from the Hartree-Fock state
-        2. Converts these excitations to wire indices that can be used in the quantum circuit
+        This method generates all possible single and double excitations from the Hartree-Fock state.
 
         The results are stored in the following attributes:
         - self.singles: List of single excitation indices
         - self.doubles: List of double excitation indices
-        - self.s_wires: List of wire indices for single excitations
-        - self.d_wires: List of wire indices for double excitations
 
         Note:
             The number of excitations depends on the number of electrons and orbitals in the system.
@@ -79,17 +69,22 @@ class UCCSDAnsatz(BaseVQEAnsatz):
         self.singles, self.doubles = qml.qchem.excitations(
             electrons=self.hamiltonian.get_active_electrons(), orbitals=self.hamiltonian.get_active_spin_orbitals()
         )
-        self.s_wires, self.d_wires = qml.qchem.excitations_to_wires(self.singles, self.doubles)
 
     def circuit(self, params: np.ndarray) -> None:
-        """Construct the UCCSD quantum circuit.
+        """Construct the AllSinglesDoubles quantum circuit.
 
         Args:
-            params (np.ndarray): Parameters for the UCCSD circuit. The length of this array
+            params (np.ndarray): Parameters for the AllSinglesDoubles circuit. The length of this array
                                should match the number of single and double excitations.
 
         Note:
-            The UCCSD operation includes both single and double excitations from the
+            The AllSinglesDoubles operation includes all possible single and double excitations from the
             Hartree-Fock reference state.
         """
-        qml.UCCSD(params, self.wires, self.s_wires, self.d_wires, self.hf_state)
+        qml.AllSinglesDoubles(
+            weights=params,
+            wires=self.wires,
+            hf_state=self.hf_state,
+            singles=self.singles,
+            doubles=self.doubles,
+        )
