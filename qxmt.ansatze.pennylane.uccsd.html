@@ -515,70 +515,156 @@ document.write(`
 <dt class="sig sig-object py">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.ansatze.pennylane.uccsd.</span></span><span class="sig-name descname"><span class="pre">UCCSDAnsatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseVQEAnsatz</span></code></p>
-<p>Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz.</p>
-<p>This class implements the UCCSD ansatz for quantum chemistry calculations.
-UCCSD is a popular ansatz for quantum chemistry that includes single and double excitations
-from the Hartree-Fock reference state.</p>
+<p>Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz for quantum chemistry.</p>
+<p>The UCCSD ansatz is a cornerstone variational quantum circuit for quantum chemistry calculations
+that implements the unitary coupled-cluster approximation with singles and doubles excitations.
+This ansatz provides a quantum analog of the classical coupled-cluster theory, maintaining
+the systematic improvability and chemical accuracy while being suitable for quantum computers.</p>
+<p>The UCCSD ansatz constructs a quantum state through the exponential of anti-Hermitian operators:</p>
+<p><a href="#id1"><span class="problematic" id="id2">|</span></a>ψ⟩ = exp(T̂ - T̂†) <a href="#id3"><span class="problematic" id="id4">|</span></a>HF⟩ = exp(∑ᵢ θᵢ(τᵢ - τᵢ†)) <a href="#id5"><span class="problematic" id="id6">|</span></a>HF⟩</p>
+<p>where T̂ = T̂₁ + T̂₂ includes single (T̂₁) and double (T̂₂) excitation operators,
+θᵢ are variational parameters, and <a href="#id7"><span class="problematic" id="id8">|</span></a>HF⟩ is the Hartree-Fock reference state.</p>
+<p>The unitary form ensures:
+- Preservation of quantum state normalization
+- Size-extensivity (energy scales correctly with system size)
+- Exact reproduction of full configuration interaction in complete basis
+- Systematic inclusion of electron correlation effects</p>
+<p>Key features:
+- Gold standard for quantum chemistry ansätze
+- Provides excellent accuracy for weakly to moderately correlated systems
+- Maintains proper fermion antisymmetry and particle number conservation
+- Systematic approach derived from established quantum chemistry theory
+- Serves as a benchmark for other variational ansätze</p>
+<p>The circuit implements Trotter approximation of the unitary exponential, making it
+practical for near-term quantum devices while preserving the essential physics
+of electron correlation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> (<em>BaseDevice</em>) – Quantum device to use for the ansatz.</p></li>
-<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – Molecular Hamiltonian to use for the ansatz.</p></li>
+<li><p><strong>device</strong> (<em>BaseDevice</em>) – Quantum device for executing the variational circuit.</p></li>
+<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – Molecular Hamiltonian defining the quantum chemistry
+problem, containing electron configuration, orbital basis, and molecular geometry.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="py attribute">
 <dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span></dt>
+<dd><p>Molecular Hamiltonian for the ansatz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MolecularHamiltonian</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">wires</span></span></dt>
-<dd><p>List of qubit indices used in the circuit.</p>
+<dd><p>Qubit indices used in the quantum circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>range</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">hf_state</span></span></dt>
-<dd><p>Hartree-Fock reference state.</p>
+<dd><p>Hartree-Fock reference state for initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">singles</span></span></dt>
-<dd><p>List of single excitation indices.</p>
+<dd><p>Indices of single excitations from occupied to virtual orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">doubles</span></span></dt>
-<dd><p>List of double excitation indices.</p>
+<dd><p>Indices of double excitations from occupied to virtual orbitals.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">s_wires</span></span></dt>
-<dd><p>List of wire indices for single excitations.</p>
+<dd><p>Wire indices corresponding to single excitation operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">d_wires</span></span></dt>
-<dd><p>List of wire indices for double excitations.</p>
+<dd><p>Wire indices corresponding to double excitation operations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">n_params</span></span></dt>
+<dd><p>Total number of variational parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
 </dd></dl>
 
 <p class="rubric">Example</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices.pennylane</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefaultQubit</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.hamiltonians.pennylane.molecular</span><span class="w"> </span><span class="kn">import</span> <span class="n">MolecularHamiltonian</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">DefaultQubit</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.hamiltonians.pennylane.molecular</span><span class="w"> </span><span class="kn">import</span> <span class="n">MolecularHamiltonian</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDevice</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create Hamiltonian and device for molecular system</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">MolecularHamiltonian</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">BaseDevice</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize UCCSD ansatz</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span> <span class="o">=</span> <span class="n">UCCSDAnsatz</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>  <span class="c1"># Number of parameters depends on the system</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize parameters (typically from classical coupled-cluster)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">ansatz</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>  <span class="c1"># or from CCSD calculation</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Build and execute quantum circuit</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span><span class="o">.</span><span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 </pre></div>
 </div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>PennyLane documentation: <a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html">https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html</a></p></li>
+</ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The number of parameters required depends on the number of single and double excitations,
-which is determined by the number of electrons and orbitals in the system.</p>
+<p>UCCSD is computationally more expensive than simpler ansätze but provides superior
+accuracy for systems where single and double excitations dominate correlation effects.
+For strongly correlated systems, consider adaptive methods or higher-order excitations.</p>
+<p>The parameter initialization can benefit from classical coupled-cluster calculations
+to provide good starting points for the variational optimization.</p>
 </div>
-<p>URL: <a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html">https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html</a></p>
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span></dt>
