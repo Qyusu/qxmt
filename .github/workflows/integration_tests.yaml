@@ -33,8 +33,23 @@ jobs:
           curl -sSL https://install.python-poetry.org | python3 -
           echo "${HOME}/.local/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies (no llm)
-        run: poetry install --with dev
+      - name: Configure Poetry
+        run: |
+          poetry config virtualenvs.create true
+          poetry config virtualenvs.in-project true
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            .venv
+            ~/.cache/pypoetry
+          key: poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            poetry-${{ matrix.python-version }}-
+
+      - name: Install dependencies from lockfile (no llm)
+        run: poetry install --with dev --sync
 
       - name: Run tests
         run: poetry run pytest tests/integration
