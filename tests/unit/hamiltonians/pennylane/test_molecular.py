@@ -109,6 +109,8 @@ class TestMolecularHamiltonian:
             symbols=symbols,
             coordinates=coordinates,
             basis_name="STO-3G",
+            hf_energy=None,
+            fci_energy=None,
         )
 
         mock_compute.assert_called_once()
@@ -116,7 +118,24 @@ class TestMolecularHamiltonian:
         assert hamiltonian.hf_energy == -1.5
         assert hamiltonian.fci_energy == -1.8
 
-    def test_set_reference_energies_without_dataset_error(self) -> None:
+    def test_set_reference_energies_by_config(self) -> None:
+        symbols = ["H", "H"]
+        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
+        hf_energy = -1.5
+        fci_energy = -1.8
+
+        hamiltonian = MolecularHamiltonian(
+            symbols=symbols,
+            coordinates=coordinates,
+            basis_name="STO-3G",
+            hf_energy=hf_energy,
+            fci_energy=fci_energy,
+        )
+
+        assert hamiltonian.hf_energy == -1.5
+        assert hamiltonian.fci_energy == -1.8
+
+    def test_get_reference_energies_without_dataset_error(self) -> None:
         hamiltonian = MolecularHamiltonian(
             molname="H2",
             bondlength="0.74",
@@ -126,7 +145,7 @@ class TestMolecularHamiltonian:
         hamiltonian._dataset = []
 
         with pytest.raises(ValueError, match="Dataset is not loaded"):
-            hamiltonian._set_reference_energies()
+            hamiltonian._get_reference_energies()
 
     def test_pennylane_molecule2openfermion(self) -> None:
         symbols = ["H", "H"]
