@@ -67,6 +67,8 @@ class MolecularHamiltonian(BaseHamiltonian):
         active_electrons: Optional[int] = None,
         active_orbitals: Optional[int] = None,
         mapping: SUPPORTED_MAPPINGS = "jordan_wigner",
+        hf_energy: Optional[float] = None,
+        fci_energy: Optional[float] = None,
         logger: Logger = LOGGER,
     ) -> None:
         super().__init__(platform=PENNYLANE_PLATFORM)
@@ -90,11 +92,11 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.n_qubits: int
         self.molecule: qml.qchem.Molecule
         self.hf_energy: float
-        self.fci_energy: Optional[float] = None
+        self.fci_energy: float
         self._dataset: list = []
 
         self._initialize_hamiltonian()
-        self._set_reference_energies()
+        self.hf_energy, self.fci_energy = self._get_reference_energies(hf_energy, fci_energy)
 
     def _determine_initialization_type(self) -> InitializationType:
         """Determine the initialization type based on the provided parameters.
@@ -166,21 +168,37 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.hamiltonian = hamiltonian
         self.n_qubits = n_qubits
 
-    def _set_reference_energies(self) -> None:
-        """Set the HF (Hartree-Fock) and FCI (Full Configuration Interaction) energy of the molecule.
+    def _get_reference_energies(
+        self, hf_energy_init: Optional[float] = None, fci_energy_init: Optional[float] = None
+    ) -> tuple[float, float]:
+        """Get the HF (Hartree-Fock) and FCI (Full Configuration Interaction) energy of the molecule.
 
-        If the molecule is in the PennyLane dataset, the HF and FCI energy are set from the cached values by PennyLane.
+        Args:
+            hf_energy_init: Initial HF energy value. If None, will be computed.
+            fci_energy_init: Initial FCI energy value. If None, will be computed.
+
+        Returns:
+            tuple[float, float]: A tuple of (hf_energy, fci_energy).
+
+        If the molecule is in the PennyLane dataset, the HF and FCI energy are retrieved from the cached values by PennyLane.
         If the molecule is not in the PennyLane dataset, the HF and FCI energy are computed by OpenFermionPySCF.
         """
         if self.molname is not None:
             if not self._dataset:
                 raise ValueError("Dataset is not loaded. Please load the dataset first.")
-            self.hf_energy = float(qml.qchem.hf_energy(self.molecule)())
-            self.fci_energy = float(self._dataset[0].fci_energy)
+            hf_energy = float(qml.qchem.hf_energy(self.molecule)())
+            fci_energy = float(self._dataset[0].fci_energy)
+            return hf_energy, fci_energy
         else:
-            hf_energy, fci_energy = self._compute_energies_by_openfermionpyscf()
-            self.hf_energy = hf_energy
-            self.fci_energy = fci_energy
+            if hf_energy_init is None or fci_energy_init is None:
+                computed_hf, computed_fci = self._compute_energies_by_openfermionpyscf()
+                hf_energy = hf_energy_init if hf_energy_init is not None else computed_hf
+                fci_energy = fci_energy_init if fci_energy_init is not None else computed_fci
+            else:
+                hf_energy = hf_energy_init
+                fci_energy = fci_energy_init
+
+            return hf_energy, fci_energy
 
     def _pennylane_molecule2openfermion(self) -> MolecularData:
         """Convert the PennyLane molecule to OpenFermion molecule."""
@@ -199,6 +217,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         )
         hf_energy = energy.hf_energy
         fci_energy = energy.fci_energy
+        self.logger.info(f"Computed by OpenFermionPySCF: HF energy = {hf_energy}, FCI energy = {fci_energy}")
 
         if hf_energy is None:
             raise ValueError("HF energy is not available for the given molecule.")
@@ -303,7 +322,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         """
         return self.hf_energy
 
-    def get_fci_energy(self) -> Optional[float]:
+    def get_fci_energy(self) -> float:
         """Get the FCI energy of the molecule.
 
         Returns:
