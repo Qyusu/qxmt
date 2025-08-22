@@ -9,31 +9,79 @@ from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
 
 
 class UCCSDAnsatz(BaseVQEAnsatz):
-    """Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz.
+    """Unitary Coupled-Cluster Singles and Doubles (UCCSD) ansatz for quantum chemistry.
 
-    This class implements the UCCSD ansatz for quantum chemistry calculations.
-    UCCSD is a popular ansatz for quantum chemistry that includes single and double excitations
-    from the Hartree-Fock reference state.
+    The UCCSD ansatz is a cornerstone variational quantum circuit for quantum chemistry calculations
+    that implements the unitary coupled-cluster approximation with singles and doubles excitations.
+    This ansatz provides a quantum analog of the classical coupled-cluster theory, maintaining
+    the systematic improvability and chemical accuracy while being suitable for quantum computers.
+
+    The UCCSD ansatz constructs a quantum state through the exponential of anti-Hermitian operators:
+
+    |ψ⟩ = exp(T̂ - T̂†) |HF⟩ = exp(∑ᵢ θᵢ(τᵢ - τᵢ†)) |HF⟩
+
+    where T̂ = T̂₁ + T̂₂ includes single (T̂₁) and double (T̂₂) excitation operators,
+    θᵢ are variational parameters, and |HF⟩ is the Hartree-Fock reference state.
+
+    The unitary form ensures:
+    - Preservation of quantum state normalization
+    - Size-extensivity (energy scales correctly with system size)
+    - Exact reproduction of full configuration interaction in complete basis
+    - Systematic inclusion of electron correlation effects
+
+    Key features:
+    - Gold standard for quantum chemistry ansätze
+    - Provides excellent accuracy for weakly to moderately correlated systems
+    - Maintains proper fermion antisymmetry and particle number conservation
+    - Systematic approach derived from established quantum chemistry theory
+    - Serves as a benchmark for other variational ansätze
+
+    The circuit implements Trotter approximation of the unitary exponential, making it
+    practical for near-term quantum devices while preserving the essential physics
+    of electron correlation.
 
     Args:
-        device (BaseDevice): Quantum device to use for the ansatz.
-        hamiltonian (MolecularHamiltonian): Molecular Hamiltonian to use for the ansatz.
+        device (BaseDevice): Quantum device for executing the variational circuit.
+        hamiltonian (MolecularHamiltonian): Molecular Hamiltonian defining the quantum chemistry
+            problem, containing electron configuration, orbital basis, and molecular geometry.
 
     Attributes:
-        hamiltonian (MolecularHamiltonian): Molecular Hamiltonian to use for the ansatz.
-        wires: List of qubit indices used in the circuit.
-        hf_state: Hartree-Fock reference state.
-        singles: List of single excitation indices.
-        doubles: List of double excitation indices.
-        s_wires: List of wire indices for single excitations.
-        d_wires: List of wire indices for double excitations.
-        n_params (int): Number of parameters for the UCCSD circuit.
+        hamiltonian (MolecularHamiltonian): Molecular Hamiltonian for the ansatz.
+        wires (range): Qubit indices used in the quantum circuit.
+        hf_state (np.ndarray): Hartree-Fock reference state for initialization.
+        singles (list): Indices of single excitations from occupied to virtual orbitals.
+        doubles (list): Indices of double excitations from occupied to virtual orbitals.
+        s_wires (list): Wire indices corresponding to single excitation operations.
+        d_wires (list): Wire indices corresponding to double excitation operations.
+        n_params (int): Total number of variational parameters.
+
+    Example:
+        >>> from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
+        >>> from qxmt.devices import BaseDevice
+        >>>
+        >>> # Create Hamiltonian and device for molecular system
+        >>> hamiltonian = MolecularHamiltonian(...)
+        >>> device = BaseDevice(...)
+        >>>
+        >>> # Initialize UCCSD ansatz
+        >>> ansatz = UCCSDAnsatz(device, hamiltonian)
+        >>>
+        >>> # Initialize parameters (typically from classical coupled-cluster)
+        >>> params = np.zeros(ansatz.n_params)  # or from CCSD calculation
+        >>>
+        >>> # Build and execute quantum circuit
+        >>> ansatz.circuit(params)
+
+    References:
+        - PennyLane documentation: https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html
 
     Note:
-        The number of parameters required depends on the number of single and double excitations,
-        which is determined by the number of electrons and orbitals in the system.
+        UCCSD is computationally more expensive than simpler ansätze but provides superior
+        accuracy for systems where single and double excitations dominate correlation effects.
+        For strongly correlated systems, consider adaptive methods or higher-order excitations.
 
-    URL: https://docs.pennylane.ai/en/stable/code/api/pennylane.UCCSD.html
+        The parameter initialization can benefit from classical coupled-cluster calculations
+        to provide good starting points for the variational optimization.
     """
 
     def __init__(self, device: BaseDevice, hamiltonian: MolecularHamiltonian) -> None:
@@ -57,7 +105,8 @@ class UCCSDAnsatz(BaseVQEAnsatz):
             The number of electrons and orbitals are obtained from the Hamiltonian.
         """
         self.hf_state = qml.qchem.hf_state(
-            electrons=self.hamiltonian.get_active_electrons(), orbitals=self.hamiltonian.get_active_spin_orbitals()
+            electrons=self.hamiltonian.get_active_electrons(),
+            orbitals=self.hamiltonian.get_active_spin_orbitals(),
         )
 
     def prepare_excitation_wires(self) -> None:
@@ -77,7 +126,8 @@ class UCCSDAnsatz(BaseVQEAnsatz):
             The number of excitations depends on the number of electrons and orbitals in the system.
         """
         self.singles, self.doubles = qml.qchem.excitations(
-            electrons=self.hamiltonian.get_active_electrons(), orbitals=self.hamiltonian.get_active_spin_orbitals()
+            electrons=self.hamiltonian.get_active_electrons(),
+            orbitals=self.hamiltonian.get_active_spin_orbitals(),
         )
         self.s_wires, self.d_wires = qml.qchem.excitations_to_wires(self.singles, self.doubles)
 
