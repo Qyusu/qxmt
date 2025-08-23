@@ -60,14 +60,14 @@ class FCIEnergy(BaseMetric):
         super().__init__(name)
 
     @staticmethod
-    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> float | None:
+    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> float:
         """Get the precomputed Full Configuration Interaction energy.
 
         Args:
             hamiltonian (MolecularHamiltonian): The molecular Hamiltonian object
 
         Returns:
-            float | None: The FCI energy value, or None if not available
+            float: The FCI energy value
         """
         return hamiltonian.get_fci_energy()
 
