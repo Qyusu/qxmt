@@ -10,6 +10,7 @@ from pennylane.ops.op_math import Sum
 
 from qxmt.constants import PENNYLANE_PLATFORM
 from qxmt.hamiltonians import BaseHamiltonian
+from qxmt.hamiltonians.energy_data import ReferenceEnergies
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
@@ -19,6 +20,7 @@ SUPPORTED_BASIS_NAMES = Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"]
 SUPPORTED_UNITS = Literal["angstrom", "bohr"]
 SUPPORTED_METHODS = Literal["dhf", "pyscf", "openfermion"]
 SUPPORTED_MAPPINGS = Literal["jordan_wigner", "bravyi_kitaev", "parity"]
+SUPPORTED_REFERENCE_ENERGY_METHOD = Literal["casci", "casscf", "fci"]
 
 
 class InitializationType(Enum):
@@ -32,7 +34,8 @@ class MolecularHamiltonian(BaseHamiltonian):
 
     This class represents a molecular Hamiltonian using PennyLane's quantum chemistry module.
     It supports both full and active space calculations for molecular systems, including CASCI
-    (Complete Active Space Configuration Interaction) with frozen core orbitals.
+    (Complete Active Space Configuration Interaction) and CASSCF (Complete Active Space
+    Self-Consistent Field) with frozen core orbitals.
 
     Args:
         molname: Name of the molecule in PennyLane's dataset.
@@ -50,10 +53,10 @@ class MolecularHamiltonian(BaseHamiltonian):
         hf_energy: Pre-computed HF energy. If None, will be computed.
         fci_energy: Pre-computed FCI energy. If None, will be computed.
         use_casci: Whether to use CASCI instead of FCI for energy calculations. Defaults to False.
-        casci_norb: Number of active orbitals for CASCI. If None and use_casci is True,
-                   will be auto-calculated from active_orbitals.
-        casci_nelec: Number of active electrons for CASCI. If None and use_casci is True,
-                    will be auto-calculated from active_electrons.
+        cas_type: Type of CAS calculation ("casci" or "casscf"). Defaults to "casci".
+        max_cycle_macro: Maximum number of macro iterations for CASSCF. Defaults to 50.
+        conv_tol: Convergence tolerance for CASSCF. Defaults to 1e-7.
+        orbital_optimization: Whether to perform orbital optimization in CASSCF. Defaults to True.
         logger: Logger instance for logging.
 
     Attributes:
@@ -78,8 +81,12 @@ class MolecularHamiltonian(BaseHamiltonian):
         mapping: SUPPORTED_MAPPINGS = "jordan_wigner",
         hf_energy: Optional[float] = None,
         casci_energy: Optional[float] = None,
+        casscf_energy: Optional[float] = None,
         fci_energy: Optional[float] = None,
-        use_casci: bool = False,
+        reference_energy_methods: list[SUPPORTED_REFERENCE_ENERGY_METHOD] = ["fci"],
+        max_cycle_macro: int = 50,
+        conv_tol: float = 1e-7,
+        orbital_optimization: bool = True,
         logger: Logger = LOGGER,
     ) -> None:
         super().__init__(platform=PENNYLANE_PLATFORM)
@@ -98,19 +105,25 @@ class MolecularHamiltonian(BaseHamiltonian):
         self.active_electrons: Optional[int] = active_electrons
         self.active_orbitals: Optional[int] = active_orbitals
         self.mapping: SUPPORTED_MAPPINGS = mapping
-        self.use_casci: bool = use_casci
+        self.reference_energy_methods: list[SUPPORTED_REFERENCE_ENERGY_METHOD] = reference_energy_methods
+        self.max_cycle_macro: int = int(max_cycle_macro)
+        self.conv_tol: float = float(conv_tol)
+        self.orbital_optimization: bool = bool(orbital_optimization)
         self.logger: Logger = logger
         self.hamiltonian: Sum
         self.n_qubits: int
         self.molecule: qml.qchem.Molecule
-        self.hf_energy: Optional[float] = None
-        self.casci_energy: Optional[float] = None
-        self.fci_energy: Optional[float] = None
+        self.reference_energies: ReferenceEnergies = ReferenceEnergies()
         self._dataset: list = []
 
         self._initialize_hamiltonian()
-        self.hf_energy, self.casci_energy, self.fci_energy = self._get_reference_energies(
-            hf_energy, casci_energy, fci_energy
+        self.reference_energies = self._get_reference_energies(
+            ReferenceEnergies(
+                hf_energy=hf_energy,
+                casci_energy=casci_energy,
+                casscf_energy=casscf_energy,
+                fci_energy=fci_energy,
+            )
         )
 
     def _determine_initialization_type(self) -> InitializationType:
@@ -185,115 +198,112 @@ class MolecularHamiltonian(BaseHamiltonian):
 
     def _get_reference_energies(
         self,
-        hf_energy_init: Optional[float] = None,
-        casci_energy_init: Optional[float] = None,
-        fci_energy_init: Optional[float] = None,
-    ) -> tuple[Optional[float], Optional[float], Optional[float]]:
-        """Get the HF (Hartree-Fock) and FCI (Full Configuration Interaction) or CASCI (Complete Active Space Configuration Interaction) energy of the molecule.
+        init_energies: ReferenceEnergies,
+    ) -> ReferenceEnergies:
+        """Get reference energies based on the specified methods.
 
         Args:
-            hf_energy_init: Initial HF energy value. If None, will be computed.
-            casci_energy_init: Initial CASCI energy value. If None, will be computed.
-            fci_energy_init: Initial FCI energy value. If None, will be computed.
+            init_energies: Initial energy values. If None, will be computed.
 
         Returns:
-            tuple[float, float, float]: A tuple of (hf_energy, casci_energy, fci_energy).
+            ReferenceEnergies: Object containing all computed reference energies.
 
-        If the molecule is in the PennyLane dataset, the HF and FCI energy are retrieved from the cached values by PennyLane.
-        If the molecule is not in the PennyLane dataset, the HF and FCI energy are computed by PySCF.
+        Computes energies for all methods specified in reference_energy_methods.
+        For dataset molecules, HF and FCI are retrieved from cache.
+        For custom molecules, energies are computed using PySCF.
         """
+        result_energies = ReferenceEnergies(
+            hf_energy=init_energies.hf_energy,
+            casci_energy=init_energies.casci_energy,
+            casscf_energy=init_energies.casscf_energy,
+            fci_energy=init_energies.fci_energy,
+        )
+
         if self.molname is not None:
             if not self._dataset:
                 raise ValueError("Dataset is not loaded. Please load the dataset first.")
-            hf_energy = float(qml.qchem.hf_energy(self.molecule)())
-            casci_energy = None
-            fci_energy = float(self._dataset[0].fci_energy)
-            return hf_energy, casci_energy, fci_energy
-        else:
-            if hf_energy_init is None or casci_energy_init is None or fci_energy_init is None:
-                computed_hf, computed_casci, computed_fci = self._compute_energies_by_pyscf(use_casci=self.use_casci)
-                hf_energy = hf_energy_init if hf_energy_init is not None else computed_hf
-                casci_energy = casci_energy_init if casci_energy_init is not None else computed_casci
-                fci_energy = fci_energy_init if fci_energy_init is not None else computed_fci
-            else:
-                hf_energy = hf_energy_init
-                casci_energy = casci_energy_init
-                fci_energy = fci_energy_init
 
-            return hf_energy, casci_energy, fci_energy
+            # For dataset molecules, get HF and FCI from cache
+            result_energies.hf_energy = float(qml.qchem.hf_energy(self.molecule)())
+            result_energies.fci_energy = float(self._dataset[0].fci_energy)
+            return result_energies
+
+        else:
+            if result_energies.hf_energy is None:
+                scf_result = run_pyscf(
+                    self._pennylane_molecule2openfermion(),
+                    run_scf=True,
+                    run_fci=False,
+                    run_mp2=False,
+                    run_ccsd=False,
+                )
+                result_energies.hf_energy = float(scf_result.hf_energy)  # type: ignore
+
+            # Compute requested reference energies
+            openfermion_molecule = self._pennylane_molecule2openfermion()
+
+            for method in self.reference_energy_methods:
+                if method in ["casci", "casscf"]:
+                    # Check if active space parameters are available
+                    if self.active_orbitals is None or self.active_electrons is None:
+                        self.logger.warning(
+                            f"Skipping {method.upper()} calculation: active_orbitals and active_electrons must be specified"
+                        )
+                        continue
+
+                if method == "casci" and result_energies.casci_energy is None:
+                    assert self.active_orbitals is not None and self.active_electrons is not None
+                    result_energies.casci_energy = self._run_cas_calculation(
+                        openfermion_molecule, self.active_orbitals, self.active_electrons, calculation_type="casci"
+                    )
+                    self.logger.debug(f"Computed CASCI energy: {result_energies.casci_energy}")
+
+                elif method == "casscf" and result_energies.casscf_energy is None:
+                    assert self.active_orbitals is not None and self.active_electrons is not None
+                    result_energies.casscf_energy = self._run_cas_calculation(
+                        openfermion_molecule, self.active_orbitals, self.active_electrons, calculation_type="casscf"
+                    )
+                    self.logger.debug(f"Computed CASSCF energy: {result_energies.casscf_energy}")
+
+                elif method == "fci" and result_energies.fci_energy is None:
+                    fci_result = run_pyscf(
+                        openfermion_molecule,
+                        run_scf=True,
+                        run_fci=True,
+                        run_mp2=False,
+                        run_ccsd=False,
+                    )
+                    result_energies.fci_energy = float(fci_result.fci_energy)  # type: ignore
+                    self.logger.debug(f"Computed FCI energy: {result_energies.fci_energy}")
+
+        return result_energies
 
     def _pennylane_molecule2openfermion(self) -> MolecularData:
         """Convert the PennyLane molecule to OpenFermion molecule."""
         geometry = list(zip(self.symbols, self.coordinates.tolist()))  # type: ignore
         return MolecularData(geometry=geometry, basis=self.basis_name, multiplicity=self.multi, charge=self.charge)
 
-    def _compute_energies_by_pyscf(
-        self, use_casci: bool = False
-    ) -> tuple[Optional[float], Optional[float], Optional[float]]:
-        """Compute the HF and FCI/CASCI energy by PySCF.
-
-        Args:
-            use_casci: Whether to use CASCI instead of FCI.
-
-        Returns:
-            Tuple of (HF energy, FCI/CASCI energy).
-        """
-        openfermion_molecule = self._pennylane_molecule2openfermion()
-
-        if use_casci:
-            if self.active_orbitals is None or self.active_electrons is None:
-                raise ValueError("active_orbitals and active_electrons must be specified when use_casci is True")
-
-            # Run SCF first to get the HF energy and MO coefficients
-            scf_result = run_pyscf(
-                openfermion_molecule,
-                run_scf=True,
-                run_fci=False,
-                run_mp2=False,
-                run_ccsd=False,
-            )
-            hf_energy = scf_result.hf_energy
-
-            casci_energy = self._run_casci_with_frozen_core(
-                openfermion_molecule, self.active_orbitals, self.active_electrons
-            )
-            fci_energy = None
-
-            self.logger.debug(f"Computed by PySCF: HF energy = {hf_energy}, CASCI energy = {casci_energy}")
-        else:
-            scf_result = run_pyscf(
-                openfermion_molecule,
-                run_scf=True,
-                run_fci=True,
-                run_mp2=False,
-                run_ccsd=False,
-            )
-            hf_energy = scf_result.hf_energy
-            casci_energy = None
-            fci_energy = scf_result.fci_energy
-
-            self.logger.debug(f"Computed by PySCF: HF energy = {hf_energy}, FCI energy = {fci_energy}")
-
-        return hf_energy, casci_energy, fci_energy  # type: ignore
-
-    def _run_casci_with_frozen_core(
-        self, openfermion_molecule: MolecularData, casci_norb: int, casci_nelec: int
+    def _run_cas_calculation(
+        self, openfermion_molecule: MolecularData, cas_norb: int, cas_nelec: int, calculation_type: str
     ) -> float:
-        """Run CASCI calculation with frozen core using PySCF.
+        """Run CASCI or CASSCF calculation with frozen core using PySCF.
 
         Args:
             openfermion_molecule: OpenFermion MolecularData object.
-            casci_norb: Number of active orbitals for CASCI.
-            casci_nelec: Number of active electrons for CASCI.
+            cas_norb: Number of active orbitals for CAS calculation.
+            cas_nelec: Number of active electrons for CAS calculation.
+            calculation_type: Type of calculation ("casci" or "casscf").
 
         Returns:
-            CASCI energy.
+            CASCI or CASSCF energy.
         """
         try:
             import pyscf
             from pyscf import mcscf
         except ImportError:
-            raise ImportError("PySCF is required for CASCI calculations. Please install it with 'pip install pyscf'")
+            raise ImportError(
+                "PySCF is required for CASCI/CASSCF calculations. Please install it with 'pip install pyscf'"
+            )
 
         # Build molecule in PySCF format
         mol = pyscf.gto.Mole()
@@ -316,27 +326,55 @@ class MolecularHamiltonian(BaseHamiltonian):
         # Typically, we freeze the core orbitals (1s for atoms beyond H/He)
         n_frozen_core = self._determine_frozen_core_orbitals(mol)
 
-        # Set up CASCI calculation with frozen core
-        if n_frozen_core > 0:
-            # Create active space by excluding frozen core orbitals
-            # The active orbitals start after the frozen core
-            ncore = n_frozen_core
-            ncas = casci_norb
-            nelec_cas = casci_nelec
+        # Set up CAS calculation with frozen core
+        if calculation_type.lower() == "casscf":
+            # Use CASSCF with orbital optimization
+            if n_frozen_core > 0:
+                ncore = n_frozen_core
+                ncas = cas_norb
+                nelec_cas = cas_nelec
+                cas_solver = mcscf.CASSCF(mf, ncas, nelec_cas)
+                setattr(cas_solver, "ncore", ncore)  # type: ignore
+            else:
+                cas_solver = mcscf.CASSCF(mf, cas_norb, cas_nelec)
 
-            casci = mcscf.CASCI(mf, ncas, nelec_cas)
-            # Set the number of core orbitals
-            setattr(casci, "ncore", ncore)  # type: ignore
+            # Set CASSCF parameters
+            max_cycle_val = int(self.max_cycle_macro)
+            conv_tol_val = float(self.conv_tol)
+
+            self.logger.debug(
+                f"Setting CASSCF parameters: max_cycle_macro={max_cycle_val} (type: {type(max_cycle_val)}), conv_tol={conv_tol_val} (type: {type(conv_tol_val)})"
+            )
+
+            setattr(cas_solver, "max_cycle_macro", max_cycle_val)  # type: ignore
+            setattr(cas_solver, "conv_tol", conv_tol_val)  # type: ignore
+
+            # Disable orbital optimization if specified
+            if not self.orbital_optimization:
+                setattr(cas_solver, "max_cycle_macro", int(1))  # type: ignore
+                setattr(cas_solver, "frozen", True)  # type: ignore
+
         else:
-            casci = mcscf.CASCI(mf, casci_norb, casci_nelec)
+            # Use CASCI (no orbital optimization)
+            if n_frozen_core > 0:
+                ncore = n_frozen_core
+                ncas = cas_norb
+                nelec_cas = cas_nelec
+                cas_solver = mcscf.CASCI(mf, ncas, nelec_cas)
+                setattr(cas_solver, "ncore", ncore)  # type: ignore
+            else:
+                cas_solver = mcscf.CASCI(mf, cas_norb, cas_nelec)
 
-        # Run CASCI calculation
-        casci_energy = casci.kernel()[0]  # type: ignore
+        # Run CAS calculation
+        cas_energy = cas_solver.kernel()[0]  # type: ignore
 
-        self.logger.debug(f"CASCI calculation completed with {n_frozen_core} frozen core orbitals")
-        self.logger.debug(f"Active space: {casci_nelec} electrons in {casci_norb} orbitals")
+        self.logger.debug(f"{calculation_type.upper()} calculation completed with {n_frozen_core} frozen core orbitals")
+        self.logger.debug(f"Active space: {cas_nelec} electrons in {cas_norb} orbitals")
+        if calculation_type.lower() == "casscf":
+            converged = getattr(cas_solver, "converged", None)  # type: ignore
+            self.logger.debug(f"CASSCF converged: {converged}")
 
-        return float(casci_energy)
+        return float(cas_energy)
 
     def _determine_frozen_core_orbitals(self, mol) -> int:
         """Determine the number of frozen core orbitals based on the molecular composition.
@@ -455,7 +493,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         Returns:
             float: Hartree-Fock energy.
         """
-        return self.hf_energy
+        return self.reference_energies.hf_energy
 
     def get_casci_energy(self) -> Optional[float]:
         """Get the CASCI energy of the molecule.
@@ -463,7 +501,15 @@ class MolecularHamiltonian(BaseHamiltonian):
         Returns:
             float: CASCI energy.
         """
-        return self.casci_energy
+        return self.reference_energies.casci_energy
+
+    def get_casscf_energy(self) -> Optional[float]:
+        """Get the CASSCF energy of the molecule.
+
+        Returns:
+            float: CASSCF energy.
+        """
+        return self.reference_energies.casscf_energy
 
     def get_fci_energy(self) -> Optional[float]:
         """Get the FCI energy of the molecule.
@@ -471,4 +517,12 @@ class MolecularHamiltonian(BaseHamiltonian):
         Returns:
             float: FCI energy.
         """
-        return self.fci_energy
+        return self.reference_energies.fci_energy
+
+    def get_reference_energies(self) -> ReferenceEnergies:
+        """Get the complete reference energies object.
+
+        Returns:
+            ReferenceEnergies: Object containing all computed reference energies.
+        """
+        return self.reference_energies

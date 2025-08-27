@@ -68,6 +68,30 @@ class CASCIEnergy(BaseMetric):
         return hamiltonian.get_casci_energy()
 
 
+class CASSCFEnergy(BaseMetric):
+    """Metric for calculating the Complete Active Space Self-Consistent Field (CASSCF) energy.
+
+    This metric computes the CASSCF energy using the molecular Hamiltonian.
+    The CASSCF energy represents the self-consistent field solution within the active space.
+    """
+
+    def __init__(self, name: str = "casscf_energy") -> None:
+        super().__init__(name)
+        self.accept_none = True
+
+    @staticmethod
+    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> Optional[float]:
+        """Get the precomputed CASSCF energy.
+
+        Args:
+            hamiltonian (MolecularHamiltonian): The molecular Hamiltonian object
+
+        Returns:
+            float: The CASSCF energy value
+        """
+        return hamiltonian.get_casscf_energy()
+
+
 class FCIEnergy(BaseMetric):
     """Metric for calculating the Full Configuration Interaction (FCI) energy.
 
@@ -97,6 +121,7 @@ DEFAULT_VQE_METRICS_NAME = Literal[
     "final_cost",
     "hf_energy",
     "casci_energy",
+    "casscf_energy",
     "fci_energy",
 ]
 
@@ -105,5 +130,6 @@ NAME2VQE_METRIC: dict[str, Type[BaseMetric]] = {
     "final_cost": FinalCost,
     "hf_energy": HFEnergy,
     "casci_energy": CASCIEnergy,
+    "casscf_energy": CASSCFEnergy,
     "fci_energy": FCIEnergy,
 }
