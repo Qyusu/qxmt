@@ -76,7 +76,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.pytest.ini_options]
-addopts="-n 3"
+addopts="-n 3 --dist=loadscope"
 markers = [
     "serial: marks tests to run serially (not in parallel)",
 ]

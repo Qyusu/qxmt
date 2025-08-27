@@ -2,7 +2,18 @@ import numpy as np
 import pytest
 from openfermion.chem.molecular_data import MolecularData
 
+from qxmt.hamiltonians.energy_data import ReferenceEnergies
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
+
+
+@pytest.fixture
+def init_energies() -> ReferenceEnergies:
+    return ReferenceEnergies(
+        hf_energy=None,
+        casci_energy=None,
+        casscf_energy=None,
+        fci_energy=None,
+    )
 
 
 # Molecule dataset cannot access simultaneously in parallel
@@ -79,12 +90,10 @@ class TestMolecularHamiltonian:
             basis_name="STO-3G",
         )
 
-        assert hasattr(hamiltonian, "hf_energy")
-        assert hasattr(hamiltonian, "casci_energy")
-        assert hasattr(hamiltonian, "fci_energy")
-        assert isinstance(hamiltonian.hf_energy, float)
-        assert hamiltonian.casci_energy is None
-        assert isinstance(hamiltonian.fci_energy, float)
+        assert hasattr(hamiltonian, "reference_energies")
+        assert isinstance(hamiltonian.reference_energies.hf_energy, float)
+        assert hamiltonian.reference_energies.casci_energy is None
+        assert isinstance(hamiltonian.reference_energies.fci_energy, float)
 
     def test_get_energies(self) -> None:
         hamiltonian = MolecularHamiltonian(
@@ -102,33 +111,44 @@ class TestMolecularHamiltonian:
         assert isinstance(fci_energy, float)
         assert fci_energy < hf_energy
 
-    def test_set_reference_energies_without_dataset(self, mocker) -> None:
+    def test_reference_energy_methods_fci_only(self, mocker) -> None:
+        """Test FCI-only calculation."""
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
-        # test without casci
-        mock_compute = mocker.patch.object(MolecularHamiltonian, "_compute_energies_by_pyscf")
-        mock_compute.return_value = (-1.5, None, -1.8)
+        # Mock PySCF run for FCI calculation
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_fci_result = mocker.MagicMock()
+        mock_fci_result.hf_energy = -1.1
+        mock_fci_result.fci_energy = -1.15
+        mock_run_pyscf.return_value = mock_fci_result
 
         hamiltonian = MolecularHamiltonian(
             symbols=symbols,
             coordinates=coordinates,
             basis_name="STO-3G",
-            hf_energy=None,
-            casci_energy=None,
-            fci_energy=None,
-            use_casci=False,
+            reference_energy_methods=["fci"],
         )
 
-        mock_compute.assert_called_once_with(use_casci=False)
+        assert hamiltonian.reference_energies.hf_energy == -1.1
+        assert hamiltonian.reference_energies.casci_energy is None
+        assert hamiltonian.reference_energies.casscf_energy is None
+        assert hamiltonian.reference_energies.fci_energy == -1.15
 
-        assert hamiltonian.hf_energy == -1.5
-        assert hamiltonian.casci_energy is None
-        assert hamiltonian.fci_energy == -1.8
+    def test_reference_energy_methods_casci_only(self, mocker) -> None:
+        """Test CASCI-only calculation."""
+        symbols = ["H", "H"]
+        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
-        # test with casci
-        mock_compute = mocker.patch.object(MolecularHamiltonian, "_compute_energies_by_pyscf")
-        mock_compute.return_value = (-1.5, -1.6, None)
+        # Mock PySCF run for HF energy
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.1
+        mock_run_pyscf.return_value = mock_scf_result
+
+        # Mock CASCI calculation
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+        mock_cas_calc.return_value = -1.13
 
         hamiltonian = MolecularHamiltonian(
             symbols=symbols,
@@ -136,17 +156,13 @@ class TestMolecularHamiltonian:
             basis_name="STO-3G",
             active_electrons=2,
             active_orbitals=2,
-            hf_energy=None,
-            casci_energy=None,
-            fci_energy=None,
-            use_casci=True,
+            reference_energy_methods=["casci"],
         )
 
-        mock_compute.assert_called_once_with(use_casci=True)
-
-        assert hamiltonian.hf_energy == -1.5
-        assert hamiltonian.casci_energy == -1.6
-        assert hamiltonian.fci_energy is None
+        assert hamiltonian.reference_energies.hf_energy == -1.1
+        assert hamiltonian.reference_energies.casci_energy == -1.13
+        assert hamiltonian.reference_energies.casscf_energy is None
+        assert hamiltonian.reference_energies.fci_energy is None
 
     def test_set_reference_energies_by_config(self) -> None:
         symbols = ["H", "H"]
@@ -164,11 +180,11 @@ class TestMolecularHamiltonian:
             fci_energy=fci_energy,
         )
 
-        assert hamiltonian.hf_energy == -1.5
-        assert hamiltonian.casci_energy == -1.6
-        assert hamiltonian.fci_energy == -1.8
+        assert hamiltonian.reference_energies.hf_energy == -1.5
+        assert hamiltonian.reference_energies.casci_energy == -1.6
+        assert hamiltonian.reference_energies.fci_energy == -1.8
 
-    def test_get_reference_energies_without_dataset_error(self) -> None:
+    def test_get_reference_energies_without_dataset_error(self, init_energies: ReferenceEnergies) -> None:
         hamiltonian = MolecularHamiltonian(
             molname="H2",
             bondlength="0.74",
@@ -178,7 +194,7 @@ class TestMolecularHamiltonian:
         hamiltonian._dataset = []
 
         with pytest.raises(ValueError, match="Dataset is not loaded"):
-            hamiltonian._get_reference_energies()
+            hamiltonian._get_reference_energies(init_energies)
 
     def test_pennylane_molecule2openfermion(self) -> None:
         symbols = ["H", "H"]
@@ -199,45 +215,28 @@ class TestMolecularHamiltonian:
         assert openfermion_molecule.multiplicity == 1
         assert openfermion_molecule.charge == 0
 
-    def test_compute_energies_by_pyscf_fci(self, mocker) -> None:
+    def test_reference_energy_methods_multiple(self, mocker) -> None:
+        """Test multiple reference energy methods calculation."""
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
-        mock_energy = mocker.MagicMock()
-        mock_energy.hf_energy = -1.5
-        mock_energy.fci_energy = -1.8
+        # Mock PySCF runs
         mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
-        mock_run_pyscf.return_value = mock_energy
 
-        hamiltonian = MolecularHamiltonian(
-            symbols=symbols,
-            coordinates=coordinates,
-            basis_name="STO-3G",
-        )
+        # First call for HF energy
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.1
 
-        hf_energy, casci_energy, fci_energy = hamiltonian._compute_energies_by_pyscf(use_casci=False)
+        # Second call for FCI energy
+        mock_fci_result = mocker.MagicMock()
+        mock_fci_result.hf_energy = -1.1
+        mock_fci_result.fci_energy = -1.15
 
-        call_args = mock_run_pyscf.call_args
-        assert call_args[1]["run_scf"] is True
-        assert call_args[1]["run_fci"] is True
-        assert call_args[1]["run_mp2"] is False
-        assert call_args[1]["run_ccsd"] is False
+        mock_run_pyscf.side_effect = [mock_scf_result, mock_fci_result]
 
-        assert hf_energy == -1.5
-        assert casci_energy is None
-        assert fci_energy == -1.8
-
-    def test_compute_energies_by_pyscf_casci(self, mocker) -> None:
-        symbols = ["H", "H"]
-        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
-
-        mock_energy = mocker.MagicMock()
-        mock_energy.hf_energy = -1.5
-        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
-        mock_run_pyscf.return_value = mock_energy
-
-        mock_casci = mocker.patch.object(MolecularHamiltonian, "_run_casci_with_frozen_core")
-        mock_casci.return_value = -1.6
+        # Mock CAS calculations
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+        mock_cas_calc.side_effect = [-1.13, -1.14]  # CASCI, CASSCF
 
         hamiltonian = MolecularHamiltonian(
             symbols=symbols,
@@ -245,34 +244,75 @@ class TestMolecularHamiltonian:
             basis_name="STO-3G",
             active_electrons=2,
             active_orbitals=2,
+            reference_energy_methods=["casci", "casscf", "fci"],
         )
 
-        hf_energy, casci_energy, fci_energy = hamiltonian._compute_energies_by_pyscf(use_casci=True)
+        assert hamiltonian.reference_energies.hf_energy == -1.1
+        assert hamiltonian.reference_energies.casci_energy == -1.13
+        assert hamiltonian.reference_energies.casscf_energy == -1.14
+        assert hamiltonian.reference_energies.fci_energy == -1.15
 
-        call_args = mock_run_pyscf.call_args
-        assert call_args[1]["run_scf"] is True
-        assert call_args[1]["run_fci"] is False
-        assert call_args[1]["run_mp2"] is False
-        assert call_args[1]["run_ccsd"] is False
-
-        mock_casci.assert_called_once()
-
-        assert hf_energy == -1.5
-        assert casci_energy == -1.6
-        assert fci_energy is None
-
-    def test_compute_energies_by_pyscf_casci_missing_parameters(self) -> None:
+    def test_reference_energy_methods_missing_active_space(self, mocker) -> None:
+        """Test behavior when active space parameters are missing for CAS methods."""
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
+        # Mock PySCF for HF energy
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.1
+        mock_run_pyscf.return_value = mock_scf_result
+
+        # Mock CAS calculation to ensure it's not called
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+
+        hamiltonian = MolecularHamiltonian(
+            symbols=symbols,
+            coordinates=coordinates,
+            basis_name="STO-3G",
+            reference_energy_methods=["casci", "casscf"],
+            # Note: No active_electrons or active_orbitals specified
+        )
+
+        # Verify CAS calculations were skipped (energies remain None)
+        assert hamiltonian.reference_energies.hf_energy == -1.1
+        assert hamiltonian.reference_energies.casci_energy is None
+        assert hamiltonian.reference_energies.casscf_energy is None
+        assert hamiltonian.reference_energies.fci_energy is None
+
+        # Verify CAS calculation method was never called due to missing parameters
+        mock_cas_calc.assert_not_called()
+
+    def test_reference_energy_methods_default_fci(self, mocker) -> None:
+        """Test default reference energy method (FCI)."""
+        symbols = ["H", "H"]
+        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
+
+        # Mock PySCF runs
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+
+        # First call for HF energy
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.1
+
+        # Second call for FCI energy
+        mock_fci_result = mocker.MagicMock()
+        mock_fci_result.hf_energy = -1.1
+        mock_fci_result.fci_energy = -1.15
+
+        mock_run_pyscf.side_effect = [mock_scf_result, mock_fci_result]
+
+        # Default should be FCI only
         hamiltonian = MolecularHamiltonian(
             symbols=symbols,
             coordinates=coordinates,
             basis_name="STO-3G",
         )
 
-        with pytest.raises(ValueError, match="active_orbitals and active_electrons must be specified"):
-            hamiltonian._compute_energies_by_pyscf(use_casci=True)
+        assert hamiltonian.reference_energies.hf_energy == -1.1
+        assert hamiltonian.reference_energies.casci_energy is None
+        assert hamiltonian.reference_energies.casscf_energy is None
+        assert hamiltonian.reference_energies.fci_energy == -1.15
 
     def test_determine_frozen_core_orbitals(self, mocker) -> None:
         symbols = ["H", "H"]
@@ -306,7 +346,7 @@ class TestMolecularHamiltonian:
         n_frozen = hamiltonian._determine_frozen_core_orbitals(mock_mol)
         assert n_frozen == 2  # 1s and additional core orbitals
 
-    def test_run_casci_with_frozen_core(self, mocker) -> None:
+    def test_run_cas_calculation_casci(self, mocker) -> None:
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
@@ -343,14 +383,14 @@ class TestMolecularHamiltonian:
 
         openfermion_molecule = hamiltonian._pennylane_molecule2openfermion()
 
-        casci_energy = hamiltonian._run_casci_with_frozen_core(openfermion_molecule, 2, 2)
+        casci_energy = hamiltonian._run_cas_calculation(openfermion_molecule, 2, 2, "casci")
 
         assert casci_energy == -1.6
         mock_mol.build.assert_called_once()
         mock_mf.kernel.assert_called_once()
         mock_casci.kernel.assert_called_once()
 
-    def test_run_casci_with_frozen_core_import_error(self, mocker) -> None:
+    def test_run_cas_calculation_import_error(self, mocker) -> None:
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
@@ -373,16 +413,23 @@ class TestMolecularHamiltonian:
 
         openfermion_molecule = hamiltonian._pennylane_molecule2openfermion()
 
-        with pytest.raises(ImportError, match="PySCF is required for CASCI calculations"):
-            hamiltonian._run_casci_with_frozen_core(openfermion_molecule, 2, 2)
+        with pytest.raises(ImportError, match="PySCF is required for CASCI/CASSCF calculations"):
+            hamiltonian._run_cas_calculation(openfermion_molecule, 2, 2, "casci")
 
     def test_casci_integration(self, mocker) -> None:
         """Test complete CASCI workflow from initialization to energy calculation."""
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
-        mock_compute = mocker.patch.object(MolecularHamiltonian, "_compute_energies_by_pyscf")
-        mock_compute.return_value = (-1.5, -1.6, None)
+        # Mock PySCF for HF energy
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.5
+        mock_run_pyscf.return_value = mock_scf_result
+
+        # Mock CASCI calculation
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+        mock_cas_calc.return_value = -1.6
 
         hamiltonian = MolecularHamiltonian(
             symbols=symbols,
@@ -390,55 +437,160 @@ class TestMolecularHamiltonian:
             basis_name="STO-3G",
             active_electrons=2,
             active_orbitals=2,
-            use_casci=True,
+            reference_energy_methods=["casci"],
         )
 
         assert hamiltonian.get_hf_energy() == -1.5
         assert hamiltonian.get_casci_energy() == -1.6
         assert hamiltonian.get_fci_energy() is None
 
-        mock_compute.assert_called_once_with(use_casci=True)
+        mock_cas_calc.assert_called_once_with(mocker.ANY, 2, 2, calculation_type="casci")
 
-    def test_use_casci_parameter_propagation(self, mocker) -> None:
-        """Test that use_casci parameter is properly propagated through the call chain."""
+    def test_reference_energy_methods_parameter_validation(self, mocker) -> None:
+        """Test that reference_energy_methods parameter is properly validated."""
         symbols = ["H", "H"]
         coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
 
-        mock_compute = mocker.patch.object(MolecularHamiltonian, "_compute_energies_by_pyscf")
-        mock_compute.return_value = (-1.5, -1.6, None)
+        # Mock PySCF for HF energy
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.5
+        mock_run_pyscf.return_value = mock_scf_result
 
-        # Test with use_casci=True
+        # Mock CAS calculation
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+        mock_cas_calc.return_value = -1.6
+
+        # Test with CASCI method
         hamiltonian_casci = MolecularHamiltonian(
             symbols=symbols,
             coordinates=coordinates,
             basis_name="STO-3G",
             active_electrons=2,
             active_orbitals=2,
-            use_casci=True,
+            reference_energy_methods=["casci"],
         )
-
-        call_args = mock_compute.call_args
-        assert call_args[1]["use_casci"] is True
 
         assert hamiltonian_casci.get_hf_energy() == -1.5
         assert hamiltonian_casci.get_casci_energy() == -1.6
         assert hamiltonian_casci.get_fci_energy() is None
 
-        # Reset mock for second test
-        mock_compute.reset_mock()
-        mock_compute.return_value = (-1.5, None, -1.8)
+        # Reset mocks for second test
+        mock_run_pyscf.reset_mock()
+        mock_cas_calc.reset_mock()
 
-        # Test with use_casci=False (default)
+        # Second call for FCI
+        mock_fci_result = mocker.MagicMock()
+        mock_fci_result.hf_energy = -1.5
+        mock_fci_result.fci_energy = -1.8
+        mock_run_pyscf.side_effect = [mock_scf_result, mock_fci_result]
+
+        # Test with FCI method (default)
         hamiltonian_fci = MolecularHamiltonian(
             symbols=symbols,
             coordinates=coordinates,
             basis_name="STO-3G",
-            use_casci=False,
+            reference_energy_methods=["fci"],
         )
-
-        call_args = mock_compute.call_args
-        assert call_args[1]["use_casci"] is False
 
         assert hamiltonian_fci.get_hf_energy() == -1.5
         assert hamiltonian_fci.get_casci_energy() is None
         assert hamiltonian_fci.get_fci_energy() == -1.8
+
+    def test_run_cas_calculation_casscf(self, mocker) -> None:
+        """Test CASSCF calculation functionality."""
+        symbols = ["H", "H"]
+        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
+
+        hamiltonian = MolecularHamiltonian(
+            symbols=symbols,
+            coordinates=coordinates,
+            basis_name="STO-3G",
+            active_electrons=2,
+            active_orbitals=2,
+            reference_energy_methods=["casscf"],
+            max_cycle_macro=30,
+            conv_tol=1e-8,
+        )
+
+        mock_pyscf = mocker.MagicMock()
+        mock_mcscf = mocker.MagicMock()
+        mock_gto = mocker.MagicMock()
+        mock_scf = mocker.MagicMock()
+
+        mocker.patch.dict("sys.modules", {"pyscf": mock_pyscf, "pyscf.mcscf": mock_mcscf})
+        mock_pyscf.gto = mock_gto
+        mock_pyscf.scf = mock_scf
+        mock_pyscf.mcscf = mock_mcscf
+
+        mock_mol = mocker.MagicMock()
+        mock_gto.Mole.return_value = mock_mol
+
+        mock_mf = mocker.MagicMock()
+        mock_scf.RHF.return_value = mock_mf
+
+        mock_casscf = mocker.MagicMock()
+        mock_casscf.kernel.return_value = (-1.7, None)  # Return energy and other data
+        mock_casscf.converged = True
+        mock_mcscf.CASSCF.return_value = mock_casscf
+
+        mock_determine_frozen = mocker.patch.object(hamiltonian, "_determine_frozen_core_orbitals")
+        mock_determine_frozen.return_value = 0  # No frozen core for H2
+
+        openfermion_molecule = hamiltonian._pennylane_molecule2openfermion()
+
+        casscf_energy = hamiltonian._run_cas_calculation(openfermion_molecule, 2, 2, "casscf")
+
+        assert casscf_energy == -1.7
+        mock_mol.build.assert_called_once()
+        mock_mf.kernel.assert_called_once()
+        mock_casscf.kernel.assert_called_once()
+        assert mock_casscf.max_cycle_macro == 30
+        assert mock_casscf.conv_tol == 1e-8
+
+    def test_casscf_integration(self, mocker) -> None:
+        """Test complete CASSCF workflow from initialization to energy calculation."""
+        symbols = ["H", "H"]
+        coordinates = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
+
+        # Mock PySCF for HF energy
+        mock_run_pyscf = mocker.patch("qxmt.hamiltonians.pennylane.molecular.run_pyscf")
+        mock_scf_result = mocker.MagicMock()
+        mock_scf_result.hf_energy = -1.5
+        mock_run_pyscf.return_value = mock_scf_result
+
+        # Mock CASSCF calculation
+        mock_cas_calc = mocker.patch.object(MolecularHamiltonian, "_run_cas_calculation")
+        mock_cas_calc.return_value = -1.65
+
+        hamiltonian = MolecularHamiltonian(
+            symbols=symbols,
+            coordinates=coordinates,
+            basis_name="STO-3G",
+            active_electrons=2,
+            active_orbitals=2,
+            reference_energy_methods=["casscf"],
+        )
+
+        assert hamiltonian.get_hf_energy() == -1.5
+        assert hamiltonian.get_casci_energy() is None
+        assert hamiltonian.get_casscf_energy() == -1.65
+        assert hamiltonian.get_fci_energy() is None
+
+        mock_cas_calc.assert_called_once_with(mocker.ANY, 2, 2, calculation_type="casscf")
+
+    def test_reference_energies_object(self) -> None:
+        """Test ReferenceEnergies object functionality."""
+        hamiltonian = MolecularHamiltonian(
+            molname="H2",
+            bondlength="0.74",
+            basis_name="STO-3G",
+        )
+
+        # Test that reference_energies object exists
+        assert hasattr(hamiltonian, "reference_energies")
+        assert isinstance(hamiltonian.reference_energies, ReferenceEnergies)
+
+        # Test get_reference_energies method
+        energies = hamiltonian.get_reference_energies()
+        assert isinstance(energies, ReferenceEnergies)
