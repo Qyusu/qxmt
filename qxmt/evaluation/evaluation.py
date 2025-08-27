@@ -149,7 +149,7 @@ class Evaluation:
         """
         metrics = self.default_metrics + self.custom_metrics
         for metric in metrics:
-            if metric.score is None:
+            if (not metric.accept_none) and (metric.score is None):
                 raise ValueError("Metrics are not evaluated yet.")
 
         data = {metric.name: metric.score for metric in metrics}
@@ -170,7 +170,7 @@ class Evaluation:
             pd.DataFrame: DataFrame containing evaluation metrics
         """
         data = self.to_dict()
-        df = pd.DataFrame(data, index=[0])
+        df = pd.DataFrame([data])
         if (id is not None) and (id_columns_name is not None):
             df.insert(0, id_columns_name, id)
 

@@ -25,10 +25,10 @@ class ParticleConservingU1Ansatz(BaseVQEAnsatz):
 
     The ansatz constructs quantum states of the form:
 
-    |ψ⟩ = U_U1^(L)(θ_L) ⋯ U_U1^(1)(θ_1) |init⟩
+    \|ψ⟩ = U_U1^(L)(θ_L) ⋯ U_U1^(1)(θ_1) \|init⟩
 
     where U_U1^(i) represents the i-th particle-conserving layer, θ_i are variational
-    parameters, and |init⟩ is the initial state (typically Hartree-Fock).
+    parameters, and \|init⟩ is the initial state (typically Hartree-Fock).
 
     Key features:
     - Strict particle number conservation (exact U(1) symmetry)

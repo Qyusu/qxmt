@@ -25,10 +25,10 @@ class GeteFabricAnsatz(BaseVQEAnsatz):
 
     The ansatz creates quantum states of the form:
 
-    |ψ⟩ = U_fabric^(L)(θ_L) ⋯ U_fabric^(1)(θ_1) |init⟩
+    \|ψ⟩ = U_fabric^(L)(θ_L) ⋯ U_fabric^(1)(θ_1) \|init⟩
 
     where U_fabric^(i) represents the i-th layer, θ_i are variational parameters,
-    and |init⟩ is the initial state (typically Hartree-Fock).
+    and \|init⟩ is the initial state (typically Hartree-Fock).
 
     Key features:
     - Hardware-efficient design suitable for NISQ devices

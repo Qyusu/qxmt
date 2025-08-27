@@ -32,7 +32,7 @@ class Evaluations(BaseModel):
 
 
 class VQEEvaluations(BaseModel):
-    optimized: dict[str, float]
+    optimized: dict[str, Optional[float]]
 
 
 class RunRecord(BaseModel):

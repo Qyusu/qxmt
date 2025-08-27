@@ -19,10 +19,10 @@ class AllSinglesDoublesAnsatz(BaseVQEAnsatz):
 
     The ansatz constructs a quantum state by applying parameterized excitation operators:
 
-    |ψ⟩ = exp(∑ᵢ θᵢ Tᵢ) |HF⟩
+    \|ψ⟩ = exp(∑ᵢ θᵢ Tᵢ) \|HF⟩
 
     where Tᵢ represents single and double excitation operators, θᵢ are variational parameters,
-    and |HF⟩ is the Hartree-Fock reference state.
+    and \|HF⟩ is the Hartree-Fock reference state.
 
     Key features:
     - Includes all chemically relevant single and double excitations
