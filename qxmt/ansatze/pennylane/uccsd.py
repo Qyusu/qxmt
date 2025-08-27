@@ -18,10 +18,10 @@ class UCCSDAnsatz(BaseVQEAnsatz):
 
     The UCCSD ansatz constructs a quantum state through the exponential of anti-Hermitian operators:
 
-    |ψ⟩ = exp(T̂ - T̂†) |HF⟩ = exp(∑ᵢ θᵢ(τᵢ - τᵢ†)) |HF⟩
+    \|ψ⟩ = exp(T̂ - T̂†) \|HF⟩ = exp(∑ᵢ θᵢ(τᵢ - τᵢ†)) \|HF⟩
 
     where T̂ = T̂₁ + T̂₂ includes single (T̂₁) and double (T̂₂) excitation operators,
-    θᵢ are variational parameters, and |HF⟩ is the Hartree-Fock reference state.
+    θᵢ are variational parameters, and \|HF⟩ is the Hartree-Fock reference state.
 
     The unitary form ensures:
     - Preservation of quantum state normalization

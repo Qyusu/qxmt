@@ -21,7 +21,7 @@ class KUpCCGSDAnsatz(BaseVQEAnsatz):
     The ansatz constructs a quantum state by applying k repetitions of the UpCCGSD unitary operator
     to the Hartree-Fock reference state:
 
-    |ψ⟩ = [U_CCGSD(θ)]^k |HF⟩
+    \|ψ⟩ = [U_CCGSD(θ)]^k \|HF⟩
 
     where U_CCGSD(θ) includes both single and double excitation operators with parameters θ.
     The generalized singles include additional spin-flip excitations controlled by the delta_sz

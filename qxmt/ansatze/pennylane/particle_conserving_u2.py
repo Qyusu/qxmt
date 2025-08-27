@@ -30,10 +30,10 @@ class ParticleConservingU2Ansatz(BaseVQEAnsatz):
 
     The ansatz constructs quantum states of the form:
 
-    |ψ⟩ = U_U2^(L)(θ_L) ⋯ U_U2^(1)(θ_1) |init⟩
+    \|ψ⟩ = U_U2^(L)(θ_L) ⋯ U_U2^(1)(θ_1) \|init⟩
 
     where U_U2^(i) represents the i-th particle and spin-conserving layer, θ_i are
-    variational parameters, and |init⟩ is the initial state (typically Hartree-Fock).
+    variational parameters, and \|init⟩ is the initial state (typically Hartree-Fock).
 
     Key features:
     - Strict particle number and enhanced symmetry conservation
