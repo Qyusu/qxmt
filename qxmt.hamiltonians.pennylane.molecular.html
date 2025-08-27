@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>qxmt.hamiltonians.pennylane.molecular module &#8212; qxmt 0.5.8 documentation</title>
+    <title>qxmt.hamiltonians.pennylane.molecular module &#8212; qxmt 0.5.9 documentation</title>
   
   
   
@@ -37,7 +37,7 @@
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="_static/documentation_options.js?v=3b5aa716"></script>
+    <script src="_static/documentation_options.js?v=80a6250b"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
@@ -133,7 +133,7 @@
   
   
   
-    <p class="title logo__title">qxmt 0.5.8 documentation</p>
+    <p class="title logo__title">qxmt 0.5.9 documentation</p>
   
 </a></div>
         <div class="sidebar-primary-item">
@@ -153,6 +153,11 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.ansatze.html">qxmt.ansatze package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.all_singles_doubles.html">qxmt.ansatze.pennylane.all_singles_doubles module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.gete_fabric.html">qxmt.ansatze.pennylane.gete_fabric module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.kupccgsd.html">qxmt.ansatze.pennylane.kupccgsd module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.particle_conserving_u1.html">qxmt.ansatze.pennylane.particle_conserving_u1 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.particle_conserving_u2.html">qxmt.ansatze.pennylane.particle_conserving_u2 module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.uccsd.html">qxmt.ansatze.pennylane.uccsd module</a></li>
 </ul>
 </details></li>
@@ -242,6 +247,7 @@
 </details></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.base.html">qxmt.hamiltonians.base module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.builder.html">qxmt.hamiltonians.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.energy_data.html">qxmt.hamiltonians.energy_data module</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -534,11 +540,13 @@ document.write(`
 
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">MolecularHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">molname=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bondlength=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">symbols=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coordinates=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge=0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multi=1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_name='STO-3G'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unit='angstrom'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method='dhf'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_electrons=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">active_orbitals=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mapping='jordan_wigner'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hf_energy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fci_energy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.hamiltonians.pennylane.molecular</span> <span class="pre">(INFO)&gt;</span></span></em><span class="sig-paren">)</span></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.hamiltonians.pennylane.molecular.</span></span><span class="sig-name descname"><span class="pre">MolecularHamiltonian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">molname=None,</span> <span class="pre">bondlength=None,</span> <span class="pre">symbols=None,</span> <span class="pre">coordinates=None,</span> <span class="pre">charge=0,</span> <span class="pre">multi=1,</span> <span class="pre">basis_name='STO-3G',</span> <span class="pre">unit='angstrom',</span> <span class="pre">method='dhf',</span> <span class="pre">active_electrons=None,</span> <span class="pre">active_orbitals=None,</span> <span class="pre">mapping='jordan_wigner',</span> <span class="pre">hf_energy=None,</span> <span class="pre">casci_energy=None,</span> <span class="pre">casscf_energy=None,</span> <span class="pre">fci_energy=None,</span> <span class="pre">reference_energy_methods=['fci'],</span> <span class="pre">max_cycle_macro=50,</span> <span class="pre">conv_tol=1e-07,</span> <span class="pre">orbital_optimization=True,</span> <span class="pre">logger=&lt;Logger</span> <span class="pre">qxmt.hamiltonians.pennylane.molecular</span> <span class="pre">(INFO)&gt;</span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHamiltonian</span></code></p>
 <p>Molecular Hamiltonian for quantum chemistry calculations.</p>
 <p>This class represents a molecular Hamiltonian using PennyLane’s quantum chemistry module.
-It supports both full and active space calculations for molecular systems.</p>
+It supports both full and active space calculations for molecular systems, including CASCI
+(Complete Active Space Configuration Interaction) and CASSCF (Complete Active Space
+Self-Consistent Field) with frozen core orbitals.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -554,9 +562,17 @@ It supports both full and active space calculations for molecular systems.</p>
 <li><p><strong>active_electrons</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active electrons. If None, uses all electrons.</p></li>
 <li><p><strong>active_orbitals</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active orbitals. If None, uses all orbitals.</p></li>
 <li><p><strong>mapping</strong> (<em>Literal</em><em>[</em><em>'jordan_wigner'</em><em>, </em><em>'bravyi_kitaev'</em><em>, </em><em>'parity'</em><em>]</em>) – Mapping to use for the calculation. Defaults to “jordan_wigner”.</p></li>
-<li><p><strong>hf_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>fci_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
-<li><p><strong>logger</strong> (<em>Logger</em>)</p></li>
+<li><p><strong>hf_energy</strong> (<em>float</em><em> | </em><em>None</em>) – Pre-computed HF energy. If None, will be computed.</p></li>
+<li><p><strong>fci_energy</strong> (<em>float</em><em> | </em><em>None</em>) – Pre-computed FCI energy. If None, will be computed.</p></li>
+<li><p><strong>use_casci</strong> – Whether to use CASCI instead of FCI for energy calculations. Defaults to False.</p></li>
+<li><p><strong>cas_type</strong> – Type of CAS calculation (“casci” or “casscf”). Defaults to “casci”.</p></li>
+<li><p><strong>max_cycle_macro</strong> (<em>int</em>) – Maximum number of macro iterations for CASSCF. Defaults to 50.</p></li>
+<li><p><strong>conv_tol</strong> (<em>float</em>) – Convergence tolerance for CASSCF. Defaults to 1e-7.</p></li>
+<li><p><strong>orbital_optimization</strong> (<em>bool</em>) – Whether to perform orbital optimization in CASSCF. Defaults to True.</p></li>
+<li><p><strong>logger</strong> (<em>Logger</em>) – Logger instance for logging.</p></li>
+<li><p><strong>casci_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>casscf_energy</strong> (<em>float</em><em> | </em><em>None</em>)</p></li>
+<li><p><strong>reference_energy_methods</strong> (<em>list</em><em>[</em><em>Literal</em><em>[</em><em>'casci'</em><em>, </em><em>'casscf'</em><em>, </em><em>'fci'</em><em>]</em><em>]</em>)</p></li>
 </ul>
 </dd>
 </dl>
@@ -619,6 +635,34 @@ It supports both full and active space calculations for molecular systems.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_casci_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the CASCI energy of the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CASCI energy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_casscf_energy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the CASSCF energy of the molecule.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CASSCF energy.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -717,6 +761,20 @@ It supports both full and active space calculations for molecular systems.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_reference_energies</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Get the complete reference energies object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Object containing all computed reference energies.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ReferenceEnergies</p>
 </dd>
 </dl>
 </dd></dl>

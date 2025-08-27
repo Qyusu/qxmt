@@ -17,3 +17,4 @@ Submodules
 
    qxmt.hamiltonians.base
    qxmt.hamiltonians.builder
+   qxmt.hamiltonians.energy_data

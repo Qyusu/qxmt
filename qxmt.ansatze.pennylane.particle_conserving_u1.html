@@ -1,0 +1,784 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>qxmt.ansatze.pennylane.particle_conserving_u1 module &#8212; qxmt 0.5.9 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=8bf3131c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=80a6250b"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'qxmt.ansatze.pennylane.particle_conserving_u1';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="qxmt.ansatze.pennylane.particle_conserving_u2 module" href="qxmt.ansatze.pennylane.particle_conserving_u2.html" />
+    <link rel="prev" title="qxmt.ansatze.pennylane.kupccgsd module" href="qxmt.ansatze.pennylane.kupccgsd.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">qxmt 0.5.9 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="qxmt.html">QXMT reference</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="qxmt.ansatze.html">qxmt.ansatze package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="qxmt.ansatze.pennylane.html">qxmt.ansatze.pennylane package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.all_singles_doubles.html">qxmt.ansatze.pennylane.all_singles_doubles module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.gete_fabric.html">qxmt.ansatze.pennylane.gete_fabric module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.kupccgsd.html">qxmt.ansatze.pennylane.kupccgsd module</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">qxmt.ansatze.pennylane.particle_conserving_u1 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.particle_conserving_u2.html">qxmt.ansatze.pennylane.particle_conserving_u2 module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.ansatze.pennylane.uccsd.html">qxmt.ansatze.pennylane.uccsd module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.base.html">qxmt.ansatze.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.ansatze.builder.html">qxmt.ansatze.builder module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.datasets.html">qxmt.datasets package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.openml.html">qxmt.datasets.openml package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.generate.html">qxmt.datasets.generate package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.linear.html">qxmt.datasets.generate.linear module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.generate.loader.html">qxmt.datasets.generate.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.file.html">qxmt.datasets.file package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.file.loader.html">qxmt.datasets.file.loader module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.datasets.transform.html">qxmt.datasets.transform package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.normalizer.html">qxmt.datasets.transform.normalizer module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.datasets.transform.reducer.html">qxmt.datasets.transform.reducer module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.builder.html">qxmt.datasets.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.datasets.schema.html">qxmt.datasets.schema module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.devices.html">qxmt.devices package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.base.html">qxmt.devices.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.amazon.html">qxmt.devices.amazon module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.amazon_device.html">qxmt.devices.amazon_device module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.ibmq.html">qxmt.devices.ibmq module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.ibmq_device.html">qxmt.devices.ibmq_device module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.pennylane_device.html">qxmt.devices.pennylane_device module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.builder.html">qxmt.devices.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.devices.device_info.html">qxmt.devices.device_info module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.evaluation.html">qxmt.evaluation package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.evaluation.metrics.html">qxmt.evaluation.metrics package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.base.html">qxmt.evaluation.metrics.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_classification.html">qxmt.evaluation.metrics.defaults_classification module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_regression.html">qxmt.evaluation.metrics.defaults_regression module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.evaluation.metrics.defaults_vqe.html">qxmt.evaluation.metrics.defaults_vqe module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.evaluation.evaluation.html">qxmt.evaluation.evaluation module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.experiment.html">qxmt.experiment package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.evaluation_factory.html">qxmt.experiment.evaluation_factory module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.executor.html">qxmt.experiment.executor module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.experiment.html">qxmt.experiment.experiment module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.repository.html">qxmt.experiment.repository module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.reproducer.html">qxmt.experiment.reproducer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.experiment.schema.html">qxmt.experiment.schema module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.feature_maps.html">qxmt.feature_maps package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.feature_maps.pennylane.html">qxmt.feature_maps.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.rotation.html">qxmt.feature_maps.pennylane.rotation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.ising.html">qxmt.feature_maps.pennylane.ising module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.npqc.html">qxmt.feature_maps.pennylane.npqc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.feature_maps.pennylane.yzcx.html">qxmt.feature_maps.pennylane.yzcx module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.feature_maps.base.html">qxmt.feature_maps.base module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.generators.html">qxmt.generators package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.generators.description.html">qxmt.generators.description module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.generators.prompts.html">qxmt.generators.prompts module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.hamiltonians.html">qxmt.hamiltonians package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.hamiltonians.pennylane.html">qxmt.hamiltonians.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.hamiltonians.pennylane.molecular.html">qxmt.hamiltonians.pennylane.molecular module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.base.html">qxmt.hamiltonians.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.builder.html">qxmt.hamiltonians.builder module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.hamiltonians.energy_data.html">qxmt.hamiltonians.energy_data module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.kernels.html">qxmt.kernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.kernels.pennylane.html">qxmt.kernels.pennylane package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.base.html">qxmt.kernels.pennylane.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.fidelity_kernel.html">qxmt.kernels.pennylane.fidelity_kernel module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.kernels.pennylane.projected_kernel.html">qxmt.kernels.pennylane.projected_kernel module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.base.html">qxmt.kernels.base module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.kernels.sampling.html">qxmt.kernels.sampling module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.models.html">qxmt.models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.hyperparameter_search.html">qxmt.models.hyperparameter_search package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.hyperparameter_search.search.html">qxmt.models.hyperparameter_search.search module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.qkernels.html">qxmt.models.qkernels package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.base.html">qxmt.models.qkernels.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.builder.html">qxmt.models.qkernels.builder module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qrigge.html">qxmt.models.qkernels.qrigge module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvc.html">qxmt.models.qkernels.qsvc module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.qkernels.qsvr.html">qxmt.models.qkernels.qsvr module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="qxmt.models.vqe.html">qxmt.models.vqe package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.base.html">qxmt.models.vqe.base module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.basic.html">qxmt.models.vqe.basic module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="qxmt.models.vqe.builder.html">qxmt.models.vqe.builder module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.models.builder.html">qxmt.models.builder module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.utils.html">qxmt.utils package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.utils.git.html">qxmt.utils.git module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.utils.yaml.html">qxmt.utils.yaml module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="qxmt.visualization.html">qxmt.visualization package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_classification_performance.html">qxmt.visualization.plot_classification_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_dataset.html">qxmt.visualization.plot_dataset module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_metrics.html">qxmt.visualization.plot_metrics module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_optimization_performance.html">qxmt.visualization.plot_optimization_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_regression_performance.html">qxmt.visualization.plot_regression_performance module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="qxmt.visualization.plot_vqe_performance.html">qxmt.visualization.plot_vqe_performance module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.configs.html">qxmt.configs module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.constants.html">qxmt.constants module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.decorators.html">qxmt.decorators module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.exceptions.html">qxmt.exceptions module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.logger.html">qxmt.logger module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="qxmt.types.html">qxmt.types module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/en/tutorial_top.html">Tutorial: Applying QXMT to Your Own Experiments</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/en/qkernel_simple.html">Simple Case Using Only the Default Dataset and Quantum Kernel Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/en/qkernel_mnist_custom.html">Practical Case with Custom Functions and the MNIST Dataset for Quantum Kernel Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/en/vqe_tutorial.html">Using the VQE Module for Quantum Chemistry Calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/en/tool_reference.html">Tool Reference</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+<a href="https://github.com/Qyusu/qxmt" target="_blank"
+   class="btn btn-sm btn-source-repository-button"
+   title="Source repository"
+   data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+
+</a>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/qxmt.ansatze.pennylane.particle_conserving_u1.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>qxmt.ansatze.pennylane.particle_conserving_u1 module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+
+<div class="language-switch">
+    <button onclick="switchLanguage('en')">English</button>
+    <button onclick="switchLanguage('ja')">日本語</button>
+</div>
+
+<script>
+    // ページ読み込み時に現在の言語を確認してボタンにactiveクラスを追加
+    document.addEventListener("DOMContentLoaded", function() {
+        const url = window.location.pathname;
+        const langSwitchButtons = document.querySelectorAll('.language-switch button');
+
+        // 現在のURLに応じてactiveクラスを付ける
+        langSwitchButtons.forEach(button => {
+            if (url.includes('/en/') && button.innerText === 'English') {
+                button.classList.add('active');
+            } else if (url.includes('/ja/') && button.innerText === '日本語') {
+                button.classList.add('active');
+            }
+        });
+    });
+
+    function switchLanguage(lang) {
+        const url = window.location.pathname;
+
+        // tutorials/en または tutorials/ja の部分だけを置き換える
+        if (url.includes('/tutorials/en/')) {
+            window.location.href = url.replace('/tutorials/en/', `/tutorials/${lang}/`);
+        } else if (url.includes('/tutorials/ja/')) {
+            window.location.href = url.replace('/tutorials/ja/', `/tutorials/${lang}/`);
+        } else {
+            // tutorialsディレクトリ外のページではリダイレクトしない
+            alert("This page is not available in other languages.");
+        }
+    }
+</script>
+
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="qxmt-ansatze-pennylane-particle-conserving-u1-module">
+<h1>qxmt.ansatze.pennylane.particle_conserving_u1 module<a class="headerlink" href="#qxmt-ansatze-pennylane-particle-conserving-u1-module" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">qxmt.ansatze.pennylane.particle_conserving_u1.</span></span><span class="sig-name descname"><span class="pre">ParticleConservingU1Ansatz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hamiltonian</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseVQEAnsatz</span></code></p>
+<p>Particle-Conserving U(1) ansatz for quantum chemistry calculations.</p>
+<p>The ParticleConservingU1 ansatz is a hardware-efficient variational quantum circuit that
+respects U(1) particle number symmetry, making it particularly well-suited for quantum
+chemistry applications where particle number conservation is essential. This ansatz
+provides an excellent balance between expressibility and physical constraints.</p>
+<p>The circuit architecture consists of layers of parameterized gates that preserve the
+total particle number throughout the computation. Each layer contains:
+1. Single-qubit rotations that respect particle number conservation
+2. Two-qubit gates that maintain the U(1) symmetry
+3. Controlled operations that preserve fermion number</p>
+<p>The ansatz constructs quantum states of the form:</p>
+<p>|ψ⟩ = U_U1^(L)(θ_L) ⋯ U_U1^(1)(θ_1) |init⟩</p>
+<p>where U_U1^(i) represents the i-th particle-conserving layer, θ_i are variational
+parameters, and |init⟩ is the initial state (typically Hartree-Fock).</p>
+<p>Key features:
+- Strict particle number conservation (exact U(1) symmetry)
+- Hardware-efficient design for NISQ devices
+- Reduced parameter space due to symmetry constraints
+- Natural incorporation of physical quantum chemistry constraints
+- Improved optimization landscape compared to unconstrained ansätze
+- Compatible with fermionic mappings (Jordan-Wigner, Bravyi-Kitaev)</p>
+<p>The U(1) symmetry constraint significantly reduces the parameter space and helps
+avoid unphysical states during optimization, leading to more stable and efficient
+variational quantum eigensolvers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device</strong> (<em>BaseDevice</em>) – Quantum device for executing the variational circuit.</p></li>
+<li><p><strong>hamiltonian</strong> (<em>MolecularHamiltonian</em>) – Molecular Hamiltonian defining the quantum chemistry
+problem, containing electron configuration, orbital basis, and molecular geometry.</p></li>
+<li><p><strong>n_layers</strong> (<em>int</em><em>, </em><em>optional</em>) – Number of circuit layers. Each layer applies particle-conserving
+operations while maintaining U(1) symmetry. Higher values increase expressibility
+but also circuit depth. Defaults to 2.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hamiltonian</span></span></dt>
+<dd><p>Molecular Hamiltonian for the ansatz.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>MolecularHamiltonian</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">n_layers</span></span></dt>
+<dd><p>Number of layers in the circuit architecture.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">wires</span></span></dt>
+<dd><p>Qubit indices used in the quantum circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>range</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">hf_state</span></span></dt>
+<dd><p>Hartree-Fock reference state for initialization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">params_shape</span></span></dt>
+<dd><p>Shape of the parameter tensor for the circuit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">n_params</span></span></dt>
+<dd><p>Total number of variational parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.hamiltonians.pennylane.molecular</span><span class="w"> </span><span class="kn">import</span> <span class="n">MolecularHamiltonian</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">qxmt.devices</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDevice</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create Hamiltonian and device</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">hamiltonian</span> <span class="o">=</span> <span class="n">MolecularHamiltonian</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">device</span> <span class="o">=</span> <span class="n">BaseDevice</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize ParticleConservingU1 ansatz with 4 layers</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span> <span class="o">=</span> <span class="n">ParticleConservingU1Ansatz</span><span class="p">(</span><span class="n">device</span><span class="p">,</span> <span class="n">hamiltonian</span><span class="p">,</span> <span class="n">n_layers</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Initialize parameters</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">ansatz</span><span class="o">.</span><span class="n">n_params</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Build quantum circuit (particle number automatically conserved)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ansatz</span><span class="o">.</span><span class="n">circuit</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p>PennyLane documentation: <a class="reference external" href="https://docs.pennylane.ai/en/stable/code/api/pennylane.ParticleConservingU1.html">https://docs.pennylane.ai/en/stable/code/api/pennylane.ParticleConservingU1.html</a></p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This ansatz is particularly beneficial for systems where particle number conservation
+is crucial for physical accuracy. The U(1) symmetry constraint reduces the search
+space and can lead to faster convergence compared to unconstrained variational circuits.</p>
+<p>The reduced parameter space makes this ansatz especially suitable for near-term
+quantum devices with limited coherence times, as it requires fewer optimization steps
+while maintaining chemical accuracy.</p>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">circuit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span></dt>
+<dd><p>Construct the ParticleConservingU1 quantum circuit.</p>
+<p>This method builds a quantum circuit that preserves particle number through U(1) symmetry.
+The circuit applies multiple layers of particle-conserving gates while maintaining the
+total number of particles (electrons) in the system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>params</strong> (<em>np.ndarray</em>) – Parameters for the ParticleConservingU1 circuit. The length of this
+array should match the number of parameters required by the circuit
+(determined by n_layers and number of qubits).</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">prepare_hf_state</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Prepare the Hartree-Fock reference state.</p>
+<p>This method creates the Hartree-Fock reference state using PennyLane’s qchem module.
+The Hartree-Fock state is a product state where the first n electrons occupy the lowest
+energy orbitals.</p>
+<p>The state is stored in self.hf_state as a numpy array.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The number of electrons and orbitals are obtained from the Hamiltonian.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="qxmt.ansatze.pennylane.kupccgsd.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">qxmt.ansatze.pennylane.kupccgsd module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="qxmt.ansatze.pennylane.particle_conserving_u2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">qxmt.ansatze.pennylane.particle_conserving_u2 module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By kenya-sk
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024, kenya-sk.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
