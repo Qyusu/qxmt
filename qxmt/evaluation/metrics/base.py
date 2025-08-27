@@ -37,6 +37,7 @@ class BaseMetric(ABC):
         """
         self.name: str = name
         self.score: Optional[float] = None
+        self.accept_none: bool = False
 
     @staticmethod
     @abstractmethod

@@ -8,14 +8,17 @@ hamiltonian:
   module_name: "qxmt.hamiltonians.pennylane"
   implement_name: "MolecularHamiltonian"
   params:
-    symbols: ["H", "H"]
+    symbols: ["Li", "H"]
     coordinates: [[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]]
     charge: 0
     multi: 1
     basis_name: "STO-3G"
     active_electrons: 2
-    active_orbitals: 2
-    reference_energy_methods: ["fci"]
+    active_orbitals: 5
+    reference_energy_methods: ["casci", "casscf", "fci"]
+    max_cycle_macro: 50  # Only used for CASSCF
+    conv_tol: 1e-7  # Only used for CASSCF
+    orbital_optimization: true  # Only used for CASSCF
     unit: "angstrom"
 
 device:
@@ -43,13 +46,14 @@ model:
     max_steps: 500
     tol: 1e-6
     init_params:
-      type: "custom"
-      values: [0.5, 0.3, 0.8]
+      type: "zeros"
     verbose: true
 
 evaluation:
   default_metrics:
   - "final_cost"
   - "hf_energy"
+  - "casci_energy"
+  - "casscf_energy"
   - "fci_energy"
   custom_metrics: []
