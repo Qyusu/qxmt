@@ -1,4 +1,4 @@
-from typing import Any, Literal, Type
+from typing import Any, Literal, Optional, Type
 
 from qxmt.evaluation.metrics.base import BaseMetric
 from qxmt.hamiltonians.pennylane.molecular import MolecularHamiltonian
@@ -35,9 +35,10 @@ class HFEnergy(BaseMetric):
 
     def __init__(self, name: str = "hf_energy") -> None:
         super().__init__(name)
+        self.accept_none = True
 
     @staticmethod
-    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> float:
+    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> Optional[float]:
         """Get the precomputed Hartree-Fock energy.
 
         Args:
@@ -49,6 +50,24 @@ class HFEnergy(BaseMetric):
         return hamiltonian.get_hf_energy()
 
 
+class CASCIEnergy(BaseMetric):
+    def __init__(self, name: str = "casci_energy") -> None:
+        super().__init__(name)
+        self.accept_none = True
+
+    @staticmethod
+    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> Optional[float]:
+        """Get the precomputed CASCI energy.
+
+        Args:
+            hamiltonian (MolecularHamiltonian): The molecular Hamiltonian object
+
+        Returns:
+            float: The CASCI energy value
+        """
+        return hamiltonian.get_casci_energy()
+
+
 class FCIEnergy(BaseMetric):
     """Metric for calculating the Full Configuration Interaction (FCI) energy.
 
@@ -58,9 +77,10 @@ class FCIEnergy(BaseMetric):
 
     def __init__(self, name: str = "fci_energy") -> None:
         super().__init__(name)
+        self.accept_none = True
 
     @staticmethod
-    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> float:
+    def evaluate(hamiltonian: MolecularHamiltonian, **kwargs: Any) -> Optional[float]:
         """Get the precomputed Full Configuration Interaction energy.
 
         Args:
@@ -76,6 +96,7 @@ class FCIEnergy(BaseMetric):
 DEFAULT_VQE_METRICS_NAME = Literal[
     "final_cost",
     "hf_energy",
+    "casci_energy",
     "fci_energy",
 ]
 
@@ -83,5 +104,6 @@ DEFAULT_VQE_METRICS_NAME = Literal[
 NAME2VQE_METRIC: dict[str, Type[BaseMetric]] = {
     "final_cost": FinalCost,
     "hf_energy": HFEnergy,
+    "casci_energy": CASCIEnergy,
     "fci_energy": FCIEnergy,
 }
