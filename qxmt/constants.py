@@ -37,7 +37,14 @@ AWS_DEFAULT_REGION: str = "AWS_DEFAULT_REGION"
 # set supported quantum platforms and devices
 PENNYLANE_PLATFORM: str = "pennylane"
 SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM]
-PENNYLANE_DEVICES: tuple[Any, ...] = (qml.devices.Device, qml.devices.LegacyDevice, qml.devices.QubitDevice)
+_pl_devices: list[Any] = []
+if hasattr(qml.devices, "Device"):
+    _pl_devices.append(qml.devices.Device)
+if hasattr(qml.devices, "LegacyDevice"):
+    _pl_devices.append(getattr(qml.devices, "LegacyDevice"))
+if hasattr(qml.devices, "QubitDevice"):
+    _pl_devices.append(getattr(qml.devices, "QubitDevice"))
+PENNYLANE_DEVICES: tuple[Any, ...] = tuple(_pl_devices) if _pl_devices else tuple()
 
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
