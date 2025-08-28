@@ -1,10 +1,13 @@
 from typing import Optional, TypeVar
 
 import numpy as np
-import pennylane as qml
 
-# [TODO]: constract from qxmt.constants
-QuantumDeviceType = TypeVar("QuantumDeviceType", qml.devices.Device, qml.devices.LegacyDevice, qml.devices.QubitDevice)
+from qxmt.constants import PENNYLANE_DEVICES
+
+if PENNYLANE_DEVICES:
+    QuantumDeviceType = TypeVar("QuantumDeviceType", *PENNYLANE_DEVICES)  # type: ignore[misc]
+else:
+    QuantumDeviceType = TypeVar("QuantumDeviceType")
 
 
 RAW_DATA_TYPE = np.ndarray

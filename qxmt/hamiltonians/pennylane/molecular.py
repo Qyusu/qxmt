@@ -210,7 +210,7 @@ class MolecularHamiltonian(BaseHamiltonian):
 
         Computes energies for all methods specified in reference_energy_methods.
         For dataset molecules, HF and FCI are retrieved from cache.
-        For custom molecules, energies are computed using PySCF directly (no OpenFermion).
+        For custom molecules, energies are computed using PySCF directly.
         """
         result_energies = ReferenceEnergies(
             hf_energy=init_energies.hf_energy,
@@ -233,7 +233,7 @@ class MolecularHamiltonian(BaseHamiltonian):
             mol = self._build_pyscf_molecule()
 
             if result_energies.hf_energy is None:
-                result_energies.hf_energy = float(self._compute_hf_energy_by_pyscf(mol))
+                result_energies.hf_energy = self._compute_hf_energy_by_pyscf(mol)
 
             # Compute requested reference energies
             for method in self.reference_energy_methods:
@@ -260,7 +260,7 @@ class MolecularHamiltonian(BaseHamiltonian):
                     self.logger.debug(f"Computed CASSCF energy: {result_energies.casscf_energy}")
 
                 elif method == "fci" and result_energies.fci_energy is None:
-                    result_energies.fci_energy = float(self._compute_fci_energy_by_pyscf(mol))
+                    result_energies.fci_energy = self._compute_fci_energy_by_pyscf(mol)
                     self.logger.debug(f"Computed FCI energy: {result_energies.fci_energy}")
 
         return result_energies
@@ -337,7 +337,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         mol = self._build_pyscf_molecule()
 
         # Run HF calculation first to get molecular orbitals
-        mf = pyscf.scf.RHF(mol)
+        mf = scf.RHF(mol)
         mf.kernel()
 
         # Determine number of inactive (core) orbitals from electron count
