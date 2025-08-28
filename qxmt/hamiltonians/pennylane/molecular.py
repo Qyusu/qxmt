@@ -3,10 +3,10 @@ from logging import Logger
 from typing import Literal, Optional
 
 import pennylane as qml
-from openfermion.chem.molecular_data import MolecularData
-from openfermionpyscf import run_pyscf
+import pyscf
 from pennylane import numpy as qnp
 from pennylane.ops.op_math import Sum
+from pyscf import ao2mo, fci, mcscf, scf
 
 from qxmt.constants import PENNYLANE_PLATFORM
 from qxmt.hamiltonians import BaseHamiltonian
@@ -46,7 +46,7 @@ class MolecularHamiltonian(BaseHamiltonian):
         multi: Multiplicity of the molecule. Defaults to 1.
         basis_name: Basis set name. Only supported ["sto-3g", "6-31g", "6-311g", "cc-pvdz"]. Defaults to "sto-3g".
         unit: Unit of the coordinates. Only supported ["angstrom", "bohr"]. Defaults to "angstrom".
-        method: Method to use for the calculation. Only supported ["dhf", "pyscf", "openfermion"]. Defaults to "dhf".
+        method: Quantum chemistry method used to solve the mean field electronic structure problem. Only supported ["dhf", "pyscf", "openfermion"]. Defaults to "dhf".
         active_electrons: Number of active electrons. If None, uses all electrons.
         active_orbitals: Number of active orbitals. If None, uses all orbitals.
         mapping: Mapping to use for the calculation. Defaults to "jordan_wigner".
@@ -210,7 +210,7 @@ class MolecularHamiltonian(BaseHamiltonian):
 
         Computes energies for all methods specified in reference_energy_methods.
         For dataset molecules, HF and FCI are retrieved from cache.
-        For custom molecules, energies are computed using PySCF.
+        For custom molecules, energies are computed using PySCF directly.
         """
         result_energies = ReferenceEnergies(
             hf_energy=init_energies.hf_energy,
@@ -229,19 +229,13 @@ class MolecularHamiltonian(BaseHamiltonian):
             return result_energies
 
         else:
+            # Build PySCF molecule for custom inputs
+            mol = self._build_pyscf_molecule()
+
             if result_energies.hf_energy is None:
-                scf_result = run_pyscf(
-                    self._pennylane_molecule2openfermion(),
-                    run_scf=True,
-                    run_fci=False,
-                    run_mp2=False,
-                    run_ccsd=False,
-                )
-                result_energies.hf_energy = float(scf_result.hf_energy)  # type: ignore
+                result_energies.hf_energy = self._compute_hf_energy_by_pyscf(mol)
 
             # Compute requested reference energies
-            openfermion_molecule = self._pennylane_molecule2openfermion()
-
             for method in self.reference_energy_methods:
                 if method in ["casci", "casscf"]:
                     # Check if active space parameters are available
@@ -253,43 +247,85 @@ class MolecularHamiltonian(BaseHamiltonian):
 
                 if method == "casci" and result_energies.casci_energy is None:
                     assert self.active_orbitals is not None and self.active_electrons is not None
-                    result_energies.casci_energy = self._run_cas_calculation(
-                        openfermion_molecule, self.active_orbitals, self.active_electrons, calculation_type="casci"
+                    result_energies.casci_energy = self._compute_cas_energy_by_pyscf(
+                        self.active_orbitals, self.active_electrons, calculation_type="casci"
                     )
                     self.logger.debug(f"Computed CASCI energy: {result_energies.casci_energy}")
 
                 elif method == "casscf" and result_energies.casscf_energy is None:
                     assert self.active_orbitals is not None and self.active_electrons is not None
-                    result_energies.casscf_energy = self._run_cas_calculation(
-                        openfermion_molecule, self.active_orbitals, self.active_electrons, calculation_type="casscf"
+                    result_energies.casscf_energy = self._compute_cas_energy_by_pyscf(
+                        self.active_orbitals, self.active_electrons, calculation_type="casscf"
                     )
                     self.logger.debug(f"Computed CASSCF energy: {result_energies.casscf_energy}")
 
                 elif method == "fci" and result_energies.fci_energy is None:
-                    fci_result = run_pyscf(
-                        openfermion_molecule,
-                        run_scf=True,
-                        run_fci=True,
-                        run_mp2=False,
-                        run_ccsd=False,
-                    )
-                    result_energies.fci_energy = float(fci_result.fci_energy)  # type: ignore
+                    result_energies.fci_energy = self._compute_fci_energy_by_pyscf(mol)
                     self.logger.debug(f"Computed FCI energy: {result_energies.fci_energy}")
 
         return result_energies
 
-    def _pennylane_molecule2openfermion(self) -> MolecularData:
-        """Convert the PennyLane molecule to OpenFermion molecule."""
-        geometry = list(zip(self.symbols, self.coordinates.tolist()))  # type: ignore
-        return MolecularData(geometry=geometry, basis=self.basis_name, multiplicity=self.multi, charge=self.charge)
+    def _build_pyscf_molecule(self):
+        """Construct and return a PySCF Mole object from current settings.
 
-    def _run_cas_calculation(
-        self, openfermion_molecule: MolecularData, cas_norb: int, cas_nelec: int, calculation_type: str
-    ) -> float:
+        Returns:
+            pyscf.gto.Mole: The built molecule.
+        """
+        if self.symbols is None or self.coordinates is None:
+            raise ValueError("symbols and coordinates must be provided for PySCF-based calculations")
+
+        mol = pyscf.gto.Mole()
+        # Unit handling: default is Angstrom in PySCF
+        if str(self.unit).lower() == "bohr":
+            mol.unit = "Bohr"
+
+        # Build geometry
+        coords = self.coordinates.tolist() if hasattr(self.coordinates, "tolist") else self.coordinates  # type: ignore
+        mol.atom = [(sym, xyz) for sym, xyz in zip(self.symbols, coords)]
+        mol.basis = self.basis_name
+        mol.charge = self.charge
+        # PySCF spin is 2S, while multiplicity is (2S+1)
+        mol.spin = int(self.multi) - 1
+        mol.build()
+        return mol
+
+    def _compute_hf_energy_by_pyscf(self, mol) -> float:
+        """Compute Hartree-Fock total energy using PySCF."""
+        mf = scf.RHF(mol)
+        mf.kernel()
+        return float(mf.e_tot)
+
+    def _compute_fci_energy_by_pyscf(self, mol) -> float:
+        """Compute FCI total energy using PySCF.
+
+        Notes:
+            Performs RHF, transforms integrals to MO basis, and runs FCI over the full space.
+            Returns total energy including nuclear repulsion.
+        """
+        mf = scf.RHF(mol)
+        mf.kernel()
+
+        # MO-basis 1e and 2e integrals
+        hcore_ao = mf.get_hcore()
+        mo = mf.mo_coeff
+        h1e = mo.T @ hcore_ao @ mo  # type: ignore
+        eri = ao2mo.full(mol, mo, compact=False)
+        norb = mo.shape[1]  # type: ignore
+        eri = eri.reshape((norb, norb, norb, norb))
+        # Determine (nalpha, nbeta) from total electrons and spin
+        nelec_tot = mol.nelectron
+        spin = mol.spin  # = nalpha - nbeta
+        nalpha = (nelec_tot + spin) // 2
+        nbeta = nelec_tot - nalpha
+
+        # Run FCI; include nuclear repulsion as ecore via direct_spin1
+        e_tot, _ = fci.direct_spin1.kernel(h1e, eri, norb, (nalpha, nbeta), ecore=mol.energy_nuc())
+        return float(e_tot)
+
+    def _compute_cas_energy_by_pyscf(self, cas_norb: int, cas_nelec: int, calculation_type: str) -> float:
         """Run CASCI or CASSCF calculation with frozen core using PySCF.
 
         Args:
-            openfermion_molecule: OpenFermion MolecularData object.
             cas_norb: Number of active orbitals for CAS calculation.
             cas_nelec: Number of active electrons for CAS calculation.
             calculation_type: Type of calculation ("casci" or "casscf").
@@ -297,46 +333,46 @@ class MolecularHamiltonian(BaseHamiltonian):
         Returns:
             CASCI or CASSCF energy.
         """
-        try:
-            import pyscf
-            from pyscf import mcscf
-        except ImportError:
-            raise ImportError(
-                "PySCF is required for CASCI/CASSCF calculations. Please install it with 'pip install pyscf'"
-            )
-
         # Build molecule in PySCF format
-        mol = pyscf.gto.Mole()
-        mol.atom = []
-
-        # Convert geometry from OpenFermion format to PySCF format
-        for atom_symbol, coords in openfermion_molecule.geometry:
-            mol.atom.append([atom_symbol, coords])
-
-        mol.basis = openfermion_molecule.basis
-        mol.charge = openfermion_molecule.charge
-        mol.spin = openfermion_molecule.multiplicity - 1  # PySCF uses 2S instead of 2S+1
-        mol.build()
+        mol = self._build_pyscf_molecule()
 
         # Run HF calculation first to get molecular orbitals
-        mf = pyscf.scf.RHF(mol)
+        mf = scf.RHF(mol)
         mf.kernel()
 
-        # Determine frozen core orbitals
-        # Typically, we freeze the core orbitals (1s for atoms beyond H/He)
-        n_frozen_core = self._determine_frozen_core_orbitals(mol)
+        # Determine number of inactive (core) orbitals from electron count
+        nelec_tot = mol.nelectron
+        if (nelec_tot - cas_nelec) < 0 or (nelec_tot - cas_nelec) % 2 != 0:
+            raise ValueError(
+                f"Inconsistent CAS electrons: total={nelec_tot}, cas_nelec={cas_nelec}. "
+                "Ensure (total - cas_nelec) is a non-negative even number."
+            )
+        ncore = (nelec_tot - cas_nelec) // 2
+
+        # Validate/prepare CAS inputs
+        nmo = mf.mo_coeff.shape[1]  # type: ignore
+        if ncore + cas_norb > nmo:
+            raise ValueError(
+                f"Invalid active space: ncore({ncore}) + ncas({cas_norb}) > nmo({nmo}). "
+                "Reduce active_orbitals or choose smaller cas."
+            )
+        if cas_nelec > 2 * cas_norb:
+            raise ValueError(
+                f"Invalid active electrons: cas_nelec({cas_nelec}) exceeds 2*ncas({2 * cas_norb}). "
+                "Increase active_orbitals or reduce active_electrons."
+            )
+
+        # Determine (nalpha, nbeta) for the active space from total spin
+        spin_tot = mol.spin  # = nalpha - nbeta
+        nalpha_act = (cas_nelec + spin_tot) // 2  # type: ignore
+        nbeta_act = cas_nelec - nalpha_act
 
         # Set up CAS calculation with frozen core
         if calculation_type.lower() == "casscf":
             # Use CASSCF with orbital optimization
-            if n_frozen_core > 0:
-                ncore = n_frozen_core
-                ncas = cas_norb
-                nelec_cas = cas_nelec
-                cas_solver = mcscf.CASSCF(mf, ncas, nelec_cas)
-                setattr(cas_solver, "ncore", ncore)  # type: ignore
-            else:
-                cas_solver = mcscf.CASSCF(mf, cas_norb, cas_nelec)
+            nelec_cas = (int(nalpha_act), int(nbeta_act))
+            cas_solver = mcscf.CASSCF(mf, int(cas_norb), nelec_cas)
+            setattr(cas_solver, "ncore", int(ncore))  # type: ignore
 
             # Set CASSCF parameters
             max_cycle_val = int(self.max_cycle_macro)
@@ -356,20 +392,17 @@ class MolecularHamiltonian(BaseHamiltonian):
 
         else:
             # Use CASCI (no orbital optimization)
-            if n_frozen_core > 0:
-                ncore = n_frozen_core
-                ncas = cas_norb
-                nelec_cas = cas_nelec
-                cas_solver = mcscf.CASCI(mf, ncas, nelec_cas)
-                setattr(cas_solver, "ncore", ncore)  # type: ignore
-            else:
-                cas_solver = mcscf.CASCI(mf, cas_norb, cas_nelec)
+            nelec_cas = (int(nalpha_act), int(nbeta_act))
+            cas_solver = mcscf.CASCI(mf, int(cas_norb), nelec_cas)
+            setattr(cas_solver, "ncore", int(ncore))  # type: ignore
 
         # Run CAS calculation
         cas_energy = cas_solver.kernel()[0]  # type: ignore
 
-        self.logger.debug(f"{calculation_type.upper()} calculation completed with {n_frozen_core} frozen core orbitals")
-        self.logger.debug(f"Active space: {cas_nelec} electrons in {cas_norb} orbitals")
+        self.logger.debug(f"{calculation_type.upper()} calculation completed with ncore={ncore}")
+        self.logger.debug(
+            f"Active space: {cas_nelec} electrons in {cas_norb} orbitals, (na, nb)={(int(nalpha_act), int(nbeta_act))}"
+        )
         if calculation_type.lower() == "casscf":
             converged = getattr(cas_solver, "converged", None)  # type: ignore
             self.logger.debug(f"CASSCF converged: {converged}")
