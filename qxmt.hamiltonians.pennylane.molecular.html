@@ -558,7 +558,7 @@ Self-Consistent Field) with frozen core orbitals.</p>
 <li><p><strong>multi</strong> (<em>int</em>) – Multiplicity of the molecule. Defaults to 1.</p></li>
 <li><p><strong>basis_name</strong> (<em>Literal</em><em>[</em><em>'STO-3G'</em><em>, </em><em>'6-31G'</em><em>, </em><em>'6-311G'</em><em>, </em><em>'CC-PVDZ'</em><em>]</em>) – Basis set name. Only supported [“sto-3g”, “6-31g”, “6-311g”, “cc-pvdz”]. Defaults to “sto-3g”.</p></li>
 <li><p><strong>unit</strong> (<em>Literal</em><em>[</em><em>'angstrom'</em><em>, </em><em>'bohr'</em><em>]</em>) – Unit of the coordinates. Only supported [“angstrom”, “bohr”]. Defaults to “angstrom”.</p></li>
-<li><p><strong>method</strong> (<em>Literal</em><em>[</em><em>'dhf'</em><em>, </em><em>'pyscf'</em><em>, </em><em>'openfermion'</em><em>]</em>) – Method to use for the calculation. Only supported [“dhf”, “pyscf”, “openfermion”]. Defaults to “dhf”.</p></li>
+<li><p><strong>method</strong> (<em>Literal</em><em>[</em><em>'dhf'</em><em>, </em><em>'pyscf'</em><em>, </em><em>'openfermion'</em><em>]</em>) – Quantum chemistry method used to solve the mean field electronic structure problem. Only supported [“dhf”, “pyscf”, “openfermion”]. Defaults to “dhf”.</p></li>
 <li><p><strong>active_electrons</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active electrons. If None, uses all electrons.</p></li>
 <li><p><strong>active_orbitals</strong> (<em>int</em><em> | </em><em>None</em>) – Number of active orbitals. If None, uses all orbitals.</p></li>
 <li><p><strong>mapping</strong> (<em>Literal</em><em>[</em><em>'jordan_wigner'</em><em>, </em><em>'bravyi_kitaev'</em><em>, </em><em>'parity'</em><em>]</em>) – Mapping to use for the calculation. Defaults to “jordan_wigner”.</p></li>
