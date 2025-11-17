@@ -22,7 +22,8 @@ device:
   device_name: "default.qubit"
   n_qubits: 4
   shots: null
-  random_seed: *global_seed
+  device_options:
+    seed: *global_seed
 
 ansatz:
   module_name: "qxmt.ansatze.pennylane"
