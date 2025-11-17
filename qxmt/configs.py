@@ -105,7 +105,6 @@ class DeviceConfig(BaseModel):
     backend_name: Optional[str] = None
     n_qubits: int
     shots: Optional[int] = None
-    random_seed: Optional[int] = None
     device_options: Optional[dict[str, Any]] = None
     save_shots_results: bool = False
 

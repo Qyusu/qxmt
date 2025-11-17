@@ -37,8 +37,11 @@ class PennyLaneDevice(BaseDevice):
         """
         super().__init__(platform, device_name, backend_name, n_qubits, shots, device_options, logger)
         self.real_device = None
-        self.device_options: dict[str, Any] = dict(device_options) if device_options is not None else {}
-        self._validate_device_options()
+        self.default_kwargs = {
+            "wires": self.n_qubits,
+            "shots": self.shots,
+        }
+        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
 
     def get_device(self) -> Any:
         """Get the quantum device instance.
@@ -46,7 +49,7 @@ class PennyLaneDevice(BaseDevice):
         Returns:
             Any: quantum device instance
         """
-        device_kwargs = self._build_device_kwargs()
+        device_kwargs = self._build_device_kwargs(default_kwargs=self.default_kwargs)
         return qml.device(name=self.device_name, **device_kwargs)
 
     def is_simulator(self) -> bool:
@@ -95,19 +98,3 @@ class PennyLaneDevice(BaseDevice):
             list[str]: job IDs (empty for non-remote devices)
         """
         return []
-
-    def _validate_device_options(self) -> None:
-        invalid_keys = {"name", "wires"}
-        duplicated_keys = invalid_keys.intersection(self.device_options)
-        if duplicated_keys:
-            joined = ", ".join(sorted(duplicated_keys))
-            raise ValueError(f'"device_options" cannot override the following keys: {joined}')
-
-    def _build_device_kwargs(self) -> dict[str, Any]:
-        device_kwargs: dict[str, Any] = {
-            "wires": self.n_qubits,
-            "shots": self.shots,
-        }
-        extra_options = dict(self.device_options)
-        device_kwargs.update(extra_options)
-        return device_kwargs
