@@ -16,6 +16,7 @@ def amazon_local_simulator_device() -> AmazonBraketDevice:
         backend_name="braket_sv",
         n_qubits=5,
         shots=1024,
+        device_options=None,
     )
 
 
