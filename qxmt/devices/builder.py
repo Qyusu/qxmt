@@ -20,7 +20,7 @@ class DeviceBuilder:
 
     Args:
         config (DeviceConfig): Configuration for the quantum device. This includes platform, device name,
-            backend name, number of qubits, shots, and random seed.
+            backend name, number of qubits, shots, and other specific options.
         logger (Any): Logger instance for logging.
 
     Methods:
@@ -40,7 +40,7 @@ class DeviceBuilder:
         ...     backend_name=None,
         ...     n_qubits=2,
         ...     shots=1000,
-        ...     random_seed=42,
+        ...     device_options={"seed": 42},
         ... )
         >>> device = DeviceBuilder(config).build()
     """
@@ -69,7 +69,8 @@ class DeviceBuilder:
         backend_name = self.config.backend_name
         n_qubits = self.config.n_qubits
         shots = self.config.shots
-        random_seed = self.config.random_seed
+        random_seed = self.config.random_seed  # [TODO]: remove this later
+        device_options = self.config.device_options
 
         if platform == "pennylane":
             if device_name in IBMQ_REAL_DEVICES:
@@ -85,6 +86,14 @@ class DeviceBuilder:
             else:
                 from qxmt.devices.pennylane_device import PennyLaneDevice
 
-                return PennyLaneDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger)
+                return PennyLaneDevice(
+                    platform=platform,
+                    device_name=device_name,
+                    backend_name=backend_name,
+                    n_qubits=n_qubits,
+                    shots=shots,
+                    device_options=device_options,
+                    logger=self.logger,
+                )
         else:
             raise InvalidPlatformError(f'"{platform}" is not implemented.')

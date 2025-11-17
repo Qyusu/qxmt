@@ -24,7 +24,7 @@ class BaseDevice(ABC):
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
-        random_seed: Optional[int] = None,
+        device_options: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         """Initialize the quantum device.
@@ -35,7 +35,7 @@ class BaseDevice(ABC):
             backend_name (Optional[str]): backend name for the real device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
-            random_seed (Optional[int]): random seed for the quantum device
+            device_options (Optional[dict[str, Any]]): additional keyword arguments for the device
             logger (Logger): logger instance
         """
         self.platform = platform
@@ -43,7 +43,7 @@ class BaseDevice(ABC):
         self.backend_name = backend_name
         self.n_qubits = n_qubits
         self.shots = shots
-        self.random_seed = random_seed
+        self.device_options = device_options
         self.logger = logger
 
     @abstractmethod
