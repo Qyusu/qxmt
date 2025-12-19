@@ -9,6 +9,9 @@ from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
+PENNYLANE_PLATFORM: str = "pennylane"
+QULACS_PLATFORM: str = "qulacs"
+
 
 class DeviceBuilder:
     """
@@ -71,7 +74,7 @@ class DeviceBuilder:
         shots = self.config.shots
         random_seed = self.config.random_seed
 
-        if platform == "pennylane":
+        if platform == PENNYLANE_PLATFORM:
             if device_name in IBMQ_REAL_DEVICES:
                 from qxmt.devices.ibmq_device import IBMQDevice
 
@@ -86,5 +89,9 @@ class DeviceBuilder:
                 from qxmt.devices.pennylane_device import PennyLaneDevice
 
                 return PennyLaneDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger)
+        elif platform == QULACS_PLATFORM:
+            from qxmt.devices.qulacs_device import QulacsDevice
+
+            return QulacsDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger)
         else:
             raise InvalidPlatformError(f'"{platform}" is not implemented.')
