@@ -1,5 +1,7 @@
 import pytest
 
+pytest.importorskip("qulacs")
+
 from qxmt.devices.qulacs_device import QulacsDevice
 
 
