@@ -20,7 +20,7 @@ class BaseDevice(ABC):
     def __init__(
         self,
         platform: str,
-        device_name: str,
+        device_name: Optional[str],
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
@@ -31,7 +31,7 @@ class BaseDevice(ABC):
 
         Args:
             platform (str): platform name (ex: pennylane, qulacs, etc.)
-            device_name (str): device name provided by the platform (ex: default.qubit, default.tensor, etc.)
+            device_name (Optional[str]): device name provided by the platform (ex: default.qubit, default.tensor, etc.)
             backend_name (Optional[str]): backend name for the real device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit

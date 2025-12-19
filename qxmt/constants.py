@@ -45,6 +45,7 @@ if hasattr(qml.devices, "LegacyDevice"):
 if hasattr(qml.devices, "QubitDevice"):
     _pl_devices.append(getattr(qml.devices, "QubitDevice"))
 PENNYLANE_DEVICES: tuple[Any, ...] = tuple(_pl_devices) if _pl_devices else tuple()
+QULACS_PLATFORM: str = "qulacs"
 
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
