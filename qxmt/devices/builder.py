@@ -111,5 +111,17 @@ class DeviceBuilder:
                     device_options=device_options,
                     logger=self.logger,
                 )
+        elif platform == QULACS_PLATFORM:
+            from qxmt.devices.qulacs_device import QulacsDevice
+
+            return QulacsDevice(
+                platform=platform,
+                device_name=device_name,
+                backend_name=backend_name,
+                n_qubits=n_qubits,
+                shots=shots,
+                device_options=device_options,
+                logger=self.logger,
+            )
         else:
             raise InvalidPlatformError(f'"{platform}" is not implemented.')
