@@ -33,7 +33,7 @@ class AmazonBraketDevice(BaseDevice):
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
-        random_seed: Optional[int] = None,
+        device_options: Optional[dict[str, Any]] = None,
         logger: Any = LOGGER,
     ) -> None:
         """Initialize the Amazon Braket device.
@@ -44,16 +44,22 @@ class AmazonBraketDevice(BaseDevice):
             backend_name (Optional[str]): backend name for the Amazon Braket device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
-            random_seed (Optional[int]): random seed for the quantum device
+            device_options (Optional[dict[str, Any]]): additional keyword arguments for the device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, device_options, logger)
         self.aws_access_key_id = None
         self.aws_secret_access_key = None
         self.aws_default_region = None
 
         if self.device_name in AMAZON_BRAKET_REMOTE_DEVICES:
             self._set_amazon_braket_settings()
+
+        self.default_kwargs = {
+            "wires": self.n_qubits,
+            "shots": self.shots,
+        }
+        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
 
     def _set_amazon_braket_settings(self) -> None:
         """Set the Amazon Braket account settings.
@@ -110,11 +116,11 @@ class AmazonBraketDevice(BaseDevice):
         if self.backend_name not in AMAZON_BRAKET_LOCAL_BACKENDS:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket local simulator.')
 
+        device_kwargs = self._build_device_kwargs(default_kwargs=self.default_kwargs)
         return qml.device(
             name=self.device_name,
-            wires=self.n_qubits,
             backend=self.backend_name,
-            shots=self.shots,
+            **device_kwargs,
         )
 
     def _get_amazon_remote_device_by_pennylane(self) -> Any:
@@ -133,12 +139,12 @@ class AmazonBraketDevice(BaseDevice):
 
         self._check_amazon_braket_availability(AwsDevice(device_arn.value))
 
+        device_kwargs = self._build_device_kwargs(default_kwargs=self.default_kwargs)
         return qml.device(
             name=self.device_name,
             device_arn=device_arn.value,
-            wires=self.n_qubits,
-            shots=self.shots,
             parallel=True,
+            **device_kwargs,
         )
 
     def get_device(self) -> Any:

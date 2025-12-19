@@ -16,10 +16,11 @@ class AmazonBackendType(Enum):
     tn1 = Devices.Amazon.TN1
     ionq = Devices.IonQ.Aria1  # default IonQ device
     ionq_aria1 = Devices.IonQ.Aria1
-    ionq_aria2 = Devices.IonQ.Aria2
     ionq_forte1 = Devices.IonQ.Forte1
+    ionq_forte_enterprise1 = Devices.IonQ.ForteEnterprise1
     iqm = Devices.IQM.Garnet  # default IQM device
     iqm_garnet = Devices.IQM.Garnet
+    iqm_emerald = Devices.IQM.Emerald
     quera = Devices.QuEra.Aquila  # default QuEra device
     quera_aquila = Devices.QuEra.Aquila
     rigetti = Devices.Rigetti.Ankaa3  # default Rigetti device
