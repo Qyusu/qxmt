@@ -1,7 +1,7 @@
 import numpy as np
 import pennylane as qml
 
-from qxmt.feature_maps.pennylane.pennylane_base import PennyLaneBaseFeatureMap
+from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
 
 
 class RotationFeatureMap(PennyLaneBaseFeatureMap):
