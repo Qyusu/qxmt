@@ -44,6 +44,7 @@ fsspec = "^2025.3.2"
 scipy = "^1.15.2"
 autoray = "<0.7.0"
 qulacs = {version = "^0.6.12", optional = true}
+qulacsvis = {version = "^0.7.6", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -67,7 +68,7 @@ sphinx-autodoc-typehints = "^2.4.4"
 
 [tool.poetry.extras]
 llm = ["torch", "transformers"]
-qulacs = ["qulacs"]
+qulacs = ["qulacs", "qulacsvis"]
 
 [build-system]
 requires = ["poetry-core"]

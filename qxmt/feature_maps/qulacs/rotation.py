@@ -1,11 +1,10 @@
 import numpy as np
 from qulacs import QuantumCircuit
 
-from qxmt.constants import QULACS_PLATFORM
-from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.feature_maps.qulacs.base import QulacsBaseFeatureMap
 
 
-class RotationFeatureMap(BaseFeatureMap):
+class RotationFeatureMap(QulacsBaseFeatureMap):
     """Multi-axis rotation feature map class.
 
     Args:
@@ -13,7 +12,7 @@ class RotationFeatureMap(BaseFeatureMap):
     """
 
     def __init__(self, n_qubits: int, reps: int, rotation_axis: list[str]) -> None:
-        super().__init__(QULACS_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
         self.rotation_axis: list[str] = rotation_axis
         self._axis_to_adder = {
@@ -23,7 +22,6 @@ class RotationFeatureMap(BaseFeatureMap):
         }
 
         self._validate_rotation_axis()
-        self.circuit: QuantumCircuit = QuantumCircuit(self.n_qubits)
 
     def _validate_rotation_axis(self) -> None:
         if not all(axis in self._axis_to_adder for axis in self.rotation_axis):
@@ -37,6 +35,7 @@ class RotationFeatureMap(BaseFeatureMap):
         Args:
             x (np.ndarray): input data
         """
+        self.circuit: QuantumCircuit = QuantumCircuit(self.n_qubits)
         for _ in range(self.reps):
             for axis in self.rotation_axis:
                 adder = getattr(self.circuit, self._axis_to_adder[axis])
