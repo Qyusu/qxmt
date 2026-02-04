@@ -26,7 +26,8 @@ device:
   device_name: "lightning.qubit"
   n_qubits: 10
   shots: null
-  random_seed: *global_seed
+  device_options:
+    seed: *global_seed
 
 ansatz:
   module_name: "qxmt.ansatze.pennylane"

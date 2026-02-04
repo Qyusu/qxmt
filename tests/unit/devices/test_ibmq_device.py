@@ -18,6 +18,7 @@ def ibmq_real_device(mocker: MockFixture) -> IBMQDevice:
         backend_name=None,
         n_qubits=5,
         shots=1024,
+        device_options=None,
     )
 
 

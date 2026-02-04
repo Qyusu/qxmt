@@ -1,15 +1,14 @@
 import numpy as np
 import pennylane as qml
 
-from qxmt.constants import PENNYLANE_PLATFORM
-from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
 
 
-class RotationFeatureMap(BaseFeatureMap):
+class RotationFeatureMap(PennyLaneBaseFeatureMap):
     """Multi-axis rotation feature map class.
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -29,7 +28,7 @@ class RotationFeatureMap(BaseFeatureMap):
             reps (int): number of repetitions
             rotation_axis (list[str]): list of rotation axis
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
         self.rotation_axis: list[str] = rotation_axis
 
@@ -44,11 +43,11 @@ class RotationFeatureMap(BaseFeatureMap):
                 qml.AngleEmbedding(x, wires=range(self.n_qubits), rotation=ax)
 
 
-class HRotationFeatureMap(BaseFeatureMap):
+class HRotationFeatureMap(PennyLaneBaseFeatureMap):
     """Hadamard and multi-axis rotation feature map class.
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -68,7 +67,7 @@ class HRotationFeatureMap(BaseFeatureMap):
             reps (int): number of repetitions
             rotation_axis (list[str]): list of rotation axis
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
         self.rotation_axis: list[str] = rotation_axis
 

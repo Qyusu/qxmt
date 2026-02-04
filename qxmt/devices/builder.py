@@ -1,6 +1,7 @@
 from typing import Any
 
 from qxmt.configs import DeviceConfig
+from qxmt.constants import PENNYLANE_PLATFORM, QULACS_PLATFORM
 from qxmt.devices.amazon import AMAZON_BRAKET_DEVICES
 from qxmt.devices.base import BaseDevice
 from qxmt.devices.ibmq import IBMQ_REAL_DEVICES
@@ -8,6 +9,9 @@ from qxmt.exceptions import InvalidPlatformError
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
+
+PENNYLANE_DEFAULT_DEVICE_NAME: str = "default.qubit"
+QULACS_DEFAULT_DEVICE_NAME: str = "cpu.simulator"
 
 
 class DeviceBuilder:
@@ -20,7 +24,7 @@ class DeviceBuilder:
 
     Args:
         config (DeviceConfig): Configuration for the quantum device. This includes platform, device name,
-            backend name, number of qubits, shots, and random seed.
+            backend name, number of qubits, shots, and other specific options.
         logger (Any): Logger instance for logging.
 
     Methods:
@@ -40,7 +44,7 @@ class DeviceBuilder:
         ...     backend_name=None,
         ...     n_qubits=2,
         ...     shots=1000,
-        ...     random_seed=42,
+        ...     device_options={"seed": 42},
         ... )
         >>> device = DeviceBuilder(config).build()
     """
@@ -69,22 +73,56 @@ class DeviceBuilder:
         backend_name = self.config.backend_name
         n_qubits = self.config.n_qubits
         shots = self.config.shots
-        random_seed = self.config.random_seed
+        device_options = self.config.device_options
 
-        if platform == "pennylane":
+        if platform == PENNYLANE_PLATFORM:
             if device_name in IBMQ_REAL_DEVICES:
                 from qxmt.devices.ibmq_device import IBMQDevice
 
-                return IBMQDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger)
+                return IBMQDevice(
+                    platform=platform,
+                    device_name=device_name,
+                    backend_name=backend_name,
+                    n_qubits=n_qubits,
+                    shots=shots,
+                    device_options=device_options,
+                    logger=self.logger,
+                )
             elif device_name in AMAZON_BRAKET_DEVICES:
                 from qxmt.devices.amazon_device import AmazonBraketDevice
 
                 return AmazonBraketDevice(
-                    platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger
+                    platform=platform,
+                    device_name=device_name,
+                    backend_name=backend_name,
+                    n_qubits=n_qubits,
+                    shots=shots,
+                    device_options=device_options,
+                    logger=self.logger,
                 )
             else:
                 from qxmt.devices.pennylane_device import PennyLaneDevice
 
-                return PennyLaneDevice(platform, device_name, backend_name, n_qubits, shots, random_seed, self.logger)
+                return PennyLaneDevice(
+                    platform=platform,
+                    device_name=device_name if device_name is not None else PENNYLANE_DEFAULT_DEVICE_NAME,
+                    backend_name=backend_name,
+                    n_qubits=n_qubits,
+                    shots=shots,
+                    device_options=device_options,
+                    logger=self.logger,
+                )
+        elif platform == QULACS_PLATFORM:
+            from qxmt.devices.qulacs_device import QulacsDevice
+
+            return QulacsDevice(
+                platform=platform,
+                device_name=device_name if device_name is not None else QULACS_DEFAULT_DEVICE_NAME,
+                backend_name=backend_name,
+                n_qubits=n_qubits,
+                shots=shots,
+                device_options=device_options,
+                logger=self.logger,
+            )
         else:
             raise InvalidPlatformError(f'"{platform}" is not implemented.')

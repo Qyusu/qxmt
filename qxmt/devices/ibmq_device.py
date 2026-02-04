@@ -27,7 +27,7 @@ class IBMQDevice(BaseDevice):
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
-        random_seed: Optional[int] = None,
+        device_options: Optional[dict[str, Any]] = None,
         logger: Any = LOGGER,
     ) -> None:
         """Initialize the IBMQ device.
@@ -38,13 +38,19 @@ class IBMQDevice(BaseDevice):
             backend_name (Optional[str]): backend name for the IBM Quantum real device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
-            random_seed (Optional[int]): random seed for the quantum device
+            device_options (Optional[dict[str, Any]]): additional keyword arguments for the device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, device_options, logger)
         self.real_device = None
         self.ibm_api_key = None
         self._set_ibmq_settings()
+
+        self.default_kwargs = {
+            "wires": self.n_qubits,
+            "shots": self.shots,
+        }
+        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
 
     def _set_ibmq_settings(self) -> None:
         """Set the IBM Quantum account settings.
@@ -115,11 +121,11 @@ class IBMQDevice(BaseDevice):
             raise IBMQSettingError("Real quantum machine must set the shots.")
 
         backend = self._get_ibmq_real_device(self.backend_name)
+        device_kwargs = self._build_device_kwargs(default_kwargs=self.default_kwargs)
         self.real_device = qml.device(
             name=self.device_name,
             backend=backend,
-            wires=backend.num_qubits,
-            shots=self.shots,
+            **device_kwargs,
         )
         self.logger.info(
             "Set IBM Quantum real device: "
