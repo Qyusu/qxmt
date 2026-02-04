@@ -6,17 +6,18 @@ from pennylane.measurements import StateMP
 from qxmt.feature_maps.pennylane.rotation import HRotationFeatureMap, RotationFeatureMap
 
 N_QUBITS = 2
+REPS = 1
 
 
 class TestRotationFeatureMap:
     @pytest.fixture(scope="function")
     def rotation_feature_map(self) -> RotationFeatureMap:
-        feature_map = RotationFeatureMap(n_qubits=N_QUBITS, reps=1, rotation_axis=["X"])
+        feature_map = RotationFeatureMap(n_qubits=N_QUBITS, reps=REPS, rotation_axis=["X"])
         return feature_map
 
     @pytest.fixture(scope="function")
     def h_rotation_feature_map(self) -> HRotationFeatureMap:
-        feature_map = HRotationFeatureMap(n_qubits=N_QUBITS, reps=1, rotation_axis=["X"])
+        feature_map = HRotationFeatureMap(n_qubits=N_QUBITS, reps=REPS, rotation_axis=["X"])
         return feature_map
 
     @pytest.mark.parametrize(
