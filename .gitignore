@@ -164,9 +164,12 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-# Cursor
+# IDE settings
 .cursor/
+.vscode/
 
+# local developer settings
+.python-version
 
 # Mac file
 .DS_Store
@@ -176,4 +179,8 @@ experiments/
 
 # raw data
 data/
-!data/images/tool_icon.png
+!data/assets/tool_icon.png
+
+# developer scripts
+docs/update_docs.sh
+package_build.sh
