@@ -526,7 +526,7 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>platform</strong> (<em>str</em>)</p></li>
-<li><p><strong>device_name</strong> (<em>str</em>)</p></li>
+<li><p><strong>device_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>backend_name</strong> (<em>str</em><em> | </em><em>None</em>)</p></li>
 <li><p><strong>n_qubits</strong> (<em>int</em>)</p></li>
 <li><p><strong>shots</strong> (<em>int</em><em> | </em><em>None</em>)</p></li>
@@ -543,7 +543,7 @@ document.write(`
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>platform</strong> (<em>str</em>) – platform name (ex: pennylane, qulacs, etc.)</p></li>
-<li><p><strong>device_name</strong> (<em>str</em>) – device name provided by the platform (ex: default.qubit, default.tensor, etc.)</p></li>
+<li><p><strong>device_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – device name provided by the platform (ex: default.qubit, default.tensor, etc.)</p></li>
 <li><p><strong>backend_name</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – backend name for the real device</p></li>
 <li><p><strong>n_qubits</strong> (<em>int</em>) – number of qubits</p></li>
 <li><p><strong>shots</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – number of shots for the quantum circuit</p></li>
