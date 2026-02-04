@@ -178,8 +178,10 @@ cython_debug/
 experiments/
 
 # raw data
-data/
-!data/assets/tool_icon.png
+data/*
+!data/assets/
+data/assets/*
+!data/assets/icon.png
 
 # developer scripts
 docs/update_docs.sh
