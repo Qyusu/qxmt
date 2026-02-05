@@ -167,6 +167,7 @@ cython_debug/
 # IDE settings
 .cursor/
 .vscode/
+.agent/
 
 # local developer settings
 .python-version
