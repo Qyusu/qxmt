@@ -8,6 +8,7 @@ from rich.progress import track
 from qxmt.devices import QulacsDevice
 from qxmt.feature_maps import QulacsBaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE, BaseKernel
+from qxmt.kernels.sampling import sample_results_to_probs
 
 
 class QulacsBaseKernel(BaseKernel):
@@ -136,23 +137,7 @@ class QulacsBaseKernel(BaseKernel):
         Returns:
             np.ndarray: Probability distribution
         """
-        result_array = np.array(result) if isinstance(result, list) else result
-        # convert the sample results to probability distribution
-        # shots must be over 0 when sampling mode
-        shots = cast(int, self.device.shots)
-        n_states = 2**self.n_qubits
-
-        # Qulacs sampling returns integers, so we can use bincount directly
-        counts = np.bincount(result_array, minlength=n_states)
-
-        # Ensure we only take the first n_states elements (though minlength handles this usually,
-        # legitimate samples shouldn't exceed this unless qulacs is broken)
-        if len(counts) > n_states:
-            counts = counts[:n_states]
-
-        probs = counts / shots
-
-        return probs
+        return sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
 
     def _validate_circuit_args(self, args: tuple[np.ndarray, ...], expected_count: int, method_name: str) -> None:
         """Validate the number of arguments for circuit methods.

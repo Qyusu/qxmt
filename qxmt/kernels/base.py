@@ -219,11 +219,10 @@ class BaseKernel(ABC):
                         progress.refresh()
         else:
             with mp.Pool(processes=n_jobs) as pool:
-                results = pool.starmap(
+                final_results = pool.starmap(
                     self._compute_entry_by_sampling,
                     [(i, j, x_array_1, x_array_2, None) for (i, j, x_array_1, x_array_2) in tasks],
                 )
-                final_results = results
 
         # initialize the shots results matrix when return_shots_resutls is True and sampling is enabled
         if self.is_sampling and return_shots_resutls:

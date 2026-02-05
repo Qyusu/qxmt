@@ -33,32 +33,51 @@ def generate_all_observable_states(n_qubits: int, state_pattern: str = "01") -> 
     return ["".join(bits) for bits in product(state_pattern, repeat=n_qubits)]
 
 
-def sample_results_to_probs(result: np.ndarray, n_qubits: int, shots: int, state_pattern: str = "01") -> np.ndarray:
-    """Convert the sampling results to the probability of each
+def sample_results_to_probs(
+    result: np.ndarray | list, n_qubits: int, shots: int, state_pattern: str = "01"
+) -> np.ndarray:
+    """Convert the sampling results to the probability of each state.
+    Handles both integer results (e.g., [0, 3, 2]) and bitstring results (e.g., [[0,0], [1,1]]).
 
     Args:
-        result (np.ndarray): numpy array of sampling results
+        result (np.ndarray | list): sampling results (integers or bit arrays)
         n_qubits (int): number of qubits
         shots (int): number of shots
         state_pattern (str, optional): pattern of the observable state. Defaults to "01".
 
     Returns:
-        np.ndarray: numpy array of the probability of each state
+        np.ndarray: probability of each state
     """
-    # validate sampleing results for getting the each state probability
-    validate_sampling_values(result)
+    result_array = np.array(result)
 
-    # convert the sample results to bit strings
-    # ex) shots=3, n_qubits=2, [[0, 0], [1, 1], [0, 0]] => ["00", "11", "00"]
-    result = np.array([result]) if result.ndim == 1 else result
-    bit_strings = ["".join(map(str, sample)) for sample in result]
+    # If result is already 1D (integers or single-qubit bits), treat as integers
+    if result_array.ndim == 1:
+        if state_pattern == "01":
+            n_states = 2**n_qubits
+            counts = np.bincount(result_array.astype(int), minlength=n_states)
+            if len(counts) > n_states:
+                counts = counts[:n_states]
+            return counts / shots
+
+    # If result is 2D (multi-qubit bits), convert to integers or strings
+    elif result_array.ndim == 2:
+        validate_sampling_values(result_array)
+        if state_pattern == "01":
+            powers = 1 << np.arange(n_qubits - 1, -1, -1)
+            int_results = result_array.dot(powers)
+            n_states = 2**n_qubits
+            counts = np.bincount(int_results.astype(int), minlength=n_states)
+            if len(counts) > n_states:
+                counts = counts[:n_states]
+            return counts / shots
+
+    # Generic path for custom patterns or unhandled structures
+    result_array = np.array([result_array]) if result_array.ndim == 1 else result_array
+    bit_strings = ["".join(map(str, sample)) for sample in result_array]
     all_states = generate_all_observable_states(n_qubits, state_pattern=state_pattern)
 
-    # count the number of each state
     count_dict = Counter(bit_strings)
     state_counts = [count_dict.get(state, 0) for state in all_states]
-
-    # convert the count to the probability
-    probs = np.array(state_counts) / shots  # shots must be over 0
+    probs = np.array(state_counts) / shots
 
     return probs
