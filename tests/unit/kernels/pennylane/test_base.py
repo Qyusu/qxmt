@@ -5,8 +5,8 @@ import pennylane as qml
 import pytest
 from pennylane.measurements import SampleMP, StateMP
 
-from qxmt.devices.pennylane_device import PennyLaneDevice
-from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
+from qxmt.devices import PennyLaneDevice
+from qxmt.kernels import PennyLaneBaseKernel
 
 
 def simple_feature_map(x: np.ndarray) -> None:

@@ -5,7 +5,7 @@ import pennylane as qml
 from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
 
-from qxmt.devices import BaseDevice
+from qxmt.devices import PennyLaneDevice
 from qxmt.feature_maps import BaseFeatureMap
 from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
 
@@ -41,13 +41,13 @@ class FidelityKernel(PennyLaneBaseKernel):
 
     def __init__(
         self,
-        device: BaseDevice,
+        device: PennyLaneDevice,
         feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
         """Initialize the FidelityKernel class.
 
         Args:
-            device (BaseDevice): device instance for quantum computation
+            device (PennyLaneDevice): pennylane device instance for quantum computation
             feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
         """
         super().__init__(device, feature_map)

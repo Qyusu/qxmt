@@ -6,8 +6,8 @@ import pennylane as qml
 from pennylane.measurements import SampleMP, StateMP
 from rich.progress import track
 
-from qxmt.devices.base import BaseDevice
-from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
+from qxmt.devices import PennyLaneDevice
+from qxmt.feature_maps import PennyLaneBaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE, BaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
@@ -18,7 +18,9 @@ class PennyLaneBaseKernel(BaseKernel):
     It provides the basic functionality for all PennyLane kernels.
     """
 
-    def __init__(self, device: BaseDevice, feature_map: PennyLaneBaseFeatureMap | Callable[[np.ndarray], None]) -> None:
+    def __init__(
+        self, device: PennyLaneDevice, feature_map: PennyLaneBaseFeatureMap | Callable[[np.ndarray], None]
+    ) -> None:
         super().__init__(device, feature_map)
         self._qnode: qml.QNode | None = None
         self.state_memory: dict[tuple[float, ...], float | np.ndarray] = {}
