@@ -12,6 +12,29 @@ class FidelityKernel(QulacsBaseKernel):
     """Fidelity kernel class for Qulacs.
     The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
     between two quantum states.
+
+    Args:
+        QulacsBaseKernel (QulacsBaseKernel): base class of kernel
+
+    Examples:
+        >>> import numpy as np
+        >>> from qxmt.kernels import FidelityKernel
+        >>> from qxmt.feature_maps.qulacs import ZZFeatureMap
+        >>> from qxmt.configs import DeviceConfig
+        >>> from qxmt.devices.builder import DeviceBuilder
+        >>> config = DeviceConfig(
+        ...     platform="qulacs",
+        ...     name="cpu.simulator",
+        ...     n_qubits=2,
+        ...     shots=1024,
+        >>> )
+        >>> device = DeviceBuilder(config).build()
+        >>> feature_map = ZZFeatureMap(2, 2)
+        >>> kernel = FidelityKernel(device, feature_map)
+        >>> x1 = np.random.rand(2)
+        >>> x2 = np.random.rand(2)
+        >>> kernel.compute(x1, x2)
+        0.14
     """
 
     def __init__(
@@ -84,7 +107,6 @@ class FidelityKernel(QulacsBaseKernel):
             inv_circuit.add_gate(inv_gate)
         inv_circuit.update_quantum_state(state)
 
-        # Sample or Measure
         samples = state.sampling(cast(int, self.device.shots))
 
         return np.array(samples)
@@ -104,10 +126,7 @@ class FidelityKernel(QulacsBaseKernel):
         if not self.is_sampling:
             raise ValueError("_compute_by_sampling method is only available in sampling mode.")
 
-        # Get samples from circuit
         samples = self._circuit_for_sampling(x1, x2)
-
-        # Convert to probabilities
         probs = self._convert_sampling_results_to_probs(samples)
 
         kernel_value = probs[0]  # get |0..0> state probability

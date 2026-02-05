@@ -16,12 +16,12 @@ class FidelityKernel(PennyLaneBaseKernel):
     between two quantum states.
 
     Args:
-        BaseKernel (_type_): base class of kernel
+        PennyLaneBaseKernel (PennyLaneBaseKernel): base class of kernel
 
     Examples:
         >>> import numpy as np
-        >>> from qxmt.kernels.pennylane.fidelity_kernel import FidelityKernel
-        >>> from qxmt.feature_maps.pennylane.defaults import ZZFeatureMap
+        >>> from qxmt.kernels import FidelityKernel
+        >>> from qxmt.feature_maps.pennylane import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig
         >>> from qxmt.devices.builder import DeviceBuilder
         >>> config = DeviceConfig(
