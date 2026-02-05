@@ -47,7 +47,7 @@ jobs:
             poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies from lockfile (no llm)
-        run: poetry install --with dev --sync
+        run: poetry install --with dev --extras qulacs --sync
 
       - name: Run tests
         run: poetry run pytest tests/unit
