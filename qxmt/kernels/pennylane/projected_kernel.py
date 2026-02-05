@@ -155,9 +155,7 @@ class ProjectedKernel(PennyLaneBaseKernel):
         cross_term = np.dot(block1, block2.T)
         sq_dist = a_norm2 + b_norm2 - 2 * cross_term
 
-        # RBF kernel
-        kernel_block = np.exp(-self.gamma * sq_dist)
-        return kernel_block
+        return np.exp(-self.gamma * sq_dist)
 
     def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the projected kernel value between two data points.
