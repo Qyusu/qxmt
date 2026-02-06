@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 1
 
    qxmt.feature_maps.pennylane
+   qxmt.feature_maps.qulacs
 
 Submodules
 ----------
