@@ -2,31 +2,27 @@ from abc import abstractmethod
 from typing import Callable, cast
 
 import numpy as np
-import pennylane as qml
-from pennylane.measurements import SampleMP, StateMP
+from qulacs import QuantumState
 from rich.progress import track
 
-from qxmt.devices import PennyLaneDevice
-from qxmt.feature_maps import PennyLaneBaseFeatureMap
+from qxmt.devices import QulacsDevice
+from qxmt.feature_maps import QulacsBaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE, BaseKernel
 from qxmt.kernels.sampling import sample_results_to_probs
 
 
-class PennyLaneBaseKernel(BaseKernel):
-    """PennyLane base kernel class.
-    This class is the base class for all PennyLane kernels.
-    It provides the basic functionality for all PennyLane kernels.
+class QulacsBaseKernel(BaseKernel):
+    """Qulacs base kernel class.
+    This class is the base class for all Qulacs kernels.
+    It provides the basic functionality for all Qulacs kernels.
     """
 
-    def __init__(
-        self, device: PennyLaneDevice, feature_map: PennyLaneBaseFeatureMap | Callable[[np.ndarray], None]
-    ) -> None:
+    def __init__(self, device: QulacsDevice, feature_map: QulacsBaseFeatureMap | Callable[[np.ndarray], None]) -> None:
         super().__init__(device, feature_map)
-        self._qnode: qml.QNode | None = None
         self.state_memory: dict[tuple[float, ...], float | np.ndarray] = {}
 
     @abstractmethod
-    def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
+    def _circuit_for_sampling(self, *args: np.ndarray) -> np.ndarray:
         """Circuit for sampling mode.
 
         Args:
@@ -35,36 +31,9 @@ class PennyLaneBaseKernel(BaseKernel):
                 - Two arrays (x1, x2) for fidelity-based circuits
 
         Returns:
-            SampleMP | list[SampleMP]: Measurement result
+            np.ndarray: Measurement result or probability distribution
         """
         pass
-
-    @abstractmethod
-    def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
-        """Circuit for state vector mode.
-
-        Args:
-            *args: Variable number of numpy arrays. Can be:
-                - Single array (x) for single input circuits
-                - Two arrays (x1, x2) for fidelity-based circuits
-
-        Returns:
-            StateMP: State measurement result
-        """
-        pass
-
-    @property
-    def qnode(self) -> qml.QNode:
-        if self._qnode is None:
-            if self.is_sampling:
-                self._qnode = qml.QNode(
-                    self._circuit_for_sampling, device=self.device.get_device(), cache="auto", diff_method=None
-                )
-            else:
-                self._qnode = qml.QNode(
-                    self._circuit_for_state_vector, device=self.device.get_device(), cache="auto", diff_method=None
-                )
-        return self._qnode
 
     @abstractmethod
     def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:
@@ -123,8 +92,21 @@ class PennyLaneBaseKernel(BaseKernel):
         # compute the state vector for each data point
         for x_tuple in iterator:
             if x_tuple not in self.state_memory:
-                x_state = self.qnode(np.array(x_tuple))
-                self.state_memory[x_tuple] = self._process_state_vector(x_state)
+                # Create a new quantum state
+                state = QuantumState(self.n_qubits)
+                state.set_zero_state()
+
+                # Apply feature map
+                # cast to QulacsBaseFeatureMap to access circuit
+                feature_map = cast(QulacsBaseFeatureMap, self.feature_map)
+                feature_map.feature_map(np.array(x_tuple))
+
+                # Update state with circuit
+                feature_map.circuit.update_quantum_state(state)
+
+                # Get vector and process it
+                state_vec = state.get_vector()
+                self.state_memory[x_tuple] = self._process_state_vector(state_vec)
 
         states1 = np.array([self.state_memory[tuple(x)] for x in x1_array])
         states2 = np.array([self.state_memory[tuple(x)] for x in x2_array])
@@ -146,18 +128,6 @@ class PennyLaneBaseKernel(BaseKernel):
 
         return kernel_matrix
 
-    def _get_sampling_measurement(self) -> SampleMP | list[SampleMP]:
-        """Get appropriate sampling measurement based on device type.
-
-        Returns:
-            SampleMP | list[SampleMP]: Measurement instruction
-        """
-        if self.device.is_amazon_device():
-            # Amazon Braket does not support directly sample by computational basis
-            return [qml.sample(op=qml.PauliZ(wires=i)) for i in range(self.n_qubits)]
-        else:
-            return qml.sample(wires=range(self.n_qubits))
-
     def _convert_sampling_results_to_probs(self, result: list | np.ndarray) -> np.ndarray:
         """Convert sampling results to probability distribution.
 
@@ -167,19 +137,7 @@ class PennyLaneBaseKernel(BaseKernel):
         Returns:
             np.ndarray: Probability distribution
         """
-        if self.device.is_amazon_device():
-            # PauliZ basis convert to computational basis (-1->1, 1->0)
-            binary_result = (np.array(result).T == -1).astype(int)
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(binary_result, self.n_qubits, cast(int, self.device.shots))
-        else:
-            result_array = np.array(result) if isinstance(result, list) else result
-            # convert the sample results to probability distribution
-            # shots must be over 0 when sampling mode
-            probs = sample_results_to_probs(result_array, self.n_qubits, cast(int, self.device.shots))
-
-        return probs
+        return sample_results_to_probs(result, self.n_qubits, cast(int, self.device.shots))
 
     def _validate_circuit_args(self, args: tuple[np.ndarray, ...], expected_count: int, method_name: str) -> None:
         """Validate the number of arguments for circuit methods.

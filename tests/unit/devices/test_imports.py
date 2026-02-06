@@ -4,10 +4,11 @@ EXPECTED_ALL = [
     "AmazonBraketDevice",
     "BaseDevice",
     "DeviceBuilder",
-    "IBMQDevice",
-    "PennyLaneDevice",
     "get_number_of_qubits",
     "get_platform_from_device",
+    "IBMQDevice",
+    "PennyLaneDevice",
+    "QulacsDevice",
 ]
 
 

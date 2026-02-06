@@ -6,20 +6,18 @@ from qxmt.exceptions import InputShapeError
 from qxmt.feature_maps.pennylane import PennyLaneBaseFeatureMap
 
 
-class EmptyFeatureMap(PennyLaneBaseFeatureMap):
-    def __init__(self, n_qubits: int) -> None:
-        super().__init__(n_qubits)
-
-    def feature_map(self, x: np.ndarray) -> None:
-        qml.Identity(wires=0)
-
-
-@pytest.fixture(scope="function")
-def base_feature_map() -> PennyLaneBaseFeatureMap:
-    return EmptyFeatureMap(n_qubits=2)
-
-
 class TestPennyLaneBaseFeatureMap:
+    @pytest.fixture(scope="function")
+    def base_feature_map(self) -> PennyLaneBaseFeatureMap:
+        class ConcreteFeatureMap(PennyLaneBaseFeatureMap):
+            def __init__(self, n_qubits: int) -> None:
+                super().__init__(n_qubits)
+
+            def feature_map(self, x: np.ndarray) -> None:
+                qml.Identity(wires=0)
+
+        return ConcreteFeatureMap(n_qubits=2)
+
     def test__init__(self, base_feature_map: PennyLaneBaseFeatureMap) -> None:
         assert base_feature_map.platform == "pennylane"
         assert base_feature_map.n_qubits == 2

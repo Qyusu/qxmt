@@ -2,6 +2,8 @@ from qxmt.kernels import __all__
 
 EXPECTED_ALL = [
     "BaseKernel",
+    "PennyLaneBaseKernel",
+    "QulacsBaseKernel",
     "generate_all_observable_states",
     "sample_results_to_probs",
     "validate_sampling_values",

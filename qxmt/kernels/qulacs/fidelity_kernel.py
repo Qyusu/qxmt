@@ -1,32 +1,30 @@
-from typing import Callable
+from typing import Callable, cast
 
 import numpy as np
-import pennylane as qml
-from pennylane.measurements.sample import SampleMP
-from pennylane.measurements.state import StateMP
+from qulacs import QuantumCircuit, QuantumState
 
-from qxmt.devices import PennyLaneDevice
-from qxmt.feature_maps import BaseFeatureMap
-from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
+from qxmt.devices import QulacsDevice
+from qxmt.feature_maps import QulacsBaseFeatureMap
+from qxmt.kernels.qulacs.base import QulacsBaseKernel
 
 
-class FidelityKernel(PennyLaneBaseKernel):
-    """Fidelity kernel class.
+class FidelityKernel(QulacsBaseKernel):
+    """Fidelity kernel class for Qulacs.
     The fidelity kernel is a quantum kernel that computes the kernel value based on the fidelity
     between two quantum states.
 
     Args:
-        PennyLaneBaseKernel (PennyLaneBaseKernel): base class of kernel
+        QulacsBaseKernel (QulacsBaseKernel): base class of kernel
 
     Examples:
         >>> import numpy as np
         >>> from qxmt.kernels import FidelityKernel
-        >>> from qxmt.feature_maps.pennylane import ZZFeatureMap
+        >>> from qxmt.feature_maps.qulacs import ZZFeatureMap
         >>> from qxmt.configs import DeviceConfig
         >>> from qxmt.devices.builder import DeviceBuilder
         >>> config = DeviceConfig(
-        ...     platform="pennylane",
-        ...     name="default.qubit",
+        ...     platform="qulacs",
+        ...     name="cpu.simulator",
         ...     n_qubits=2,
         ...     shots=1024,
         >>> )
@@ -41,31 +39,16 @@ class FidelityKernel(PennyLaneBaseKernel):
 
     def __init__(
         self,
-        device: PennyLaneDevice,
-        feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
+        device: QulacsDevice,
+        feature_map: QulacsBaseFeatureMap | Callable[[np.ndarray], None],
     ) -> None:
         """Initialize the FidelityKernel class.
 
         Args:
-            device (PennyLaneDevice): pennylane device instance for quantum computation
-            feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
+            device (QulacsDevice): qulacs device instance for quantum computation
+            feature_map (QulacsBaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
         """
         super().__init__(device, feature_map)
-
-    def _circuit_for_sampling(self, *args: np.ndarray) -> SampleMP | list[SampleMP]:
-        self._validate_circuit_args(args, 2, "FidelityKernel._circuit_for_sampling")
-        x1, x2 = args
-        self.feature_map(x1)
-        qml.adjoint(self.feature_map)(x2)  # type: ignore
-
-        return self._get_sampling_measurement()
-
-    def _circuit_for_state_vector(self, *args: np.ndarray) -> StateMP:
-        self._validate_circuit_args(args, 1, "FidelityKernel._circuit_for_state_vector")
-        x = args[0]
-        self.feature_map(x)
-
-        return qml.state()
 
     def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:
         """Process the raw state vector for fidelity kernel computation.
@@ -92,6 +75,42 @@ class FidelityKernel(PennyLaneBaseKernel):
         kernel_block = np.abs(inner_block) ** 2
         return kernel_block
 
+    def _circuit_for_sampling(self, *args: np.ndarray) -> np.ndarray:
+        """Circuit for sampling mode.
+
+        Args:
+            *args: Variable number of numpy arrays. Can be:
+                - Two arrays (x1, x2) for fidelity-based circuits
+
+        Returns:
+            np.ndarray: Measurement result or probability distribution
+        """
+        self._validate_circuit_args(args, 2, "FidelityKernel._circuit_for_sampling")
+        x1, x2 = args
+
+        state = QuantumState(self.n_qubits)
+        state.set_zero_state()
+
+        # apply feature map forward
+        feature_map = cast(QulacsBaseFeatureMap, self.feature_map)
+        feature_map.feature_map(x1)
+        feature_map.circuit.update_quantum_state(state)
+
+        # apply feature map backward
+        feature_map.feature_map(x2)
+        circuit_x2 = feature_map.circuit
+        n_gates = circuit_x2.get_gate_count()
+        inv_circuit = QuantumCircuit(self.n_qubits)
+        for i in range(n_gates - 1, -1, -1):
+            gate = circuit_x2.get_gate(i)
+            inv_gate = gate.get_inverse()
+            inv_circuit.add_gate(inv_gate)
+        inv_circuit.update_quantum_state(state)
+
+        samples = state.sampling(cast(int, self.device.shots))
+
+        return np.array(samples)
+
     def _compute_by_sampling(self, x1: np.ndarray, x2: np.ndarray) -> tuple[float, np.ndarray]:
         """Compute the fidelity kernel value between two data points.
         This method is only available in the sampling mode.
@@ -107,8 +126,8 @@ class FidelityKernel(PennyLaneBaseKernel):
         if not self.is_sampling:
             raise ValueError("_compute_by_sampling method is only available in sampling mode.")
 
-        result = self.qnode(x1, x2)
-        probs = self._convert_sampling_results_to_probs(result)
+        samples = self._circuit_for_sampling(x1, x2)
+        probs = self._convert_sampling_results_to_probs(samples)
 
         kernel_value = probs[0]  # get |0..0> state probability
 

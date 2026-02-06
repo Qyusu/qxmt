@@ -1,6 +1,6 @@
 from qxmt.feature_maps import __all__
 
-EXPECTED_ALL = ["BaseFeatureMap"]
+EXPECTED_ALL = ["BaseFeatureMap", "PennyLaneBaseFeatureMap", "QulacsBaseFeatureMap"]
 
 
 def test_all_imports() -> None:
