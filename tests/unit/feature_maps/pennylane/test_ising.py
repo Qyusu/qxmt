@@ -6,33 +6,34 @@ from pennylane.measurements import StateMP
 from qxmt.feature_maps.pennylane.ising import XXFeatureMap, YYFeatureMap, ZZFeatureMap
 
 N_QUBITS = 2
+REPS = 2
 
 
 class TestIsingFeatureMap:
     @pytest.fixture(scope="function")
     def xx_feature_map(self) -> XXFeatureMap:
         # create XX Feature Map instance
-        feature_map = XXFeatureMap(n_qubits=N_QUBITS, reps=2)
+        feature_map = XXFeatureMap(n_qubits=N_QUBITS, reps=REPS)
         return feature_map
 
     @pytest.fixture(scope="function")
     def yy_feature_map(self) -> YYFeatureMap:
         # create YY Feature Map instance
-        feature_map = YYFeatureMap(n_qubits=N_QUBITS, reps=2)
+        feature_map = YYFeatureMap(n_qubits=N_QUBITS, reps=REPS)
         return feature_map
 
     @pytest.fixture(scope="function")
     def zz_feature_map(self) -> ZZFeatureMap:
         # create ZZ Feature Map instance
-        feature_map = ZZFeatureMap(n_qubits=N_QUBITS, reps=2)
+        feature_map = ZZFeatureMap(n_qubits=N_QUBITS, reps=REPS)
         return feature_map
 
     @pytest.mark.parametrize(
         "feature_map_name, expected_n_qubits, expected_reps",
         [
-            pytest.param("xx_feature_map", N_QUBITS, 2, id="Valid XXFeatureMap"),
-            pytest.param("yy_feature_map", N_QUBITS, 2, id="Valid YYFeatureMap"),
-            pytest.param("zz_feature_map", N_QUBITS, 2, id="Valid ZZFeatureMap"),
+            pytest.param("xx_feature_map", N_QUBITS, REPS, id="Valid XXFeatureMap"),
+            pytest.param("yy_feature_map", N_QUBITS, REPS, id="Valid YYFeatureMap"),
+            pytest.param("zz_feature_map", N_QUBITS, REPS, id="Valid ZZFeatureMap"),
         ],
     )
     def test_init(

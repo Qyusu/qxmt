@@ -6,6 +6,7 @@ Submodules
 .. toctree::
    :maxdepth: 1
 
+   qxmt.feature_maps.pennylane.base
    qxmt.feature_maps.pennylane.rotation
    qxmt.feature_maps.pennylane.ising
    qxmt.feature_maps.pennylane.npqc

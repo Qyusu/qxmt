@@ -6,18 +6,19 @@ from pennylane.measurements import StateMP
 from qxmt.feature_maps.pennylane.yzcx import YZCXFeatureMap
 
 N_QUBITS = 2
+REPS = 2
 
 
 class TestYZCXFeatureMap:
     @pytest.fixture(scope="function")
     def yzcx_feature_map(self) -> YZCXFeatureMap:
         # create YZCX Feature Map instance
-        feature_map = YZCXFeatureMap(n_qubits=N_QUBITS, reps=2, c=1.0, seed=42)
+        feature_map = YZCXFeatureMap(n_qubits=N_QUBITS, reps=REPS, c=1.0, seed=42)
         return feature_map
 
     def test_init(self, yzcx_feature_map: YZCXFeatureMap) -> None:
         assert yzcx_feature_map.n_qubits == N_QUBITS
-        assert yzcx_feature_map.reps == 2
+        assert yzcx_feature_map.reps == REPS
         assert yzcx_feature_map.c == 1.0
         assert yzcx_feature_map.seed == 42
 

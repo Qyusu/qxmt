@@ -4,6 +4,7 @@ EXPECTED_ALL = [
     "XXFeatureMap",
     "YYFeatureMap",
     "ZZFeatureMap",
+    "PennyLaneBaseFeatureMap",
     "HRotationFeatureMap",
     "RotationFeatureMap",
     "YZCXFeatureMap",

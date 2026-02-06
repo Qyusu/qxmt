@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import Any, Callable, Optional, cast
+from typing import Any, Callable, Optional
 
 import numpy as np
 
@@ -62,6 +62,24 @@ class BaseFeatureMap(ABC):
         """
         pass
 
+    def draw(
+        self,
+        x: Optional[np.ndarray] = None,
+        x_dim: Optional[int] = None,
+        format: str = "default",
+        logger: Logger = LOGGER,
+        **kwargs: Any,
+    ) -> None:
+        """Draw the feature map circuit.
+
+        Args:
+            x (Optional[np.ndarray], optional): input example data for drawing the circuit. Defaults to None.
+            x_dim (Optional[int], optional): dimension of input data. Defaults to None.
+            format (str, optional): format of the drawing the circuit. Select "defalt" or "mpl". Defaults to "default".
+            logger (Logger, optional): logger object. Defaults to LOGGER.
+        """
+        raise NotImplementedError
+
     def check_input_dim_eq_nqubits(self, x: np.ndarray, idx: int = -1) -> None:
         """Check if the input data dimension matches the number of qubits.
 
@@ -74,43 +92,6 @@ class BaseFeatureMap(ABC):
         """
         if x.shape[idx] != self.n_qubits:
             raise InputShapeError("Input data shape does not match the number of qubits.")
-
-    def draw(
-        self,
-        x: Optional[np.ndarray] = None,
-        x_dim: Optional[int] = None,
-        format: str = "default",
-        logger: Logger = LOGGER,
-        **kwargs: Any,
-    ) -> None:
-        """Draw the circuit using the platform's draw function.
-
-        Args:
-            x (Optional[np.ndarray], optional): input example data for drawing the circuit. Defaults to None.
-            x_dim (Optional[int], optional): dimension of input data. Defaults to None.
-            format (str, optional): format of the drawing the circuit. Select "defalt" or "mpl". Defaults to "default".
-            logger (Logger, optional): logger object. Defaults to LOGGER.
-
-        Raises:
-            NotImplementedError: not supported platform
-        """
-        if (x is None) and (x_dim is None):
-            raise ValueError("Either 'x' or 'x_dim' argument must be provided.")
-
-        x_sample = x[0] if x is not None else np.random.rand(1, cast(int, x_dim))[0]
-
-        if self.platform == "pennylane":
-            import pennylane as qml
-
-            match format:
-                case "default":
-                    logger.info(qml.draw(qnode=self.feature_map, **kwargs)(x_sample))
-                case "mpl":
-                    logger.info(qml.draw_mpl(qnode=self.feature_map, **kwargs)(x_sample))
-                case _:
-                    raise ValueError(f"Invalid format '{format}' for drawing the circuit")
-        else:
-            raise NotImplementedError(f'"draw" method is not supported in {self.platform}.')
 
 
 class FeatureMapFromFunc(BaseFeatureMap):

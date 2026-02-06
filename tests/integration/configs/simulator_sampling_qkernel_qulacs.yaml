@@ -1,4 +1,4 @@
-description: "This is an integration test for running an experiment by the state vector simulator."
+description: "This is an integration test for running an experiment by the sampling simulator (Qulacs)."
 
 global_settings:
   random_seed: &global_seed 42
@@ -9,14 +9,14 @@ dataset:
   generate:
     generate_method: "linear"
     params: {
-      "n_samples": 1000,
+      "n_samples": 10000,
       "n_features": 2,
-      "n_classes": 3,
+      "n_classes": 3
     }
   split:
     train_ratio: 0.8
-    validation_ratio: 0.1
-    test_ratio: 0.1
+    validation_ratio: 0.0
+    test_ratio: 0.2
     shuffle: true
   features: null
   raw_preprocess_logic:
@@ -34,19 +34,21 @@ dataset:
       random_seed: *global_seed
 
 device:
-  platform: "pennylane"
-  device_name: "default.qubit"
+  platform: "qulacs"
+  device_name: "cpu.simulator"
   n_qubits: 2
-  shots: null
+  shots: 4096
+  device_options:
+    seed: *global_seed
 
 feature_map:
-  module_name: "qxmt.feature_maps.pennylane"
+  module_name: "qxmt.feature_maps.qulacs"
   implement_name: "ZZFeatureMap"
   params:
     reps: 2
 
 kernel:
-  module_name: "qxmt.kernels.pennylane"
+  module_name: "qxmt.kernels.qulacs"
   implement_name: "FidelityKernel"
   params: {}
 

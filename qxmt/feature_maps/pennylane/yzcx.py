@@ -1,16 +1,15 @@
 import numpy as np
 import pennylane as qml
 
-from qxmt.constants import PENNYLANE_PLATFORM
-from qxmt.feature_maps import BaseFeatureMap
+from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
 
 
-class YZCXFeatureMap(BaseFeatureMap):
+class YZCXFeatureMap(PennyLaneBaseFeatureMap):
     """YZCX feature map class.
     Reference: https://arxiv.org/abs/2108.01039
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -32,7 +31,7 @@ class YZCXFeatureMap(BaseFeatureMap):
             c (float): scaling factor
             seed (int): random seed
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.n_qubits: int = n_qubits
         self.reps: int = reps
         self.c: float = c
@@ -51,13 +50,13 @@ class YZCXFeatureMap(BaseFeatureMap):
                 # Apply rotaion Y gate by data value and random angle
                 qml.RY(self.c * x[data_idx % len(x)], wires=i)
                 ry_angle = 2.0 * np.pi * rng.random()
-                qml.RY(ry_angle, wires=i)
+                qml.RY(ry_angle, wires=i)  # type: ignore
                 data_idx += 1
 
                 # Apply rotaion Z gate by data value and random angle
                 qml.RZ(self.c * x[data_idx % len(x)], wires=i)
                 rz_angle = 2.0 * np.pi * rng.random()
-                qml.RZ(rz_angle, wires=i)
+                qml.RZ(rz_angle, wires=i)  # type: ignore
                 data_idx += 1
 
                 # Apply CNOT gate based on the current repetition and qubit index

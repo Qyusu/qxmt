@@ -1,4 +1,4 @@
-description: "This is a template configuration file for the QXMT framework."
+description: "This is an integration test for running an experiment by the state vector simulator (PennyLane)."
 
 global_settings:
   random_seed: &global_seed 42
@@ -22,7 +22,8 @@ device:
   device_name: "default.qubit"
   n_qubits: 4
   shots: null
-  random_seed: *global_seed
+  device_options:
+    seed: *global_seed
 
 ansatz:
   module_name: "qxmt.ansatze.pennylane"

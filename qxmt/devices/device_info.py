@@ -2,10 +2,9 @@ from braket.aws import AwsDevice
 from pydantic import BaseModel
 from qiskit_ibm_runtime import QiskitRuntimeService
 
-from qxmt.constants import PENNYLANE_DEVICES
+from qxmt.constants import PENNYLANE_DEVICES, PENNYLANE_PLATFORM
 from qxmt.devices.base import BaseDevice
 from qxmt.exceptions import InvalidQunatumDeviceError
-from qxmt.types import QuantumDeviceType
 
 STATUS_ONLINE = "ONLINE"
 STATUS_OFFLINE = "OFFLINE"
@@ -17,11 +16,11 @@ class RemoteDeviceStatus(BaseModel):
     status: str
 
 
-def get_platform_from_device(device: BaseDevice | QuantumDeviceType) -> str:
+def get_platform_from_device(device: BaseDevice | object) -> str:
     """Get the platform name from the device.
 
     Args:
-        device (BaseDevice | QuantumDeviceType): quantum device
+        device (BaseDevice | object): quantum device
 
     Returns:
         str: platform name
@@ -30,16 +29,16 @@ def get_platform_from_device(device: BaseDevice | QuantumDeviceType) -> str:
         return device.platform
 
     if isinstance(device, PENNYLANE_DEVICES):
-        return "pennylane"
+        return PENNYLANE_PLATFORM
     else:
         raise InvalidQunatumDeviceError(f"Device {device} is not supported.")
 
 
-def get_number_of_qubits(device: BaseDevice | QuantumDeviceType) -> int:
+def get_number_of_qubits(device: BaseDevice | object) -> int:
     """Get the number of qubits from the device.
 
     Args:
-        device (BaseDevice | QuantumDeviceType): quantum device
+        device (BaseDevice | object): quantum device
 
     Returns:
         int: number of qubits
@@ -48,7 +47,7 @@ def get_number_of_qubits(device: BaseDevice | QuantumDeviceType) -> int:
         return device.n_qubits
 
     if isinstance(device, PENNYLANE_DEVICES):
-        return len(device.wires)
+        return len(device.wires)  # type: ignore[attr-defined]
     else:
         raise InvalidQunatumDeviceError(f"Device {device} is not supported.")
 

@@ -20,22 +20,22 @@ class BaseDevice(ABC):
     def __init__(
         self,
         platform: str,
-        device_name: str,
+        device_name: Optional[str],
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
-        random_seed: Optional[int] = None,
+        device_options: Optional[dict[str, Any]] = None,
         logger: Logger = LOGGER,
     ) -> None:
         """Initialize the quantum device.
 
         Args:
             platform (str): platform name (ex: pennylane, qulacs, etc.)
-            device_name (str): device name provided by the platform (ex: default.qubit, default.tensor, etc.)
+            device_name (Optional[str]): device name provided by the platform (ex: default.qubit, default.tensor, etc.)
             backend_name (Optional[str]): backend name for the real device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
-            random_seed (Optional[int]): random seed for the quantum device
+            device_options (Optional[dict[str, Any]]): additional keyword arguments for the device
             logger (Logger): logger instance
         """
         self.platform = platform
@@ -43,7 +43,7 @@ class BaseDevice(ABC):
         self.backend_name = backend_name
         self.n_qubits = n_qubits
         self.shots = shots
-        self.random_seed = random_seed
+        self.device_options: dict[str, Any] = dict(device_options) if device_options is not None else {}
         self.logger = logger
 
     @abstractmethod
@@ -129,3 +129,28 @@ class BaseDevice(ABC):
             return self.device_name in AMAZON_BRAKET_REMOTE_DEVICES
         elif device_type == "all":
             return self.device_name in AMAZON_BRAKET_DEVICES
+
+    def _validate_device_options(self, invalid_keys: set[str] = set()) -> None:
+        """Validate device options.
+
+        Args:
+            invalid_keys (set[str]): set of keys that should not be in device_options
+        """
+        duplicated_keys = invalid_keys.intersection(self.device_options)
+        if duplicated_keys:
+            joined = ", ".join(sorted(duplicated_keys))
+            raise ValueError(f'"device_options" cannot override the following keys: {joined}')
+
+    def _build_device_kwargs(self, default_kwargs: dict[str, Any] = {}) -> dict[str, Any]:
+        """Build keyward argments for the device.
+
+        Args:
+            default_kwargs (dict[str, Any], optional): default keywards. Defaults to {}.
+
+        Returns:
+            dict[str, Any]: constructed keyward argments for the device
+        """
+        device_kwargs: dict[str, Any] = default_kwargs.copy()
+        extra_options = dict(self.device_options)
+        device_kwargs.update(extra_options)
+        return device_kwargs

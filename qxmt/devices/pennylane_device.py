@@ -1,15 +1,12 @@
 from datetime import datetime
 from typing import Any, Optional
 
-import numpy as np
 import pennylane as qml
 
 from qxmt.devices.base import BaseDevice
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
-
-PENNYLANE_GPU_DEVICES = ["lightning.gpu", "lightning.tensor"]
 
 
 class PennyLaneDevice(BaseDevice):
@@ -24,7 +21,7 @@ class PennyLaneDevice(BaseDevice):
         backend_name: Optional[str],
         n_qubits: int,
         shots: Optional[int],
-        random_seed: Optional[int] = None,
+        device_options: Optional[dict[str, Any]] = None,
         logger: Any = LOGGER,
     ) -> None:
         """Initialize the PennyLane device.
@@ -35,11 +32,16 @@ class PennyLaneDevice(BaseDevice):
             backend_name (Optional[str]): backend name for the real device
             n_qubits (int): number of qubits
             shots (Optional[int]): number of shots for the quantum circuit
-            random_seed (Optional[int]): random seed for the quantum device
+            device_options (Optional[dict[str, Any]]): additional keyword arguments for qml.device
             logger (Any): logger instance
         """
-        super().__init__(platform, device_name, backend_name, n_qubits, shots, random_seed, logger)
+        super().__init__(platform, device_name, backend_name, n_qubits, shots, device_options, logger)
         self.real_device = None
+        self.default_kwargs = {
+            "wires": self.n_qubits,
+            "shots": self.shots,
+        }
+        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
 
     def get_device(self) -> Any:
         """Get the quantum device instance.
@@ -47,10 +49,8 @@ class PennyLaneDevice(BaseDevice):
         Returns:
             Any: quantum device instance
         """
-        if self.device_name in PENNYLANE_GPU_DEVICES:
-            return self._get_gpu_device()
-        else:
-            return self._get_cpu_device()
+        device_kwargs = self._build_device_kwargs(default_kwargs=self.default_kwargs)
+        return qml.device(name=self.device_name, **device_kwargs)
 
     def is_simulator(self) -> bool:
         """Check if the device is a simulator or real machine.
@@ -98,18 +98,3 @@ class PennyLaneDevice(BaseDevice):
             list[str]: job IDs (empty for non-remote devices)
         """
         return []
-
-    def _get_cpu_device(self) -> Any:
-        return qml.device(
-            name=self.device_name,
-            wires=self.n_qubits,
-            shots=self.shots,
-            seed=np.random.default_rng(self.random_seed) if self.random_seed is not None else None,
-        )
-
-    def _get_gpu_device(self) -> Any:
-        return qml.device(
-            name=self.device_name,
-            wires=self.n_qubits,
-            shots=self.shots,
-        )

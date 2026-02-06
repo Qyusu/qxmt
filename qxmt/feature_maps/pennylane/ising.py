@@ -1,15 +1,14 @@
 import numpy as np
 import pennylane as qml
 
-from qxmt.constants import PENNYLANE_PLATFORM
-from qxmt.feature_maps.base import BaseFeatureMap
+from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
 
 
-class XXFeatureMap(BaseFeatureMap):
+class XXFeatureMap(PennyLaneBaseFeatureMap):
     """XX feature map class.
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -27,7 +26,7 @@ class XXFeatureMap(BaseFeatureMap):
             n_qubits (int): number of qubits
             reps (int): number of repetitions
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:
@@ -43,11 +42,11 @@ class XXFeatureMap(BaseFeatureMap):
                 qml.IsingXX(2 * (np.pi - x[i]) * (np.pi - x[i + 1]), wires=[i, i + 1])
 
 
-class YYFeatureMap(BaseFeatureMap):
+class YYFeatureMap(PennyLaneBaseFeatureMap):
     """YY feature map class.
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -65,7 +64,7 @@ class YYFeatureMap(BaseFeatureMap):
             n_qubits (int): number of qubits
             reps (int): number of repetitions
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:
@@ -82,11 +81,11 @@ class YYFeatureMap(BaseFeatureMap):
                 qml.IsingYY(2 * (np.pi - x[i]) * (np.pi - x[i + 1]), wires=[i, i + 1])
 
 
-class ZZFeatureMap(BaseFeatureMap):
+class ZZFeatureMap(PennyLaneBaseFeatureMap):
     """ZZ feature map class.
 
     Args:
-        BaseFeatureMap (_type_): base feature map class
+        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
 
     Example:
         >>> import numpy as np
@@ -104,7 +103,7 @@ class ZZFeatureMap(BaseFeatureMap):
             n_qubits (int): number of qubits
             reps (int): number of repetitions
         """
-        super().__init__(PENNYLANE_PLATFORM, n_qubits)
+        super().__init__(n_qubits)
         self.reps: int = reps
 
     def feature_map(self, x: np.ndarray) -> None:

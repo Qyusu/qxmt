@@ -101,11 +101,11 @@ class DeviceConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     platform: str
-    device_name: str
+    device_name: Optional[str] = None
     backend_name: Optional[str] = None
     n_qubits: int
     shots: Optional[int] = None
-    random_seed: Optional[int] = None
+    device_options: Optional[dict[str, Any]] = None
     save_shots_results: bool = False
 
     @field_validator("shots")
