@@ -13,7 +13,20 @@ from qxmt.models.qkernels import BaseMLModel
 
 
 class TestRunExperimentStateVectorQKernel:
-    def test_run_experiment_from_config_file(self, tmp_path: Path) -> None:
+    @pytest.mark.parametrize(
+        "config_path",
+        [
+            pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_pennylane.yaml",
+                id="pennylane config file",
+            ),
+            pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_qulacs.yaml",
+                id="qulacs config file",
+            ),
+        ],
+    )
+    def test_run_experiment_from_config_file(self, config_path: str, tmp_path: Path) -> None:
         experiment = qxmt.Experiment(
             name="integration_test_sv_qkernel",
             root_experiment_dirc=tmp_path / "experiments",
@@ -27,7 +40,6 @@ class TestRunExperimentStateVectorQKernel:
         assert (tmp_path / "experiments/integration_test_sv_qkernel").exists()
 
         # run by config file
-        config_path = "tests/integration/configs/simulator_sv_qkernel.yaml"
         artifact, result = experiment.run(config_source=config_path)
 
         # check return values
@@ -54,27 +66,36 @@ class TestRunExperimentStateVectorQKernel:
         assert not (tmp_path / "experiments/integration_test_sv_qkernel/run_2/shots.h5").exists()
 
     @pytest.mark.parametrize(
-        "device_name, kernel_name",
+        "config_path, device_name, kernel_name",
         [
             pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_pennylane.yaml",
                 "default.qubit",
                 "FidelityKernel",
-                id="default.qubit and FidelityKernel",
+                id="PennyLane default.qubit and FidelityKernel",
             ),
             pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_pennylane.yaml",
                 "lightning.qubit",
                 "FidelityKernel",
-                id="lightling.qubit and FidelityKernel",
+                id="PennyLane lightning.qubit and FidelityKernel",
             ),
             pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_pennylane.yaml",
                 "qulacs.simulator",
                 "FidelityKernel",
-                id="qulacs.simulator and FidelityKernel",
+                id="PennyLane qulacs.simulator and FidelityKernel",
+            ),
+            pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_qulacs.yaml",
+                "cpu.simulator",
+                "FidelityKernel",
+                id="Qulacs cpu.simulator and FidelityKernel",
             ),
         ],
     )
-    def test_run_experiment_by_state_vector_simulator_from_config_instance(
-        self, device_name: str, kernel_name: str, tmp_path: Path
+    def test_run_experiment_by_pennylane_state_vector_simulator_from_config_instance(
+        self, config_path: str, device_name: str, kernel_name: str, tmp_path: Path
     ) -> None:
         experiment = qxmt.Experiment(
             name="integration_test_sv_qkernel",
@@ -86,8 +107,7 @@ class TestRunExperimentStateVectorQKernel:
         ).init()
 
         # update config
-        base_config_path = "tests/integration/configs/simulator_sv_qkernel.yaml"
-        base_config = ExperimentConfig(path=base_config_path)
+        base_config = ExperimentConfig(path=config_path)
         updated_device = base_config.device.model_copy(update={"device_name": device_name})
         updated_kernel = (
             base_config.kernel.model_copy(update={"implement_name": kernel_name}) if base_config.kernel else None

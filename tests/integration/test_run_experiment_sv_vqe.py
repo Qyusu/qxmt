@@ -1,4 +1,3 @@
-import platform
 from pathlib import Path
 
 import pandas as pd
@@ -26,7 +25,7 @@ class TestRunExperimentStateVectorVQE:
         assert (tmp_path / "experiments/integration_test_sv_vqe").exists()
 
         # run by config file
-        config_path = "tests/integration/configs/simulator_sv_vqe.yaml"
+        config_path = "tests/integration/configs/simulator_sv_vqe_pennylane.yaml"
         artifact, result = experiment.run(config_source=config_path)
 
         # check return values
@@ -78,7 +77,7 @@ class TestRunExperimentStateVectorVQE:
         ).init()
 
         # update config
-        base_config_path = "tests/integration/configs/simulator_sv_vqe.yaml"
+        base_config_path = "tests/integration/configs/simulator_sv_vqe_pennylane.yaml"
         base_config = ExperimentConfig(path=base_config_path)
         updated_device = base_config.device.model_copy(update={"device_name": device_name})
         config = base_config.model_copy(update={"device": updated_device})
