@@ -52,7 +52,7 @@ We will first address the implementation of the preprocessing logic. This involv
 import numpy as np
 
 
-def sample_n_per_class(
+def my_sampling_logic(
     X: np.ndarray, y: np.ndarray, n_samples: int, labels: list[int]
 ) -> tuple[np.ndarray, np.ndarray]:
 
@@ -195,7 +195,7 @@ dataset:
   features: null
   raw_preprocess_logic: # [SETUP] your logic path and parameter
     module_name: "your_project.custom.raw_preprocess_logic"
-    implement_name: "sample_n_per_class"
+    implement_name: "my_sampling_logic"
     params:
         n_samples: 100
         labels: [0, 1]
