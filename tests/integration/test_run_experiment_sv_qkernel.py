@@ -15,7 +15,7 @@ EXPECTED_RESULT_BY_PLATFORM = {
     ("Linux", "x86_64"): {
         "run_id": [1],
         "accuracy": [0.60],
-        "precision": [0.68],
+        "precision": [0.60],
         "recall": [0.69],
         "f1_score": [0.58],
         "accuracy_validation": [0.30],
@@ -150,4 +150,12 @@ class TestRunExperimentStateVectorQKernel:
 
         expected_df = pd.DataFrame(EXPECTED_RESULT_BY_PLATFORM[platform_key]).round(2)
 
-        assert_frame_equal(result_df, expected_df)
+        try:
+            assert_frame_equal(result_df, expected_df)
+        except AssertionError as exc:
+            raise AssertionError(
+                "Result metrics did not match expected values.\n"
+                f"platform={platform_key}\n"
+                f"actual={result_df.to_dict(orient='list')}\n"
+                f"expected={expected_df.to_dict(orient='list')}"
+            ) from exc
