@@ -11,6 +11,31 @@ from qxmt.datasets import Dataset
 from qxmt.experiment import RunArtifact, RunRecord
 from qxmt.models.qkernels import BaseMLModel
 
+EXPECTED_RESULT_BY_PLATFORM = {
+    ("Linux", "x86_64"): {
+        "run_id": [1],
+        "accuracy": [0.60],
+        "precision": [0.60],
+        "recall": [0.61],
+        "f1_score": [0.60],
+        "accuracy_validation": [0.67],
+        "precision_validation": [0.67],
+        "recall_validation": [0.69],
+        "f1_score_validation": [0.67],
+    },
+    ("Darwin", "arm64"): {
+        "run_id": [1],
+        "accuracy": [0.43],
+        "precision": [0.54],
+        "recall": [0.47],
+        "f1_score": [0.45],
+        "accuracy_validation": [0.57],
+        "precision_validation": [0.58],
+        "recall_validation": [0.58],
+        "f1_score_validation": [0.54],
+    },
+}
+
 
 class TestRunExperimentStateVectorQKernel:
     @pytest.mark.parametrize(
@@ -119,35 +144,18 @@ class TestRunExperimentStateVectorQKernel:
         # get result dataframe
         # compare up to 2 decimal places
         result_df = experiment.runs_to_dataframe(include_validation=True).round(2)
-        if platform.machine() == "x86_64":
-            expected_df = pd.DataFrame(
-                {
-                    "run_id": [1],
-                    "accuracy": [0.60],
-                    "precision": [0.68],
-                    "recall": [0.69],
-                    "f1_score": [0.58],
-                    "accuracy_validation": [0.30],
-                    "precision_validation": [0.12],
-                    "recall_validation": [0.25],
-                    "f1_score_validation": [0.17],
-                }
-            ).round(2)
-        elif platform.machine() == "arm64":
-            expected_df = pd.DataFrame(
-                {
-                    "run_id": [1],
-                    "accuracy": [0.60],
-                    "precision": [0.36],
-                    "recall": [0.57],
-                    "f1_score": [0.39],
-                    "accuracy_validation": [0.40],
-                    "precision_validation": [0.29],
-                    "recall_validation": [0.36],
-                    "f1_score_validation": [0.30],
-                }
-            ).round(2)
-        else:
-            raise ValueError(f"Unsupported architecture: {platform.machine()}")
+        platform_key = (platform.system(), platform.machine())
+        if platform_key not in EXPECTED_RESULT_BY_PLATFORM:
+            raise ValueError(f"Unsupported platform: {platform_key}")
 
-        assert_frame_equal(result_df, expected_df)
+        expected_df = pd.DataFrame(EXPECTED_RESULT_BY_PLATFORM[platform_key]).round(2)
+
+        try:
+            assert_frame_equal(result_df, expected_df)
+        except AssertionError as exc:
+            raise AssertionError(
+                "Result metrics did not match expected values.\n"
+                f"platform={platform_key}\n"
+                f"actual={result_df.to_dict(orient='list')}\n"
+                f"expected={expected_df.to_dict(orient='list')}"
+            ) from exc

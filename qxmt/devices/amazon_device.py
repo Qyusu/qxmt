@@ -133,7 +133,7 @@ class AmazonBraketDevice(BaseDevice):
             raise AmazonBraketSettingError("Amazon Braket device needs the backend name.")
 
         try:
-            device_arn = AmazonBackendType[self.backend_name.lower()].value
+            device_arn = AmazonBackendType[self.backend_name.lower()]
         except KeyError:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket device.')
 

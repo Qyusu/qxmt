@@ -18,7 +18,7 @@ dataset:
   features: null
   raw_preprocess_logic:
     module_name: "qxmt.datasets.raw_preprocess.sampling"
-    implement_name: "sampling_by_each_class"
+    implement_name: "sample_n_per_class"
     params:
       n_samples: 3
       labels: [0, 1]
