@@ -14,8 +14,7 @@ class AmazonBackendType(Enum):
     sv1 = Devices.Amazon.SV1
     dm1 = Devices.Amazon.DM1
     tn1 = Devices.Amazon.TN1
-    ionq = Devices.IonQ.Aria1  # default IonQ device
-    ionq_aria1 = Devices.IonQ.Aria1
+    ionq = Devices.IonQ.ForteEnterprise1  # default IonQ device
     ionq_forte1 = Devices.IonQ.Forte1
     ionq_forte_enterprise1 = Devices.IonQ.ForteEnterprise1
     iqm = Devices.IQM.Garnet  # default IQM device
