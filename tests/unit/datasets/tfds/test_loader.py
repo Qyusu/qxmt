@@ -35,7 +35,7 @@ class TestTFDSDataLoader:
             (np.array([1, 2]), np.array(0)),
             (np.array([3, 4]), np.array(1)),
         ]
-        mocker.patch("importlib.import_module", return_value=mock_tfds)
+        mocker.patch("qxmt.datasets.tfds.loader._import_tfds", return_value=mock_tfds)
 
         loader = TFDSDataLoader(name="mnist", split="train[:2]", download=False, shuffle_files=True)
         X, y = loader.load()
@@ -59,7 +59,7 @@ class TestTFDSDataLoader:
             (np.ones((2, 2, 1)), np.array(0)),
             (np.zeros((2, 2, 1)), np.array(1)),
         ]
-        mocker.patch("importlib.import_module", return_value=mock_tfds)
+        mocker.patch("qxmt.datasets.tfds.loader._import_tfds", return_value=mock_tfds)
 
         loader = TFDSDataLoader(name="mnist", flatten=True)
         X, y = loader.load()
@@ -82,7 +82,7 @@ class TestTFDSDataLoader:
             [(np.array([1, 2]), np.array(0))],
             [(np.array([3, 4]), np.array(1))],
         ]
-        mocker.patch("importlib.import_module", return_value=mock_tfds)
+        mocker.patch("qxmt.datasets.tfds.loader._import_tfds", return_value=mock_tfds)
 
         loader = TFDSDataLoader(name="mnist", split=["train", "test"])
         X, y = loader.load()
@@ -102,7 +102,7 @@ class TestTFDSDataLoader:
         mock_tfds = mocker.Mock()
         mock_tfds.load.return_value = mocker.Mock()
         mock_tfds.as_numpy.return_value = [(np.array([1]), np.array(0))]
-        mocker.patch("importlib.import_module", return_value=mock_tfds)
+        mocker.patch("qxmt.datasets.tfds.loader._import_tfds", return_value=mock_tfds)
 
         loader = TFDSDataLoader(name="mnist", data_dir=tmp_path)
         loader.load()
