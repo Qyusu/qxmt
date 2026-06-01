@@ -86,3 +86,7 @@ addopts="-n 3 --dist=loadscope"
 markers = [
     "serial: marks tests to run serially (not in parallel)",
 ]
+
+[tool.black]
+line-length = 120
+target-version = ["py310", "py311", "py312"]
