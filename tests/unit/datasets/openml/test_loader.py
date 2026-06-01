@@ -5,10 +5,19 @@ import pandas as pd
 import pytest
 from pytest_mock import MockFixture
 
-from qxmt.datasets.openml.loader import OpenMLDataLoader
+from qxmt.datasets.openml.loader import OpenMLDataLoader, _import_openml
 
 
 class TestOpenMLDataLoader:
+    def test_import_openml_error_message(self, mocker: MockFixture) -> None:
+        mocker.patch(
+            "importlib.import_module",
+            side_effect=ImportError("No module named 'openml'"),
+        )
+
+        with pytest.raises(ImportError, match=r"pip install 'qxmt\[openml\]'"):
+            _import_openml()
+
     def test_init(self, mocker: MockFixture) -> None:
         mocker.patch("qxmt.datasets.openml.loader.OpenMLDataLoader._get_dataset_id", return_value=554)
         # set id

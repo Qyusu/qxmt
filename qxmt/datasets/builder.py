@@ -14,7 +14,6 @@ from qxmt.configs import (
 )
 from qxmt.datasets.file import FileDataLoader
 from qxmt.datasets.generate import GeneratedDataLoader
-from qxmt.datasets.openml import OpenMLDataLoader
 from qxmt.datasets.schema import Dataset
 from qxmt.logger import set_default_logger
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
@@ -202,6 +201,8 @@ class DatasetBuilder:
 
         match dataset_type:
             case "openml":
+                from qxmt.datasets.openml import OpenMLDataLoader
+
                 openml_config = cast(OpenMLConfig, self.config.dataset.openml)  # type: ignore
                 X, y = OpenMLDataLoader(
                     name=openml_config.name,
