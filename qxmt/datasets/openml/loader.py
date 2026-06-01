@@ -1,15 +1,24 @@
+import importlib
 from logging import Logger
 from pathlib import Path
-from typing import Optional, cast
+from typing import Any, Optional, cast
 
 import numpy as np
-import openml
 import pandas as pd
 
 from qxmt.decorators import retry_on_exception
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
+
+
+def _import_openml() -> Any:
+    try:
+        return importlib.import_module("openml")
+    except ImportError as e:
+        raise ImportError(
+            "OpenML datasets require the optional dependency 'openml'. " "Install it with: pip install 'qxmt[openml]'"
+        ) from e
 
 
 class OpenMLDataLoader:
@@ -69,6 +78,8 @@ class OpenMLDataLoader:
         if (name is None) and (id is None):
             raise ValueError("Either dataset 'name' or 'id' must be specified.")
         self.name = name
+        if id is None:
+            _import_openml()
         self.id = id if id is not None else self._get_dataset_id()
         self.save_path = save_path
         self.return_format = return_format.lower()
@@ -85,6 +96,7 @@ class OpenMLDataLoader:
         Returns:
             int: mathced dataset ID
         """
+        openml = _import_openml()
         datasets = openml.datasets.list_datasets(output_format="dataframe")
         matches = datasets[datasets["name"] == self.name]
         if not matches.empty:
@@ -104,6 +116,7 @@ class OpenMLDataLoader:
         Returns:
             tuple[np.ndarray, np.ndarray | None] | pd.DataFrame: loaded dataset
         """
+        openml = _import_openml()
         dataset = openml.datasets.get_dataset(
             self.id,
             download_data=False,

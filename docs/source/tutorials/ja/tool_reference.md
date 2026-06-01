@@ -73,7 +73,40 @@ dataset:
 
 `openml.name`と`openml.id`は、どちらか一方のみでも利用可能です。`openml.name`のみが設定された場合はAPIを使って内部で該当するデータセットが検索されます。`openml.id`は対象のデータセットを一意に特定することができるため、こちらの値を設定することを推奨しています。`openml.name`と`openml.id`の両方が設定された場合は`openml.id`の値が優先されます。
 
-### 2.2 Raw Processing LogicとTransform LogicのChain処理
+### 2.2 TensorFlow Datasetsを用いたデータセットの読み込み
+QXMTでは[TensorFlow Datasets](https://www.tensorflow.org/datasets)のデータセットをconfigファイル経由で読み込み、QXMT内部で利用するnumpy配列の形式に変換できます。この機能を利用する場合は、optional dependencyとして`qxmt[tfds]`をインストールしてください。
+
+```bash
+pip install "qxmt[tfds]"
+```
+
+configでは以下のように設定します。(設定が必要な部分のみ抜粋)
+
+``` yaml
+dataset:
+  tfds:
+    name: "mnist"
+    split: ["train", "test"]
+    return_format: "numpy"
+    data_dir: "data/tfds_cache"
+    save_path: "data/tfds/mnist/dataset.npz"
+    download: true
+    shuffle_files: false
+```
+
+- **tfds.name**: TensorFlow Datasets上のデータセット名
+- **tfds.split**: 読み込むsplitを指定。`"train"`のような文字列、または`["train", "test"]`のようなリストを指定可能。複数指定した場合、QXMTでは読み込んだデータを結合してから`dataset.split`の比率に従って再分割します
+- **tfds.return_format**: データセットの返却形式を指定。現在は`numpy`または`array`をサポート
+- **tfds.data_dir**: TensorFlow Datasetsが元データをダウンロード・展開・キャッシュするディレクトリ。`null`の場合はTensorFlow Datasetsのデフォルト設定を利用
+- **tfds.save_path**: QXMTが読み込み後の`X`と`y`をnumpy形式で保存するパス。`.npz`または`.npy`を指定可能。`null`の場合は保存しない
+- **tfds.download**: データセットが未取得の場合にTensorFlow Datasetsによるダウンロードを許可するかどうか
+- **tfds.shuffle_files**: TensorFlow Datasets側でファイル単位のシャッフルを行うかどうか
+
+`tfds.data_dir`と`tfds.save_path`は用途が異なります。`tfds.data_dir`はTensorFlow Datasetsのキャッシュ場所であり、TFDS形式の元データを管理します。一方、`tfds.save_path`はQXMTが読み込み後にnumpy配列として保存する出力先です。通常は`tfds.data_dir`のみで十分ですが、後から`file` loaderで再利用したい場合や、QXMTで読み込んだnumpyデータを成果物として残したい場合は`tfds.save_path`も指定します。
+
+QXMTの`DatasetBuilder`は、読み込んだデータセットを`dataset.split`の`train_ratio`、`validation_ratio`、`test_ratio`に従って分割します。そのため、TFDSの`split`に`["train", "test"]`を指定した場合でも、TFDS上の`train`と`test`がそのままQXMTのtrain/testとして保持されるわけではありません。
+
+### 2.3 Raw Processing LogicとTransform LogicのChain処理
 QXMTからデフォルトで提供されているLogicに限らず、ユーザが独自に定義したカスタムのRaw Processing LogicとTransform LogicについてもChain処理として、複数の処理を順に適用することが可能です。configでの定義方法は、各種ロジックをリスト形式で順に記載していきます。
 
 以下の例では、データセットに対して`normalization`を行ったのち、`dimension_reduction_by_pca`で次元圧縮を行う処理を定義しています。

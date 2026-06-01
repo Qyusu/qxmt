@@ -5,12 +5,25 @@ import pandas as pd
 import pytest
 from pytest_mock import MockFixture
 
-from qxmt.datasets.openml.loader import OpenMLDataLoader
+from qxmt.datasets.openml.loader import OpenMLDataLoader, _import_openml
 
 
 class TestOpenMLDataLoader:
+    def test_import_openml_error_message(self, mocker: MockFixture) -> None:
+        mocker.patch(
+            "importlib.import_module",
+            side_effect=ImportError("No module named 'openml'"),
+        )
+
+        with pytest.raises(ImportError, match=r"pip install 'qxmt\[openml\]'"):
+            _import_openml()
+
     def test_init(self, mocker: MockFixture) -> None:
-        mocker.patch("qxmt.datasets.openml.loader.OpenMLDataLoader._get_dataset_id", return_value=554)
+        mocker.patch("qxmt.datasets.openml.loader._import_openml", return_value=mocker.Mock())
+        mocker.patch(
+            "qxmt.datasets.openml.loader.OpenMLDataLoader._get_dataset_id",
+            return_value=554,
+        )
         # set id
         loader = OpenMLDataLoader(id=554)
         assert loader.name is None
@@ -40,12 +53,15 @@ class TestOpenMLDataLoader:
             OpenMLDataLoader(name=None, id=None)
 
     def test_get_dataset_id(self, mocker: MockFixture) -> None:
-        mocker.patch(
-            "openml.datasets.list_datasets",
-            return_value=pd.DataFrame(
-                {"name": ["mnist_784", "mnist_784", "Fashion-MNIST"], "version": [1, 2, 1], "did": [553, 554, 40996]}
-            ),
+        mock_openml = mocker.Mock()
+        mock_openml.datasets.list_datasets.return_value = pd.DataFrame(
+            {
+                "name": ["mnist_784", "mnist_784", "Fashion-MNIST"],
+                "version": [1, 2, 1],
+                "did": [553, 554, 40996],
+            }
         )
+        mocker.patch("qxmt.datasets.openml.loader._import_openml", return_value=mock_openml)
         loader = OpenMLDataLoader(name="mnist_784")
         assert loader._get_dataset_id() == 554
 
@@ -62,7 +78,9 @@ class TestOpenMLDataLoader:
             None,
             ["A", "B", "C", "target"],
         )
-        mocker.patch("openml.datasets.get_dataset", return_value=mock_dataset_instance)
+        mock_openml = mocker.Mock()
+        mock_openml.datasets.get_dataset.return_value = mock_dataset_instance
+        mocker.patch("qxmt.datasets.openml.loader._import_openml", return_value=mock_openml)
 
         loader = OpenMLDataLoader(id=554, return_format="pandas", save_path=tmp_path / "dataset.csv")
         result = loader.load()
