@@ -25,7 +25,7 @@ class TestTFDSDataLoader:
         assert loader.return_format == "numpy"
         assert loader.download is True
         assert loader.shuffle_files is False
-        assert loader.flatten is False
+        assert loader.flatten is True
 
     def test_load(self, mocker: MockFixture) -> None:
         mock_tfds = mocker.Mock()
