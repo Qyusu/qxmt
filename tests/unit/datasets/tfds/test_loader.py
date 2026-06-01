@@ -25,6 +25,7 @@ class TestTFDSDataLoader:
         assert loader.return_format == "numpy"
         assert loader.download is True
         assert loader.shuffle_files is False
+        assert loader.flatten is False
 
     def test_load(self, mocker: MockFixture) -> None:
         mock_tfds = mocker.Mock()
@@ -49,6 +50,28 @@ class TestTFDSDataLoader:
         mock_tfds.as_numpy.assert_called_once_with(mock_dataset)
         assert np.allclose(X, np.array([[1, 2], [3, 4]]))
         assert np.allclose(y, np.array([0, 1]))
+
+    def test_load_with_flatten(self, mocker: MockFixture) -> None:
+        mock_tfds = mocker.Mock()
+        mock_dataset = mocker.Mock()
+        mock_tfds.load.return_value = mock_dataset
+        mock_tfds.as_numpy.return_value = [
+            (np.ones((2, 2, 1)), np.array(0)),
+            (np.zeros((2, 2, 1)), np.array(1)),
+        ]
+        mocker.patch("importlib.import_module", return_value=mock_tfds)
+
+        loader = TFDSDataLoader(name="mnist", flatten=True)
+        X, y = loader.load()
+
+        assert X.shape == (2, 4)
+        assert np.allclose(y, np.array([0, 1]))
+
+    def test_flatten_features_keeps_2d_data(self) -> None:
+        loader = TFDSDataLoader(name="iris", flatten=True)
+        X = np.ones((3, 4))
+
+        assert loader._flatten_features(X).shape == (3, 4)
 
     def test_load_multiple_splits(self, mocker: MockFixture) -> None:
         mock_tfds = mocker.Mock()

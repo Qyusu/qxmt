@@ -49,6 +49,7 @@ class TFDSConfig(BaseModel):
     data_dir: Optional[Path | str] = None
     download: bool = True
     shuffle_files: bool = False
+    flatten: bool = True
 
     def model_post_init(self, __context: dict[str, Any]) -> None:
         if (self.save_path is not None) and (not Path(self.save_path).is_absolute()):
@@ -102,7 +103,8 @@ class DatasetConfig(BaseModel):
     openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
     tfds: Optional[TFDSConfig] = None  # only need when use TensorFlow Datasets
     file: Optional[FileConfig] = None  # only need when use file dataset
-    generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
+    # only need when use generated dataset
+    generate: Optional[GenerateDataConfig] = None
     split: SplitConfig
     features: Optional[list[str]] = None
     raw_preprocess_logic: Optional[list[dict[str, Any]] | dict[str, Any]] = None

@@ -4,10 +4,10 @@
 # You can set these variables from the command line, and also
 # from the environment for the first two.
 SPHINXOPTS    ?=
-SPHINXBUILD   ?= sphinx-build
+SPHINXBUILD   ?= poetry run sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = build
-APIDOC        = sphinx-apidoc
+APIDOC        = poetry run sphinx-apidoc
 MODULEDIR     = ../qxmt
 APIDOCDIR     = $(SOURCEDIR)
 

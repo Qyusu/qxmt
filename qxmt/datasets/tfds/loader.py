@@ -36,6 +36,7 @@ class TFDSDataLoader:
         data_dir: Optional[str | Path] = None,
         download: bool = True,
         shuffle_files: bool = False,
+        flatten: bool = True,
     ) -> None:
         self.name = name
         self.split = split
@@ -44,6 +45,7 @@ class TFDSDataLoader:
         self.data_dir = data_dir
         self.download = download
         self.shuffle_files = shuffle_files
+        self.flatten = flatten
 
     def load(self) -> tuple[np.ndarray, np.ndarray]:
         """Load a supervised TensorFlow Dataset and return features and labels as numpy arrays."""
@@ -69,11 +71,18 @@ class TFDSDataLoader:
             data = list(tfds.as_numpy(datasets))
         X = np.asarray([example[0] for example in data])
         y = np.asarray([example[1] for example in data])
+        if self.flatten:
+            X = self._flatten_features(X)
 
         if self.save_path:
             self._save_dataset((X, y))
 
         return X, y
+
+    def _flatten_features(self, X: np.ndarray) -> np.ndarray:
+        if X.ndim <= 2:
+            return X
+        return X.reshape(X.shape[0], -1)
 
     def _save_dataset(self, data: tuple[np.ndarray, np.ndarray]) -> None:
         if self.save_path is None:

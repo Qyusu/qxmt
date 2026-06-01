@@ -225,6 +225,7 @@ class DatasetBuilder:
                     data_dir=tfds_config.data_dir,
                     download=tfds_config.download,
                     shuffle_files=tfds_config.shuffle_files,
+                    flatten=tfds_config.flatten,
                 ).load()
             case "file":
                 file_config = cast(FileConfig, self.config.dataset.file)  # type: ignore

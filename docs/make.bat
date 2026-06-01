@@ -5,11 +5,11 @@ pushd %~dp0
 REM Command file for Sphinx documentation
 
 if "%SPHINXBUILD%" == "" (
-	set SPHINXBUILD=sphinx-build
+	set SPHINXBUILD=poetry run sphinx-build
 )
 set SOURCEDIR=source
 set BUILDDIR=build
-set APIDOC=sphinx-apidoc
+set APIDOC=poetry run sphinx-apidoc
 set MODULEDIR=..\qxmt
 set APIDOCDIR=%SOURCEDIR%
 
