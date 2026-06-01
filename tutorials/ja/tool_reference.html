@@ -166,6 +166,10 @@
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.openml.loader.html">qxmt.datasets.openml.loader module</a></li>
 </ul>
 </details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.tfds.html">qxmt.datasets.tfds package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.tfds.loader.html">qxmt.datasets.tfds.loader module</a></li>
+</ul>
+</details></li>
 <li class="toctree-l3 has-children"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.html">qxmt.datasets.raw_preprocess package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.sampling.html">qxmt.datasets.raw_preprocess.sampling module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="../../qxmt.datasets.raw_preprocess.filter.html">qxmt.datasets.raw_preprocess.filter module</a></li>
@@ -482,7 +486,8 @@
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2. Dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#openml">2.1 OpenMLを用いたデータセットの読み込み</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.2 Raw Processing LogicとTransform LogicのChain処理</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensorflow-datasets">2.2 TensorFlow Datasetsを用いたデータセットの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.3 Raw Processing LogicとTransform LogicのChain処理</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
@@ -630,8 +635,38 @@
 </ul>
 <p><code class="docutils literal notranslate"><span class="pre">openml.name</span></code>と<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>は、どちらか一方のみでも利用可能です。<code class="docutils literal notranslate"><span class="pre">openml.name</span></code>のみが設定された場合はAPIを使って内部で該当するデータセットが検索されます。<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>は対象のデータセットを一意に特定することができるため、こちらの値を設定することを推奨しています。<code class="docutils literal notranslate"><span class="pre">openml.name</span></code>と<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>の両方が設定された場合は<code class="docutils literal notranslate"><span class="pre">openml.id</span></code>の値が優先されます。</p>
 </section>
+<section id="tensorflow-datasets">
+<h3>2.2 TensorFlow Datasetsを用いたデータセットの読み込み<a class="headerlink" href="#tensorflow-datasets" title="Link to this heading">#</a></h3>
+<p>QXMTでは<a class="reference external" href="https://www.tensorflow.org/datasets">TensorFlow Datasets</a>のデータセットをconfigファイル経由で読み込み、QXMT内部で利用するnumpy配列の形式に変換できます。この機能を利用する場合は、optional dependencyとして<code class="docutils literal notranslate"><span class="pre">qxmt[tfds]</span></code>をインストールしてください。</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;qxmt[tfds]&quot;</span>
+</pre></div>
+</div>
+<p>configでは以下のように設定します。(設定が必要な部分のみ抜粋)</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dataset</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tfds</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;mnist&quot;</span>
+<span class="w">    </span><span class="nt">split</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;train&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="nt">return_format</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;numpy&quot;</span>
+<span class="w">    </span><span class="nt">data_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/tfds_cache&quot;</span>
+<span class="w">    </span><span class="nt">save_path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;data/tfds/mnist/dataset.npz&quot;</span>
+<span class="w">    </span><span class="nt">download</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">shuffle_files</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong>tfds.name</strong>: TensorFlow Datasets上のデータセット名</p></li>
+<li><p><strong>tfds.split</strong>: 読み込むsplitを指定。<code class="docutils literal notranslate"><span class="pre">&quot;train&quot;</span></code>のような文字列、または<code class="docutils literal notranslate"><span class="pre">[&quot;train&quot;,</span> <span class="pre">&quot;test&quot;]</span></code>のようなリストを指定可能。複数指定した場合、QXMTでは読み込んだデータを結合してから<code class="docutils literal notranslate"><span class="pre">dataset.split</span></code>の比率に従って再分割します</p></li>
+<li><p><strong>tfds.return_format</strong>: データセットの返却形式を指定。現在は<code class="docutils literal notranslate"><span class="pre">numpy</span></code>または<code class="docutils literal notranslate"><span class="pre">array</span></code>をサポート</p></li>
+<li><p><strong>tfds.data_dir</strong>: TensorFlow Datasetsが元データをダウンロード・展開・キャッシュするディレクトリ。<code class="docutils literal notranslate"><span class="pre">null</span></code>の場合はTensorFlow Datasetsのデフォルト設定を利用</p></li>
+<li><p><strong>tfds.save_path</strong>: QXMTが読み込み後の<code class="docutils literal notranslate"><span class="pre">X</span></code>と<code class="docutils literal notranslate"><span class="pre">y</span></code>をnumpy形式で保存するパス。<code class="docutils literal notranslate"><span class="pre">.npz</span></code>または<code class="docutils literal notranslate"><span class="pre">.npy</span></code>を指定可能。<code class="docutils literal notranslate"><span class="pre">null</span></code>の場合は保存しない</p></li>
+<li><p><strong>tfds.download</strong>: データセットが未取得の場合にTensorFlow Datasetsによるダウンロードを許可するかどうか</p></li>
+<li><p><strong>tfds.shuffle_files</strong>: TensorFlow Datasets側でファイル単位のシャッフルを行うかどうか</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">tfds.data_dir</span></code>と<code class="docutils literal notranslate"><span class="pre">tfds.save_path</span></code>は用途が異なります。<code class="docutils literal notranslate"><span class="pre">tfds.data_dir</span></code>はTensorFlow Datasetsのキャッシュ場所であり、TFDS形式の元データを管理します。一方、<code class="docutils literal notranslate"><span class="pre">tfds.save_path</span></code>はQXMTが読み込み後にnumpy配列として保存する出力先です。通常は<code class="docutils literal notranslate"><span class="pre">tfds.data_dir</span></code>のみで十分ですが、後から<code class="docutils literal notranslate"><span class="pre">file</span></code> loaderで再利用したい場合や、QXMTで読み込んだnumpyデータを成果物として残したい場合は<code class="docutils literal notranslate"><span class="pre">tfds.save_path</span></code>も指定します。</p>
+<p>QXMTの<code class="docutils literal notranslate"><span class="pre">DatasetBuilder</span></code>は、読み込んだデータセットを<code class="docutils literal notranslate"><span class="pre">dataset.split</span></code>の<code class="docutils literal notranslate"><span class="pre">train_ratio</span></code>、<code class="docutils literal notranslate"><span class="pre">validation_ratio</span></code>、<code class="docutils literal notranslate"><span class="pre">test_ratio</span></code>に従って分割します。そのため、TFDSの<code class="docutils literal notranslate"><span class="pre">split</span></code>に<code class="docutils literal notranslate"><span class="pre">[&quot;train&quot;,</span> <span class="pre">&quot;test&quot;]</span></code>を指定した場合でも、TFDS上の<code class="docutils literal notranslate"><span class="pre">train</span></code>と<code class="docutils literal notranslate"><span class="pre">test</span></code>がそのままQXMTのtrain/testとして保持されるわけではありません。</p>
+</section>
 <section id="raw-processing-logictransform-logicchain">
-<h3>2.2 Raw Processing LogicとTransform LogicのChain処理<a class="headerlink" href="#raw-processing-logictransform-logicchain" title="Link to this heading">#</a></h3>
+<h3>2.3 Raw Processing LogicとTransform LogicのChain処理<a class="headerlink" href="#raw-processing-logictransform-logicchain" title="Link to this heading">#</a></h3>
 <p>QXMTからデフォルトで提供されているLogicに限らず、ユーザが独自に定義したカスタムのRaw Processing LogicとTransform LogicについてもChain処理として、複数の処理を順に適用することが可能です。configでの定義方法は、各種ロジックをリスト形式で順に記載していきます。</p>
 <p>以下の例では、データセットに対して<code class="docutils literal notranslate"><span class="pre">normalization</span></code>を行ったのち、<code class="docutils literal notranslate"><span class="pre">dimension_reduction_by_pca</span></code>で次元圧縮を行う処理を定義しています。
 yamlにおけるリストの表記方法はいくつかパターンがありますが、yamlで許可されている記法であれば問題ありません。</p>
@@ -1150,7 +1185,8 @@ M0 =
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#dataset">2. Dataset</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#openml">2.1 OpenMLを用いたデータセットの読み込み</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.2 Raw Processing LogicとTransform LogicのChain処理</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tensorflow-datasets">2.2 TensorFlow Datasetsを用いたデータセットの読み込み</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#raw-processing-logictransform-logicchain">2.3 Raw Processing LogicとTransform LogicのChain処理</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device">3. Device</a><ul class="nav section-nav flex-column">
