@@ -15,6 +15,7 @@ EXPECTED_ALL = [
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
+    "TFDSConfig",
     "DeviceSettingError",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",

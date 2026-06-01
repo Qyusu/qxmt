@@ -39,6 +39,25 @@ class OpenMLConfig(BaseModel):
             self.save_path = PROJECT_ROOT_DIR / self.save_path
 
 
+class TFDSConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: str
+    split: str | list[str] = "train"
+    return_format: str = "numpy"
+    save_path: Optional[Path | str] = None
+    data_dir: Optional[Path | str] = None
+    download: bool = True
+    shuffle_files: bool = False
+
+    def model_post_init(self, __context: dict[str, Any]) -> None:
+        if (self.save_path is not None) and (not Path(self.save_path).is_absolute()):
+            self.save_path = PROJECT_ROOT_DIR / self.save_path
+
+        if (self.data_dir is not None) and (not Path(self.data_dir).is_absolute()):
+            self.data_dir = PROJECT_ROOT_DIR / self.data_dir
+
+
 class FileConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -81,6 +100,7 @@ class DatasetConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     openml: Optional[OpenMLConfig] = None  # only need when use openml dataset
+    tfds: Optional[TFDSConfig] = None  # only need when use TensorFlow Datasets
     file: Optional[FileConfig] = None  # only need when use file dataset
     generate: Optional[GenerateDataConfig] = None  # only need when use generated dataset
     split: SplitConfig

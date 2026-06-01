@@ -12,6 +12,7 @@ from qxmt.configs import (
     KernelConfig,
     ModelConfig,
     SplitConfig,
+    TFDSConfig,
 )
 from qxmt.exceptions import (
     AmazonBraketSettingError,
@@ -46,6 +47,7 @@ __all__ = [
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
+    "TFDSConfig",
     "DeviceSettingError",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",

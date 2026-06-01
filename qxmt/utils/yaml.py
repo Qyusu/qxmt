@@ -54,6 +54,11 @@ def load_object_from_yaml(config: dict, dynamic_params: dict = {}, use_cache: bo
     params = {} if params is None else params
     params.update(dynamic_params)
 
+    if module_name is None:
+        raise ValueError("module_name must be specified in the configuration.")
+    if object_name is None:
+        raise ValueError("implement_name must be specified in the configuration.")
+
     try:
         if (not use_cache) and (module_name in sys.modules):
             # load module not use cache
@@ -103,6 +108,12 @@ def save_experiment_config_to_yaml(
 
     if save_config.dataset is not None and save_config.dataset.openml is not None:
         save_config.dataset.openml.save_path = str(save_config.dataset.openml.save_path)
+
+    if save_config.dataset is not None and save_config.dataset.tfds is not None:
+        if save_config.dataset.tfds.save_path is not None:
+            save_config.dataset.tfds.save_path = str(save_config.dataset.tfds.save_path)
+        if save_config.dataset.tfds.data_dir is not None:
+            save_config.dataset.tfds.data_dir = str(save_config.dataset.tfds.data_dir)
 
     if save_config.dataset is not None and save_config.dataset.file is not None:
         save_config.dataset.file.data_path = str(save_config.dataset.file.data_path)

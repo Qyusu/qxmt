@@ -11,6 +11,7 @@ from qxmt.configs import (
     FileConfig,
     GenerateDataConfig,
     OpenMLConfig,
+    TFDSConfig,
 )
 from qxmt.datasets.file import FileDataLoader
 from qxmt.datasets.generate import GeneratedDataLoader
@@ -182,12 +183,12 @@ class DatasetBuilder:
     @staticmethod
     def _get_dataset_type(dataset_config: DatasetConfig) -> str:
         dataset_sources = []
-        for source in ["openml", "file", "generate"]:
+        for source in ["openml", "tfds", "file", "generate"]:
             if getattr(dataset_config, source) is not None:
                 dataset_sources.append(source)
 
         if len(dataset_sources) != 1:
-            raise ValueError("Exactly one of 'openml', 'file', or 'generate' must be set.")
+            raise ValueError("Exactly one of 'openml', 'tfds', 'file', or 'generate' must be set.")
 
         return dataset_sources[0]
 
@@ -212,6 +213,19 @@ class DatasetBuilder:
                 ).load()
                 X = cast(np.ndarray, X)
                 y = cast(np.ndarray, y)
+            case "tfds":
+                from qxmt.datasets.tfds import TFDSDataLoader
+
+                tfds_config = cast(TFDSConfig, self.config.dataset.tfds)  # type: ignore
+                X, y = TFDSDataLoader(
+                    name=tfds_config.name,
+                    split=tfds_config.split,
+                    save_path=tfds_config.save_path,
+                    return_format=tfds_config.return_format,
+                    data_dir=tfds_config.data_dir,
+                    download=tfds_config.download,
+                    shuffle_files=tfds_config.shuffle_files,
+                ).load()
             case "file":
                 file_config = cast(FileConfig, self.config.dataset.file)  # type: ignore
                 X, y = FileDataLoader(
