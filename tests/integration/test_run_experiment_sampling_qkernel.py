@@ -16,10 +16,12 @@ class TestRunExperimentSamplingQKernel:
             pytest.param(
                 "tests/integration/configs/simulator_sampling_qkernel_pennylane.yaml",
                 id="pennylane config file",
+                marks=pytest.mark.pennylane,
             ),
             pytest.param(
                 "tests/integration/configs/simulator_sampling_qkernel_qulacs.yaml",
                 id="qulacs config file",
+                marks=pytest.mark.qulacs,
             ),
         ],
     )
@@ -68,24 +70,28 @@ class TestRunExperimentSamplingQKernel:
                 "default.qubit",
                 "FidelityKernel",
                 id="PennyLane default.qubit and FidelityKernel",
+                marks=pytest.mark.pennylane,
             ),
             pytest.param(
                 "tests/integration/configs/simulator_sampling_qkernel_pennylane.yaml",
                 "lightning.qubit",
                 "FidelityKernel",
                 id="PennyLane lightning.qubit and FidelityKernel",
+                marks=pytest.mark.pennylane,
             ),
             pytest.param(
                 "tests/integration/configs/simulator_sampling_qkernel_pennylane.yaml",
                 "qulacs.simulator",
                 "FidelityKernel",
                 id="qulacs.simulator and FidelityKernel",
+                marks=pytest.mark.pennylane_qulacs,
             ),
             pytest.param(
                 "tests/integration/configs/simulator_sampling_qkernel_qulacs.yaml",
                 "cpu.simulator",
                 "FidelityKernel",
                 id="Qulacs cpu.simulator and FidelityKernel",
+                marks=pytest.mark.qulacs,
             ),
         ],
     )

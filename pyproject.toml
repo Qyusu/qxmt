@@ -49,6 +49,7 @@ scipy = "^1.15.2"
 autoray = "<0.7.0"
 qulacs = {version = "^0.6.12", optional = true}
 qulacsvis = {version = "^0.7.6", optional = true}
+pennylane-qulacs = {extras = ["cpu"], version = "^0.39.0", optional = true}
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.2"
@@ -61,7 +62,6 @@ ipykernel = "^6.29.5"
 pytest-mock = "^3.14.0"
 pytest-xdist = "^3.6.1"
 pennylane-lightning = "^0.39.0"
-pennylane-qulacs = {extras = ["cpu"], version = "^0.39.0"}
 python-dotenv = "^1.0.1"
 
 [tool.poetry.group.docs.dependencies]
@@ -76,6 +76,7 @@ openml = ["openml", "pyarrow"]
 tfds = ["tensorflow-datasets", "tensorflow", "importlib-resources", "pyarrow"]
 datasets = ["openml", "tensorflow-datasets", "tensorflow", "importlib-resources", "pyarrow"]
 qulacs = ["qulacs", "qulacsvis"]
+pennylane-qulacs = ["pennylane-qulacs"]
 
 [build-system]
 requires = ["poetry-core"]
@@ -85,6 +86,9 @@ build-backend = "poetry.core.masonry.api"
 addopts="-n 3 --dist=loadscope"
 markers = [
     "serial: marks tests to run serially (not in parallel)",
+    "pennylane: marks tests that require only PennyLane",
+    "qulacs: marks tests that require direct Qulacs",
+    "pennylane_qulacs: marks tests that require the PennyLane-Qulacs plugin",
 ]
 
 [tool.black]
