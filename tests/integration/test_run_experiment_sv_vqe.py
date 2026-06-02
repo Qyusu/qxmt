@@ -11,6 +11,7 @@ from qxmt.models.vqe import BaseVQE
 
 
 class TestRunExperimentStateVectorVQE:
+    @pytest.mark.pennylane
     def test_run_experiment_from_config_file(self, tmp_path: Path) -> None:
         experiment = qxmt.Experiment(
             name="integration_test_sv_vqe",
@@ -53,14 +54,17 @@ class TestRunExperimentStateVectorVQE:
             pytest.param(
                 "default.qubit",
                 id="default.qubit",
+                marks=pytest.mark.pennylane,
             ),
             pytest.param(
                 "lightning.qubit",
                 id="lightning.qubit",
+                marks=pytest.mark.pennylane,
             ),
             pytest.param(
                 "qulacs.simulator",
                 id="qulacs.simulator",
+                marks=pytest.mark.pennylane_qulacs,
             ),
         ],
     )
