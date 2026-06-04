@@ -1,5 +1,6 @@
 from enum import Enum, auto
 from logging import Logger
+from pathlib import Path
 from typing import Literal, Optional
 
 import pennylane as qml
@@ -8,7 +9,7 @@ from pennylane import numpy as qnp
 from pennylane.ops.op_math import Sum
 from pyscf import ao2mo, fci, mcscf, scf
 
-from qxmt.constants import PENNYLANE_PLATFORM
+from qxmt.constants import MODULE_HOME, PENNYLANE_PLATFORM
 from qxmt.hamiltonians import BaseHamiltonian
 from qxmt.hamiltonians.energy_data import ReferenceEnergies
 from qxmt.logger import set_default_logger
@@ -16,6 +17,8 @@ from qxmt.logger import set_default_logger
 LOGGER = set_default_logger(__name__)
 
 DATA_MODULE_NAME = "qchem"
+DATASET_CACHE_ROOT = MODULE_HOME / "datasets"
+DATASET_CACHE_DIR = DATASET_CACHE_ROOT / DATA_MODULE_NAME
 SUPPORTED_BASIS_NAMES = Literal["STO-3G", "6-31G", "6-311G", "CC-PVDZ"]
 SUPPORTED_UNITS = Literal["angstrom", "bohr"]
 SUPPORTED_METHODS = Literal["dhf", "pyscf", "openfermion"]
@@ -169,9 +172,15 @@ class MolecularHamiltonian(BaseHamiltonian):
         init_type = self._determine_initialization_type()
         if init_type == InitializationType.DATASET:
             self._validate_bondlength()
+            DATASET_CACHE_DIR.mkdir(parents=True, exist_ok=True)
             # force=False: if the dataset already exists, it will not be loaded again
             self._dataset = qml.data.load(
-                DATA_MODULE_NAME, molname=self.molname, basis=self.basis_name, bondlength=self.bondlength, force=False
+                DATA_MODULE_NAME,
+                molname=self.molname,
+                basis=self.basis_name,
+                bondlength=self.bondlength,
+                folder_path=DATASET_CACHE_ROOT,
+                force=False,
             )
             self.molecule = self._dataset[0].molecule
         elif init_type == InitializationType.DIRECT_MOLECULE:
