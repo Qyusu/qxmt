@@ -2,8 +2,7 @@ import re
 from importlib.metadata import entry_points
 from typing import Any
 
-from braket.devices import Devices
-
+Devices = None
 AMAZON_PROVIDER_NAME = "Amazon_Braket"
 AMAZON_BRAKET_LOCAL_DEVICES = ["braket.local.qubit"]
 AMAZON_BRAKET_REMOTE_DEVICES = ["braket.aws.qubit"]
@@ -30,6 +29,17 @@ def _build_amazon_backend_key(provider_name: str, device_name: str | None = None
 
 
 def _build_amazon_backend_types() -> dict[str, Any]:
+    global Devices
+    if Devices is None:
+        try:
+            from braket.devices import Devices as BraketDevices
+        except ImportError as exc:
+            raise ImportError(
+                "Amazon Braket support requires optional dependencies. "
+                'Install them with `pip install "qxmt[amazon-braket]"`.'
+            ) from exc
+        Devices = BraketDevices
+
     backend_types = {}
 
     for provider_name, provider in Devices.__dict__.items():
@@ -57,6 +67,28 @@ def _build_amazon_backend_types() -> dict[str, Any]:
     return backend_types
 
 
+class _LazyAmazonBackendTypes:
+    def __init__(self) -> None:
+        self._backend_types: dict[str, Any] | None = None
+
+    def _load(self) -> dict[str, Any]:
+        if self._backend_types is None:
+            self._backend_types = _build_amazon_backend_types()
+        return self._backend_types
+
+    def __getitem__(self, key: str) -> Any:
+        return self._load()[key]
+
+    def get(self, key: str, default: Any = None) -> Any:
+        return self._load().get(key, default)
+
+    def __contains__(self, key: str) -> bool:
+        return key in self._load()
+
+    def __repr__(self) -> str:
+        return repr(self._load())
+
+
 AMAZON_BRAKET_LOCAL_BACKENDS = _build_amazon_braket_local_backends()
 AMAZON_BRAKET_REMOTE_SIMULATOR_BACKENDS = [
     "sv1",
@@ -67,4 +99,4 @@ AMAZON_BRAKET_REMOTE_SIMULATOR_BACKENDS = [
     "amazon_tn1",
 ]
 AMAZON_BRAKET_SIMULATOR_BACKENDS = AMAZON_BRAKET_LOCAL_BACKENDS + AMAZON_BRAKET_REMOTE_SIMULATOR_BACKENDS
-AmazonBackendType = _build_amazon_backend_types()
+AmazonBackendType = _LazyAmazonBackendTypes()

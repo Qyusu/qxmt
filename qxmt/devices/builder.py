@@ -5,7 +5,7 @@ from qxmt.constants import PENNYLANE_PLATFORM, QULACS_PLATFORM
 from qxmt.devices.amazon import AMAZON_BRAKET_DEVICES
 from qxmt.devices.base import BaseDevice
 from qxmt.devices.ibmq import IBMQ_REAL_DEVICES
-from qxmt.exceptions import InvalidPlatformError
+from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError, InvalidPlatformError
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
@@ -77,7 +77,12 @@ class DeviceBuilder:
 
         if platform == PENNYLANE_PLATFORM:
             if device_name in IBMQ_REAL_DEVICES:
-                from qxmt.devices.ibmq_device import IBMQDevice
+                try:
+                    from qxmt.devices.ibmq_device import IBMQDevice
+                except ImportError as exc:
+                    raise IBMQSettingError(
+                        "IBMQ support requires optional dependencies. " 'Install them with `pip install "qxmt[ibmq]"`.'
+                    ) from exc
 
                 return IBMQDevice(
                     platform=platform,
@@ -89,7 +94,13 @@ class DeviceBuilder:
                     logger=self.logger,
                 )
             elif device_name in AMAZON_BRAKET_DEVICES:
-                from qxmt.devices.amazon_device import AmazonBraketDevice
+                try:
+                    from qxmt.devices.amazon_device import AmazonBraketDevice
+                except ImportError as exc:
+                    raise AmazonBraketSettingError(
+                        "Amazon Braket support requires optional dependencies. "
+                        'Install them with `pip install "qxmt[amazon-braket]"`.'
+                    ) from exc
 
                 return AmazonBraketDevice(
                     platform=platform,
