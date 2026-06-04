@@ -18,6 +18,35 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.10', '3.11', '3.12']
+        target:
+          - core
+          - qulacs
+          - ibmq
+          - amazon-braket
+        include:
+          - target: core
+            extras: ''
+            pytest-target: >-
+              tests/unit
+              --ignore=tests/unit/devices/test_amazon_device.py
+              --ignore=tests/unit/devices/test_ibmq_device.py
+              --ignore=tests/unit/devices/test_qulacs_device.py
+              --ignore=tests/unit/feature_maps/qulacs
+              --ignore=tests/unit/kernels/qulacs
+          - target: qulacs
+            extras: '--extras qulacs'
+            pytest-target: >-
+              tests/unit/devices/test_qulacs_device.py
+              tests/unit/feature_maps/qulacs
+              tests/unit/kernels/qulacs
+          - target: ibmq
+            extras: '--extras ibmq'
+            pytest-target: tests/unit/devices/test_ibmq_device.py
+          - target: amazon-braket
+            extras: '--extras amazon-braket'
+            pytest-target: >-
+              tests/unit/devices/test_amazon.py
+              tests/unit/devices/test_amazon_device.py
 
     steps:
       - name: Checkout code
@@ -42,12 +71,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pypoetry
-          key: poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: poetry-${{ matrix.python-version }}-${{ matrix.target }}-${{ hashFiles('poetry.lock') }}
           restore-keys: |
+            poetry-${{ matrix.python-version }}-${{ matrix.target }}-
             poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies from lockfile (no llm)
-        run: poetry install --with dev --extras qulacs --sync
+        run: poetry install --with dev ${{ matrix.extras }} --sync
 
       - name: Run tests
-        run: poetry run pytest tests/unit
+        run: poetry run pytest ${{ matrix.pytest-target }}
