@@ -39,9 +39,8 @@ class PennyLaneDevice(BaseDevice):
         self.real_device = None
         self.default_kwargs = {
             "wires": self.n_qubits,
-            "shots": self.shots,
         }
-        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
+        self._validate_device_options(invalid_keys={*self.default_kwargs.keys(), "shots"})
 
     def get_device(self) -> Any:
         """Get the quantum device instance.

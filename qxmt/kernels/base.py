@@ -155,6 +155,12 @@ class BaseKernel(ABC):
                 progress_queue.put(1)
             return i, j, e
 
+    def _compute_entry_by_sampling_from_task(
+        self, task: tuple[int, int, np.ndarray, np.ndarray]
+    ) -> tuple[int, int, tuple[float, np.ndarray] | Exception]:
+        i, j, x_array_1, x_array_2 = task
+        return self._compute_entry_by_sampling(i, j, x_array_1, x_array_2, None)
+
     def _compute_matrix_by_sampling(
         self,
         x_array_1: np.ndarray,
@@ -189,34 +195,25 @@ class BaseKernel(ABC):
         # parallel computation for each entry of the kernel matrix
         tasks = [(i, j, x_array_1[i], x_array_2[j]) for i in range(n_samples_1) for j in range(n_samples_2)]
 
-        if show_progress:
-            with mp.Manager() as manager:
-                progress_queue = manager.Queue()
-                with Progress() as progress:
-                    bar_label = f" ({bar_label})" if bar_label else ""
-                    task_progress = progress.add_task(f"Computing Kernel Matrix{bar_label}", total=len(tasks))
+        if n_jobs == 1:
+            final_results = [
+                self._compute_entry_by_sampling(i, j, x_array_1, x_array_2, None)
+                for (i, j, x_array_1, x_array_2) in tasks
+            ]
+        elif show_progress:
+            final_results = []
+            with Progress() as progress:
+                bar_label = f" ({bar_label})" if bar_label else ""
+                task_progress = progress.add_task(f"Computing Kernel Matrix{bar_label}", total=len(tasks))
 
-                    with mp.Pool(processes=n_jobs) as pool:
-                        results = pool.starmap_async(
-                            self._compute_entry_by_sampling,
-                            [(i, j, x_array_1, x_array_2, progress_queue) for (i, j, x_array_1, x_array_2) in tasks],
-                        )
+                with mp.Pool(processes=n_jobs) as pool:
+                    for result in pool.imap_unordered(self._compute_entry_by_sampling_from_task, tasks):
+                        final_results.append(result)
+                        progress.advance(task_progress)
 
-                        # track progress
-                        completed = 0
-                        while not progress.finished:
-                            progress_queue.get()
-                            completed += 1
-                            progress.update(task_progress, completed=completed)
-
-                        # get all process results
-                        results.wait()
-                        final_results = results.get()
-
-                        # finalize progress bar
-                        progress.update(task_progress, completed=len(tasks))
-                        progress.stop_task(task_progress)
-                        progress.refresh()
+                progress.update(task_progress, completed=len(tasks))
+                progress.stop_task(task_progress)
+                progress.refresh()
         else:
             with mp.Pool(processes=n_jobs) as pool:
                 final_results = pool.starmap(

@@ -16,6 +16,27 @@ def init_energies() -> ReferenceEnergies:
     )
 
 
+@pytest.fixture(autouse=True)
+def mock_pennylane_qchem_dataset(mocker: MockerFixture) -> None:
+    import qxmt.hamiltonians.pennylane.molecular as molecular
+
+    molecule = molecular.qml.qchem.Molecule(
+        ["H", "H"],
+        molecular.qnp.array([[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]], requires_grad=False),
+        basis_name="STO-3G",
+    )
+    mock_dataset = mocker.Mock()
+    mock_dataset.molecule = molecule
+    mock_dataset.fci_energy = -1.137306048
+
+    mocker.patch.object(
+        molecular.qml.data,
+        "list_datasets",
+        return_value={"qchem": {"H2": {"STO-3G": ["0.74"]}}},
+    )
+    mocker.patch.object(molecular.qml.data, "load", return_value=[mock_dataset])
+
+
 # Molecule dataset cannot access simultaneously in parallel
 @pytest.mark.serial
 class TestMolecularHamiltonian:

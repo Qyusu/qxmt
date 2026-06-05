@@ -93,7 +93,7 @@ class BasicVQE(BaseVQE):
             logger=logger,
         )
 
-    def circuit_with_measurement(self, params: qml.numpy.ndarray | np.ndarray) -> ExpectationMP:
+    def circuit_with_measurement(self, params: np.ndarray) -> ExpectationMP:
         self.ansatz.circuit(params)
         if not isinstance(self.hamiltonian.hamiltonian, Sum):
             raise ValueError("Hamiltonian must be a Sum instance.")
@@ -110,11 +110,12 @@ class BasicVQE(BaseVQE):
         Raises:
             ValueError: If the Hamiltonian is not a Sum instance.
         """
-        self.qnode = qml.QNode(
+        qnode = qml.QNode(
             func=self.circuit_with_measurement,
             device=self.device.get_device(),
             diff_method=cast(SupportedDiffMethods, self.diff_method),
         )
+        self.qnode = self.device.apply_shots_to_qnode(qnode)
 
     def _optimize_scipy(self, init_params: np.ndarray) -> None:
         """Optimize the ansatz parameters using scipy.
@@ -142,11 +143,11 @@ class BasicVQE(BaseVQE):
             callback=callback,
         )
 
-    def _optimize_pennylane(self, init_params: qml.numpy.ndarray) -> None:
+    def _optimize_pennylane(self, init_params: np.ndarray) -> None:
         """Optimize the ansatz parameters using Pennylane.
 
         Args:
-            init_params (qml.numpy.ndarray): Initial parameters for the ansatz.
+            init_params (np.ndarray): Initial parameters for the ansatz.
         """
         params = init_params
         for i in range(self.max_steps):
@@ -154,20 +155,20 @@ class BasicVQE(BaseVQE):
             self.cost_history.append(cost)
             self.params_history.append(params)
             if self.verbose:
-                self.logger.info(f"Step {i+1}: Cost = {cost}")
+                self.logger.info(f"Step {i + 1}: Cost = {cost}")
 
             if i > self.min_steps and abs(self.cost_history[-1] - self.cost_history[-2]) < self.tol:
-                self.logger.info(f"Optimization finished at step {i+1}.")
+                self.logger.info(f"Optimization finished at step {i + 1}.")
                 break
 
-    def optimize(self, init_params: Optional[qml.numpy.ndarray | np.ndarray] = None) -> None:
+    def optimize(self, init_params: Optional[np.ndarray] = None) -> None:
         """Optimize the ansatz parameters to find the ground state.
 
         This method performs gradient-based optimization of the ansatz parameters
         to minimize the expectation value of the Hamiltonian.
 
         Args:
-            init_params (Optional[qml.numpy.ndarray | np.ndarray]): Initial parameters for the ansatz.
+            init_params (Optional[np.ndarray]): Initial parameters for the ansatz.
                 If None, the ansatz parameters are initialized to zero.
 
         Note:

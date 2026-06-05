@@ -48,9 +48,8 @@ class IBMQDevice(BaseDevice):
 
         self.default_kwargs = {
             "wires": self.n_qubits,
-            "shots": self.shots,
         }
-        self._validate_device_options(invalid_keys=set(self.default_kwargs.keys()))
+        self._validate_device_options(invalid_keys={*self.default_kwargs.keys(), "shots"})
 
     def _set_ibmq_settings(self) -> None:
         """Set the IBM Quantum account settings.

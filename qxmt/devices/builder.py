@@ -81,7 +81,8 @@ class DeviceBuilder:
                     from qxmt.devices.ibmq_device import IBMQDevice
                 except ImportError as exc:
                     raise IBMQSettingError(
-                        "IBMQ support requires optional dependencies. " 'Install them with `pip install "qxmt[ibmq]"`.'
+                        "IBMQ support requires optional dependencies. "
+                        'Install them with `pip install "qxmt[pennylane-qiskit]"`.'
                     ) from exc
 
                 return IBMQDevice(

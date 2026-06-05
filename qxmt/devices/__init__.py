@@ -29,8 +29,8 @@ _OPTIONAL_DEVICE_IMPORTS = {
     ),
     "IBMQDevice": (
         "qxmt.devices.ibmq_device",
-        "ibmq",
-        'pip install "qxmt[ibmq]"',
+        "pennylane-qiskit",
+        'pip install "qxmt[pennylane-qiskit]"',
     ),
     "QulacsDevice": (
         "qxmt.devices.qulacs_device",

@@ -81,7 +81,7 @@ class TestGeteFabricAnsatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "GateFabric" in ops
 
     def test_circuit_with_pi(self, gate_fabric_ansatz_with_pi: GeteFabricAnsatz) -> None:
@@ -99,5 +99,5 @@ class TestGeteFabricAnsatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "GateFabric" in ops
