@@ -93,6 +93,10 @@ markers = [
     "qulacs: marks tests that require direct Qulacs",
     "pennylane_qulacs: marks tests that require the PennyLane-Qulacs plugin",
 ]
+filterwarnings = [
+    "ignore:__array_wrap__ must accept context and return_scalar arguments.*:DeprecationWarning:pyscf.fci.spin_op",
+    "ignore:__array_wrap__ must accept context and return_scalar arguments.*:DeprecationWarning:pyscf.mcscf.mc1step",
+]
 
 [tool.black]
 line-length = 120
