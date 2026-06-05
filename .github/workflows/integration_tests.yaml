@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.11', '3.12']
         target:
           - pennylane
           - pennylane-qulacs
@@ -62,7 +62,7 @@ jobs:
             poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies from lockfile (no llm)
-        run: poetry install --with dev ${{ matrix.extras }} --sync
+        run: poetry sync --with dev ${{ matrix.extras }}
 
       - name: Run tests
         run: poetry run pytest tests/integration -m "${{ matrix.pytest-marker }}"
