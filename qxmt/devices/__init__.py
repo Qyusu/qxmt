@@ -8,6 +8,7 @@ from qxmt.devices.pennylane_device import PennyLaneDevice
 if TYPE_CHECKING:
     from qxmt.devices.amazon_device import AmazonBraketDevice
     from qxmt.devices.ibmq_device import IBMQDevice
+    from qxmt.devices.qiskit_device import QiskitDevice
     from qxmt.devices.qulacs_device import QulacsDevice
 
 __all__ = [
@@ -18,6 +19,7 @@ __all__ = [
     "get_platform_from_device",
     "IBMQDevice",
     "PennyLaneDevice",
+    "QiskitDevice",
     "QulacsDevice",
 ]
 
@@ -31,6 +33,11 @@ _OPTIONAL_DEVICE_IMPORTS = {
         "qxmt.devices.ibmq_device",
         "pennylane-qiskit",
         'pip install "qxmt[pennylane-qiskit]"',
+    ),
+    "QiskitDevice": (
+        "qxmt.devices.qiskit_device",
+        "qiskit",
+        'pip install "qxmt[qiskit]"',
     ),
     "QulacsDevice": (
         "qxmt.devices.qulacs_device",

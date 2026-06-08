@@ -1,17 +1,18 @@
 from typing import Any
 
 from qxmt.configs import DeviceConfig
-from qxmt.constants import PENNYLANE_PLATFORM, QULACS_PLATFORM
+from qxmt.constants import PENNYLANE_PLATFORM, QISKIT_PLATFORM, QULACS_PLATFORM
 from qxmt.devices.amazon import AMAZON_BRAKET_DEVICES
 from qxmt.devices.base import BaseDevice
 from qxmt.devices.ibmq import IBMQ_REAL_DEVICES
-from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError, InvalidPlatformError
+from qxmt.exceptions import AmazonBraketSettingError, IBMQSettingError, InvalidPlatformError, QiskitSettingError
 from qxmt.logger import set_default_logger
 
 LOGGER = set_default_logger(__name__)
 
 PENNYLANE_DEFAULT_DEVICE_NAME: str = "default.qubit"
 QULACS_DEFAULT_DEVICE_NAME: str = "cpu.simulator"
+QISKIT_DEFAULT_DEVICE_NAME: str = "automatic"
 
 
 class DeviceBuilder:
@@ -130,6 +131,24 @@ class DeviceBuilder:
             return QulacsDevice(
                 platform=platform,
                 device_name=device_name if device_name is not None else QULACS_DEFAULT_DEVICE_NAME,
+                backend_name=backend_name,
+                n_qubits=n_qubits,
+                shots=shots,
+                device_options=device_options,
+                logger=self.logger,
+            )
+        elif platform == QISKIT_PLATFORM:
+            try:
+                from qxmt.devices.qiskit_device import QiskitDevice
+            except ImportError as exc:
+                raise QiskitSettingError(
+                    "Qiskit simulator support requires optional dependencies. "
+                    'Install them with `pip install "qxmt[qiskit]"`.'
+                ) from exc
+
+            return QiskitDevice(
+                platform=platform,
+                device_name=device_name if device_name is not None else QISKIT_DEFAULT_DEVICE_NAME,
                 backend_name=backend_name,
                 n_qubits=n_qubits,
                 shots=shots,

@@ -77,7 +77,7 @@ tfds = ["tensorflow-datasets", "tensorflow", "importlib-resources", "pyarrow"]
 datasets = ["openml", "tensorflow-datasets", "tensorflow", "importlib-resources", "pyarrow"]
 qulacs = ["qulacs", "qulacsvis"]
 pennylane-qulacs = ["pennylane-qulacs"]
-qiskit = ["qiskit", "qiskit-ibm-runtime"]
+qiskit = ["qiskit", "qiskit-ibm-runtime", "qiskit-aer"]
 pennylane-qiskit = ["pennylane-qiskit", "qiskit", "qiskit-ibm-runtime", "qiskit-aer"]
 amazon-braket = ["amazon-braket-pennylane-plugin", "amazon-braket-sdk"]
 

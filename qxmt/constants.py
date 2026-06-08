@@ -37,15 +37,19 @@ AWS_DEFAULT_REGION: str = "AWS_DEFAULT_REGION"
 # set supported quantum platforms and devices
 PENNYLANE_PLATFORM: str = "pennylane"
 _pl_devices: list[Any] = []
-if hasattr(qml.devices, "Device"):
-    _pl_devices.append(qml.devices.Device)
-if hasattr(qml.devices, "LegacyDevice"):
-    _pl_devices.append(getattr(qml.devices, "LegacyDevice"))
-if hasattr(qml.devices, "QubitDevice"):
-    _pl_devices.append(getattr(qml.devices, "QubitDevice"))
+_device_cls = getattr(qml.devices, "Device", None)
+if _device_cls is not None:
+    _pl_devices.append(_device_cls)
+_legacy_device_cls = getattr(qml.devices, "LegacyDevice", None)
+if _legacy_device_cls is not None:
+    _pl_devices.append(_legacy_device_cls)
+_qubit_device_cls = getattr(qml.devices, "QubitDevice", None)
+if _qubit_device_cls is not None:
+    _pl_devices.append(_qubit_device_cls)
 PENNYLANE_DEVICES: tuple[Any, ...] = tuple(_pl_devices) if _pl_devices else tuple()
 QULACS_PLATFORM: str = "qulacs"
-SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM, QULACS_PLATFORM]
+QISKIT_PLATFORM: str = "qiskit"
+SUPPORTED_PLATFORMS: list[str] = [PENNYLANE_PLATFORM, QULACS_PLATFORM, QISKIT_PLATFORM]
 
 # set default model name
 DEFAULT_MODEL_NAME: str = "model.pkl"
