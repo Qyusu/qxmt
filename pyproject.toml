@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "qxmt"
-version = "0.6.0"  # using poetry-dynamic-versioning
+version = "0.0.0"  # using poetry-dynamic-versioning
 description = "QXMT is a experiment management tool for quantum computing and quantum machine learning."
 authors = ["kenya-sk"]
 license = "MIT"
@@ -82,8 +82,8 @@ pennylane-qiskit = ["pennylane-qiskit", "qiskit", "qiskit-ibm-runtime", "qiskit-
 amazon-braket = ["amazon-braket-pennylane-plugin", "amazon-braket-sdk"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core", "poetry-dynamic-versioning"]
+build-backend = "poetry_dynamic_versioning.backend"
 
 [tool.pytest.ini_options]
 addopts="-n 3 --dist=loadscope"

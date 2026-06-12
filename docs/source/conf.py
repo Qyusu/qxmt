@@ -5,6 +5,7 @@
 
 import os
 import sys
+from importlib.metadata import PackageNotFoundError, version
 
 sys.path.insert(0, os.path.abspath("../../qxmt"))
 
@@ -14,7 +15,12 @@ sys.path.insert(0, os.path.abspath("../../qxmt"))
 project = "qxmt"
 copyright = "2024, kenya-sk"
 author = "kenya-sk"
-release = "0.6.0"
+try:
+    release = version("qxmt")
+except PackageNotFoundError:
+    release = "0.0.0"
+
+version = release
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

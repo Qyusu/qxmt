@@ -1,3 +1,5 @@
+from importlib.metadata import PackageNotFoundError, version
+
 from qxmt.configs import (
     AnsatzConfig,
     DatasetConfig,
@@ -65,4 +67,7 @@ __all__ = [
 ]
 
 
-__version__ = "0.6.0"
+try:
+    __version__ = version("qxmt")
+except PackageNotFoundError:
+    __version__ = "0.0.0"
