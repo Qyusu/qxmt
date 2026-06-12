@@ -434,6 +434,7 @@ print(f"Accuracy: {score}")
 - **objective**: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)
 - **refit**: Whether to train the model with the parameters found during the search (True/False)
 
+(optimizer-settings)=
 ### 6.3 Optimizer Settings
 When using VQE, you can specify the optimizer for optimization calculations through the configuration. Currently, we support optimizers provided by PennyLane and SciPy. The optimizer can be specified in the configuration using `optimizer_settings.name`. If the `name` value starts with `scipy.`, the SciPy optimizer will be used; otherwise, the PennyLane optimizer will be used.
 
