@@ -138,6 +138,7 @@ device:
   device_name: "lightning.qubit"
   n_qubits: 2
   shots: null
+  device_options: null
 ```
 
 これらの追加のシミュレータを利用する場合には、ご自身の環境にプラグインをインストールする必要がある場合もあります。
@@ -160,6 +161,7 @@ device:
   device_name: "default.qubit"
   n_qubits: 2
   shots: null
+  device_options: null
 
 # Sampling形式
 device:
@@ -167,6 +169,8 @@ device:
   device_name: "default.qubit"
   n_qubits: 2
   shots: 1024
+  device_options:
+    seed: *global_seed
 ```
 
 ### 3.3 量子コンピュータ実機の利用
@@ -181,27 +185,7 @@ AWS_SECRET_ACCESS_KEY="xxx"
 AWS_DEFAULT_REGION="xxx"
 ```
 
-環境変数の設定が完了すると、configの設定のみでローカルのシミュレータで実行していた時と同様の手順で実行することが可能です。configには、`device_name`を`"braket.aws.qubit"`に設定したのち、`backend_name`に利用したいバックエンドを指定します。
-
-以下のバックエンドをconfigで指定することができます。
-
-| プロバイダー | デバイス名 | タイプ | config設定名 |
-|---------|---------|---------|---------|
-| AWS | SV1 | Simulator | sv1 |
-| AWS | DM1 | Simulator | dm1 |
-| AWS | TN1 | Simulator | tn1 |
-| IonQ | default (Aria-1) | QPU | ionq |
-| IonQ | Aria-1 | QPU | ionq_aria1 |
-| IonQ | Aria-2 | QPU | ionq_aria2 |
-| IonQ | Forte-1 | QPU | ionq_forte1 |
-| IQM | default (Garnet) | QPU | iqm |
-| IQM | Garnet | QPU | iqm_garnet |
-| QuEra | default (Aquila) | QPU | quera |
-| QuEra | Aquila | QPU | quera_aquila |
-| Rigetti | default (Ankaa-2) | QPU | rigetti |
-| Rigetti | Ankaa-2 | QPU | rigetti_ankaa2 |
-
-利用可能なバックエンドは、リージョンや時間帯によっても異なるため[Amazon Braketの公式ドキュメント](https://docs.aws.amazon.com/ja_jp/braket/latest/developerguide/braket-devices.html)を参照して下さい。
+環境変数の設定が完了すると、configの設定のみでローカルのシミュレータで実行していた時と同様の手順で実行することが可能です。configには、`device_name`を`"braket.aws.qubit"`に設定したのち、`backend_name`に利用したいバックエンドを指定します。利用可能なバックエンドは、リージョンや時間帯によっても異なるため[Amazon Braketの公式ドキュメント](https://docs.aws.amazon.com/ja_jp/braket/latest/developerguide/braket-devices.html)を参照して下さい。
 
 ``` yaml
 device:
@@ -501,5 +485,5 @@ model:
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |

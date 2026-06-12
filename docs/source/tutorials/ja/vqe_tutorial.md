@@ -47,7 +47,7 @@ QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定�
 description: "H2分子のVQE計算"
 
 global_settings:
-  random_seed: 42
+  random_seed: &global_seed 42
   model_type: "vqe"
 
 hamiltonian:
@@ -65,7 +65,8 @@ device:
   device_name: "lightning.qubit"
   n_qubits: 4
   shots: null
-  random_seed: 42
+  device_options:
+    seed: *global_seed
 
 ansatz:
   module_name: "qxmt.ansatze.pennylane"
@@ -183,5 +184,5 @@ plot_optimization_history(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |
