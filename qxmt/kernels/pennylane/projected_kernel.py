@@ -1,13 +1,15 @@
-from typing import Callable, Literal
+from typing import TYPE_CHECKING, Callable, Literal
 
 import numpy as np
 import pennylane as qml
 from pennylane.measurements.sample import SampleMP
 from pennylane.measurements.state import StateMP
 
-from qxmt.devices import BaseDevice
-from qxmt.feature_maps import BaseFeatureMap
+from qxmt.feature_maps import PennyLaneBaseFeatureMap
 from qxmt.kernels.pennylane.base import PennyLaneBaseKernel
+
+if TYPE_CHECKING:
+    from qxmt.devices.pennylane_device import PennyLaneDevice
 
 
 class ProjectedKernel(PennyLaneBaseKernel):
@@ -17,7 +19,10 @@ class ProjectedKernel(PennyLaneBaseKernel):
     Reference: https://www.nature.com/articles/s41467-021-22539-9
 
     Args:
-        BaseKernel (_type_): base class of kernel
+        device (PennyLaneDevice): device instance for quantum computation
+        feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
+        gamma (float): gamma parameter for kernel computation
+        projection (str): projection method for kernel computation ("x", "y", "z")
 
     Examples:
         >>> import numpy as np
@@ -42,19 +47,11 @@ class ProjectedKernel(PennyLaneBaseKernel):
 
     def __init__(
         self,
-        device: BaseDevice,
-        feature_map: BaseFeatureMap | Callable[[np.ndarray], None],
+        device: "PennyLaneDevice",
+        feature_map: PennyLaneBaseFeatureMap | Callable[[np.ndarray], None],
         gamma: float = 1.0,
         projection: Literal["x", "y", "z"] = "z",
     ) -> None:
-        """Initialize the ProjectedKernel class.
-
-        Args:
-            device (BaseDevice): device instance for quantum computation
-            feature_map (BaseFeatureMap | Callable[[np.ndarray], None]): feature map instance or function
-            gamma (float): gamma parameter for kernel computation
-            projection (str): projection method for kernel computation
-        """
         if projection not in ["x", "y", "z"]:
             raise ValueError("Projection method must be 'x', 'y', or 'z'.")
 

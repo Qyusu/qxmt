@@ -1,13 +1,15 @@
-from typing import Callable, Literal, cast
+from typing import TYPE_CHECKING, Callable, Literal, cast
 
 import numpy as np
 from qulacs import QuantumState, gate
 from rich.progress import track
 
-from qxmt.devices import QulacsDevice
 from qxmt.feature_maps import QulacsBaseFeatureMap
 from qxmt.kernels.base import STATE_VECTOR_BLOCK_SIZE
 from qxmt.kernels.qulacs.base import QulacsBaseKernel
+
+if TYPE_CHECKING:
+    from qxmt.devices.qulacs_device import QulacsDevice
 
 
 class ProjectedKernel(QulacsBaseKernel):
@@ -25,7 +27,7 @@ class ProjectedKernel(QulacsBaseKernel):
 
     def __init__(
         self,
-        device: QulacsDevice,
+        device: "QulacsDevice",
         feature_map: QulacsBaseFeatureMap | Callable[[np.ndarray], None],
         gamma: float = 1.0,
         projection: Literal["x", "y", "z"] = "z",
@@ -59,7 +61,11 @@ class ProjectedKernel(QulacsBaseKernel):
 
         self._apply_projection_gates(state)
 
-        return np.array(state.sampling(self.device.shots))
+        shots = self.device.shots
+        if shots is None:
+            raise ValueError("Number of shots must be set for sampling mode.")
+
+        return np.array(state.sampling(int(shots)))
 
     def _calculate_expected_values_by_z(self, probs: np.ndarray, target_qubit: int) -> float:
         mask = 1 << target_qubit
