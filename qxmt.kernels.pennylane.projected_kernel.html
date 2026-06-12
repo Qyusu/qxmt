@@ -534,11 +534,10 @@ Reference: <a class="reference external" href="https://www.nature.com/articles/s
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>BaseKernel</strong> (<em>_type_</em>) – base class of kernel</p></li>
-<li><p><strong>device</strong> (<em>BaseDevice</em>)</p></li>
-<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>)</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>)</p></li>
-<li><p><strong>projection</strong> (<em>Literal</em><em>[</em><em>'x'</em><em>, </em><em>'y'</em><em>, </em><em>'z'</em><em>]</em>)</p></li>
+<li><p><strong>device</strong> (<em>PennyLaneDevice</em>) – device instance for quantum computation</p></li>
+<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
+<li><p><strong>gamma</strong> (<em>float</em>) – gamma parameter for kernel computation</p></li>
+<li><p><strong>projection</strong> (<em>str</em>) – projection method for kernel computation (“x”, “y”, “z”)</p></li>
 </ul>
 </dd>
 </dl>
@@ -563,25 +562,6 @@ Reference: <a class="reference external" href="https://www.nature.com/articles/s
 <span class="go">0.86</span>
 </pre></div>
 </div>
-<dl class="py method">
-<dt class="sig sig-object py">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_map</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gamma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">projection</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'z'</span></span></em><span class="sig-paren">)</span></dt>
-<dd><p>Initialize the ProjectedKernel class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> (<em>BaseDevice</em>) – device instance for quantum computation</p></li>
-<li><p><strong>feature_map</strong> (<em>BaseFeatureMap</em><em> | </em><em>Callable</em><em>[</em><em>[</em><em>np.ndarray</em><em>]</em><em>, </em><em>None</em><em>]</em>) – feature map instance or function</p></li>
-<li><p><strong>gamma</strong> (<em>float</em>) – gamma parameter for kernel computation</p></li>
-<li><p><strong>projection</strong> (<em>str</em>) – projection method for kernel computation</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>None</p>
-</dd>
-</dl>
-</dd></dl>
-
 </dd></dl>
 
 </section>
