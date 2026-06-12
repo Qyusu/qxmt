@@ -23,7 +23,7 @@ class YZCXFeatureMap(PennyLaneBaseFeatureMap):
     """
 
     def __init__(self, n_qubits: int, reps: int, c: float, seed: int) -> None:
-        """ "Initialize the YZCX feature map class.
+        """Initialize the YZCX feature map class.
 
         Args:
             n_qubits (int): number of qubits

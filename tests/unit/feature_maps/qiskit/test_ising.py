@@ -1,14 +1,18 @@
 import numpy as np
 import pytest
 
-pytest.importorskip("qulacs")
+pytest.importorskip("qiskit")
 
-from qulacs import QuantumCircuit
+from qiskit import QuantumCircuit
 
-from qxmt.feature_maps.qulacs.ising import XXFeatureMap, YYFeatureMap, ZZFeatureMap
+from qxmt.feature_maps.qiskit.ising import XXFeatureMap, YYFeatureMap, ZZFeatureMap
 
 N_QUBITS = 2
 REPS = 2
+
+
+def operation_names(circuit: QuantumCircuit) -> list[str]:
+    return [instruction.operation.name for instruction in circuit.data]
 
 
 class TestIsingFeatureMap:
@@ -48,38 +52,43 @@ class TestIsingFeatureMap:
         xx_feature_map.feature_map(x)
 
         assert isinstance(xx_feature_map.circuit, QuantumCircuit)
-        # 2 qubits * 2 rep -> (RX * 4) + (MultiPauli * 2) = 6 gates
-        gate_count = xx_feature_map.circuit.get_gate_count()
-        assert gate_count == 6
-
-        gate_names = [xx_feature_map.circuit.get_gate(i).get_name() for i in range(gate_count)]
-        assert "X-rotation" in gate_names
-        assert "Pauli-rotation" in gate_names
+        assert xx_feature_map.circuit.size() == 6
+        assert operation_names(xx_feature_map.circuit) == ["rx", "rx", "rxx", "rx", "rx", "rxx"]
 
     def test_yy_feature_map_circuit(self, yy_feature_map: YYFeatureMap) -> None:
         x = np.array([0.1, 0.2])
         yy_feature_map.feature_map(x)
 
         assert isinstance(yy_feature_map.circuit, QuantumCircuit)
-        # 2 qubits * 1 rep -> (H * 4 + RY * 4) + (MultiPauli * 2) = 10 gates
-        gate_count = yy_feature_map.circuit.get_gate_count()
-        assert gate_count == 10
-
-        gate_names = [yy_feature_map.circuit.get_gate(i).get_name() for i in range(gate_count)]
-        assert "H" in gate_names
-        assert "Y-rotation" in gate_names
-        assert "Pauli-rotation" in gate_names
+        assert yy_feature_map.circuit.size() == 10
+        assert operation_names(yy_feature_map.circuit) == [
+            "h",
+            "ry",
+            "h",
+            "ry",
+            "ryy",
+            "h",
+            "ry",
+            "h",
+            "ry",
+            "ryy",
+        ]
 
     def test_zz_feature_map_circuit(self, zz_feature_map: ZZFeatureMap) -> None:
         x = np.array([0.1, 0.2])
         zz_feature_map.feature_map(x)
 
         assert isinstance(zz_feature_map.circuit, QuantumCircuit)
-        # 2 qubits * 1 rep -> (H * 4 + RZ * 4) + (MultiPauli * 2) = 10 gates
-        gate_count = zz_feature_map.circuit.get_gate_count()
-        assert gate_count == 10
-
-        gate_names = [zz_feature_map.circuit.get_gate(i).get_name() for i in range(gate_count)]
-        assert "H" in gate_names
-        assert "Z-rotation" in gate_names
-        assert "Pauli-rotation" in gate_names
+        assert zz_feature_map.circuit.size() == 10
+        assert operation_names(zz_feature_map.circuit) == [
+            "h",
+            "rz",
+            "h",
+            "rz",
+            "rzz",
+            "h",
+            "rz",
+            "h",
+            "rz",
+            "rzz",
+        ]

@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("qulacs")
+
 from qxmt.kernels.qulacs import __all__
 
 EXPECTED_ALL = ["QulacsBaseKernel", "FidelityKernel", "ProjectedKernel"]

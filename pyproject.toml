@@ -91,6 +91,7 @@ markers = [
     "serial: marks tests to run serially (not in parallel)",
     "pennylane: marks tests that require only PennyLane",
     "qulacs: marks tests that require direct Qulacs",
+    "qiskit: marks tests that require direct Qiskit",
     "pennylane_qulacs: marks tests that require the PennyLane-Qulacs plugin",
 ]
 filterwarnings = [

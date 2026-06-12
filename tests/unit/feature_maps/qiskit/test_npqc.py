@@ -1,11 +1,11 @@
 import numpy as np
 import pytest
 
-pytest.importorskip("qulacs")
+pytest.importorskip("qiskit")
 
-from qulacs import QuantumCircuit
+from qiskit import QuantumCircuit
 
-from qxmt.feature_maps.qulacs.npqc import NPQCFeatureMap
+from qxmt.feature_maps.qiskit.npqc import NPQCFeatureMap
 
 N_QUBITS = 2
 REPS = 2
@@ -30,11 +30,9 @@ class TestNPQCFeatureMap:
         npqc_feature_map.feature_map(x)
 
         assert isinstance(npqc_feature_map.circuit, QuantumCircuit)
+        assert npqc_feature_map.circuit.size() == 11
 
-        gate_count = npqc_feature_map.circuit.get_gate_count()
-        assert gate_count == 11
-
-        gate_names = [npqc_feature_map.circuit.get_gate(i).get_name() for i in range(gate_count)]
-        assert "Y-rotation" in gate_names
-        assert "Z-rotation" in gate_names
-        assert "CZ" in gate_names
+        gate_names = [instruction.operation.name for instruction in npqc_feature_map.circuit.data]
+        assert "ry" in gate_names
+        assert "rz" in gate_names
+        assert "cz" in gate_names

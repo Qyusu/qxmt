@@ -1,14 +1,18 @@
 import numpy as np
 import pytest
 
-pytest.importorskip("qulacs")
+pytest.importorskip("qiskit")
 
-from qulacs import QuantumCircuit
+from qiskit import QuantumCircuit
 
-from qxmt.feature_maps.qulacs.rotation import RotationFeatureMap
+from qxmt.feature_maps.qiskit.rotation import HRotationFeatureMap, RotationFeatureMap
 
 N_QUBITS = 2
 REPS = 1
+
+
+def operation_names(circuit: QuantumCircuit) -> list[str]:
+    return [instruction.operation.name for instruction in circuit.data]
 
 
 class TestRotationFeatureMap:
@@ -30,12 +34,17 @@ class TestRotationFeatureMap:
         rotation_feature_map.feature_map(x)
 
         assert isinstance(rotation_feature_map.circuit, QuantumCircuit)
-        # 2 qubits * 3 axes = 6 gates
-        gate_count = rotation_feature_map.circuit.get_gate_count()
-        assert gate_count == 6
+        assert rotation_feature_map.circuit.size() == 6
+        assert operation_names(rotation_feature_map.circuit) == ["rx", "rx", "ry", "ry", "rz", "rz"]
 
-        # Check gate types
-        gate_names = [rotation_feature_map.circuit.get_gate(i).get_name() for i in range(gate_count)]
-        assert "X-rotation" in gate_names
-        assert "Y-rotation" in gate_names
-        assert "Z-rotation" in gate_names
+
+class TestHRotationFeatureMap:
+    def test_feature_map(self) -> None:
+        feature_map = HRotationFeatureMap(n_qubits=N_QUBITS, reps=REPS, rotation_axis=["X", "Y"])
+        x = np.array([0.1, 0.2])
+
+        feature_map.feature_map(x)
+
+        assert isinstance(feature_map.circuit, QuantumCircuit)
+        assert feature_map.circuit.size() == 6
+        assert operation_names(feature_map.circuit) == ["h", "h", "rx", "rx", "ry", "ry"]

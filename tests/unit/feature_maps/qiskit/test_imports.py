@@ -1,11 +1,11 @@
 import pytest
 
-pytest.importorskip("qulacs")
+pytest.importorskip("qiskit")
 
-from qxmt.feature_maps.qulacs import __all__
+from qxmt.feature_maps.qiskit import __all__
 
 EXPECTED_ALL = [
-    "QulacsBaseFeatureMap",
+    "QiskitBaseFeatureMap",
     "XXFeatureMap",
     "YYFeatureMap",
     "ZZFeatureMap",

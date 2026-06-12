@@ -23,6 +23,11 @@ class TestRunExperimentSamplingQKernel:
                 id="qulacs config file",
                 marks=pytest.mark.qulacs,
             ),
+            pytest.param(
+                "tests/integration/configs/simulator_sampling_qkernel_qiskit.yaml",
+                id="qiskit config file",
+                marks=pytest.mark.qiskit,
+            ),
         ],
     )
     def test_run_experiment_by_sampling_simulator_from_config_file(self, config_path: str, tmp_path: Path) -> None:
@@ -92,6 +97,13 @@ class TestRunExperimentSamplingQKernel:
                 "FidelityKernel",
                 id="Qulacs cpu.simulator and FidelityKernel",
                 marks=pytest.mark.qulacs,
+            ),
+            pytest.param(
+                "tests/integration/configs/simulator_sampling_qkernel_qiskit.yaml",
+                "automatic",
+                "FidelityKernel",
+                id="Qiskit automatic and FidelityKernel",
+                marks=pytest.mark.qiskit,
             ),
         ],
     )

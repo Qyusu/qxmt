@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 from pytest_mock import MockerFixture
 
+pytest.importorskip("qulacs")
+
 from qxmt.devices.qulacs_device import QulacsDevice
 from qxmt.feature_maps.qulacs.base import QulacsBaseFeatureMap
 from qxmt.kernels.qulacs.fidelity_kernel import FidelityKernel

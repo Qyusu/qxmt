@@ -51,6 +51,11 @@ class TestRunExperimentStateVectorQKernel:
                 id="qulacs config file",
                 marks=pytest.mark.qulacs,
             ),
+            pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_qiskit.yaml",
+                id="qiskit config file",
+                marks=pytest.mark.qiskit,
+            ),
         ],
     )
     def test_run_experiment_from_config_file(self, config_path: str, tmp_path: Path) -> None:
@@ -122,6 +127,13 @@ class TestRunExperimentStateVectorQKernel:
                 "FidelityKernel",
                 id="Qulacs cpu.simulator and FidelityKernel",
                 marks=pytest.mark.qulacs,
+            ),
+            pytest.param(
+                "tests/integration/configs/simulator_sv_qkernel_qiskit.yaml",
+                "statevector",
+                "FidelityKernel",
+                id="Qiskit statevector and FidelityKernel",
+                marks=pytest.mark.qiskit,
             ),
         ],
     )

@@ -1,23 +1,13 @@
 import numpy as np
-import pennylane as qml
+from qiskit import QuantumCircuit
 
-from qxmt.feature_maps.pennylane.base import PennyLaneBaseFeatureMap
+from qxmt.feature_maps.qiskit.base import QiskitBaseFeatureMap
 
 
-class NPQCFeatureMap(PennyLaneBaseFeatureMap):
+class NPQCFeatureMap(QiskitBaseFeatureMap):
     """NPQC feature map class.
+
     Reference: https://arxiv.org/abs/2108.01039
-
-    Args:
-        PennyLaneBaseFeatureMap (_type_): base feature map class for PennyLane
-
-    Example:
-        >>> import numpy as np
-        >>> from qxmt.feature_maps.pennylane.npqc import NPQCFeatureMap
-        >>> feature_map = NPQCFeatureMap(2, 2, 0.1)
-        >>> feature_map.draw(x_dim=2)
-        0: ──RY(1.60)──RZ(1.59)──RY(1.57)─╭●──RY(1.60)──RZ(1.59)──RY(1.57)─╭●──RY(1.60)─┤
-        1: ──RY(1.60)──RZ(1.59)───────────╰Z───────────────────────────────╰Z───────────┤
     """
 
     def __init__(self, n_qubits: int, reps: int, c: float) -> None:
@@ -61,27 +51,25 @@ class NPQCFeatureMap(PennyLaneBaseFeatureMap):
         """Create quantum circuit of NPQC feature map.
 
         Args:
-            x (np.ndarray): input data
+            x (np.ndarray): input data array
         """
+        self.circuit = QuantumCircuit(self.n_qubits)
         data_idx = 0
-        # Apply RY and RZ rotations based on input
         for i in range(self.n_qubits):
-            qml.RY(self.c * x[data_idx % len(x)] + np.pi / 2, wires=i)
+            self.circuit.ry(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
             data_idx += 1
-            qml.RZ(self.c * x[data_idx % len(x)] + np.pi / 2, wires=i)
+            self.circuit.rz(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
             data_idx += 1
 
         for r_idx in range(self.reps):
             for i in range(0, self.n_qubits - 1, 2):
-                qml.RY(qml.numpy.array(np.pi / 2), wires=i)
+                self.circuit.ry(float(np.pi / 2), i)
 
-                # Calculate and apply controlled-Z gate
                 target_wire = self._calculate_target_wire(i, r_idx, self.n_qubits)
-                qml.CZ(wires=[i, target_wire])
+                self.circuit.cz(i, target_wire)
 
-                # Add RY and optional RZ gates for parameterized input
-                qml.RY(self.c * x[data_idx % len(x)] + np.pi / 2, wires=i)
+                self.circuit.ry(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
                 data_idx += 1
                 if r_idx + 1 < self.reps:
-                    qml.RZ(self.c * x[data_idx % len(x)] + np.pi / 2, wires=i)
+                    self.circuit.rz(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
                     data_idx += 1
