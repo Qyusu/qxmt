@@ -29,7 +29,7 @@ QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定�
 - **model**:
   - `name`: VQEの種類（現在は"basic"のみ対応）
   - `diff_method`: 最適化のための微分方法（例："adjoint"）
-  - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: [6.3 Optimizerの設定](./tool_reference.md#63-optimizerの設定))。
+  - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: <a href="./tool_reference.html#optimizer-settings-ja">6.3 Optimizerの設定</a>)。
   - `params`:
     - 最大繰り返し数などの追加パラメータ
     - `init_params`: パラメータの初期値を設定。"zero", "random", "custom"から選択。"custom"の場合は、`values`に値のリストを指定

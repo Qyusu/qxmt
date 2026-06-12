@@ -431,6 +431,7 @@ print(f"Accuracy: {score}")
 - **objective**: 探索時に利用する目的関数 (Noneの場合は、モデルに定義されているデフォルト指標を利用。詳細：[String name scorers](https://scikit-learn.org/stable/modules/model_evaluation.html#string-name-scorers))
 - **refit**: 探索後、結果のパラメータでモデルの学習を行うかどうか (True/False)
 
+(optimizer-settings-ja)=
 ### 6.3 Optimizerの設定
 VQEを利用する場合には最適化計算で利用するOptimizerをconfig経由で指定することができます。現在は、PennyLaneとSciPyから提供されているOptimizerをサポートしています。Optimizerの設定は、configの`optimizer_settings.name`にて指定することができます。`name`の値が`scipy.`で始まる場合に、SciPyのOptimizerが利用され、それ以外の場合はPennyLaneのものが利用されます。
 

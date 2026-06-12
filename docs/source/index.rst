@@ -35,6 +35,11 @@ Contents
    qxmt
    tutorials/en/tutorial_top.md
 
+.. toctree::
+   :hidden:
+
+   tutorials/ja/tutorial_top.md
+
 Indices and tables
 ==================
 
