@@ -38,6 +38,10 @@ class AmazonBraketSettingError(Exception):
     pass
 
 
+class QiskitSettingError(Exception):
+    pass
+
+
 class ModelSettingError(Exception):
     pass
 

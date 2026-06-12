@@ -68,5 +68,5 @@ class TestUCCSDAnsatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "UCCSD" in ops

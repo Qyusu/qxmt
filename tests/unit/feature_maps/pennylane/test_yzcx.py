@@ -35,7 +35,7 @@ class TestYZCXFeatureMap:
         circuit()
 
         # check if the expected gates are in the circuit
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         expected_gates = ["RY", "RZ", "CNOT"]
         for expected_gate in expected_gates:
             assert any(expected_gate in op for op in ops)

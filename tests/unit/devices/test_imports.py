@@ -11,6 +11,7 @@ EXPECTED_ALL = [
     "get_platform_from_device",
     "IBMQDevice",
     "PennyLaneDevice",
+    "QiskitDevice",
     "QulacsDevice",
 ]
 

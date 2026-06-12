@@ -74,6 +74,6 @@ class TestRotationFeatureMap:
         circuit()
 
         # check if the expected gates are in the circuit
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         for expected_gate in expected_gates:
             assert any(expected_gate in op for op in ops)

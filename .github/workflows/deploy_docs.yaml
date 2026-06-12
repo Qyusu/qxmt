@@ -41,7 +41,7 @@ jobs:
           poetry-docs-
 
     - name: Install dependencies from lockfile
-      run: poetry install --with docs --sync
+      run: poetry sync --with docs
 
     - name: Build documentation
       run: |

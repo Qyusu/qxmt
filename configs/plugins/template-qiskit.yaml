@@ -1,17 +1,16 @@
-description: "This is a template configuration file using Amazon Braket remote device."
+description: "This is a template configuration file using Qiskit."
 
 global_settings:
   random_seed: &global_seed 42
+  model_type: "qkernel"
   task_type: "classification"
 
 dataset:
-  generate:
-    generate_method: "linear"
-    params: {
-      "n_samples": 1000,
-      "n_features": 2,
-      "n_classes": 3,
-    }
+  openml:
+    name: "mnist_784"
+    id: 554
+    return_format: "numpy"
+    save_path: "data/openml/mnist_784/dataset.npy"
   split:
     train_ratio: 0.8
     validation_ratio: 0.0
@@ -22,41 +21,42 @@ dataset:
     module_name: "qxmt.datasets.raw_preprocess.sampling"
     implement_name: "sample_n_per_class"
     params:
-      n_samples: 10
+      n_samples: 100
       labels: [0, 1]
       random_seed: *global_seed
   transform_logic:
-    module_name: "qxmt.datasets.transform.reduction_by_pca"
+    module_name: "qxmt.datasets.transform.reducer"
     implement_name: "dimension_reduction_by_pca"
     params:
       n_components: 2
       random_seed: *global_seed
-      normalize: true
 
 device:
-  platform: "pennylane"
-  device_name: "braket.aws.qubit"
-  backend_name: "sv1"
+  platform: "qiskit"
+  device_name: "statevector"
   n_qubits: 2
-  shots: 1
-  device_options: null
+  shots: null
+  device_options:
+    seed_simulator: *global_seed
 
 feature_map:
-  module_name: "qxmt.feature_maps.pennylane"
+  module_name: "qxmt.feature_maps.qiskit"
   implement_name: "ZZFeatureMap"
   params:
     reps: 2
 
 kernel:
-  module_name: "qxmt.kernels.pennylane"
-  implement_name: "FidelityKernel"
-  params: {}
+  module_name: "qxmt.kernels.qiskit"
+  implement_name: "ProjectedKernel"
+  params:
+    gamma: 1.0
+    projection: "z"
 
 model:
   name: "qsvc"
   params:
     C: 1.0
-    gamma:  "scale"
+    gamma: "scale"
 
 evaluation:
   default_metrics:

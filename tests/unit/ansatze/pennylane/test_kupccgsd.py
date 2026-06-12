@@ -81,7 +81,7 @@ class TestKUpCCGSDAnsatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "kUpCCGSD" in ops
 
     def test_circuit_k2(self, kupccgsd_ansatz_k2: KUpCCGSDAnsatz) -> None:
@@ -99,5 +99,5 @@ class TestKUpCCGSDAnsatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "kUpCCGSD" in ops
