@@ -81,7 +81,7 @@ class TestParticleConservingU2Ansatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "ParticleConservingU2" in ops
 
     def test_circuit_deep(self, particle_conserving_u2_ansatz_deep: ParticleConservingU2Ansatz) -> None:
@@ -99,5 +99,5 @@ class TestParticleConservingU2Ansatz:
         assert state is not None
         assert len(state) == 2**4
 
-        ops = [op.name for op in circuit.tape.operations]
+        ops = [op.name for op in qml.workflow.construct_tape(circuit)().operations]
         assert "ParticleConservingU2" in ops

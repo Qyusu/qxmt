@@ -16,6 +16,27 @@ def init_energies() -> ReferenceEnergies:
     )
 
 
+@pytest.fixture(autouse=True)
+def mock_pennylane_qchem_dataset(mocker: MockerFixture) -> None:
+    import qxmt.hamiltonians.pennylane.molecular as molecular
+
+    molecule = molecular.qml.qchem.Molecule(
+        ["H", "H"],
+        molecular.qnp.array([[0.0, 0.0, 0.0], [0.0, 0.0, 0.74]], requires_grad=False),
+        basis_name="STO-3G",
+    )
+    mock_dataset = mocker.Mock()
+    mock_dataset.molecule = molecule
+    mock_dataset.fci_energy = -1.137306048
+
+    mocker.patch.object(
+        molecular.qml.data,
+        "list_datasets",
+        return_value={"qchem": {"H2": {"STO-3G": ["0.74"]}}},
+    )
+    mocker.patch.object(molecular.qml.data, "load", return_value=[mock_dataset])
+
+
 # Molecule dataset cannot access simultaneously in parallel
 @pytest.mark.serial
 class TestMolecularHamiltonian:
@@ -31,6 +52,41 @@ class TestMolecularHamiltonian:
         assert hamiltonian.basis_name == "STO-3G"
         assert hamiltonian.n_qubits > 0
         assert hamiltonian.hamiltonian is not None
+
+    def test_initialize_with_dataset_creates_cache_directory(self, mocker: MockerFixture, tmp_path) -> None:
+        import qxmt.hamiltonians.pennylane.molecular as molecular
+
+        dataset_cache_root = tmp_path / "datasets"
+        dataset_cache_dir = dataset_cache_root / "qchem"
+        mocker.patch.object(molecular, "DATASET_CACHE_ROOT", dataset_cache_root)
+        mocker.patch.object(molecular, "DATASET_CACHE_DIR", dataset_cache_dir)
+        mocker.patch.object(
+            molecular.qml.data,
+            "list_datasets",
+            return_value={"qchem": {"H2": {"STO-3G": ["0.74"]}}},
+        )
+        mock_dataset = mocker.Mock()
+        mock_dataset.molecule = mocker.Mock()
+        mock_dataset.fci_energy = -1.1
+        mocker.patch.object(molecular.qml.data, "load", return_value=[mock_dataset])
+        mocker.patch.object(molecular.qml.qchem, "molecular_hamiltonian", return_value=(mocker.Mock(), 2))
+        mocker.patch.object(molecular.qml.qchem, "hf_energy", return_value=lambda: -1.0)
+
+        MolecularHamiltonian(
+            molname="H2",
+            bondlength="0.74",
+            basis_name="STO-3G",
+        )
+
+        assert dataset_cache_dir.exists()
+        molecular.qml.data.load.assert_called_once_with(
+            "qchem",
+            molname="H2",
+            basis="STO-3G",
+            bondlength="0.74",
+            folder_path=dataset_cache_root,
+            force=False,
+        )
 
     def test_initialize_with_atoms(self) -> None:
         symbols = ["H", "H"]
@@ -172,12 +228,8 @@ class TestMolecularHamiltonian:
         assert hamiltonian.reference_energies.fci_energy == -1.8
 
     def test_get_reference_energies_without_dataset_error(self, init_energies: ReferenceEnergies) -> None:
-        hamiltonian = MolecularHamiltonian(
-            molname="H2",
-            bondlength="0.74",
-            basis_name="STO-3G",
-        )
-
+        hamiltonian = object.__new__(MolecularHamiltonian)
+        hamiltonian.molname = "H2"
         hamiltonian._dataset = []
 
         with pytest.raises(ValueError, match="Dataset is not loaded"):

@@ -3,6 +3,9 @@ from typing import Any
 import numpy as np
 import pytest
 from pytest_mock import MockerFixture
+
+pytest.importorskip("qulacs")
+
 from qulacs import QuantumState
 
 from qxmt.devices import QulacsDevice

@@ -1,0 +1,75 @@
+import numpy as np
+from qiskit import QuantumCircuit
+
+from qxmt.feature_maps.qiskit.base import QiskitBaseFeatureMap
+
+
+class NPQCFeatureMap(QiskitBaseFeatureMap):
+    """NPQC feature map class.
+
+    Reference: https://arxiv.org/abs/2108.01039
+    """
+
+    def __init__(self, n_qubits: int, reps: int, c: float) -> None:
+        """Initialize the NPQC feature map class.
+
+        Args:
+            n_qubits (int): number of qubits
+            reps (int): number of repetitions
+            c (float): scaling factor
+        """
+        super().__init__(n_qubits)
+        self.n_qubits: int = n_qubits
+        self.reps: int = reps
+        self.c: float = c
+        self._validation()
+
+    def _validation(self) -> None:
+        """Validate the NPQC feature map."""
+        if self.n_qubits % 2 != 0:
+            raise ValueError(f"NPQC feature map requires an even number of qubits. but got {self.n_qubits}")
+
+    def _calculate_target_wire(self, idx: int, r_idx: int, n_qubits: int) -> int:
+        """Calculate target wire for controlled-Z gate.
+
+        Args:
+            idx (int): source wire index
+            r_idx (int): repetition index
+            n_qubits (int): number of qubits
+
+        Returns:
+            int: target wire index
+        """
+        remaining_divisions = r_idx + 1
+        target_offset = 0
+        while remaining_divisions % 2 == 0:
+            remaining_divisions //= 2
+            target_offset += 1
+        return (idx + target_offset * 2 + 1) % n_qubits
+
+    def feature_map(self, x: np.ndarray) -> None:
+        """Create quantum circuit of NPQC feature map.
+
+        Args:
+            x (np.ndarray): input data array
+        """
+        self.circuit = QuantumCircuit(self.n_qubits)
+        data_idx = 0
+        for i in range(self.n_qubits):
+            self.circuit.ry(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
+            data_idx += 1
+            self.circuit.rz(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
+            data_idx += 1
+
+        for r_idx in range(self.reps):
+            for i in range(0, self.n_qubits - 1, 2):
+                self.circuit.ry(float(np.pi / 2), i)
+
+                target_wire = self._calculate_target_wire(i, r_idx, self.n_qubits)
+                self.circuit.cz(i, target_wire)
+
+                self.circuit.ry(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
+                data_idx += 1
+                if r_idx + 1 < self.reps:
+                    self.circuit.rz(float(self.c * x[data_idx % len(x)] + np.pi / 2), i)
+                    data_idx += 1

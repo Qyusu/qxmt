@@ -1,5 +1,8 @@
 import numpy as np
 import pytest
+
+pytest.importorskip("qulacs")
+
 from qulacs import QuantumCircuit
 
 from qxmt.feature_maps.qulacs.npqc import NPQCFeatureMap

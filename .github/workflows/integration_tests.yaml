@@ -17,7 +17,25 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.10', '3.11', '3.12']
+        python-version: ['3.11', '3.12']
+        target:
+          - pennylane
+          - pennylane-qulacs
+          - qulacs
+          - qiskit
+        include:
+          - target: pennylane
+            extras: ''
+            pytest-marker: 'pennylane'
+          - target: pennylane-qulacs
+            extras: '--extras pennylane-qulacs'
+            pytest-marker: 'pennylane_qulacs'
+          - target: qulacs
+            extras: '--extras qulacs'
+            pytest-marker: 'qulacs'
+          - target: qiskit
+            extras: '--extras qiskit'
+            pytest-marker: 'qiskit'
 
     steps:
       - name: Checkout code
@@ -42,12 +60,13 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pypoetry
-          key: poetry-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+          key: poetry-${{ matrix.python-version }}-${{ matrix.target }}-${{ hashFiles('poetry.lock') }}
           restore-keys: |
+            poetry-${{ matrix.python-version }}-${{ matrix.target }}-
             poetry-${{ matrix.python-version }}-
 
       - name: Install dependencies from lockfile (no llm)
-        run: poetry install --with dev --extras qulacs --sync
+        run: poetry sync --with dev ${{ matrix.extras }}
 
       - name: Run tests
-        run: poetry run pytest tests/integration
+        run: poetry run pytest tests/integration -m "${{ matrix.pytest-marker }}"

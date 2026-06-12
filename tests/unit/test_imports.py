@@ -1,3 +1,5 @@
+from importlib.metadata import PackageNotFoundError, version
+
 from qxmt import __all__, __version__
 
 EXPECTED_ALL = [
@@ -15,6 +17,7 @@ EXPECTED_ALL = [
     "KernelConfig",
     "ModelConfig",
     "SplitConfig",
+    "TFDSConfig",
     "DeviceSettingError",
     "ExperimentNotInitializedError",
     "ExperimentRunSettingError",
@@ -37,4 +40,9 @@ def test_all_imports() -> None:
 
 
 def test_version() -> None:
-    assert __version__ == "0.6.0"
+    try:
+        expected_version = version("qxmt")
+    except PackageNotFoundError:
+        expected_version = "0.0.0"
+
+    assert __version__ == expected_version

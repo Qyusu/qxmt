@@ -2,6 +2,8 @@ import numpy as np
 import pytest
 from pytest_mock import MockerFixture
 
+pytest.importorskip("qulacs")
+
 from qxmt.devices.qulacs_device import QulacsDevice
 from qxmt.feature_maps.qulacs.base import QulacsBaseFeatureMap
 from qxmt.kernels.qulacs.projected_kernel import ProjectedKernel
@@ -33,7 +35,7 @@ class TestProjectedKernel:
 
     def test_init_invalid_projection(self, device: QulacsDevice, feature_map: QulacsBaseFeatureMap) -> None:
         with pytest.raises(ValueError, match="Projection method must be 'x', 'y', or 'z'."):
-            ProjectedKernel(device, feature_map, projection="invalid")
+            ProjectedKernel(device, feature_map, projection="invalid")  # type: ignore
 
     def test_apply_projection_gates_x(
         self, device: QulacsDevice, feature_map: QulacsBaseFeatureMap, mocker: MockerFixture
@@ -88,7 +90,7 @@ class TestProjectedKernel:
 
         mock_state_cls.assert_called_with(2)
         mock_state.set_zero_state.assert_called_once()
-        feature_map.circuit.update_quantum_state.assert_called_with(mock_state)
+        feature_map.circuit.update_quantum_state.assert_called_with(mock_state)  # type: ignore
         # projection is Z by default, so _apply_projection_gates does nothing
         assert len(result) == 3
 

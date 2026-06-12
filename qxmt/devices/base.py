@@ -154,3 +154,19 @@ class BaseDevice(ABC):
         extra_options = dict(self.device_options)
         device_kwargs.update(extra_options)
         return device_kwargs
+
+    def apply_shots_to_qnode(self, qnode: Any) -> Any:
+        """Apply shots to a PennyLane QNode.
+
+        Args:
+            qnode (Any): PennyLane QNode
+
+        Returns:
+            Any: PennyLane QNode with shots applied
+        """
+        if self.shots is None:
+            return qnode
+
+        import pennylane as qml
+
+        return qml.set_shots(qnode, shots=self.shots)

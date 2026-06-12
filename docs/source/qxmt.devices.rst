@@ -15,3 +15,4 @@ Submodules
    qxmt.devices.ibmq_device
    qxmt.devices.pennylane_device
    qxmt.devices.qulacs_device
+   qxmt.devices.qiskit_device

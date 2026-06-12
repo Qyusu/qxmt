@@ -29,7 +29,7 @@ QXMT's VQE module requires specific configuration elements that differ from the 
 - **model**:
   - `name`: Model implementation (currently "basic")
   - `diff_method`: Differentiation method for optimization (e.g., "adjoint")
-  - `optimizer_settings`: Optimizer settings. The type of optimizer can be specified using the `name` value, which can be any optimizer available in PennyLane or SciPy (detailed in [6.3 Optimizer Settings](./tool_reference.md#63-optimizer-settings)).
+  - `optimizer_settings`: Optimizer settings. The type of optimizer can be specified using the `name` value, which can be any optimizer available in PennyLane or SciPy (detailed in <a href="./tool_reference.html#optimizer-settings">6.3 Optimizer Settings</a>).
   - `params`:
     - Additional parameters like maximum iterations
     - `init_params`: Set initial values for parameters. Choose from "zero", "random", or "custom". When "custom" is selected, specify a list of values in the `values` parameter.

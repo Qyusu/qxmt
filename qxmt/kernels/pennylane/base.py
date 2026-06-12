@@ -57,14 +57,15 @@ class PennyLaneBaseKernel(BaseKernel):
     def qnode(self) -> qml.QNode:
         if self._qnode is None:
             if self.is_sampling:
-                self._qnode = qml.QNode(
+                qnode = qml.QNode(
                     self._circuit_for_sampling, device=self.device.get_device(), cache="auto", diff_method=None
                 )
             else:
-                self._qnode = qml.QNode(
+                qnode = qml.QNode(
                     self._circuit_for_state_vector, device=self.device.get_device(), cache="auto", diff_method=None
                 )
-        return self._qnode
+            self._qnode = self.device.apply_shots_to_qnode(qnode)
+        return cast(qml.QNode, self._qnode)
 
     @abstractmethod
     def _process_state_vector(self, state_vector: np.ndarray) -> np.ndarray:

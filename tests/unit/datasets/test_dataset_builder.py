@@ -4,9 +4,10 @@ import numpy as np
 import pytest
 from pytest_mock import MockFixture
 
-from qxmt.configs import DatasetConfig, ExperimentConfig, GenerateDataConfig
+from qxmt.configs import DatasetConfig, ExperimentConfig, GenerateDataConfig, TFDSConfig
 from qxmt.datasets import DatasetBuilder
 from qxmt.datasets.file.loader import FileDataLoader
+from qxmt.datasets.tfds.loader import TFDSDataLoader
 from qxmt.types import PROCESSCED_DATASET_TYPE, RAW_DATASET_TYPE
 
 
@@ -314,6 +315,14 @@ class TestGetDatasetType:
             }
         }
 
+        tfds_config = {
+            "dataset": {
+                "tfds": TFDSConfig(name="mnist", split="train", return_format="numpy"),
+                "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+                "features": None,
+            }
+        }
+
         no_exist_type_config = {
             "dataset": {
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
@@ -324,6 +333,7 @@ class TestGetDatasetType:
         multi_type_config = {
             "dataset": {
                 "openml": {"name": "mnist_784", "id": 554, "return_format": "numpy"},
+                "tfds": TFDSConfig(name="mnist", split="train", return_format="numpy"),
                 "file": {"data_path": "data.npy", "label_path": "label.npy", "label_name": "label"},
                 "generate": GenerateDataConfig(generate_method="linear"),
                 "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
@@ -336,6 +346,9 @@ class TestGetDatasetType:
 
         dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**file_config["dataset"]))
         assert dataset_type == "file"
+
+        dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**tfds_config["dataset"]))
+        assert dataset_type == "tfds"
 
         dataset_type = DatasetBuilder._get_dataset_type(DatasetConfig(**generate_config["dataset"]))
         assert dataset_type == "generate"
@@ -379,12 +392,30 @@ GEN_DATA_CONFIG_NO_VAL = {
 }
 
 
+TFDS_DATA_CONFIG = {
+    "dataset": {
+        "tfds": TFDSConfig(name="mnist", split="train[:10]", download=False),
+        "split": {"train_ratio": 0.6, "validation_ratio": 0.2, "test_ratio": 0.2, "shuffle": True},
+        "features": None,
+    }
+}
+
+
 @pytest.fixture(scope="function")
 def default_gen_builder(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
     if qkernel_experiment_config.dataset is None:
         pytest.skip("Dataset is None")
 
     dataset_config = DatasetConfig(**GEN_DATA_CONFIG_WITH_VAL["dataset"])
+    return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
+
+
+@pytest.fixture(scope="function")
+def default_tfds_builder(qkernel_experiment_config: ExperimentConfig) -> DatasetBuilder:
+    if qkernel_experiment_config.dataset is None:
+        pytest.skip("Dataset is None")
+
+    dataset_config = DatasetConfig(**TFDS_DATA_CONFIG["dataset"])
     return DatasetBuilder(config=qkernel_experiment_config.model_copy(update={"dataset": dataset_config}))
 
 
@@ -427,6 +458,16 @@ class TestBuilder:
         )
 
         X, y = default_file_builder.load()
+        assert len(X) == len(y)
+        assert isinstance(X, np.ndarray)
+        assert isinstance(y, np.ndarray)
+
+    def test_load_tfds_data(self, default_tfds_builder: DatasetBuilder, mocker: MockFixture) -> None:
+        _ = mocker.patch.object(
+            TFDSDataLoader, "load", return_value=(np.random.rand(100, 2), np.random.randint(2, size=100))
+        )
+
+        X, y = default_tfds_builder.load()
         assert len(X) == len(y)
         assert isinstance(X, np.ndarray)
         assert isinstance(y, np.ndarray)

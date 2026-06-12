@@ -70,6 +70,39 @@ dataset:
 
 Both `openml.name` and `openml.id` can be used individually. If only `openml.name` is specified, the dataset will be searched internally via the API. Since `openml.id` uniquely identifies the dataset, it is recommended to use this value. If both `openml.name` and `openml.id` are set, the value of `openml.id` will take precedence.
 
+### 2.2 Load Datasets with TensorFlow Datasets
+QXMT can load datasets from [TensorFlow Datasets](https://www.tensorflow.org/datasets) through a config file and convert them to numpy arrays for use inside QXMT. To use this feature, install the optional dependency `qxmt[tfds]`.
+
+```bash
+pip install "qxmt[tfds]"
+```
+
+Configure the dataset as shown below. Only the relevant parts are shown.
+
+``` yaml
+dataset:
+  tfds:
+    name: "mnist"
+    split: ["train", "test"]
+    return_format: "numpy"
+    data_dir: "data/tfds_cache"
+    save_path: "data/tfds/mnist/dataset.npz"
+    download: true
+    shuffle_files: false
+```
+
+- **tfds.name**: The dataset name on TensorFlow Datasets.
+- **tfds.split**: The split to load. This can be a string such as `"train"` or a list such as `["train", "test"]`. When multiple splits are specified, QXMT concatenates the loaded data and then re-splits it according to `dataset.split`.
+- **tfds.return_format**: The return format of the dataset. Currently, `numpy` and `array` are supported.
+- **tfds.data_dir**: The directory where TensorFlow Datasets downloads, extracts, and caches the original dataset. If set to `null`, TensorFlow Datasets uses its default location.
+- **tfds.save_path**: The path where QXMT saves the loaded `X` and `y` as numpy data. `.npz` and `.npy` are supported. If set to `null`, the loaded data is not saved by QXMT.
+- **tfds.download**: Whether TensorFlow Datasets is allowed to download the dataset if it is not already available.
+- **tfds.shuffle_files**: Whether TensorFlow Datasets should shuffle files while loading.
+
+`tfds.data_dir` and `tfds.save_path` serve different purposes. `tfds.data_dir` is the TensorFlow Datasets cache location and stores the source data in TFDS-managed format. `tfds.save_path` is QXMT's output path for the numpy arrays after loading. In most cases, `tfds.data_dir` is enough. Use `tfds.save_path` when you want to reuse the data later through the `file` loader or keep the numpy arrays as an artifact.
+
+`DatasetBuilder` splits the loaded dataset according to `dataset.split.train_ratio`, `dataset.split.validation_ratio`, and `dataset.split.test_ratio`. Therefore, even if `tfds.split` is set to `["train", "test"]`, the TFDS `train` and `test` splits are not preserved directly as QXMT's train/test sets.
+
 ### 2.3 Chain Processing of Raw Processing Logic and Transform Logic
 Not limited to the default logic provided by QXMT, users can also apply custom Raw Processing Logic and Transform Logic defined by themselves in a chain processing manner, where multiple processes are sequentially applied. In the configuration, the definition is done by listing each logic in order as a sequence.
 
@@ -401,6 +434,7 @@ print(f"Accuracy: {score}")
 - **objective**: Objective function used during the search (if None, the default metric defined in the model is used. For details: String name scorers)
 - **refit**: Whether to train the model with the parameters found during the search (True/False)
 
+(optimizer-settings)=
 ### 6.3 Optimizer Settings
 When using VQE, you can specify the optimizer for optimization calculations through the configuration. Currently, we support optimizers provided by PennyLane and SciPy. The optimizer can be specified in the configuration using `optimizer_settings.name`. If the `name` value starts with `scipy.`, the SciPy optimizer will be used; otherwise, the PennyLane optimizer will be used.
 

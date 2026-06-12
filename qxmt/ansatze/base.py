@@ -75,7 +75,7 @@ class BaseAnsatz(ABC):
         if platform == "pennylane":
             import pennylane as qml
 
-            qnode = qml.QNode(self.circuit, self.device.get_device())
+            qnode = self.device.apply_shots_to_qnode(qml.QNode(self.circuit, self.device.get_device()))
             match format:
                 case "default":
                     drawer = qml.draw(qnode, **kwargs)

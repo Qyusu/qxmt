@@ -2,9 +2,7 @@ import os
 from datetime import datetime, timezone
 from typing import Any, Optional
 
-import boto3
 import pennylane as qml
-from braket.aws import AwsDevice
 
 from qxmt.constants import AWS_ACCESS_KEY_ID, AWS_DEFAULT_REGION, AWS_SECRET_ACCESS_KEY
 from qxmt.devices.amazon import (
@@ -85,12 +83,12 @@ class AmazonBraketDevice(BaseDevice):
         if missing:
             raise AmazonBraketSettingError(f"Environment variables for Amazon Braket not set: {', '.join(missing)}")
 
-    def _check_amazon_braket_availability(self, device: AwsDevice) -> None:
+    def _check_amazon_braket_availability(self, device: Any) -> None:
         """Check the Amazon Braket device availability.
         This method checks the device status and the number of qubits.
 
         Args:
-            device (AwsDevice): Amazon Braket device instance
+            device (Any): Amazon Braket device instance
         """
         is_online = device.status == "ONLINE"
         max_qubits = int(device.properties.paradigm.qubitCount)  # type: ignore
@@ -133,7 +131,15 @@ class AmazonBraketDevice(BaseDevice):
             raise AmazonBraketSettingError("Amazon Braket device needs the backend name.")
 
         try:
-            device_arn = AmazonBackendType[self.backend_name.lower()].value
+            from braket.aws import AwsDevice
+        except ImportError as exc:
+            raise AmazonBraketSettingError(
+                "Amazon Braket support requires optional dependencies. "
+                'Install them with `pip install "qxmt[amazon-braket]"`.'
+            ) from exc
+
+        try:
+            device_arn = AmazonBackendType[self.backend_name.lower()]
         except KeyError:
             raise AmazonBraketSettingError(f'"{self.backend_name}" is not supported Amazon Braket device.')
 
@@ -206,6 +212,14 @@ class AmazonBraketDevice(BaseDevice):
         Returns:
             list[str]: job IDs
         """
+        try:
+            import boto3
+        except ImportError as exc:
+            raise AmazonBraketSettingError(
+                "Amazon Braket support requires optional dependencies. "
+                'Install them with `pip install "qxmt[amazon-braket]"`.'
+            ) from exc
+
         braket = boto3.client("braket")
         created_after_utc = created_after.astimezone(timezone.utc).isoformat() if created_after is not None else None
         created_before_utc = created_before.astimezone(timezone.utc).isoformat() if created_before is not None else None

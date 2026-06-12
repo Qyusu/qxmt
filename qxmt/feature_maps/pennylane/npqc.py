@@ -21,13 +21,12 @@ class NPQCFeatureMap(PennyLaneBaseFeatureMap):
     """
 
     def __init__(self, n_qubits: int, reps: int, c: float) -> None:
-        """ "Initialize the NPQC feature map class.
+        """Initialize the NPQC feature map class.
 
         Args:
             n_qubits (int): number of qubits
             reps (int): number of repetitions
             c (float): scaling factor
-            seed (int): random seed
         """
         super().__init__(n_qubits)
         self.n_qubits: int = n_qubits

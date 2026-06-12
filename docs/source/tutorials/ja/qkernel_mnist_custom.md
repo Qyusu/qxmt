@@ -52,13 +52,18 @@ QXMTでは、以下の5つのカテゴリでカスタム機能を定義できま
 import numpy as np
 
 
-def sampling_by_each_class(
+def my_sampling_logic(
     X: np.ndarray, y: np.ndarray, n_samples: int, labels: list[int]
 ) -> tuple[np.ndarray, np.ndarray]:
 
     y = np.array([int(label) for label in y])
-    indices = np.where(np.isin(y, labels))[0]
-    X, y = X[indices][:n_samples], y[indices][:n_samples]
+    sampled_indices = []
+    for label in labels:
+        label_indices = np.where(y == label)[0]
+        sampled_indices.extend(label_indices[:n_samples])
+
+    sampled_indices = np.array(sampled_indices)
+    X, y = X[sampled_indices], y[sampled_indices]
 
     return X, y
 ```
@@ -190,7 +195,7 @@ dataset:
   features: null
   raw_preprocess_logic: # [SETUP] your logic path and parameter
     module_name: "your_project.custom.raw_preprocess_logic"
-    implement_name: "sampling_by_each_class"
+    implement_name: "my_sampling_logic"
     params:
         n_samples: 100
         labels: [0, 1]
@@ -205,6 +210,7 @@ device:
   device_name: "default.qubit"
   n_qubits: 2
   shots: null
+  device_options: null
 
 feature_map: # [SETUP] your logic path and parameter
   module_name: "your_project.custom.feature_map"
@@ -221,7 +227,7 @@ model:
   name: "qsvc"
   params:
     C: 1.0
-    gamma: 0.05
+    gamma: "scale"
 
 evaluation: # [SETUP] your logic path
   default_metrics:
@@ -287,5 +293,5 @@ plot_metrics_side_by_side(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |

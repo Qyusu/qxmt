@@ -58,6 +58,7 @@ class TestPennyLaneCPUDevice:
 
         assert device_handle is not None
         assert captured_kwargs["seed"] == 42
+        assert "shots" not in captured_kwargs
 
     def test_invalid_device_option_key(self) -> None:
         with pytest.raises(ValueError):

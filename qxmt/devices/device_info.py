@@ -1,10 +1,9 @@
-from braket.aws import AwsDevice
 from pydantic import BaseModel
-from qiskit_ibm_runtime import QiskitRuntimeService
+from typing import Any
 
 from qxmt.constants import PENNYLANE_DEVICES, PENNYLANE_PLATFORM
 from qxmt.devices.base import BaseDevice
-from qxmt.exceptions import InvalidQunatumDeviceError
+from qxmt.exceptions import AmazonBraketSettingError, InvalidQunatumDeviceError
 
 STATUS_ONLINE = "ONLINE"
 STATUS_OFFLINE = "OFFLINE"
@@ -52,7 +51,7 @@ def get_number_of_qubits(device: BaseDevice | object) -> int:
         raise InvalidQunatumDeviceError(f"Device {device} is not supported.")
 
 
-def get_ibmq_available_devices(service: QiskitRuntimeService) -> list[RemoteDeviceStatus]:
+def get_ibmq_available_devices(service: Any) -> list[RemoteDeviceStatus]:
     """Get the available IBMQ devices.
     Each device has the name, number of qubits, and status (Online or Offline).
 
@@ -80,6 +79,14 @@ def get_amazon_braket_available_devices() -> list[RemoteDeviceStatus]:
     Returns:
         list[RemoteDeviceStatus]: list of Amazon Braket devices
     """
+    try:
+        from braket.aws import AwsDevice
+    except ImportError as exc:
+        raise AmazonBraketSettingError(
+            "Amazon Braket support requires optional dependencies. "
+            'Install them with `pip install "qxmt[amazon-braket]"`.'
+        ) from exc
+
     device_list = []
     devices = AwsDevice.get_devices()
     for device in devices:

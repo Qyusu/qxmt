@@ -23,7 +23,7 @@ dataset:
     params:
       drop_na: true
   - module_name: "qxmt.datasets.raw_preprocess.sampling"
-    implement_name: "sampling_by_num"
+    implement_name: "sample_by_count"
     params:
       n_samples: 100
       random_seed: *global_seed

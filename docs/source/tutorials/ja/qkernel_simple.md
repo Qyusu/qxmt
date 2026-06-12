@@ -61,7 +61,7 @@ QXMTでは、各実験試行は「Run」と呼ばれる単位として管理さ�
   - `random_seed`: 再現性のためのシード値を設定します
   - `model_type`: 量子カーネルモデルを使用するには "qkernel" に設定する必要があります
   - `task_type`: 量子カーネルモデルの場合、タスクが "classification"（分類）か "regression"（回帰）かを指定します
-- **device**: シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では`pennylane`のみ対応しています
+- **device**: シミュレーションを実行する量子デバイスを設定します。現時点でconfig経由では`pennylane`、`qiskit`、`qulacs`が対応しています
 - **feature_map**: 量子特徴マップを利用する場合には、その特徴マップが実装されているモジュール名 (`module_name`)とクラス名 (`implement_name`)を指定します。`params`内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されている特徴マップを利用します
 - **kernel**: カーネルベースのモデルを利用する場合には、そのカーネルが実装されているモジュール名 (`module_name`)とクラス名 (`implement_name`)を指定します。`params`内にdict形式で必要なパラメータを指定することができます。今回はデフォルトで用意されているカーネルを利用します
 - **model**: 利用する機械学習モデルとそのパラメータを指定します。量子カーネルモデルの場合、利用可能なオプションには "qsvc"（分類用）、"qsvr"（回帰用）、"qrigge"（回帰用）があります
@@ -97,6 +97,7 @@ device:
   device_name: "default.qubit"
   n_qubits: 2
   shots: null
+  device_options: null
 
 feature_map:
   module_name: "qxmt.feature_maps.pennylane"
@@ -238,5 +239,5 @@ plot_2d_decision_boundaries(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |
