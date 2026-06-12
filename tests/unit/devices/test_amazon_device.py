@@ -3,6 +3,8 @@ import os
 import pytest
 from pytest_mock import MockFixture
 
+pytest.importorskip("boto3")
+
 from qxmt.constants import AWS_ACCESS_KEY_ID, AWS_DEFAULT_REGION, AWS_SECRET_ACCESS_KEY
 from qxmt.devices.amazon_device import AmazonBraketDevice
 from qxmt.exceptions import AmazonBraketSettingError

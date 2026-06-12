@@ -1,3 +1,7 @@
+import pytest
+
+pytest.importorskip("qulacs")
+
 from qxmt.feature_maps.qulacs import __all__
 
 EXPECTED_ALL = [

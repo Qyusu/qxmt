@@ -3,6 +3,8 @@ import os
 import pytest
 from pytest_mock import MockFixture
 
+pytest.importorskip("qiskit_ibm_runtime")
+
 from qxmt.constants import IBMQ_API_KEY
 from qxmt.devices.ibmq import IBMQ_PROVIDER_NAME
 from qxmt.devices.ibmq_device import IBMQDevice
