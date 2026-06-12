@@ -21,6 +21,7 @@ jobs:
         target:
           - core
           - qulacs
+          - qiskit
           - pennylane-qiskit
           - amazon-braket
         include:
@@ -30,8 +31,11 @@ jobs:
               tests/unit
               --ignore=tests/unit/devices/test_amazon_device.py
               --ignore=tests/unit/devices/test_ibmq_device.py
+              --ignore=tests/unit/devices/test_qiskit_device.py
               --ignore=tests/unit/devices/test_qulacs_device.py
+              --ignore=tests/unit/feature_maps/qiskit
               --ignore=tests/unit/feature_maps/qulacs
+              --ignore=tests/unit/kernels/qiskit
               --ignore=tests/unit/kernels/qulacs
           - target: qulacs
             extras: '--extras qulacs'
@@ -39,6 +43,12 @@ jobs:
               tests/unit/devices/test_qulacs_device.py
               tests/unit/feature_maps/qulacs
               tests/unit/kernels/qulacs
+          - target: qiskit
+            extras: '--extras qiskit'
+            pytest-target: >-
+              tests/unit/devices/test_qiskit_device.py
+              tests/unit/feature_maps/qiskit
+              tests/unit/kernels/qiskit
           - target: pennylane-qiskit
             extras: '--extras pennylane-qiskit'
             pytest-target: tests/unit/devices/test_ibmq_device.py

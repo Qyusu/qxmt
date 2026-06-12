@@ -22,6 +22,7 @@ jobs:
           - pennylane
           - pennylane-qulacs
           - qulacs
+          - qiskit
         include:
           - target: pennylane
             extras: ''
@@ -32,6 +33,9 @@ jobs:
           - target: qulacs
             extras: '--extras qulacs'
             pytest-marker: 'qulacs'
+          - target: qiskit
+            extras: '--extras qiskit'
+            pytest-marker: 'qiskit'
 
     steps:
       - name: Checkout code
