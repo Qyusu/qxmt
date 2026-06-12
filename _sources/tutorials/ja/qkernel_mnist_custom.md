@@ -210,6 +210,7 @@ device:
   device_name: "default.qubit"
   n_qubits: 2
   shots: null
+  device_options: null
 
 feature_map: # [SETUP] your logic path and parameter
   module_name: "your_project.custom.feature_map"
@@ -226,7 +227,7 @@ model:
   name: "qsvc"
   params:
     C: 1.0
-    gamma: 0.05
+    gamma: "scale"
 
 evaluation: # [SETUP] your logic path
   default_metrics:
@@ -292,5 +293,5 @@ plot_metrics_side_by_side(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |

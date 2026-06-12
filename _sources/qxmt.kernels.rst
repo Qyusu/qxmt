@@ -9,6 +9,7 @@ Subpackages
 
    qxmt.kernels.pennylane
    qxmt.kernels.qulacs
+   qxmt.kernels.qiskit
 
 Submodules
 ----------

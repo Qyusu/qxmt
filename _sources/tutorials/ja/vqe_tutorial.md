@@ -29,7 +29,7 @@ QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定�
 - **model**:
   - `name`: VQEの種類（現在は"basic"のみ対応）
   - `diff_method`: 最適化のための微分方法（例："adjoint"）
-  - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: [6.3 Optimizerの設定](./tool_reference.md#63-optimizerの設定))。
+  - `optimizer_settings`: Optimizerの設定。Optimizerの種類は`name`の値でPennyLaneまたはSciPyで用意されているものを指定可能 (詳細: <a href="./tool_reference.html#optimizer-settings-ja">6.3 Optimizerの設定</a>)。
   - `params`:
     - 最大繰り返し数などの追加パラメータ
     - `init_params`: パラメータの初期値を設定。"zero", "random", "custom"から選択。"custom"の場合は、`values`に値のリストを指定
@@ -47,7 +47,7 @@ QXMTのVQEモジュールは、量子カーネルモデルとは異なる設定�
 description: "H2分子のVQE計算"
 
 global_settings:
-  random_seed: 42
+  random_seed: &global_seed 42
   model_type: "vqe"
 
 hamiltonian:
@@ -65,7 +65,8 @@ device:
   device_name: "lightning.qubit"
   n_qubits: 4
   shots: null
-  random_seed: 42
+  device_options:
+    seed: *global_seed
 
 ansatz:
   module_name: "qxmt.ansatze.pennylane"
@@ -183,5 +184,5 @@ plot_optimization_history(
 
 | 環境 | バージョン |
 |----------|----------|
-| ドキュメント | 2025/05/23 |
-| QXMT| v0.5.2 |
+| ドキュメント | 2026/06/12 |
+| QXMT| v0.7.0 |

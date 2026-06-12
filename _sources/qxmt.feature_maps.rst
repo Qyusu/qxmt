@@ -9,6 +9,7 @@ Subpackages
 
    qxmt.feature_maps.pennylane
    qxmt.feature_maps.qulacs
+   qxmt.feature_maps.qiskit
 
 Submodules
 ----------
