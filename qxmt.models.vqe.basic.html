@@ -538,7 +538,7 @@ differentiation for efficient gradient computation.</p>
 <li><p><strong>device</strong> (<em>BaseDevice</em>) – Quantum device to use for the VQE.</p></li>
 <li><p><strong>hamiltonian</strong> (<em>BaseHamiltonian</em>) – Hamiltonian to find the ground state of.</p></li>
 <li><p><strong>ansatz</strong> (<em>BaseAnsatz</em>) – Quantum circuit ansatz to use.</p></li>
-<li><p><strong>diff_method</strong> (<em>Literal</em><em>[</em><em>None</em><em>, </em><em>'best'</em><em>, </em><em>'device'</em><em>, </em><em>'backprop'</em><em>, </em><em>'adjoint'</em><em>, </em><em>'parameter-shift'</em><em>, </em><em>'hadamard'</em><em>, </em><em>'finite-diff'</em><em>, </em><em>'spsa'</em><em>] </em><em>| </em><em>None</em>) – Method to use for differentiation. Defaults to “adjoint”.</p></li>
+<li><p><strong>diff_method</strong> (<em>Literal</em><em>[</em><em>None</em><em>, </em><em>'best'</em><em>, </em><em>'device'</em><em>, </em><em>'backprop'</em><em>, </em><em>'adjoint'</em><em>, </em><em>'parameter-shift'</em><em>, </em><em>'hadamard'</em><em>, </em><em>'reversed-hadamard'</em><em>, </em><em>'direct-hadamard'</em><em>, </em><em>'reversed-direct-hadamard'</em><em>, </em><em>'finite-diff'</em><em>, </em><em>'spsa'</em><em>] </em><em>| </em><em>None</em>) – Method to use for differentiation. Defaults to “adjoint”.</p></li>
 <li><p><strong>max_steps</strong> (<em>int</em>) – Maximum number of optimization steps. Defaults to 100.</p></li>
 <li><p><strong>min_steps</strong> (<em>int</em><em> | </em><em>None</em>) – Minimum number of optimization steps. Defaults to 1/10 of max_steps.</p></li>
 <li><p><strong>tol</strong> (<em>float</em>) – Tolerance for the optimization. Defaults to 1e-6.</p></li>
@@ -606,7 +606,7 @@ instead of PennyLane’s automatic differentiation.</p></li>
 to minimize the expectation value of the Hamiltonian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>init_params</strong> (<em>Optional</em><em>[</em><em>qml.numpy.ndarray</em><em> | </em><em>np.ndarray</em><em>]</em>) – Initial parameters for the ansatz.
+<dd class="field-odd"><p><strong>init_params</strong> (<em>Optional</em><em>[</em><em>np.ndarray</em><em>]</em>) – Initial parameters for the ansatz.
 If None, the ansatz parameters are initialized to zero.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
